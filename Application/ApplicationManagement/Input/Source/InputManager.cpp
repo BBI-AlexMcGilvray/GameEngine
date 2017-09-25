@@ -1,11 +1,19 @@
 #include "../Headers/InputManager.h"
 
-namespace Input
+namespace Application
 {
-	void InputManager::HandleInput(InputEventBase&& event)
+	namespace Input
 	{
-		switch (event.GetInputEventType())
+		void InputManager::Initialize()
 		{
+			// create controller logic mapping
+			// have controller logic mapping initialize
+		}
+
+		void InputManager::HandleInput(InputEventBase&& event)
+		{
+			switch (event.GetInputEventType())
+			{
 			case InputEventType::Undetermined:
 			{
 				return;
@@ -26,26 +34,32 @@ namespace Input
 			{
 				return HandleKeyboardInput(static_cast<InputEvent<KeyboardButtonData>*>(&event));
 			}
+			}
 		}
-	}
 
-	void InputManager::HandleMouseClick(InputEvent<MouseClickedData>* event)
-	{
+		void InputManager::CleanUp()
+		{
+			// have controller mapping save any changed made during gameplay (?)
+		}
 
-	}
+		void InputManager::HandleMouseClick(InputEvent<MouseClickedData>* event)
+		{
 
-	void InputManager::HandleMouseMovement(InputEvent<MouseMovedData>* event)
-	{
+		}
 
-	}
+		void InputManager::HandleMouseMovement(InputEvent<MouseMovedData>* event)
+		{
 
-	void InputManager::HandleMouseWheel(InputEvent<MouseWheeledData>* event)
-	{
+		}
 
-	}
+		void InputManager::HandleMouseWheel(InputEvent<MouseWheeledData>* event)
+		{
 
-	void InputManager::HandleKeyboardInput(InputEvent<KeyboardButtonData>* event)
-	{
+		}
 
+		void InputManager::HandleKeyboardInput(InputEvent<KeyboardButtonData>* event)
+		{
+
+		}
 	}
 }

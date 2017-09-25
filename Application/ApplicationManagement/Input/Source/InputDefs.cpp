@@ -1,22 +1,24 @@
 #include "ApplicationManagement\Input\Headers\InputDefs.h"
 
-namespace Input
+namespace Application
 {
-	ButtonState GetButtonState(uint sdlState)
+	namespace Input
 	{
-		switch (sdlState)
+		ButtonState GetButtonState(uint sdlState)
 		{
+			switch (sdlState)
+			{
 			case SDL_KEYUP: { return ButtonState::Up; }
 			case SDL_KEYDOWN: { return ButtonState::Down; }
 
 			default: return ButtonState::Undetermined;
+			}
 		}
-	}
 
-	MouseButton GetMouseButton(uint sdlMouseButton)
-	{
-		switch (sdlMouseButton)
+		MouseButton GetMouseButton(uint sdlMouseButton)
 		{
+			switch (sdlMouseButton)
+			{
 			case SDL_BUTTON_LEFT: { return MouseButton::Left; }
 			case SDL_BUTTON_MIDDLE: { return MouseButton::Middle; }
 			case SDL_BUTTON_RIGHT: { return MouseButton::Right; }
@@ -24,13 +26,13 @@ namespace Input
 			case SDL_BUTTON_X2: { return MouseButton::SideTwo; }
 
 			default: return MouseButton::Undetermined;
+			}
 		}
-	}
 
-	KeyboardButton GetKeyboardButton(SDL_Keycode sdlKeyCode)
-	{
-		switch (sdlKeyCode)
+		KeyboardButton GetKeyboardButton(SDL_Keycode sdlKeyCode)
 		{
+			switch (sdlKeyCode)
+			{
 			case SDLK_0: { return KeyboardButton::Button_0; }
 			case SDLK_1: { return KeyboardButton::Button_1; }
 			case SDLK_2: { return KeyboardButton::Button_2; }
@@ -134,6 +136,7 @@ namespace Input
 			case SDLK_TAB: { return KeyboardButton::Button_Tab; }
 
 			default: return KeyboardButton::Undetermined;
+			}
 		}
 	}
 }

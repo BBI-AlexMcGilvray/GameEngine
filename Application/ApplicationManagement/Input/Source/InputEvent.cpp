@@ -1,6 +1,9 @@
 #include "../Headers/InputEvent.h"
 
-namespace Input
+namespace Application
 {
+	namespace Input
+	{
 
+	}
 }

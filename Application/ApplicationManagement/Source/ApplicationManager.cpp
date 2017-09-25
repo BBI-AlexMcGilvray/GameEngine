@@ -16,10 +16,14 @@ namespace Application
 
 	bool ApplicationManager::Initialize()
 	{
+		// possible we want to thread this to make it faster
 		if (!SDL.Initialize())
 		{
 			return false;
 		}
+
+		Input.Initialize();
+		Renderer.Initialize(SDL.GetWindowManager());
 
 		return true;
 	}
@@ -59,6 +63,9 @@ namespace Application
 
 	void ApplicationManager::CleanUp()
 	{
+		// possible we want to thread this to make it faster (since saving could be done)
+		Renderer.CleanUp();
+		Input.CleanUp();
 		SDL.CleanUp();
 	}
 }

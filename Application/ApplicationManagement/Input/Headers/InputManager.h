@@ -2,17 +2,22 @@
 
 #include "InputEvent.h"
 
-namespace Input
+namespace Application
 {
-	struct InputManager
+	namespace Input
 	{
-		void HandleInput(InputEventBase&& event);
+		struct InputManager
+		{
+			void Initialize();
+			void HandleInput(InputEventBase&& event);
+			void CleanUp();
 
-	private:
-		void HandleMouseClick(InputEvent<MouseClickedData>* event);
-		void HandleMouseMovement(InputEvent<MouseMovedData>* event);
-		void HandleMouseWheel(InputEvent<MouseWheeledData>* event);
+		private:
+			void HandleMouseClick(InputEvent<MouseClickedData>* event);
+			void HandleMouseMovement(InputEvent<MouseMovedData>* event);
+			void HandleMouseWheel(InputEvent<MouseWheeledData>* event);
 
-		void HandleKeyboardInput(InputEvent<KeyboardButtonData>* event);
-	};
+			void HandleKeyboardInput(InputEvent<KeyboardButtonData>* event);
+		};
+	}
 }

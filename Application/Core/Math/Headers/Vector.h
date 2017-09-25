@@ -10,9 +10,9 @@ namespace Math
 	template <typename T, typename int A>
 	struct VectorA
 	{
-		Dimension Dimensions()
+		Dimension<A> Dimensions()
 		{
-			return A;
+			return Dimension<A>;
 		}
 
 		T MagnitudeSqr()
