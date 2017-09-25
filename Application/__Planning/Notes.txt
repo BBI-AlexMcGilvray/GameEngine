@@ -1,0 +1,8 @@
+- For all OBJECT types for each process (ex: RenderObject, ColliderObject, GameObject, AudioObject, ...), create an 'interface' for the child object to implement.
+	*This interface should AUTOMATICALLY add itself to the relevant process manager (ex: RenderManager, CollisionManager, ...) upon creation and remove itself when destroyed
+	*This will make code-get much easier (when that point is reached) and simplify the process.
+
+	(Possibly look into creating a generic OBJECT template - and possible MANAGER template - for which we can inherit and build off of for ease of purpose)
+			^- This would possible enable our main engine to create all the processes through a factory method
+
+- Objects should have the base method that gets called by the process that calls the virtual method implemented (or not, not all need to be required) by the child class
