@@ -1,6 +1,6 @@
-EngineCore
+GameEngine
 
-Core library to be used by all components of the engine
+An SDL2 based Game Engine
 
 This is the continuation/improvement to https://github.com/jcnast/Core_Deprecated
 
