@@ -17,6 +17,8 @@ namespace Application
 			void Loop();
 			void CleanUp();
 
+			void SetOpenGLAttributes();
+
 		private:
 			Math::Float4 ClearColor;
 			WindowManager* Window;
