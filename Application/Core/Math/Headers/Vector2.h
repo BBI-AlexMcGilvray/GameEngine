@@ -29,6 +29,27 @@ namespace Math
 			: X(v.X), Y(v.Y)
 		{}
 
+		// methods
+		Dimension<2> Dimensions()
+		{
+			return Dimension<2>;
+		}
+
+		T MagnitudeSqr()
+		{
+			return Dot(*this);
+		}
+
+		T Magnitude()
+		{
+			return sqrt(MagnitudeSqr);
+		}
+
+		VectorA<T, 2>& Normalize()
+		{
+			return ((*this) /= (Magnitude()));
+		}
+
 		T Dot(VectorA<T, 2> const& v)
 		{
 			auto temp = v;
@@ -84,6 +105,47 @@ namespace Math
 			VectorA<T, 2> clampV(Clamp(v1.X, v2.X, v3.X), Clamp(v1.Y, v2.Y, v3.Y));
 
 			return clampV;
+		}
+
+		// operators
+		VectorA<T, 2>& operator-=(T d)
+		{
+			return (this = this - d);
+		}
+
+		VectorA<T, 2>& operator-=(VectorA<T, 2> const& v)
+		{
+			return (this = this - v);
+		}
+
+		VectorA<T, 2>& operator+=(T d)
+		{
+			return (this = this + d);
+		}
+
+		VectorA<T, 2>& operator+=(VectorA<T, 2> const& v)
+		{
+			return (this = this + v);
+		}
+
+		VectorA<T, 2>& operator*=(T d)
+		{
+			return (this = this * d);
+		}
+
+		VectorA<T, 2>& operator*=(VectorA<T, 2> const& v)
+		{
+			return (this = this * v);
+		}
+
+		VectorA<T, 2>& operator/=(T d)
+		{
+			return (this = this / d);
+		}
+
+		VectorA<T, 2>& operator/=(VectorA<T, 2> const& v)
+		{
+			return (this = this / v);
 		}
 
 		VectorA<T, 2>& operator-(VectorA<T, 2> const& v)

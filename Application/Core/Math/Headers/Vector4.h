@@ -45,6 +45,27 @@ namespace Math
 			: X(v.X), Y(v.Y), Z(v.Z), W(v.W)
 		{}
 
+		// methods
+		Dimension<4> Dimensions()
+		{
+			return Dimension<4>;
+		}
+
+		T MagnitudeSqr()
+		{
+			return Dot(*this);
+		}
+
+		T Magnitude()
+		{
+			return sqrt(MagnitudeSqr);
+		}
+
+		VectorA<T, 4>& Normalize()
+		{
+			return ((*this) /= (Magnitude()));
+		}
+
 		T Dot(VectorA<T, 4> const& v)
 		{
 			auto temp = v;
@@ -100,6 +121,47 @@ namespace Math
 			VectorA<T, 4> clampV(Clamp(v1.X, v2.X, v3.X), Clamp(v1.Y, v2.Y, v3.Y), Clamp(v1.Z, v2.Z, v3.Z), Clamp(v1.W, v2.W, v3.W));
 
 			return clampV;
+		}
+
+		// operators
+		VectorA<T, 4>& operator-=(T d)
+		{
+			return (this = this - d);
+		}
+
+		VectorA<T, 4>& operator-=(VectorA<T, 4> const& v)
+		{
+			return (this = this - v);
+		}
+
+		VectorA<T, 4>& operator+=(T d)
+		{
+			return (this = this + d);
+		}
+
+		VectorA<T, 4>& operator+=(VectorA<T, 4> const& v)
+		{
+			return (this = this + v);
+		}
+
+		VectorA<T, 4>& operator*=(T d)
+		{
+			return (this = this * d);
+		}
+
+		VectorA<T, 4>& operator*=(VectorA<T, 4> const& v)
+		{
+			return (this = this * v);
+		}
+
+		VectorA<T, 4>& operator/=(T d)
+		{
+			return (this = this / d);
+		}
+
+		VectorA<T, 4>& operator/=(VectorA<T, 4> const& v)
+		{
+			return (this = this / v);
 		}
 
 		VectorA<T, 4>& operator-(VectorA<T, 4> const& v)

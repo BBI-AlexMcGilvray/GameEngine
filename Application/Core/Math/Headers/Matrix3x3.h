@@ -38,7 +38,87 @@ namespace Math
 			: E1(T(1), T(0), T(0)), E2(T(0), T(i), T(0)), E3(T(0), T(0), T(i))
 		{}
 
+		MatrixAxB(T d)
+			: E1(d), E2(d), E3(d)
+		{}
+
+		MatrixAxB(T d1 = 0, T d2 = 0, T d3 = 0, T d4 = 0, T d5 = 0, T d6 = 0, T d7 = 0, T d8 = 0, T d9 = 0)
+			: E1(d1, d2, d3), E2(d4, d5, d6), E3(d7, d8, d9)
+		{}
+
+		// methods
+		Pair<Dimension<3>, Dimension<3>> Dimensions()
+		{
+			return Pair<Dimension<3>, Dimension<3>>(3, 3);
+		}
+
+		void Transpose()
+		{
+			for (int a = 0; a < 3; a++)
+			{
+				for (int b = 0; b < 3; b++)
+				{
+					T temp = this[b][a];
+					this[b][a] = this[a][b];
+					this[b][a] = temp;
+				}
+			}
+		}
+
+		void SetColumn(int column, VectorA<T, 3> columnVector)
+		{
+			(*this)[column] = columnVector;
+		}
+
+		void SetRow(int row, VectorA<T, 3> rowVector)
+		{
+			for (int i = 0; i < rowVector.Dimensions(); i++)
+			{
+				(*this)[row][i] = rowVector[i];
+			}
+		}
+
 		// operators
+		MatrixAxB<T, 3, 3>& operator-=(T d)
+		{
+			return (this = this - d);
+		}
+
+		MatrixAxB<T, 3, 3>& operator-=(MatrixAxB<T, 3, 3> const& v)
+		{
+			return (this = this - v);
+		}
+
+		MatrixAxB<T, 3, 3>& operator+=(T d)
+		{
+			return (this = this + d);
+		}
+
+		MatrixAxB<T, 3, 3>& operator+=(MatrixAxB<T, 3, 3> const& v)
+		{
+			return (this = this + v);
+		}
+
+		MatrixAxB<T, 3, 3>& operator*=(T d)
+		{
+			return (this = this * d);
+		}
+
+		MatrixAxB<T, 3, 3>& operator*=(MatrixAxB<T, 3, 3> const& v)
+		{
+			return (this = this * v);
+		}
+
+		MatrixAxB<T, 3, 3>& operator/=(T d)
+		{
+			return (this = this / d);
+		}
+
+		MatrixAxB<T, 3, 3>& operator/=(MatrixAxB<T, 3, 3> const& v)
+		{
+			return (this = this / v);
+		}
+
 		MatrixAxB<T, 3, 3>& operator-(MatrixAxB<T, 3, 3> const& m)
 		{
 			E1 -= m.E1;

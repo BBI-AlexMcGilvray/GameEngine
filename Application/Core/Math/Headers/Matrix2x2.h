@@ -18,6 +18,7 @@ namespace Math
 			VectorA<T, 2> Bases[2];
 		};
 
+		// constructors
 		MatrixAxB(MatrixAxB<T, 2, 2> const& m)
 			: E1(m.E1), E2(m.E2)
 		{}
@@ -30,15 +31,87 @@ namespace Math
 			: E1(T(i), T(0)), E2(T(0), T(i))
 		{}
 
-		MatrixAxB<T, 2, 2> Inverse()
-		{
-			MatrixAxB<2, 2> swappedMatrix(E2.Y, -E1.Y, -E2.X, E1.X);
-			swappedMatrix /= Determinant();
+		MatrixAxB(T d)
+			: E1(d), E2(d)
+		{}
 
-			return swappedMatrix;
+		MatrixAxB(T d1 = 0, T d2 = 0, T d3 = 0, T d4 = 0)
+			: E1(d1, d2), E2(d3, d4)
+		{}
+
+		// methods
+		Pair<Dimension<2>, Dimension<2>> Dimensions()
+		{
+			return Pair<Dimension<2>, Dimension<2>>(2, 2);
+		}
+
+		void Transpose()
+		{
+			for (int a = 0; a < 2; a++)
+			{
+				for (int b = 0; b < 2; b++)
+				{
+					T temp = this[b][a];
+					this[b][a] = this[a][b];
+					this[b][a] = temp;
+				}
+			}
+		}
+
+		void SetColumn(int column, VectorA<T, 2> columnVector)
+		{
+			(*this)[column] = columnVector;
+		}
+
+		void SetRow(int row, VectorA<T, 2> rowVector)
+		{
+			for (int i = 0; i < rowVector.Dimensions(); i++)
+			{
+				(*this)[row][i] = rowVector[i];
+			}
 		}
 
 		// operators
+		MatrixAxB<T, 2, 2>& operator-=(T d)
+		{
+			return (this = this - d);
+		}
+
+		MatrixAxB<T, 2, 2>& operator-=(MatrixAxB<T, 2, 2> const& v)
+		{
+			return (this = this - v);
+		}
+
+		MatrixAxB<T, 2, 2>& operator+=(T d)
+		{
+			return (this = this + d);
+		}
+
+		MatrixAxB<T, 2, 2>& operator+=(MatrixAxB<T, 2, 2> const& v)
+		{
+			return (this = this + v);
+		}
+
+		MatrixAxB<T, 2, 2>& operator*=(T d)
+		{
+			return (this = this * d);
+		}
+
+		MatrixAxB<T, 2, 2>& operator*=(MatrixAxB<T, 2, 2> const& v)
+		{
+			return (this = this * v);
+		}
+
+		MatrixAxB<T, 2, 2>& operator/=(T d)
+		{
+			return (this = this / d);
+		}
+
+		MatrixAxB<T, 2, 2>& operator/=(MatrixAxB<T, 2, 2> const& v)
+		{
+			return (this = this / v);
+		}
+
 		MatrixAxB<T, 2, 2>& operator-(MatrixAxB<T, 2, 2> const& m)
 		{
 			E1 -= m.E1;
