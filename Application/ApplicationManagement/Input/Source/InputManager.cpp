@@ -1,4 +1,4 @@
-#include "../Headers/InputManager.h"
+#include "ApplicationManagement/Input/Headers/InputManager.h"
 
 namespace Application
 {

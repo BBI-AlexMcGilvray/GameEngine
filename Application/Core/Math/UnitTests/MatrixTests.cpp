@@ -1,11 +1,11 @@
 #include "MatrixTests.h"
 
-#include "../../Debugging/Headers/Macros.h"
+#include "Core/Debugging/Headers/Macros.h"
 
-#include "../Headers/Matrix.h"
-#include "../Headers/Matrix2x2.h"
-#include "../Headers/Matrix3x3.h"
-#include "../Headers/Matrix4x4.h"
+#include "Core/Math/Headers/Matrix.h"
+#include "Core/Math/Headers/Matrix2x2.h"
+#include "Core/Math/Headers/Matrix3x3.h"
+#include "Core/Math/Headers/Matrix4x4.h"
 
 #define GLOBAL_EXPLICIT 1
 

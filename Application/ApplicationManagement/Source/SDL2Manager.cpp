@@ -1,4 +1,4 @@
-#include "../Headers/SDL2Manager.h"
+#include "ApplicationManagement/Headers/SDL2Manager.h"
 
 #include <iostream>
 #include <stdlib.h>

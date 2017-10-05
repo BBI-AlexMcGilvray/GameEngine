@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../Dependencies/Includes/SDL2/SDL.h"
-#include "../../Dependencies/Includes/GLEW/glew.h"
+#include "Dependencies/Includes/SDL2/SDL.h"
+#include "Dependencies/Includes/GLEW/glew.h"
 
 namespace Application
 {

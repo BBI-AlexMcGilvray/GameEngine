@@ -3,7 +3,7 @@
 #include "VectorTests.h"
 #include "MatrixTests.h"
 
-#include "../../Debugging/Headers/Macros.h"
+#include "Core/Debugging/Headers/Macros.h"
 
 bool RunMathUnitTests()
 {

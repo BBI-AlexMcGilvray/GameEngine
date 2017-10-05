@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Headers/AllCore.h"
+#include "Core/Headers/AllCore.h"
 
 #include "Function.h"
 

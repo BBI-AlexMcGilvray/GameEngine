@@ -1,4 +1,4 @@
-#include "../Headers/WindowManager.h"
+#include "ApplicationManagement/Headers/WindowManager.h"
 
 namespace Application
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "MathDefs.h"
-#include "../../Headers/CoreDefs.h"
+#include "Core/Headers/CoreDefs.h"
 
 using namespace Core;
 

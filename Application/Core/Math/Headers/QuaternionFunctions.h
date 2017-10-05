@@ -6,7 +6,7 @@
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
 
-#include "../../Debugging/Headers/Declarations.h"
+#include "Core/Debugging/Headers/Declarations.h"
 
 namespace Math
 {

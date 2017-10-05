@@ -5,7 +5,7 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
-#include "../../Debugging/Headers/Declarations.h"
+#include "Core/Debugging/Headers/Declarations.h"
 
 namespace Math
 {

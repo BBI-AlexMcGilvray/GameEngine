@@ -1,11 +1,11 @@
 #include "VectorTests.h"
 
-#include "../../Debugging/Headers/Macros.h"
+#include "Core/Debugging/Headers/Macros.h"
 
-#include "../Headers/Vector.h"
-#include "../Headers/Vector2.h"
-#include "../Headers/Vector3.h"
-#include "../Headers/Vector4.h"
+#include "Core/Math/Headers/Vector.h"
+#include "Core/Math/Headers/Vector2.h"
+#include "Core/Math/Headers/Vector3.h"
+#include "Core/Math/Headers/Vector4.h"
 
 #define GLOBAL_EXPLICIT 1
 

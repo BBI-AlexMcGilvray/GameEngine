@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../Headers/CoreDefs.h"
+#include "Core/Headers/CoreDefs.h"
 #include "MathDefs.h"
 
-#include "../../Debugging/Headers/Macros.h"
+#include "Core/Debugging/Headers/Macros.h"
 
 namespace Math
 {

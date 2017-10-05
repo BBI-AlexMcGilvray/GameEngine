@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Headers/AllCore.h"
+#include "Core/AllCore.h"
 
 #include "Delegate.h"
 

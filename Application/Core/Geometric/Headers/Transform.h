@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../Headers/AllCore.h"
+#include "Core/Headers/AllCore.h"
 
-#include "../../Math/Headers/AllMath.h"
+#include "Core/Math/Headers/AllMath.h"
 
 namespace Geometric
 {

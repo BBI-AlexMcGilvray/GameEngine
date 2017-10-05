@@ -1,4 +1,4 @@
-#include "../Headers/GLContextManager.h"
+#include "ApplicationManagement/Headers/GLContextManager.h"
 
 namespace Application
 {

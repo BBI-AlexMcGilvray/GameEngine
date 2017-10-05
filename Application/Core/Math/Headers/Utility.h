@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Debugging/Headers/Macros.h"
+#include "Core/Debugging/Headers/Macros.h"
 
 template <typename T>
 T Lerp(T a, T b, float p)
