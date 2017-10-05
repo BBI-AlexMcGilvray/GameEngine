@@ -390,7 +390,7 @@
     <Library Include="Dependencies\Libs\SDL2\SDL2_net.lib" />
     <Library Include="Dependencies\Libs\SDL2\SDL2_ttf.lib" />
     <Library Include="Dependencies\Libs\SDL2\SDL2main.lib" />
-    <Library Include="Dependencies\Libs\GLEW\glew32.lib" />
+    <Library Include="Dependencies\Libs\GLEW\glew32s.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="__Planning\Notes.txt" />

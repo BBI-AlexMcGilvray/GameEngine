@@ -287,7 +287,7 @@
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_video.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Dependencies\Libs\GLEW\glew32.lib" />
+    <Library Include="Dependencies\Libs\GLEW\glew32s.lib" />
     <Library Include="Dependencies\Libs\SDL2\SDL2.lib" />
     <Library Include="Dependencies\Libs\SDL2\SDL2main.lib" />
     <Library Include="Dependencies\Libs\SDL2\SDL2_image.lib" />
