@@ -2,6 +2,8 @@
 
 #include "InputDefs.h"
 
+using namespace Core;
+
 namespace Application
 {
 	namespace Input
@@ -87,7 +89,7 @@ namespace Application
 			{}
 
 			template <class ...Ts>
-			InputEvent(InputEventType type, Ts ...args)
+			InputEvent(InputEventType type, Ts&& ...args)
 				: Type(type), Data(std::forward<Ts>(args)...)
 			{}
 

@@ -7,39 +7,42 @@
 
 #include "Declarations.h"
 
-inline void Message(std::string message)
+namespace Core
 {
-	if (GLOBAL_EXPLICIT)
+	inline void Message(std::string message)
 	{
-		std::cout << message << std::endl;
+		if (GLOBAL_EXPLICIT)
+		{
+			std::cout << message << std::endl;
+		}
+		assert(false);
 	}
-	assert(false);
+
+	inline bool VerifyCondition(bool condition, bool runAssert)
+	{
+		bool result = condition;
+
+		if (GLOBAL_EXPLICIT)
+		{
+			std::cout << "X was " << (result ? "TRUE" : "FALSE") << std::endl;
+		}
+
+		if (runAssert)
+		{
+			assert(result);
+		}
+		return result;
+	}
+
+	#if DEBUG
+	#define VERIFY( X ) VerifyCondition( X, true )
+	#else
+	#define VERIFY( X ) // do nothing if not debugging
+	#endif
+
+	#if DEBUG
+	#define MESSAGE( X, M ) (bool condition = VERIFY( X, false ); if (!condition) { Message( M ); })
+	#else
+	#define MESSAGE( M ) // do nothing
+	#endif
 }
-
-inline bool VerifyCondition(bool condition, bool runAssert)
-{
-	bool result = condition;
-	
-	if (GLOBAL_EXPLICIT)
-	{
-		std::cout << "X was " << (result ? "TRUE" : "FALSE") << std::endl;
-	}
-
-	if (runAssert)
-	{
-		assert(result);
-	}
-	return result;
-}
-
-#if DEBUG
-#define VERIFY( X ) VerifyCondition( X, true )
-#else
-#define VERIFY( X ) // do nothing if not debugging
-#endif
-
-#if DEBUG
-#define MESSAGE( X, M ) (bool condition = VERIFY( X, false ); if (!condition) { Message( M ); })
-#else
-#define MESSAGE( M ) // do nothing
-#endif

@@ -4,58 +4,61 @@
 
 #include "Core/Math/Headers/AllMath.h"
 
-namespace Geometric
+namespace Core
 {
-	template <typename T>
-	struct TransformBase
+	namespace Geometric
 	{
-		TransformBase()
-			: Position(II{}), Rotation(II{}), Scale(II{})
-		{}
-
-		TransformBase(Vector3<T> position, Quaternion<T> rotation, Vector3<T> scale)
-			: Position(position), Rotation(rotation), Scale(scale)
-		{}
-
-		Matrix4x4<T> GetTransformationMatrix()
+		template <typename T>
+		struct TransformBase
 		{
-			// scale
-			Matrix4x4<T> transformationMatrix = MAtrix4x4<T>(Vector4<T>(Scale.X), Vector4<T>(Scale.Y), Vector4<T>(Scale.Z), Vector4<T>(II{}));
-			// rotation
-			transformationMatrix = Rotation.GetTransformationMatrix() * transformationMatrix;
-			// position
-			transformationMatrix.E4.XYZ = Position;
+			TransformBase()
+				: Position(II{}), Rotation(II{}), Scale(II{})
+			{}
 
-			return trransformationMatrix;
-		}
+			TransformBase(Vector3<T> position, Quaternion<T> rotation, Vector3<T> scale)
+				: Position(position), Rotation(rotation), Scale(scale)
+			{}
 
-		Quaternion<T> Rotate(Quaternion<T> additionalRotation)
-		{
-			Rotation = additionalRotation * Rotation;
+			Matrix4x4<T> GetTransformationMatrix()
+			{
+				// scale
+				Matrix4x4<T> transformationMatrix = MAtrix4x4<T>(Vector4<T>(Scale.X), Vector4<T>(Scale.Y), Vector4<T>(Scale.Z), Vector4<T>(II{}));
+				// rotation
+				transformationMatrix = Rotation.GetTransformationMatrix() * transformationMatrix;
+				// position
+				transformationMatrix.E4.XYZ = Position;
 
-			return Rotation;
-		}
+				return trransformationMatrix;
+			}
 
-		Vector3<T> Move(Vector3<T> movement)
-		{
-			Position += movement;
+			Quaternion<T> Rotate(Quaternion<T> additionalRotation)
+			{
+				Rotation = additionalRotation * Rotation;
 
-			return Position;
-		}
+				return Rotation;
+			}
 
-		Vector3<T> Scale(Vector3<T> scaleRatio)
-		{
-			Scale *= scaleRatio;
+			Vector3<T> Move(Vector3<T> movement)
+			{
+				Position += movement;
 
-			return Scale;
-		}
+				return Position;
+			}
 
-	public:
-		Vector3<T> Position;
-		Quaternion<T> Rotation;
-		Vector3<T> Scale;
-	};
+			Vector3<T> Scale(Vector3<T> scaleRatio)
+			{
+				Scale *= scaleRatio;
 
-	/*	TYPE DEFS	*/
-	using Transform = TransformBase<float>;
-};
+				return Scale;
+			}
+
+		public:
+			Vector3<T> Position;
+			Quaternion<T> Rotation;
+			Vector3<T> Scale;
+		};
+
+		/*	TYPE DEFS	*/
+		using Transform = TransformBase<float>;
+	}
+}

@@ -12,7 +12,7 @@ namespace Application
 			CurrentTick = InitialTime;
 		}
 
-		Seconds TimeManager::Update()
+		Second TimeManager::Update()
 		{
 			PreviousTick = CurrentTick;
 			CurrentTick = Clock.now();
@@ -20,24 +20,24 @@ namespace Application
 			return GetDeltaTime();
 		}
 
-		Seconds TimeManager::GetDeltaTime()
+		Second TimeManager::GetDeltaTime()
 		{
 			return (CurrentTick - PreviousTick);
 		}
 
-		Seconds TimeManager::GetTimeSpan()
+		Second TimeManager::GetTimeSpan()
 		{
 			return (CurrentTick - InitialTime);
 		}
 
 		// Fixed Time Step
-		FixedStepTimeManager::FixedStepTimeManager(Seconds maxStepSize)
+		FixedStepTimeManager::FixedStepTimeManager(Second maxStepSize)
 			: MaxStepSize(maxStepSize)
 		{
 
 		}
 
-		Seconds FixedStepTimeManager::Update()
+		Second FixedStepTimeManager::Update()
 		{
 			auto timePassed = TimeManager::Update();
 
@@ -50,7 +50,7 @@ namespace Application
 			return timePassed;
 		}
 
-		Seconds FixedStepTimeManager::GetAccumulatedTime()
+		Second FixedStepTimeManager::GetAccumulatedTime()
 		{
 			if (Accumulator > MaxStepSize)
 			{

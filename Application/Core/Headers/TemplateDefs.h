@@ -1,9 +1,22 @@
 #pragma once
 
 #include <cstdlib>
+#include <utility>
 
 namespace Core
 {
+	template <typename T>
+	constexpr decltype(auto) Forward(std::remove_reference_t<T>&& t) noexcept
+	{
+		return std::forward<T>(t);
+	}
+
+	template <typename T>
+	constexpr decltype(auto) Forward(std::remove_reference_t<T>& t) noexcept
+	{
+		return std::forward<T>(t);
+	}
+
 	template <bool B, typename T = void>
 	using EnableIf = std::enable_if<B, T>;
 
@@ -23,4 +36,4 @@ namespace Core
 
 	template <typename T1, typename T2>
 	using EqualToType = typename EnableIf<IsSame<T1, T2>::type>;
-};
+}

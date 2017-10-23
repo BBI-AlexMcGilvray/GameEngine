@@ -4,6 +4,8 @@
 
 #include "Core/Headers/TimeDefs.h"
 
+using namespace Core;
+
 namespace Application
 {
 	namespace Time
@@ -16,10 +18,10 @@ namespace Application
 
 			TimeManager();
 
-			virtual Seconds Update();
+			virtual Second Update();
 
-			Seconds GetDeltaTime();
-			Seconds GetTimeSpan();
+			Second GetDeltaTime();
+			Second GetTimeSpan();
 
 		private:
 			SteadyClock Clock;
@@ -31,16 +33,16 @@ namespace Application
 
 		struct FixedStepTimeManager : TimeManager
 		{
-			Seconds MaxStepSize;
+			Second MaxStepSize;
 
-			FixedStepTimeManager(Seconds maxStepSize = 0.0167_s); // 0.0167 is 1 frame if we do 60 frames per second
+			FixedStepTimeManager(Second maxStepSize = 0.0167_s); // 0.0167 is 1 frame if we do 60 frames per second
 
-			Seconds Update() override;
+			Second Update() override;
 
-			Seconds GetAccumulatedTime();
+			Second GetAccumulatedTime();
 
 		private:
-			Seconds Accumulator = 0_s;
+			Second Accumulator = 0_s;
 		};
 	}
 }

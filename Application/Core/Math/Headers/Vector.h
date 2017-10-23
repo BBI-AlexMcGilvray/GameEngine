@@ -3,12 +3,13 @@
 #include "MathDefs.h"
 #include "Core/Headers/CoreDefs.h"
 
-using namespace Core;
-
-namespace Math
+namespace Core
 {
-	template <typename T, typename int A>
-	struct VectorA
+	namespace Math
 	{
-	};
-};
+		template <typename T, typename int A>
+		struct VectorA
+		{
+		};
+	}
+}

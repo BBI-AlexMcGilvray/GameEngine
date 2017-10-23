@@ -1,10 +1,10 @@
 #pragma once
 
 #include <algorithm>
-#include <cstdlib>
 #include <stdlib.h>
 #include <vector>
-#include <utility>
+
+#include "Core/Headers/TemplateDefs.h"
 
 namespace Core
 {
@@ -17,12 +17,12 @@ namespace Core
 		bool Result;
 		T Value;
 
-		bool operator()
+		operator bool()
 		{
 			return Result;
 		}
 
-		T operator()
+		operator T()
 		{
 			return Value;
 		}
@@ -35,10 +35,10 @@ namespace Core
 	}
 
 	template <typename T, typename ...Ts>
-	void Push(List<T> list, T entry, Ts... otherEntries)
+	void Push(List<T> list, T entry, Ts&&... otherEntries)
 	{
 		Push(list, entry);
-		Push(list, std::forward<Ts>(otherEntries)...);
+		Push(list, Forward<Ts>(otherEntries)...);
 	}
 
 	template <typename T>
@@ -55,11 +55,11 @@ namespace Core
 	}
 
 	template <typename T, typename ...Ts>
-	Truth<uint> InList(List<T> list, T entry, Ts... otherEntries)
+	Truth<uint> InList(List<T> list, T entry, Ts&&... otherEntries)
 	{
 		if (InList(list, entry))
 		{
-			return InList(list, std::forward<Ts>(otherEntries)...);
+			return InList(list, Forward<Ts>(otherEntries)...);
 		}
 
 		return Truth{ false, 0 };
@@ -78,13 +78,13 @@ namespace Core
 	}
 
 	template <typename T, typename ...Ts>
-	bool Remove(List<T> list, T entry, Ts... otherEntries)
+	bool Remove(List<T> list, T entry, Ts&&... otherEntries)
 	{
 		if (Remove(list, entry))
 		{
-			return Remove(list, std::forward<Ts>(otherEntries)...);
+			return Remove(list, Forward<Ts>(otherEntries)...);
 		}
 
 		return false;
 	}
-};
+}

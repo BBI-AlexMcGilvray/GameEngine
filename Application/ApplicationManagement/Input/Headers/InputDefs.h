@@ -4,6 +4,8 @@
 
 #include "Core/Headers/CoreDefs.h"
 
+using namespace Core;
+
 namespace Application
 {
 	namespace Input

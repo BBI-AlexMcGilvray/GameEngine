@@ -5,6 +5,8 @@
 
 #include "Core\Math\Headers\Vector4.h"
 
+using namespace Core::Math;
+
 namespace Application
 {
 	namespace Rendering
@@ -13,14 +15,14 @@ namespace Application
 		{
 			RenderManager();
 
-			void Initialize(WindowManager& window, Math::Float4 clearColor = 0.0f);
+			void Initialize(WindowManager& window, Float4 clearColor = 0.0f);
 			void Loop();
 			void CleanUp();
 
 			void SetOpenGLAttributes();
 
 		private:
-			Math::Float4 ClearColor;
+			Float4 ClearColor;
 			WindowManager* Window;
 
 			void LoopStart();

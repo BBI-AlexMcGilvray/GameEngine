@@ -1,47 +1,50 @@
 #pragma once
 
-#include "Core/AllCore.h"
+#include "Core/Headers/AllCore.h"
 
 #include "Delegate.h"
 
-namespace Functionality
+namespace Core
 {
-	template <typename rT, typename Ts...>
-	struct Event
+	namespace Functionality
 	{
-		EventBase()
-		{}
-
-		~EventBase()
+		template <typename rT, typename Ts...>
+		struct Event
 		{
-			for (auto& subscribee : Subscribees)
+			EventBase()
+			{}
+
+			~EventBase()
 			{
-				subscribee->EventParent = nullptr;
-				UnSubscribe(subscribee);
+				for (auto& subscribee : Subscribees)
+				{
+					subscribee->EventParent = nullptr;
+					UnSubscribe(subscribee);
+				}
 			}
-		}
 
-		void operator()(Ts... args)
-		{
-			for (auto& subscribee : Subscribees)
+			void operator()(Ts&&... args)
 			{
-				subscribee(std::forward<Ts>(args)...);
+				for (auto& subscribee : Subscribees)
+				{
+					subscribee(std::forward<Ts>(args)...);
+				}
 			}
-		}
 
-		bool Subscribe(SharedPtr<Delegate<rT, Ts...>> newDelegate)
-		{
-			Push(Subscribees, newDelegate);
+			bool Subscribe(SharedPtr<Delegate<rT, Ts...>> newDelegate)
+			{
+				Push(Subscribees, newDelegate);
 
-			return true;
-		}
+				return true;
+			}
 
-		bool UnSubscribe(SharedPtr<Delegate<rT, Ts...>> currentDelegate)
-		{
-			return Remove(Subscribees, currentDelegate);
-		}
+			bool UnSubscribe(SharedPtr<Delegate<rT, Ts...>> currentDelegate)
+			{
+				return Remove(Subscribees, currentDelegate);
+			}
 
-	private:
-		List<SharedPtr<Delegate<rT, Ts...>>> Subscribees;
-	};
-};
+		private:
+			List<SharedPtr<Delegate<rT, Ts...>>> Subscribees;
+		};
+	}
+}

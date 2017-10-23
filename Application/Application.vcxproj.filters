@@ -313,9 +313,6 @@
     <ClInclude Include="Core\Functionality\Headers\Function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Functionality\Headers\Scheduler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Geometric\Headers\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>

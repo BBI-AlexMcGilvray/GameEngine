@@ -23,6 +23,4 @@ namespace Core
 	bool Within(T d, T v, T var) { return ((d >= v - var) && (d <= v + var)); }
 	
 	using uint = unsigned int;
-};
-
-using namespace Core;
+}

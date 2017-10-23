@@ -5,15 +5,21 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
-bool RunMathUnitTests()
+namespace Core
 {
-	std::cout << "Starting unit tests..." << std::endl;
+	namespace Math
+	{
+		bool RunMathUnitTests()
+		{
+			std::cout << "Starting unit tests..." << std::endl;
 
-	bool vectorTests = VERIFY(Math::RunVectorTests());
+			bool vectorTests = VERIFY(Math::RunVectorTests());
 
-	bool matrixTests = VERIFY(Math::RunMatrixTests());
+			bool matrixTests = VERIFY(Math::RunMatrixTests());
 
-	std::cout << "Finished unit tests..." << std::endl;
+			std::cout << "Finished unit tests..." << std::endl;
 
-	return (vectorTests && matrixTests);
+			return (vectorTests && matrixTests);
+		}
+	}
 }

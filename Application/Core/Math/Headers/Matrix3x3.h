@@ -3,212 +3,215 @@
 #include "Matrix.h"
 #include "Vector3.h"
 
-namespace Math
+namespace Core
 {
-	template <typename T>
-	struct MatrixAxB<T, 3, 3>
+	namespace Math
 	{
-		union
+		template <typename T>
+		struct MatrixAxB<T, 3, 3>
 		{
-			struct
+			union
 			{
-				union
+				struct
 				{
-					struct
+					union
 					{
-						VectorA<T, 3> E1;
-						VectorA<T, 3> E2;
+						struct
+						{
+							VectorA<T, 3> E1;
+							VectorA<T, 3> E2;
+						};
+						VectorA<T, 3> E1E2[2];
 					};
-					VectorA<T, 3> E1E2[2];
+					VectorA<T, 3> E3;
 				};
-				VectorA<T, 3> E3;
+				VectorA<T, 3> Bases[3];
 			};
-			VectorA<T, 3> Bases[3];
-		};
 
-		MatrixAxB(MatrixAxB<T, 3, 3> const& m)
-			: E1(m.E1), E2(m.E2), E3(m.E3)
-		{}
+			MatrixAxB(MatrixAxB<T, 3, 3> const& m)
+				: E1(m.E1), E2(m.E2), E3(m.E3)
+			{}
 
-		MatrixAxB(VectorA<T, 3> const& e1, VectorA<T, 3> const& e2, VectorA<T, 3> const& e3)
-			: E1(e1), E2(e2), E3(e3)
-		{}
+			MatrixAxB(VectorA<T, 3> const& e1, VectorA<T, 3> const& e2, VectorA<T, 3> const& e3)
+				: E1(e1), E2(e2), E3(e3)
+			{}
 
-		MatrixAxB(II i)
-			: E1(T(1), T(0), T(0)), E2(T(0), T(i), T(0)), E3(T(0), T(0), T(i))
-		{}
+			MatrixAxB(II i)
+				: E1(T(1), T(0), T(0)), E2(T(0), T(i), T(0)), E3(T(0), T(0), T(i))
+			{}
 
-		MatrixAxB(T d)
-			: E1(d), E2(d), E3(d)
-		{}
+			MatrixAxB(T d)
+				: E1(d), E2(d), E3(d)
+			{}
 
-		MatrixAxB(T d1 = 0, T d2 = 0, T d3 = 0, T d4 = 0, T d5 = 0, T d6 = 0, T d7 = 0, T d8 = 0, T d9 = 0)
-			: E1(d1, d2, d3), E2(d4, d5, d6), E3(d7, d8, d9)
-		{}
+			MatrixAxB(T d1 = 0, T d2 = 0, T d3 = 0, T d4 = 0, T d5 = 0, T d6 = 0, T d7 = 0, T d8 = 0, T d9 = 0)
+				: E1(d1, d2, d3), E2(d4, d5, d6), E3(d7, d8, d9)
+			{}
 
-		// methods
-		Pair<Dimension<3>, Dimension<3>> Dimensions()
-		{
-			return Pair<Dimension<3>, Dimension<3>>(3, 3);
-		}
-
-		void Transpose()
-		{
-			for (int a = 0; a < 3; a++)
+			// methods
+			Pair<Dimension<3>, Dimension<3>> Dimensions()
 			{
-				for (int b = 0; b < 3; b++)
+				return Pair<Dimension<3>, Dimension<3>>(3, 3);
+			}
+
+			void Transpose()
+			{
+				for (int a = 0; a < 3; a++)
 				{
-					T temp = this[b][a];
-					this[b][a] = this[a][b];
-					this[b][a] = temp;
+					for (int b = 0; b < 3; b++)
+					{
+						T temp = this[b][a];
+						this[b][a] = this[a][b];
+						this[b][a] = temp;
+					}
 				}
 			}
-		}
 
-		void SetColumn(int column, VectorA<T, 3> columnVector)
-		{
-			(*this)[column] = columnVector;
-		}
-
-		void SetRow(int row, VectorA<T, 3> rowVector)
-		{
-			for (int i = 0; i < rowVector.Dimensions(); i++)
+			void SetColumn(int column, VectorA<T, 3> columnVector)
 			{
-				(*this)[row][i] = rowVector[i];
+				(*this)[column] = columnVector;
 			}
-		}
 
-		// operators
-		MatrixAxB<T, 3, 3>& operator-=(T d)
-		{
-			return (this = this - d);
-		}
+			void SetRow(int row, VectorA<T, 3> rowVector)
+			{
+				for (int i = 0; i < rowVector.Dimensions(); i++)
+				{
+					(*this)[row][i] = rowVector[i];
+				}
+			}
 
-		MatrixAxB<T, 3, 3>& operator-=(MatrixAxB<T, 3, 3> const& v)
-		{
-			return (this = this - v);
-		}
+			// operators
+			MatrixAxB<T, 3, 3>& operator-=(T d)
+			{
+				return (this = this - d);
+			}
 
-		MatrixAxB<T, 3, 3>& operator+=(T d)
-		{
-			return (this = this + d);
-		}
+			MatrixAxB<T, 3, 3>& operator-=(MatrixAxB<T, 3, 3> const& v)
+			{
+				return (this = this - v);
+			}
 
-		MatrixAxB<T, 3, 3>& operator+=(MatrixAxB<T, 3, 3> const& v)
-		{
-			return (this = this + v);
-		}
+			MatrixAxB<T, 3, 3>& operator+=(T d)
+			{
+				return (this = this + d);
+			}
 
-		MatrixAxB<T, 3, 3>& operator*=(T d)
-		{
-			return (this = this * d);
-		}
+			MatrixAxB<T, 3, 3>& operator+=(MatrixAxB<T, 3, 3> const& v)
+			{
+				return (this = this + v);
+			}
 
-		MatrixAxB<T, 3, 3>& operator*=(MatrixAxB<T, 3, 3> const& v)
-		{
-			return (this = this * v);
-		}
+			MatrixAxB<T, 3, 3>& operator*=(T d)
+			{
+				return (this = this * d);
+			}
 
-		MatrixAxB<T, 3, 3>& operator/=(T d)
-		{
-			return (this = this / d);
-		}
+			MatrixAxB<T, 3, 3>& operator*=(MatrixAxB<T, 3, 3> const& v)
+			{
+				return (this = this * v);
+			}
 
-		MatrixAxB<T, 3, 3>& operator/=(MatrixAxB<T, 3, 3> const& v)
-		{
-			return (this = this / v);
-		}
+			MatrixAxB<T, 3, 3>& operator/=(T d)
+			{
+				return (this = this / d);
+			}
 
-		MatrixAxB<T, 3, 3>& operator-(MatrixAxB<T, 3, 3> const& m)
-		{
-			E1 -= m.E1;
-			E2 -= m.E2;
-			E3 -= m.E3;
+			MatrixAxB<T, 3, 3>& operator/=(MatrixAxB<T, 3, 3> const& v)
+			{
+				return (this = this / v);
+			}
 
-			return *this;
-		}
+			MatrixAxB<T, 3, 3>& operator-(MatrixAxB<T, 3, 3> const& m)
+			{
+				E1 -= m.E1;
+				E2 -= m.E2;
+				E3 -= m.E3;
 
-		MatrixAxB<T, 3, 3>& operator+(MatrixAxB<T, 3, 3> const& m)
-		{
-			E1 += m.E1;
-			E2 += m.E2;
-			E3 += m.E3;
+				return *this;
+			}
 
-			return *this;
-		}
+			MatrixAxB<T, 3, 3>& operator+(MatrixAxB<T, 3, 3> const& m)
+			{
+				E1 += m.E1;
+				E2 += m.E2;
+				E3 += m.E3;
 
-		MatrixAxB<T, 3, 3>& operator*(T d)
-		{
-			E1 *= d;
-			E2 *= d;
-			E3 *= d;
+				return *this;
+			}
 
-			return *this;
-		}
+			MatrixAxB<T, 3, 3>& operator*(T d)
+			{
+				E1 *= d;
+				E2 *= d;
+				E3 *= d;
 
-		MatrixAxB<T, 3, 3>& operator*(MatrixAxB<T, 3, 3> const& m)
-		{
-			auto T = Transpose();
+				return *this;
+			}
 
-			E1 = VectorA<T, 3>(T.E1.Dot(m.E1), T.E1.Dot(m.E2), T.E1.Dot(m.E3));
-			E2 = VectorA<T, 3>(T.E2.Dot(m.E1), T.E2.Dot(m.E2), T.E2.Dot(m.E3));
-			E3 = VectorA<T, 3>(T.E3.Dot(m.E1), T.E3.Dot(m.E2), T.E3.Dot(m.E3));
+			MatrixAxB<T, 3, 3>& operator*(MatrixAxB<T, 3, 3> const& m)
+			{
+				auto T = Transpose();
 
-			return *this;
-		}
+				E1 = VectorA<T, 3>(T.E1.Dot(m.E1), T.E1.Dot(m.E2), T.E1.Dot(m.E3));
+				E2 = VectorA<T, 3>(T.E2.Dot(m.E1), T.E2.Dot(m.E2), T.E2.Dot(m.E3));
+				E3 = VectorA<T, 3>(T.E3.Dot(m.E1), T.E3.Dot(m.E2), T.E3.Dot(m.E3));
 
-		MatrixAxB<T, 3, 3>& operator/(T d)
-		{
-			E1 /= d;
-			E2 /= d;
-			E3 /= d;
+				return *this;
+			}
 
-			return *this;
-		}
+			MatrixAxB<T, 3, 3>& operator/(T d)
+			{
+				E1 /= d;
+				E2 /= d;
+				E3 /= d;
 
-		MatrixAxB<T, 3, 3>& operator/(MatrixAxB<T, 3, 3> const& m)
-		{
-			auto mI = m.Inverse();
+				return *this;
+			}
 
-			return ((*this) * mI);
-		}
+			MatrixAxB<T, 3, 3>& operator/(MatrixAxB<T, 3, 3> const& m)
+			{
+				auto mI = m.Inverse();
 
-		MatrixAxB<T, 3, 3>& operator=(T d)
-		{
-			E1 = VectorA<T, 3>(d);
-			E2 = VectorA<T, 3>(d);
-			E3 = VectorA<T, 3>(d);
+				return ((*this) * mI);
+			}
 
-			return *this;
-		}
+			MatrixAxB<T, 3, 3>& operator=(T d)
+			{
+				E1 = VectorA<T, 3>(d);
+				E2 = VectorA<T, 3>(d);
+				E3 = VectorA<T, 3>(d);
 
-		MatrixAxB<T, 3, 3>& operator=(MatrixAxB<T, 3, 3> const& m)
-		{
-			E1 = m.E1;
-			E2 = m.E2;
-			E3 = m.E3;
+				return *this;
+			}
 
-			return *this;
-		}
+			MatrixAxB<T, 3, 3>& operator=(MatrixAxB<T, 3, 3> const& m)
+			{
+				E1 = m.E1;
+				E2 = m.E2;
+				E3 = m.E3;
 
-		bool operator==(MatrixAxB<T, 3, 3> const& m)
-		{
-			return (E1 == m.E1 && E2 == m.E2 && E3 == m.E3);
-		}
+				return *this;
+			}
 
-		VectorA<T, 3>& operator[](int basis)
-		{
-			return Bases[basis];
-		}
+			bool operator==(MatrixAxB<T, 3, 3> const& m)
+			{
+				return (E1 == m.E1 && E2 == m.E2 && E3 == m.E3);
+			}
 
-		// operators
-	};
+			VectorA<T, 3>& operator[](int basis)
+			{
+				return Bases[basis];
+			}
 
-	/*	TYPE DEFS	*/
-	template <typename T>
-	using Matrix3x3 = MatrixAxB<T, 3, 3>;
+			// operators
+		};
 
-	using Float3x3 = Matrix3x3<float>;
-	using Int3x3 = Matrix3x3<int>;
-	using Uint3x3 = Matrix3x3<uint>;
-};
+		/*	TYPE DEFS	*/
+		template <typename T>
+		using Matrix3x3 = MatrixAxB<T, 3, 3>;
+
+		using Float3x3 = Matrix3x3<float>;
+		using Int3x3 = Matrix3x3<int>;
+		using Uint3x3 = Matrix3x3<uint>;
+	}
+}

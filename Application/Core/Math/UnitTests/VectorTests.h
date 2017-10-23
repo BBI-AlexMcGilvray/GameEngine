@@ -1,10 +1,13 @@
 #pragma once
 
-namespace Math
+namespace Core
 {
-	bool RunVectorTests();
+	namespace Math
+	{
+		bool RunVectorTests();
 
-	bool SimpleVectorTests();
-	bool StandardVectorTests();
-	bool DifficultVectorTests();
-};
+		bool SimpleVectorTests();
+		bool StandardVectorTests();
+		bool DifficultVectorTests();
+	};
+}

@@ -7,7 +7,7 @@ namespace Application
 		RenderManager::RenderManager()
 		{}
 
-		void RenderManager::Initialize(WindowManager& window, Math::Float4 clearColor)
+		void RenderManager::Initialize(WindowManager& window, Float4 clearColor)
 		{
 			Window = &window;
 			ClearColor = clearColor;

@@ -1,8 +1,11 @@
 #include "Math\UnitTests\MathUnitTests.h"
 
-int RunCoreTests()
+namespace Core
 {
-	RunMathUnitTests();
+	int RunCoreTests()
+	{
+		Math::RunMathUnitTests();
 
-	return 0;
+		return 0;
+	}
 }

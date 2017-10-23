@@ -12,4 +12,4 @@ namespace Core
 
 	template <typename T>
 	using WeakPtr = std::weak_ptr<T>;
-};
+}
