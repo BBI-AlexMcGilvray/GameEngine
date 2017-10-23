@@ -51,6 +51,12 @@
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationManagement\Time\Source\TimeManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Time\Source\Scheduler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\Dlls\SDL2\libfreetype-6.dll" />
@@ -380,6 +386,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Time\Headers\Scheduler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Time\Headers\TimeManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Headers\TimeDefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

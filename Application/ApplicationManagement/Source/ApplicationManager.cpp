@@ -52,6 +52,16 @@ namespace Application
 		}
 
 		// game manager update (will update game logic, colliders, game object, renderers)
+		auto dt = Time.Update();
+		// update everything
+
+		dt = Time.GetAccumulatedTime();
+		while (dt > 0_s)
+		{
+			// update everything
+
+			dt = Time.GetAccumulatedTime();
+		}
 
 		return true;
 	}
