@@ -8,19 +8,19 @@ namespace Core
 	using String = std::string;
 
 	template <typename T>
-	String ToString(T v) { return std::to_string(v); }
+	String ToString(T&& v) { return std::to_string(Forward<T>(v)); }
 
 	template <typename T1, typename T2 = T1>
 	using Pair = std::pair<T1, T2>;
 	
 	template <typename T>
-	T Min(T a, T b) { return ((a < b) ? a : b); }
+	T&& Min(T&& a, T&& b) { return ((Forward<T>(a) < Forward<T>(b)) ? Forward<T>(a) : Forward<T>(b)); }
 	template <typename T>
-	T Max(T a, T b) { return ((a > b) ? a : b); }
+	T&& Max(T&& a, T&& b) { return ((Forward<T>(a) > Forward<T>(b)) ? Forward<T>(a) : Forward<T>(b)); }
 	template <typename T>
-	T Clamp(T a, T min, T max) { return (Max(Min(a, max), min)); }
+	T&& Clamp(T&& a, T&& min, T&& max) { return (Max(Min(Forward<T>(a), Forward<T>(max)), Forward<T>(min))); }
 	template <typename T>
-	bool Within(T d, T v, T var) { return ((d >= v - var) && (d <= v + var)); }
+	bool Within(T&& d, T&& v, T&& var) { return ((Forward<T>(d) >= Forward<T>(v) - Forward<T>(var)) && (Forward<T>(d) <= Forward<T>(v) + Forward<T>(var))); }
 	
 	using uint = unsigned int;
 }

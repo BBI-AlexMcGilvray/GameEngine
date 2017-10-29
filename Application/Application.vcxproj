@@ -191,6 +191,8 @@
     <ClInclude Include="ApplicationManagement\Input\Headers\InputManager.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderManager.h" />
     <ClInclude Include="ApplicationManagement\Time\Headers\Scheduler.h" />
+    <ClInclude Include="Core\Functionality\Headers\Lock.h" />
+    <ClInclude Include="Core\Headers\MapDefs.h" />
     <ClInclude Include="Core\Headers\TimeDefs.h" />
     <ClInclude Include="ApplicationManagement\Time\Headers\TimeManager.h" />
     <ClInclude Include="Core\Debugging\Headers\Declarations.h" />

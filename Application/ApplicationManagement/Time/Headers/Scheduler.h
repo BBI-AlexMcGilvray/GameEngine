@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Core/Functionality/Headers/Function.h"
+#include "Core/Functionality/Headers/Lock.h"
 
 #include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
+#include "Core/Headers/MapDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
 using namespace Core;
@@ -13,21 +14,17 @@ namespace Application
 {
 	namespace Time
 	{
-		/*
-		struct SchedulerBase
+		struct SchedulerBase : ILock
 		{
 			void Update(Second dt);
 
-		private:
-			virtual void Execute() = 0;
-		};
+			void Add(VoidFunction<Second> func, Second key = 0_s);
+			
+		protected:
+			// All scheduled functions, sorted by Second
+			List<Pair<Second, VoidFunction<Second>>> ScheduledFunctions;
 
-		template <typename Ts...>
-		struct Scheduler : SchedulerBase
-		{
-		private:
-			List<Function<Ts...>> ScheduledFunctions;
+			virtual void Execute(Second dt);
 		};
-		*/
 	}
 }

@@ -15,34 +15,46 @@ namespace Core
 	struct Truth
 	{
 		bool Result;
-		T Value;
+		T&& Value;
 
 		operator bool()
 		{
 			return Result;
 		}
 
-		operator T()
+		operator T&&()
 		{
 			return Value;
 		}
 	};
 
 	template <typename T>
-	void Push(List<T> list, T entry)
+	void Sort(List<T> list, int startIndex = 0)
 	{
-		list.push_back(entry);
+		Sort(list, startIndex, list.size());
+	}
+
+	template <typename T>
+	void Sort(List<T> list, int startIndex, int endIndex)
+	{
+		std::sort(list.begin() + startIndex, list.begin() + endIndex);
+	}
+
+	template <typename T>
+	void Push(List<T> list, T&& entry)
+	{
+		list.push_back(Forward<T>(entry));
 	}
 
 	template <typename T, typename ...Ts>
-	void Push(List<T> list, T entry, Ts&&... otherEntries)
+	void Push(List<T> list, T&& entry, Ts&&... otherEntries)
 	{
-		Push(list, entry);
+		Push(list, Forward<T>(entry));
 		Push(list, Forward<Ts>(otherEntries)...);
 	}
 
 	template <typename T>
-	Truth<uint> InList(List<T> list, T entry)
+	Truth<uint> InList(List<T> list, T&& entry)
 	{
 		auto index = std::find(list.begin(), list.end(), entry);
 		
@@ -55,9 +67,9 @@ namespace Core
 	}
 
 	template <typename T, typename ...Ts>
-	Truth<uint> InList(List<T> list, T entry, Ts&&... otherEntries)
+	Truth<uint> InList(List<T> list, T&& entry, Ts&&... otherEntries)
 	{
-		if (InList(list, entry))
+		if (InList(list, Forward<T>(entry)))
 		{
 			return InList(list, Forward<Ts>(otherEntries)...);
 		}
@@ -66,9 +78,9 @@ namespace Core
 	}
 
 	template <typename T>
-	bool Remove(List<T> list, T entry)
+	bool Remove(List<T> list, T&& entry)
 	{
-		if (auto truth = InList(list, entry))
+		if (auto truth = InList(list, Forward<T>(entry)))
 		{
 			list.erase(truth);
 			return true;
@@ -78,9 +90,9 @@ namespace Core
 	}
 
 	template <typename T, typename ...Ts>
-	bool Remove(List<T> list, T entry, Ts&&... otherEntries)
+	bool Remove(List<T> list, T&& entry, Ts&&... otherEntries)
 	{
-		if (Remove(list, entry))
+		if (Remove(list, Forward<T>(entry)))
 		{
 			return Remove(list, Forward<Ts>(otherEntries)...);
 		}

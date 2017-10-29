@@ -6,21 +6,55 @@ namespace Core
 {
 	namespace Functionality
 	{
-		template <typename rT, typename T, typename ...Ts>
-		struct FunctionBase
+		// typename T should not be defined there - need to make the type 'T' generic to allow lambdas (and possibly other things?)
+		template <typename rT, typename ...Ts>
+		struct Function
 		{
-			FunctionBase(T action)
-				: Action(action)
-			{}
+			struct FunctionImplBase
+			{
+				virtual rT operator()(Ts&&... args) = 0;
+			};
+
+			template <typename O>
+			struct FunctionImpl : FunctionImplBase
+			{
+				O Object;
+
+				FunctionImpl(O object)
+					: Object(move(object))
+				{}
+
+				rT operator()(Ts&&... args)
+				{
+					return Object(Forward<Ts>(args)...);
+				}
+			};
+
+			FunctionImplBase* FunctionObject;
+
+			template <typename O>
+			Function(O object)
+			{
+				FunctionObject = new FunctionImpl<O>(object);
+			}
+
+			Function(FunctionImplBase* functionObject = nullptr)
+			{
+				FunctionObject = functionObject;
+			}
 
 			rT operator()(Ts&&... args)
 			{
-				return Action(Forward<Ts>(args)...);
+				return (*FunctionObject)(Forward<Ts>(args)...);
 			}
-
-		private:
-			T Action;
 		};
+		
+		/*	TYPE DEFS	*/
+		template <typename ...Ts>
+		using BoolFunction = Function<bool, Ts...>;
+
+		template <typename ...Ts>
+		using VoidFunction = Function<void, Ts...>;
 
 		/*
 		Not using the below because there is likely no need, and the method in which I was using this (having a base class with overloaded () operator) does not work
@@ -56,17 +90,6 @@ namespace Core
 			T& Object;
 			F Action;
 		};
-		*/
-
-		/*	TYPE DEFS	*/
-		template <typename T, typename ...Ts>
-		using Function = FunctionBase<bool, T,Ts...>;
-
-		/*
-			Not using the below because there is likely no need, and the method in which I was using this (having a base class with overloaded () operator) does not work
-			but I did not know enough about templates at the time of conception
-
-			Leaving it here incase it becomes useful
 		
 		template <typename T, typename ...Ts>
 		using MemberFunction_Bool = MemberFunction<bool, T, Ts...>;

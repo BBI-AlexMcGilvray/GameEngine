@@ -34,6 +34,16 @@ namespace Core
 		return result;
 	}
 
+	inline void VerifyMessage(bool condition, std::string message, bool runAssert)
+	{
+		bool conditionResult = VerifyCondition(condition, runAssert);
+
+		if (!conditionResult)
+		{
+			Message(message);
+		}
+	}
+
 	#if DEBUG
 	#define VERIFY( X ) VerifyCondition( X, true )
 	#else
@@ -41,8 +51,8 @@ namespace Core
 	#endif
 
 	#if DEBUG
-	#define MESSAGE( X, M ) (bool condition = VERIFY( X, false ); if (!condition) { Message( M ); })
+	#define MESSAGE( X, M ) VerifyMessage( X, M, true )
 	#else
-	#define MESSAGE( M ) // do nothing
+	#define MESSAGE( X, M ) // do nothing
 	#endif
 }
