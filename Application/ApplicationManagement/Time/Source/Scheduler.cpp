@@ -7,7 +7,9 @@ namespace Application
 
 		void SchedulerBase::Update(Second dt)
 		{
-			List<Pair<Second, VoidFunction<Second>>> CalledFunctions;
+			List<int> calledIndices;
+
+			int currentIndex = 0;
 			for (auto& scheduledCall : ScheduledFunctions)
 			{
 				scheduledCall.first -= dt;
@@ -16,10 +18,12 @@ namespace Application
 				{
 					// something wrong with the templates to get incorrect type matchup here
 					Execute(scheduledCall.second, dt);
+					Push(calledIndices, currentIndex);
 				}
+				currentIndex++;
 			}
-#pragma message("THIS NEEDS TO BE FIGURED OUT BEFORE SCHEDULERS ARE USED")
-			//Remove<Pair<Second, Function<Second>>>(ScheduledFunctions, CalledFunctions);
+
+			Remove(ScheduledFunctions, calledIndices);
 		}
 
 		void SchedulerBase::Add(VoidFunction<Second> func, Second key)
@@ -27,7 +31,7 @@ namespace Application
 			Push<Pair<Second, VoidFunction<Second>>>(ScheduledFunctions, Pair<Second, VoidFunction<Second>>(key, func));
 		}
 
-		void SchedulerBase::Execute(VoidFunction<Second> func, Second dt)
+		void SchedulerBase::Execute(VoidFunction<Second>& func, Second dt)
 		{
 			func(move(dt));
 		}

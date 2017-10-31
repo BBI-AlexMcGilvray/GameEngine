@@ -24,7 +24,7 @@ namespace Application
 			// All scheduled functions, sorted by Second
 			List<Pair<Second, VoidFunction<Second>>> ScheduledFunctions;
 
-			virtual void Execute(VoidFunction<Second> func, Second dt);
+			virtual void Execute(VoidFunction<Second>& func, Second dt);
 		};
 	}
 }

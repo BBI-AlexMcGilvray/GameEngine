@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Headers/TemplateDefs.h"
+#include "Core/Headers/PtrDefs.h"
 
 namespace Core
 {
@@ -30,7 +31,7 @@ namespace Core
 				}
 			};
 
-			FunctionImplBase* FunctionObject;
+			UniquePtr<FunctionImplBase> FunctionObject = nullptr;
 
 			template <typename O>
 			Function(O object)
@@ -38,12 +39,28 @@ namespace Core
 				FunctionObject = new FunctionImpl<O>(object);
 			}
 
-			Function(FunctionImplBase* functionObject = nullptr)
+			Function(Function& function)
 			{
-				FunctionObject = functionObject;
+				FunctionObject = move(function.FunctionObject);
+				function.FunctionObject = nullptr;
 			}
 
-			rT operator()(Ts&&... args)
+			Function& operator= (Function& function)
+			{
+				FunctionObject = move(function.FunctionObject);
+				function.FunctionObject = nullptr;
+
+				return (*this);
+			}
+
+			Function& operator= (Function&& function)
+			{
+				FunctionObject = move(function.FunctionObject);
+
+				return (*this);
+			}
+
+			rT operator()(Ts... args)
 			{
 				return (*FunctionObject)(Forward<Ts>(args)...);
 			}
@@ -51,10 +68,10 @@ namespace Core
 		
 		/*	TYPE DEFS	*/
 		template <typename ...Ts>
-		using BoolFunction = Function<bool, Ts...>;
+		using BoolFunction = Function<bool, Ts&&...>;
 
 		template <typename ...Ts>
-		using VoidFunction = Function<void, Ts...>;
+		using VoidFunction = Function<void, Ts&&...>;
 
 		/*
 		Not using the below because there is likely no need, and the method in which I was using this (having a base class with overloaded () operator) does not work
