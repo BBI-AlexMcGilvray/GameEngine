@@ -7,12 +7,9 @@
 #include "Core/Headers/MapDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
-using namespace Core;
-using namespace Core::Functionality;
-
-namespace Application
+namespace Core
 {
-	namespace Time
+	namespace Functionality
 	{
 		struct SchedulerBase : ILock
 		{

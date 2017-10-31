@@ -161,7 +161,7 @@
     <ClCompile Include="ApplicationManagement\Source\ApplicationManager.cpp" />
     <ClCompile Include="ApplicationManagement\Source\GLContextManager.cpp" />
     <ClCompile Include="ApplicationManagement\Source\SDL2Manager.cpp" />
-    <ClCompile Include="ApplicationManagement\Time\Source\Scheduler.cpp" />
+    <ClCompile Include="Core\Functionality\Source\Scheduler.cpp" />
     <ClCompile Include="ApplicationManagement\Time\Source\TimeManager.cpp" />
     <ClCompile Include="Core\CoreUnitTests.cpp" />
     <ClCompile Include="Core\Math\UnitTests\MatrixTests.cpp" />
@@ -192,7 +192,7 @@
     <ClInclude Include="ApplicationManagement\Input\Headers\InputEvent.h" />
     <ClInclude Include="ApplicationManagement\Input\Headers\InputManager.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderManager.h" />
-    <ClInclude Include="ApplicationManagement\Time\Headers\Scheduler.h" />
+    <ClInclude Include="Core\Functionality\Headers\Scheduler.h" />
     <ClInclude Include="Core\Functionality\Headers\Lock.h" />
     <ClInclude Include="Core\Headers\MapDefs.h" />
     <ClInclude Include="Core\Headers\TimeDefs.h" />

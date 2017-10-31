@@ -54,10 +54,10 @@
     <ClCompile Include="ApplicationManagement\Time\Source\TimeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Time\Source\Scheduler.cpp">
+    <ClCompile Include="ApplicationManagement\GameSystem\Source\GameSystemManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\GameSystem\Source\GameSystemManager.cpp">
+    <ClCompile Include="Core\Functionality\Source\Scheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -388,9 +388,6 @@
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Time\Headers\Scheduler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Time\Headers\TimeManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -404,6 +401,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameSystemManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Functionality\Headers\Scheduler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

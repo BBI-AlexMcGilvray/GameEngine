@@ -1,10 +1,9 @@
-#include "ApplicationManagement/Time/Headers/Scheduler.h"
+#include "Core/Functionality/Headers/Scheduler.h"
 
-namespace Application
+namespace Core
 {
-	namespace Time
+	namespace Functionality
 	{
-
 		void SchedulerBase::Update(Second dt)
 		{
 			List<int> calledIndices;
