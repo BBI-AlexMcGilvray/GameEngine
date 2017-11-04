@@ -152,11 +152,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ApplicationManagement\GameSystem\Collision\Headers\CollisionManager.h" />
+    <ClCompile Include="ApplicationManagement\GameSystem\Collision\Source\CollisionManager.cpp" />
+    <ClCompile Include="ApplicationManagement\GameSystem\Collision\Source\CollisionObjectBase.cpp" />
+    <ClCompile Include="ApplicationManagement\GameSystem\Source\GameObject.cpp" />
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameSystemManager.cpp" />
     <ClCompile Include="ApplicationManagement\Input\Source\InputDefs.cpp" />
     <ClCompile Include="ApplicationManagement\Input\Source\InputEvent.cpp" />
     <ClCompile Include="ApplicationManagement\Input\Source\InputManager.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderManager.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Source\RenderObjectBase.cpp" />
     <ClCompile Include="ApplicationManagement\Source\WindowManager.cpp" />
     <ClCompile Include="ApplicationManagement\Source\ApplicationManager.cpp" />
     <ClCompile Include="ApplicationManagement\Source\GLContextManager.cpp" />
@@ -164,6 +169,7 @@
     <ClCompile Include="Core\Functionality\Source\Scheduler.cpp" />
     <ClCompile Include="ApplicationManagement\Time\Source\TimeManager.cpp" />
     <ClCompile Include="Core\CoreUnitTests.cpp" />
+    <ClCompile Include="Core\Functionality\Source\Subscription.cpp" />
     <ClCompile Include="Core\Math\UnitTests\MatrixTests.cpp" />
     <ClCompile Include="Core\Math\UnitTests\VectorTests.cpp" />
     <ClCompile Include="main.cpp" />
@@ -183,6 +189,8 @@
     <None Include="Dependencies\Dlls\SDL2\zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationManagement\GameSystem\Collision\Headers\CollisionObjectBase.h" />
+    <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameObject.h" />
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameSystemManager.h" />
     <ClInclude Include="ApplicationManagement\Headers\ApplicationManager.h" />
     <ClInclude Include="ApplicationManagement\Headers\GLContextManager.h" />
@@ -192,8 +200,10 @@
     <ClInclude Include="ApplicationManagement\Input\Headers\InputEvent.h" />
     <ClInclude Include="ApplicationManagement\Input\Headers\InputManager.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderManager.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderObjectBase.h" />
     <ClInclude Include="Core\Functionality\Headers\Scheduler.h" />
     <ClInclude Include="Core\Functionality\Headers\Lock.h" />
+    <ClInclude Include="Core\Functionality\Headers\Subscription.h" />
     <ClInclude Include="Core\Headers\MapDefs.h" />
     <ClInclude Include="Core\Headers\TimeDefs.h" />
     <ClInclude Include="ApplicationManagement\Time\Headers\TimeManager.h" />

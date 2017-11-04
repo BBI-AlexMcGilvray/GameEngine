@@ -1,8 +1,14 @@
 #pragma once
 
-#include "Core/Headers/AllCore.h"
+#include "Core/Math/Headers/MathDefs.h"
 
-#include "Core/Math/Headers/AllMath.h"
+#include "Core/Math/Headers/Matrix3x3.h"
+#include "Core/Math/Headers/Matrix4x4.h"
+
+#include "Core/Math/Headers/Vector3.h"
+#include "Core/Math/Headers/Vector4.h"
+
+#include "Core/Math/Headers/Quaternion.h"
 
 namespace Core
 {

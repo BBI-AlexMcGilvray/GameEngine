@@ -49,7 +49,7 @@ namespace Application
 
 		void RenderManager::LoopMiddle()
 		{
-
+			// render all objects
 		}
 
 		void RenderManager::LoopEnd()
