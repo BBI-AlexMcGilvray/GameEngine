@@ -13,7 +13,7 @@ namespace Application
 	namespace Rendering
 	{
 		/*
-			This is a TEMPLATE to be used by any object that needs rendering.
+			This is an INTERFACE to be used by any object that needs rendering.
 
 			This template will handle holding onto render information, subscribing to the renderer to be rendered, and updating
 

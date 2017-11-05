@@ -17,7 +17,7 @@ namespace Application
 			struct CollisionObjectBase
 			{
 				/*
-				This is a TEMPLATE to be used by any object that needs collision.
+				This is an INTERFACE to be used by any object that needs collision.
 
 				This template will handle holding onto collision information, subscribing to the collision manager to be rendered, and updating
 

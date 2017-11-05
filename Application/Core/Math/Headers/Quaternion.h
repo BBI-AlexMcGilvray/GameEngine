@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Core/Headers/CoreDefs.h"
-#include "MathDefs.h"
+
+#include "Core/Math/Headers/MathDefs.h"
+#include "Core/Math/Headers/Vector3.h"
 
 #include "Core/Debugging/Headers/Macros.h"
 
@@ -54,11 +56,8 @@ namespace Core
 				Z = (cosX * cosY * sinZ) + (sinX * sinY * cosZ);
 			}
 
-			Quaternion(Quaternion<T> const& q)
-				: W(q.W), X(q.X), Y(q.Y), Z(q.Z)
-			{}
-
-			T EulerAngle(Axis axis)
+			template <typename int A>
+			T EulerAngle(Axis<A> axis)
 			{
 				switch (axis)
 				{
@@ -86,7 +85,7 @@ namespace Core
 				case Z{}:
 				{
 					T sinZ = T(2) * (W *Z + X * Y);
-					T cosZ = T(1) - T(2) * Y *Y + Z * Z);
+					T cosZ = T(1) - (T(2) * Y * Y + Z * Z);
 					return atan2(sinZ, cosZ);
 
 					break;
@@ -163,7 +162,7 @@ namespace Core
 				return *this;
 			}
 
-			Quaternion<T> operator*(Vector<T, 3> const& v)
+			Quaternion<T> operator*(Vector3<T> const& v)
 			{
 				auto qW = (-X * v.X) + (-Y * v.Y) + (-Z * v.Z);
 				auto qX = (W * v.X) + (Y * v.Z) + (-Z * v.Y);

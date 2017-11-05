@@ -10,6 +10,8 @@
 
 #include "Core/Math/Headers/Quaternion.h"
 
+using namespace Core::Math;
+
 namespace Core
 {
 	namespace Geometric
@@ -51,7 +53,12 @@ namespace Core
 				return Position;
 			}
 
-			Vector3<T> Scale(Vector3<T> scaleRatio)
+			void SetScale(Vector3<T> scale)
+			{
+				Scale = scale;
+			}
+
+			Vector3<T> ApplyScale(Vector3<T> scaleRatio)
 			{
 				Scale *= scaleRatio;
 

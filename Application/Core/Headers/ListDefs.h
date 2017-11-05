@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Core/Headers/TemplateDefs.h"
+#include "Core/Headers/CoreDefs.h"
 
 namespace Core
 {
@@ -15,7 +16,11 @@ namespace Core
 	struct Truth
 	{
 		bool Result;
-		T&& Value;
+		T Value;
+
+		Truth(bool result, T value)
+			: Result(result), Value(value)
+		{}
 
 		operator bool()
 		{
@@ -60,10 +65,10 @@ namespace Core
 		
 		if (index != list.end())
 		{
-			return Truth{ false, 0 };
+			return Truth<uint>(false, 0);
 		}
 
-		return Truth{ true, index };
+		return Truth<uint>(true, (index - list.begin()));
 	}
 
 	template <typename T, typename ...Ts>

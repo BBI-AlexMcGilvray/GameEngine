@@ -13,7 +13,7 @@ namespace Application
 	namespace GameSystem
 	{
 		/*
-		This is a base class (essentially a template) to be used for nay object that needs to be tied into generic game-like elements (getting update calls, position information, anything)
+		This is a base class (essentially an interface) to be used for nay object that needs to be tied into generic game-like elements (getting update calls, position information, anything)
 
 		This template should be used for any object that is going to be in the game
 
