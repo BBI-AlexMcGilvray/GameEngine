@@ -6,3 +6,5 @@
 			^- This would possible enable our main engine to create all the processes through a factory method
 
 - Objects should have the base method that gets called by the process that calls the virtual method implemented (or not, not all need to be required) by the child class
+
+- Take time to look at cleaning up code using noexpect and constexpr (BUILD GOOD HABITS!!)
