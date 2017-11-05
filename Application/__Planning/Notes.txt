@@ -1,4 +1,4 @@
-- For all OBJECT types for each process (ex: RenderObject, ColliderObject, GameObject, AudioObject, ...), create an 'interface' for the child object to implement.
+- For all OBJECT types for each process (ex: RenderObject, ColliderObject, GameObject, AudioObject, ...), create an NO*['interface'] for the child object to implement. * do not inherit, but contain.
 	*This interface should AUTOMATICALLY add itself to the relevant process manager (ex: RenderManager, CollisionManager, ...) upon creation and remove itself when destroyed
 	*This will make code-get much easier (when that point is reached) and simplify the process.
 

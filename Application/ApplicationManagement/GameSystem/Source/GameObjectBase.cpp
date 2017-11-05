@@ -1,11 +1,11 @@
-#include "ApplicationManagement/GameSystem/Headers/GameObject.h"
+#include "ApplicationManagement/GameSystem/Headers/GameObjectBase.h"
 
 namespace Application
 {
 	namespace GameSystem
 	{
 		GameObjectBase::GameObjectBase()
-			: ObjectTransform(MakeShared<Transform>())
+			: /*Subscriber(Ptr to <GameObjectManager>),*/ ObjectTransform(MakeShared<Transform>())
 		{
 
 		}

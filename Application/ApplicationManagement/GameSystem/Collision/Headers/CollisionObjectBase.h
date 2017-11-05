@@ -4,9 +4,11 @@
 #include "Core/Headers/TimeDefs.h"
 
 #include "Core/Geometric/Headers/Transform.h"
+#include "Core/Functionality/Headers/Subscription.h"
 
 using namespace Core;
 using namespace Core::Geometric;
+using namespace Core::Functionality;
 
 namespace Application
 {
@@ -14,7 +16,7 @@ namespace Application
 	{
 		namespace Collision
 		{
-			struct CollisionObjectBase
+			struct CollisionObjectBase : Subscriber
 			{
 				/*
 				This is an INTERFACE to be used by any object that needs collision.

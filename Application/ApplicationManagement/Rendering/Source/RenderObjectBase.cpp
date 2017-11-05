@@ -5,7 +5,7 @@ namespace Application
 	namespace Rendering
 	{
 		RenderObjectBase::RenderObjectBase(SharedPtr<Transform> renderTransform)
-			: RenderTransform(renderTransform)
+			: /*Subscriber(Ptr to <GameObjectManager>),*/ RenderTransform(renderTransform)
 		{
 			SubscribeToRenderer();
 		}

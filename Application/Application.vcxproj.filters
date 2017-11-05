@@ -72,10 +72,10 @@
     <ClCompile Include="ApplicationManagement\GameSystem\Collision\Source\CollisionObjectBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\GameSystem\Source\GameObject.cpp">
+    <ClCompile Include="Core\Functionality\Source\Subscription.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Functionality\Source\Subscription.cpp">
+    <ClCompile Include="ApplicationManagement\GameSystem\Source\GameObjectBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -430,10 +430,10 @@
     <ClInclude Include="ApplicationManagement\GameSystem\Collision\Headers\CollisionObjectBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameObject.h">
+    <ClInclude Include="Core\Functionality\Headers\Subscription.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Functionality\Headers\Subscription.h">
+    <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameObjectBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

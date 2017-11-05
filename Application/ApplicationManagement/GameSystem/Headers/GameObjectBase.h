@@ -4,9 +4,11 @@
 #include "Core/Headers/TimeDefs.h"
 
 #include "Core/Geometric/Headers/Transform.h"
+#include "Core/Functionality/Headers/Subscription.h"
 
 using namespace Core;
 using namespace Core::Geometric;
+using namespace Core::Functionality;
 
 namespace Application
 {
@@ -21,7 +23,7 @@ namespace Application
 
 		So, for example, a game object with no collision information, we make a custom object that implements both GameObjectBase and RenderObjectBase (or children of) but NOT ColliderObjectBase
 		*/
-		struct GameObjectBase
+		struct GameObjectBase : Subscriber
 		{
 			GameObjectBase();
 			virtual ~GameObjectBase();
@@ -29,7 +31,6 @@ namespace Application
 			virtual void Update(Second dt);
 
 		private:
-			// this is private because it should never be changed by the render object - it simply reads the transform (same for colliders, but game objects will be able to modify their transform)
 			SharedPtr<Transform> ObjectTransform;
 
 			void SubscribeToGameManager();

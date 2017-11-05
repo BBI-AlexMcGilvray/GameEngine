@@ -7,7 +7,7 @@ namespace Application
 		namespace Collision
 		{
 			CollisionObjectBase::CollisionObjectBase(SharedPtr<Transform> collisionTransform)
-				: CollisionTransform(collisionTransform)
+				: /*Subscriber(Ptr to <CollisionManager>),*/  CollisionTransform(collisionTransform)
 			{
 				SubscribeToCollider();
 			}
