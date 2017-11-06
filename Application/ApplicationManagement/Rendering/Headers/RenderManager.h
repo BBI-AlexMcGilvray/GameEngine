@@ -11,6 +11,7 @@ namespace Application
 {
 	namespace Rendering
 	{
+		// handles the tie in between RenderObjectManager (object that needs to be rendered), ShaderManager (available shaders) and the Renderer (act of rendering them)
 		struct RenderManager
 		{
 			RenderManager();
