@@ -77,50 +77,65 @@ namespace Core
 			}
 
 			template <typename T>
-			VectorA<T, 4> Min(VectorA<T, 4> const& v, T d)
+			VectorA<T, 4>& Min(T d)
 			{
-				VectorA<T, 4> minV(Min(v.X, d), Min(v.Y, d), Min(v.Z, d), Min(v.W, d));
+				X = Min(X, d);
+				Y = Min(Y, d);
+				Z = Min(Z, d);
+				W = Min(W, d);
 
-				return minV;
+				return (*this);
 			}
 
 			template <typename T>
-			VectorA<T, 4> Min(VectorA<T, 4> const& v1, VectorA<T, 4> const& v2)
+			VectorA<T, 4>& Min(VectorA<T, 4> const& v1)
 			{
-				VectorA<T, 4> minV(Min(v1.X, v2.X), Min(v1.Y, v2.Y), Min(v1.Z, v2.Z), Min(v1.W, v2.W));
+				X = Min(X, v1.X);
+				Y = Min(Y, v1.Y);
+				Z = Min(Z, v1.Z);
+				W = Min(W, v1.W);
 
-				return minV;
+				return (*this);
 			}
 
 			template <typename T>
-			VectorA<T, 4> Max(VectorA<T, 4> const& v, T d)
+			VectorA<T, 4>& Max(T d)
 			{
-				VectorA<T, 4> maxV(Max(v.X, d), Max(v.Y, d), Max(v.Z, d), Max(v.W, d));
+				X = Max(X, d);
+				Y = Max(Y, d);
+				Z = Max(Z, d);
+				W = Max(W, d);
 
-				return maxV;
+				return (*this);
 			}
 
 			template <typename T>
-			VectorA<T, 4> Max(VectorA<T, 4> const& v1, VectorA<T, 4> const& v2)
+			VectorA<T, 4>& Max(VectorA<T, 4> const& v1)
 			{
-				VectorA<T, 4> maxV(Max(v1.X, v2.X), Max(v1.Y, v2.Y), Max(v1.Z, v2.Z), Max(v1.W, v2.W));
+				X = Max(X, v1.X);
+				Y = Max(Y, v1.Y);
+				Z = Max(Z, v1.Z);
+				W = Max(W, v1.W);
 
-				return maxV;
+				return (*this);
 			}
 
 
 			template <typename T>
-			VectorA<T, 4> Clamp(VectorA<T, 4> const& v, T d1, T d2)
+			VectorA<T, 4>& Clamp(T d1, T d2)
 			{
-				VectorA<T, 4> clampV(Clamp(v1.X, d1, d2), Clamp(v1.Y, d1, d2), Clamp(v1.Z, d1, d2), Clamp(v1.W, d1, d2));
+				X = Clamp(X, d1, d2);
+				Y = Clamp(Y, d1, d2);
+				Z = Clamp(Z, d1, d2);
+				W = Clamp(W, d1, d2);
 
-				return clampV;
+				return (*this);
 			}
 
 			template <typename T>
-			VectorA<T, 4> Clamp(VectorA<T, 4> const& v1, VectorA<T, 4> const& v2, VectorA<T, 4> const& v3)
+			VectorA<T, 4>& Clamp(VectorA<T, 4> const& v1, VectorA<T, 4> const& v2)
 			{
-				VectorA<T, 4> clampV(Clamp(v1.X, v2.X, v3.X), Clamp(v1.Y, v2.Y, v3.Y), Clamp(v1.Z, v2.Z, v3.Z), Clamp(v1.W, v2.W, v3.W));
+				VectorA<T, 4> clampV(Clamp(X, v1.X, v2.X), Clamp(Y, v1.Y, v2.Y), Clamp(Z, v1.Z, v2.Z), Clamp(W, v1.W, v2.W));
 
 				return clampV;
 			}

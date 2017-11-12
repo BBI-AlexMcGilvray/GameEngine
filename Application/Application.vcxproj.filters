@@ -526,6 +526,9 @@
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\AnimatedModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\Headers\Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\Libs\SDL2\_SDL2main.lib" />

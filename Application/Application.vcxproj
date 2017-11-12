@@ -223,6 +223,7 @@
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\Model.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\KeyFrame.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\Timeline.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Headers\Color.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\Renderer.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderManager.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderObjectBase.h" />

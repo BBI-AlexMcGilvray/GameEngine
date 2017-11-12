@@ -61,52 +61,58 @@ namespace Core
 			}
 
 			template <typename T>
-			VectorA<T, 2> Min(VectorA<T, 2> const& v, T d)
+			VectorA<T, 2>& Min(T d)
 			{
-				VectorA<T, 2> minV(Min(v.X, d), Min(v.Y, d));
+				X = Min(X, d);
+				Y =Min(Y, d);
 
-				return minV;
+				return (*this);
 			}
 
 			template <typename T>
-			VectorA<T, 2> Min(VectorA<T, 2> const& v1, VectorA<T, 2> const& v2)
+			VectorA<T, 2>& Min(VectorA<T, 2> const& v1)
 			{
-				VectorA<T, 2> minV(Min(v1.X, v2.X), Min(v1.Y, v2.Y));
+				X = Min(X, v1.X);
+				Y = Min(Y, v1.Y);
 
-				return minV;
+				return (*this);
 			}
 
 			template <typename T>
-			VectorA<T, 2> Max(VectorA<T, 2> const& v, T d)
+			VectorA<T, 2>& Max(T d)
 			{
-				VectorA<T, 2> maxV(Max(v.X, d), Max(v.Y, d));
+				X = Max(X, d);
+				Y = Max(Y, d);
 
-				return maxV;
+				return (*this);
 			}
 
 			template <typename T>
-			VectorA<T, 2> Max(VectorA<T, 2> const& v1, VectorA<T, 2> const& v2)
+			VectorA<T, 2>& Max(VectorA<T, 2> const& v1)
 			{
-				VectorA<T, 2> maxV(Max(v1.X, v2.X), Max(v1.Y, v2.Y));
+				X = Max(X, v1.X);
+				Y = Max(Y, v1.Y);
 
-				return maxV;
+				return (*this);
 			}
 
 
 			template <typename T>
-			VectorA<T, 2> Clamp(VectorA<T, 2> const& v, T d1, T d2)
+			VectorA<T, 2>& Clamp(T d1, T d2)
 			{
-				VectorA<T, 2> clampV(Clamp(v1.X, d1, d2), Clamp(v1.Y, d1, d2));
+				X = Clamp(X, d1, d2);
+				Y = Clamp(Y, d1, d2);
 
-				return clampV;
+				return (*this);
 			}
 
 			template <typename T>
-			VectorA<T, 2> Clamp(VectorA<T, 2> const& v1, VectorA<T, 2> const& v2, VectorA<T, 2> const& v3)
+			VectorA<T, 2>& Clamp(VectorA<T, 2> const& v1, VectorA<T, 2> const& v2)
 			{
-				VectorA<T, 2> clampV(Clamp(v1.X, v2.X, v3.X), Clamp(v1.Y, v2.Y, v3.Y));
+				X = Clamp(X, v1.X, v2.X);
+				Y = Clamp(Y, v1.Y, v2.Y);
 
-				return clampV;
+				return (*this);
 			}
 
 			// operators

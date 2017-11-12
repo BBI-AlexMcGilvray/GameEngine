@@ -8,3 +8,5 @@
 - Objects should have the base method that gets called by the process that calls the virtual method implemented (or not, not all need to be required) by the child class
 
 - Take time to look at cleaning up code using noexpect and constexpr (BUILD GOOD HABITS!!)
+
+- Set up process that will read images (library for now?) AND models. NOTE: Likely want to get a tool that will standardize the format mesh/animation data is stored for easier reading (ASSIMP: http://assimp.org/index.html)
