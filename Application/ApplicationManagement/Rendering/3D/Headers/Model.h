@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Geometric/Headers/Node.h"
+
 namespace Application
 {
 	namespace Rendering
