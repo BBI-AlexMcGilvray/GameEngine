@@ -120,19 +120,22 @@
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\AnimatedModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Geometric\Source\World.cpp">
+    <ClCompile Include="ApplicationManagement\Geometric\Source\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Geometric\Source\Scene.cpp">
+    <ClCompile Include="ApplicationManagement\Geometric\Source\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Geometric\Source\Node.cpp">
+    <ClCompile Include="ApplicationManagement\Geometric\Source\Content.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Geometric\Source\Camera.cpp">
+    <ClCompile Include="ApplicationManagement\Geometric\Source\Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Core\Geometric\Source\Content.cpp">
+    <ClCompile Include="ApplicationManagement\Geometric\Source\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Geometric\Source\Container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -538,19 +541,22 @@
     <ClInclude Include="ApplicationManagement\Rendering\Headers\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\World.h">
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Scene.h">
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Node.h">
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Camera.h">
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\Content.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Content.h">
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\Container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

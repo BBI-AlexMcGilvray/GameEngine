@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Core/Geometric/Headers/Scene.h"
-#include "Core/Geometric/Headers/Camera.h"
+#include "ApplicationManagement/Geometric/Headers/Scene.h"
+#include "ApplicationManagement/Geometric/Headers/Camera.h"
 
-namespace Core
+namespace Application
 {
 	namespace Geometric
 	{

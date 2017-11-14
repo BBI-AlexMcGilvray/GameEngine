@@ -22,18 +22,18 @@ namespace Core
 							{
 								struct
 								{
-									VectorA<T, 4> E1;
-									VectorA<T, 4> E2;
+									Vector4<T> E1;
+									Vector4<T> E2;
 								};
-								VectorA<T, 4> E1E2[2];
+								Vector4<T> E1E2[2];
 							};
-							VectorA<T, 4> E3;
+							Vector4<T> E3;
 						};
-						VectorA<T, 4> E1E2E3[3];
+						Vector4<T> E1E2E3[3];
 					};
-					VectorA<T, 4> E4;
+					Vector4<T> E4;
 				};
-				VectorA<T, 4> Bases[4];
+				Vector4<T> Bases[4];
 			};
 
 			MatrixAxB(MatrixAxB<T, 4, 4> const& m)
@@ -68,7 +68,7 @@ namespace Core
 				{
 					for (int b = 0; b < 4; b++)
 					{
-						T temp = this[b][a];
+						auto temp = this[b][a];
 						this[b][a] = this[a][b];
 						this[b][a] = temp;
 					}
@@ -161,12 +161,13 @@ namespace Core
 
 			MatrixAxB<T, 4, 4>& operator*(MatrixAxB<T, 4, 4> const& m)
 			{
-				auto T = Transpose();
+				auto Copy = (*this);
+				Copy.Transpose();
 
-				E1 = VectorA<T, 4>(T.E1.Dot(m.E1), T.E1.Dot(m.E2), T.E1.Dot(m.E3), T.E1.Dot(m.E4));
-				E2 = VectorA<T, 4>(T.E2.Dot(m.E1), T.E2.Dot(m.E2), T.E2.Dot(m.E3), T.E2.Dot(m.E4));
-				E3 = VectorA<T, 4>(T.E3.Dot(m.E1), T.E3.Dot(m.E2), T.E3.Dot(m.E3), T.E3.Dot(m.E4));
-				E4 = VectorA<T, 4>(T.E4.Dot(m.E1), T.E4.Dot(m.E2), T.E4.Dot(m.E3), T.E4.Dot(m.E4));
+				E1 = VectorA<T, 4>(Copy.E1.Dot(m.E1), Copy.E1.Dot(m.E2), Copy.E1.Dot(m.E3), Copy.E1.Dot(m.E4));
+				E2 = VectorA<T, 4>(Copy.E2.Dot(m.E1), Copy.E2.Dot(m.E2), Copy.E2.Dot(m.E3), Copy.E2.Dot(m.E4));
+				E3 = VectorA<T, 4>(Copy.E3.Dot(m.E1), Copy.E3.Dot(m.E2), Copy.E3.Dot(m.E3), Copy.E3.Dot(m.E4));
+				E4 = VectorA<T, 4>(Copy.E4.Dot(m.E1), Copy.E4.Dot(m.E2), Copy.E4.Dot(m.E3), Copy.E4.Dot(m.E4));
 
 				return *this;
 			}

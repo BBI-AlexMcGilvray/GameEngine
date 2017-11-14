@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core/Geometric/Headers/Node.h"
+#include "ApplicationManagement/Geometric/Headers/Node.h"
 
-namespace Core
+namespace Application
 {
 	namespace Geometric
 	{

@@ -218,5 +218,8 @@ namespace Core
 				return quat[modifiedAxis];
 			}
 		};
+		
+		/*	TYPE DEFS	*/
+		using FQuaternion = Quaternion<float>;
 	}
 }

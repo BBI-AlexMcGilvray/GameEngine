@@ -43,7 +43,7 @@ namespace Core
 				: X(x), Y(y), Z(z), W(w)
 			{}
 
-			VectorA(VectorA<T, 4>& v)
+			VectorA(VectorA<T, 4> const& v)
 				: X(v.X), Y(v.Y), Z(v.Z), W(v.W)
 			{}
 

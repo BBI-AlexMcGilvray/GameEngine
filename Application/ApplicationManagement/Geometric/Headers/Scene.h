@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Core/Geometric/Headers/Node.h"
+#include "ApplicationManagement/Geometric/Headers/Node.h"
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/ListDefs.h"
 
-namespace Core
+namespace Application
 {
 	namespace Geometric
 	{

@@ -84,8 +84,8 @@ namespace Core
 		}
 
 		// several rotations (applied first to last)
-		template <typename T, typename Ts...>
-		Vector3<T> RotateVectorBy(Vector3<T> const& v, Quaternion<T> const& firstQ, Ts ... restQs)
+		template <typename T, typename ...Ts>
+		Vector3<T> RotateVectorBy(Vector3<T> const& v, Quaternion<T> const& firstQ, Ts ...restQs)
 		{
 			auto rotatedVector = RotateVectorBy(v, firstQ);
 			return RotateVectorBy(rotatedVector, restQs...);
@@ -100,8 +100,8 @@ namespace Core
 
 		// undo several rotations (applied first to last)
 		// NOTE: order of RotateVectorBy needs to be opposite this on to undo applied rotations
-		template <typename T, typename Ts...>
-		Vector3<T> UndoRotationBy(Vector3<T> const& v, Quaternion<T> const& firstQ, Ts ... restQs)
+		template <typename T, typename ...Ts>
+		Vector3<T> UndoRotationBy(Vector3<T> const& v, Quaternion<T> const& firstQ, Ts ...restQs)
 		{
 			auto rotatedVector = UndoRotationBy(v, firstQ);
 			return UndoRotationBy(rotatedVector, restQs...);
