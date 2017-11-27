@@ -126,16 +126,19 @@
     <ClCompile Include="ApplicationManagement\Geometric\Source\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Geometric\Source\Content.cpp">
+    <ClCompile Include="ApplicationManagement\Geometric\Source\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Geometric\Source\Container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationManagement\Geometric\Source\Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Geometric\Source\Scene.cpp">
+    <ClCompile Include="ApplicationManagement\Geometric\Source\Content.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Geometric\Source\Container.cpp">
+    <ClCompile Include="ApplicationManagement\Geometric\Headers\Container.h">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

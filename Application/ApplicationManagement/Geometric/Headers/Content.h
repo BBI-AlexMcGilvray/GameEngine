@@ -21,12 +21,12 @@ namespace Application
 		// generic class that can be inherited from for anything that needs to be stored inside a node
 		struct Content
 		{
-			Content();
-			virtual ~Content();
+			Content() = default;
+			virtual ~Content() = default;
 
 			// generic functions
-			virtual void Update(Second dt);
-			virtual void Render(const Renderer& renderer, Float4x4 transformationMatrix);
+			virtual void Update(Second dt) = 0;
+			virtual void Render(const Renderer& renderer, Float4x4 transformationMatrix) = 0;
 
 			virtual void OnContainerSet(Ptr<Container> parentContainer);
 			virtual void OnContainerDeletion();

@@ -31,9 +31,13 @@ namespace Application
 			void Update(Second dt) override;
 			void Render(const Renderer& renderer, Float4x4 transformationMatrix) override;
 
+			// set children/parent
+			void AddChild(Ptr<Node> newChild);
+			void RemoveChild(Ptr<Node> oldChild);
+
 		protected:
-			SharedPtr<Node> Parent;
-			List<SharedPtr<Node>> Children;
+			Ptr<Node> Parent;
+			List<Ptr<Node>> Children;
 		};
 	}
 }
