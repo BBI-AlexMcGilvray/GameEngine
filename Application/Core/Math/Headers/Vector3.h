@@ -52,18 +52,19 @@ namespace Core
 
 			T Magnitude()
 			{
-				return sqrt(MagnitudeSqr);
+				return sqrt(MagnitudeSqr());
 			}
 
 			VectorA<T, 3>& Normalize()
 			{
-				return ((*this) /= (Magnitude()));
+				(*this) /= Magnitude();
+				return (*this);
 			}
 
 			T Dot(VectorA<T, 3> const& v)
 			{
 				auto temp = v;
-				temp * (*this);
+				temp *= (*this);
 
 				return (temp.X + temp.Y + temp.X);
 			}
@@ -132,42 +133,42 @@ namespace Core
 			// operators
 			VectorA<T, 3>& operator-=(T d)
 			{
-				return (this = this - d);
+				return (this = (*this) - d);
 			}
 
 			VectorA<T, 3>& operator-=(VectorA<T, 3> const& v)
 			{
-				return (this = this - v);
+				return (this = (*this) - v);
 			}
 
 			VectorA<T, 3>& operator+=(T d)
 			{
-				return (this = this + d);
+				return (this = (*this) + d);
 			}
 
 			VectorA<T, 3>& operator+=(VectorA<T, 3> const& v)
 			{
-				return (this = this + v);
+				return (this = (*this) + v);
 			}
 
 			VectorA<T, 3>& operator*=(T d)
 			{
-				return (this = this * d);
+				return (this = (*this) * d);
 			}
 
 			VectorA<T, 3>& operator*=(VectorA<T, 3> const& v)
 			{
-				return (this = this * v);
+				return (this = (*this) * v);
 			}
 
 			VectorA<T, 3>& operator/=(T d)
 			{
-				return (this = this / d);
+				return (this = (*this) / d);
 			}
 
 			VectorA<T, 3>& operator/=(VectorA<T, 3> const& v)
 			{
-				return (this = this / v);
+				return (this = (*this) / v);
 			}
 
 			VectorA<T, 3>& operator-(VectorA<T, 3> const& v)

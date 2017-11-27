@@ -36,6 +36,10 @@ namespace Core
 				Vector4<T> Bases[4];
 			};
 
+			MatrixAxB()
+				: MatrixAxB(II())
+			{}
+
 			MatrixAxB(MatrixAxB<T, 4, 4> const& m)
 				: E1(m.E1), E2(m.E2), E3(m.E3), E4(m.E4)
 			{}
@@ -52,7 +56,7 @@ namespace Core
 				: E1(d), E2(d), E3(d), E4(d)
 			{}
 
-			MatrixAxB(T d1 = 0, T d2 = 0, T d3 = 0, T d4 = 0, T d5 = 0, T d6 = 0, T d7 = 0, T d8 = 0, T d9 = 0, T d10 = 0, T d11 = 0, T d12 = 0, T d13 = 0, T d14 = 0, T d15 = 0, T d16 = 0)
+			MatrixAxB(T d1, T d2, T d3 = 0, T d4 = 0, T d5 = 0, T d6 = 0, T d7 = 0, T d8 = 0, T d9 = 0, T d10 = 0, T d11 = 0, T d12 = 0, T d13 = 0, T d14 = 0, T d15 = 0, T d16 = 0)
 				: E1(d1, d2, d3, d4), E2(d5, d6, d7, d8), E3(d9, d10, d11, d12), E4(d13, d14, d15, d16)
 			{}
 

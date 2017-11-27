@@ -26,6 +26,10 @@ namespace Core
 				T quat[4];
 			};
 
+			Quaternion()
+				: Quaternion(II())
+			{}
+
 			Quaternion(II i)
 				: W(i), X(0), Y(0), Z(0)
 			{}

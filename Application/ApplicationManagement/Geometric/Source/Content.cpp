@@ -1,5 +1,7 @@
 #include "ApplicationManagement\Geometric\Headers\Content.h"
 
+#include "ApplicationManagement/Geometric/Headers/Container.h"
+
 namespace Application
 {
 	namespace Geometric

@@ -10,3 +10,6 @@
 - Take time to look at cleaning up code using noexpect and constexpr (BUILD GOOD HABITS!!)
 
 - Set up process that will read images (library for now?) AND models. NOTE: Likely want to get a tool that will standardize the format mesh/animation data is stored for easier reading (ASSIMP: http://assimp.org/index.html)
+
+- Include the DataSystem library in here and create in it a 'Editable' interface that has export functionality through virtual methods that will allow the data to be modified from inside the game (so are we making the game/enginge also the editing tool?)
+- Using ASSIMP tutorial to export data into desired format and then export it back out so we can read in our own format

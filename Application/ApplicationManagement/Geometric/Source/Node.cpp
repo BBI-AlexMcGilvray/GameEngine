@@ -10,6 +10,7 @@ namespace Application
 		}
 
 		Node::Node(Float3 position, FQuaternion rotation, Float3 scale)
+			: Transformation(position, rotation, scale)
 		{
 
 		}
@@ -30,9 +31,12 @@ namespace Application
 
 		void Node::Render(const Renderer& renderer, Float4x4 transformationMatrix)
 		{
+			// pass down modified transformation matrix
+			auto modifiedTransformationMatrix = Transformation.GetTransformationMatrix() * transformationMatrix;
+
 			for (auto& child : Children)
 			{
-				child->Render(renderer, transformationMatrix);
+				child->Render(renderer, modifiedTransformationMatrix);
 			}
 		}
 

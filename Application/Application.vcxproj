@@ -210,6 +210,8 @@
     <None Include="Dependencies\Dlls\SDL2\zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationManagement\Debugging\Headers\Declarations.h" />
+    <ClInclude Include="ApplicationManagement\Debugging\Headers\Macros.h" />
     <ClInclude Include="ApplicationManagement\GameSystem\Collision\Headers\CollisionObjectBase.h" />
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameObjectBase.h" />
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameSystemManager.h" />

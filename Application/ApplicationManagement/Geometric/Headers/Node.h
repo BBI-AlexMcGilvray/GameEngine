@@ -22,6 +22,8 @@ namespace Application
 		// a recursive struct to hold elements in a scene
 		struct Node : Container
 		{
+			Transform Transformation;
+
 			Node();
 			Node(Float3 position, FQuaternion rotation, Float3 scale);
 

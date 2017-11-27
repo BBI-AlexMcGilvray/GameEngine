@@ -11,12 +11,6 @@ namespace Application
 
 		}
 
-		Container::Container(Float3 position, FQuaternion rotation, Float3 scale)
-			: Transform(position, rotation, scale)
-		{
-
-		}
-
 		Container::~Container()
 		{
 			// tell each content that it's node was deleted
@@ -37,13 +31,10 @@ namespace Application
 
 		void Container::Render(const Renderer& renderer, Float4x4 transformationMatrix)
 		{
-			// pass down modified transformation matrix
-			auto modifiedTransformationMatrix = GetTransformationMatrix() * transformationMatrix;
-
-			// render contents for above reason
+			// render contents with the passed in positional information
 			for (auto& content : ContainerContents)
 			{
-				content->Render(renderer, modifiedTransformationMatrix);
+				content->Render(renderer, transformationMatrix);
 			}
 		}
 
