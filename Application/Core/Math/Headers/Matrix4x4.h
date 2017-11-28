@@ -93,47 +93,7 @@ namespace Core
 			}
 
 			// operators
-			MatrixAxB<T, 4, 4>& operator-=(T d)
-			{
-				return (this = this - d);
-			}
-
-			MatrixAxB<T, 4, 4>& operator-=(MatrixAxB<T, 4, 4> const& v)
-			{
-				return (this = this - v);
-			}
-
-			MatrixAxB<T, 4, 4>& operator+=(T d)
-			{
-				return (this = this + d);
-			}
-
-			MatrixAxB<T, 4, 4>& operator+=(MatrixAxB<T, 4, 4> const& v)
-			{
-				return (this = this + v);
-			}
-
-			MatrixAxB<T, 4, 4>& operator*=(T d)
-			{
-				return (this = this * d);
-			}
-
-			MatrixAxB<T, 4, 4>& operator*=(MatrixAxB<T, 4, 4> const& v)
-			{
-				return (this = this * v);
-			}
-
-			MatrixAxB<T, 4, 4>& operator/=(T d)
-			{
-				return (this = this / d);
-			}
-
-			MatrixAxB<T, 4, 4 >& operator/=(MatrixAxB<T, 4, 4> const& v)
-			{
-				return (this = this / v);
-			}
-
-			MatrixAxB<T, 4, 4>& operator-(MatrixAxB<T, 4, 4> const& m)
+			MatrixAxB<T, 4, 4>& operator-=(MatrixAxB<T, 4, 4> const& m)
 			{
 				E1 -= m.E1;
 				E2 -= m.E2;
@@ -143,7 +103,7 @@ namespace Core
 				return *this;
 			}
 
-			MatrixAxB<T, 4, 4>& operator+(MatrixAxB<T, 4, 4> const& m)
+			MatrixAxB<T, 4, 4>& operator+=(MatrixAxB<T, 4, 4> const& m)
 			{
 				E1 += m.E1;
 				E2 += m.E2;
@@ -153,7 +113,7 @@ namespace Core
 				return *this;
 			}
 
-			MatrixAxB<T, 4, 4>& operator*(T d)
+			MatrixAxB<T, 4, 4>& operator*=(T d)
 			{
 				E1 *= d;
 				E2 *= d;
@@ -163,7 +123,7 @@ namespace Core
 				return *this;
 			}
 
-			MatrixAxB<T, 4, 4>& operator*(MatrixAxB<T, 4, 4> const& m)
+			MatrixAxB<T, 4, 4>& operator*=(MatrixAxB<T, 4, 4> const& m)
 			{
 				auto Copy = (*this);
 				Copy.Transpose();
@@ -176,7 +136,7 @@ namespace Core
 				return *this;
 			}
 
-			MatrixAxB<T, 4, 4>& operator/(T d)
+			MatrixAxB<T, 4, 4>& operator/=(T d)
 			{
 				E1 /= d;
 				E2 /= d;
@@ -186,7 +146,7 @@ namespace Core
 				return *this;
 			}
 
-			MatrixAxB<T, 4, 4>& operator/(MatrixAxB<T, 4, 4> const& m)
+			MatrixAxB<T, 4, 4>& operator/=(MatrixAxB<T, 4, 4> const& m)
 			{
 				auto mI = m.Inverse();
 
@@ -211,6 +171,54 @@ namespace Core
 				E4 = m.E4;
 
 				return *this;
+			}
+
+			friend MatrixAxB<T, 4, 4> operator-(MatrixAxB<T, 4, 4> m, T d)
+			{
+				m -= d;
+				return m;
+			}
+
+			friend MatrixAxB<T, 4, 4> operator-(MatrixAxB<T, 4, 4> m, MatrixAxB<T, 4, 4> const& oM)
+			{
+				m -= oM;
+				return m;
+			}
+
+			friend MatrixAxB<T, 4, 4> operator+(MatrixAxB<T, 4, 4> m, T d)
+			{
+				m += d;
+				return m;
+			}
+
+			friend MatrixAxB<T, 4, 4> operator+(MatrixAxB<T, 4, 4> m, MatrixAxB<T, 4, 4> const& oM)
+			{
+				m += oM;
+				return m;
+			}
+
+			friend MatrixAxB<T, 4, 4> operator*(MatrixAxB<T, 4, 4> m, T d)
+			{
+				m *= d;
+				return m;
+			}
+
+			friend MatrixAxB<T, 4, 4> operator*(MatrixAxB<T, 4, 4> m, MatrixAxB<T, 4, 4> const& oM)
+			{
+				m *= oM;
+				return m;
+			}
+
+			friend MatrixAxB<T, 4, 4> operator/(MatrixAxB<T, 4, 4> m, T d)
+			{
+				m /= d;
+				return m;
+			}
+
+			friend MatrixAxB<T, 4, 4> operator/(MatrixAxB<T, 4, 4> m, MatrixAxB<T, 4, 4> const& oM)
+			{
+				m /= oM;
+				return m;
 			}
 
 			bool operator==(MatrixAxB<T, 4, 4> const& m)

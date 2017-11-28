@@ -81,94 +81,60 @@ namespace Core
 			}
 
 			// operators
-			MatrixAxB<T, 3, 3>& operator-=(T d)
-			{
-				return (this = this - d);
-			}
-
-			MatrixAxB<T, 3, 3>& operator-=(MatrixAxB<T, 3, 3> const& v)
-			{
-				return (this = this - v);
-			}
-
-			MatrixAxB<T, 3, 3>& operator+=(T d)
-			{
-				return (this = this + d);
-			}
-
-			MatrixAxB<T, 3, 3>& operator+=(MatrixAxB<T, 3, 3> const& v)
-			{
-				return (this = this + v);
-			}
-
-			MatrixAxB<T, 3, 3>& operator*=(T d)
-			{
-				return (this = this * d);
-			}
-
-			MatrixAxB<T, 3, 3>& operator*=(MatrixAxB<T, 3, 3> const& v)
-			{
-				return (this = this * v);
-			}
-
-			MatrixAxB<T, 3, 3>& operator/=(T d)
-			{
-				return (this = this / d);
-			}
-
-			MatrixAxB<T, 3, 3>& operator/=(MatrixAxB<T, 3, 3> const& v)
-			{
-				return (this = this / v);
-			}
-
-			MatrixAxB<T, 3, 3>& operator-(MatrixAxB<T, 3, 3> const& m)
+			MatrixAxB<T, 3, 3>& operator-=(MatrixAxB<T, 3, 3> const& m)
 			{
 				E1 -= m.E1;
 				E2 -= m.E2;
 				E3 -= m.E3;
+				E4 -= m.E4;
 
 				return *this;
 			}
 
-			MatrixAxB<T, 3, 3>& operator+(MatrixAxB<T, 3, 3> const& m)
+			MatrixAxB<T, 3, 3>& operator+=(MatrixAxB<T, 3, 3> const& m)
 			{
 				E1 += m.E1;
 				E2 += m.E2;
 				E3 += m.E3;
+				E4 += m.E4;
 
 				return *this;
 			}
 
-			MatrixAxB<T, 3, 3>& operator*(T d)
+			MatrixAxB<T, 3, 3>& operator*=(T d)
 			{
 				E1 *= d;
 				E2 *= d;
 				E3 *= d;
+				E4 *= d;
 
 				return *this;
 			}
 
-			MatrixAxB<T, 3, 3>& operator*(MatrixAxB<T, 3, 3> const& m)
+			MatrixAxB<T, 3, 3>& operator*=(MatrixAxB<T, 3, 3> const& m)
 			{
-				auto T = Transpose();
+				auto Copy = (*this);
+				Copy.Transpose();
 
-				E1 = VectorA<T, 3>(T.E1.Dot(m.E1), T.E1.Dot(m.E2), T.E1.Dot(m.E3));
-				E2 = VectorA<T, 3>(T.E2.Dot(m.E1), T.E2.Dot(m.E2), T.E2.Dot(m.E3));
-				E3 = VectorA<T, 3>(T.E3.Dot(m.E1), T.E3.Dot(m.E2), T.E3.Dot(m.E3));
+				E1 = VectorA<T, 4>(Copy.E1.Dot(m.E1), Copy.E1.Dot(m.E2), Copy.E1.Dot(m.E3), Copy.E1.Dot(m.E4));
+				E2 = VectorA<T, 4>(Copy.E2.Dot(m.E1), Copy.E2.Dot(m.E2), Copy.E2.Dot(m.E3), Copy.E2.Dot(m.E4));
+				E3 = VectorA<T, 4>(Copy.E3.Dot(m.E1), Copy.E3.Dot(m.E2), Copy.E3.Dot(m.E3), Copy.E3.Dot(m.E4));
+				E4 = VectorA<T, 4>(Copy.E4.Dot(m.E1), Copy.E4.Dot(m.E2), Copy.E4.Dot(m.E3), Copy.E4.Dot(m.E4));
 
 				return *this;
 			}
 
-			MatrixAxB<T, 3, 3>& operator/(T d)
+			MatrixAxB<T, 3, 3>& operator/=(T d)
 			{
 				E1 /= d;
 				E2 /= d;
 				E3 /= d;
+				E4 /= d;
 
 				return *this;
 			}
 
-			MatrixAxB<T, 3, 3>& operator/(MatrixAxB<T, 3, 3> const& m)
+			MatrixAxB<T, 3, 3>& operator/=(MatrixAxB<T, 3, 3> const& m)
 			{
 				auto mI = m.Inverse();
 
@@ -177,9 +143,10 @@ namespace Core
 
 			MatrixAxB<T, 3, 3>& operator=(T d)
 			{
-				E1 = VectorA<T, 3>(d);
-				E2 = VectorA<T, 3>(d);
-				E3 = VectorA<T, 3>(d);
+				E1 = VectorA<T, 4>(d);
+				E2 = VectorA<T, 4>(d);
+				E3 = VectorA<T, 4>(d);
+				E4 = VectorA<T, 4>(d);
 
 				return *this;
 			}
@@ -189,8 +156,57 @@ namespace Core
 				E1 = m.E1;
 				E2 = m.E2;
 				E3 = m.E3;
+				E4 = m.E4;
 
 				return *this;
+			}
+
+			friend MatrixAxB<T, 3, 3> operator-(MatrixAxB<T, 3, 3> m, T d)
+			{
+				m -= d;
+				return m;
+			}
+
+			friend MatrixAxB<T, 3, 3> operator-(MatrixAxB<T, 3, 3> m, MatrixAxB<T, 3, 3> const& oM)
+			{
+				m -= oM;
+				return m;
+			}
+
+			friend MatrixAxB<T, 3, 3> operator+(MatrixAxB<T, 3, 3> m, T d)
+			{
+				m += d;
+				return m;
+			}
+
+			friend MatrixAxB<T, 3, 3> operator+(MatrixAxB<T, 3, 3> m, MatrixAxB<T, 3, 3> const& oM)
+			{
+				m += oM;
+				return m;
+			}
+
+			friend MatrixAxB<T, 3, 3> operator*(MatrixAxB<T, 3, 3> m, T d)
+			{
+				m *= d;
+				return m;
+			}
+
+			friend MatrixAxB<T, 3, 3> operator*(MatrixAxB<T, 3, 3> m, MatrixAxB<T, 3, 3> const& oM)
+			{
+				m *= oM;
+				return m;
+			}
+
+			friend MatrixAxB<T, 3, 3> operator/(MatrixAxB<T, 3, 3> m, T d)
+			{
+				m /= d;
+				return m;
+			}
+
+			friend MatrixAxB<T, 3, 3> operator/(MatrixAxB<T, 3, 3> m, MatrixAxB<T, 3, 3> const& oM)
+			{
+				m /= oM;
+				return m;
 			}
 
 			bool operator==(MatrixAxB<T, 3, 3> const& m)

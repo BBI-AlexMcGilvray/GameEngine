@@ -8,7 +8,7 @@ namespace Application
 		{
 			Position = position;
 			Direction = direction;
-			//Direction.Normalize(); // this is breaking for some reason
+			Direction.Normalize();
 
 			FQuaternion newRotation;// = glm::rotation(DefaultDirection, Direction); // rotation takes normalized vectors
 		}

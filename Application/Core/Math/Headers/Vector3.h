@@ -131,98 +131,58 @@ namespace Core
 			}
 
 			// operators
-			VectorA<T, 3>& operator-=(T d)
-			{
-				return (this = (*this) - d);
-			}
-
 			VectorA<T, 3>& operator-=(VectorA<T, 3> const& v)
-			{
-				return (this = (*this) - v);
-			}
-
-			VectorA<T, 3>& operator+=(T d)
-			{
-				return (this = (*this) + d);
-			}
-
-			VectorA<T, 3>& operator+=(VectorA<T, 3> const& v)
-			{
-				return (this = (*this) + v);
-			}
-
-			VectorA<T, 3>& operator*=(T d)
-			{
-				return (this = (*this) * d);
-			}
-
-			VectorA<T, 3>& operator*=(VectorA<T, 3> const& v)
-			{
-				return (this = (*this) * v);
-			}
-
-			VectorA<T, 3>& operator/=(T d)
-			{
-				return (this = (*this) / d);
-			}
-
-			VectorA<T, 3>& operator/=(VectorA<T, 3> const& v)
-			{
-				return (this = (*this) / v);
-			}
-
-			VectorA<T, 3>& operator-(VectorA<T, 3> const& v)
 			{
 				X -= v.X;
 				Y -= v.Y;
 				Z -= v.Z;
 
-				return *this;
+				return (*this);
 			}
 
-			VectorA<T, 3>& operator+(VectorA<T, 3> const& v)
+			VectorA<T, 3>& operator+=(VectorA<T, 3> const& v)
 			{
 				X += v.X;
 				Y += v.Y;
 				Z += v.Z;
 
-				return *this;
+				return (*this);
 			}
 
-			VectorA<T, 3>& operator*(T d)
+			VectorA<T, 3>& operator*=(T d)
 			{
 				X *= d;
 				Y *= d;
 				Z *= d;
 
-				return *this;
+				return (*this);
 			}
 
-			VectorA<T, 3>& operator*(VectorA<T, 3> const& v)
+			VectorA<T, 3>& operator*=(VectorA<T, 3> const& v)
 			{
 				X *= v.X;
 				Y *= v.Y;
 				Z *= v.Z;
 
-				return *this;
+				return (*this);
 			}
 
-			VectorA<T, 3>& operator/(T d)
+			VectorA<T, 3>& operator/=(T d)
 			{
 				X /= d;
 				Y /= d;
 				Z /= d;
 
-				return *this;
+				return (*this);
 			}
 
-			VectorA<T, 3>& operator/(VectorA<T, 3> const& v)
+			VectorA<T, 3>& operator/=(VectorA<T, 3> const& v)
 			{
 				X /= v.X;
 				Y /= v.Y;
 				Z /= v.Z;
 
-				return *this;
+				return (*this);
 			}
 
 			VectorA<T, 3>& operator=(T d)
@@ -231,16 +191,67 @@ namespace Core
 				Y = d;
 				Z = d;
 
-				return *this;
+				return (*this);
 			}
 
 			VectorA<T, 3>& operator=(VectorA<T, 3> const& v)
 			{
-				X = v.X;
-				Y = v.Y;
-				Z = v.Z;
+				if (this != &v)
+				{
+					X = v.X;
+					Y = v.Y;
+					Z = v.Z;
+				}
 
-				return *this;
+				return (*this);
+			}
+			
+			friend VectorA<T, 3> operator-(VectorA<T, 3> v, T d)
+			{
+				v -= d;
+				return v;
+			}
+
+			friend VectorA<T, 3> operator-(VectorA<T, 3> v, VectorA<T, 3> const& oV)
+			{
+				v -= oV;
+				return v;
+			}
+
+			friend VectorA<T, 3> operator+(VectorA<T, 3> v, T d)
+			{
+				v += d;
+				return v;
+			}
+
+			friend VectorA<T, 3> operator+(VectorA<T, 3> v, VectorA<T, 3> const& oV)
+			{
+				v += oV;
+				return v;
+			}
+
+			friend VectorA<T, 3> operator*(VectorA<T, 3> v, T d)
+			{
+				v *= d;
+				return v;
+			}
+
+			friend VectorA<T, 3> operator*(VectorA<T, 3> v, VectorA<T, 3> const& oV)
+			{
+				v *= oV;
+				return v;
+			}
+
+			friend VectorA<T, 3> operator/(VectorA<T, 3> v, T d)
+			{
+				v /= d;
+				return v;
+			}
+
+			friend VectorA<T, 3> operator/(VectorA<T, 3> v, VectorA<T, 3> const& oV)
+			{
+				v /= oV;
+				return v;
 			}
 
 			bool operator==(VectorA<T, 3> const& v)
