@@ -2,6 +2,8 @@
 
 #include "Vector.h"
 
+#include "VectorFunctions.h"
+
 namespace Core
 {
 	namespace Math
@@ -39,7 +41,7 @@ namespace Core
 
 			T MagnitudeSqr()
 			{
-				return Dot(*this);
+				return Dot(*this, *this);
 			}
 
 			T Magnitude()
@@ -50,14 +52,6 @@ namespace Core
 			VectorA<T, 2>& Normalize()
 			{
 				return ((*this) /= (Magnitude()));
-			}
-
-			T Dot(VectorA<T, 2> const& v)
-			{
-				auto temp = v;
-				temp * (*this);
-
-				return (temp.X + temp.Y);
 			}
 
 			template <typename T>

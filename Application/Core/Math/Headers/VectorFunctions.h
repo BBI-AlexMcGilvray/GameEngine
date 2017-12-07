@@ -11,7 +11,20 @@ namespace Core
 {
 	namespace Math
 	{
-		// CROSS PRODUCT
+		// need to take out magnitude, min/max, and many other functions from vector classes and put them here.
+		template <typename T, int D>
+		T Dot(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			T dot = 0;
+
+			for (auto i = 0; i < D; i++)
+			{
+				dot += (v1[i] * v2[i]);
+			}
+
+			return dot;
+		}
+
 		template <typename T>
 		Vector3<T> CrossProduct(Vector3<T> const& v1, Vector3<T> const& v2)
 		{
@@ -22,11 +35,11 @@ namespace Core
 			return Vector3<T>(crossX, crossY, crossZ);
 		}
 
-		template <typename T, typename int A>
+		template <typename T, int A>
 		VectorA<T, A> Project(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
 		{
 			auto projection = v2.Normalize();
-			projection *= v2.Dot(v1);
+			projection *= Dot(v1, v2);
 			projection /= v2.Magnitude();
 
 			return projection;

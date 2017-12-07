@@ -33,7 +33,7 @@ namespace Core
 				// scale
 				Matrix4x4<T> transformationMatrix = Matrix4x4<T>(Vector4<T>(Scale.X), Vector4<T>(Scale.Y), Vector4<T>(Scale.Z), Vector4<T>(II{}));
 				// rotation
-				transformationMatrix = TransformationMatrixFromQuat(Rotation) * transformationMatrix;
+				transformationMatrix = TransformationMatrix(Rotation) * transformationMatrix;
 				// position
 				transformationMatrix.E4.X = Position.X;
 				transformationMatrix.E4.Y = Position.Y;

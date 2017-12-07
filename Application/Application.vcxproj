@@ -263,6 +263,7 @@
     <ClInclude Include="Core\Headers\PtrDefs.h" />
     <ClInclude Include="Core\Headers\TemplateDefs.h" />
     <ClInclude Include="Core\Math\Headers\MathDefs.h" />
+    <ClInclude Include="Core\Math\Headers\MathUtils.h" />
     <ClInclude Include="Core\Math\Headers\Matrix.h" />
     <ClInclude Include="Core\Math\Headers\Matrix2x2.h" />
     <ClInclude Include="Core\Math\Headers\Matrix3x3.h" />

@@ -28,6 +28,10 @@ namespace Core
 				VectorA<T, 3> Bases[3];
 			};
 
+			MatrixAxB(MatrixAxB<T, 2, 2> const& m)
+				: E1(m.E1), E2(m.E2), E3(0)
+			{}
+
 			MatrixAxB(MatrixAxB<T, 3, 3> const& m)
 				: E1(m.E1), E2(m.E2), E3(m.E3)
 			{}
@@ -195,6 +199,13 @@ namespace Core
 			{
 				m *= oM;
 				return m;
+			}
+
+			friend VectorA<T, 3> operator*(MatrixAxB<T, 3, 3> m, VectorA<T, 3> const& v)
+			{
+				VectorA<T, 3> nV(m.E1.Dot(v), m.E2.Dot(v), m.E3.Dot(v));
+
+				return nV;
 			}
 
 			friend MatrixAxB<T, 3, 3> operator/(MatrixAxB<T, 3, 3> m, T d)

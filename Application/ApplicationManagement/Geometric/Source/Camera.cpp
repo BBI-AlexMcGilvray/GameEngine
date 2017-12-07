@@ -1,5 +1,10 @@
 #include "ApplicationManagement/Geometric/Headers/Camera.h"
 
+#include "Core/Math/Headers/MathUtils.h"
+#include "Core/Math/Headers/QuaternionFunctions.h"
+
+#include "Core/Debugging/Headers/Macros.h"
+
 namespace Application
 {
 	namespace Geometric
@@ -10,7 +15,7 @@ namespace Application
 			Direction = direction;
 			Direction.Normalize();
 
-			FQuaternion newRotation;// = glm::rotation(DefaultDirection, Direction); // rotation takes normalized vectors
+			FQuaternion newRotation = RotationBetweenVectors(DefaultDirection, Direction);
 		}
 
 		void Camera::Update(Second dt)
@@ -37,9 +42,9 @@ namespace Application
 
 			Float4x4 inverseMVP;// = glm::inverse(GetRenderMatrix());
 
-			Float4 worldPosition;// = inverseMVP * Float4(worldX, worldY, 0.0f, 1.0f);
+			Float4 worldPosition = /*inverseMVP * */Float4(worldX, worldY, 0.0f, 1.0f);
 
-			return Float3();// (worldPosition.X, worldPosition.Y, worldPosition.Z) / worldPosition.W;
+			return Float3(worldPosition.X, worldPosition.Y, worldPosition.Z) / worldPosition.W;
 			
 			// This gives the world coordinate of clicked area. Using the vector of camera->this (given by: this - camera) you
 			// can calculate the coordinates that would be found at y = 0.
@@ -50,7 +55,7 @@ namespace Application
 		Float2 Camera::WorldToMouse(const Float3& worldPosition)
 		{
 			Float4x4 MVP = GetRenderMatrix();
-			Float3 transformedPosition;// = MVP * Float4(worldPosition, 1.0f);
+			Float4 transformedPosition = MVP * Float4(worldPosition, 1.0f);
 
 			float screenX = transformedPosition.X / transformedPosition.Z; // scaled down based on distance from 0 x
 			float screenY = transformedPosition.Y / transformedPosition.Z; // scaled down based on distance from 0 y
@@ -73,17 +78,39 @@ namespace Application
 			}
 			transformationMatrix = RotationMatrix * transformationMatrix; // rotate it
 
-			return /*ProjectionMatrix * */transformationMatrix;
+			return ProjectionMatrix * transformationMatrix;
 		}
 
 		void Camera::RecalculateRotationMatrix()
 		{
-			//RotationMatrix = glm::toMat4(glm::conjugate(Rotation));
+			RotationMatrix = TransformationMatrix(Rotation);
 		}
 
 		void Camera::RecalculateProjectionMatrix()
 		{
-			//ProjectionMatrix = glm::perspective(FOVY, AspectRatio, NearPlane, FarPlane);
+			ProjectionMatrix = CalculatePerspectiveMatrix(FOVY, AspectRatio, NearPlane, FarPlane);
+		}
+
+		Float4x4 CalculatePerspectiveMatrix(float fov, float aspectRatio, float nearPlane, float farPlane)
+		{
+			Float4x4 perspectiveMatrix;
+
+			if (VERIFY(fov <= 0 || aspectRatio == 0))
+			{
+				return perspectiveMatrix;
+			}
+
+			float frustrumDepth = farPlane - nearPlane;
+			float frustrumDepthInverse = 1.0f / frustrumDepth;
+
+			perspectiveMatrix[0][0] = (1.0f / Tan(0.5f * fov)) / aspectRatio;
+			perspectiveMatrix[1][1] = (1.0f / Tan(0.5f * fov));
+			perspectiveMatrix[2][2] = farPlane * frustrumDepthInverse;
+			perspectiveMatrix[2][3] = 1;
+			perspectiveMatrix[3][2] = (-farPlane * nearPlane) * frustrumDepthInverse;
+			perspectiveMatrix[3][3] = 0;
+
+			return perspectiveMatrix;
 		}
 	}
 }

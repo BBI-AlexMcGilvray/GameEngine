@@ -13,3 +13,17 @@
 
 - Include the DataSystem library in here and create in it a 'Editable' interface that has export functionality through virtual methods that will allow the data to be modified from inside the game (so are we making the game/enginge also the editing tool?)
 - Using ASSIMP tutorial to export data into desired format and then export it back out so we can read in our own format
+
+- Input manager should be a Subscribee that Controllers (Subscribers) can subsribe to
+	On subscription, each controller is given a unique Id
+	
+- At the start of the game, the initialization information (characters used, team info...) should be saved to game file such that the initial game state can be recreated
+	Throughout the game, each controller should save it's type information (such that it can be recreated) and it's Id to the game file
+	Each input should also be recorded and saved to the game file as well
+	Thus, the whole game can be replayed given this file.
+	
+- Input controllers should require a timestamp of when the input was given so that it can be handled accordingly
+	This should extend to game objects, in particular their creation and any events that they listen to (such as colliding with another game object)
+	
+		The point of the above is so that server/the game can handle an event occuring in the past (due to latency) and having the gamestate rewind/fast forward to account for it.
+		*It may be usefull to set a max rewind time to ignore things that were received, but happened too far in the past

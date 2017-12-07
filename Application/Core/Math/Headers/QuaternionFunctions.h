@@ -6,6 +6,10 @@
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
 
+#include "VectorFunctions.h"
+
+#include "Core/Math/Headers/MathUtils.h"
+
 #include "Core/Debugging/Headers/Declarations.h"
 
 namespace Core
@@ -22,51 +26,64 @@ namespace Core
 		}
 		*/
 
-		// get rotation 3x3 matrix
 		template <typename T>
-		Matrix3x3<T> RotationMatrixFromQuat(Quaternion<T> const& q)
+		MatrixAxB<T, 3, 3> GetRotationMatrix(Quaternion<T> quaternion)
 		{
-			T xw = q.X * q.W;
-			T xx = q.X * q.X;
-			T xy = q.X * q.Y;
-			T xz = q.X * q.Z;
+			MatrixAxB<T, 3, 3> rotationMatrix;
 
-			T yw = q.Y * q.W;
-			T yy = q.Y * q.Y;
-			T yz = q.Y * q.Z;
+			auto sqrW = Sqr(quaternion.W);
+			auto sqrX = Sqr(quaternion.X);
+			auto sqrY = Sqr(quaternion.Y);
+			auto sqrZ = Sqr(quaternion.Z);
 
-			T zw = q.Z * q.W;
-			T zz = q.Z * q.Z;
+			auto inverse = 1 / (sqrX + sqrY + sqrZ + sqrW);
 
-			Vector3<T> c1((T(1) - (T(2) * xx) - (T(2) * zz)), ((T(2) * xy) + (T(2) * zw)), ((T(2) * xz) - (T(2) * yw)));
-			Vector3<T> c2(((T(2) * xy) - (T(2) * zw)), (T(1) - (T(2) * xx) - (T(2) * zz)), ((T(2) * yz) + (T(2) * xw)));
-			Vector3<T> c3(((T(2) * xz) + (T(2) * yw)), ((T(2) * yz) - (T(2) * xw)), (T(1) - (T(2) * xx) - (T(2) * yy)));
+			rotationMatrix[0][0] = (sqrX - sqrY - sqrZ + sqrW) * inverse;
+			rotationMatrix[1][1] = (-sqrX + sqrY - sqrZ + sqrW) * inverse;
+			rotationMatrix[2][2] = (sqrX - sqrY + sqrZ + sqrW) * inverse;
 
-			return Matrix3x3<T>(c1, c2, c3);
+			auto temp1 = quaternion.X * quaternion.Y;
+			auto temp2 = quaternion.Z * quaternion.W;
+
+			rotationMatrix[1][0] = 2.0f * (temp1 + temp2) * inverse;
+			rotationMatrix[0][1] = 2.0f * (temp1 - temp2) * inverse;
+
+			temp1 = quaternion.X * quaternion.Z;
+			temp2 = quaternion.Y * quaternion.W;
+
+			rotationMatrix[2][0] = 2.0f * (temp1 - temp2) * inverse;
+			rotationMatrix[0][2] = 2.0f * (temp1 + temp2) * inverse;
+
+			temp1 = quaternion.Y * quaternion.Z;
+			temp2 = quaternion.X * quaternion.W;
+
+			rotationMatrix[2][1] = 2.0f * (temp1 + temp2) * inverse;
+			rotationMatrix[1][2] = 2.0f * (temp1 - temp2) * inverse;
+
+			return rotationMatrix;
 		}
 
-		// get rotation 4x4 matrix
 		template <typename T>
-		Matrix4x4<T> TransformationMatrixFromQuat(Quaternion<T> const& q)
+		MatrixAxB<T, 4, 4> TransformationMatrix(Quaternion<T> quaternion)
 		{
-			T xw = q.X * q.W;
-			T xx = q.X * q.X;
-			T xy = q.X * q.Y;
-			T xz = q.X * q.Z;
+			MatrixAxB<T, 4, 4> rotationMatrix(GetRotationMatrix(quaternion));
 
-			T yw = q.Y * q.W;
-			T yy = q.Y * q.Y;
-			T yz = q.Y * q.Z;
+			return rotationMatrix;
+		}
 
-			T zw = q.Z * q.W;
-			T zz = q.Z * q.Z;
+		template <typename T>
+		Quaternion<T> RotationBetweenVectors(Vector3<T> const& v1, Vector3<T> const& v2)
+		{
+			Quaternion<T> rotation;
+			Vector3<T> crossProduct = CrossProduct(v1, v2);
+			rotation.W = Sqrt(v1.Magnitude() * v2.Magnitude()) + Dot(v1, v2);
+			rotation.X = crossProduct.X;
+			rotation.Y = crossProduct.Y;
+			rotation.Z = crossProduct.Z;
 
-			Vector4<T> c1((T(1) - (T(2) * xx) - (T(2) * zz)), ((T(2) * xy) + (T(2) * zw)), ((T(2) * xz) - (T(2) * yw)), T(0));
-			Vector4<T> c2(((T(2) * xy) - (T(2) * zw)), (T(1) - (T(2) * xx) - (T(2) * zz)), ((T(2) * yz) + (T(2) * xw)), T(0));
-			Vector4<T> c3(((T(2) * xz) + (T(2) * yw)), ((T(2) * yz) - (T(2) * xw)), (T(1) - (T(2) * xx) - (T(2) * yy)), T(0));
-			Vector4<T> c4(T(0), T(0), T(0), T(1));
+			rotation.Normalize();
 
-			return Matrix4x4<T>(c1, c2, c3, c4);
+			return rotation;
 		}
 
 		// rotate vector

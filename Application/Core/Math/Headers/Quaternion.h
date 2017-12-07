@@ -19,9 +19,23 @@ namespace Core
 				struct
 				{
 					T W;
-					T X;
-					T Y;
-					T Z;
+					union
+					{
+						struct
+						{
+							union
+							{
+								struct
+								{
+									T X;
+									T Y;
+								};
+								T XY[2];
+							};
+							T Z;
+						};
+						T XYZ[3];
+					};
 				};
 				T quat[4];
 			};

@@ -2,6 +2,8 @@
 
 #include "Vector.h"
 
+#include "VectorFunctions.h"
+
 namespace Core
 {
 	namespace Math
@@ -24,11 +26,11 @@ namespace Core
 									T X;
 									T Y;
 								};
-								VectorA<T, 2> XY[2];
+								VectorA<T, 2> XY;
 							};
 							T Z;
 						};
-						VectorA<T, 3> XYZ[3];
+						VectorA<T, 3> XYZ;
 					};
 					T W;
 				};
@@ -43,6 +45,14 @@ namespace Core
 				: X(x), Y(y), Z(z), W(w)
 			{}
 
+			VectorA(VectorA<T, 2> const& v, T d1 = 0, T d2 = 0)
+				: XY(v), Z(d1), W(d2)
+			{}
+
+			VectorA(VectorA<T, 3> const& v, T d = 0)
+				: XYZ(v), W(d)
+			{}
+
 			VectorA(VectorA<T, 4> const& v)
 				: X(v.X), Y(v.Y), Z(v.Z), W(v.W)
 			{}
@@ -55,7 +65,7 @@ namespace Core
 
 			T MagnitudeSqr()
 			{
-				return Dot(*this);
+				return Dot(*this, *this);
 			}
 
 			T Magnitude()
@@ -66,14 +76,6 @@ namespace Core
 			VectorA<T, 4>& Normalize()
 			{
 				return ((*this) /= (Magnitude()));
-			}
-
-			T Dot(VectorA<T, 4> const& v)
-			{
-				auto temp = v;
-				temp * (*this);
-
-				return (temp.X + temp.Y + temp.Z + temp.W);
 			}
 
 			template <typename T>

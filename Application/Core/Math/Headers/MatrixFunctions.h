@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Matrix.h"
+#include "Matrix3x3.h"
+#include "Matrix4x4.h"
+#include "Quaternion.h"
 
 #include "VectorFunctions.h"
 
@@ -38,7 +41,7 @@ namespace Core
 
 		// Multiply vectors
 		template <typename T, typename int A, typename int B>
-		MatrixAxB<T, A, B> Multiply(VectorA<T, B> const% v1, VectorA<T, A> const& v2)
+		MatrixAxB<T, A, B> Multiply(VectorA<T, B> const& v1, VectorA<T, A> const& v2)
 		{
 			MatrixAxB<T, A, B> newMatrix;
 
@@ -55,7 +58,7 @@ namespace Core
 
 #if DEBUG
 		template <typename T, typename int A, typename int B>
-		String MatrixString(Matrix<T, A, B> m)
+		String MatrixString(MatrixAxB<T, A, B> m)
 		{
 			String matrixInfo;
 

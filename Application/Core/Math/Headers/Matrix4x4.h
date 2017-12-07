@@ -3,6 +3,8 @@
 #include "Matrix.h"
 #include "Vector4.h"
 
+#include "VectorFunctions.h"
+
 namespace Core
 {
 	namespace Math
@@ -38,6 +40,14 @@ namespace Core
 
 			MatrixAxB()
 				: MatrixAxB(II())
+			{}
+
+			MatrixAxB(MatrixAxB<T, 2, 2> const& m)
+				: E1(m.E1), E2(m.E2), E3(0), E4(0)
+			{}
+
+			MatrixAxB(MatrixAxB<T, 3, 3> const& m)
+				: E1(m.E1), E2(m.E2), E3(m.E3), E4(0)
 			{}
 
 			MatrixAxB(MatrixAxB<T, 4, 4> const& m)
@@ -128,10 +138,10 @@ namespace Core
 				auto Copy = (*this);
 				Copy.Transpose();
 
-				E1 = VectorA<T, 4>(Copy.E1.Dot(m.E1), Copy.E1.Dot(m.E2), Copy.E1.Dot(m.E3), Copy.E1.Dot(m.E4));
-				E2 = VectorA<T, 4>(Copy.E2.Dot(m.E1), Copy.E2.Dot(m.E2), Copy.E2.Dot(m.E3), Copy.E2.Dot(m.E4));
-				E3 = VectorA<T, 4>(Copy.E3.Dot(m.E1), Copy.E3.Dot(m.E2), Copy.E3.Dot(m.E3), Copy.E3.Dot(m.E4));
-				E4 = VectorA<T, 4>(Copy.E4.Dot(m.E1), Copy.E4.Dot(m.E2), Copy.E4.Dot(m.E3), Copy.E4.Dot(m.E4));
+				E1 = VectorA<T, 4>(Dot(Copy.E1, m.E1), Dot(Copy.E1, m.E2), Dot(Copy.E1, m.E3), Dot(Copy.E1, m.E4));
+				E2 = VectorA<T, 4>(Dot(Copy.E2, m.E1), Dot(Copy.E2, m.E2), Dot(Copy.E2, m.E3), Dot(Copy.E2, m.E4));
+				E3 = VectorA<T, 4>(Dot(Copy.E3, m.E1), Dot(Copy.E3, m.E2), Dot(Copy.E3, m.E3), Dot(Copy.E3, m.E4));
+				E4 = VectorA<T, 4>(Dot(Copy.E4, m.E1), Dot(Copy.E4, m.E2), Dot(Copy.E4, m.E3), Dot(Copy.E4, m.E4));
 
 				return *this;
 			}
@@ -209,6 +219,13 @@ namespace Core
 				return m;
 			}
 
+			friend VectorA<T, 4> operator*(MatrixAxB<T, 4, 4> m, VectorA<T, 4> const& v)
+			{
+				VectorA<T, 4> nV(Dot(m.E1, v), Dot(m.E2, v), Dot(m.E3, v), Dot(m.E4, v));
+
+				return nV;
+			}
+
 			friend MatrixAxB<T, 4, 4> operator/(MatrixAxB<T, 4, 4> m, T d)
 			{
 				m /= d;
@@ -230,8 +247,6 @@ namespace Core
 			{
 				return Bases[basis];
 			}
-
-			// operators
 		};
 
 		/*	TYPE DEFS	*/

@@ -44,5 +44,7 @@ namespace Application
 			void RecalculateRotationMatrix();
 			void RecalculateProjectionMatrix();
 		};
+
+		Float4x4 CalculatePerspectiveMatrix(float fov, float aspectRatio, float nearPlane, float farPlane);
 	}
 }

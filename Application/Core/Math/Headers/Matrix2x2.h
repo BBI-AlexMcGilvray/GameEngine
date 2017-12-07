@@ -190,6 +190,13 @@ namespace Core
 				return m;
 			}
 
+			friend VectorA<T, 2> operator*(MatrixAxB<T, 2, 2> m, VectorA<T, 2> const& v)
+			{
+				VectorA<T, 2> nV(m.E1.Dot(v), m.E2.Dot(v));
+
+				return nV;
+			}
+
 			friend MatrixAxB<T, 2, 2> operator/(MatrixAxB<T, 2, 2> m, T d)
 			{
 				m /= d;
