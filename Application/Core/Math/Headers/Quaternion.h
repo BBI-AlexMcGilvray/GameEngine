@@ -11,6 +11,20 @@ namespace Core
 {
 	namespace Math
 	{
+		/*
+		NOTES: (https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation)
+			Quaternions, represented by (w, x, y, z), w + xi + yj + zk, or (w, u) - where u is a vector = (x, y, z),
+			represent the ROTATION of ANGLE w AROUND THE AXIS (x, y, z) CLOCKWISE (assuming we are looking in the direction (x, y, z)
+
+			Thus, when you multiply them by a vector (v), which is equivalent to a quaternion (0, v) (or: a rotation of NO ANGLE AROUND THE AXIS v,
+			you are calculating the final result, which is a COMBINATION (initial state (0, v) being modified by state (w, u)) of rotations which
+			results in a final state of (r, n) where n represents the axis v after it has been mapped through the transformation of (w, u).
+
+			In other words, combining quaternion states gives us the final state, the vector part of which is the final axis - which represents the
+			transformed vector part of the initial state. Which, in the case of direction, gives us our final direction after the initial direction
+			was rotated by the quaternion
+		*/
+
 		template <typename T>
 		struct Quaternion
 		{
