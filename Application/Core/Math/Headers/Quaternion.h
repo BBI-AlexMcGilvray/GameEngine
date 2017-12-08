@@ -23,6 +23,9 @@ namespace Core
 			In other words, combining quaternion states gives us the final state, the vector part of which is the final axis - which represents the
 			transformed vector part of the initial state. Which, in the case of direction, gives us our final direction after the initial direction
 			was rotated by the quaternion
+
+			Rotating a vector, v, by quaternion, q, gives us the equation v' = qvq' because one transformation (qv - first v then q) is equivalent
+			to another transformation (v'q - first q then inverse of v), so we have v'q = qv which is equivalent to v' = qvq'
 		*/
 
 		template <typename T>
