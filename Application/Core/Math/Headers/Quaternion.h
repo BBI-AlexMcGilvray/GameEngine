@@ -3,7 +3,10 @@
 #include "Core/Headers/CoreDefs.h"
 
 #include "Core/Math/Headers/MathDefs.h"
+
 #include "Core/Math/Headers/Vector3.h"
+#include "Core/Math/Headers/Vector4.h"
+#include "Core/Math/Headers/VectorFunctions.h"
 
 #include "Core/Debugging/Headers/Macros.h"
 
@@ -69,6 +72,20 @@ namespace Core
 				: W(w), X(x), Y(y), Z(z)
 			{}
 
+			Quaternion(Vector3<T> v, T w = 0)
+				: Quaternion(Normalize(Vector4<T>(v, w)))
+			{}
+
+			Quaternion(Vector4<T> v)
+			{
+				auto vNormalize = Normalize(v);
+
+				W = vNormalize.W;
+				X = vNormalize.X;
+				Y = vNormalize.Y;
+				Z = vNormalize.Z;
+			}
+
 			Quaternion(Quaternion const& q)
 				: W(q.W), X(q.X), Y(q.Y), Z(q.Z)
 			{}
@@ -108,10 +125,15 @@ namespace Core
 
 			Quaternion<T>& operator*=(Quaternion<T> const& q)
 			{
-				W *= q.W;
-				X *= q.X;
-				Y *= q.Y;
-				Z *= q.Z;
+				T newW = (W * q.W) - (X * q.X) - (Y * q.Y) - (Z * q.Z);
+				T newX = (W * q.X) + (X * q.W) + (Y * q.Z) - (Z * q.Y);
+				T newY = (W * q.Y) - (X * q.Z) + (Y * q.W) + (Z * q.X);
+				T newZ = (W * q.Z) + (X * q.Y) - (Y * q.X) + (Z * q.X);
+
+				W = newW;
+				X = newX;
+				Y = newY;
+				Z = newZ;
 
 				return (*this);
 			}
@@ -131,9 +153,9 @@ namespace Core
 
 				Quaternion<T> qInverse;
 				qInverse.W = q.W / qMagnitude;
-				qInverse.X = q.X / qMagnitude;
-				qInverse.Y = q.Y / qMagnitude;
-				qInverse.Z = q.Z / qMagnitude;
+				qInverse.X = -q.X / qMagnitude;
+				qInverse.Y = -q.Y / qMagnitude;
+				qInverse.Z = -q.Z / qMagnitude;
 
 				return ((*this) * qInverse);
 			}
@@ -162,31 +184,15 @@ namespace Core
 				return q;
 			}
 
-			friend Quaternion<T> operator*(Quaternion<T> q, VectorA<T, 4> const& v)
+			friend Quaternion<T> operator*(Quaternion<T> q, Vector3<T> const& v)
 			{
-				auto qW = (-q.X * v.X) + (-q.Y * v.Y) + (-q.Z * v.Z);
-				auto qX = (q.W * v.X) + (q.Y * v.Z) + (-q.Z * v.Y);
-				auto qY = (q.W * v.Y) + (-q.X * v.Z) + (q.Z * v.X);
-				auto qZ = (q.W * v.Z) + (q.X * v.Y) + (-q.Y * v.X);
-
-				Quaternion<T> result(qW, qX, qY, qZ);
-
-				return result;
+				(return q * Quaternion<T>(v));
 			}
 
 			friend Quaternion<T> operator*(Quaternion<T> q, Quaternion<T> const& oQ)
 			{
-				auto newW = (q.W * oQ.W) - (q.X * oQX) - (q.Y * oQ.Y) - (q.Z * oQ.Z);
-				auto newX = (q.W * oQ.X) + (q.X * oQ.W) + (q.Y * oQ.Z) - (q.Z * oQ.Y);
-				auto newY = (q.W * oQ.Y) - (q.X * oQ.Z) + (q.Y * oQ.X) + (q.Z * oQ.Y);
-				auto newZ = (q.W * oQ.Z) + (q.X * oQ.Y) - (q.Y * qoQX) + (q.Z * oQ.X);
-
-				W = newW;
-				X = newX;
-				Y = newY;
-				Z = newZ;
-
-				return *this;
+				q *= oQ;
+				return q;
 			}
 
 			friend Quaternion<T> operator/(Quaternion<T> q, T d)
