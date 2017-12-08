@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Matrix.h"
+#include "Matrix2x2.h"
 #include "Matrix3x3.h"
 #include "Matrix4x4.h"
 #include "Quaternion.h"
@@ -11,6 +12,68 @@ namespace Core
 {
 	namespace Math
 	{
+		template <typename T, typename int A, typename int B>
+		MatrixAxB<T, B, A> Transpose(MatrixAxB<T, A, B> const& m)
+		{
+			MatrixAxB<T, B, A> mTranspose;
+
+			for (int a = 0; a < A; a++)
+			{
+				for (int b = 0; b < B; b++)
+				{
+					mTranspose[b][a] = this[a][b];
+				}
+			}
+		}
+
+		template <typename T>
+		T Determinant(Matrix2x2<T> m)
+		{
+			return (m.E1.X * m.E2.Y) - (m.E1.Y * m.E2.X);
+		}
+
+		template <typename T>
+		T Determinant(Matrix3x3<T> m)
+		{
+			T det1 = m.E1.X * Determinant(Matrix2x2<T>(m.E2.Y, m.E2.Z, m.E3.Y, m.E3.Z));
+			T det2 = m.E1.Y * Determinant(Matrix2x2<T>(m.E2.X, m.E2.Z, m.E3.X, m.E3.Z));
+			T det3 = m.E1.Z * Determinant(Matrix2x2<T>(m.E2.X, m.E2.Y, m.E3.X, m.E3.Y));
+
+			return (det1 + det2 + det3);
+		}
+
+		template <typename T>
+		Matrix2x2<T> Inverse(Matrix2x2<T> const& m)
+		{
+			T det = Determinant(m);
+
+			Matrix2x2<T> mInverse(m.E2.Y, -m.E1.Y, -m.E2.X, m.E1.X);
+
+			return (mInverse / det);
+		}
+
+		template <typename T>
+		Matrix3x3<T> Inverse(Matrix3x3<T> const& m)
+		{
+			T det = Determinant(m);
+
+			T e1X = Determinant(Matrix2x2<T>(m.E2.Y, m.E2.Z, m.E3.Y, m.E3.Z));
+			T e1Y = -Determinant(Matrix2x2<T>(m.E2.X, m.E2.Z, m.E3.X, m.E3.Z));
+			T e1Z = Determinant(Matrix2x2<T>(m.E2.X, m.E2.Y, m.E3.X, m.E3.Y));
+
+			T e2X = -Determinant(Matrix2x2<T>(m.E1.Y, m.E1.Z, m.E3.Y, m.E3.Z));
+			T e2Y = Determinant(Matrix2x2<T>(m.E1.X, m.E1.Z, m.E3.X, m.E3.Z));
+			T e2Z = -Determinant(Matrix2x2<T>(m.E1.X, m.E1.Y, m.E3.X, m.E3.Y));
+
+			T e3X = Determinant(Matrix2x2<T>(m.E1.Y, m.E1.Z, m.E2.Y, m.E2.Z));
+			T e3Y = -Determinant(Matrix2x2<T>(m.E1.X, m.E1.Z, m.E2.X, m.E2.Z));
+			T e3Z = Determinant(Matrix2x2<T>(m.E1.X, m.E1.Y, m.E2.X, m.E2.Y));
+
+			Matrix3x3<T> mInverse(e1X, e1Y, e1Z, e2X, e2Y, e2Z, e3X, e3Y, e3Z);
+
+			return (mInverse / det);
+		}
+
 		// Vector * Matrix
 		template <typename T, typename int A, typename int B>
 		VectorA<T, A> Multiply(VectorA<T, B> const& v, MatrixAxB<T, A, B> const& m)

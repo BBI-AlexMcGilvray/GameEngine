@@ -28,8 +28,8 @@ namespace Core
 				VectorA<T, 3> Bases[3];
 			};
 
-			MatrixAxB(MatrixAxB<T, 2, 2> const& m)
-				: E1(m.E1), E2(m.E2), E3(0)
+			MatrixAxB(MatrixAxB<T, 2, 2> const& m, Vector3<T> e3 = Vector3<T>(0))
+				: E1(m.E1), E2(m.E2), E3(e3)
 			{}
 
 			MatrixAxB(MatrixAxB<T, 3, 3> const& m)
@@ -58,30 +58,33 @@ namespace Core
 				return Pair<Dimension<3>, Dimension<3>>(3, 3);
 			}
 
-			void Transpose()
-			{
-				for (int a = 0; a < 3; a++)
-				{
-					for (int b = 0; b < 3; b++)
-					{
-						T temp = this[b][a];
-						this[b][a] = this[a][b];
-						this[b][a] = temp;
-					}
-				}
-			}
-
 			void SetColumn(int column, VectorA<T, 3> columnVector)
 			{
 				(*this)[column] = columnVector;
 			}
 
+			VectorA<T, 3> GetColumn(int column) const
+			{
+				return (*this)[column];
+			}
+
 			void SetRow(int row, VectorA<T, 3> rowVector)
 			{
-				for (int i = 0; i < rowVector.Dimensions(); i++)
+				for (int i = 0; i < 3; i++)
 				{
-					(*this)[row][i] = rowVector[i];
+					(*this)[i][row] = rowVector[i];
 				}
+			}
+
+			VectorA<T, 3> GetRow(int row) const
+			{
+				VectorA<T, 3> rowV;
+				for (int i = 0; i < 3; i++)
+				{
+					rowV[i] = (*this)[i][row];
+				}
+
+				return rowV;
 			}
 
 			// operators
@@ -90,7 +93,6 @@ namespace Core
 				E1 -= m.E1;
 				E2 -= m.E2;
 				E3 -= m.E3;
-				E4 -= m.E4;
 
 				return *this;
 			}
@@ -100,7 +102,6 @@ namespace Core
 				E1 += m.E1;
 				E2 += m.E2;
 				E3 += m.E3;
-				E4 += m.E4;
 
 				return *this;
 			}
@@ -110,20 +111,15 @@ namespace Core
 				E1 *= d;
 				E2 *= d;
 				E3 *= d;
-				E4 *= d;
 
 				return *this;
 			}
 
 			MatrixAxB<T, 3, 3>& operator*=(MatrixAxB<T, 3, 3> const& m)
 			{
-				auto Copy = (*this);
-				Copy.Transpose();
-
-				E1 = VectorA<T, 4>(Copy.E1.Dot(m.E1), Copy.E1.Dot(m.E2), Copy.E1.Dot(m.E3), Copy.E1.Dot(m.E4));
-				E2 = VectorA<T, 4>(Copy.E2.Dot(m.E1), Copy.E2.Dot(m.E2), Copy.E2.Dot(m.E3), Copy.E2.Dot(m.E4));
-				E3 = VectorA<T, 4>(Copy.E3.Dot(m.E1), Copy.E3.Dot(m.E2), Copy.E3.Dot(m.E3), Copy.E3.Dot(m.E4));
-				E4 = VectorA<T, 4>(Copy.E4.Dot(m.E1), Copy.E4.Dot(m.E2), Copy.E4.Dot(m.E3), Copy.E4.Dot(m.E4));
+				E1 = VectorA<T, 4>(Dot((*this).GetRow(0), m.E1), Dot((*this).GetRow(0), m.E2), Dot((*this).GetRow(0), m.E3));
+				E2 = VectorA<T, 4>(Dot((*this).GetRow(1), m.E1), Dot((*this).GetRow(1), m.E2), Dot((*this).GetRow(1), m.E3));
+				E3 = VectorA<T, 4>(Dot((*this).GetRow(2), m.E1), Dot((*this).GetRow(2), m.E2), Dot((*this).GetRow(2), m.E3));
 
 				return *this;
 			}
@@ -133,16 +129,17 @@ namespace Core
 				E1 /= d;
 				E2 /= d;
 				E3 /= d;
-				E4 /= d;
 
 				return *this;
 			}
 
 			MatrixAxB<T, 3, 3>& operator/=(MatrixAxB<T, 3, 3> const& m)
 			{
-				auto mI = m.Inverse();
+				E1 /= m.E1;
+				E2 /= m.E2;
+				E3 /= m.E3;
 
-				return ((*this) * mI);
+				return *this;
 			}
 
 			MatrixAxB<T, 3, 3>& operator=(T d)
@@ -150,7 +147,6 @@ namespace Core
 				E1 = VectorA<T, 4>(d);
 				E2 = VectorA<T, 4>(d);
 				E3 = VectorA<T, 4>(d);
-				E4 = VectorA<T, 4>(d);
 
 				return *this;
 			}
@@ -160,7 +156,6 @@ namespace Core
 				E1 = m.E1;
 				E2 = m.E2;
 				E3 = m.E3;
-				E4 = m.E4;
 
 				return *this;
 			}
@@ -226,6 +221,11 @@ namespace Core
 			}
 
 			VectorA<T, 3>& operator[](int basis)
+			{
+				return Bases[basis];
+			}
+
+			VectorA<T, 3> operator[](int basis) const
 			{
 				return Bases[basis];
 			}

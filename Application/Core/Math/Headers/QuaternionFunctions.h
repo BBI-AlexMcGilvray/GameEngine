@@ -16,7 +16,79 @@ namespace Core
 {
 	namespace Math
 	{
-		// from rotation matrix
+		template <typename T, typename int A>
+		T EulerAngle(Quaternion<T> const& q, Axis<A> axis)
+		{
+			switch (axis)
+			{
+			case X{}:
+			{
+				T sinX = T(2) * (q.W * q.X + q.Y * q.Z);
+				T cosX = T(1) - T(2) * (q.X * q.X + q.Y * q.Y);
+
+				return atan2(sinX, cosX);
+				break;
+			}
+			case Y{}:
+			{
+				T sinY = T(2) * (q.W * q.Y - q.X * q.Z);
+				if (fabs(sinY) >= T(1))
+				{
+					return copysign(T(PI_F) / T(2), sinY);
+				}
+				else
+				{
+					return asin(sinY);
+				}
+				break;
+			}
+			case Z{}:
+			{
+				T sinZ = T(2) * (q.W * q.Z + q.X * q.Y);
+				T cosZ = T(1) - (T(2) * q.Y * q.Y + q.Z * q.Z);
+				return atan2(sinZ, cosZ);
+
+				break;
+			}
+			default:
+				return T(0);
+			}
+		}
+
+		template <typename T>
+		Quaternion<T> Inverse(Quaternion<T> const& q)
+		{
+			return (Conjugate(q) / Magnitude(q));
+		}
+
+		template <typename T>
+		Quaternion<T> Conjugate(Quaternion<T> const& q)
+		{
+			Quaternion<T> conjugate(q.W, -q.X, -q.Y, -q.Z);
+
+			return conjugate;
+		}
+
+		template <typename T>
+		T MagnitudeSqr(Quaternion<T> const& q)
+		{
+			auto magnitudeSqr = ((q.W * q.W) + (q.X * q.X) + (q.Y * q.Y) + (q.Z * q.Z));
+
+			return magnitudeSqr;
+		}
+
+		template <typename T>
+		T Magnitude(Quaternion<T> const& q)
+		{
+			return sqrt(MagnitudeSqr(q));
+		}
+
+		template <typename T>
+		Quaternion<T> Normalize(Quaternion<T> const& q)
+		{
+			return (q / Magnitude(q));
+		}
+
 		/*
 		template <typename T>
 		Quaternion<T> QuatFromRotationMatrix(Matrix3x3<T> const& m)
@@ -27,9 +99,9 @@ namespace Core
 		*/
 
 		template <typename T>
-		MatrixAxB<T, 3, 3> GetRotationMatrix(Quaternion<T> quaternion)
+		Matrix3x3<T> GetRotationMatrix(Quaternion<T> quaternion)
 		{
-			MatrixAxB<T, 3, 3> rotationMatrix;
+			Matrix3x3<T> rotationMatrix;
 
 			auto sqrW = Sqr(quaternion.W);
 			auto sqrX = Sqr(quaternion.X);
@@ -64,9 +136,9 @@ namespace Core
 		}
 
 		template <typename T>
-		MatrixAxB<T, 4, 4> TransformationMatrix(Quaternion<T> quaternion)
+		Matrix4x4<T> TransformationMatrix(Quaternion<T> quaternion)
 		{
-			MatrixAxB<T, 4, 4> rotationMatrix(GetRotationMatrix(quaternion));
+			Matrix4x4<T> rotationMatrix(GetRotationMatrix(quaternion), Vector4<T>(0, 0, 0, 1));
 
 			return rotationMatrix;
 		}
@@ -76,12 +148,12 @@ namespace Core
 		{
 			Quaternion<T> rotation;
 			Vector3<T> crossProduct = CrossProduct(v1, v2);
-			rotation.W = Sqrt(v1.Magnitude() * v2.Magnitude()) + Dot(v1, v2);
+			rotation.W = Sqrt(Magnitude(v1) * Magnitude(v2)) + Dot(v1, v2);
 			rotation.X = crossProduct.X;
 			rotation.Y = crossProduct.Y;
 			rotation.Z = crossProduct.Z;
 
-			rotation.Normalize();
+			rotation = Normalize(rotation);
 
 			return rotation;
 		}

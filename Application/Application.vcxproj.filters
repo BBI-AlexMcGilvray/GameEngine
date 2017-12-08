@@ -141,6 +141,9 @@
     <ClCompile Include="ApplicationManagement\Geometric\Headers\Container.h">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationManagement\Geometric\Source\CameraUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\Dlls\SDL2\libfreetype-6.dll" />
@@ -569,6 +572,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Math\Headers\MathUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\CameraUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

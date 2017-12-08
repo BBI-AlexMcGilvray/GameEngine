@@ -1,6 +1,10 @@
 #include "ApplicationManagement/Geometric/Headers/Camera.h"
 
+#include "ApplicationManagement/Geometric/Headers/CameraUtils.h"
+
 #include "Core/Math/Headers/MathUtils.h"
+#include "Core/Math/Headers/MatrixFunctions.h"
+#include "Core/Math/Headers/VectorFunctions.h"
 #include "Core/Math/Headers/QuaternionFunctions.h"
 
 #include "Core/Debugging/Headers/Macros.h"
@@ -12,8 +16,7 @@ namespace Application
 		Camera::Camera(const int& width, const int& height, const Float3& position, const Float3& direction)
 		{
 			Position = position;
-			Direction = direction;
-			Direction.Normalize();
+			Direction = Normalize(direction);
 
 			FQuaternion newRotation = RotationBetweenVectors(DefaultDirection, Direction);
 		}
@@ -40,16 +43,16 @@ namespace Application
 			float worldX = screenPosition.X / Width * 2.0f - 1.0f;
 			float worldY = 1.0f - screenPosition.Y / Height * 2.0f;
 
-			Float4x4 inverseMVP;// = glm::inverse(GetRenderMatrix());
+			Float4x4 inverseMVP = GetRenderMatrix();
 
-			Float4 worldPosition = /*inverseMVP * */Float4(worldX, worldY, 0.0f, 1.0f);
+			Float4 worldPosition = inverseMVP * Float4(worldX, worldY, 0.0f, 1.0f);
 
 			return Float3(worldPosition.X, worldPosition.Y, worldPosition.Z) / worldPosition.W;
 			
 			// This gives the world coordinate of clicked area. Using the vector of camera->this (given by: this - camera) you
 			// can calculate the coordinates that would be found at y = 0.
 
-			// Note: Create a ray class that has a direction and origin and can test for intersection & find the values when an axis (typically y) is 0=
+			// Note: Create a ray class that has a direction and origin and can test for intersection & find the values when an axis (typically y) is 0
 		}
 
 		Float2 Camera::WorldToMouse(const Float3& worldPosition)
@@ -76,41 +79,19 @@ namespace Application
 				transformationMatrix[3][1] = -Position.Y;
 				transformationMatrix[3][2] = -Position.Z;
 			}
-			transformationMatrix = RotationMatrix * transformationMatrix; // rotate it
+			transformationMatrix = Float4x4(Inverse(RotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f)) * transformationMatrix; // rotate it
 
 			return ProjectionMatrix * transformationMatrix;
 		}
 
 		void Camera::RecalculateRotationMatrix()
 		{
-			RotationMatrix = TransformationMatrix(Rotation);
+			RotationMatrix = GetRotationMatrix(Rotation);
 		}
 
 		void Camera::RecalculateProjectionMatrix()
 		{
 			ProjectionMatrix = CalculatePerspectiveMatrix(FOVY, AspectRatio, NearPlane, FarPlane);
-		}
-
-		Float4x4 CalculatePerspectiveMatrix(float fov, float aspectRatio, float nearPlane, float farPlane)
-		{
-			Float4x4 perspectiveMatrix;
-
-			if (VERIFY(fov <= 0 || aspectRatio == 0))
-			{
-				return perspectiveMatrix;
-			}
-
-			float frustrumDepth = farPlane - nearPlane;
-			float frustrumDepthInverse = 1.0f / frustrumDepth;
-
-			perspectiveMatrix[0][0] = (1.0f / Tan(0.5f * fov)) / aspectRatio;
-			perspectiveMatrix[1][1] = (1.0f / Tan(0.5f * fov));
-			perspectiveMatrix[2][2] = farPlane * frustrumDepthInverse;
-			perspectiveMatrix[2][3] = 1;
-			perspectiveMatrix[3][2] = (-farPlane * nearPlane) * frustrumDepthInverse;
-			perspectiveMatrix[3][3] = 0;
-
-			return perspectiveMatrix;
 		}
 	}
 }

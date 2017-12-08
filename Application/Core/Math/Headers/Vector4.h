@@ -2,8 +2,6 @@
 
 #include "Vector.h"
 
-#include "VectorFunctions.h"
-
 namespace Core
 {
 	namespace Math
@@ -61,85 +59,6 @@ namespace Core
 			Dimension<4> Dimensions()
 			{
 				return Dimension<4>;
-			}
-
-			T MagnitudeSqr()
-			{
-				return Dot(*this, *this);
-			}
-
-			T Magnitude()
-			{
-				return sqrt(MagnitudeSqr);
-			}
-
-			VectorA<T, 4>& Normalize()
-			{
-				return ((*this) /= (Magnitude()));
-			}
-
-			template <typename T>
-			VectorA<T, 4>& Min(T d)
-			{
-				X = Min(X, d);
-				Y = Min(Y, d);
-				Z = Min(Z, d);
-				W = Min(W, d);
-
-				return (*this);
-			}
-
-			template <typename T>
-			VectorA<T, 4>& Min(VectorA<T, 4> const& v1)
-			{
-				X = Min(X, v1.X);
-				Y = Min(Y, v1.Y);
-				Z = Min(Z, v1.Z);
-				W = Min(W, v1.W);
-
-				return (*this);
-			}
-
-			template <typename T>
-			VectorA<T, 4>& Max(T d)
-			{
-				X = Max(X, d);
-				Y = Max(Y, d);
-				Z = Max(Z, d);
-				W = Max(W, d);
-
-				return (*this);
-			}
-
-			template <typename T>
-			VectorA<T, 4>& Max(VectorA<T, 4> const& v1)
-			{
-				X = Max(X, v1.X);
-				Y = Max(Y, v1.Y);
-				Z = Max(Z, v1.Z);
-				W = Max(W, v1.W);
-
-				return (*this);
-			}
-
-
-			template <typename T>
-			VectorA<T, 4>& Clamp(T d1, T d2)
-			{
-				X = Clamp(X, d1, d2);
-				Y = Clamp(Y, d1, d2);
-				Z = Clamp(Z, d1, d2);
-				W = Clamp(W, d1, d2);
-
-				return (*this);
-			}
-
-			template <typename T>
-			VectorA<T, 4>& Clamp(VectorA<T, 4> const& v1, VectorA<T, 4> const& v2)
-			{
-				VectorA<T, 4> clampV(Clamp(X, v1.X, v2.X), Clamp(Y, v1.Y, v2.Y), Clamp(Z, v1.Z, v2.Z), Clamp(W, v1.W, v2.W));
-
-				return clampV;
 			}
 
 			// operators
@@ -280,6 +199,11 @@ namespace Core
 			}
 
 			T& operator[](int axis)
+			{
+				return Axes[axis];
+			}
+
+			T operator[](int axis) const
 			{
 				return Axes[axis];
 			}

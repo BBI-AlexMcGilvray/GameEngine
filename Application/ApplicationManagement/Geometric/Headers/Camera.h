@@ -17,7 +17,7 @@ namespace Application
 			Float3 Direction; // direction the camera is looking
 
 			FQuaternion Rotation;
-			Float4x4 RotationMatrix;
+			Float3x3 RotationMatrix;
 
 			Float4x4 ProjectionMatrix;
 
@@ -44,7 +44,5 @@ namespace Application
 			void RecalculateRotationMatrix();
 			void RecalculateProjectionMatrix();
 		};
-
-		Float4x4 CalculatePerspectiveMatrix(float fov, float aspectRatio, float nearPlane, float farPlane);
 	}
 }

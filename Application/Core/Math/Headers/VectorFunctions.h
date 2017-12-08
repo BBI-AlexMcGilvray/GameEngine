@@ -11,13 +11,134 @@ namespace Core
 {
 	namespace Math
 	{
-		// need to take out magnitude, min/max, and many other functions from vector classes and put them here.
+		template <typename T, int D>
+		T MagnitudeSqr(VectorA<T, D> const& v)
+		{
+			return Dot(v, v);
+		}
+
+		template <typename T, int D>
+		T Magnitude(VectorA<T, D> const& v)
+		{
+			return Sqrt(MagnitudeSqr(v));
+		}
+
+		template <typename T, int D>
+		VectorA<T, D> Normalize(VectorA<T, D> const& v)
+		{
+			return (v / Magnitude(v));
+		}
+
+		template <typename T, int D>
+		VectorA<T, D> Min(VectorA<T, D> const& v, T d)
+		{
+			VectorA<T, D> minV;
+
+			for (int i = 0; i < D; i++)
+			{
+				minV[i] = Min(v[i], d);
+			}
+
+			return minV;
+		}
+
+		template <typename T, int D>
+		VectorA<T, D> Min(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			VectorA<T, D> minV;
+
+			for (int i = 0; i < D; i++)
+			{
+				minV[i] = Min(v1[i], v2[i]);
+			}
+
+			return minV;
+		}
+
+		template <typename T, int D>
+		VectorA<T, D> Shortest(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			auto v1MagSqr = MagnitudeSqr(v1);
+			auto v2MagSqr = MagnitudeSqr(v2);
+
+			if (v1MagSqr < v2MagSqr)
+			{
+				return v1;
+			}
+			return v2;
+		}
+
+		template <typename T, int D>
+		VectorA<T, D> Max(VectorA<T, D> const& v, T d)
+		{
+			VectorA<T, D> maxV;
+
+			for (int i = 0; i < D; i++)
+			{
+				maxV[i] = Max(v[i], d);
+			}
+
+			return maxV;
+		}
+
+		template <typename T, int D>
+		VectorA<T, D> Max(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			VectorA<T, D> maxV;
+
+			for (int i = 0; i < D; i++)
+			{
+				maxV[i] = Max(v1[i], v2[i]);
+			}
+
+			return maxV;
+		}
+
+		template <typename T, int D>
+		VectorA<T, D> Longest(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			auto v1MagSqr = MagnitudeSqr(v1);
+			auto v2MagSqr = MagnitudeSqr(v2);
+
+			if (v1MagSqr > v2MagSqr)
+			{
+				return v1;
+			}
+			return v2;
+		}
+
+		template <typename T, int D>
+		VectorA<T, D>& Clamp(VectorA<T, D> const& v, T d1, T d2)
+		{
+			VectorA<T, D> clampV;
+
+			for (int i = 0; i < D; i++)
+			{
+				clampV[i] = Clamp(v[i], d);
+			}
+
+			return clampV;
+		}
+
+		template <typename T, int D>
+		VectorA<T, D> Clamp(VectorA<T, D> const& v, VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			VectorA<T, D> clampV;
+
+			for (int i = 0; i < D; i++)
+			{
+				clampV[i] = Clamp(v[i], v1[i], v2[i]);
+			}
+
+			return clampV;
+		}
+
 		template <typename T, int D>
 		T Dot(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
 		{
 			T dot = 0;
 
-			for (auto i = 0; i < D; i++)
+			for (int i = 0; i < D; i++)
 			{
 				dot += (v1[i] * v2[i]);
 			}

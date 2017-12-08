@@ -74,144 +74,51 @@ namespace Core
 				Z = (cosX * cosY * sinZ) + (sinX * sinY * cosZ);
 			}
 
-			template <typename int A>
-			T EulerAngle(Axis<A> axis)
+			// operators
+			Quaternion<T>& operator-=(Quaternion<T> const& q)
 			{
-				switch (axis)
-				{
-				case X{}:
-				{
-					T sinX = T(2) * (W * X + Y * Z);
-					T cosX = T(1) - T(2) * (X * X + Y * Y);
-
-					return atan2(sinX, cosX);
-					break;
-				}
-				case Y{}:
-				{
-					T sinY = T(2) * (W * Y - X * Z);
-					if (fabs(sinY) >= T(1))
-					{
-						return copysign(T(PI_F) / T(2), sinY);
-					}
-					else
-					{
-						return asin(sinY);
-					}
-					break;
-				}
-				case Z{}:
-				{
-					T sinZ = T(2) * (W *Z + X * Y);
-					T cosZ = T(1) - (T(2) * Y * Y + Z * Z);
-					return atan2(sinZ, cosZ);
-
-					break;
-				}
-				default:
-					return T(0);
-				}
-			}
-
-			Quaternion<T> Inverse()
-			{
-				return (Conjugate() / Magnitude());
-			}
-
-			Quaternion<T> Conjugate()
-			{
-				Quaternion conjugate(W, -X, -Y, -Z);
-
-				return conjugate;
-			}
-
-			T MagnitudeSqr()
-			{
-				auto magnitudeSqr = ((W * W) + (X * X) + (Y * Y) + (Z * Z));
-
-				return magnitudeSqr;
-			}
-
-			T Magnitude()
-			{
-				return sqrt(MagnitudeSqr());
-			}
-
-			Quaternion<T> Normalize()
-			{
-				(*this) /= Magnitude();
+				MESSAGE(false, "Don't use this - why are you using this?");
 
 				return (*this);
 			}
 
-			// operators
-
-			Quaternion<T>& operator-=(Quaternion<T> const& q)
-			{
-				return (this = this - q);
-			}
-
 			Quaternion<T>& operator+=(Quaternion<T> const& q)
 			{
-				return (this = this + q);
+				MESSAGE(false, "Don't use this - why are you using this?");
+
+				return (*this);
 			}
 
 			Quaternion<T>& operator*=(Quaternion<T> const& q)
 			{
-				return (this = this * q);
+				W *= q.W;
+				X *= q.X;
+				Y *= q.Y;
+				Z *= q.Z;
+
+				return (*this);
+			}
+
+			Quaternion<T>& operator/=(T d)
+			{
+				W /= d;
+				X /= d;
+				Y /= d;
+				Z /= d;
+				return (*this);
 			}
 
 			Quaternion<T>& operator/=(Quaternion<T> const& q)
 			{
-				return (this = this / q);
-			}
+				T qMagnitude = Sqrt((q.W * q.W) + (q.X * q.X) + (q.Y * q.Y) + (q.Z * q.Z));
 
-			Quaternion<T>& operator-(Quaternion<T> const& q)
-			{
-				MESSAGE(false, "Don't use this - why are you using this?");
+				Quaternion<T> qInverse;
+				qInverse.W = q.W / qMagnitude;
+				qInverse.X = q.X / qMagnitude;
+				qInverse.Y = q.Y / qMagnitude;
+				qInverse.Z = q.Z / qMagnitude;
 
-				return *this;
-			}
-
-			Quaternion<T>& operator+(Quaternion<T> const& q)
-			{
-				MESSAGE(false, "Don't use this - why are you using this?");
-
-				return *this;
-			}
-
-			Quaternion<T> operator*(Vector3<T> const& v)
-			{
-				auto qW = (-X * v.X) + (-Y * v.Y) + (-Z * v.Z);
-				auto qX = (W * v.X) + (Y * v.Z) + (-Z * v.Y);
-				auto qY = (W * v.Y) + (-X * v.Z) + (Z * v.X);
-				auto qZ = (W * v.Z) + (X * v.Y) + (-Y * v.X);
-
-				Quaternion<T> result(qW, qX, qY, qZ);
-
-				return result;
-			}
-
-			Quaternion<T>& operator*(Quaternion<T> const& q)
-			{
-				auto newW = (W * q.W) - (X * q.X) - (Y * q.Y) - (Z * q.Z);
-				auto newX = (W * q.X) + (X * q.W) + (Y * q.Z) - (Z * q.Y);
-				auto newY = (W * q.Y) - (X * q.Z) + (Y * q.X) + (Z * q.Y);
-				auto newZ = (W * q.Z) + (X * q.Y) - (Y * q.X) + (Z * q.X);
-
-				W = newW;
-				X = newX;
-				Y = newY;
-				Z = newZ;
-
-				return *this;
-			}
-
-			Quaternion<T>& operator/(Quaternion<T> const& q)
-			{
-				auto qI = q.Inverse();
-
-				return ((*this) * qI);
+				return ((*this) * qInverse);
 			}
 
 			Quaternion<T>& operator=(Quaternion<T> const& q)
@@ -222,6 +129,59 @@ namespace Core
 				Z = q.Z;
 
 				return *this;
+			}
+
+			friend Quaternion<T> operator-(Quaternion<T> q, Quaternion<T> const& oQ)
+			{
+				MESSAGE(false, "Don't use this - why are you using this?");
+
+				return q;
+			}
+
+			friend Quaternion<T> operator+(Quaternion<T> q, Quaternion<T> const& oQ)
+			{
+				MESSAGE(false, "Don't use this - why are you using this?");
+
+				return q;
+			}
+
+			friend Quaternion<T> operator*(Quaternion<T> q, VectorA<T, 4> const& v)
+			{
+				auto qW = (-q.X * v.X) + (-q.Y * v.Y) + (-q.Z * v.Z);
+				auto qX = (q.W * v.X) + (q.Y * v.Z) + (-q.Z * v.Y);
+				auto qY = (q.W * v.Y) + (-q.X * v.Z) + (q.Z * v.X);
+				auto qZ = (q.W * v.Z) + (q.X * v.Y) + (-q.Y * v.X);
+
+				Quaternion<T> result(qW, qX, qY, qZ);
+
+				return result;
+			}
+
+			friend Quaternion<T> operator*(Quaternion<T> q, Quaternion<T> const& oQ)
+			{
+				auto newW = (q.W * oQ.W) - (q.X * oQX) - (q.Y * oQ.Y) - (q.Z * oQ.Z);
+				auto newX = (q.W * oQ.X) + (q.X * oQ.W) + (q.Y * oQ.Z) - (q.Z * oQ.Y);
+				auto newY = (q.W * oQ.Y) - (q.X * oQ.Z) + (q.Y * oQ.X) + (q.Z * oQ.Y);
+				auto newZ = (q.W * oQ.Z) + (q.X * oQ.Y) - (q.Y * qoQX) + (q.Z * oQ.X);
+
+				W = newW;
+				X = newX;
+				Y = newY;
+				Z = newZ;
+
+				return *this;
+			}
+
+			friend Quaternion<T> operator/(Quaternion<T> q, T d)
+			{
+				q /= d;
+				return q;
+			}
+
+			friend Quaternion<T> operator/(Quaternion<T> q, Quaternion<T> const& oQ)
+			{
+				q /= oQ;
+				return q;
 			}
 
 			bool operator==(Quaternion<T> const& q)
