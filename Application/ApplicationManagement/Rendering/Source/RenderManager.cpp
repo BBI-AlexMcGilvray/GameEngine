@@ -30,6 +30,9 @@ namespace Application
 
 		void RenderManager::SetOpenGLAttributes()
 		{
+			// NOTE!! https://stackoverflow.com/questions/47188856/cant-make-opengl-glew-and-sdl2-work-together
+			// ^^ MAKE SURE THE ABOVE IS DONE ^^
+
 			// SDL_GL_CONTEXT_PROFILE_CORE uses only the newer version, deprecated functions are disabled
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
