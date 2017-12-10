@@ -4,6 +4,14 @@ namespace Application
 {
 	namespace Rendering
 	{
+		ShaderManager::ShaderManager()
+		{
 
+		}
+
+		ShaderManager::~ShaderManager()
+		{
+
+		}
 	}
 }

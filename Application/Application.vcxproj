@@ -178,7 +178,9 @@
     <ClCompile Include="ApplicationManagement\Rendering\Animation\Source\Timeline.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\FragmentShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShader.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShaderBase.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ShaderManager.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ShaderUtils.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\VertexShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\Renderer.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderManager.cpp" />
@@ -245,7 +247,10 @@
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderObjectManager.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ObjectShader.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\FragmentShader.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ObjectShaderBase.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ShaderBase.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ShaderManager.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ShaderUtils.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\VertexShader.h" />
     <ClInclude Include="Core\Functionality\Headers\Scheduler.h" />
     <ClInclude Include="Core\Functionality\Headers\Lock.h" />

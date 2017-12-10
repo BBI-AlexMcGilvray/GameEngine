@@ -25,7 +25,7 @@ namespace Application
 					float B;
 					float A;
 				};
-				float Values[4]
+				float Values[4];
 			};
 
 			Color()
@@ -52,12 +52,32 @@ namespace Application
 			}
 
 			// operators
+			Color& operator-=(float d)
+			{
+				R -= d;
+				G -= d;
+				B -= d;
+				A -= d;
+
+				return (*this);
+			}
+
 			Color& operator-=(Color const& c)
 			{
 				R -= c.R;
 				G -= c.G;
 				B -= c.B;
 				A -= c.A;
+
+				return (*this);
+			}
+
+			Color& operator+=(float d)
+			{
+				R += d;
+				G += d;
+				B += d;
+				A += d;
 
 				return (*this);
 			}
@@ -72,7 +92,7 @@ namespace Application
 				return (*this);
 			}
 
-			Color& operator*=(T d)
+			Color& operator*=(float d)
 			{
 				R *= d;
 				G *= d;
@@ -92,7 +112,7 @@ namespace Application
 				return (*this);
 			}
 
-			Color& operator/=(T d)
+			Color& operator/=(float d)
 			{
 				R /= d;
 				G /= d;
@@ -112,7 +132,7 @@ namespace Application
 				return (*this);
 			}
 
-			Color& operator=(T d)
+			Color& operator=(float d)
 			{
 				R = d;
 				G = d;
@@ -124,7 +144,7 @@ namespace Application
 
 			Color& operator=(Color const& c)
 			{
-				if (this != &v)
+				if (this != &c)
 				{
 					R = c.R;
 					G = c.G;
@@ -135,7 +155,7 @@ namespace Application
 				return (*this);
 			}
 
-			friend Color operator-(Color c, T d)
+			friend Color operator-(Color c, float d)
 			{
 				c -= d;
 				return c;
@@ -144,10 +164,10 @@ namespace Application
 			friend Color operator-(Color c, Color const& oC)
 			{
 				c -= oC;
-				return d;
+				return c;
 			}
 
-			friend Color operator+(Color c, T d)
+			friend Color operator+(Color c, float d)
 			{
 				c += d;
 				return c;
@@ -159,7 +179,7 @@ namespace Application
 				return c;
 			}
 
-			friend Color operator*(Color c, T d)
+			friend Color operator*(Color c, float d)
 			{
 				c *= d;
 				return c;
@@ -171,7 +191,7 @@ namespace Application
 				return c;
 			}
 
-			friend Color operator/(Color c, T d)
+			friend Color operator/(Color c, float d)
 			{
 				c /= d;
 				return c;
@@ -188,12 +208,12 @@ namespace Application
 				return (R == c.R && G == c.G && B == c.B && A == c.A);
 			}
 
-			T& operator[](int axis)
+			float& operator[](int axis)
 			{
 				return Values[axis];
 			}
 
-			T operator[](int axis) const
+			float operator[](int axis) const
 			{
 				return Values[axis];
 			}
