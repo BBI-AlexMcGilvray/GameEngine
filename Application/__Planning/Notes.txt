@@ -15,4 +15,6 @@
 - Using ASSIMP tutorial to export data into desired format and then export it back out so we can read in our own format
 
 - Input Manager should take in a list of controllers that subscribe to it to listen to updates.
-	Onsubscrip
+
+- NOTE: try to change this to compile for 64 bit instead of 32, but more importantly - try to get static libraries for everything instead of dynamic (ex: glew)
+ (https://stackoverflow.com/questions/20915519/setting-up-opengl-why-am-i-getting-these-errors-why-is-visual-studio-freezing)
