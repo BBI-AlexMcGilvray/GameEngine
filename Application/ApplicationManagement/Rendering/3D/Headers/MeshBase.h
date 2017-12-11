@@ -16,10 +16,10 @@ namespace Application
 		{
 			GLuint Vao;
 			List<GLuint> Vbos;
-			GLuint Texture;
-			uint VertexCount = 0;
+			uint VertexCount;
 
-			MeshBase() = default;
+			MeshBase();
+			MeshBase(String fileName);
 		};
 	}
 }

@@ -13,6 +13,9 @@ namespace Application
 			Float3 Position; // standard vertex attribute
 			Float3 Normal; // nvertex normal
 
+			VertexBase()
+			{}
+
 			VertexBase(const Float3& pos, const Float3& normal)
 			{
 				Position = pos;
