@@ -7,7 +7,7 @@ namespace Application
 		// holds shader information in terms of how it is affected by light, shadows, ...
 		struct Material
 		{
-
+			
 		};
 	}
 }

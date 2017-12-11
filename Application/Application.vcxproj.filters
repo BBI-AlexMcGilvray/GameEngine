@@ -81,12 +81,6 @@
     <ClCompile Include="ApplicationManagement\Rendering\Source\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\Image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -148,6 +142,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShaderBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\MeshBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\ModelBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -511,12 +511,6 @@
     <ClInclude Include="ApplicationManagement\Rendering\Headers\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\2D\Headers\Image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -590,6 +584,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ObjectShaderBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\VertexBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\MeshBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\ModelBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

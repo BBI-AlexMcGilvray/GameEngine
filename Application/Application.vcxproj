@@ -170,8 +170,8 @@
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\Texture.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\AnimatedModel.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Camera.cpp" />
-    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Mesh.cpp" />
-    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Model.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\MeshBase.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\ModelBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Scene.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\World.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Animation\Source\KeyFrame.cpp" />
@@ -232,12 +232,13 @@
     <ClInclude Include="ApplicationManagement\Rendering\2D\Headers\Texture.h" />
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\AnimatedModel.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Camera.h" />
-    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\Mesh.h" />
-    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\Model.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\MeshBase.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\ModelBase.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Content.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Node.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Scene.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\World.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\VertexBase.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\KeyFrame.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\Timeline.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\Color.h" />
