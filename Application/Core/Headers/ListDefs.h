@@ -11,6 +11,9 @@ namespace Core
 {
 	template <typename T>
 	using List = std::vector<T>;
+
+	template <typename T, typename std::size_t N>
+	using Array = std::array<T, N>;
 	
 	template <typename T>
 	struct Truth

@@ -2,17 +2,14 @@
 
 #include "Core/Headers/CoreDefs.h"
 
-#include "Core/Math/Headers/MathDefs.h"
-#include "Core/Math/Headers/MathUtils.h"
+#include "MathDefs.h"
+#include "MathUtils.h"
 
-#include "Core/Math/Headers/Vector.h"
+#include "Vector.h"
 
-using namespace Core;
-using namespace Core::Math;
-
-namespace Application
+namespace Core
 {
-	namespace Rendering
+	namespace Math
 	{
 		struct Color : VectorA<float, 4>
 		{

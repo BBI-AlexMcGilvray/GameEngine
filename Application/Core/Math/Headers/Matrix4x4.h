@@ -3,6 +3,8 @@
 #include "Matrix.h"
 #include "Vector4.h"
 
+#include "Core/Headers/ListDefs.h"
+
 #include "VectorFunctions.h"
 
 namespace Core

@@ -150,6 +150,15 @@
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\ModelBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Data\IO\Source\IOUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\MaterialData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\MeshData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\Dlls\SDL2\libfreetype-6.dll" />
@@ -544,9 +553,6 @@
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\AnimatedModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Rendering\Headers\Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Geometric\Headers\World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -586,13 +592,28 @@
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ObjectShaderBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\VertexBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\MeshBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\ModelBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\IO\Headers\IODefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\IO\Headers\IOUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\MaterialData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\MeshData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\Headers\Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\VertexBaseData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

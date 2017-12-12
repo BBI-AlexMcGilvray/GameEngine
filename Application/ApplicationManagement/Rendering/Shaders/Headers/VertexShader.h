@@ -4,13 +4,14 @@
 
 #include "Core/Headers/PtrDefs.h"
 
+#include "Core/Math/Headers/Color.h"
+#include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/Matrix4x4.h"
-
-#include "ApplicationManagement\/Rendering\Headers\Color.h"
 
 #include "Dependencies\Includes\GLEW\glew.h"
 
 using namespace Core;
+using namespace Core::Math;
 
 namespace Application
 {

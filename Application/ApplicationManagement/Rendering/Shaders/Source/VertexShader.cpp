@@ -34,7 +34,7 @@ namespace Application
 		{
 			// set the required information that needs to be used in the shader
 			GLint MVP = glGetUniformLocation(Program, "MVP");
-			glUniformMatrix4fv(MVP, 1, GL_FALSE, &mvp[0][0]);
+			glUniformMatrix4fv(MVP, 1, GL_FALSE, (GLfloat*)&(mvp[0]));
 
 			// assign color to shader
 			GLint modColor = glGetUniformLocation(Program, "modColor");

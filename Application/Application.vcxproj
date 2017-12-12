@@ -196,6 +196,9 @@
     <ClCompile Include="Core\Functionality\Source\Subscription.cpp" />
     <ClCompile Include="Core\Math\UnitTests\MatrixTests.cpp" />
     <ClCompile Include="Core\Math\UnitTests\VectorTests.cpp" />
+    <ClCompile Include="Data\IO\Source\IOUtils.cpp" />
+    <ClCompile Include="Data\Rendering\Source\MaterialData.cpp" />
+    <ClCompile Include="Data\Rendering\Source\MeshData.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -238,10 +241,10 @@
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Node.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Scene.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\World.h" />
-    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\VertexBase.h" />
+    <ClInclude Include="Data\Rendering\Headers\VertexBaseData.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\KeyFrame.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\Timeline.h" />
-    <ClInclude Include="ApplicationManagement\Rendering\Headers\Color.h" />
+    <ClInclude Include="Core\Math\Headers\Color.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\Renderer.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderManager.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderObjectBase.h" />
@@ -288,6 +291,10 @@
     <ClInclude Include="Core\Math\UnitTests\MathUnitTests.h" />
     <ClInclude Include="Core\Math\UnitTests\MatrixTests.h" />
     <ClInclude Include="Core\Math\UnitTests\VectorTests.h" />
+    <ClInclude Include="Data\IO\Headers\IOUtils.h" />
+    <ClInclude Include="Data\IO\Headers\IODefs.h" />
+    <ClInclude Include="Data\Rendering\Headers\MaterialData.h" />
+    <ClInclude Include="Data\Rendering\Headers\MeshData.h" />
     <ClInclude Include="Dependencies\Includes\GLEW\glew.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\begin_code.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\close_code.h" />

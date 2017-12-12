@@ -4,19 +4,19 @@
 
 using namespace Core::Math;
 
-namespace Application
+namespace Data
 {
 	namespace Rendering
 	{
-		struct VertexBase
+		struct VertexDataBase
 		{
 			Float3 Position; // standard vertex attribute
 			Float3 Normal; // nvertex normal
 
-			VertexBase()
+			VertexDataBase()
 			{}
 
-			VertexBase(const Float3& pos, const Float3& normal)
+			VertexDataBase(const Float3& pos, const Float3& normal)
 			{
 				Position = pos;
 				Normal = normal;
