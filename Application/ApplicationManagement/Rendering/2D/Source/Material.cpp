@@ -5,12 +5,10 @@ namespace Application
 	namespace Rendering
 	{
 		Material::Material()
-			: Shininess(0.5f)
 		{}
 
 		Material::Material(String fileName)
-		{
-
-		}
+			: Data::Rendering::MaterialData(fileName)
+		{}
 	}
 }

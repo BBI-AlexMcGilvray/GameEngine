@@ -5,12 +5,12 @@ namespace Application
 	namespace Rendering
 	{
 		MeshBase::MeshBase()
-			:Vao(0), VertexCount(0)
 		{}
 
 		MeshBase::MeshBase(String fileName)
+			: Data::Rendering::MeshData(fileName)
 		{
-
+			// set up vbo/vaos
 		}
 	}
 }
