@@ -138,9 +138,6 @@
     <ClCompile Include="ApplicationManagement\Geometric\Source\CameraUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ShaderUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShaderBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -157,6 +154,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Data\Rendering\Source\MeshData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\ShaderUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -583,9 +583,6 @@
     <ClInclude Include="ApplicationManagement\Geometric\Headers\CameraUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ShaderUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ShaderBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -614,6 +611,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Data\Rendering\Headers\VertexBaseData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\OpenGLObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\ShaderUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
