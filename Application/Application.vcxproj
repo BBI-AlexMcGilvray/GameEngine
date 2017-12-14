@@ -176,9 +176,15 @@
     <ClCompile Include="ApplicationManagement\Geometric\Source\World.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Animation\Source\KeyFrame.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Animation\Source\Timeline.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLArrayBuffer.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLBuffer.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLObject.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLShader.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLShaderProgram.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\FragmentShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShaderBase.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ShaderBase.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ShaderManager.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\ShaderUtils.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\VertexShader.cpp" />
@@ -241,7 +247,11 @@
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Node.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Scene.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\World.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLBuffer.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLObject.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLShader.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLShaderProgram.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLArrayBuffer.h" />
     <ClInclude Include="Data\Rendering\Headers\VertexBaseData.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\KeyFrame.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\Timeline.h" />

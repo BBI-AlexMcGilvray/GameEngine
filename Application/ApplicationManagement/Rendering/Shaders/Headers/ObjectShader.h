@@ -47,7 +47,10 @@ namespace Application
 			}
 
 			virtual void Prepare(const Float4x4& mvp, const Color& color);
-			virtual void CleanUp();
+			virtual void CleanUp() override;
+
+			void Initialize() override;
+			void Destroy() override;
 
 		private:
 			static Ptr<const char> Name;

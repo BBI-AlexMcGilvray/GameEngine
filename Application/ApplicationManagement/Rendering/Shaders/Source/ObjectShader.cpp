@@ -17,5 +17,21 @@ namespace Application
 			VShader.CleanUp();
 			FShader.CleanUp();
 		}
+
+		void ObjectShader::Initialize()
+		{
+
+		}
+
+		void ObjectShader::Destroy()
+		{
+			glDetachShader(Object, VShader.Object);
+			glDetachShader(Object, FShader.Object);
+
+			glDeleteShader(VShader.Object);
+			glDeleteShader(FShader.Object);
+
+			ObjectShaderBase::Destroy();
+		}
 	}
 }

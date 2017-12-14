@@ -18,3 +18,5 @@
 
 - NOTE: try to change this to compile for 64 bit instead of 32, but more importantly - try to get static libraries for everything instead of dynamic (ex: glew)
  (https://stackoverflow.com/questions/20915519/setting-up-opengl-why-am-i-getting-these-errors-why-is-visual-studio-freezing)
+
+ - NOTE: GET RID OF ALL RAW POINTERS! Raw pointers should never be the owner of an object

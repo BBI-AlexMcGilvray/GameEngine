@@ -11,13 +11,13 @@ namespace Application
 			GLuint Object;
 			GLenum Type;
 
-			GLObject()
-				: Object(0), Type(GL_INVALID_ENUM)
-			{}
+			GLObject();
+			GLObject(GLuint object, GLenum type);
 
-			GLObject(GLuint object, GLenum type)
-				: Object(object), Type(type)
-			{}
+			virtual ~GLObject() = default;
+
+			virtual void SetObject(GLuint object);
+			virtual void SetType(GLenum type);
 		};
 	}
 }

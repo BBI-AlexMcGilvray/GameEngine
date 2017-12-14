@@ -15,8 +15,8 @@ namespace Application
 		{
 			const Ptr<const char> ShaderName;
 
-			ShaderBase()
-				: GLObject(0, GL_SHADER)
+			ShaderBase(Ptr<const char> shaderName)
+				: GLObject(0, GL_SHADER), ShaderName(shaderName)
 			{}
 
 			ShaderBase(Ptr<const char> shaderName, GLenum shaderType)

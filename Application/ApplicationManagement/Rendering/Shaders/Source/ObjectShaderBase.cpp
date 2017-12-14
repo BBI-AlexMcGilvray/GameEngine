@@ -17,6 +17,17 @@ namespace Application
 			Destroy();
 		}
 
+		void ObjectShaderBase::Prepare()
+		{
+			glUseProgram(Object);
+		}
+
+		void ObjectShaderBase::CleanUp()
+		{
+
+		}
+
+
 		void ObjectShaderBase::Initialize()
 		{
 			CreateProgram(this);
