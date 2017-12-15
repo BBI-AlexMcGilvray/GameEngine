@@ -7,7 +7,7 @@ namespace Application
 	namespace Rendering
 	{
 		ObjectShaderBase::ObjectShaderBase()
-			: GLObject(0, GL_PROGRAM)
+			: GLShaderProgram(0, GL_PROGRAM)
 		{
 			Initialize();
 		}
@@ -35,8 +35,7 @@ namespace Application
 
 		void ObjectShaderBase::Destroy()
 		{
-			// delete the shader program
-			glDeleteProgram(Object);
+
 		}
 	}
 }

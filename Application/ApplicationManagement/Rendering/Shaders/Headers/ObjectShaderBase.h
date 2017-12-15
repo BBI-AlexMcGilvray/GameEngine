@@ -5,7 +5,7 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/ListDefs.h"
 
-#include "ApplicationManagement/Rendering/OpenGL/Headers/GLObject.h"
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLShaderProgram.h"
 
 using namespace Core;
 
@@ -14,7 +14,7 @@ namespace Application
 	namespace Rendering
 	{
 		// holds onto name (for reflection) and a pixel/vertex shader combination
-		struct ObjectShaderBase : GLObject
+		struct ObjectShaderBase : GLShaderProgram
 		{
 			ObjectShaderBase();
 			virtual ~ObjectShaderBase();

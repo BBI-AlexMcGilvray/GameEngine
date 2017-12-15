@@ -44,7 +44,7 @@ namespace Application
 		{
 			int compileResult = 0;
 
-			shader->SetShaderProgram(glCreateShader(shader->GetShaderType())); // create shader creates an empty shader object (handle) of desired type
+			shader->SetShaderProgram(glCreateShader(shader->Type)); // create shader creates an empty shader object (handle) of desired type
 			const char* shaderCodePtr = shader->GetShader();
 			//const int shaderCodeSize = source.size(); // we can create a StringRef class that holds a const char*, and also the size of the array (by reading null character) to fill this in
 

@@ -10,12 +10,16 @@ namespace Application
 		{
 			VShader.Prepare(mvp, color);
 			FShader.Prepare();
+
+			ObjectShaderBase::Prepare();
 		}
 
 		void ObjectShader::CleanUp()
 		{
 			VShader.CleanUp();
 			FShader.CleanUp();
+
+			ObjectShaderBase::CleanUp();
 		}
 
 		void ObjectShader::Initialize()
@@ -27,9 +31,6 @@ namespace Application
 		{
 			glDetachShader(Object, VShader.Object);
 			glDetachShader(Object, FShader.Object);
-
-			glDeleteShader(VShader.Object);
-			glDeleteShader(FShader.Object);
 
 			ObjectShaderBase::Destroy();
 		}
