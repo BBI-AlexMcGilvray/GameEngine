@@ -11,6 +11,8 @@ namespace Application
 			GLArrayBuffer();
 			GLArrayBuffer(GLuint object, GLenum type = GL_INVALID_ENUM);
 
+			~GLArrayBuffer();
+
 			void Bind();
 			void Generate();
 		};

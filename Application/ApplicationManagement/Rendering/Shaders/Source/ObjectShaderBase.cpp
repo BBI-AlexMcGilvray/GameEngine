@@ -24,7 +24,8 @@ namespace Application
 
 		void ObjectShaderBase::CleanUp()
 		{
-
+			// default back to no shader
+			glUseProgram(0);
 		}
 
 

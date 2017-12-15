@@ -29,7 +29,7 @@ namespace Application
 				return Shader;
 			}
 
-			virtual void Prepare(const Float4x4& mvp, const Color& color);
+			virtual void Prepare(GLuint program, const Float4x4& mvp, const Color& color);
 			virtual void CleanUp();
 
 		protected:

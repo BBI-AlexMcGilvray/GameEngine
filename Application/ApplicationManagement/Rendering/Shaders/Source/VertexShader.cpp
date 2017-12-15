@@ -30,14 +30,14 @@ namespace Application
 			}
 		)";
 
-		void VertexShader::Prepare(const Float4x4& mvp, const Color& color)
+		void VertexShader::Prepare(GLuint program, const Float4x4& mvp, const Color& color)
 		{
 			// set the required information that needs to be used in the shader
-			GLint MVP = glGetUniformLocation(Object, "MVP");
+			GLint MVP = glGetUniformLocation(program, "MVP");
 			glUniformMatrix4fv(MVP, 1, GL_FALSE, (GLfloat*)&(mvp[0]));
 
 			// assign color to shader
-			GLint modColor = glGetUniformLocation(Object, "modColor");
+			GLint modColor = glGetUniformLocation(program, "modColor");
 			glUniform4fv(modColor, 1, &(color.Values[0]));
 		}
 

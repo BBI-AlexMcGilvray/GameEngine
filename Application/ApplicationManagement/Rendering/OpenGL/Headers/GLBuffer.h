@@ -13,6 +13,7 @@ namespace Application
 
 			~GLBuffer();
 
+			virtual void Bind();
 			virtual void Bind(GLenum type);
 			virtual void Generate();
 		};

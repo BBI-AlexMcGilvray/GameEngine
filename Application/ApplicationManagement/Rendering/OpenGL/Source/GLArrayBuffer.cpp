@@ -12,6 +12,11 @@ namespace Application
 			: GLObject(object, type)
 		{}
 
+		GLArrayBuffer::~GLArrayBuffer()
+		{
+			glDeleteVertexArrays(1, &Object);
+		}
+
 		void GLArrayBuffer::Bind()
 		{
 			glBindVertexArray(Object);

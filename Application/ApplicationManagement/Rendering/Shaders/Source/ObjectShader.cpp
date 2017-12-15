@@ -8,10 +8,10 @@ namespace Application
 
 		void ObjectShader::Prepare(const Float4x4& mvp, const Color& color)
 		{
-			VShader.Prepare(mvp, color);
-			FShader.Prepare();
-
 			ObjectShaderBase::Prepare();
+
+			VShader.Prepare(Object, mvp, color);
+			FShader.Prepare();
 		}
 
 		void ObjectShader::CleanUp()
@@ -24,7 +24,10 @@ namespace Application
 
 		void ObjectShader::Initialize()
 		{
+			ObjectShaderBase::Initialize();
 
+			glBindAttribLocation(Object, 0, "vPosition"); // maybe not needed if specified in shader?
+			glBindAttribLocation(Object, 1, "vNormal"); // maybe not needed if specified in shader?
 		}
 
 		void ObjectShader::Destroy()

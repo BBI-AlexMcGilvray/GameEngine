@@ -17,8 +17,14 @@ namespace Application
 			glDeleteBuffers(1, &Object);
 		}
 
+		void GLBuffer::Bind()
+		{
+			Bind(Type);
+		}
+
 		void GLBuffer::Bind(GLenum type)
 		{
+			Type = type;
 			glBindBuffer(type, Object);
 		}
 

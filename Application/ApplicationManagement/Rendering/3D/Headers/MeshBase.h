@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Dependencies\Includes\GLEW\glew.h"
-
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/ListDefs.h"
 
 #include "Data/Rendering/Headers/MeshData.h"
+
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLArrayBuffer.h"
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
 
 using namespace Core;
 
@@ -16,11 +17,15 @@ namespace Application
 		// holds the information about the mesh of a 3D object
 		struct MeshBase : Data::Rendering::MeshData
 		{
-			GLuint Vao;
-			List<GLuint> Vbos;
+			GLArrayBuffer Vao;
+			List<GLBuffer> Vbos;
 
 			MeshBase();
 			MeshBase(String fileName);
+
+			virtual void Initialize();
+
+			virtual void Draw();
 		};
 	}
 }
