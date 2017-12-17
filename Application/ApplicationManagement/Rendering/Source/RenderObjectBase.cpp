@@ -4,15 +4,15 @@ namespace Application
 {
 	namespace Rendering
 	{
-		RenderObjectBase::RenderObjectBase(SharedPtr<Transform> renderTransform)
-			: /*Subscriber(Ptr to <GameObjectManager>),*/ RenderTransform(renderTransform)
+		RenderObjectBase::RenderObjectBase(RenderManager& manager, Ptr<ObjectShaderBase> objectShader, SharedPtr<Transform> renderTransform)
+			: Subscriber(&manager), Manager(manager), RenderTransform(renderTransform), ObjectShader(objectShader)
 		{
-			SubscribeToRenderer();
+
 		}
 
 		RenderObjectBase::~RenderObjectBase()
 		{
-			UnsubscribeFromRenderer();
+
 		}
 
 		void RenderObjectBase::Update(Second dt)
@@ -20,14 +20,31 @@ namespace Application
 			// this will be used to handle animations and the like
 		}
 
-		void RenderObjectBase::SubscribeToRenderer()
+		void RenderObjectBase::Receive()
 		{
-
+			Render();
 		}
 
-		void RenderObjectBase::UnsubscribeFromRenderer()
+		void RenderObjectBase::Render()
 		{
+			Prepare();
+			Draw();
+			CleanUp();
+		}
 
+		void RenderObjectBase::Prepare()
+		{
+			ObjectShader->Prepare();
+		}
+
+		void RenderObjectBase::Draw()
+		{
+			Manager.ObjectRenderer.Draw(this);
+		}
+
+		void RenderObjectBase::CleanUp()
+		{
+			ObjectShader->CleanUp();
 		}
 	}
 }

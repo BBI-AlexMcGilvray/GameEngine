@@ -11,7 +11,7 @@ namespace Core
 {
 	namespace Functionality
 	{
-		struct SchedulerBase : ILock
+		struct SchedulerBase : Locker
 		{
 			void Update(Second dt);
 

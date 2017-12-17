@@ -1,10 +1,14 @@
 #pragma once
 
+#include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
 #include "Core/Geometric/Headers/Transform.h"
 #include "Core/Functionality/Headers/Subscription.h"
+
+#include "ApplicationManagement/Rendering/Headers/RenderManager.h"
+#include "ApplicationManagement/Rendering/Shaders/Headers/ObjectShaderBase.h"
 
 using namespace Core;
 using namespace Core::Geometric;
@@ -27,17 +31,25 @@ namespace Application
 		*/
 		struct RenderObjectBase : Subscriber
 		{
-			RenderObjectBase(SharedPtr<Transform> renderTransform);
+			RenderObjectBase(RenderManager& manager, Ptr<ObjectShaderBase> objectShader, SharedPtr<Transform> renderTransform);
 			virtual ~RenderObjectBase();
 
 			virtual void Update(Second dt);
 
+			void Receive() override;
+			virtual void Render();
+
+			virtual uint GetVertexCount() = 0;
+
 		private:
+			RenderManager& Manager;
 			// this is private because it should never be changed by the render object - it simply reads the transform (same for colliders, but game objects will be able to modify their transform)
 			SharedPtr<Transform> RenderTransform;
+			Ptr<ObjectShaderBase> ObjectShader;
 
-			void SubscribeToRenderer();
-			void UnsubscribeFromRenderer();
+			virtual void Prepare();
+			virtual void Draw();
+			virtual void CleanUp();
 		};
 	}
 }

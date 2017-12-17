@@ -6,7 +6,7 @@ namespace Core
 {
 	namespace Functionality
 	{
-		struct ILock
+		struct Locker
 		{
 			void Lock()
 			{

@@ -33,6 +33,10 @@ namespace Core
 				: R(i), G(i), B(i), A(i)
 			{}
 
+			Color(float d)
+				: R(d), G(d), B(d), A(d)
+			{}
+
 			Color(float r, float g, float b, float a = 1.0)
 				: R(r), G(g), B(b), A(a)
 			{}

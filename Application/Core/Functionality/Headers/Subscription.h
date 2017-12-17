@@ -21,6 +21,8 @@ namespace Core
 			virtual void OnSubscription(Ptr<Subscription> subscription);
 			virtual void OnSubscriptionDeleted();
 
+			virtual void Receive() = 0;
+
 		private:
 			Ptr<Subscription> SubscriptionHolder;
 		};
@@ -31,6 +33,8 @@ namespace Core
 
 			void Subscribe(Ptr<Subscriber> newSubscribee);
 			void Unsubscribe(Ptr<Subscriber> currentSubscribee);
+
+			virtual void Distribute();
 
 		protected:
 			List<Ptr<Subscriber>>  Subscribers;

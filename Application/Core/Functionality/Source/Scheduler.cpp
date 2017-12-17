@@ -13,7 +13,7 @@ namespace Core
 			{
 				scheduledCall.first -= dt;
 
-				if (scheduledCall.first <= 0_s)
+				if (!IsLocked() && scheduledCall.first <= 0_s)
 				{
 					// something wrong with the templates to get incorrect type matchup here
 					Execute(scheduledCall.second, dt);

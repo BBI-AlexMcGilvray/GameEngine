@@ -7,7 +7,7 @@ namespace Application
 		RenderManager::RenderManager()
 		{}
 
-		void RenderManager::Initialize(WindowManager& window, Float4 clearColor)
+		void RenderManager::Initialize(WindowManager& window, Color clearColor)
 		{
 			Window = &window;
 			ClearColor = clearColor;
@@ -46,13 +46,13 @@ namespace Application
 
 		void RenderManager::LoopStart()
 		{
-			glClearColor(ClearColor.X, ClearColor.Y, ClearColor.Z, ClearColor.W);
+			glClearColor(ClearColor.R, ClearColor.G, ClearColor.B, ClearColor.A);
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
 
 		void RenderManager::LoopMiddle()
 		{
-			// render all objects
+			Distribute();
 		}
 
 		void RenderManager::LoopEnd()

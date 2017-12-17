@@ -49,5 +49,13 @@ namespace Core
 			Remove(Subscribers, currentSubscriber);
 			currentSubscriber->OnSubscriptionDeleted();
 		}
+
+		void Subscription::Distribute()
+		{
+			for (auto& subscriber : Subscribers)
+			{
+				subscriber->Receive();
+			}
+		}
 	}
 }
