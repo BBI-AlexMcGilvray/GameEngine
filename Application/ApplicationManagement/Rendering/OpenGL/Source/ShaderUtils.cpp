@@ -30,7 +30,7 @@ namespace Application
 				int infoLogLength = 0;
 				glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
 				std::vector<char> programLog(infoLogLength);
-				glGetProgramInfoLog(program, infoLogLength, NULL, &programLog[0]);
+				glGetProgramInfoLog(program, infoLogLength, nullptr, &programLog[0]);
 				cout << "Shader Loader: LINK ERROR <<" << objectShader->GetName() << ">>" << endl << &programLog[0] << endl;
 
 				return;
@@ -61,7 +61,7 @@ namespace Application
 				int infoLogLength = 0;
 				glGetShaderiv(shader->Object, GL_INFO_LOG_LENGTH, &infoLogLength);
 				List<char> shaderLog(infoLogLength);
-				glGetShaderInfoLog(shader->Object, infoLogLength, NULL, &shaderLog[0]);
+				glGetShaderInfoLog(shader->Object, infoLogLength, nullptr, &shaderLog[0]);
 				cout << "ERROR compiling shader: " << shader->ShaderName << endl << &shaderLog[0] << endl;
 			}
 		}

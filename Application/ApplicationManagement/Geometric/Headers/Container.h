@@ -24,7 +24,7 @@ namespace Application
 		{
 			Container();
 
-			~Container();
+			virtual ~Container();
 
 			virtual void Update(Second dt);
 			virtual void Render(const Renderer& renderer, Float4x4 transformationMatrix);

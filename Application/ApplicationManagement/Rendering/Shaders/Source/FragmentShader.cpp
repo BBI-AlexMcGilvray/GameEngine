@@ -25,6 +25,11 @@ namespace Application
 			}
 		)";
 
+		Ptr<const char> FragmentShader::GetShader() const
+		{
+			return Shader;
+		}
+
 		void FragmentShader::Prepare()
 		{
 			// set the required information that needs to be used in the shader

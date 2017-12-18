@@ -31,20 +31,10 @@ namespace Application
 
 			ObjectShader() = default;
 
-			Ptr<const char> GetName() override
-			{
-				return Name;
-			}
+			Ptr<const char> GetName() override;
 
-			Ptr<ShaderBase> GetVertexShader() override
-			{
-				return &FShader;
-			}
-
-			Ptr<ShaderBase> GetFragmentxShader() override
-			{
-				return &VShader;
-			}
+			Ptr<ShaderBase> GetVertexShader() override;
+			Ptr<ShaderBase> GetFragmentxShader() override;
 
 			virtual void Prepare(const Float4x4& mvp, const Color& color);
 			virtual void CleanUp() override;

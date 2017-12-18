@@ -19,10 +19,7 @@ namespace Application
 				: ShaderBase("FragmentShader", GL_FRAGMENT_SHADER)
 			{}
 
-			Ptr<const char> GetShader() const override
-			{
-				return Shader;
-			}
+			Ptr<const char> GetShader() const override;
 
 			virtual void Prepare();
 			virtual void CleanUp();

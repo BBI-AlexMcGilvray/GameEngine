@@ -9,12 +9,12 @@ namespace Application
 		ObjectShaderBase::ObjectShaderBase()
 			: GLShaderProgram(0, GL_PROGRAM)
 		{
-			Initialize();
+
 		}
 
 		ObjectShaderBase::~ObjectShaderBase()
 		{
-			Destroy();
+
 		}
 
 		void ObjectShaderBase::Prepare()
@@ -36,7 +36,7 @@ namespace Application
 
 		void ObjectShaderBase::Destroy()
 		{
-
+			glDeleteProgram(Object);
 		}
 	}
 }

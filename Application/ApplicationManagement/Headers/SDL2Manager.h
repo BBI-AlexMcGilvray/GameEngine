@@ -7,6 +7,8 @@ namespace Application
 {
 	struct SDL2Manager
 	{
+		SDL2Manager();
+
 		bool Initialize();
 		int Poll(SDL_Event& event);
 		void CleanUp();

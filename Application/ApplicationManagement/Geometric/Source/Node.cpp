@@ -23,6 +23,8 @@ namespace Application
 		// generic functions that pass calls down to children and contents
 		void Node::Update(Second dt)
 		{
+			Container::Update(dt);
+			
 			for (auto& child : Children)
 			{
 				child->Update(dt);
@@ -38,6 +40,8 @@ namespace Application
 			{
 				child->Render(renderer, modifiedTransformationMatrix);
 			}
+
+			Container::Render(renderer, transformationMatrix);
 		}
 
 		void Node::AddChild(Ptr<Node> newChild)

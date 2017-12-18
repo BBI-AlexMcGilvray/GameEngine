@@ -13,5 +13,15 @@ namespace Application
 		{
 
 		}
+
+		void ShaderManager::Initialize()
+		{
+			DefaultShader.Initialize();
+		}
+
+		void ShaderManager::Destroy()
+		{
+			DefaultShader.Destroy();
+		}
 	}
 }

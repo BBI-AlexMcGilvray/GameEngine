@@ -30,6 +30,11 @@ namespace Application
 			}
 		)";
 
+		Ptr<const char> VertexShader::GetShader() const
+		{
+			return Shader;
+		}
+
 		void VertexShader::Prepare(GLuint program, const Float4x4& mvp, const Color& color)
 		{
 			// set the required information that needs to be used in the shader

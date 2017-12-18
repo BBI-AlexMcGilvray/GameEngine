@@ -2,14 +2,22 @@
 
 namespace Application
 {
-	WindowManager::WindowManager(std::string windowName, int width, int height)
+	WindowManager::WindowManager(std::string name, int width, int height)
+		: Name(name), Width(width), Height(height)
 	{
-		Window = SDL_CreateWindow(windowName.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);
+
 	}
 
 	SDL_Window* WindowManager::GetWindow() const
 	{
 		return Window;
+	}
+
+	bool WindowManager::Initialize()
+	{
+		Window = SDL_CreateWindow(Name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Width, Height, SDL_WINDOW_OPENGL);
+
+		return true;
 	}
 
 	void WindowManager::CleanUp()

@@ -17,6 +17,10 @@ namespace Application
 	bool ApplicationManager::Initialize()
 	{
 		// possible we want to thread this to make it faster
+
+		// NOTE!! https://stackoverflow.com/questions/47188856/cant-make-opengl-glew-and-sdl2-work-together
+		Renderer.SetOpenGLAttributes();
+
 		if (!SDL.Initialize())
 		{
 			return false;
@@ -35,6 +39,7 @@ namespace Application
 
 	bool ApplicationManager::Loop()
 	{
+		// this loop should probably be in the InputManager
 		SDL_Event event;
 		while (SDL.Poll(event))
 		{

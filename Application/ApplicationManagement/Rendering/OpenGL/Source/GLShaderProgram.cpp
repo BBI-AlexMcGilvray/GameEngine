@@ -14,8 +14,8 @@ namespace Application
 
 		GLShaderProgram::~GLShaderProgram()
 		{
-			// note: we are assuming that if a GLShaderProgram object exists in code, it has been initialized
-			glDeleteProgram(Object);
+			// this needs to be deleted WHILE THE GL CONTEXT IS STILL ACTIVE
+			// glDeleteProgram(Object);
 		}
 	}
 }

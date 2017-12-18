@@ -13,6 +13,9 @@ namespace Application
 
 			ShaderManager();
 			~ShaderManager();
+
+			void Initialize();
+			void Destroy();
 		};
 	}
 }

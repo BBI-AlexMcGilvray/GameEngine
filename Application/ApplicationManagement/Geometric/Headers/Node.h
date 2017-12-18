@@ -1,14 +1,8 @@
 #pragma once
 
-#include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
-#include "Core/Headers/TimeDefs.h"
-
 #include "Core/Geometric/Headers/Transform.h"
-#include "Core/Math/Headers/Matrix4x4.h"
 
 #include "ApplicationManagement/Geometric/Headers/Container.h"
-#include "ApplicationManagement/Rendering/Headers/Renderer.h"
 
 using namespace Core;
 using namespace Core::Geometric;

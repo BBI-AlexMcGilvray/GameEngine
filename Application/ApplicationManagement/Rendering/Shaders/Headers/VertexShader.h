@@ -24,10 +24,7 @@ namespace Application
 				: ShaderBase("VertexShader", GL_VERTEX_SHADER)
 			{}
 
-			Ptr<const char> GetShader() const override
-			{
-				return Shader;
-			}
+			Ptr<const char> GetShader() const override;
 
 			virtual void Prepare(GLuint program, const Float4x4& mvp, const Color& color);
 			virtual void CleanUp();

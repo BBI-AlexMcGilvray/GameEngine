@@ -6,6 +6,22 @@ namespace Application
 	{
 		Ptr<const char> ObjectShader::Name = "ObjectShader";
 
+
+		Ptr<const char> ObjectShader::GetName()
+		{
+			return Name;
+		}
+
+		Ptr<ShaderBase> ObjectShader::GetVertexShader()
+		{
+			return &FShader;
+		}
+
+		Ptr<ShaderBase> ObjectShader::GetFragmentxShader()
+		{
+			return &VShader;
+		}
+
 		void ObjectShader::Prepare(const Float4x4& mvp, const Color& color)
 		{
 			ObjectShaderBase::Prepare();
@@ -32,8 +48,9 @@ namespace Application
 
 		void ObjectShader::Destroy()
 		{
-			glDetachShader(Object, VShader.Object);
-			glDetachShader(Object, FShader.Object);
+			// this gets called by glDeleteProgram
+			//glDetachShader(Object, VShader.Object);
+			//glDetachShader(Object, FShader.Object);
 
 			ObjectShaderBase::Destroy();
 		}

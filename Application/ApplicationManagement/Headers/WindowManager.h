@@ -9,10 +9,15 @@ namespace Application
 {
 	struct WindowManager
 	{
-		WindowManager(std::string windowName = "DEFAULT WINDOW", int width = 512, int height = 512);
+		std::string Name;
+		int Width;
+		int Height;
+
+		WindowManager(std::string name = "DEFAULT WINDOW", int width = 512, int height = 512);
 
 		SDL_Window* GetWindow() const;
 
+		bool Initialize();
 		void CleanUp();
 
 	private:

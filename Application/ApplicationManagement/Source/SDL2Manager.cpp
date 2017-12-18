@@ -6,24 +6,33 @@
 
 namespace Application
 {
+	SDL2Manager::SDL2Manager()
+		: MainContext(MainWindow.GetWindow())
+	{
+
+	}
+
 	bool SDL2Manager::Initialize()
 	{
 		if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		{
 			return false;
 		}
-
-		MainWindow = WindowManager();
 	
-		if (!MainWindow.GetWindow())
+		if (!MainWindow.Initialize())
 		{
 			CheckSDLError(__LINE__);
 			return false;
 		}
 
-		MainContext = GLContextManager(MainWindow.GetWindow());
+		GLenum glewError = glewInit();
+		if (glewError != GLEW_OK)
+		{
+			std::cout << "Error initializing GLEW! Error: " << glewGetErrorString(glewError) << std::endl;
+			return false;
+		}
 
-		return true;
+		return MainContext.Initialize();
 	}
 
 	int SDL2Manager::Poll(SDL_Event& event)
