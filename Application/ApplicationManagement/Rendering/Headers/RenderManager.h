@@ -21,7 +21,7 @@ namespace Application
 	namespace Rendering
 	{
 		// handles the tie in between RenderObjectManager (object that needs to be rendered), ShaderManager (available shaders) and the Renderer (act of rendering them)
-		struct RenderManager : Subscription
+		struct RenderManager : Subscription // THIS SHOULD NOT INHERIT FROM SUBSCRIPTION - we need to handle the passing of the transformation matrix
 		{
 			ShaderManager ObjectShaderManager;
 			Renderer ObjectRenderer;

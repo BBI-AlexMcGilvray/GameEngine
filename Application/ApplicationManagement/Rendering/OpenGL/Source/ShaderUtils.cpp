@@ -48,6 +48,14 @@ namespace Application
 			}
 
 			objectShader->SetShaderProgram(program);
+
+			// free up memory that is no longer needed...
+			glDetachShader(program, vertexProgram);
+			glDetachShader(program, fragmentProgram);
+			glDeleteShader(vertexProgram);
+			glDeleteShader(fragmentProgram);
+			// above courtesy of: https://gamedev.stackexchange.com/questions/47910/after-a-succesful-gllinkprogram-should-i-delete-detach-my-shaders
+			// essentiall, the shaders have been set up already - so we can clear out the memory reserved for them
 		}
 
 		// encapsulates all relevant operations to create a shader

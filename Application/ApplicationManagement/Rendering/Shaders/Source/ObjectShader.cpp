@@ -48,10 +48,6 @@ namespace Application
 
 		void ObjectShader::Destroy()
 		{
-			// this gets called by glDeleteProgram
-			//glDetachShader(Object, VShader.Object);
-			//glDetachShader(Object, FShader.Object);
-
 			ObjectShaderBase::Destroy();
 		}
 	}

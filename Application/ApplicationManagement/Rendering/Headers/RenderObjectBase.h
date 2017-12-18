@@ -29,7 +29,7 @@ namespace Application
 
 			So, for example, a game object with no collision information, we make a custom object that implements both GameObjectBase and RenderObjectBase (or children of) but NOT ColliderObjectBase
 		*/
-		struct RenderObjectBase : Subscriber
+		struct RenderObjectBase : Subscriber // THIS SHOULD NOT INHERIT FROM SUBSCRIBER - we need to handle the passing of the transformation matrix
 		{
 			RenderObjectBase(RenderManager& manager, Ptr<ObjectShaderBase> objectShader, SharedPtr<Transform> renderTransform);
 			virtual ~RenderObjectBase();
