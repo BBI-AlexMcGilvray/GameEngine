@@ -4,19 +4,15 @@
 
 namespace Application
 {
-	GLContextManager::GLContextManager(SDL_Window* window)
-		: Window(window)
-	{
-
-	}
-
 	const SDL_GLContext GLContextManager::GetContext() const
 	{
 		return Context;
 	}
 
-	bool GLContextManager::Initialize()
+	bool GLContextManager::Initialize(SDL_Window* window)
 	{
+		Window = window;
+
 		Context = SDL_GL_CreateContext(Window);
 
 		if (!Context)
@@ -30,6 +26,9 @@ namespace Application
 
 	void GLContextManager::CleanUp()
 	{
-		SDL_GL_DeleteContext(Context);
+		if (Context)
+		{
+			SDL_GL_DeleteContext(Context);
+		}
 	}
 }

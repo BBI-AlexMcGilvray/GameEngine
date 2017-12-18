@@ -22,6 +22,9 @@ namespace Application
 
 	void WindowManager::CleanUp()
 	{
-		SDL_DestroyWindow(Window);
+		if (Window)
+		{
+			SDL_DestroyWindow(Window);
+		}
 	}
 }

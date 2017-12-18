@@ -9,12 +9,9 @@ namespace Application
 {
 	struct GLContextManager
 	{
-		GLContextManager() = delete;
-		GLContextManager(SDL_Window* window);
-
 		const SDL_GLContext GetContext() const;
 
-		bool Initialize();
+		bool Initialize(SDL_Window* window);
 		void CleanUp();
 
 	private:

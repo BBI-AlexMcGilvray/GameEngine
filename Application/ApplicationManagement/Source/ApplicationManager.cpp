@@ -1,10 +1,17 @@
 #include "ApplicationManagement/Headers/ApplicationManager.h"
 
+#include <iostream>
+
 namespace Application
 {
 	void ApplicationManager::Run()
 	{
-		Initialize();
+		if (!Initialize())
+		{
+			std::cout << "Failed to initialize application" << std::endl;
+			return;
+		}
+
 		Start();
 
 		while (Loop())
