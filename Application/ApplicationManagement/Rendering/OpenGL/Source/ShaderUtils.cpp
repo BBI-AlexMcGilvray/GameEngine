@@ -10,11 +10,20 @@ namespace Application
 	{
 		void CreateProgram(Ptr<ObjectShaderBase> objectShader)
 		{
-			CreateShader(objectShader->GetVertexShader()); // create a vertex shader
-			CreateShader(objectShader->GetFragmentxShader()); // create a fragment shader
+			if (!CreateShader(objectShader->GetVertexShader())) // create a vertex shader
+			{
+				cout << "Failed to create VERTEX shader!" << endl;
+				return;
+			}
 
-			GLuint vertexProgram = objectShader->Object; // create a vertex shader
-			GLuint fragmentProgram = objectShader->Object; // create a fragment shader
+			if (!CreateShader(objectShader->GetFragmentxShader())) // create a fragment shader
+			{
+				cout << "Failed to create FRAGMENT shader!" << endl;
+				return;
+			}
+
+			GLuint vertexProgram = objectShader->GetVertexShader()->Object; // create a vertex shader
+			GLuint fragmentProgram = objectShader->GetFragmentxShader()->Object; // create a fragment shader
 
 			int linkResult = 0;
 			// create the program handle, attach the shader and link it
@@ -24,12 +33,14 @@ namespace Application
 			glLinkProgram(program); // link the program
 			glGetProgramiv(program, GL_LINK_STATUS, &linkResult); // make sure program was linked properly
 
-																  // check for link errors
-			if (linkResult == GL_FALSE)
+			// check for link errors
+			if (linkResult != GL_TRUE)
 			{
 				int infoLogLength = 0;
-				glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
-				std::vector<char> programLog(infoLogLength);
+				int maxLength = 0;
+				glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+				std::vector<char> programLog;
+				programLog.reserve(maxLength);
 				glGetProgramInfoLog(program, infoLogLength, nullptr, &programLog[0]);
 				cout << "Shader Loader: LINK ERROR <<" << objectShader->GetName() << ">>" << endl << &programLog[0] << endl;
 
@@ -40,7 +51,7 @@ namespace Application
 		}
 
 		// encapsulates all relevant operations to create a shader
-		void CreateShader(Ptr<ShaderBase> shader)
+		bool CreateShader(Ptr<ShaderBase> shader)
 		{
 			int compileResult = 0;
 
@@ -55,15 +66,19 @@ namespace Application
 			glGetShaderiv(shader->Object, GL_COMPILE_STATUS, &compileResult); // check for errors and output them to console
 																		// the above set of operations is done for any shaders that we have to create their objects
 
-																		// check for errors
-			if (compileResult == GL_FALSE)
+			// check for errors
+			if (compileResult != GL_TRUE)
 			{
 				int infoLogLength = 0;
 				glGetShaderiv(shader->Object, GL_INFO_LOG_LENGTH, &infoLogLength);
 				List<char> shaderLog(infoLogLength);
 				glGetShaderInfoLog(shader->Object, infoLogLength, nullptr, &shaderLog[0]);
 				cout << "ERROR compiling shader: " << shader->ShaderName << endl << &shaderLog[0] << endl;
+
+				return false;
 			}
+
+			return true;
 		}
 	}
 }

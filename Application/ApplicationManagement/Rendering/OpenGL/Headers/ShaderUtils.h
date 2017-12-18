@@ -12,6 +12,6 @@ namespace Application
 	namespace Rendering
 	{
 		void CreateProgram(Ptr<ObjectShaderBase> objectShader);
-		void CreateShader(Ptr<ShaderBase> shader);
+		bool CreateShader(Ptr<ShaderBase> shader);
 	}
 }
