@@ -29,7 +29,7 @@ namespace Application
 			}
 		}
 
-		void Container::Render(const Renderer& renderer, Float4x4 transformationMatrix)
+		void Container::Render(Renderer& renderer, Float4x4 transformationMatrix)
 		{
 			// render contents with the passed in positional information
 			for (auto& content : ContainerContents)

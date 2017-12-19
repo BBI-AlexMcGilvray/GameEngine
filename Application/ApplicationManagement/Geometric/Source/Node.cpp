@@ -31,7 +31,7 @@ namespace Application
 			}
 		}
 
-		void Node::Render(const Renderer& renderer, Float4x4 transformationMatrix)
+		void Node::Render(Renderer& renderer, Float4x4 transformationMatrix)
 		{
 			// pass down modified transformation matrix
 			auto modifiedTransformationMatrix = Transformation.GetTransformationMatrix() * transformationMatrix;

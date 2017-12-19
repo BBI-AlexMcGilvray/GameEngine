@@ -27,7 +27,7 @@ namespace Application
 			virtual ~Container();
 
 			virtual void Update(Second dt);
-			virtual void Render(const Renderer& renderer, Float4x4 transformationMatrix);
+			virtual void Render(Renderer& renderer, Float4x4 transformationMatrix);
 
 			void AddContent(Ptr<Content> newContent);
 			void RemoveContent(Ptr<Content> oldContent);

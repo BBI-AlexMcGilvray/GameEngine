@@ -6,6 +6,17 @@ namespace Application
 {
 	namespace Rendering
 	{
+		/*
+		SharedPtr<Camera> Renderer::GetCamera()
+		{
+			return RenderCamera;
+		}
+
+		void Renderer::SetCamera(SharedPtr<Camera> renderCamera)
+		{
+			RenderCamera = renderCamera;
+		}
+		*/
 		void Renderer::Draw(Ptr<RenderObjectBase> object)
 		{
 			DrawTriangles(object->GetVertexCount());

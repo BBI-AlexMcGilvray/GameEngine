@@ -181,6 +181,8 @@
     <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLObject.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLShaderProgram.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\DebugObjectShader.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\DebugVertexShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\FragmentShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShaderBase.cpp" />
@@ -252,6 +254,8 @@
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLShader.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLShaderProgram.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLArrayBuffer.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugObjectShader.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugVertexShader.h" />
     <ClInclude Include="Data\Rendering\Headers\VertexBaseData.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\KeyFrame.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\Timeline.h" />

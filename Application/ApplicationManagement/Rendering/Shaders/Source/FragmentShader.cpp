@@ -12,8 +12,7 @@ namespace Application
 			#version 450 core
 			
 			layout(location = 0) out vec4 fColor;
-			
-			in vec2 UV;
+
 			in vec4 Color;
 			
 			// Values that stay constant for the whole mesh

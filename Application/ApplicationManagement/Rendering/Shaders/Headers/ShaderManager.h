@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DebugObjectShader.h"
 #include "ObjectShader.h"
 
 namespace Application
@@ -9,6 +10,7 @@ namespace Application
 		// holds list of ALL shaders that can be used, handles construction, retrieval and deletion of the shaders
 		struct ShaderManager
 		{
+			DebugObjectShader DebugShader;
 			ObjectShader DefaultShader;
 
 			ShaderManager();

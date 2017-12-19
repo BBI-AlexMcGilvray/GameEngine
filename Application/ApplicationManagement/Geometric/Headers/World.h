@@ -11,7 +11,7 @@ namespace Application
 		struct World : Scene
 		{
 		protected:
-			UniquePtr<Camera> WorldCamera;
+			SharedPtr<Camera> WorldCamera;
 		};
 	}
 }
