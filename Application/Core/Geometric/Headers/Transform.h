@@ -20,6 +20,10 @@ namespace Core
 		template <typename T>
 		struct TransformBase
 		{
+			Vector3<T> Position;
+			Quaternion<T> Rotation;
+			Vector3<T> Scale;
+
 			TransformBase()
 				: Position(II{}), Rotation(II{}), Scale(II{})
 			{}
@@ -67,11 +71,6 @@ namespace Core
 
 				return Scale;
 			}
-
-		public:
-			Vector3<T> Position;
-			Quaternion<T> Rotation;
-			Vector3<T> Scale;
 		};
 
 		/*	TYPE DEFS	*/

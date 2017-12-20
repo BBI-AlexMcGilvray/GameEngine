@@ -5,17 +5,21 @@
 #include "Dependencies/Includes/SDL2/SDL.h"
 #include "Dependencies/Includes//SDL2/SDL_opengl.h"
 
+#include "Core/Headers/PtrDefs.h"
+
+using namespace Core;
+
 namespace Application
 {
 	struct GLContextManager
 	{
 		const SDL_GLContext GetContext() const;
 
-		bool Initialize(SDL_Window* window);
+		bool Initialize(Ptr<SDL_Window> window);
 		void CleanUp();
 
 	private:
-		SDL_Window* Window = nullptr;
+		Ptr<SDL_Window> Window = nullptr;
 		SDL_GLContext Context;
 	};
 }

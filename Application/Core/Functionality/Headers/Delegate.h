@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Headers/AllCore.h"
+#include "Core/Headers/PtrDefs.h"
 
 #include "Function.h"
 
@@ -14,7 +15,7 @@ namespace Core
 		template <typename rT, typename Ts...>
 		struct DelegateBase
 		{
-			DelegateBase(FunctionBase<rT, Ts...>* function, SharedPtr<Event<rT, Ts...>> eventParent = nullptr)
+			DelegateBase(Ptr<FunctionBase<rT, Ts...>> function, Ptr<Event<rT, Ts...>> eventParent = nullptr)
 				: EventParent(eventParent)
 				, DelegateFunction(function);
 			{
@@ -42,10 +43,10 @@ namespace Core
 			}
 
 		public:
-			SharedPtr<Event<rT, Ts...>> EventParent;
+			Ptr<Event<rT, Ts...>> EventParent;
 
 		private:
-			FunctionBase<rT, Ts...>* DelegateFunction;
+			Ptr<FunctionBase<rT, Ts...>> DelegateFunction;
 
 			virtual void ResultLogic(rT result) = 0;
 		};

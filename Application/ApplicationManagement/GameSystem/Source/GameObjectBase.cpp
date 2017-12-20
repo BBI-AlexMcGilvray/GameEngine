@@ -5,7 +5,7 @@ namespace Application
 	namespace GameSystem
 	{
 		GameObjectBase::GameObjectBase()
-			: /*Subscriber(Ptr to <GameObjectManager>),*/ ObjectTransform(MakeShared<Transform>())
+			: ObjectTransform(MakeShared<Transform>())
 		{
 
 		}

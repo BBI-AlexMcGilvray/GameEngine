@@ -31,20 +31,25 @@ namespace Core
 				}
 			}
 
-			bool Subscribe(SharedPtr<Delegate<rT, Ts...>> newDelegate)
+			bool Subscribe(Ptr<Delegate<rT, Ts...>> newDelegate)
 			{
 				Push(Subscribees, newDelegate);
 
 				return true;
 			}
 
-			bool UnSubscribe(SharedPtr<Delegate<rT, Ts...>> currentDelegate)
+			bool UnSubscribe(Ptr<Delegate<rT, Ts...>> currentDelegate)
 			{
 				return Remove(Subscribees, currentDelegate);
 			}
 
+			operator bool()
+			{
+				return (Subscribees.size() != 0);
+			}
+
 		private:
-			List<SharedPtr<Delegate<rT, Ts...>>> Subscribees;
+			List<Ptr<Delegate<rT, Ts...>>> Subscribees;
 		};
 	}
 }

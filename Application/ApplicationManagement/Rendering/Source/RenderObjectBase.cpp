@@ -5,7 +5,7 @@ namespace Application
 	namespace Rendering
 	{
 		RenderObjectBase::RenderObjectBase(RenderManager& manager, Ptr<ObjectShaderBase> objectShader, SharedPtr<Transform> renderTransform)
-			: Subscriber(&manager), Manager(manager), RenderTransform(renderTransform), ObjectShader(objectShader)
+			: Manager(manager), RenderTransform(renderTransform), ObjectShader(objectShader)
 		{
 
 		}
@@ -18,11 +18,6 @@ namespace Application
 		void RenderObjectBase::Update(Second dt)
 		{
 			// this will be used to handle animations and the like
-		}
-
-		void RenderObjectBase::Receive()
-		{
-			Render();
 		}
 
 		void RenderObjectBase::Render()

@@ -31,7 +31,7 @@ namespace Core
 				}
 			};
 
-			UniquePtr<FunctionImplBase> FunctionObject = nullptr;
+			Ptr<FunctionImplBase> FunctionObject = nullptr;
 
 			template <typename O>
 			Function(O object)

@@ -1,4 +1,4 @@
-#include "ApplicationManagement/GameSystem/Collision/Headers/CollisionObjectBase.h"
+#include "ApplicationManagement/Collision/Headers/CollisionObjectBase.h"
 
 namespace Application
 {
@@ -7,7 +7,7 @@ namespace Application
 		namespace Collision
 		{
 			CollisionObjectBase::CollisionObjectBase(SharedPtr<Transform> collisionTransform)
-				: /*Subscriber(Ptr to <CollisionManager>),*/  CollisionTransform(collisionTransform)
+				: CollisionTransform(collisionTransform)
 			{
 				SubscribeToCollider();
 			}

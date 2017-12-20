@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Functionality/Headers/Function.h"
-#include "Core/Functionality/Headers/Lock.h"
+#include "Core/Functionality/Headers/Locker.h"
 
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/MapDefs.h"

@@ -8,7 +8,7 @@ namespace Application
 
 	}
 
-	SDL_Window* WindowManager::GetWindow() const
+	Ptr<SDL_Window> WindowManager::GetWindow() const
 	{
 		return Window;
 	}

@@ -9,35 +9,72 @@ namespace Core
 	{
 		// base set up for (essentially) entity-component system
 
+		template <typename T>
 		struct Subscription;
 
-		struct Subscriber
+		template <typename T>
+		struct Subscriber : SubscriberBase
 		{
-			Subscriber();
-			Subscriber(Ptr<Subscription> subscription);
+			Ptr<T> Object;
 
-			virtual ~Subscriber();
+			Subscriber() = delete;
 
-			virtual void OnSubscription(Ptr<Subscription> subscription);
-			virtual void OnSubscriptionDeleted();
+			Subscriber(Ptr<T> object)
+				: Object(object)
+			{}
 
-			virtual void Receive() = 0;
+			Subscriber(Ptr<T> object, Ptr<Subscription<T>> subscription)
+				: SubscriberBase(subscription), Object(object)
+			{}
 
-		private:
-			Ptr<Subscription> SubscriptionHolder;
+			Subscriber(Ptr<Subscription<T>> subscription)
+			{
+				subscription->Subscribe(this);
+			}
+
+			~Subscriber()
+			{
+				if (SubscriptionHolder != nullptr)
+				{
+					SubscriptionHolder->Unsubscribe(this);
+				}
+			}
+
+			void OnSubscription(Ptr<Subscriber> subscription)
+			{
+				SubscriptionHolder = subscription;
+			}
+
+			void OnSubscriptionDeleted()
+			{
+				SubscriptionHolder = nullptr;
+			}
 		};
 
+		template <typename T>
 		struct Subscription
 		{
-			~Subscription();
+			List<Ptr<Subscriber<T>>>  Subscribers;
 
-			void Subscribe(Ptr<Subscriber> newSubscribee);
-			void Unsubscribe(Ptr<Subscriber> currentSubscribee);
+			~Subscription()
+			{
+				for (auto& subscriber : Subscribers)
+				{
+					subscriber->OnSubscriptionDeleted();
+				}
+			}
 
-			virtual void Distribute();
+			void Subscribe(Ptr<Subscriber<T>> newSubscriber)
+			{
+				Push(Subscribers, newSubscriber);
+				newSubscriber->OnSubscription(this);
+			}
 
-		protected:
-			List<Ptr<Subscriber>>  Subscribers;
+			void Unsubscribe(Ptr<Subscriber<T>> currentSubscriber)
+			{
+				Remove(Subscribers, currentSubscriber);
+				currentSubscriber->OnSubscriptionDeleted();
+			}
 		};
 	}
 }

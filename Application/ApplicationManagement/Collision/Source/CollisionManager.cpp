@@ -1,4 +1,4 @@
-#include "ApplicationManagement/GameSystem/Collision/Headers/CollisionManager.h"
+#include "ApplicationManagement/Collision/Headers/CollisionManager.h"
 
 namespace Application
 {

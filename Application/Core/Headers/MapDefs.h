@@ -10,37 +10,37 @@ namespace Core
 	using Map = std::map<Key, T>;
 
 	template <typename Key, typename T>
-	void Insert(Map<Key, T> map, Key&& key, T&& t)
+	void Insert(Map<Key, T>& map, Key&& key, T&& t)
 	{
 		Insert(map, Pair<Key, T>(Forward<Key>(key), Forward<T>(t)));
 	}
 
 	template <typename Key, typename T>
-	void Insert(Map<Key, T> map, Pair<Key, T> pair)
+	void Insert(Map<Key, T>& map, Pair<Key, T> pair)
 	{
 		map.insert(pair);
 	}
 
 	template <typename Key, typename T>
-	void Erase(Map<Key, T> map, Key&& key)
+	void Erase(Map<Key, T>& map, Key&& key)
 	{
 		map.erase(Forward<Key>(key));
 	}
 
 	template <typename Key, typename T>
-	void Clear(Map<Key, T> maap)
+	void Clear(Map<Key, T>& maap)
 	{
 		map.clear();
 	}
 
 	template <typename Key, typename T>
-	bool Empty(Map<Key, T> map)
+	bool Empty(Map<Key, T>& map)
 	{
 		return map.empty();
 	}
 
 	template <typename Key, typename T>
-	bool In(Map<Key, T> map, Key&& key)
+	bool In(Map<Key, T>& map, Key&& key)
 	{
 		auto iterator = map.find(Forward<Key>(key));
 

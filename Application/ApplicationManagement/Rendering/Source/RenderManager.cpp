@@ -51,7 +51,7 @@ namespace Application
 
 		void RenderManager::LoopMiddle()
 		{
-			Distribute();
+			// render objects
 		}
 
 		void RenderManager::LoopEnd()

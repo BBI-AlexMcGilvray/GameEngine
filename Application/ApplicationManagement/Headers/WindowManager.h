@@ -3,7 +3,11 @@
 #include "Dependencies/Includes/SDL2/SDL.h"
 #include "Dependencies/Includes/GLEW/glew.h"
 
+#include "Core/Headers/PtrDefs.h"
+
 #include <string>
+
+using namespace Core;
 
 namespace Application
 {
@@ -15,12 +19,12 @@ namespace Application
 
 		WindowManager(std::string name = "DEFAULT WINDOW", int width = 512, int height = 512);
 
-		SDL_Window* GetWindow() const;
+		Ptr<SDL_Window> GetWindow() const;
 
 		bool Initialize();
 		void CleanUp();
 
 	private:
-		SDL_Window* Window;
+		Ptr<SDL_Window> Window;
 	};
 }

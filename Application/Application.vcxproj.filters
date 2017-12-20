@@ -60,16 +60,7 @@
     <ClCompile Include="Core\Functionality\Source\Scheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\GameSystem\Collision\Source\CollisionManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationManagement\GameSystem\Collision\Headers\CollisionManager.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderObjectBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationManagement\GameSystem\Collision\Source\CollisionObjectBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Functionality\Source\Subscription.cpp">
@@ -181,6 +172,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\DebugVertexShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Collision\Headers\CollisionManager.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Collision\Source\CollisionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Collision\Source\CollisionObjectBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -520,9 +520,6 @@
     <ClInclude Include="Core\Headers\MapDefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Functionality\Headers\Lock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameSystemManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -530,9 +527,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderObjectBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationManagement\GameSystem\Collision\Headers\CollisionObjectBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Functionality\Headers\Subscription.h">
@@ -659,6 +653,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugVertexShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Functionality\Headers\Locker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Collision\Headers\CollisionObjectBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

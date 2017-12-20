@@ -21,7 +21,7 @@ namespace Application
 	namespace Rendering
 	{
 		// handles the tie in between RenderObjectManager (object that needs to be rendered), ShaderManager (available shaders) and the Renderer (act of rendering them)
-		struct RenderManager : Subscription // THIS SHOULD NOT INHERIT FROM SUBSCRIPTION - we need to handle the passing of the transformation matrix
+		struct RenderManager // THIS SHOULD NOT INHERIT FROM SUBSCRIPTION - we need to handle the passing of the transformation matrix
 			// perhaps the above is not so bad if the rendermanager (or maybe renderer?) has knowledge of the world so the transformation matrix can be passed down...
 			// we SHOULD do the above, and modify Subscriber/Subscription to be TEMPLATED (so we know the types they are acting on/for) and then call an acceptable method.
 		{

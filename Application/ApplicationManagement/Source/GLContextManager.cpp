@@ -9,7 +9,7 @@ namespace Application
 		return Context;
 	}
 
-	bool GLContextManager::Initialize(SDL_Window* window)
+	bool GLContextManager::Initialize(Ptr<SDL_Window> window)
 	{
 		Window = window;
 
