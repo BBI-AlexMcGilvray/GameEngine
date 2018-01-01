@@ -6,7 +6,7 @@ namespace Application
 	{
 		namespace Collision
 		{
-			CollisionObjectBase::CollisionObjectBase(SharedPtr<Transform> collisionTransform)
+			CollisionObjectBase::CollisionObjectBase(SharedPtr<const Transform> collisionTransform)
 				: CollisionTransform(collisionTransform)
 			{
 				SubscribeToCollider();

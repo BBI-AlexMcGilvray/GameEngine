@@ -27,14 +27,16 @@ namespace Application
 
 				So, for example, a game object with no collision information, we make a custom object that implements both GameObjectBase and RenderObjectBase (or children of) but NOT ColliderObjectBase
 				*/
-				CollisionObjectBase(SharedPtr<Transform> collisionTransform);
+				CollisionObjectBase(SharedPtr<const Transform> collisionTransform);
 				virtual ~CollisionObjectBase();
 
 				virtual void Update(Second dt);
 
+				virtual float GetBoundingRadius() = 0;
+
 			private:
 				// this is private because it should never be changed by the render object - it simply reads the transform (same for colliders, but game objects will be able to modify their transform)
-				SharedPtr<Transform> CollisionTransform;
+				SharedPtr<const Transform> CollisionTransform;
 
 				void SubscribeToCollider();
 				void UnsubscribeFromCollider();

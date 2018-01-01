@@ -21,5 +21,8 @@ namespace Application
 			// return < numCharacters > from the log, starting from the end
 		}
 		// close file
+
+		// this is just to compile until this is flushed out
+		return nullptr;
 	}
 }

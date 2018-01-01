@@ -189,6 +189,12 @@
     <ClCompile Include="ApplicationManagement\Debugging\Source\Logging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationManagement\Collision\Source\BoxCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Collision\Source\SphericalCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\Dlls\SDL2\libfreetype-6.dll" />
@@ -671,6 +677,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Debugging\Headers\Logging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Collision\Headers\SphericalCollider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Collision\Headers\BoxCollider.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

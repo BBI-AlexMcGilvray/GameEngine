@@ -153,8 +153,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationManagement\Collision\Headers\CollisionManager.h" />
+    <ClCompile Include="ApplicationManagement\Collision\Source\BoxCollider.cpp" />
     <ClCompile Include="ApplicationManagement\Collision\Source\CollisionManager.cpp" />
     <ClCompile Include="ApplicationManagement\Collision\Source\CollisionObjectBase.cpp" />
+    <ClCompile Include="ApplicationManagement\Collision\Source\SphericalCollider.cpp" />
     <ClCompile Include="ApplicationManagement\Debugging\Source\Logging.cpp" />
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameObjectBase.cpp" />
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameSystemManager.cpp" />
@@ -226,6 +228,8 @@
     <None Include="Dependencies\Dlls\SDL2\zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationManagement\Collision\Headers\BoxCollider.h" />
+    <ClInclude Include="ApplicationManagement\Collision\Headers\SphericalCollider.h" />
     <ClInclude Include="ApplicationManagement\Debugging\Headers\Declarations.h" />
     <ClInclude Include="ApplicationManagement\Debugging\Headers\Logging.h" />
     <ClInclude Include="ApplicationManagement\Debugging\Headers\Macros.h" />
