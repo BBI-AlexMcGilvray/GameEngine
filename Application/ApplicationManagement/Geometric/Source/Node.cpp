@@ -44,7 +44,7 @@ namespace Application
 			Container::Render(renderer, transformationMatrix);
 		}
 
-		void Node::AddChild(Ptr<Node> newChild)
+		void Node::AddChild(SharedPtr<Node> newChild)
 		{
 			if (newChild->Parent != nullptr && newChild->Parent != this)
 			{
@@ -54,11 +54,11 @@ namespace Application
 			if (newChild->Parent != this)
 			{
 				newChild->Parent = this;
-				Push(Children, newChild);
+				Push(Children, move(newChild));
 			}
 		}
 
-		void Node::RemoveChild(Ptr<Node> oldChild)
+		void Node::RemoveChild(SharedPtr<Node> oldChild)
 		{
 			Remove(Children, oldChild);
 			oldChild->Parent = nullptr;

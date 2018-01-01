@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/ListDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
@@ -11,6 +10,7 @@
 using namespace Core;
 using namespace Core::Math;
 
+using namespace Application;
 using namespace Application::Rendering;
 
 namespace Application
@@ -29,11 +29,11 @@ namespace Application
 			virtual void Update(Second dt);
 			virtual void Render(Renderer& renderer, Float4x4 transformationMatrix);
 
-			void AddContent(Ptr<Content> newContent);
-			void RemoveContent(Ptr<Content> oldContent);
+			void AddContent(SharedPtr<Content> newContent);
+			void RemoveContent(SharedPtr<Content> oldContent);
 
 		protected:
-			List<Ptr<Content>> ContainerContents;
+			List<SharedPtr<Content>> ContainerContents;
 		};
 	}
 }

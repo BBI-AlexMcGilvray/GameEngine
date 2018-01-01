@@ -155,10 +155,10 @@
     <ClCompile Include="ApplicationManagement\Collision\Headers\CollisionManager.h" />
     <ClCompile Include="ApplicationManagement\Collision\Source\CollisionManager.cpp" />
     <ClCompile Include="ApplicationManagement\Collision\Source\CollisionObjectBase.cpp" />
+    <ClCompile Include="ApplicationManagement\Debugging\Source\Logging.cpp" />
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameObjectBase.cpp" />
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameSystemManager.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Headers\Container.h" />
-    <ClCompile Include="ApplicationManagement\Geometric\Source\CameraUtils.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Container.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Content.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Node.cpp" />
@@ -169,7 +169,7 @@
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\Material.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\Texture.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\AnimatedModel.cpp" />
-    <ClCompile Include="ApplicationManagement\Geometric\Source\Camera.cpp" />
+    <ClCompile Include="ApplicationManagement\Geometric\Source\CameraNode.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\MeshBase.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\ModelBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Scene.cpp" />
@@ -190,6 +190,8 @@
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ShaderManager.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\ShaderUtils.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\VertexShader.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Source\Camera.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Source\CameraUtils.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\Renderer.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderManager.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderObjectBase.cpp" />
@@ -225,11 +227,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManagement\Debugging\Headers\Declarations.h" />
+    <ClInclude Include="ApplicationManagement\Debugging\Headers\Logging.h" />
     <ClInclude Include="ApplicationManagement\Debugging\Headers\Macros.h" />
     <ClInclude Include="ApplicationManagement\Collision\Headers\CollisionObjectBase.h" />
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameObjectBase.h" />
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameSystemManager.h" />
-    <ClInclude Include="ApplicationManagement\Geometric\Headers\CameraUtils.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Container.h" />
     <ClInclude Include="ApplicationManagement\Headers\ApplicationManager.h" />
     <ClInclude Include="ApplicationManagement\Headers\GLContextManager.h" />
@@ -242,13 +244,15 @@
     <ClInclude Include="ApplicationManagement\Rendering\2D\Headers\Material.h" />
     <ClInclude Include="ApplicationManagement\Rendering\2D\Headers\Texture.h" />
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\AnimatedModel.h" />
-    <ClInclude Include="ApplicationManagement\Geometric\Headers\Camera.h" />
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\CameraNode.h" />
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\MeshBase.h" />
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\ModelBase.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Content.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Node.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Scene.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\World.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Headers\Camera.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Headers\CameraUtils.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLBuffer.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLObject.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLShader.h" />

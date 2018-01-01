@@ -6,13 +6,14 @@
 #include <string>
 
 #include "Declarations.h"
+
+#include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Debugging/Headers/Macros.h"
 
 namespace Application
 {
-#if DEBUG
+	const char* logFileName = "";
 
-
-
-#endif
+	void Log(const char* output);
+	const char* ReadLog(int numCharacters = 0);
 }

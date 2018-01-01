@@ -3,10 +3,9 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/PtrDefs.h"
 
-#include "ApplicationManagement/Geometric/Headers/Camera.h"
+#include "ApplicationManagement/Rendering/Headers/Camera.h"
 
 using namespace Core;
-using namespace Application::Geometric;
 
 namespace Application
 {

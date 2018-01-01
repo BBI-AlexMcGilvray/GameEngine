@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ApplicationManagement/Geometric/Headers/Scene.h"
-#include "ApplicationManagement/Geometric/Headers/Camera.h"
+#include "ApplicationManagement/Geometric/Headers/CameraNode.h"
 
 namespace Application
 {
@@ -11,7 +11,7 @@ namespace Application
 		struct World : Scene
 		{
 		protected:
-			SharedPtr<Camera> WorldCamera;
+			SharedPtr<CameraNode> WorldCamera;
 		};
 	}
 }

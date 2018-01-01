@@ -38,7 +38,7 @@ namespace Application
 			}
 		}
 
-		void Container::AddContent(Ptr<Content> newContent)
+		void Container::AddContent(SharedPtr<Content> newContent)
 		{
 			for (auto& content : ContainerContents)
 			{
@@ -48,11 +48,11 @@ namespace Application
 				}
 			}
 
-			Push(ContainerContents, newContent);
 			newContent->OnContainerSet(this);
+			Push(ContainerContents, move(newContent));
 		}
 
-		void Container::RemoveContent(Ptr<Content> oldContent)
+		void Container::RemoveContent(SharedPtr<Content> oldContent)
 		{
 			for (auto& content : ContainerContents)
 			{

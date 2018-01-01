@@ -3,6 +3,8 @@
 #include "Core/Headers/TemplateDefs.h"
 #include "Core/Headers/PtrDefs.h"
 
+using namespace std;
+
 namespace Core
 {
 	namespace Functionality

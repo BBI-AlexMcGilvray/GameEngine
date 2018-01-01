@@ -1,15 +1,20 @@
 #pragma once
 
 #include "Core/Math/Headers/Vector2.h"
+#include "Core/Math/Headers/Vector3.h"
+#include "Core/Math/Headers/Quaternion.h"
+#include "Core/Math/Headers/Matrix3x3.h"
+#include "Core/Math/Headers/Matrix4x4.h"
 
-#include "ApplicationManagement/Geometric/Headers/Node.h"
+using namespace Core;
+using namespace Core::Math;
 
 namespace Application
 {
-	namespace Geometric
+	namespace Rendering
 	{
 		// anything needed for camera. should create specifications for perspective and orthographic
-		struct Camera : Node // inherits from node to have a transform, and to be able to be listed in the children of a scene (if needed?)
+		struct Camera // inherits from node to have a transform, and to be able to be listed in the children of a scene (if needed?)
 		{
 			const Float3 DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
 
@@ -30,9 +35,6 @@ namespace Application
 			float FarPlane = 100.0f;
 
 			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 0.0f), const Float3& direction =Float3(0.0f, 0.0f, -1.0f));
-
-			void Update(Second dt) override;
-			void Render(Renderer& renderer, Float4x4 transformationMatrix) override;
 
 			// additional functions
 			Float3 MouseToWorld(const Float2& screenPosition);
