@@ -10,6 +10,11 @@ namespace Application
 			{
 
 			}
+			
+			void CollisionManager::Update(Second dt)
+			{
+				// go through all colliders and get list of all collisions, then go through all collisions and 'apply' them
+			}
 		}
 	}
 }

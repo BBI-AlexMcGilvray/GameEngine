@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ApplicationManagement\Collision\Headers\CollisionObjectBase.h"
+#include "ApplicationManagement\Collision\Headers\ColliderBase.h"
 
 namespace Application
 {
@@ -8,14 +8,19 @@ namespace Application
 	{
 		namespace Collision
 		{
-			struct SphericalCollider : CollisionObjectBase
+			struct SphericalCollider : ColliderBase
 			{
+				ColliderType GetColliderType() const override
+				{
+					return ColliderType::Sphere;
+				}
+
 				float Radius;
 				Float3 Coefficients;
 
 				SphericalCollider(SharedPtr<const Transform> collisionTransform, float radius = 1.0f, Float3 coefficients = 1.0f);
 
-				float GetBoundingRadius() override;
+				float GetBoundingRadius() const override;
 
 				void SetCoefficients(Float3 coefficients);
 			};

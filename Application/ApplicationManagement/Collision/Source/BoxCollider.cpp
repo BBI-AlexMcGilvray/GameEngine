@@ -11,10 +11,10 @@ namespace Application
 			{}
 
 			BoxCollider::BoxCollider(SharedPtr<const Transform> collisionTransform, Float3 minimum, Float3 maximum)
-				: CollisionObjectBase(collisionTransform), Minimum(minimum), Maximum(maximum)
+				: ColliderBase(collisionTransform), Minimum(minimum), Maximum(maximum)
 			{}
 
-			float BoxCollider::GetBoundingRadius()
+			float BoxCollider::GetBoundingRadius() const
 			{
 				return Distance(Minimum, Maximum);
 			}

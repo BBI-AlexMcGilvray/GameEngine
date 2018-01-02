@@ -181,7 +181,7 @@ namespace Core
 		template <typename T, typename int A>
 		VectorA<T, A> AxisDistance(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
 		{
-			return (v1 - v2);
+			return (v2 - v1);
 		}
 
 		template <typename T, typename int A>

@@ -14,7 +14,14 @@ namespace Application
 	{
 		namespace Collision
 		{
-			struct CollisionObjectBase
+			enum class ColliderType
+			{
+				Base,
+				Box,
+				Sphere
+			};
+
+			struct ColliderBase
 			{
 				/*
 				This is an INTERFACE to be used by any object that needs collision.
@@ -27,17 +34,23 @@ namespace Application
 
 				So, for example, a game object with no collision information, we make a custom object that implements both GameObjectBase and RenderObjectBase (or children of) but NOT ColliderObjectBase
 				*/
-				CollisionObjectBase(SharedPtr<const Transform> collisionTransform);
-				virtual ~CollisionObjectBase();
+
+				virtual ColliderType GetColliderType() const
+				{
+					return ColliderType::Base;
+				}
+
+				const SharedPtr<const Transform> CollisionTransform;
+
+				ColliderBase(SharedPtr<const Transform> collisionTransform);
+				virtual ~ColliderBase();
 
 				virtual void Update(Second dt);
+				virtual void OnCollision(SharedPtr<const ColliderBase> collider, Float3 location);
 
-				virtual float GetBoundingRadius() = 0;
+				virtual float GetBoundingRadius() const = 0;
 
 			private:
-				// this is private because it should never be changed by the render object - it simply reads the transform (same for colliders, but game objects will be able to modify their transform)
-				SharedPtr<const Transform> CollisionTransform;
-
 				void SubscribeToCollider();
 				void UnsubscribeFromCollider();
 			};

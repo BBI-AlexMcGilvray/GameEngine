@@ -7,10 +7,10 @@ namespace Application
 		namespace Collision
 		{
 			SphericalCollider::SphericalCollider(SharedPtr<const Transform> collisionTransform, float radius, Float3 coefficients)
-				: CollisionObjectBase(collisionTransform), Radius(radius), Coefficients(coefficients)
+				: ColliderBase(collisionTransform), Radius(radius), Coefficients(coefficients)
 			{}
 
-			float SphericalCollider::GetBoundingRadius()
+			float SphericalCollider::GetBoundingRadius() const
 			{
 				return Radius;
 			}
