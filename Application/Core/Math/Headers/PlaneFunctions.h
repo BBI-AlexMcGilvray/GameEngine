@@ -58,7 +58,7 @@ namespace Core
 			return PlaneA<T, A>(p3 - p1, p2 - p1, p1);
 		}
 
-		template <typename T, typename int A>
+		template <typename T, typename int A, typename P = Thousandth>
 		bool PointIsOnPlane(VectorA<T, A> const& v, PlaneA<T, A> const& p)
 		{
 			/*
@@ -67,10 +67,10 @@ namespace Core
 
 			auto pointToOrigin = (p.Origin - v);
 
-			return VectorParrallelToPlane(pointToOrigin, p);
+			return VectorParrallelToPlane<T, A, P>(pointToOrigin, p, P);
 		}
 
-		template <typename T, typename int A>
+		template <typename T, typename int A, typename P = Thousandth>
 		bool VectorParrallelToPlane(VectorA<T, A> const& v, PlaneA<T, A> const& p)
 		{
 			/*
@@ -84,13 +84,13 @@ namespace Core
 
 			auto normalDotVector = Dot(p.GetNormal, v);
 
-			return (normalDotVector == T(0));
+			return (Within(normalDotVector, T(0), P));
 		}
 
-		template <typename T, typename int A>
+		template <typename T, typename int A, typename P = Thousandth>
 		bool VectorIntersectsPlane(VectorA<T, A> const& v, PlaneA<T, A> const& p)
 		{
-			return !VectorParrallelToPlane(v, p);
+			return !VectorParrallelToPlane<T, A, P>(v, p);
 		}
 
 		template <typename T, typename int A>

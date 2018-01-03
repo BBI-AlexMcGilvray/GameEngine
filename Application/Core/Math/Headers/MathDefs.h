@@ -7,6 +7,16 @@ namespace Core
 	namespace Math
 	{
 		template <typename int D>
+		struct Precision
+		{
+			const float p = (1.0f / float(D));
+			operator float() const { return p; }
+		};
+		using Tenth = Precision<10>;
+		using Hundredth = Precision<100>;
+		using Thousandth = Precision<1000>;
+
+		template <typename int D>
 		struct Dimension 
 		{
 			const int d = D;
