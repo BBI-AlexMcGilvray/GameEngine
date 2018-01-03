@@ -179,21 +179,15 @@ namespace Core
 		}
 
 		template <typename T, typename int A>
-		VectorA<T, A> AxisDistance(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
-		{
-			return (v2 - v1);
-		}
-
-		template <typename T, typename int A>
 		T Distance(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
 		{
-			return Magnitude(AxisDistance(v1, v2));
+			return Magnitude(v2 - v1);
 		}
 
 		template <typename T, typename int A>
 		VectorA<T, A> Direction(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
 		{
-			return Normalize(AxisDistance(v1 - v2));
+			return Normalize(v2 - v1);
 		}
 
 #if DEBUG

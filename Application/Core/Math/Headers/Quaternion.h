@@ -212,6 +212,8 @@ namespace Core
 				return (W == q.W && == q.X && Y == q.Y && Z == q.Z);
 			}
 
+			// other comparison operators have no meaning
+
 			T operator[](int axis)
 			{
 				auto modifiedAxis = (axis + 1) % 4;

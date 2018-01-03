@@ -158,6 +158,8 @@ namespace Core
 				return (X == v.X && Y == v.Y);
 			}
 
+			// add in other comparison operaators
+
 			T& operator[](int axis)
 			{
 				return Axes[axis];

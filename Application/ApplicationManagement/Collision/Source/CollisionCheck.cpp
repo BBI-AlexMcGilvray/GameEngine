@@ -194,7 +194,7 @@ namespace Application
 
 			Float3 GetCollisionLocation(SharedPtr<const SphericalCollider> sphere1, SharedPtr<const SphericalCollider> sphere2)
 			{
-				Float3 direction = AxisDistance(sphere1->CollisionTransform->Position, sphere2->CollisionTransform->Position);
+				Float3 direction = (sphere1->CollisionTransform->Position - sphere2->CollisionTransform->Position);
 				Float3 middlePoint = sphere1->CollisionTransform->Position + (direction / 2.0f);
 				
 				return (middlePoint);

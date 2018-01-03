@@ -248,6 +248,8 @@ namespace Core
 				return (E1 == m.E1 && E2 == m.E2 && E3 == m.E3 && E4 == m.E4);
 			}
 
+			// other comparison operators have no meaning
+
 			VectorA<T, 4>& operator[](int basis)
 			{
 				return Bases[basis];

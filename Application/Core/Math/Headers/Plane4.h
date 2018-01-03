@@ -89,6 +89,8 @@ namespace Core
 				return (GetNormal() == p.GetNormal() && Origin == p.Origin);
 			}
 
+			// other comparison operators have no meaning
+
 			T& operator[](int index)
 			{
 				return Vectors[index];
