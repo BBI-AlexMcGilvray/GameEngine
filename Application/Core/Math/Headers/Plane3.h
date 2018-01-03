@@ -3,6 +3,7 @@
 #include "Plane.h"
 
 #include "Vector3.h"
+#include "VectorFunctions.h"
 
 #include "Quaternion.h"
 #include "QuaternionFunctions.h"
@@ -14,25 +15,28 @@ namespace Core
 		template <typename T>
 		struct PlaneA<T, 3>
 		{
-			VectorA<T, 3> E1;
-			VectorA<T, 3> E2;
+			union
+			{
+				struct
+				{
+					VectorA<T, 3> E1;
+					VectorA<T, 3> E2;
+				};
+				T Vectors[2];
+			};
+			VectorA<T, 3> Origin;
 
 			PlaneA()
-				: E1(T(1), T(0), T(0)), E2(T(0), T(1), T(0))
+				: E1(T(1), T(0), T(0)), E2(T(0), T(1), T(0)), Origin(T(0))
 			{}
 
-			// plane represented by 2 vectors
-			PlaneA(VectorA<T, 3> v1, VectorA<T, 3> v2)
-				: E1(v1), E2(v2)
-			{}
-
-			// plane represented by 3 points
-			PlaneA(VectorA<T, 3> v1, VectorA<T, 3> v2, VectorA<T, 3> v3)
-				: E1(v3 - v1), E2(v3 - v2)
+			// plane represented by 2 vectors and origin
+			PlaneA(VectorA<T, 3> v1, VectorA<T, 3> v2, VectorA<T, 3> origin = VectorA<T, 3>(T(0)))
+				: E1(v1), E2(v2), Origin(origin)
 			{}
 
 			PlaneA(PlaneA<T, 3> const& p)
-				: E1(p.E1), E2(p.E2)
+				: E1(p.E1), E2(p.E2), Origin(p.Origin)
 			{}
 
 			// methods
@@ -44,16 +48,14 @@ namespace Core
 			// operators
 			PlaneA<T, 3>& operator-=(VectorA<T, 3> const& v)
 			{
-				E1 -= v;
-				E2 -= v;
+				Origin -= v;
 
 				return (*this);
 			}
 
 			PlaneA<T, 3>& operator+=(VectorA<T, 3> const& v)
 			{
-				E1 += v;
-				E2 += v;
+				Origin += v;
 
 				return (*this);
 			}
@@ -64,26 +66,37 @@ namespace Core
 				{
 					E1 = p.E1;
 					E2 = p.E2;
+					Origin = p.Origin;
 				}
 
 				return (*this);
 			}
 
-			friend PlaneA<T, 3> operator-(PlaneA<T, 3> p, PlaneA<T, 3> const& oP)
+			friend PlaneA<T, 3> operator-(PlaneA<T, 3> p, VectorA<T, 3> const& v)
 			{
-				p -= oP;
+				p -= v;
 				return p;
 			}
 
-			friend PlaneA<T, 3> operator+(PlaneA<T, 3> p, PlaneA<T, 3> const& oP)
+			friend PlaneA<T, 3> operator+(PlaneA<T, 3> p, VectorA<T, 3> const& v)
 			{
-				p += oP;
+				p += v;
 				return p;
 			}
 
-			bool operator==(PlaneA<T, 3> const& p)
+			bool operator==(PlaneA<T, 2> const& p)
 			{
-				return (E1 == p.E1 && E2 == p.E2);
+				return (GetNormal() == p.GetNormal() && Origin == p.Origin);
+			}
+
+			T& operator[](int index)
+			{
+				return Vectors[index];
+			}
+
+			T operator[](int index) const
+			{
+				return Vectors[index];
 			}
 
 			PlaneA<T, 3>& Rotate(Quaternion<T> r)
@@ -96,8 +109,10 @@ namespace Core
 
 			VectorA<T, 3> GetNormal()
 			{
+				// normlize since magnitude should not matter and due to the crossproduct on arbitrary vectors, no guarantee on size constraints
+
 				// does not exist for 2 dimensions
-				return CrossProduct(E1, E2);
+				return Normalize(CrossProduct(E1, E2));
 			}
 		};
 

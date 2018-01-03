@@ -34,7 +34,7 @@ namespace Core
 		return result;
 	}
 
-	inline void VerifyMessage(bool condition, std::string message, bool runAssert)
+	inline bool VerifyMessage(bool condition, std::string message, bool runAssert)
 	{
 		bool conditionResult = VerifyCondition(condition, runAssert);
 
@@ -42,6 +42,8 @@ namespace Core
 		{
 			Message(message);
 		}
+
+		return conditionResult;
 	}
 
 	#if DEBUG
