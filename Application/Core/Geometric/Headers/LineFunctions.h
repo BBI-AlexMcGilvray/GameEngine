@@ -188,8 +188,8 @@ namespace Core
 				return ClosestPointsBetweenLines(ClosestPointsBetweenLines::ProximityType::Unknown, l1.P, l2.P);
 			}
 			
-			int s;
-			int t;
+			T s;
+			T t;
 
 			if (iIsInitial)
 			{
@@ -202,8 +202,8 @@ namespace Core
 				t = [(l1.P[j] - l2.P[j]) + (s * l1.V[j])] / l2.V[j];
 			}
 
-			auto l1Closest = l1.P + (s * l1.V);
-			auto l2Closest = l2.P + (t * l2.V);
+			auto l1Closest = l1.SubstituteInCoefficient(s);
+			auto l2Closest = l2.SubstituteInCoefficient(t);
 			auto intersect = Within(l1Closest, l2Closest, P);
 
 			auto proximityType = intersect ? ClosestPointsBetweenLines::ProximityType::Intersect : ClosestPointsBetweenLines::ProximityType::Closest;
