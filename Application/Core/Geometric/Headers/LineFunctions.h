@@ -17,6 +17,12 @@ namespace Core
 	namespace Geometric
 	{
 		template <typename T, typename int A>
+		LineA<T, A> LineFromPoints(VectorA<T, A> const& p1, VectorA<T, A> const& p2)
+		{
+			return LineA<T, A>(p2 - p1, p1);
+		}
+
+		template <typename T, typename int A>
 		bool LinesParrallel(LineA<T, A> const& l1, LineA<T, A> const& l2)
 		{
 			auto l1Normal = Normalize(l1.V);

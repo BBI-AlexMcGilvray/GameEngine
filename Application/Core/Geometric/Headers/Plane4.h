@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Plane.h"
+#include "Line4.h"
 
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/VectorFunctions.h"
@@ -31,8 +32,12 @@ namespace Core
 			{}
 
 			// plane represented by 2 vectors and origin
-			PlaneA(VectorA<T, 4> v1, VectorA<T, 4> v2, VectorA<T, 4> o = VectorA<T, 4>(T(0)))
+			PlaneA(VectorA<T, 4> const& v1, VectorA<T, 4> const& v2, VectorA<T, 4> const& o = VectorA<T, 4>(T(0)))
 				: E1(v1), E2(v2), O(o)
+			{}
+
+			PlaneA(LineA<T, 4> const& l, VectorA<T, 4> const& v)
+				: E1(l.V), E2(v), O(l.P)
 			{}
 
 			PlaneA(PlaneA<T, 4> const& p)

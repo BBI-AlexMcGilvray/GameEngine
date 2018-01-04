@@ -94,7 +94,13 @@ namespace Core
 		}
 
 		template <typename T, typename int A>
-		Truth<VectorA<T, A>> VectorPlanePointOfIntersection(VectorA<T, A> const& vOrigin, VectorA<T, A> const& v, PlaneA<T, A> const& p)
+		Truth<VectorA<T, A>> VectorPlanePointOfIntersection(LineA<T, A> const& l, PlaneA<T, A> const& p)
+		{
+			return VectorPlanePointOfIntersection(l.P, l.V, p);
+		}
+
+		template <typename T, typename int A>
+		Truth<VectorA<T, A>> VectorPlanePointOfIntersection(VectorA<T, A> const& vO, VectorA<T, A> const& v, PlaneA<T, A> const& p)
 		{
 			if (VectorParrallelToPlane(v, p))
 			{
@@ -102,33 +108,34 @@ namespace Core
 			}
 
 			/*
-				Using the equation of a plane, gotten by Dot(N, (origin - pointOnPlane)) = 0 (=> Dot(N, vOrigin + (v * t)) = Dot(N, origin))
-				we get that t = ((origin_x,y,z - vOrigin_x,y,z) / v_x,y,z), after ensuring that v_x,y,z != 0
+				Using the equation of a plane, gotten by Dot(N, (origin - pointOnPlane)) = 0 (=> Dot(N, vO + (v * t)) = Dot(N, O) - we want to find t such that vO + (v * t) is on the plane)
+				we get that t = ((O,y,z - vO,y,z) / v_x,y,z), after ensuring that v_x,y,z != 0
 			*/
 
 			T t;
+
 			if (v[0] != 0)
 			{
-				t = (p.O[0] - vOrigin[0]) / v[0];
+				t = (p.O[0] - vO[0]) / v[0];
 			}
 			else if (v[1] != 0)
 			{
-				t = (p.O[1] - v.Origin[1]) / v[1];
+				t = (p.O[1] - v.vO[1]) / v[1];
 			}
 			else if (v.Dimensions() > 2 && v[2] != 0)
 			{
-				t = (p.O[2] - v.Origin[2]) / v[2];
+				t = (p.O[2] - v.vO[2]) / v[2];
 			}
 			else if (v.Dimensions() > 3 && v[3] != 0)
 			{
-				t = (p.O[3] - v.Origin[3]) / v[3];
+				t = (p.O[3] - v.vO[3]) / v[3];
 			}
 			else
 			{
 				return Truth(MESSAGE(false, "Dimension of vector not supported"), VectorA<T, A>(T(0)));
 			}
 
-			VectorA<T, A> pointOfIntersection = vOrigin + (v * t);
+			VectorA<T, A> pointOfIntersection = vO + (v * t);
 
 			return Truth(true, pointOfIntersection);
 		}
