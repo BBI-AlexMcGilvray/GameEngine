@@ -2,15 +2,15 @@
 
 #include "Plane.h"
 
-#include "Vector3.h"
-#include "VectorFunctions.h"
+#include "Core/Math/Headers/Vector3.h"
+#include "Core/Math/Headers/VectorFunctions.h"
 
-#include "Quaternion.h"
-#include "QuaternionFunctions.h"
+#include "Core/Math/Headers/Quaternion.h"
+#include "Core/Math/Headers/QuaternionFunctions.h"
 
 namespace Core
 {
-	namespace Math
+	namespace Geometric
 	{
 		template <typename T>
 		struct PlaneA<T, 3>
@@ -24,19 +24,19 @@ namespace Core
 				};
 				T Vectors[2];
 			};
-			VectorA<T, 3> Origin;
+			VectorA<T, 3> O;
 
 			PlaneA()
-				: E1(T(1), T(0), T(0)), E2(T(0), T(1), T(0)), Origin(T(0))
+				: E1(T(1), T(0), T(0)), E2(T(0), T(1), T(0)), O(T(0))
 			{}
 
 			// plane represented by 2 vectors and origin
-			PlaneA(VectorA<T, 3> v1, VectorA<T, 3> v2, VectorA<T, 3> origin = VectorA<T, 3>(T(0)))
-				: E1(v1), E2(v2), Origin(origin)
+			PlaneA(VectorA<T, 3> v1, VectorA<T, 3> v2, VectorA<T, 3> o = VectorA<T, 3>(T(0)))
+				: E1(v1), E2(v2), O(o)
 			{}
 
 			PlaneA(PlaneA<T, 3> const& p)
-				: E1(p.E1), E2(p.E2), Origin(p.Origin)
+				: E1(p.E1), E2(p.E2), O(p.O)
 			{}
 
 			// methods
@@ -48,14 +48,14 @@ namespace Core
 			// operators
 			PlaneA<T, 3>& operator-=(VectorA<T, 3> const& v)
 			{
-				Origin -= v;
+				O -= v;
 
 				return (*this);
 			}
 
 			PlaneA<T, 3>& operator+=(VectorA<T, 3> const& v)
 			{
-				Origin += v;
+				O += v;
 
 				return (*this);
 			}
@@ -66,7 +66,7 @@ namespace Core
 				{
 					E1 = p.E1;
 					E2 = p.E2;
-					Origin = p.Origin;
+					O = p.O;
 				}
 
 				return (*this);
@@ -86,7 +86,14 @@ namespace Core
 
 			bool operator==(PlaneA<T, 2> const& p)
 			{
-				return (GetNormal() == p.GetNormal() && Origin == p.Origin);
+				auto normal = GetNormal();
+				auto otherNormal = p.GetNormal();
+				bool normalsEqual = (normal == otherNormal || -normal == otherNormal);
+
+				// not true, Origins can be different and still have the same plane
+				bool originsEqual = (O == p.O);
+
+				return (normalsEqual && originsEqual);
 			}
 
 			// other comparison operators have no meaning

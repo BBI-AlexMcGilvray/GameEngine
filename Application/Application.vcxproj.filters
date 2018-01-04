@@ -697,19 +697,37 @@
     <ClInclude Include="ApplicationManagement\Collision\Headers\CollisionCheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Headers\Plane.h">
+    <ClInclude Include="Core\Geometric\Headers\PlaneFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Headers\Plane2.h">
+    <ClInclude Include="Core\Geometric\Headers\Plane.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Headers\Plane3.h">
+    <ClInclude Include="Core\Geometric\Headers\Plane2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Headers\Plane4.h">
+    <ClInclude Include="Core\Geometric\Headers\Plane3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Math\Headers\PlaneFunctions.h">
+    <ClInclude Include="Core\Geometric\Headers\Plane4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Geometric\Headers\Ellipsoid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Geometric\Headers\Line.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Geometric\Headers\Line2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Geometric\Headers\Line3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Geometric\Headers\Line4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Geometric\Headers\LineFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

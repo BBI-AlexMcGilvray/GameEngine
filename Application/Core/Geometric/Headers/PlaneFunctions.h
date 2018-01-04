@@ -5,7 +5,7 @@
 #include "Plane3.h"
 #include "Plane4.h"
 
-#include "VectorFunctions.h"
+#include "Core/Math/Headers/VectorFunctions.h"
 
 #include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Debugging/Headers/Macros.h"
@@ -14,7 +14,7 @@
 
 namespace Core
 {
-	namespace Math
+	namespace Geometric
 	{
 		template <typename T, typename int A>
 		PlaneA<T, A> PlaneFromNormal(VectorA<T, A> const& n, VectorA<T, A> const& origin)
@@ -62,10 +62,10 @@ namespace Core
 		bool PointIsOnPlane(VectorA<T, A> const& v, PlaneA<T, A> const& p)
 		{
 			/*
-				(p.Origin - v) will give us a vector, if the vector is parrallel to the plane, the point is on the plane (since the origin is on the plane)
+				(p.O - v) will give us a vector, if the vector is parrallel to the plane, the point is on the plane (since the origin is on the plane)
 			*/
 
-			auto pointToOrigin = (p.Origin - v);
+			auto pointToOrigin = (p.O - v);
 
 			return VectorParrallelToPlane<T, A, P>(pointToOrigin, p, P);
 		}
@@ -106,24 +106,22 @@ namespace Core
 				we get that t = ((origin_x,y,z - vOrigin_x,y,z) / v_x,y,z), after ensuring that v_x,y,z != 0
 			*/
 
-			auto normal = p.GetNormal();
-
 			T t;
 			if (v[0] != 0)
 			{
-				t = (p.Origin[0] - vOrigin[0]) / v[0];
+				t = (p.O[0] - vOrigin[0]) / v[0];
 			}
 			else if (v[1] != 0)
 			{
-				t = (p.Origin[1] - v.Origin[1]) / v[1];
+				t = (p.O[1] - v.Origin[1]) / v[1];
 			}
 			else if (v.Dimensions() > 2 && v[2] != 0)
 			{
-				t = (p.Origin[2] - v.Origin[2]) / v[2];
+				t = (p.O[2] - v.Origin[2]) / v[2];
 			}
 			else if (v.Dimensions() > 3 && v[3] != 0)
 			{
-				t = (p.Origin[3] - v.Origin[3]) / v[3];
+				t = (p.O[3] - v.Origin[3]) / v[3];
 			}
 			else
 			{
@@ -134,8 +132,8 @@ namespace Core
 
 			return Truth(true, pointOfIntersection);
 		}
-
 #if DEBUG
+
 		// reminder: macro statements should be formatted such that whitespace is correct were they to be removed
 		template <typename T, typename int A>
 		String PlaneString(PlaneA<T, A> const& p)

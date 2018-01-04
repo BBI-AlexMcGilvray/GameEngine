@@ -159,9 +159,9 @@ namespace Core
 		template <typename T, int A>
 		VectorA<T, A> Project(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
 		{
-			auto projection = v2.Normalize();
+			auto projection = Normalize(v2);
 			projection *= Dot(v1, v2);
-			projection /= v2.Magnitude();
+			projection /= Magnitude(v2);
 
 			return projection;
 		}
