@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "Axis.h"
+
 namespace Core
 {
 	namespace Math
@@ -26,17 +28,6 @@ namespace Core
 		using R2 = Dimension<2>;
 		using R3 = Dimension<3>;
 		using R4 = Dimension<4>;
-
-		template <typename int A>
-		struct Axis
-		{
-			const int a = A;
-			operator int() const { return a; }
-		};
-		using XAxis = Axis<0>;
-		using YAxis = Axis<1>;
-		using ZAxis = Axis<2>;
-		using WAxis = Axis<3>;
 
 		template <typename int B>
 		struct Basis

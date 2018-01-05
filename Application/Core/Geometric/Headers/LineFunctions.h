@@ -140,7 +140,7 @@ namespace Core
 			if (LinesParrallel(l1, l2))
 			{
 				// do not intersect, any point on l1 is the closest to l2 (parrallel)
-				return ClosestPointsBetweenLines(ClosestPointsBetweenLines::ProximityType::Parrallel, l1.P, l2.P);
+				return ClosestPointsBetweenLines(ClosestPointsBetweenLines::ProximityType::Parrallel, l1.P, l1.P + ShortestDistanceFromPointToLine(l1.P, l2));
 			}
 
 			bool iIsInitial = true;

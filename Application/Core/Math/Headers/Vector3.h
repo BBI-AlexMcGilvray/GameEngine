@@ -124,6 +124,7 @@ namespace Core
 				return (*this);
 			}
 
+			// do not need other = operators, since each vector type has the conversion operators
 			VectorA<T, 3>& operator=(VectorA<T, 3> const& v)
 			{
 				if (this != &v)

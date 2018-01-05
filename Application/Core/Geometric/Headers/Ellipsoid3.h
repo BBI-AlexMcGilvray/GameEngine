@@ -29,50 +29,62 @@ namespace Core
 			VectorA<T, 3> O;
 
 			EllipsoidA()
-				: C1(T(1)), C2(T(1)), R(T(1)), O(T(0))
+				: C1(T(1)), C2(T(1)), C3(T(1)), R(T(1)), O(T(0))
 			{}
 
 			// plane represented by 2 vectors and origin
-			EllipsoidA(T c1, T c2, T r = 1, VectorA<T, 2> o = VectorA<T, 2>(T(0)))
-				: C1(c1), C2(c2), R(r), O(o)
+			EllipsoidA(T c1, T c2, T c3, T r = 1, VectorA<T, 3> o = VectorA<T, 3>(T(0)))
+				: C1(c1), C2(c2), C3(c3), R(r), O(o)
 			{}
 
 			// plane represented by 2 vectors and origin
-			EllipsoidA(T r, VectorA<T, 2> o = VectorA<T, 2>(T(0)))
-				: C1(T(1)), C2(T(1)), R(r), O(o)
+			EllipsoidA(T r, VectorA<T, 3> o = VectorA<T, 3>(T(0)))
+				: C1(T(1)), C2(T(1)),C3(T(1)), R(r), O(o)
 			{}
 
 			EllipsoidA(EllipsoidA<T, 2> const& e)
-				: C1(e.C1), C2(e.C2), R(e.R), O(e.O)
+				: C1(e.C1), C2(e.C2), C3(e.C3), R(e.R), O(e.O)
 			{}
 
-			// methods
-			Dimension<2> Dimensions()
+			// conversions
+			operator EllipsoidA<T, 2>()
 			{
-				return Dimension<2>;
+				return EllipsoidA<T, 2>(C1, C2, R, O);
+			}
+
+			operator EllipsoidA<T, 4>()
+			{
+				return EllipsoidA<T, 4>(C1, C2, C3, T(1), R, O);
+			}
+
+			// methods
+			Dimension<3> Dimensions()
+			{
+				return Dimension<3>;
 			}
 
 			// operators
-			EllipsoidA<T, 2>& operator-=(VectorA<T, 2> const& v)
+			EllipsoidA<T, 3>& operator-=(VectorA<T, 3> const& v)
 			{
 				O -= v;
 
 				return (*this);
 			}
 
-			EllipsoidA<T, 2>& operator+=(VectorA<T, 2> const& v)
+			EllipsoidA<T, 3>& operator+=(VectorA<T, 3> const& v)
 			{
 				O += v;
 
 				return (*this);
 			}
 
-			EllipsoidA<T, 2>& operator=(EllipsoidA<T, 2> const& e)
+			EllipsoidA<T, 3>& operator=(EllipsoidA<T, 3> const& e)
 			{
 				if (this != &e)
 				{
 					C1 = e.C1;
 					C2 = e.C2;
+					C3 = e.C3;
 					R = e.R;
 					O = e.O;
 				}
@@ -80,31 +92,42 @@ namespace Core
 				return (*this);
 			}
 
-			friend EllipsoidA<T, 2> operator-(EllipsoidA<T, 2> e, VectorA<T, 2> const& v)
+			friend EllipsoidA<T, 3> operator-(EllipsoidA<T, 3> e, VectorA<T, 3> const& v)
 			{
 				e -= v;
 				return l;
 			}
 
-			friend EllipsoidA<T, 2> operator+(EllipsoidA<T, 2> e, VectorA<T, 2> const& v)
+			friend EllipsoidA<T, 3> operator+(EllipsoidA<T, 3> e, VectorA<T, 3> const& v)
 			{
 				e += v;
 				return l;
 			}
 
-			bool operator==(EllipsoidA<T, 2> const& e)
+			bool operator==(EllipsoidA<T, 3> const& e)
 			{
-				return (C1 == e.C1 && C2 == e.C2 && R == e.R && O == e.O);
+				return (C1 == e.C1 && C2 == e.C2 && C3 == e.C3 && R == e.R && O == e.O);
 			}
 
 			// other comparison operators have no meaning
 
-			EllipsoidA<T, 2>& Rotate(Quaternion<T> r)
+			T& operator[](int axis)
 			{
-				VectorA<T, 3> rotatedCoefficients = RotateVectorBy(VectorA<T, 3>(C1, C2, T(0)), r);
+				return Coefficients[axis];
+			}
+
+			T operator[](int axis) const
+			{
+				return Coefficients[axis];
+			}
+
+			EllipsoidA<T, 3>& Rotate(Quaternion<T> r)
+			{
+				VectorA<T, 3> rotatedCoefficients = RotateVectorBy(VectorA<T, 3>(C1, C2, C3), r);
 
 				C1 = rotatedCoefficients.X;
 				C2 = rotatedCoefficients.Y;
+				C3 = rotatedCoefficients.Z;
 
 				return (*this);
 			}
@@ -112,10 +135,10 @@ namespace Core
 
 		/*	TYPE DEFS	*/
 		template <typename T>
-		using Ellipsoid2 = EllipsoidA<T, 2>;
+		using Ellipsoid3 = EllipsoidA<T, 3>;
 
-		using Ellipsoid2F = Ellipsoid2<float>;
-		using Ellipsoid2I = Ellipsoid2<int>;
-		using Ellipsoid2UI = Ellipsoid2<uint>;
+		using Ellipsoid3F = Ellipsoid3<float>;
+		using Ellipsoid3I = Ellipsoid3<int>;
+		using Ellipsoid3UI = Ellipsoid3<uint>;
 	}
 }

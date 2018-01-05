@@ -45,6 +45,17 @@ namespace Core
 				: C1(e.C1), C2(e.C2), R(e.R), O(e.O)
 			{}
 
+			// conversions
+			operator EllipsoidA<T, 3>()
+			{
+				return EllipsoidA<T, 3>(C1, C2, T(1), R, O);
+			}
+
+			operator EllipsoidA<T, 4>()
+			{
+				return EllipsoidA<T, 4>(C1, C2, C3, T(1), R, O);
+			}
+
 			// methods
 			Dimension<2> Dimensions()
 			{
@@ -97,6 +108,16 @@ namespace Core
 			}
 
 			// other comparison operators have no meaning
+
+			T& operator[](int axis)
+			{
+				return Coefficients[axis];
+			}
+
+			T operator[](int axis) const
+			{
+				return Coefficients[axis];
+			}
 
 			EllipsoidA<T, 2>& Rotate(Quaternion<T> r)
 			{
