@@ -40,6 +40,14 @@ namespace Core
 				: E1(l.V), E2(v), O(l.P)
 			{}
 
+			PlaneA(PlaneA<T, 2> const& p)
+				: E1(p.E1), E2(p.E2), O(p.O)
+			{}
+
+			PlaneA(PlaneA<T, 3> const& p)
+				: E1(p.E1), E2(p.E2), O(p.O)
+			{}
+
 			PlaneA(PlaneA<T, 4> const& p)
 				: E1(p.E1), E2(p.E2), O(p.O)
 			{}
@@ -115,11 +123,7 @@ namespace Core
 
 			PlaneA<T, 4>& Rotate(Quaternion<T> r)
 			{
-				// not implemented yet
-				/*
-				E1 = RotateVectorBy(E1, r);
-				E2 = RotateVectorBy(E2, r);
-				*/
+				// no implementation for rotating V4 by Quaternion
 
 				return (*this);
 			}

@@ -87,6 +87,12 @@ namespace Core
 			return (Within(normalDotVector, T(0), P));
 		}
 
+		template <typename T, typename int A>
+		bool PlanesIntersect(PlaneA<T, A> const& p1, PlaneA<T, A> const& p1)
+		{
+			return (Dot(p1.GetNormal(), p2.GetNormal()) != 0);
+		}
+
 		template <typename T, typename int A, typename P = Thousandth>
 		bool VectorIntersectsPlane(VectorA<T, A> const& v, PlaneA<T, A> const& p)
 		{
@@ -94,7 +100,49 @@ namespace Core
 		}
 
 		template <typename T, typename int A>
-		Truth<VectorA<T, A>> VectorPlanePointOfIntersection(LineA<T, A> const& l, PlaneA<T, A> const& p)
+		VectorA<T, A> Project(VectorA<T, A> const& v, PlaneA<T, A> const& p)
+		{
+			return Perp(v, p.GetNormal());
+		}
+
+		template <typename T, typename int A>
+		VectorA<T, A> Project(PlaneA<T, A> const& p, VectorA<T, A> const& v)
+		{
+			return Project(v, p);
+		}
+
+		template <typename T, typename int A>
+		VectorA<T, A> Perp(VectorA<T, A> const& v, PlaneA<T, A> const& p)
+		{
+			return Project(v, p.GetNormal());
+		}
+
+		template <typename T, typename int A>
+		VectorA<T, A> Perp(PlaneA<T, A> const& p, VectorA<T, A> const& v)
+		{
+			return Perp(v, p);
+		}
+
+		template <typename T, typename int A>
+		Truth<LineA<T, A>> PlanePlaneLineOfIntersection(PlaneA<T, A> const& p1, PlaneA<T, A> const& p2)
+		{
+			if (!PlanesIntersect(p1, p2))
+			{
+				return Truth(false, LineA<T, A>(T(0)));
+			}
+
+			// direction the intersection will move in
+			VectorA<T, A> intersectionDirection = CrossProduct(p1, p2);
+
+			// normal of p2, projected onto p1 gives the direction to p2
+			auto directionToPlane = Project(p2.GetNormal(), p1);
+			VectorA<T, A> aPointOfIntersection = VectorPlanePointOfIntersection(p1.O, directionToPlane, p2);
+
+			return Truth(true, LineA<T, A>(intersectionDirection, aPointOfIntersection));
+		}
+
+		template <typename T, typename int A>
+		Truth<VectorA<T, A>> LinePlanePointOfIntersection(LineA<T, A> const& l, PlaneA<T, A> const& p)
 		{
 			return VectorPlanePointOfIntersection(l.P, l.V, p);
 		}

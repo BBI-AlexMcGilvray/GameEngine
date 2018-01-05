@@ -47,7 +47,7 @@ namespace Core
 			auto yEqual = VERIFY(float3_double.Y == 2.0f);
 			auto zEqual = VERIFY(float3_double.Z == 3.0f);
 
-			auto axisX = float3_double[X{}];
+			auto axisX = float3_double[XAxis{}];
 			auto i0 = float3_double[0];
 			auto accessorsEqual = VERIFY(axisX == i0);
 

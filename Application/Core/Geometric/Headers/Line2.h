@@ -96,11 +96,7 @@ namespace Core
 
 			LineA<T, 2>& Rotate(Quaternion<T> r)
 			{
-				// not implemented yet
-				/*
-				E1 = RotateVectorBy(E1, r);
-				E2 = RotateVectorBy(E2, r);
-				*/
+				V = RotateVectorBy(V, r);
 
 				return (*this);
 			}

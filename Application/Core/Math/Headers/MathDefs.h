@@ -33,10 +33,10 @@ namespace Core
 			const int a = A;
 			operator int() const { return a; }
 		};
-		using X = Axis<0>;
-		using Y = Axis<1>;
-		using Z = Axis<2>;
-		using W = Axis<3>;
+		using XAxis = Axis<0>;
+		using YAxis = Axis<1>;
+		using ZAxis = Axis<2>;
+		using WAxis = Axis<3>;
 
 		template <typename int B>
 		struct Basis

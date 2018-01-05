@@ -40,6 +40,10 @@ namespace Core
 				: E1(l.V), E2(v), O(l.P)
 			{}
 
+			PlaneA(PlaneA<T, 2> const& p)
+				: E1(p.E1), E2(p.E2), O(p.O)
+			{}
+
 			PlaneA(PlaneA<T, 3> const& p)
 				: E1(p.E1), E2(p.E2), O(p.O)
 			{}

@@ -32,6 +32,14 @@ namespace Core
 				: V(p2 - p1), P(p1)
 			{}
 
+			LineA(LineA<T, 2> const& l)
+				: V(l.V), P(l.P)
+			{}
+
+			LineA(LineA<T, 3> const& l)
+				: V(l.V), P(l.P)
+			{}
+
 			LineA(LineA<T, 4> const& l)
 				: V(l.V), P(l.P)
 			{}
@@ -96,11 +104,7 @@ namespace Core
 
 			LineA<T, 4>& Rotate(Quaternion<T> r)
 			{
-				// not implemented yet
-				/*
-				E1 = RotateVectorBy(E1, r);
-				E2 = RotateVectorBy(E2, r);
-				*/
+				// no implementation for rotating V4 by Quaternion
 
 				return (*this);
 			}

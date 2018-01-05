@@ -32,6 +32,10 @@ namespace Core
 				: V(p2 - p1), P(p1)
 			{}
 
+			LineA(LineA<T, 2> const& l)
+				: V(l.V), P(l.P)
+			{}
+
 			LineA(LineA<T, 3> const& l)
 				: V(l.V), P(l.P)
 			{}
