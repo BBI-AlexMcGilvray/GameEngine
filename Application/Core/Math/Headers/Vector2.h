@@ -31,6 +31,17 @@ namespace Core
 				: X(v.X), Y(v.Y)
 			{}
 
+			// conversions
+			operator VectorA<T, 3>()
+			{
+				return VectorA<T, 3>(X, Y, T(0));
+			}
+
+			operator VectorA<T, 4>()
+			{
+				return VectorA<T, 3>(X, Y, T(0), T(0));
+			}
+
 			// methods
 			Dimension<2> Dimensions()
 			{

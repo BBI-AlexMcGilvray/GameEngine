@@ -52,6 +52,17 @@ namespace Core
 				: E1(d1, d2, d3), E2(d4, d5, d6), E3(d7, d8, d9)
 			{}
 
+			// conversions
+			operator MatrixAxB<T, 2, 2>()
+			{
+				return MatrixAxB<T, 2, 2>(E1, E2);
+			}
+
+			operator MatrixAxB<T, 4, 4>()
+			{
+				return MatrixAxB<T, 4, 4>(E1, E2, E3, T(0));
+			}
+
 			// methods
 			Pair<Dimension<3>, Dimension<3>> Dimensions()
 			{

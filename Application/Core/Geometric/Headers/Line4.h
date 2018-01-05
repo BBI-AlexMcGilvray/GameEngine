@@ -44,6 +44,17 @@ namespace Core
 				: V(l.V), P(l.P)
 			{}
 
+			// conversions
+			operator LineA<T, 2>()
+			{
+				return LineA<T, 2>(V, P);
+			}
+
+			operator LineA<T, 3>()
+			{
+				return LineA<T, 3>(V, P);
+			}
+
 			// methods
 			Dimension<4> Dimensions()
 			{

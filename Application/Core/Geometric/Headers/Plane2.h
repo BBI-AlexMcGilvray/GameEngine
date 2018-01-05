@@ -50,6 +50,17 @@ namespace Core
 				return Dimension<2>;
 			}
 
+			// conversions
+			operator PlaneA<T, 3>()
+			{
+				return PlaneA<T, 3>(E1, E2, O);
+			}
+
+			operator PlaneA<T, 4>()
+			{
+				return PlaneA<T, 4>(E1, E2, O);
+			}
+
 			// operators
 			PlaneA<T, 2>& operator-=(VectorA<T, 2> const& v)
 			{

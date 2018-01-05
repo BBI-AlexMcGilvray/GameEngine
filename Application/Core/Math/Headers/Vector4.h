@@ -55,6 +55,17 @@ namespace Core
 				: X(v.X), Y(v.Y), Z(v.Z), W(v.W)
 			{}
 
+			// conversions
+			operator VectorA<T, 2>()
+			{
+				return XY;
+			}
+
+			operator VectorA<T, 3>()
+			{
+				return XYZ;
+			}
+
 			// methods
 			Dimension<4> Dimensions()
 			{

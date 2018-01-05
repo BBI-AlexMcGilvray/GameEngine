@@ -52,6 +52,17 @@ namespace Core
 				: E1(p.E1), E2(p.E2), O(p.O)
 			{}
 
+			// conversions
+			operator PlaneA<T, 2>()
+			{
+				return PlaneA<T, 2>(E1, E2, O);
+			}
+
+			operator PlaneA<T, 3>()
+			{
+				return PlaneA<T, 3>(E1, E2, O);
+			}
+
 			// methods
 			Dimension<4> Dimensions()
 			{
