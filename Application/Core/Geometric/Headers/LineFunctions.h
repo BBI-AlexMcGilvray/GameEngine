@@ -17,6 +17,12 @@ namespace Core
 	namespace Geometric
 	{
 		template <typename T, typename int A>
+		VectorA<T, A> SubstituteInValue(LineA<T, A> const& l, T s)
+		{
+			return VectorA<T, A>(l.P + (s * l.V));
+		}
+
+		template <typename T, typename int A>
 		LineA<T, A> LineFromPoints(VectorA<T, A> const& p1, VectorA<T, A> const& p2)
 		{
 			return LineA<T, A>(p2 - p1, p1);

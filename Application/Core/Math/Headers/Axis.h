@@ -10,6 +10,12 @@ namespace Core
 		struct Axis
 		{
 			operator int() const { return A; }
+
+			template <typename int A2>
+			bool operator==(Axis<A2> const& a)
+			{
+				return (A == A2);
+			}
 		};
 
 		template <typename int A, typename T = float>

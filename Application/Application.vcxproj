@@ -284,6 +284,7 @@
     <ClInclude Include="Core\Geometric\Headers\Plane4.h" />
     <ClInclude Include="Core\Geometric\Headers\PlaneFunctions.h" />
     <ClInclude Include="Core\Math\Headers\Axis.h" />
+    <ClInclude Include="Core\Math\Headers\Basis.h" />
     <ClInclude Include="Data\Rendering\Headers\VertexBaseData.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\KeyFrame.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\Timeline.h" />

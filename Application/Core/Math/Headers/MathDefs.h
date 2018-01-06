@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "Axis.h"
+#include "Basis.h"
 
 namespace Core
 {
@@ -28,17 +29,6 @@ namespace Core
 		using R2 = Dimension<2>;
 		using R3 = Dimension<3>;
 		using R4 = Dimension<4>;
-
-		template <typename int B>
-		struct Basis
-		{
-			const int b = B;
-			operator int() const { return b; }
-		};
-		using E1 = Basis<0>;
-		using E2 = Basis<1>;
-		using E3 = Basis<2>;
-		using E4 = Basis<3>;
 
 		struct II
 		{

@@ -111,11 +111,6 @@ namespace Core
 
 				return (*this);
 			}
-
-			VectorA<T, A> SubstituteInCoefficient(T coefficient)
-			{
-				return (P + (coefficient * V));
-			}
 		};
 
 		/*	TYPE DEFS	*/

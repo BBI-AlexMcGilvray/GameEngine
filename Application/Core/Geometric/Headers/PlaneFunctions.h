@@ -16,6 +16,39 @@ namespace Core
 {
 	namespace Geometric
 	{
+		template <typename T, typename int A, typename int B = 2>
+		LineA<T, A> SubstituteInValue(PlaneA<T, A> const& p, BasisValue<T, B> const& b) = delete;
+
+		template <typename T, typename int A, typename int B = 3>
+		LineA<T, A> SubstituteInValue(PlaneA<T, A> const& p, BasisValue<T, B> const& b) = delete;
+
+		template <typename T, typename int A, typename int B>
+		LineA<T, A> SubstituteInValue(PlaneA<T, A> const& p, BasisValue<T, B> const& b)
+		{
+			VectorA<T, A> newOrigin = (b.V * p[b]) + p.O;
+			VectorA<T, A> remainingVector = (b == Basis0) ? p[Basis1()] : p[Basis0()];
+			return LineA<T, A>();
+		}
+
+		template <typename T, typename int A, typename int B1, typename int B2 = 2>
+		VectorA<T, A> SubstituteInValue(PlaneA<T, A> const& p, BasisValue<T, B1> const& b1, BasisValue<T, B2> const& b2) = delete;
+
+		template <typename T, typename int A, typename int B1, typename int B2 = 3>
+		VectorA<T, A> SubstituteInValue(PlaneA<T, A> const& p, BasisValue<T, B1> const& b1, BasisValue<T, B2> const& b2) = delete;
+
+		template <typename T, typename int A, typename int B1 = 2, typename int B2>
+		VectorA<T, A> SubstituteInValue(PlaneA<T, A> const& p, BasisValue<T, B1> const& b1, BasisValue<T, B2> const& b2) = delete;
+
+		template <typename T, typename int A, typename int B1 = 3, typename int B2>
+		VectorA<T, A> SubstituteInValue(PlaneA<T, A> const& p, BasisValue<T, B1> const& b1, BasisValue<T, B2> const& b2) = delete;
+
+		template <typename T, typename int A, typename int B1, typename int B2>
+		VectorA<T, A> SubstituteInValue(PlaneA<T, A> const& p, BasisValue<T, B1> const& b1, BasisValue<T, B2> const& b2)
+		{
+			LineA<T, A> remainingLine = SubstituteInValue(p, b1);
+			return SubstituteInValue(remainingLine, b2.V);
+		}
+
 		template <typename T, typename int A>
 		PlaneA<T, A> PlaneFromNormal(VectorA<T, A> const& n, VectorA<T, A> const& origin)
 		{

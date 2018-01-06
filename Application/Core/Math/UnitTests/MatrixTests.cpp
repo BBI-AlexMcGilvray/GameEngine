@@ -47,9 +47,9 @@ namespace Core
 			auto e2Equal = VERIFY(float3x3_double.E2 == Float3(2.0f));
 			auto e3Equal = VERIFY(float3x3_double.E3 == Float3(3.0f));
 
-			auto basisE1 = float3x3_double[E1{}];
+			auto basis0 = float3x3_double[Basis0()];
 			auto i0 = float3x3_double[0];
-			auto accessorsEqual = VERIFY(basisE1 == i0);
+			auto accessorsEqual = VERIFY(basis0 == i0);
 
 			auto float2x2_fromfloat3x3 = float3x3_double.E1E2;
 
