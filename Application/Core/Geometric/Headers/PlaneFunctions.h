@@ -49,6 +49,8 @@ namespace Core
 			return SubstituteInValue(remainingLine, b2.V);
 		}
 
+		// function to get coefficients of vector on plane?
+
 		template <typename T, typename int A>
 		PlaneA<T, A> PlaneFromNormal(VectorA<T, A> const& n, VectorA<T, A> const& origin)
 		{

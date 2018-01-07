@@ -748,6 +748,9 @@
     <ClInclude Include="Core\Math\Headers\Basis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Geometric\Headers\UtilityFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\Libs\SDL2\_SDL2main.lib" />

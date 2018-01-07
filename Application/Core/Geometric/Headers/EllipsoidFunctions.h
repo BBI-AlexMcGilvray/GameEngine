@@ -22,6 +22,60 @@ namespace Core
 	namespace Geometric
 	{
 		template <typename T, typename int A>
+		bool PointInEllipsoid(VectorA<T, A> const& p, EllipsoidA<T, A> const& e)
+		{
+			T distanceSqr = DistanceSqr(p, e.O);
+
+			return (distanceSqr < Sqr(e.R));
+		}
+
+		template <typename T, typename int A, typename P = Thousandth>
+		bool PointOnEllipsoid(VectorA<T, A> const& p, EllipsoidA<T, A> const& e)
+		{
+			T distanceSqr = DistanceSqr(p, e.O);
+
+			return Within(distanceSqr, sqr(e.R), P);
+		}
+
+		template <typename T, typename int A>
+		bool LineIntersectsEllipsoid(LineA<T, A> const& l, EllipsoidA<T, A> const& e)
+		{
+			auto closestPointToEllipse = ShortestDirectionFromPointToLine(e.O, l);
+
+			return (PointInEllipsoid(closestPointToEllipse, e) || PointOnEllipsoid(closestPointToEllipse, e));
+		}
+
+		/*
+			To get the closestpoint on a line to an ellipsoid, calculate the line from ellipsoid origin to the line,
+			and fine the closest points between the two lines
+		*/
+		template <typename T, typename int A>
+		VectorA<T, A> ClosestPointOnEllipsoidToPoint(VectorA<T, A> const& p, EllipsoidA<T, A> const& e)
+		{
+			auto directionToPoint = Direction(e.O, p);
+
+			auto lineToPoint = LineA<T, A>(directionToPoint, e.O);
+
+			Pair<VectorA<T, A>> intersectionPoints = LineEllipsoidIntersection(lineToPoint, e);
+
+			auto d1 = DistanceSqr(intersectionPoints.first, p);
+			auto d2 = DistanceSqr(intersectionPoints.second, p);
+
+			return (d1 < d2 ? intersectionPoints.first : intersectionPoints.second);
+		}
+
+		template <typename T, typename int A>
+		Truth<Pair<VectorA<T, A>>> LineEllipsoidIntersection(LineA<T, A> const& l, EllipsoidA<T, A> const& e)
+		{
+			if (!LineIntersectsEllipsoid(l, e))
+			{
+				return Truth(false);
+			}
+
+			// solve for values of s for the given line, return results
+		}
+
+		template <typename T, typename int A>
 		T SubInAxisValue(Ellipsoid2<T> const& e, AxisValue<A, T> const& a)
 		{
 			if (!MESSAGE(a == ZAxis || a == WAxis, "Axis is not on the ellipsoid"))
