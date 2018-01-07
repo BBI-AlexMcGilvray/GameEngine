@@ -27,6 +27,7 @@ namespace Application
 			virtual ~Container();
 
 			virtual void Update(Second dt);
+			// if rendering is going to be handled as a UniquePtr in the RenderObjectManager, then we may not even need this render call?
 			virtual void Render(Renderer& renderer, Float4x4 transformationMatrix);
 
 			void AddContent(Ptr<Content> newContent);
