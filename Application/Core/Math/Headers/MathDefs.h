@@ -2,10 +2,23 @@
 
 #include <cmath>
 
+#include "Axis.h"
+#include "Basis.h"
+
 namespace Core
 {
 	namespace Math
 	{
+		template <typename int D>
+		struct Precision
+		{
+			const float p = (1.0f / float(D));
+			operator float() const { return p; }
+		};
+		using Tenth = Precision<10>;
+		using Hundredth = Precision<100>;
+		using Thousandth = Precision<1000>;
+
 		template <typename int D>
 		struct Dimension 
 		{
@@ -16,28 +29,6 @@ namespace Core
 		using R2 = Dimension<2>;
 		using R3 = Dimension<3>;
 		using R4 = Dimension<4>;
-
-		template <typename int A>
-		struct Axis
-		{
-			const int a = A;
-			operator int() const { return a; }
-		};
-		using X = Axis<0>;
-		using Y = Axis<1>;
-		using Z = Axis<2>;
-		using W = Axis<3>;
-
-		template <typename int B>
-		struct Basis
-		{
-			const int b = B;
-			operator int() const { return b; }
-		};
-		using E1 = Basis<0>;
-		using E2 = Basis<1>;
-		using E3 = Basis<2>;
-		using E4 = Basis<3>;
 
 		struct II
 		{

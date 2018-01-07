@@ -14,27 +14,6 @@ namespace Core
 
 	template <typename T, typename std::size_t N>
 	using Array = std::array<T, N>;
-	
-	template <typename T>
-	struct Truth
-	{
-		bool Result;
-		T Value;
-
-		Truth(bool result, T value)
-			: Result(result), Value(value)
-		{}
-
-		operator bool()
-		{
-			return Result;
-		}
-
-		operator T&&()
-		{
-			return Value;
-		}
-	};
 
 	template <typename T>
 	void Sort(List<T>& list, int startIndex = 0)

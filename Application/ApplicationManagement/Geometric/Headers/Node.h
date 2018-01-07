@@ -4,10 +4,7 @@
 
 #include "ApplicationManagement/Geometric/Headers/Container.h"
 
-using namespace Core;
 using namespace Core::Geometric;
-
-using namespace Application::Rendering;
 
 namespace Application
 {
@@ -28,12 +25,12 @@ namespace Application
 			void Render(Renderer& renderer, Float4x4 transformationMatrix) override;
 
 			// set children/parent
-			void AddChild(Ptr<Node> newChild);
-			void RemoveChild(Ptr<Node> oldChild);
+			void AddChild(SharedPtr<Node> newChild);
+			void RemoveChild(SharedPtr<Node> oldChild);
 
 		protected:
 			Ptr<Node> Parent;
-			List<Ptr<Node>> Children;
+			List<SharedPtr<Node>> Children;
 		};
 	}
 }

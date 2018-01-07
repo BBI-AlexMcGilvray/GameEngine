@@ -1,6 +1,6 @@
-#include "ApplicationManagement/Geometric/Headers/Camera.h"
+#include "ApplicationManagement/Rendering/Headers/Camera.h"
 
-#include "ApplicationManagement/Geometric/Headers/CameraUtils.h"
+#include "ApplicationManagement/Rendering/Headers/CameraUtils.h"
 
 #include "Core/Math/Headers/MathUtils.h"
 #include "Core/Math/Headers/MatrixFunctions.h"
@@ -11,7 +11,7 @@
 
 namespace Application
 {
-	namespace Geometric
+	namespace Rendering
 	{
 		Camera::Camera(const int& width, const int& height, const Float3& position, const Float3& direction)
 		{
@@ -19,25 +19,6 @@ namespace Application
 			Direction = Normalize(direction);
 
 			FQuaternion newRotation = RotationBetweenVectors(DefaultDirection, Direction);
-		}
-
-		void Camera::Update(Second dt)
-		{
-			Node::Update(dt);
-		}
-
-		void Camera::Render(Renderer& renderer, Float4x4 transformationMatrix)
-		{
-			// NOTE: the commented out code below should be done by the WORLD class
-
-			// make this the currently used camera
-			//auto previousCamera = renderer.GetCamera();
-			//renderer.SetCamera(ToShared<Camera>(this));
-
-			Node::Render(renderer, transformationMatrix);
-
-			// switch back to previous camera
-			//renderer.SetCamera(previousCamera);
 		}
 
 		Float3 Camera::MouseToWorld(const Float2& screenPosition)

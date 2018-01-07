@@ -4,7 +4,7 @@ namespace Application
 {
 	namespace Rendering
 	{
-		RenderObjectBase::RenderObjectBase(RenderManager& manager, Ptr<ObjectShaderBase> objectShader, SharedPtr<Transform> renderTransform)
+		RenderObjectBase::RenderObjectBase(RenderManager& manager, Ptr<ObjectShaderBase> objectShader, SharedPtr<const Transform> renderTransform)
 			: Manager(manager), RenderTransform(renderTransform), ObjectShader(objectShader)
 		{
 

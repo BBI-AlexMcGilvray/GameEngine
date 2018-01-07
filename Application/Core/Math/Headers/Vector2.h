@@ -31,6 +31,17 @@ namespace Core
 				: X(v.X), Y(v.Y)
 			{}
 
+			// conversions
+			operator VectorA<T, 3>()
+			{
+				return VectorA<T, 3>(X, Y, T(0));
+			}
+
+			operator VectorA<T, 4>()
+			{
+				return VectorA<T, 3>(X, Y, T(0), T(0));
+			}
+
 			// methods
 			Dimension<2> Dimensions()
 			{
@@ -94,6 +105,7 @@ namespace Core
 				return (*this);
 			}
 
+			// do not need other = operators, since each vector type has the conversion operators
 			VectorA<T, 2>& operator=(VectorA<T, 2> const& v)
 			{
 				if (this != &v)
@@ -157,6 +169,8 @@ namespace Core
 			{
 				return (X == v.X && Y == v.Y);
 			}
+
+			// add in other comparison operaators
 
 			T& operator[](int axis)
 			{

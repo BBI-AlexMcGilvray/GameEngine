@@ -118,8 +118,8 @@ namespace Core
 
 			return newMatrix;
 		}
-
 #if DEBUG
+
 		template <typename T, typename int A, typename int B>
 		String MatrixString(MatrixAxB<T, A, B> m)
 		{

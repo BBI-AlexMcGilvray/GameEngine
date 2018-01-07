@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <utility>
+#include <type_traits>
 
 namespace Core
 {
@@ -16,6 +17,18 @@ namespace Core
 	{
 		return std::forward<T>(t);
 	}
+
+	/*
+	// in C++17
+	template <typename T>
+	using Not = std::negation<T>;
+
+	template <typename ...Ts>
+	using And = std::conjunction<Ts...>;
+
+	template <typename ...Ts>
+	using Or = std::disjunction<Ts...>;
+	*/
 
 	template <bool B, typename T = void>
 	using EnableIf = std::enable_if<B, T>;

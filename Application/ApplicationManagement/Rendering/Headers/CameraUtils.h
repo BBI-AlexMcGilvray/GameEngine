@@ -6,7 +6,7 @@ using namespace Core::Math;
 
 namespace Application
 {
-	namespace Geometric
+	namespace Rendering
 	{
 		Float4x4 CalculatePerspectiveMatrix(float fov, float aspectRatio, float nearPlane, float farPlane);
 	}

@@ -159,9 +159,9 @@ namespace Core
 		template <typename T, int A>
 		VectorA<T, A> Project(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
 		{
-			auto projection = v2.Normalize();
+			auto projection = Normalize(v2);
 			projection *= Dot(v1, v2);
-			projection /= v2.Magnitude();
+			projection /= Magnitude(v2);
 
 			return projection;
 		}
@@ -179,16 +179,21 @@ namespace Core
 		}
 
 		template <typename T, typename int A>
-		VectorA<T, A> Distance(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
+		T DistanceSqr(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
 		{
-			auto distance = v1 - v2;
-			return distance;
+			return MagnitudeSqr(v2 - v1);
+		}
+
+		template <typename T, typename int A>
+		T Distance(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
+		{
+			return Sqrt(DistanceSqr(v1, v2));
 		}
 
 		template <typename T, typename int A>
 		VectorA<T, A> Direction(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
 		{
-			return Distance(v1, v2).Normalize();
+			return Normalize(v2 - v1);
 		}
 
 #if DEBUG

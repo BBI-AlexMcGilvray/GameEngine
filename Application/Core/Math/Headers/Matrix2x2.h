@@ -41,6 +41,17 @@ namespace Core
 				: E1(d1, d2), E2(d3, d4)
 			{}
 
+			// conversions
+			operator MatrixAxB<T, 3, 3>()
+			{
+				return MatrixAxB<T, 3, 3>(E1, E2, T(0));
+			}
+
+			operator MatrixAxB<T, 4, 4>()
+			{
+				return MatrixAxB<T, 4, 4>(E1, E2, T(0), T(0));
+			}
+
 			// methods
 			Pair<Dimension<2>, Dimension<2>> Dimensions()
 			{
@@ -200,6 +211,8 @@ namespace Core
 			{
 				return (E1 == m.E1 && E2 == m.E2);
 			}
+
+			// other comparison operators have no meaning
 
 			VectorA<T, 2>& operator[](int basis)
 			{

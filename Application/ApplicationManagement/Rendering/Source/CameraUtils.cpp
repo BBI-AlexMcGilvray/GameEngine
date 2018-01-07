@@ -1,4 +1,4 @@
-#include "ApplicationManagement/Geometric/Headers/CameraUtils.h"
+#include "ApplicationManagement/Rendering/Headers/CameraUtils.h"
 
 #include "Core/Math/Headers/MathUtils.h"
 #include "Core/Math/Headers/MatrixFunctions.h"
@@ -9,7 +9,7 @@ using namespace Core;
 
 namespace Application
 {
-	namespace Geometric
+	namespace Rendering
 	{
 		Float4x4 CalculatePerspectiveMatrix(float fov, float aspectRatio, float nearPlane, float farPlane)
 		{
