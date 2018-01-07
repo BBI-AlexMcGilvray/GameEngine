@@ -135,6 +135,20 @@ namespace Core
 		}
 
 		template <typename T, typename int A>
+		T DistanceSqr(VectorA<T, A> const& p, PlaneA<T, A> const& pl)
+		{
+			auto closestPointOnPlane = ClosestPointOnPlaneToPoint(p, pl);
+
+			return DistanceSqr(closestPointOnPlane, p);
+		}
+
+		template <typename T, typename int A>
+		T Distance(VectorA<T, A> const& p, PlaneA<T, A> const& pl)
+		{
+			return Sqrt(DistanceSqr(p, pl));
+		}
+
+		template <typename T, typename int A>
 		VectorA<T, A> Project(VectorA<T, A> const& v, PlaneA<T, A> const& p)
 		{
 			return Perp(v, p.GetNormal());
@@ -156,6 +170,12 @@ namespace Core
 		VectorA<T, A> Perp(PlaneA<T, A> const& p, VectorA<T, A> const& v)
 		{
 			return Perp(v, p);
+		}
+
+		template <typename T, typename int A>
+		VectorA<T, A> ClosestPointOnPlaneToPoint(VectorA<T, A> const& p, PlaneA<T, A> const& pl)
+		{
+			return VectorPlanePointOfIntersection(p, pl.N, pl);
 		}
 
 		template <typename T, typename int A>

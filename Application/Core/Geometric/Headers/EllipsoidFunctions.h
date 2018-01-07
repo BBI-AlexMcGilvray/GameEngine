@@ -10,6 +10,7 @@
 #include "Ellipsoid3.h"
 #include "Ellipsoid4.h"
 
+#include "Core/Math/Headers/MathUtils.h"
 #include "Core/Math/Headers/VectorFunctions.h"
 
 #include "Core/Debugging/Headers/Declarations.h"
@@ -72,7 +73,31 @@ namespace Core
 				return Truth(false);
 			}
 
-			// solve for values of s for the given line, return results
+			/*
+				L: O + sV = W
+				E: Sum(Ci * ((Oi + Vi)^2)) = R^2
+
+				Solve: Sum(Ci * ((Oi + L::Oi + (s * L::Vi))^2)) = R^2
+				=> expand and solve for s
+				=> s = -b
+			*/
+
+			T a = T(0);
+			T b = T(0);
+			T c = -Sqr(R);
+
+			for (int i = 0; i < A; i++)
+			{
+				a += e.Coefficients[i] * Sqr(l.V[i]);
+				b += 2 * (e.Coefficients[i] * (e.O[i] + l.O[i]) * l.V[i]);
+				c += e.Coefficients[i] * (e.O[i] + l.O[i]);
+			}
+
+			Pair<T> sValues = QuadraticFormula(a, b, c);
+
+			Pair<VectorA<T, A>> intersectionPoints = Pair<VectorA<T, A>>(SubstituteInValue(l, sValues.first), SubstituteInValue(l, sValues.second));
+
+			return Truth(true, intersectionPoints);
 		}
 
 		template <typename T, typename int A>

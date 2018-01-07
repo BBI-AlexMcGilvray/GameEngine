@@ -35,5 +35,19 @@ namespace Core
 		{
 			return tan(a);
 		}
+
+		template <typename T>
+		T QuadraticFormulaRoot(T a, T b, T c)
+		{
+			return (Sqr(b) - (T(4) * a * c));
+		}
+
+		template <typename T>
+		Pair<T> QuadraticFormula(T a, T b, T c)
+		{
+			T additiveResult = ((-b + QuadraticFormulaRoot(a, b, c)) / (T(2) * a));
+
+			return Pair<T>(additiveResult, -additiveResult);
+		}
 	}
 }
