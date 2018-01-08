@@ -9,6 +9,8 @@
 #include "Core/Functionality/Headers/Subscription.h"
 
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/TimeDefs.h"
+
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/Color.h"
 
@@ -31,6 +33,7 @@ namespace Application
 			RenderManager();
 
 			void Initialize(WindowManager& window, Color clearColor = Color(0.5f, 0.5f, 0.5f, 1.0f));
+			void Update(Second dt);
 			void Loop();
 			void CleanUp();
 

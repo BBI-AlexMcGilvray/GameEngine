@@ -18,6 +18,11 @@ namespace Application
 			Loop();
 		}
 
+		void RenderManager::Update(Second dt)
+		{
+			Loop();
+		}
+
 		void RenderManager::Loop()
 		{
 			LoopStart();

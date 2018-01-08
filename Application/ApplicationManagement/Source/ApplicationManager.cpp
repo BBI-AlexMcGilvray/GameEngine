@@ -14,7 +14,7 @@ namespace Application
 
 		Start();
 
-		while (Loop())
+		while (Update())
 		{}
 
 		End();
@@ -44,7 +44,7 @@ namespace Application
 
 	}
 
-	bool ApplicationManager::Loop()
+	bool ApplicationManager::Update()
 	{
 		// this loop should probably be in the InputManager
 		SDL_Event event;
@@ -71,6 +71,7 @@ namespace Application
 		while (dt > 0_s)
 		{
 			// update everything
+			Renderer.Update(dt);
 
 			dt = Time.GetAccumulatedTime();
 		}

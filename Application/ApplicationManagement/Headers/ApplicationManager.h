@@ -23,7 +23,7 @@ namespace Application
 
 		bool Initialize();
 		void Start();
-		bool Loop();
+		bool Update();
 		void End();
 		void CleanUp();
 	};
