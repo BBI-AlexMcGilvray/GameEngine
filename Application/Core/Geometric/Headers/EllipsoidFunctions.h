@@ -48,7 +48,7 @@ namespace Core
 
 		/*
 			To get the closestpoint on a line to an ellipsoid, calculate the line from ellipsoid origin to the line,
-			and fine the closest points between the two lines
+			and find the closest points between the two lines
 		*/
 		template <typename T, typename int A>
 		VectorA<T, A> ClosestPointOnEllipsoidToPoint(VectorA<T, A> const& p, EllipsoidA<T, A> const& e)
@@ -57,7 +57,8 @@ namespace Core
 
 			auto lineToPoint = LineA<T, A>(directionToPoint, e.O);
 
-			Pair<VectorA<T, A>> intersectionPoints = LineEllipsoidIntersection(lineToPoint, e);
+			// because we are going to the ellipsoid origin, we know there will be intersection points
+			Pair<VectorA<T, A>> intersectionPoints = LineEllipsoidIntersection(lineToPoint, e).Value;
 
 			auto d1 = DistanceSqr(intersectionPoints.first, p);
 			auto d2 = DistanceSqr(intersectionPoints.second, p);

@@ -15,46 +15,41 @@ namespace Core
 		template <typename T>
 		struct EllipsoidA<T, 3>
 		{
-			union
-			{
-				struct
-				{
-					T C1;
-					T C2;
-					T C3;
-				};
-				T Coefficients[3];
-			};
+			VectorA<T, 3> Cs;
 			T R;
 			VectorA<T, 3> O;
 
 			EllipsoidA()
-				: C1(T(1)), C2(T(1)), C3(T(1)), R(T(1)), O(T(0))
+				: Cs(T(1)), R(T(1)), O(T(0))
 			{}
 
 			// plane represented by 2 vectors and origin
 			EllipsoidA(T c1, T c2, T c3, T r = 1, VectorA<T, 3> o = VectorA<T, 3>(T(0)))
-				: C1(c1), C2(c2), C3(c3), R(r), O(o)
+				: Cs(c1, c2, c3), R(r), O(o)
+			{}
+
+			EllipsoidA(VectorA<T, 3> cs, T r = 1, VectorA<T, 3> o = VectorA<T, 3>(T(0)))
+				: Cs(cs), R(r), O(o)
 			{}
 
 			// plane represented by 2 vectors and origin
 			EllipsoidA(T r, VectorA<T, 3> o = VectorA<T, 3>(T(0)))
-				: C1(T(1)), C2(T(1)),C3(T(1)), R(r), O(o)
+				: Cs(T(1)), R(r), O(o)
 			{}
 
 			EllipsoidA(EllipsoidA<T, 2> const& e)
-				: C1(e.C1), C2(e.C2), C3(e.C3), R(e.R), O(e.O)
+				: Cs(e.Cs), R(e.R), O(e.O)
 			{}
 
 			// conversions
 			operator EllipsoidA<T, 2>()
 			{
-				return EllipsoidA<T, 2>(C1, C2, R, O);
+				return EllipsoidA<T, 2>(Cs, R, O);
 			}
 
 			operator EllipsoidA<T, 4>()
 			{
-				return EllipsoidA<T, 4>(C1, C2, C3, T(1), R, O);
+				return EllipsoidA<T, 4>(Cs, R, O);
 			}
 
 			// methods
@@ -82,9 +77,7 @@ namespace Core
 			{
 				if (this != &e)
 				{
-					C1 = e.C1;
-					C2 = e.C2;
-					C3 = e.C3;
+					Cs = e.Cs;
 					R = e.R;
 					O = e.O;
 				}
@@ -106,28 +99,26 @@ namespace Core
 
 			bool operator==(EllipsoidA<T, 3> const& e)
 			{
-				return (C1 == e.C1 && C2 == e.C2 && C3 == e.C3 && R == e.R && O == e.O);
+				return (Cs == e.Cs && R == e.R && O == e.O);
 			}
 
 			// other comparison operators have no meaning
 
 			T& operator[](int axis)
 			{
-				return Coefficients[axis];
+				return Cs[axis];
 			}
 
 			T operator[](int axis) const
 			{
-				return Coefficients[axis];
+				return Cs[axis];
 			}
 
 			EllipsoidA<T, 3>& Rotate(Quaternion<T> r)
 			{
-				VectorA<T, 3> rotatedCoefficients = RotateVectorBy(VectorA<T, 3>(C1, C2, C3), r);
+				VectorA<T, 3> rotatedCoefficients = RotateVectorBy(Cs, r);
 
-				C1 = rotatedCoefficients.X;
-				C2 = rotatedCoefficients.Y;
-				C3 = rotatedCoefficients.Z;
+				Cs = rotatedCoefficients;
 
 				return (*this);
 			}

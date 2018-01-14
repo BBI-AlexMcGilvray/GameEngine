@@ -8,6 +8,12 @@ namespace Core
 {
 	namespace Geometric
 	{
+		/*
+			should this be done by having ellipsoids have a Transform (instead of an origin), so that we can always 'revert' the given ellipsoid back to the unit circle,
+			and transform the plane to be aligned on the x,y-axis and solve consistently that way?
+
+			Does this mean planes should also have a Transform (instaed of an origin)
+		*/
 		template <typename T, typename int A>
 		bool PlaneIntersectsEllipsoid(PlaneA<T, A> const& p, EllipsoidA<T, A> const& e)
 		{

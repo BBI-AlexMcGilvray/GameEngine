@@ -23,7 +23,7 @@ namespace Core
 					VectorA<T, 4> E1;
 					VectorA<T, 4> E2;
 				};
-				T Vectors[2];
+				VectorA<T, 4> Vectors[2];
 			};
 			VectorA<T, 4> O;
 
@@ -122,12 +122,12 @@ namespace Core
 
 			// other comparison operators have no meaning
 
-			T& operator[](int index)
+			VectorA<T, 4>& operator[](int index)
 			{
 				return Vectors[index];
 			}
 
-			T operator[](int index) const
+			VectorA<T, 4> operator[](int index) const
 			{
 				return Vectors[index];
 			}

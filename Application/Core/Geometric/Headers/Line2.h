@@ -16,35 +16,35 @@ namespace Core
 		struct LineA<T, 2>
 		{
 			VectorA<T, 2> V;
-			VectorA<T, 2> P;
+			VectorA<T, 2> O;
 
 			LineA()
-				: V(T(1), T(0)), P(T(0))
+				: V(T(1), T(0)), O(T(0))
 			{}
 
 			// plane represented by 2 vectors and origin
-			LineA(VectorA<T, 2> v, VectorA<T, 2> p = VectorA<T, 2>(T(0)))
-				: V(v), P(p)
+			LineA(VectorA<T, 2> v, VectorA<T, 2> o = VectorA<T, 2>(T(0)))
+				: V(v), O(o)
 			{}
 
 			// plane represented by 2 vectors and origin
 			LineA(VectorA<T, 2> p1, VectorA<T, 2> p2)
-				: V(p2 - p1), P(p1)
+				: V(p2 - p1), O(p1)
 			{}
 
 			LineA(LineA<T, 2> const& l)
-				: V(l.V), P(l.P)
+				: V(l.V), O(l.O)
 			{}
 
 			// conversions
 			operator LineA<T, 3>()
 			{
-				return LineA<T, 3>(V, P);
+				return LineA<T, 3>(V, O);
 			}
 
 			operator LineA<T, 4>()
 			{
-				return LineA<T, 4>(V, P);
+				return LineA<T, 4>(V, O);
 			}
 
 			// methods
@@ -56,14 +56,14 @@ namespace Core
 			// operators
 			LineA<T, 2>& operator-=(VectorA<T, 2> const& v)
 			{
-				P -= v;
+				O -= v;
 
 				return (*this);
 			}
 
 			LineA<T, 2>& operator+=(VectorA<T, 2> const& v)
 			{
-				P += v;
+				O += v;
 
 				return (*this);
 			}
@@ -73,7 +73,7 @@ namespace Core
 				if (this != &p)
 				{
 					V = l.V;
-					P = l.P;
+					O = l.O;
 				}
 
 				return (*this);
@@ -93,7 +93,7 @@ namespace Core
 
 			bool operator==(LineA<T, 2> const& l)
 			{
-				auto pointDirection = Direction(P, l.P);
+				auto pointDirection = Direction(O, l.O);
 				auto vNormalize = Normalize(V);
 				auto lVNormalize = Normalize(l.V);
 

@@ -13,6 +13,7 @@ namespace Core
 {
 	namespace Geometric
 	{
+		// a 2D plane is just the whole 2D space
 		template <typename T>
 		struct PlaneA<T, 2>
 		{
@@ -23,7 +24,7 @@ namespace Core
 					VectorA<T, 2> E1;
 					VectorA<T, 2> E2;
 				};
-				T Vectors[2];
+				VectorA<T, 2> Vectors[2];
 			};
 			VectorA<T, 2> O;
 
@@ -114,12 +115,12 @@ namespace Core
 
 			// other comparison operators have no meaning
 
-			T& operator[](int index)
+			VectorA<T, 2>& operator[](int index)
 			{
 				return Vectors[index];
 			}
 
-			T operator[](int index) const
+			VectorA<T, 2> operator[](int index) const
 			{
 				return Vectors[index];
 			}
@@ -148,5 +149,6 @@ namespace Core
 		using Plane2F = Plane2<float>;
 		using Plane2I = Plane2<int>;
 		using Plant2UI = Plane2<uint>;
+		*/
 	}
 }

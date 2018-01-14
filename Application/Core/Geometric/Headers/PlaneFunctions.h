@@ -27,7 +27,8 @@ namespace Core
 		{
 			VectorA<T, A> newOrigin = (b.V * p[b]) + p.O;
 			VectorA<T, A> remainingVector = (b == Basis0) ? p[Basis1()] : p[Basis0()];
-			return LineA<T, A>();
+
+			return LineA<T, A>(remainingVector, newOrigin);
 		}
 
 		template <typename T, typename int A, typename int B1, typename int B2 = 2>

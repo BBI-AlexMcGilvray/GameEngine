@@ -14,6 +14,9 @@ namespace Application
 			Window = &window;
 			ClearColor = clearColor;
 
+			// create a dummy VAO/VBO and Shader pair to render
+			// see how MeshBase creates it's buffers, and use the DebugObjectShader
+
 			// loop through once to start (this probably should not be done and should be replaced with loading screen or something)
 			Loop();
 		}

@@ -19,7 +19,7 @@ namespace Core
 		template <typename T, typename int A>
 		VectorA<T, A> SubstituteInValue(LineA<T, A> const& l, T s)
 		{
-			return VectorA<T, A>(l.P + (s * l.V));
+			return VectorA<T, A>(l.O + (s * l.V));
 		}
 
 		template <typename T, typename int A>
@@ -46,9 +46,22 @@ namespace Core
 		template <typename T, typename int A>
 		bool PointOnLine(VectorA<T, A> const& p, LineA<T, A> const& l)
 		{
-			auto newLine = LineA<T, A>(p, l.P);
+			auto newLine = LineFromPoints<T, A>(p, l.O);
 
 			return LinesParrallel(newLine, l);
+		}
+
+		template <typename T, typename int A>
+		Truth<T> ValueToGetPointFromLine(VectorA<T, A> const& p, LineA<T, A> const& l)
+		{
+			if (!PointOnLine(p, l))
+			{
+				returh Truth(false, T(0));
+			}
+
+			T value = (p[0] - l.O[0]) / l.V[0];
+
+			return Truth(true, value);
 		}
 
 		template <typename T, typename int A>
@@ -58,7 +71,7 @@ namespace Core
 				NOTE: Not normalized
 			*/
 
-			auto pTolPoint = (l.P - p);
+			auto pTolPoint = (l.O - p);
 
 			auto shortestDirection = Perp(pTolPoint, l.V);
 
@@ -146,7 +159,7 @@ namespace Core
 			if (LinesParrallel(l1, l2))
 			{
 				// do not intersect, any point on l1 is the closest to l2 (parrallel)
-				return ClosestPointsBetweenLines(ClosestPointsBetweenLines::ProximityType::Parrallel, l1.P, l1.P + ShortestDistanceFromPointToLine(l1.P, l2));
+				return ClosestPointsBetweenLines(ClosestPointsBetweenLines::ProximityType::Parrallel, l1.O, l1.O + ShortestDistanceFromPointToLine(l1.O, l2));
 			}
 
 			bool iIsInitial = true;
@@ -197,7 +210,7 @@ namespace Core
 			if (!correctIndexFound)
 			{
 				// no value could be found
-				return ClosestPointsBetweenLines(ClosestPointsBetweenLines::ProximityType::Unknown, l1.P, l2.P);
+				return ClosestPointsBetweenLines(ClosestPointsBetweenLines::ProximityType::Unknown, l1.O, l2.O);
 			}
 			
 			T s;
@@ -205,13 +218,13 @@ namespace Core
 
 			if (iIsInitial)
 			{
-				t = [(l1.V[i] * (l1.P[j] - l2.P[j])) + (l1.V[j] * (l2.P[i] - l1.P[i]))] / [(l1.V[i] * l2.V[j]) - (l1.V[j] * l2.V[i])];
-				s = [(l2.P[i] - l1.P[i]) + (t * l2.V[i])] / l1.V[i];
+				t = [(l1.V[i] * (l1.O[j] - l2.O[j])) + (l1.V[j] * (l2.O[i] - l1.O[i]))] / [(l1.V[i] * l2.V[j]) - (l1.V[j] * l2.V[i])];
+				s = [(l2.O[i] - l1.O[i]) + (t * l2.V[i])] / l1.V[i];
 			}
 			else
 			{
-				s = [(l2.V[j] * (l2.P[i] - l1.P[i])) + (l2.V[i] * (l1.P[j] - l2.P[j]))] / [(l2.V[j] * l1.V[i]) - (l2.V[i] * l1.V[j])];
-				t = [(l1.P[j] - l2.P[j]) + (s * l1.V[j])] / l2.V[j];
+				s = [(l2.V[j] * (l2.O[i] - l1.O[i])) + (l2.V[i] * (l1.O[j] - l2.O[j]))] / [(l2.V[j] * l1.V[i]) - (l2.V[i] * l1.V[j])];
+				t = [(l1.O[j] - l2.O[j]) + (s * l1.V[j])] / l2.V[j];
 			}
 
 			auto l1Closest = l1.SubstituteInCoefficient(s);
