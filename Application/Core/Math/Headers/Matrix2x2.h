@@ -53,7 +53,7 @@ namespace Core
 			}
 
 			// methods
-			Pair<Dimension<2>, Dimension<2>> Dimensions()
+			Pair<Dimension<2>, Dimension<2>> Dimensions() const
 			{
 				return Pair<Dimension<2>, Dimension<2>>(2, 2);
 			}

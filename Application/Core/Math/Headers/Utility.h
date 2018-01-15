@@ -2,6 +2,9 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
+#include "QuaternionFunctions.h"
+#include "VectorFunctions.h"
+
 namespace Core
 {
 	namespace Math
@@ -9,7 +12,6 @@ namespace Core
 		template <typename T>
 		T Lerp(T a, T b, float p)
 		{
-			VERIFY(p >= 0.0f && p <= 1.0f);
 			// initial + ((total possible difference) * percent)
 			return (a + ((b - a) * p));
 		}
@@ -17,9 +19,8 @@ namespace Core
 		template <typename T>
 		T NLerp(T a, T b, float p)
 		{
-			VERIFY(p >= 0.0f && p <= 1.0f);
 			// initial + ((total possible difference) * percent)
-			return Lerp(a, b, p).Normalize();
+			return Normalize(Lerp(a, b, p));
 		}
 
 		/*

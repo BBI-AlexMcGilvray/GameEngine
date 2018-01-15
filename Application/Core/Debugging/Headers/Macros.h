@@ -11,49 +11,34 @@ namespace Core
 {
 	inline void Message(std::string message)
 	{
-		if (GLOBAL_EXPLICIT)
-		{
-			std::cout << message << std::endl;
-		}
-		assert(false);
+		std::cout << message << std::endl;
 	}
 
-	inline bool VerifyCondition(bool condition, bool runAssert)
+	inline bool VerifyCondition(bool condition, std::string conditionString)
 	{
 		bool result = condition;
 
-		if (GLOBAL_EXPLICIT)
+		if (GLOBAL_EXPLICIT && conditionString != "")
 		{
-			std::cout << "X was " << (result ? "TRUE" : "FALSE") << std::endl;
+			Message(conditionString);
 		}
-
-		if (runAssert)
-		{
-			assert(result);
-		}
+		
 		return result;
 	}
 
-	inline bool VerifyMessage(bool condition, std::string message, bool runAssert)
+	inline bool VerifyMessage(bool condition, std::string message)
 	{
-		bool conditionResult = VerifyCondition(condition, runAssert);
-
-		if (!conditionResult)
-		{
-			Message(message);
-		}
-
-		return conditionResult;
+		return VerifyCondition(condition, message);
 	}
 
 	#if DEBUG
-	#define VERIFY( X ) VerifyCondition( X, true )
+#define VERIFY( X ) VerifyCondition( X, #X )
 	#else
 	#define VERIFY( X ) // do nothing if not debugging
 	#endif
 
 	#if DEBUG
-	#define MESSAGE( X, M ) VerifyMessage( X, M, true )
+	#define MESSAGE( X, M ) VerifyMessage( X, M )
 	#else
 	#define MESSAGE( X, M ) // do nothing
 	#endif

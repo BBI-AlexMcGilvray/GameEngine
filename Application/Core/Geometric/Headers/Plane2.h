@@ -46,9 +46,9 @@ namespace Core
 			{}
 
 			// methods
-			Dimension<2> Dimensions()
+			Dimension<2> Dimensions() const
 			{
-				return Dimension<2>;
+				return Dimension<2>();
 			}
 
 			// conversions

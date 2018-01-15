@@ -53,9 +53,9 @@ namespace Core
 			}
 
 			// methods
-			Dimension<3> Dimensions()
+			Dimension<3> Dimensions() const
 			{
-				return Dimension<3>;
+				return Dimension<3>();
 			}
 
 			// operators

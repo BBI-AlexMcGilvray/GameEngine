@@ -205,7 +205,7 @@ namespace Core
 			vectorInfo += "(";
 			for (auto i = 0; i < v.Dimensions(); i++)
 			{
-				vectorInfo += v[i];
+				vectorInfo += std::to_string(v[i]);
 
 				if (i != v.Dimensions() - 1)
 				{

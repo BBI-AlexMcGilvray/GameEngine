@@ -1,5 +1,9 @@
 #include "ApplicationManagement\Rendering\Headers\RenderManager.h"
 
+// dummy includes
+#include "Core/Math/Headers/QuaternionFunctions.h"
+#include "Core/Math/Headers/Utility.h"
+
 namespace Application
 {
 	namespace Rendering
@@ -14,32 +18,7 @@ namespace Application
 			Window = &window;
 			ClearColor = clearColor;
 
-			// create a dummy VAO/VBO and Shader pair to render
-			{
-				Vao.Generate();
-				Vao.Bind();
-
-				auto newBuffer = GLBuffer(0, GL_ARRAY_BUFFER);
-				newBuffer.Generate();
-				newBuffer.Bind();
-
-				// glBufferData( < type >, < size of data >, < start of data >, < draw type >);
-				glBufferData(newBuffer.Type, VertexCount * sizeof(Float3), &Vertices[0], GL_STATIC_DRAW);
-
-				// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
-				// position
-				glEnableVertexAttribArray(0); // this matches with object shader construction
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Float3), (void*)(0));
-
-				Vao.Unbind();
-				newBuffer.Unbind();
-				glDisableVertexAttribArray(0);
-
-				Push(Vbos, newBuffer);
-			}
-
-			// loop through once to start (this probably should not be done and should be replaced with loading screen or something)
-			//Loop();
+			// don't render everything, but set up the default state
 			LoopStart();
 			LoopEnd();
 		}
@@ -85,6 +64,39 @@ namespace Application
 			// render objects
 
 			// dummy render
+			float rotationSpeed = 0.05f;
+			for (auto& vertex : Vertices)
+			{
+				auto vertexMagnitude = Magnitude(vertex);
+				auto newVertex = Core::Math::RotateNormalVectorBy(vertex, Core::Math::FQuaternion(0.707f, 0.0f, 0.0f, 0.707f));
+
+				vertex = Normalize(Core::Math::Lerp(vertex, newVertex, rotationSpeed)) * vertexMagnitude;
+			}
+
+			// create a dummy VAO/VBO and Shader pair to render
+			{
+				Vao.Generate();
+				Vao.Bind();
+
+				auto newBuffer = GLBuffer(0, GL_ARRAY_BUFFER);
+				newBuffer.Generate();
+				newBuffer.Bind();
+
+				// glBufferData( < type >, < size of data >, < start of data >, < draw type >);
+				glBufferData(newBuffer.Type, VertexCount * sizeof(Float3), &Vertices[0], GL_STATIC_DRAW);
+
+				// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
+				// position
+				glEnableVertexAttribArray(0); // this matches with object shader construction
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Float3), (void*)(0));
+
+				Vao.Unbind();
+				newBuffer.Unbind();
+				glDisableVertexAttribArray(0);
+
+				Push(Vbos, newBuffer);
+			}
+
 			Color dummyColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 			ObjectShaderManager.DebugShader.Prepare(dummyColor);
 			Vao.Bind();

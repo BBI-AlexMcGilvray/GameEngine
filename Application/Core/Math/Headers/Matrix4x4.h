@@ -85,7 +85,7 @@ namespace Core
 			}
 
 			// methods
-			Pair<Dimension<4>, Dimension<4>> Dimensions()
+			Pair<Dimension<4>, Dimension<4>> Dimensions() const
 			{
 				return Pair<Dimension<4>, Dimension<4>>(4, 4);
 			}

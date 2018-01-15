@@ -160,16 +160,29 @@ namespace Core
 
 		// rotate vector
 		template <typename T>
+		Vector3<T> RotateNormalVectorBy(Vector3<T> const& v, Quaternion<T> const& q)
+		{
+			// conjugate of q
+			auto qI = Inverse(q);
+			qI *= v;
+			qI *= q;
+
+			Vector3<T> rV = Normalize(Vector3<T>(qI.X, qI.Y, qI.Z));
+
+			return rV;
+		}
+
+		template <typename T>
 		Vector3<T> RotateVectorBy(Vector3<T> const& v, Quaternion<T> const& q)
 		{
 			// conjugate of q
-			auto qC = q.Inverse();
-			qC *= v;
-			qC *= q;
+			auto qI = Inverse(q);
+			qI *= v;
+			qI *= q;
 
-			// at this point qC.W == 0
-			VERIFY(Within(qC.W, T(0.0f), T(0.001f)));
-			return Vector3<T>(qC.X, qC.Y, qC.Z);
+			Vector3<T> rV = (RotateNormalVectorBy(v, q) * Magnitude(v));
+
+			return rV;
 		}
 
 		// several rotations (applied first to last)
@@ -205,7 +218,7 @@ namespace Core
 			quaternionInfo += "(";
 			for (auto i = 0; i < 4; i++)
 			{
-				quaternionInfo += q[i];
+				quaternionInfo += std::to_string(q[i]);
 
 				if (i != 3)
 				{

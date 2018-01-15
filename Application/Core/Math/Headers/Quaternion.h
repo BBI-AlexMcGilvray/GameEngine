@@ -65,15 +65,15 @@ namespace Core
 			{}
 
 			Quaternion(II i)
-				: W(i), X(0), Y(0), Z(0)
+				: Quaternion(Vector4<T>(0, 0, 0, i))
 			{}
 
 			Quaternion(T w, T x, T y, T z)
-				: W(w), X(x), Y(y), Z(z)
+				: Quaternion(Vector4<T>(x, y, z, w))
 			{}
 
 			Quaternion(Vector3<T> v, T w = 0)
-				: Quaternion(Normalize(Vector4<T>(v, w)))
+				: Quaternion(Vector4<T>(v, w))
 			{}
 
 			Quaternion(Vector4<T> v)
@@ -106,6 +106,11 @@ namespace Core
 				X = (cosX * sinY * cosZ) + (sinX * cosY * sinZ);
 				Y = (sinY * cosY * cosZ) + (cosX * sinY * sinZ);
 				Z = (cosX * cosY * sinZ) + (sinX * sinY * cosZ);
+			}
+
+			operator VectorA<T, 4>() const
+			{
+				return VectorA<T, 4>(X, Y, Z, W);
 			}
 
 			// operators
@@ -214,7 +219,14 @@ namespace Core
 
 			// other comparison operators have no meaning
 
-			T operator[](int axis)
+			T& operator[](int axis)
+			{
+				auto modifiedAxis = (axis + 1) % 4;
+
+				return quat[modifiedAxis];
+			}
+
+			T operator[](int axis) const
 			{
 				auto modifiedAxis = (axis + 1) % 4;
 
