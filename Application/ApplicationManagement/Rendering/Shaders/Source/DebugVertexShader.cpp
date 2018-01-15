@@ -37,7 +37,7 @@ namespace Application
 		{
 			// assign color to shader
 			GLint modColor = glGetUniformLocation(program, "modColor");
-			glUniform4fv(modColor, 1, &(color.Values[0]));
+			glUniform4fv(modColor, 1, &(color.R));
 		}
 
 		void DebugVertexShader::CleanUp()

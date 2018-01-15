@@ -15,7 +15,10 @@ namespace Application
 
 			virtual void Bind();
 			virtual void Bind(GLenum type);
+
 			virtual void Generate();
+
+			virtual void Unbind();
 		};
 	}
 }

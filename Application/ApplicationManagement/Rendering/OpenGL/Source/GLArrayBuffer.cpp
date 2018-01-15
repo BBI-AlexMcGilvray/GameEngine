@@ -26,5 +26,10 @@ namespace Application
 		{
 			glGenVertexArrays(1, &Object);
 		}
+
+		void GLArrayBuffer::Unbind()
+		{
+			glBindVertexArray(0);
+		}
 	}
 }

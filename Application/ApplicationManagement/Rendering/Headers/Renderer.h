@@ -22,11 +22,11 @@ namespace Application
 
 			void Draw(Ptr<RenderObjectBase> object);
 
-		private:
-			//SharedPtr<Camera> RenderCamera;
-
 			void DrawLines(uint vertexCount);
 			void DrawTriangles(uint vertexCount);
+
+		private:
+			//SharedPtr<Camera> RenderCamera;
 		};
 	}
 }

@@ -9,12 +9,15 @@ namespace Application
 		struct GLArrayBuffer : GLObject
 		{
 			GLArrayBuffer();
-			GLArrayBuffer(GLuint object, GLenum type = GL_INVALID_ENUM);
+			GLArrayBuffer(GLuint object, GLenum type = GL_ARRAY_BUFFER);
 
 			~GLArrayBuffer();
 
 			void Bind();
+
 			void Generate();
+
+			void Unbind();
 		};
 	}
 }

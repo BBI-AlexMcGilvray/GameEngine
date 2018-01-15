@@ -15,10 +15,33 @@ namespace Application
 			ClearColor = clearColor;
 
 			// create a dummy VAO/VBO and Shader pair to render
-			// see how MeshBase creates it's buffers, and use the DebugObjectShader
+			{
+				Vao.Generate();
+				Vao.Bind();
+
+				auto newBuffer = GLBuffer(0, GL_ARRAY_BUFFER);
+				newBuffer.Generate();
+				newBuffer.Bind();
+
+				// glBufferData( < type >, < size of data >, < start of data >, < draw type >);
+				glBufferData(newBuffer.Type, VertexCount * sizeof(Float3), &Vertices[0], GL_STATIC_DRAW);
+
+				// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
+				// position
+				glEnableVertexAttribArray(0); // this matches with object shader construction
+				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Float3), (void*)(0));
+
+				Vao.Unbind();
+				newBuffer.Unbind();
+				glDisableVertexAttribArray(0);
+
+				Push(Vbos, newBuffer);
+			}
 
 			// loop through once to start (this probably should not be done and should be replaced with loading screen or something)
-			Loop();
+			//Loop();
+			LoopStart();
+			LoopEnd();
 		}
 
 		void RenderManager::Update(Second dt)
@@ -60,6 +83,15 @@ namespace Application
 		void RenderManager::LoopMiddle()
 		{
 			// render objects
+
+			// dummy render
+			Color dummyColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
+			ObjectShaderManager.DebugShader.Prepare(dummyColor);
+			Vao.Bind();
+			// something is wrong with the buffers or the shaders
+			ObjectRenderer.DrawLines(2);
+			Vao.Unbind();
+			ObjectShaderManager.DebugShader.CleanUp();
 		}
 
 		void RenderManager::LoopEnd()

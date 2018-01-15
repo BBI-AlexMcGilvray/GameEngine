@@ -19,18 +19,23 @@ namespace Application
 
 		void GLBuffer::Bind()
 		{
-			Bind(Type);
+			glBindBuffer(Type, Object);
 		}
 
 		void GLBuffer::Bind(GLenum type)
 		{
 			Type = type;
-			glBindBuffer(type, Object);
+			Bind();
 		}
 
 		void GLBuffer::Generate()
 		{
 			glGenBuffers(1, &Object);
+		}
+
+		void GLBuffer::Unbind()
+		{
+			glBindBuffer(Type, 0);
 		}
 	}
 }

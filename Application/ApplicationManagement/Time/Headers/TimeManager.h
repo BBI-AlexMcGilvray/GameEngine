@@ -35,7 +35,7 @@ namespace Application
 		{
 			Second MaxStepSize;
 
-			FixedStepTimeManager(Second maxStepSize = 0.0167_s); // 0.0167 is 1 frame if we do 60 frames per second
+			FixedStepTimeManager(Second maxStepSize = Second(167.0f)); // 0.0167 is 1 frame if we do 60 frames per second (or 167 milliseconds)
 
 			Second Update() override;
 

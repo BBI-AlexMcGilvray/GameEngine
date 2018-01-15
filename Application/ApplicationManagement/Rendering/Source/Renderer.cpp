@@ -24,7 +24,7 @@ namespace Application
 
 		void Renderer::DrawLines(uint vertexCount)
 		{
-			glDrawArrays(GL_LINE_LOOP, 0, vertexCount);
+			glDrawArrays(GL_LINE_STRIP, 0, vertexCount);
 		}
 
 		void Renderer::DrawTriangles(uint vertexCount)
