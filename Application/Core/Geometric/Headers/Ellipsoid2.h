@@ -114,6 +114,7 @@ namespace Core
 				return Cs[axis];
 			}
 
+			// This rotation function just alters the SHAPE of the ellipsoid, NOT the actual orientation
 			EllipsoidA<T, 2>& Rotate(Quaternion<T> r)
 			{
 				VectorA<T, 3> rotatedCoefficients = RotateVectorBy(Cs, r);

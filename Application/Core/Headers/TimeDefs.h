@@ -27,4 +27,13 @@ namespace Core
 
 	constexpr Second operator ""_d(long double t) { return Second(t * 24.0_h); }
 	constexpr Second operator ""_d(unsigned long long int t) { return Second(t * 24_h); }
+
+	// helper functions
+
+	template <typename T, typename R>
+	T Duration(std::chrono::duration<T, R> duration)
+	{
+		// amount, divided by the ratio (detail tracked)
+		return (T(duration.count()) / T(R::den));
+	}
 }

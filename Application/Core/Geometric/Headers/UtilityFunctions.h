@@ -23,16 +23,17 @@ namespace Core
 		}
 
 		template <typename T, typename int A>
-		Truth<EllipsoidA<T, A - 1>> PlaneEllipsoidIntersection(PlaneA<T, A> const& p, EllipsoidA<T, A> const& e)
+		Truth<VectorA<T, A - 1>> PlaneEllipsoidIntersectionCenter(PlaneA<T, A> const& p, EllipsoidA<T, A> const& e)
 		{
 			if (!PlaneIntersectsEllipsoid(p, e))
 			{
-				return Truth(false, EllipsoidA<T, A - 1>());
+				return Truth(false, VectorA<T, A>());
 			}
 
 			// need to determine the correct way to solve this
+			auto closestPointOnPlanetoEllipsoid = ClosestPointOnPlaneToPoint(e.O, p);
 
-			return Truth(false, EllipsoidA<T, A - 1>());
+			return Truth(false, closestPointOnPlanetoEllipsoid);
 		}
 	}
 }

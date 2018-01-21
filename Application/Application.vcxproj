@@ -327,7 +327,7 @@
     <ClInclude Include="Core\Math\Headers\MatrixFunctions.h" />
     <ClInclude Include="Core\Math\Headers\Quaternion.h" />
     <ClInclude Include="Core\Math\Headers\QuaternionFunctions.h" />
-    <ClInclude Include="Core\Math\Headers\Utility.h" />
+    <ClInclude Include="Core\Math\Headers\UtilityFunctions.h" />
     <ClInclude Include="Core\Math\Headers\Vector.h" />
     <ClInclude Include="Core\Math\Headers\Vector2.h" />
     <ClInclude Include="Core\Math\Headers\Vector3.h" />

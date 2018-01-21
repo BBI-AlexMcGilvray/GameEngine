@@ -2,7 +2,7 @@
 
 // dummy includes
 #include "Core/Math/Headers/QuaternionFunctions.h"
-#include "Core/Math/Headers/Utility.h"
+#include "Core/Math/Headers/UtilityFunctions.h"
 
 namespace Application
 {
@@ -19,20 +19,20 @@ namespace Application
 			ClearColor = clearColor;
 
 			// don't render everything, but set up the default state
-			LoopStart();
-			LoopEnd();
+			RenderStart();
+			RenderEnd();
 		}
 
 		void RenderManager::Update(Second dt)
 		{
-			Loop();
+			Render(dt);
 		}
 
-		void RenderManager::Loop()
+		void RenderManager::Render(Second dt)
 		{
-			LoopStart();
-			LoopMiddle();
-			LoopEnd();
+			RenderStart();
+			RenderMiddle(dt);
+			RenderEnd();
 		}
 
 		void RenderManager::CleanUp()
@@ -53,24 +53,25 @@ namespace Application
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		}
 
-		void RenderManager::LoopStart()
+		void RenderManager::RenderStart()
 		{
 			glClearColor(ClearColor.R, ClearColor.G, ClearColor.B, ClearColor.A);
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
 
-		void RenderManager::LoopMiddle()
+		void RenderManager::RenderMiddle(Second dt)
 		{
 			// render objects
 
 			// dummy render
-			float rotationSpeed = 0.05f;
+			float rotationSpeed = 0.5f;
+			auto time = Duration(dt);
 			for (auto& vertex : Vertices)
 			{
 				auto vertexMagnitude = Magnitude(vertex);
 				auto newVertex = Core::Math::RotateNormalVectorBy(vertex, Core::Math::FQuaternion(0.707f, 0.0f, 0.0f, 0.707f));
 
-				vertex = Normalize(Core::Math::Lerp(vertex, newVertex, rotationSpeed)) * vertexMagnitude;
+				vertex = Normalize(Core::Math::Lerp(vertex, newVertex, rotationSpeed *time)) * vertexMagnitude;
 			}
 
 			// create a dummy VAO/VBO and Shader pair to render
@@ -106,7 +107,7 @@ namespace Application
 			ObjectShaderManager.DebugShader.CleanUp();
 		}
 
-		void RenderManager::LoopEnd()
+		void RenderManager::RenderEnd()
 		{
 			SDL_GL_SwapWindow(Window->GetWindow());
 		}

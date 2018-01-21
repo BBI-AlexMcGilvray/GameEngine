@@ -172,6 +172,9 @@ namespace Core
 			return rV;
 		}
 
+		/*
+			NOTE: This function does NOT preserve magnitude
+		*/
 		template <typename T>
 		Vector3<T> RotateVectorBy(Vector3<T> const& v, Quaternion<T> const& q)
 		{
@@ -180,7 +183,7 @@ namespace Core
 			qI *= v;
 			qI *= q;
 
-			Vector3<T> rV = (RotateNormalVectorBy(v, q) * Magnitude(v));
+			Vector3<T> rV = Vector3<T>(qI.X, qI.Y, qI.Z);
 
 			return rV;
 		}

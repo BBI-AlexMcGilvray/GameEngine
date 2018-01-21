@@ -10,6 +10,17 @@ namespace Application
 {
 	namespace Time
 	{
+		/*
+			NOTE:
+
+			PreviousTick = CurrentTick;
+			CurrentTick = Clock.now();
+
+			dt = (CurrentTick - PreviousTick);
+
+			every 20 ticks, dt is double the standard value. WHY?
+		*/
+
 		struct TimeManager
 		{
 			TimePoint InitialTime;
