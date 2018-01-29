@@ -213,9 +213,12 @@
     <ClCompile Include="Data\IO\Source\IOUtils.cpp" />
     <ClCompile Include="Data\Rendering\Source\MaterialData.cpp" />
     <ClCompile Include="Data\Rendering\Source\MeshData.cpp" />
+    <ClCompile Include="Data\Source\DataUtils.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\Assets\MI.mat" />
+    <None Include="Data\Assets\MI.msh" />
     <None Include="__Planning\GameEngine.xmi" />
     <None Include="Dependencies\Dlls\GLEW\glew32.dll" />
     <None Include="Dependencies\Dlls\SDL2\libfreetype-6.dll" />
@@ -286,6 +289,7 @@
     <ClInclude Include="Core\Geometric\Headers\UtilityFunctions.h" />
     <ClInclude Include="Core\Math\Headers\Axis.h" />
     <ClInclude Include="Core\Math\Headers\Basis.h" />
+    <ClInclude Include="Data\Headers\DataUtils.h" />
     <ClInclude Include="Data\Rendering\Headers\VertexBaseData.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\KeyFrame.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\Timeline.h" />

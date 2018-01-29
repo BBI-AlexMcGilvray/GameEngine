@@ -201,6 +201,9 @@
     <ClCompile Include="ApplicationManagement\Collision\Source\CollisionCheck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Data\Source\DataUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\Dlls\SDL2\libfreetype-6.dll" />
@@ -215,6 +218,8 @@
     <None Include="Dependencies\Dlls\SDL2\zlib1.dll" />
     <None Include="Dependencies\Dlls\GLEW\glew32.dll" />
     <None Include="__Planning\GameEngine.xmi" />
+    <None Include="Data\Assets\MI.msh" />
+    <None Include="Data\Assets\MI.mat" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Includes\SDL2\begin_code.h">
@@ -749,6 +754,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Math\Headers\UtilityFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Headers\DataUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

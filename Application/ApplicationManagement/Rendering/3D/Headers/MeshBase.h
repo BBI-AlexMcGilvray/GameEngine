@@ -25,7 +25,8 @@ namespace Application
 
 			virtual void Initialize();
 
-			virtual void Draw();
+			virtual void Prepare();
+			virtual void Cleanup();
 		};
 	}
 }

@@ -6,8 +6,7 @@ namespace Application
 {
 	namespace Rendering
 	{
-		/*
-		SharedPtr<Camera> Renderer::GetCamera()
+		SharedPtr<const Camera> Renderer::GetCamera()
 		{
 			return RenderCamera;
 		}
@@ -16,7 +15,7 @@ namespace Application
 		{
 			RenderCamera = renderCamera;
 		}
-		*/
+		
 		void Renderer::Draw(Ptr<RenderObjectBase> object)
 		{
 			DrawTriangles(object->GetVertexCount());

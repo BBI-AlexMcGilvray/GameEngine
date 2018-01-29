@@ -13,7 +13,14 @@ namespace Application
 			Material material;
 			MeshBase mesh;
 
+			ModelBase() = default;
 			ModelBase(String folderName);
+
+			virtual void Render();
+
+		protected:
+			virtual void Prepare();
+			virtual void Cleanup();
 		};
 	}
 }

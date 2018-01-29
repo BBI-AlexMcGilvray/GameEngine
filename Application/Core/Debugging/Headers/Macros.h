@@ -18,7 +18,7 @@ namespace Core
 	{
 		bool result = condition;
 
-		if (GLOBAL_EXPLICIT && conditionString != "")
+		if (GLOBAL_EXPLICIT && !result && conditionString != "")
 		{
 			Message(conditionString);
 		}

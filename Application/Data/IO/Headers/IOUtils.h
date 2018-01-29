@@ -9,5 +9,7 @@ namespace Data
 		IOFStreamChar OpenFileIO(String file);
 		IFStreamChar OpenFileI(String file);
 		OFStreamChar OpenFileO(String file);
+
+		String GetCWD();
 	}
 }

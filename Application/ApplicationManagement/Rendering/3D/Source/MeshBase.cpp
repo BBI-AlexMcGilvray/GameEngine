@@ -28,7 +28,10 @@ namespace Application
 			// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
 			// position
 			glEnableVertexAttribArray(0); // this matches with object shader construction
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Float3), (void*)(0));
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::VertexDataBase), (void*)(0));
+			// normal
+			glEnableVertexAttribArray(1); // this matches with object shader construction
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::VertexDataBase), (void*)(offsetof(Data::Rendering::VertexDataBase, Data::Rendering::VertexDataBase::Position)));
 
 			Vao.Unbind(); // must be done first, as it stores the states of the binded vbos
 			newBuffer.Unbind();
@@ -37,12 +40,13 @@ namespace Application
 			Push(Vbos, newBuffer);
 		}
 
-		void MeshBase::Draw()
+		void MeshBase::Prepare()
 		{
 			Vao.Bind();
+		}
 
-			// call renderer to draw
-
+		void MeshBase::Cleanup()
+		{
 			Vao.Unbind();
 		}
 	}

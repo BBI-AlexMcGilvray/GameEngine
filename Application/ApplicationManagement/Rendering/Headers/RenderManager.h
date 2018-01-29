@@ -18,6 +18,7 @@
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
 #include "ApplicationManagement/Rendering/Shaders/Headers/DebugObjectShader.h"
+#include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
 
 using namespace Core;
 using namespace Core::Math;
@@ -58,6 +59,8 @@ namespace Application
 
 			GLArrayBuffer Vao;
 			List<GLBuffer> Vbos;
+
+			ModelBase model;
 		};
 	}
 }
