@@ -5,6 +5,9 @@
 #include "ApplicationManagement/Headers/SDL2Manager.h"
 
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Functionality/Headers/Event.h"
+
+using namespace Core::Functionality;
 
 namespace Application
 {
@@ -12,6 +15,8 @@ namespace Application
 	{
 		struct InputManager
 		{
+			Event<> Quit;
+
 			InputManager(Ptr<const SDL2Manager> sdl);
 
 			void Initialize();

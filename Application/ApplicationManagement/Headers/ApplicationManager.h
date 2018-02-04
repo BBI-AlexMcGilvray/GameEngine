@@ -5,9 +5,13 @@
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 #include "ApplicationManagement/Time/Headers/TimeManager.h"
 
+#include "Core/Functionality/Headers/Event.h"
+
 using namespace Application::Input;
 using namespace Application::Rendering;
 using namespace Application::Time;
+
+using namespace Core::Functionality;
 
 namespace Application
 {
@@ -23,6 +27,9 @@ namespace Application
 		InputManager Input; // particularly this one
 		RenderManager Renderer;
 		FixedStepTimeManager Time;
+
+		Delegate<> OnQuit;
+		bool Quit = false;
 
 		bool Initialize();
 		void Start();

@@ -453,9 +453,6 @@
     <ClInclude Include="Core\Debugging\Headers\Macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Functionality\Headers\Delegate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Functionality\Headers\Event.h">
       <Filter>Header Files</Filter>
     </ClInclude>

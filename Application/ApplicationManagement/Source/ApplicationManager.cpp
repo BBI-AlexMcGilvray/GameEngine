@@ -6,6 +6,11 @@ namespace Application
 {
 	ApplicationManager::ApplicationManager()
 		: Input(&SDL)
+		, OnQuit([this]()
+			{
+				Quit = true;
+				return false;
+			}, Input.Quit)
 	{
 
 	}
@@ -20,7 +25,7 @@ namespace Application
 
 		Start();
 
-		while (Update())
+		while (!Quit && Update())
 		{}
 
 		End();

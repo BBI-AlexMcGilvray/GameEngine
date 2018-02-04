@@ -64,6 +64,7 @@ namespace Application
 				case SDL_QUIT:
 				{
 					// send of quit event
+					Quit();
 					return false;
 				}
 				case SDL_KEYDOWN:

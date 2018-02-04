@@ -35,16 +35,28 @@ namespace Core
 
 			Ptr<FunctionImplBase> FunctionObject = nullptr;
 
+			Function() = default;
+
 			template <typename O>
 			Function(O object)
 			{
 				FunctionObject = new FunctionImpl<O>(object);
 			}
 
+			Function(Function&& function)
+			{
+				FunctionObject = move(function.FunctionObject);
+			}
+
 			Function(Function& function)
 			{
 				FunctionObject = move(function.FunctionObject);
 				function.FunctionObject = nullptr;
+			}
+
+			operator bool()
+			{
+				return (FunctionObject != nullptr);
 			}
 
 			Function& operator= (Function& function)
