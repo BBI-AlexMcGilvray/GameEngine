@@ -4,6 +4,12 @@ namespace Application
 {
 	namespace Input
 	{
+		InputManager::InputManager(Ptr<const SDL2Manager> sdl)
+			: SDL(sdl)
+		{
+
+		}
+
 		void InputManager::Initialize()
 		{
 			// create controller logic mapping
@@ -40,6 +46,34 @@ namespace Application
 		void InputManager::CleanUp()
 		{
 			// have controller mapping save any changed made during gameplay (?)
+		}
+
+		bool InputManager::Update()
+		{
+			return PollSDL();
+		}
+
+		bool InputManager::PollSDL()
+		{
+			// this loop should probably be in the InputManager
+			SDL_Event event;
+			while (SDL->Poll(event))
+			{
+				switch (event.type)
+				{
+				case SDL_QUIT:
+				{
+					// send of quit event
+					return false;
+				}
+				case SDL_KEYDOWN:
+				{
+					HandleInput(InputEvent<KeyboardButtonData>(InputEventType::KeyboardEvent, event.key.timestamp, event.key.windowID, GetKeyboardButton(event.key.keysym.sym), GetButtonState(event.key.type)));
+				}
+				}
+			}
+			
+			return true;
 		}
 
 		void InputManager::HandleMouseClick(InputEvent<MouseClickedData>* event)

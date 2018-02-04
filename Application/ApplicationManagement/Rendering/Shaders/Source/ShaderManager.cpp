@@ -26,6 +26,8 @@ namespace Application
 				{
 					return &DefaultShader;
 				}
+				default:
+					return &DefaultShader;
 			}
 		}
 

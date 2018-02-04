@@ -4,6 +4,12 @@
 
 namespace Application
 {
+	ApplicationManager::ApplicationManager()
+		: Input(&SDL)
+	{
+
+	}
+
 	void ApplicationManager::Run()
 	{
 		if (!Initialize())
@@ -47,20 +53,9 @@ namespace Application
 	bool ApplicationManager::Update()
 	{
 		// this loop should probably be in the InputManager
-		SDL_Event event;
-		while (SDL.Poll(event))
+		if (!Input.Update())
 		{
-			switch (event.type)
-			{
-				case SDL_QUIT:
-				{
-					return false;
-				}
-				case SDL_KEYDOWN:
-				{
-					Input.HandleInput(InputEvent<KeyboardButtonData>(InputEventType::KeyboardEvent, event.key.timestamp, event.key.windowID, GetKeyboardButton(event.key.keysym.sym), GetButtonState(event.key.type)));
-				}
-			}
+			return false;
 		}
 
 		// game manager update (will update game logic, colliders, game object, renderers)

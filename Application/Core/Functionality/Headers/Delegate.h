@@ -10,7 +10,7 @@ namespace Core
 	namespace Functionality
 	{
 		template <typename rT, typename Ts...>
-		struct Event;
+		struct EventBase;
 
 		template <typename rT, typename Ts...>
 		struct DelegateBase

@@ -36,7 +36,7 @@ namespace Application
 		return true;
 	}
 
-	int SDL2Manager::Poll(SDL_Event& event)
+	int SDL2Manager::Poll(SDL_Event& event) const
 	{
 		return SDL_PollEvent(&event);
 	}

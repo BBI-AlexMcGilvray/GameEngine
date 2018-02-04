@@ -13,6 +13,8 @@ namespace Application
 {
 	struct ApplicationManager
 	{
+		ApplicationManager();
+
 		void Run();
 
 	private:

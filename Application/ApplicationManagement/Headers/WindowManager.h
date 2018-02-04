@@ -4,8 +4,7 @@
 #include "Dependencies/Includes/GLEW/glew.h"
 
 #include "Core/Headers/PtrDefs.h"
-
-#include <string>
+#include "Core/Headers/CoreDefs.h"
 
 using namespace Core;
 
@@ -13,11 +12,11 @@ namespace Application
 {
 	struct WindowManager
 	{
-		std::string Name;
+		String Name;
 		int Width;
 		int Height;
 
-		WindowManager(std::string name = "DEFAULT WINDOW", int width = 512, int height = 512);
+		WindowManager(String name = "DEFAULT WINDOW", int width = 512, int height = 512);
 
 		Ptr<SDL_Window> GetWindow() const;
 

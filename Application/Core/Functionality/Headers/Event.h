@@ -9,7 +9,7 @@ namespace Core
 	namespace Functionality
 	{
 		template <typename rT, typename Ts...>
-		struct Event
+		struct EventBase
 		{
 			EventBase()
 			{}
@@ -51,5 +51,8 @@ namespace Core
 		private:
 			List<Ptr<Delegate<rT, Ts...>>> Subscribees;
 		};
+
+		template <typename ...Args>
+		using Event<Args...> = EventBase<void, Args...>;
 	}
 }
