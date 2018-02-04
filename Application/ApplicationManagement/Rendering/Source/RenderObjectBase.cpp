@@ -4,8 +4,9 @@ namespace Application
 {
 	namespace Rendering
 	{
-		RenderObjectBase::RenderObjectBase(RenderManager& manager, Ptr<ObjectShaderBase> objectShader, SharedPtr<const Transform> renderTransform)
-			: Manager(manager), RenderTransform(renderTransform), ObjectShader(objectShader)
+		RenderObjectBase::RenderObjectBase(RenderManager& manager, SharedPtr<const Transform> renderTransform, Color color)
+			: ObjectColor(color)
+			, Manager(manager), RenderTransform(renderTransform)
 		{
 
 		}
@@ -20,26 +21,18 @@ namespace Application
 			// this will be used to handle animations and the like
 		}
 
-		void RenderObjectBase::Render()
+		void RenderObjectBase::Render(const Float4x4& mvp, const Color& color) const
 		{
-			Prepare();
+			auto renderMVP = mvp * RenderTransform->GetTransformationMatrix();
+
+			Prepare(renderMVP, color);
 			Draw();
 			CleanUp();
 		}
 
-		void RenderObjectBase::Prepare()
-		{
-			ObjectShader->Prepare();
-		}
-
-		void RenderObjectBase::Draw()
+		void RenderObjectBase::Draw() const
 		{
 			Manager.ObjectRenderer.Draw(this);
-		}
-
-		void RenderObjectBase::CleanUp()
-		{
-			ObjectShader->CleanUp();
 		}
 	}
 }

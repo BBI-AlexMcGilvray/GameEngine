@@ -17,7 +17,7 @@ namespace Application
 			glDeleteVertexArrays(1, &Object);
 		}
 
-		void GLArrayBuffer::Bind()
+		void GLArrayBuffer::Bind() const
 		{
 			glBindVertexArray(Object);
 		}
@@ -27,7 +27,7 @@ namespace Application
 			glGenVertexArrays(1, &Object);
 		}
 
-		void GLArrayBuffer::Unbind()
+		void GLArrayBuffer::Unbind() const
 		{
 			glBindVertexArray(0);
 		}

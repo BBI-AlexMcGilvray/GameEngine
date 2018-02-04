@@ -17,12 +17,12 @@ namespace Application
 
 		}
 
-		void ObjectShaderBase::Prepare()
+		void ObjectShaderBase::Prepare() const
 		{
 			glUseProgram(Object);
 		}
 
-		void ObjectShaderBase::CleanUp()
+		void ObjectShaderBase::CleanUp() const
 		{
 			// default back to no shader
 			glUseProgram(0);

@@ -33,14 +33,14 @@ namespace Application
 			return Shader;
 		}
 
-		void DebugVertexShader::Prepare(GLuint program, const Color& color)
+		void DebugVertexShader::Prepare(GLuint program, const Color& color) const
 		{
 			// assign color to shader
 			GLint modColor = glGetUniformLocation(program, "modColor");
 			glUniform4fv(modColor, 1, &(color.R));
 		}
 
-		void DebugVertexShader::CleanUp()
+		void DebugVertexShader::CleanUp() const
 		{
 			// this may not need to be used
 		}

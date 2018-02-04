@@ -21,9 +21,6 @@ namespace Application
 			// don't render everything, but set up the default state
 			RenderStart();
 			RenderEnd();
-
-			// dummy
-			model = ModelBase("MI");
 		}
 
 		void RenderManager::Update(Second dt)

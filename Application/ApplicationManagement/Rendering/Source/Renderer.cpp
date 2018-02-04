@@ -6,7 +6,7 @@ namespace Application
 {
 	namespace Rendering
 	{
-		SharedPtr<const Camera> Renderer::GetCamera()
+		SharedPtr<const Camera> Renderer::GetCamera() const
 		{
 			return RenderCamera;
 		}
@@ -16,17 +16,17 @@ namespace Application
 			RenderCamera = renderCamera;
 		}
 		
-		void Renderer::Draw(Ptr<RenderObjectBase> object)
+		void Renderer::Draw(Ptr<const RenderObjectBase> object) const
 		{
 			DrawTriangles(object->GetVertexCount());
 		}
 
-		void Renderer::DrawLines(uint vertexCount)
+		void Renderer::DrawLines(uint vertexCount) const
 		{
 			glDrawArrays(GL_LINE_STRIP, 0, vertexCount);
 		}
 
-		void Renderer::DrawTriangles(uint vertexCount)
+		void Renderer::DrawTriangles(uint vertexCount) const
 		{
 			glDrawArrays(GL_TRIANGLES, 0, vertexCount);
 		}

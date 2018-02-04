@@ -25,8 +25,8 @@ namespace Application
 
 			virtual void Initialize();
 
-			virtual void Prepare();
-			virtual void Cleanup();
+			virtual void Prepare() const;
+			virtual void Cleanup() const;
 		};
 	}
 }

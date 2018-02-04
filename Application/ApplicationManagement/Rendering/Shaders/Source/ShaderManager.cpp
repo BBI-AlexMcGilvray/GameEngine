@@ -14,6 +14,21 @@ namespace Application
 
 		}
 
+		Ptr<const ObjectShaderBase> ShaderManager::GetShader(ObjectShaderType shader) const
+		{
+			switch (shader)
+			{
+				case ObjectShaderType::Debug:
+				{
+					return &DebugShader;
+				}
+				case ObjectShaderType::Default:
+				{
+					return &DefaultShader;
+				}
+			}
+		}
+
 		void ShaderManager::Initialize()
 		{
 			DebugShader.Initialize();

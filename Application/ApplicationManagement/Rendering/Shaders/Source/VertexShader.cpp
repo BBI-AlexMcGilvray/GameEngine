@@ -35,7 +35,7 @@ namespace Application
 			return Shader;
 		}
 
-		void VertexShader::Prepare(GLuint program, const Float4x4& mvp, const Color& color)
+		void VertexShader::Prepare(GLuint program, const Float4x4& mvp, const Color& color) const
 		{
 			// set the required information that needs to be used in the shader
 			GLint MVP = glGetUniformLocation(program, "MVP");
@@ -46,7 +46,7 @@ namespace Application
 			glUniform4fv(modColor, 1, &(color.Values[0]));
 		}
 
-		void VertexShader::CleanUp()
+		void VertexShader::CleanUp() const
 		{
 			// this may not need to be used
 		}

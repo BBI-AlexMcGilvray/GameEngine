@@ -40,12 +40,12 @@ namespace Application
 			Push(Vbos, newBuffer);
 		}
 
-		void MeshBase::Prepare()
+		void MeshBase::Prepare() const
 		{
 			Vao.Bind();
 		}
 
-		void MeshBase::Cleanup()
+		void MeshBase::Cleanup() const
 		{
 			Vao.Unbind();
 		}

@@ -52,7 +52,7 @@ namespace Application
 			return Float2(screenX, screenY);
 		}
 
-		Float4x4 Camera::GetRenderMatrix()
+		Float4x4 Camera::GetRenderMatrix() const
 		{
 			// Reference: http://www.ntu.edu.sg/home/ehchua/programming/opengl/cg_basicstheory.html
 			Float4x4 transformationMatrix(1.0f);

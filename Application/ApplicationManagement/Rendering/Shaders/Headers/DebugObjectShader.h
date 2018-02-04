@@ -36,8 +36,8 @@ namespace Application
 			Ptr<ShaderBase> GetVertexShader() override;
 			Ptr<ShaderBase> GetFragmentxShader() override;
 
-			virtual void Prepare(const Color& color);
-			virtual void CleanUp() override;
+			virtual void Prepare(const Color& color) const;
+			void CleanUp() const override;
 
 			void Initialize() override;
 			void Destroy() override;

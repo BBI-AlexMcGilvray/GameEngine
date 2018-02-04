@@ -40,7 +40,7 @@ namespace Application
 			Float3 MouseToWorld(const Float2& screenPosition);
 			Float2 WorldToMouse(const Float3& worldPosition);
 
-			Float4x4 GetRenderMatrix();
+			Float4x4 GetRenderMatrix() const;
 
 		private:
 			void RecalculateRotationMatrix();

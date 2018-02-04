@@ -21,8 +21,8 @@ namespace Application
 
 			Ptr<const char> GetShader() const override;
 
-			virtual void Prepare();
-			virtual void CleanUp();
+			virtual void Prepare() const;
+			virtual void CleanUp() const;
 
 		protected:
 			static Ptr<const char> Shader;

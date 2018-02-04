@@ -22,7 +22,7 @@ namespace Application
 			return &VShader;
 		}
 
-		void DebugObjectShader::Prepare(const Color& color)
+		void DebugObjectShader::Prepare(const Color& color) const
 		{
 			ObjectShaderBase::Prepare();
 
@@ -30,7 +30,7 @@ namespace Application
 			FShader.Prepare();
 		}
 
-		void DebugObjectShader::CleanUp()
+		void DebugObjectShader::CleanUp() const
 		{
 			VShader.CleanUp();
 			FShader.CleanUp();

@@ -13,11 +13,11 @@ namespace Application
 
 			~GLArrayBuffer();
 
-			void Bind();
+			void Bind() const;
 
 			void Generate();
 
-			void Unbind();
+			void Unbind() const;
 		};
 	}
 }

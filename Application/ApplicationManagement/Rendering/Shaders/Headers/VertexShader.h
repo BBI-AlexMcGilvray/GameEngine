@@ -26,8 +26,8 @@ namespace Application
 
 			Ptr<const char> GetShader() const override;
 
-			virtual void Prepare(GLuint program, const Float4x4& mvp, const Color& color);
-			virtual void CleanUp();
+			virtual void Prepare(GLuint program, const Float4x4& mvp, const Color& color) const;
+			virtual void CleanUp() const;
 
 		protected:
 			static Ptr<const char> Shader;

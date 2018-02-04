@@ -16,8 +16,9 @@ namespace Application
 		void Run();
 
 	private:
+		// Perhaps make these UniquePtr<>s to the base types so that they can be changed and modified on the fly?
 		SDL2Manager SDL;
-		InputManager Input;
+		InputManager Input; // particularly this one
 		RenderManager Renderer;
 		FixedStepTimeManager Time;
 

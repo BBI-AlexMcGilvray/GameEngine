@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
+
 #include "ApplicationManagement/Rendering/2D/Headers/Material.h"
 #include "ApplicationManagement/Rendering/3D/Headers/MeshBase.h"
 
@@ -8,19 +10,20 @@ namespace Application
 	namespace Rendering
 	{
 		// holds the mesh, texture(s), and shader that a model uses
-		struct ModelBase
+		struct ModelBase : RenderObjectBase
 		{
 			Material material;
 			MeshBase mesh;
 
-			ModelBase() = default;
-			ModelBase(String folderName);
+			ModelBase(String folderName, RenderManager& manager, SharedPtr<const Transform> renderTransform);
 
-			virtual void Render();
+			uint GetVertexCount() const override;
 
 		protected:
-			virtual void Prepare();
-			virtual void Cleanup();
+			ObjectShader& Shader;
+
+			void Prepare(const Float4x4& mvp, const Color& color) const override;
+			void CleanUp() const override;
 		};
 	}
 }

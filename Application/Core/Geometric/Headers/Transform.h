@@ -32,7 +32,7 @@ namespace Core
 				: Position(position), Rotation(rotation), Scale(scale)
 			{}
 
-			Matrix4x4<T> GetTransformationMatrix()
+			Matrix4x4<T> GetTransformationMatrix() const
 			{
 				// scale
 				Matrix4x4<T> transformationMatrix = Matrix4x4<T>(Vector4<T>(Scale.X), Vector4<T>(Scale.Y), Vector4<T>(Scale.Z), Vector4<T>(II{}));

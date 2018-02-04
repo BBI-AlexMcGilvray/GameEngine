@@ -17,13 +17,13 @@ namespace Application
 		// this should also hold (a point perhaps) to the camera that is being used by the system
 		struct Renderer
 		{
-			SharedPtr<const Camera> GetCamera();
+			SharedPtr<const Camera> GetCamera() const;
 			void SetCamera(SharedPtr<Camera> renderCamera);
 
-			void Draw(Ptr<RenderObjectBase> object);
+			void Draw(Ptr<const RenderObjectBase> object) const;
 
-			void DrawLines(uint vertexCount);
-			void DrawTriangles(uint vertexCount);
+			void DrawLines(uint vertexCount) const;
+			void DrawTriangles(uint vertexCount) const;
 
 		private:
 			SharedPtr<Camera> RenderCamera;

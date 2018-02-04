@@ -32,23 +32,24 @@ namespace Application
 		*/
 		struct RenderObjectBase // THIS SHOULD NOT INHERIT FROM SUBSCRIBER - we need to handle the passing of the transformation matrix
 		{
-			RenderObjectBase(RenderManager& manager, Ptr<ObjectShaderBase> objectShader, SharedPtr<const Transform> renderTransform);
+			Color ObjectColor;
+
+			RenderObjectBase(RenderManager& manager, SharedPtr<const Transform> renderTransform, Color color = Color(1.0f, 1.0f, 1.0f, 1.0f));
 			virtual ~RenderObjectBase();
 
 			virtual void Update(Second dt);
-			virtual void Render();
+			void Render(const Float4x4& mvp, const Color& color) const;
 
-			virtual uint GetVertexCount() = 0;
+			virtual uint GetVertexCount() const = 0;
 
-		private:
+		protected:
 			RenderManager& Manager;
 			// this is private because it should never be changed by the render object - it simply reads the transform (same for colliders, but game objects will be able to modify their transform)
 			SharedPtr<const Transform> RenderTransform;
-			Ptr<ObjectShaderBase> ObjectShader;
 
-			virtual void Prepare();
-			virtual void Draw();
-			virtual void CleanUp();
+			virtual void Prepare(const Float4x4& mvp, const Color& color) const = 0;
+			virtual void Draw() const;
+			virtual void CleanUp() const = 0;
 		};
 	}
 }

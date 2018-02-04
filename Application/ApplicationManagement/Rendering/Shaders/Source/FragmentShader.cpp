@@ -29,12 +29,12 @@ namespace Application
 			return Shader;
 		}
 
-		void FragmentShader::Prepare()
+		void FragmentShader::Prepare() const
 		{
 			// set the required information that needs to be used in the shader
 		}
 
-		void FragmentShader::CleanUp()
+		void FragmentShader::CleanUp() const
 		{
 			// this may not need to be used
 		}

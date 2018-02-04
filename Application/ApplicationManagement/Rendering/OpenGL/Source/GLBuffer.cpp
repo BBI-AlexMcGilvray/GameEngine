@@ -17,15 +17,9 @@ namespace Application
 			glDeleteBuffers(1, &Object);
 		}
 
-		void GLBuffer::Bind()
+		void GLBuffer::Bind() const
 		{
 			glBindBuffer(Type, Object);
-		}
-
-		void GLBuffer::Bind(GLenum type)
-		{
-			Type = type;
-			Bind();
 		}
 
 		void GLBuffer::Generate()
@@ -33,7 +27,7 @@ namespace Application
 			glGenBuffers(1, &Object);
 		}
 
-		void GLBuffer::Unbind()
+		void GLBuffer::Unbind() const
 		{
 			glBindBuffer(Type, 0);
 		}

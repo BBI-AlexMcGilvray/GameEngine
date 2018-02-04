@@ -24,8 +24,8 @@ namespace Application
 			virtual Ptr<ShaderBase> GetVertexShader() = 0;
 			virtual Ptr<ShaderBase> GetFragmentxShader() = 0;
 
-			virtual void Prepare();
-			virtual void CleanUp();
+			virtual void Prepare() const;
+			virtual void CleanUp() const;
 
 			void SetShaderProgram(GLuint program)
 			{
