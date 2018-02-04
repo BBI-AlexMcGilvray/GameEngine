@@ -58,10 +58,7 @@ namespace Application
 	bool ApplicationManager::Update()
 	{
 		// this loop should probably be in the InputManager
-		if (!Input.Update())
-		{
-			return false;
-		}
+		Input.Update();
 
 		// game manager update (will update game logic, colliders, game object, renderers)
 		auto dt = Time.Update();

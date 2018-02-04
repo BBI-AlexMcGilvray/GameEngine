@@ -48,12 +48,12 @@ namespace Application
 			// have controller mapping save any changed made during gameplay (?)
 		}
 
-		bool InputManager::Update()
+		void InputManager::Update()
 		{
-			return PollSDL();
+			PollSDL();
 		}
 
-		bool InputManager::PollSDL()
+		void InputManager::PollSDL()
 		{
 			// this loop should probably be in the InputManager
 			SDL_Event event;
@@ -65,7 +65,6 @@ namespace Application
 				{
 					// send of quit event
 					Quit();
-					return false;
 				}
 				case SDL_KEYDOWN:
 				{
@@ -73,8 +72,6 @@ namespace Application
 				}
 				}
 			}
-			
-			return true;
 		}
 
 		void InputManager::HandleMouseClick(InputEvent<MouseClickedData>* event)

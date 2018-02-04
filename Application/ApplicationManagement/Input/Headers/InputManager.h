@@ -23,12 +23,12 @@ namespace Application
 			void HandleInput(InputEventBase&& event);
 			void CleanUp();
 
-			virtual bool Update();
+			virtual void Update();
 
 		private:
 			Ptr<const SDL2Manager> SDL;
 
-			virtual bool PollSDL();
+			virtual void PollSDL();
 
 			virtual void HandleMouseClick(InputEvent<MouseClickedData>* event);
 			virtual void HandleMouseMovement(InputEvent<MouseMovedData>* event);
