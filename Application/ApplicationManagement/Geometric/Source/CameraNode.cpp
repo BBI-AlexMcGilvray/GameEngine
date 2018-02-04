@@ -23,7 +23,7 @@ namespace Application
 			Node::Update(dt);
 		}
 
-		void CameraNode::Render(Renderer& renderer, Float4x4 transformationMatrix)
+		void CameraNode::Render(Renderer& renderer, Float4x4 transformationMatrix) const
 		{
 			// NOTE: the commented out code below should be done by the WORLD class
 

@@ -108,13 +108,7 @@
     <ClCompile Include="ApplicationManagement\Geometric\Source\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Geometric\Source\Container.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Geometric\Source\Node.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationManagement\Geometric\Source\Content.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationManagement\Geometric\Headers\Container.h">
@@ -202,6 +196,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Geometric\Headers\ContainerBase.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Geometric\Source\ContainerBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Geometric\Source\ContentBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -597,12 +600,6 @@
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Geometric\Headers\Content.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationManagement\Geometric\Headers\Container.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Debugging\Headers\Declarations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -754,6 +751,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Functionality\Headers\LockerBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\ContentBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

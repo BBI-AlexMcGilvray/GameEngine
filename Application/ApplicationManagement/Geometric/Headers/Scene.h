@@ -10,10 +10,8 @@ namespace Application
 	namespace Geometric
 	{
 		// a parent scene. holds a list of nodes (that represent that scene's content - all other content types should inherit from Node)
-		struct Scene
+		struct Scene : Node
 		{
-		protected:
-			List<SharedPtr<Node>> Children;
 		};
 	}
 }

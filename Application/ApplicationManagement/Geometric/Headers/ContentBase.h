@@ -16,23 +16,20 @@ namespace Application
 {
 	namespace Geometric
 	{
-		struct Container;
+		struct ContainerBase;
 
 		// generic class that can be inherited from for anything that needs to be stored inside a node
-		struct Content
+		struct ContentBase
 		{
-			Content() = default;
-			virtual ~Content() = default;
+			ContentBase() = default;
+			virtual ~ContentBase() = default;
 
 			// generic functions
 			virtual void Update(Second dt) = 0;
 			virtual void Render(const Renderer& renderer, Float4x4 transformationMatrix) = 0;
 
-			virtual void OnContainerSet(Ptr<Container> parentContainer);
+			virtual void OnContainerSet(Ptr<ContainerBase> parentContainer);
 			virtual void OnContainerDeletion();
-
-		protected:
-			Ptr<Container> ParentContainer;
 		};
 	}
 }

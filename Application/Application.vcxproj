@@ -162,9 +162,9 @@
     <ClCompile Include="ApplicationManagement\Debugging\Source\Logging.cpp" />
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameObjectBase.cpp" />
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameSystemManager.cpp" />
-    <ClCompile Include="ApplicationManagement\Geometric\Headers\Container.h" />
-    <ClCompile Include="ApplicationManagement\Geometric\Source\Container.cpp" />
-    <ClCompile Include="ApplicationManagement\Geometric\Source\Content.cpp" />
+    <ClCompile Include="ApplicationManagement\Geometric\Headers\ContainerBase.h" />
+    <ClCompile Include="ApplicationManagement\Geometric\Source\ContainerBase.cpp" />
+    <ClCompile Include="ApplicationManagement\Geometric\Source\ContentBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Node.cpp" />
     <ClCompile Include="ApplicationManagement\Input\Source\InputDefs.cpp" />
     <ClCompile Include="ApplicationManagement\Input\Source\InputEvent.cpp" />
@@ -258,7 +258,7 @@
     <ClInclude Include="ApplicationManagement\Geometric\Headers\CameraNode.h" />
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\MeshBase.h" />
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\ModelBase.h" />
-    <ClInclude Include="ApplicationManagement\Geometric\Headers\Content.h" />
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\ContentBase.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Node.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Scene.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\World.h" />

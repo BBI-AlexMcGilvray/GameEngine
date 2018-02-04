@@ -23,7 +23,7 @@ namespace Application
 		// generic functions that pass calls down to children and contents
 		void Node::Update(Second dt)
 		{
-			Container::Update(dt);
+			ContainerBase::Update(dt);
 			
 			for (auto& child : Children)
 			{
@@ -31,7 +31,7 @@ namespace Application
 			}
 		}
 
-		void Node::Render(Renderer& renderer, Float4x4 transformationMatrix)
+		void Node::Render(Renderer& renderer, Float4x4 transformationMatrix) const
 		{
 			// pass down modified transformation matrix
 			auto modifiedTransformationMatrix = Transformation.GetTransformationMatrix() * transformationMatrix;
@@ -41,27 +41,17 @@ namespace Application
 				child->Render(renderer, modifiedTransformationMatrix);
 			}
 
-			Container::Render(renderer, transformationMatrix);
+			ContainerBase::Render(renderer, transformationMatrix);
 		}
 
 		void Node::AddChild(SharedPtr<Node> newChild)
 		{
-			if (newChild->Parent != nullptr && newChild->Parent != this)
-			{
-				newChild->Parent->RemoveChild(newChild);
-			}
-
-			if (newChild->Parent != this)
-			{
-				newChild->Parent = this;
-				Push(Children, move(newChild));
-			}
+			Push(Children, move(newChild));
 		}
 
 		void Node::RemoveChild(SharedPtr<Node> oldChild)
 		{
-			Remove(Children, oldChild);
-			oldChild->Parent = nullptr;
+			Remove(Children, move(oldChild));
 		}
 	}
 }

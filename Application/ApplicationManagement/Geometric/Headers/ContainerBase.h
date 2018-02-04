@@ -17,24 +17,30 @@ namespace Application
 {
 	namespace Geometric
 	{
-		struct Content;
+		struct ContentBase;
 
 		// generic class that can be inherited from for anything that needs to be stored inside a node
-		struct Container
+		struct ContainerBase
 		{
-			Container();
+			ContainerBase();
 
-			virtual ~Container();
+			virtual ~ContainerBase();
 
 			virtual void Update(Second dt);
 			// if rendering is going to be handled as a UniquePtr in the RenderObjectManager, then we may not even need this render call?
-			virtual void Render(Renderer& renderer, Float4x4 transformationMatrix);
+			virtual void Render(Renderer& renderer, Float4x4 transformationMatrix) const;
 
-			void AddContent(SharedPtr<Content> newContent);
-			void RemoveContent(SharedPtr<Content> oldContent);
+			template <typename T, typename ...Ts>
+			void SetContent(Ts ...args)
+			{
+				SetContent(MakeUnique<T>(Forward<Ts>(args)...));
+			}
+
+			void SetContent(UniquePtr<ContentBase> newContent);
+			void RemoveContent();
 
 		protected:
-			List<SharedPtr<Content>> ContainerContents;
+			UniquePtr<ContentBase> Content;
 		};
 	}
 }

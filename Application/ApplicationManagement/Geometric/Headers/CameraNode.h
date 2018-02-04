@@ -17,7 +17,7 @@ namespace Application
 			CameraNode(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 0.0f), const Float3& direction =Float3(0.0f, 0.0f, -1.0f));
 
 			void Update(Second dt) override;
-			void Render(Renderer& renderer, Float4x4 transformationMatrix) override;
+			void Render(Renderer& renderer, Float4x4 transformationMatrix) const override;
 		};
 	}
 }
