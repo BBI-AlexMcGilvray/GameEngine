@@ -306,7 +306,7 @@
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\ShaderUtils.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\VertexShader.h" />
     <ClInclude Include="Core\Functionality\Headers\Scheduler.h" />
-    <ClInclude Include="Core\Functionality\Headers\Locker.h" />
+    <ClInclude Include="Core\Functionality\Headers\LockerBase.h" />
     <ClInclude Include="Core\Functionality\Headers\Subscription.h" />
     <ClInclude Include="Core\Headers\MapDefs.h" />
     <ClInclude Include="Core\Headers\TimeDefs.h" />

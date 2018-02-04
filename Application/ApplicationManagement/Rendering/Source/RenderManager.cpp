@@ -19,6 +19,7 @@ namespace Application
 			ClearColor = clearColor;
 
 			// don't render everything, but set up the default state
+			SetCamera(MakeShared<Camera>(Window->Width, Window->Height));
 			RenderStart();
 			RenderEnd();
 		}
@@ -51,6 +52,16 @@ namespace Application
 
 			// we are going to use double buffering (this only sets a 23bit Z buffer)
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		}
+
+		SharedPtr<const Camera> RenderManager::GetCamera() const
+		{
+			return RenderCamera;
+		}
+
+		void RenderManager::SetCamera(SharedPtr<Camera> renderCamera)
+		{
+			RenderCamera = renderCamera;
 		}
 
 		void RenderManager::RenderStart()

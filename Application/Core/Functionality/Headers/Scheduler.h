@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Functionality/Headers/Function.h"
-#include "Core/Functionality/Headers/Locker.h"
+#include "Core/Functionality/Headers/LockerBase.h"
 
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/MapDefs.h"
@@ -11,7 +11,7 @@ namespace Core
 {
 	namespace Functionality
 	{
-		struct SchedulerBase : Locker
+		struct SchedulerBase : LockerBase
 		{
 			void Update(Second dt);
 

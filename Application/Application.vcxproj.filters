@@ -669,9 +669,6 @@
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugVertexShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Functionality\Headers\Locker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\Headers\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -757,6 +754,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Data\Headers\DataUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Functionality\Headers\LockerBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

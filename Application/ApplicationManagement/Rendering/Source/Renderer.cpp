@@ -5,17 +5,7 @@
 namespace Application
 {
 	namespace Rendering
-	{
-		SharedPtr<const Camera> Renderer::GetCamera() const
-		{
-			return RenderCamera;
-		}
-
-		void Renderer::SetCamera(SharedPtr<Camera> renderCamera)
-		{
-			RenderCamera = renderCamera;
-		}
-		
+	{		
 		void Renderer::Draw(Ptr<const RenderObjectBase> object) const
 		{
 			DrawTriangles(object->GetVertexCount());

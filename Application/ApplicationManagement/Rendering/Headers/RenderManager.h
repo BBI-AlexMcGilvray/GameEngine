@@ -44,7 +44,12 @@ namespace Application
 
 			void SetOpenGLAttributes();
 
+			SharedPtr<const Camera> GetCamera() const;
+			void SetCamera(SharedPtr<Camera> renderCamera);
+
 		private:
+			SharedPtr<Camera> RenderCamera;
+
 			Color ClearColor;
 			Ptr<WindowManager> Window;
 
