@@ -22,7 +22,7 @@ namespace Core
 				currentIndex++;
 			}
 
-			Remove(ScheduledFunctions, calledIndices);
+			RemoveIndex(ScheduledFunctions, calledIndices);
 		}
 
 		void SchedulerBase::Add(VoidFunction<Second> func, Second key)

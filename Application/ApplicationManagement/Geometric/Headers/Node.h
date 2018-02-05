@@ -26,9 +26,13 @@ namespace Application
 
 			// set children/parent
 			template <typename T, typename ...Ts>
-			void AddChild(Ts ...args)
+			SharedPtr<T> AddChild(Ts ...args)
 			{
-				AddChild(MakeShared<T>(Forward<Ts>(args)...));
+				SharedPtr<T> newNode = MakeShared<T>(Forward<Ts>(args)...);
+
+				AddChild(newNode);
+
+				return newNode;
 			}
 
 			virtual void AddChild(SharedPtr<Node> newChild);

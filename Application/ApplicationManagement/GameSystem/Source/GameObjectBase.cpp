@@ -5,13 +5,18 @@ namespace Application
 	namespace GameSystem
 	{
 		GameObjectBase::GameObjectBase()
-			: ObjectTransform(MakeShared<Transform>())
-		{
+			: GameObjectBase(MakeShared<Transform>())
+		{}
 
+		GameObjectBase::GameObjectBase(SharedPtr<Transform> transform)
+			: ObjectTransform(move(transform))
+		{
+			SubscribeToGameManager();
 		}
+
 		GameObjectBase:: ~GameObjectBase()
 		{
-
+			UnsubscribeFromGameManager();
 		}
 
 		void GameObjectBase::Update(Second dt)

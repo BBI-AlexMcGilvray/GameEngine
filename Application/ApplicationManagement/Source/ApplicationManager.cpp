@@ -44,6 +44,7 @@ namespace Application
 			return false;
 		}
 
+		GameSystem.Initialize();
 		Input.Initialize();
 		Renderer.Initialize(SDL.GetWindowManager());
 
@@ -67,6 +68,8 @@ namespace Application
 		while (dt > 0_s)
 		{
 			// update everything
+			GameSystem.Update(dt);
+
 			Renderer.Update(dt);
 
 			dt = Time.GetAccumulatedTime();
@@ -85,6 +88,7 @@ namespace Application
 		// possible we want to thread this to make it faster (since saving could be done)
 		Renderer.CleanUp();
 		Input.CleanUp();
+		GameSystem.CleanUp();
 		SDL.CleanUp();
 	}
 }

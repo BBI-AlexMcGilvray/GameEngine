@@ -95,27 +95,40 @@ namespace Core
 	}
 
 	template <typename T>
-	void Remove(List<T>& list, int index)
+	void RemoveIndex(List<T>& list, int index)
 	{
 		list.erase(list.begin() + index);
 	}
 
 	template <typename T, typename ...Ts>
-	void Remove(List<T>& list, int index, Ts... otherIndices)
+	void RemoveIndex(List<T>& list, int index, Ts... otherIndices)
 	{
-		Remove(list, index);
-		Remove(list, otherIndices...);
+		RemoveIndex(list, index);
+		RemoveIndex(list, otherIndices...);
 	}
 
 	template <typename T>
-	void Remove(List<T>& list, List<int> indices)
+	void RemoveIndex(List<T>& list, List<int> indices)
 	{
-		Remove(list, indices[0]);
-		indices.erase(indices.begin());
-
 		if (indices.size() > 0)
 		{
-			Remove(list, indices);
+			int currentIndex = indices[0];
+
+			for (auto& index : indices)
+			{
+				if (index != 0 && index < currentIndex)
+				{
+					index -= 1;
+				}
+			}
+
+			RemoveIndex(list, currentIndex);
+			indices.erase(indices.begin());
+
+			if (indices.size() > 0)
+			{
+				RemoveIndex(list, indices);
+			}
 		}
 	}
 }

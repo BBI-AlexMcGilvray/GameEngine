@@ -19,18 +19,27 @@ namespace Application
 
 		Similar templates should be employed by Collider and Render objects.
 
+		DO NOT DO THE BELOW:
 		So, for example, a game object with no collision information, we make a custom object that implements both GameObjectBase and RenderObjectBase (or children of) but NOT ColliderObjectBase
+
+		INSTEAD:
+		GameObjects should be the central item that should HAVE a RenderObject and CollisionObject.
+		If we do what was written in the above, the update call would get called several times (for game objects, render objects, and collision objects).
+		This way, a GameObject CAN have collision and Rendering (but does not need to) and those parts will update independantly.
 		*/
 		struct GameObjectBase
 		{
 			GameObjectBase();
+			GameObjectBase(SharedPtr<Transform> transform);
+
 			virtual ~GameObjectBase();
 
 			virtual void Update(Second dt);
 
-		private:
+		protected:
 			SharedPtr<Transform> ObjectTransform;
 
+		private:
 			void SubscribeToGameManager();
 			void UnsubscribeFromGameManager();
 		};
