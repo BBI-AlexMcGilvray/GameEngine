@@ -25,12 +25,12 @@ namespace Application
 		void Run();
 
 	private:
-		// Perhaps make these UniquePtr<>s to the base types so that they can be changed and modified on the fly?
+		// Note: the below are in an order such that they should only _possibly_ know about what is above them (as it would need to be for constructors...)
 		SDL2Manager SDL;
-		GameSystemManager GameSystem;
-		InputManager Input; // particularly this one
-		RenderManager Renderer;
 		FixedStepTimeManager Time;
+		RenderManager RenderSystem;
+		InputManager Input;
+		GameSystemManager GameSystem;
 
 		Delegate<> OnQuit;
 		bool Quit = false;

@@ -4,6 +4,12 @@ namespace Application
 {
 	namespace GameSystem
 	{
+		GameSystemManager::GameSystemManager(Rendering::RenderManager& renderSystem)
+			: RenderSystem(renderSystem)
+		{
+
+		}
+
 		void GameSystemManager::Initialize()
 		{
 

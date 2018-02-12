@@ -26,6 +26,8 @@ namespace Application
 		GameObjects should be the central item that should HAVE a RenderObject and CollisionObject.
 		If we do what was written in the above, the update call would get called several times (for game objects, render objects, and collision objects).
 		This way, a GameObject CAN have collision and Rendering (but does not need to) and those parts will update independantly.
+
+		Also, collision objects should have events that the game object/parent object can subscribe to for when it gets hit
 		*/
 		struct GameObjectBase
 		{

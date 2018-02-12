@@ -4,7 +4,7 @@ namespace Application
 {
 	namespace Input
 	{
-		InputManager::InputManager(Ptr<const SDL2Manager> sdl)
+		InputManager::InputManager(const SDL2Manager& sdl)
 			: SDL(sdl)
 		{
 
@@ -16,9 +16,9 @@ namespace Application
 			// have controller logic mapping initialize
 		}
 
-		void InputManager::HandleInput(InputEventBase&& event)
+		void InputManager::HandleInput(SharedPtr<InputEventBase> event)
 		{
-			switch (event.GetInputEventType())
+			switch (event->GetInputEventType())
 			{
 			case InputEventType::Undetermined:
 			{
@@ -26,19 +26,19 @@ namespace Application
 			}
 			case InputEventType::MouseClickedEvent:
 			{
-				return HandleMouseClick(static_cast<InputEvent<MouseClickedData>*>(&event));
+				return HandleMouseClick(dynamic_pointer_cast<InputEvent<MouseClickedData>>(event));
 			}
 			case InputEventType::MouseMovedEvent:
 			{
-				return HandleMouseMovement(static_cast<InputEvent<MouseMovedData>*>(&event));
+				return HandleMouseMovement(dynamic_pointer_cast<InputEvent<MouseMovedData>>(event));
 			}
 			case InputEventType::MouseWheelEvent:
 			{
-				return HandleMouseWheel(static_cast<InputEvent<MouseWheeledData>*>(&event));
+				return HandleMouseWheel(dynamic_pointer_cast<InputEvent<MouseWheeledData>>(event));
 			}
 			case InputEventType::KeyboardEvent:
 			{
-				return HandleKeyboardInput(static_cast<InputEvent<KeyboardButtonData>*>(&event));
+				return HandleKeyboardInput(dynamic_pointer_cast<InputEvent<KeyboardButtonData>>(event));
 			}
 			}
 		}
@@ -57,7 +57,7 @@ namespace Application
 		{
 			// this loop should probably be in the InputManager
 			SDL_Event event;
-			while (SDL->Poll(event))
+			while (SDL.Poll(event))
 			{
 				switch (event.type)
 				{
@@ -68,28 +68,28 @@ namespace Application
 				}
 				case SDL_KEYDOWN:
 				{
-					HandleInput(InputEvent<KeyboardButtonData>(InputEventType::KeyboardEvent, event.key.timestamp, event.key.windowID, GetKeyboardButton(event.key.keysym.sym), GetButtonState(event.key.type)));
+					HandleInput(MakeShared<InputEvent<KeyboardButtonData>>(InputEventType::KeyboardEvent, event.key.timestamp, event.key.windowID, GetKeyboardButton(event.key.keysym.sym), GetButtonState(event.key.type)));
 				}
 				}
 			}
 		}
 
-		void InputManager::HandleMouseClick(InputEvent<MouseClickedData>* event)
+		void InputManager::HandleMouseClick(SharedPtr<const InputEvent<MouseClickedData>> event)
 		{
 
 		}
 
-		void InputManager::HandleMouseMovement(InputEvent<MouseMovedData>* event)
+		void InputManager::HandleMouseMovement(SharedPtr<const InputEvent<MouseMovedData>> event)
 		{
 
 		}
 
-		void InputManager::HandleMouseWheel(InputEvent<MouseWheeledData>* event)
+		void InputManager::HandleMouseWheel(SharedPtr<const InputEvent<MouseWheeledData>> event)
 		{
 
 		}
 
-		void InputManager::HandleKeyboardInput(InputEvent<KeyboardButtonData>* event)
+		void InputManager::HandleKeyboardInput(SharedPtr<const InputEvent<KeyboardButtonData>> event)
 		{
 
 		}

@@ -17,24 +17,25 @@ namespace Application
 		{
 			Event<> Quit;
 
-			InputManager(Ptr<const SDL2Manager> sdl);
+			InputManager(const SDL2Manager& sdl);
 
 			void Initialize();
-			void HandleInput(InputEventBase&& event);
+			void HandleInput(SharedPtr<InputEventBase> event);
 			void CleanUp();
 
 			virtual void Update();
 
 		private:
-			Ptr<const SDL2Manager> SDL;
+			const SDL2Manager& SDL;
 
 			virtual void PollSDL();
 
-			virtual void HandleMouseClick(InputEvent<MouseClickedData>* event);
-			virtual void HandleMouseMovement(InputEvent<MouseMovedData>* event);
-			virtual void HandleMouseWheel(InputEvent<MouseWheeledData>* event);
+			// the below should probably be moved into having a default 'InputController' struct for each type of input combination (mouse, keyboard, joystick...)
+			virtual void HandleMouseClick(SharedPtr<const InputEvent<MouseClickedData>> event);
+			virtual void HandleMouseMovement(SharedPtr<const InputEvent<MouseMovedData>> event);
+			virtual void HandleMouseWheel(SharedPtr<const InputEvent<MouseWheeledData>> event);
 
-			virtual void HandleKeyboardInput(InputEvent<KeyboardButtonData>* event);
+			virtual void HandleKeyboardInput(SharedPtr<const InputEvent<KeyboardButtonData>> event);
 		};
 	}
 }
