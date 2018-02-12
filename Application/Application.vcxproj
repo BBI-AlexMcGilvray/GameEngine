@@ -167,9 +167,11 @@
     <ClCompile Include="ApplicationManagement\Geometric\Source\ContainerBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\ContentBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Node.cpp" />
+    <ClCompile Include="ApplicationManagement\Input\Source\InputControllerBase.cpp" />
     <ClCompile Include="ApplicationManagement\Input\Source\InputDefs.cpp" />
     <ClCompile Include="ApplicationManagement\Input\Source\InputEvent.cpp" />
     <ClCompile Include="ApplicationManagement\Input\Source\InputManager.cpp" />
+    <ClCompile Include="ApplicationManagement\Input\Source\InputReceiverBase.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\Image.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\Material.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\Texture.cpp" />
@@ -250,9 +252,11 @@
     <ClInclude Include="ApplicationManagement\Headers\GLContextManager.h" />
     <ClInclude Include="ApplicationManagement\Headers\SDL2Manager.h" />
     <ClInclude Include="ApplicationManagement\Headers\WindowManager.h" />
+    <ClInclude Include="ApplicationManagement\Input\Headers\InputControllerBase.h" />
     <ClInclude Include="ApplicationManagement\Input\Headers\InputDefs.h" />
     <ClInclude Include="ApplicationManagement\Input\Headers\InputEvent.h" />
     <ClInclude Include="ApplicationManagement\Input\Headers\InputManager.h" />
+    <ClInclude Include="ApplicationManagement\Input\Headers\InputReceiverBase.h" />
     <ClInclude Include="ApplicationManagement\Rendering\2D\Headers\Image.h" />
     <ClInclude Include="ApplicationManagement\Rendering\2D\Headers\Material.h" />
     <ClInclude Include="ApplicationManagement\Rendering\2D\Headers\Texture.h" />

@@ -26,19 +26,19 @@ namespace Application
 			}
 			case InputEventType::MouseClickedEvent:
 			{
-				return HandleMouseClick(dynamic_pointer_cast<InputEvent<MouseClickedData>>(event));
+				return HandleMouseClick(static_pointer_cast<InputEvent<MouseClickedData>>(event));
 			}
 			case InputEventType::MouseMovedEvent:
 			{
-				return HandleMouseMovement(dynamic_pointer_cast<InputEvent<MouseMovedData>>(event));
+				return HandleMouseMovement(static_pointer_cast<InputEvent<MouseMovedData>>(event));
 			}
 			case InputEventType::MouseWheelEvent:
 			{
-				return HandleMouseWheel(dynamic_pointer_cast<InputEvent<MouseWheeledData>>(event));
+				return HandleMouseWheel(static_pointer_cast<InputEvent<MouseWheeledData>>(event));
 			}
 			case InputEventType::KeyboardEvent:
 			{
-				return HandleKeyboardInput(dynamic_pointer_cast<InputEvent<KeyboardButtonData>>(event));
+				return HandleKeyboardInput(static_pointer_cast<InputEvent<KeyboardButtonData>>(event));
 			}
 			}
 		}
