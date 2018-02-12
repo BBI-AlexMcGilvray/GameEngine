@@ -9,12 +9,12 @@ namespace Application
 			ColliderBase::ColliderBase(SharedPtr<const Transform> collisionTransform)
 				: CollisionTransform(collisionTransform)
 			{
-				SubscribeToCollider();
+
 			}
 
 			ColliderBase::~ColliderBase()
 			{
-				UnsubscribeFromCollider();
+
 			}
 
 			void ColliderBase::Update(Second dt)
@@ -22,20 +22,18 @@ namespace Application
 				// this should be used for collision specific updates (such as stretching the collision size to account for potential misses due to large DT steps
 			}
 			
-			void ColliderBase::OnCollision(SharedPtr<const ColliderBase> collider, Float3 location)
+			void ColliderBase::OnCollision(SharedPtr<const CollisionBase> collision)
 			{
-				// do nothing
+				if (!IsTrigger)
+				{
+					Collision(collision);
+				}
+				else
+				{
+					Trigger(collision);
+				}
+
 				return;
-			}
-
-			void ColliderBase::SubscribeToCollider()
-			{
-
-			}
-
-			void ColliderBase::UnsubscribeFromCollider()
-			{
-
 			}
 		}
 	}

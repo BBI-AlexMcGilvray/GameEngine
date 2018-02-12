@@ -13,6 +13,9 @@ namespace Application
 	namespace GameSystem
 	{
 		/*
+		NOTE: We are no longer 'subscribing' to the game object manager (or any relevant manager for related systems), but rather will _need_ to be constructed from the system, where it will
+		be added automatically. ALSO - deletion will have to also occur within the system
+
 		This is a base class (essentially an interface) to be used for nay object that needs to be tied into generic game-like elements (getting update calls, position information, anything)
 
 		This template should be used for any object that is going to be in the game
@@ -40,10 +43,6 @@ namespace Application
 
 		protected:
 			SharedPtr<Transform> ObjectTransform;
-
-		private:
-			void SubscribeToGameManager();
-			void UnsubscribeFromGameManager();
 		};
 	}
 }

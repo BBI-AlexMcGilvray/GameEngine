@@ -11,25 +11,15 @@ namespace Application
 		GameObjectBase::GameObjectBase(SharedPtr<Transform> transform)
 			: ObjectTransform(move(transform))
 		{
-			SubscribeToGameManager();
+
 		}
 
 		GameObjectBase:: ~GameObjectBase()
 		{
-			UnsubscribeFromGameManager();
+
 		}
 
 		void GameObjectBase::Update(Second dt)
-		{
-
-		}
-
-		void GameObjectBase::SubscribeToGameManager()
-		{
-
-		}
-
-		void GameObjectBase::UnsubscribeFromGameManager()
 		{
 
 		}

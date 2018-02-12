@@ -3,9 +3,11 @@
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
+#include "Core/Functionality/Headers/Event.h"
 #include "Core/Geometric/Headers/Transform.h"
 
 using namespace Core;
+using namespace Core::Functionality;
 using namespace Core::Geometric;
 
 namespace Application
@@ -14,6 +16,8 @@ namespace Application
 	{
 		namespace Collision
 		{
+			struct CollisionBase;
+
 			enum class ColliderType
 			{
 				Base,
@@ -35,6 +39,13 @@ namespace Application
 				So, for example, a game object with no collision information, we make a custom object that implements both GameObjectBase and RenderObjectBase (or children of) but NOT ColliderObjectBase
 				*/
 
+				// other collider that was hit, and where collision occured
+				// NOTE: should pass collision, not each value
+				Event<SharedPtr<const CollisionBase>> Collision;
+				Event<SharedPtr<const CollisionBase>> Trigger;
+
+				bool IsTrigger = false;
+
 				virtual ColliderType GetColliderType() const
 				{
 					return ColliderType::Base;
@@ -46,13 +57,9 @@ namespace Application
 				virtual ~ColliderBase();
 
 				virtual void Update(Second dt);
-				virtual void OnCollision(SharedPtr<const ColliderBase> collider, Float3 location);
+				virtual void OnCollision(SharedPtr<const CollisionBase> collision);
 
 				virtual float GetBoundingRadius() const = 0;
-
-			private:
-				void SubscribeToCollider();
-				void UnsubscribeFromCollider();
 			};
 		}
 	}

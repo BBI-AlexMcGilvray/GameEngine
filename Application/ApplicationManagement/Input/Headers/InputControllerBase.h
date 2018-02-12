@@ -10,6 +10,11 @@ namespace Application
 {
 	namespace Input
 	{
+		/*
+		These controllers should take the input and map it to a specific action given some data.
+
+		Then, that action is passed down to the receivers (starting with the focus, and moving on if it does not consume the input).
+		*/
 		struct InputControllerBase
 		{
 			InputControllerBase();

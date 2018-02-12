@@ -8,6 +8,9 @@ namespace Application
 {
 	namespace Input
 	{
+		/*
+		These should take in some action and make a response - which will either consume, or pass along the input).
+		*/
 		struct InputReceiverBase
 		{
 			InputReceiverBase();
