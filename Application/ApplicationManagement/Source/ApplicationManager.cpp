@@ -38,7 +38,7 @@ namespace Application
 		// possible we want to thread this to make it faster
 
 		// NOTE!! https://stackoverflow.com/questions/47188856/cant-make-opengl-glew-and-sdl2-work-together
-		Renderer.SetOpenGLAttributes();
+		RenderSystem.SetOpenGLAttributes();
 
 		if (!SDL.Initialize())
 		{
