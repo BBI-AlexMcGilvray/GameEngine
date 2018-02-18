@@ -51,6 +51,7 @@ namespace Application
 
 		private:
 			SharedPtr<Camera> RenderCamera;
+			Color InitialColor;
 
 			Color ClearColor;
 			Ptr<WindowManager> Window;

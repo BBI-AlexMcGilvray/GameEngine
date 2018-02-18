@@ -13,7 +13,7 @@ namespace Core
 		struct Precision
 		{
 			const float p = (1.0f / float(D));
-			operator float() const { return p; }
+			constexpr operator float() const { return p; }
 		};
 		using Tenth = Precision<10>;
 		using Hundredth = Precision<100>;
@@ -23,7 +23,7 @@ namespace Core
 		struct Dimension 
 		{
 			const int d = D;
-			operator int() const { return d; }
+			constexpr operator int() const { return d; }
 		};
 		using R1 = Dimension<1>;
 		using R2 = Dimension<2>;
@@ -33,8 +33,8 @@ namespace Core
 		struct II
 		{
 			const int i = 1;
-			operator int() const { return i; }
-			operator float() const { return float(i); }
+			constexpr operator int() const { return i; }
+			constexpr operator float() const { return float(i); }
 		};
 
 		const double PI_D = 3.1415926535897;

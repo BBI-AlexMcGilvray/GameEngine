@@ -16,6 +16,8 @@ namespace Application
 			ObjectShaderManager.Initialize();
 
 			Window = &window;
+
+			InitialColor = WHITE;
 			ClearColor = clearColor;
 
 			// don't render everything, but set up the default state
@@ -75,7 +77,7 @@ namespace Application
 		void RenderManager::RenderMiddle(Second dt)
 		{
 			// render manager render call
-			//ObjectManager->Render(); // use mvp from renderer camera, and have the color start with solid white
+			ObjectManager.Render(RenderCamera->GetRenderMatrix(), InitialColor);
 
 			// dummy render
 			float rotationSpeed = 0.5f;
@@ -104,7 +106,7 @@ namespace Application
 				// position
 				glEnableVertexAttribArray(0); // this matches with object shader construction
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Float3), (void*)(0));
-
+				i
 				Vao.Unbind();
 				newBuffer.Unbind();
 				glDisableVertexAttribArray(0);
@@ -112,7 +114,7 @@ namespace Application
 				Push(Vbos, newBuffer);
 			}
 
-			Color dummyColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
+			Color dummyColor = BLUE;
 			ObjectShaderManager.DebugShader.Prepare(dummyColor);
 			Vao.Bind();
 			// something is wrong with the buffers or the shaders

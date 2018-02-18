@@ -11,7 +11,7 @@ namespace Core
 {
 	namespace Math
 	{
-		struct Color : VectorA<float, 4>
+		struct Color
 		{
 			union
 			{
@@ -25,23 +25,23 @@ namespace Core
 				float Values[4];
 			};
 
-			Color()
+			constexpr Color()
 				: Color(II())
 			{}
 
-			Color(II i)
+			constexpr Color(II i)
 				: R(i), G(i), B(i), A(i)
 			{}
 
-			Color(float d)
+			constexpr Color(float d)
 				: R(d), G(d), B(d), A(d)
 			{}
 
-			Color(float r, float g, float b, float a = 1.0)
+			constexpr Color(float r, float g, float b, float a = 1.0)
 				: R(r), G(g), B(b), A(a)
 			{}
 
-			Color(const Color& c)
+			constexpr Color(const Color& c)
 				: R(c.R), B(c.B), G(c.G), A(c.A)
 			{}
 
@@ -219,5 +219,11 @@ namespace Core
 				return Values[axis];
 			}
 		};
+
+		constexpr Color WHITE = Color(1.0f, 1.0f, 1.0f, 1.0f);
+		constexpr Color BLACK = Color(0.0f, 0.0f, 0.0f, 1.0f);
+		constexpr Color RED = Color(1.0f, 0.0f, 0.0f, 1.0f);
+		constexpr Color GREEN = Color(0.0f, 1.0f, 0.0f, 1.0f);
+		constexpr Color BLUE = Color(0.0f, 0.0f, 1.0f, 1.0f);
 	}
 }
