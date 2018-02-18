@@ -106,7 +106,7 @@ namespace Application
 				// position
 				glEnableVertexAttribArray(0); // this matches with object shader construction
 				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Float3), (void*)(0));
-				i
+				
 				Vao.Unbind();
 				newBuffer.Unbind();
 				glDisableVertexAttribArray(0);
