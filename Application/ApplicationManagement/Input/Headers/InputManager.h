@@ -32,6 +32,8 @@ namespace Application
 			void HandleInput(SharedPtr<InputEventBase> event);
 
 			// the below should probably be moved into having a default 'InputController' struct for each type of input combination (mouse, keyboard, joystick...)
+			// that would then pass it's result to any subscribed receivers for them to handle (if there is a nice way for this - the main goal is to allow
+			// the input type (keyboard/mouse/controllers...) to change during runtime smoothly)
 			virtual void HandleMouseClick(SharedPtr<const InputEvent<MouseClickedData>> event);
 			virtual void HandleMouseMovement(SharedPtr<const InputEvent<MouseMovedData>> event);
 			virtual void HandleMouseWheel(SharedPtr<const InputEvent<MouseWheeledData>> event);

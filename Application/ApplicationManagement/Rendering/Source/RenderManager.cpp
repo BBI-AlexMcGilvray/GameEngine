@@ -26,6 +26,8 @@ namespace Application
 
 		void RenderManager::Update(Second dt)
 		{
+			// update render object manager
+			ObjectManager.Update(dt);
 			Render(dt);
 		}
 
@@ -72,7 +74,8 @@ namespace Application
 
 		void RenderManager::RenderMiddle(Second dt)
 		{
-			// render objects
+			// render manager render call
+			//ObjectManager->Render(); // use mvp from renderer camera, and have the color start with solid white
 
 			// dummy render
 			float rotationSpeed = 0.5f;

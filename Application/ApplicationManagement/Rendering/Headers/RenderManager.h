@@ -4,6 +4,7 @@
 #include "ApplicationManagement\Headers\WindowManager.h"
 
 #include "Renderer.h"
+#include "RenderObjectManager.h"
 #include "ApplicationManagement/Rendering/Shaders/Headers/ShaderManager.h"
 
 #include "Core/Functionality/Headers/Subscription.h"
@@ -34,6 +35,7 @@ namespace Application
 		{
 			ShaderManager ObjectShaderManager;
 			Renderer ObjectRenderer;
+			RenderObjectManager ObjectManager;
 
 			RenderManager();
 
