@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+// debug/testing includes
+#include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
+
 namespace Application
 {
 	ApplicationManager::ApplicationManager()
@@ -54,7 +57,9 @@ namespace Application
 
 	void ApplicationManager::Start()
 	{
-
+		// Debug test for rendering a model
+		//testTransform = MakeShared<Transform>();
+		//ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform, "MI");
 	}
 
 	bool ApplicationManager::Update()

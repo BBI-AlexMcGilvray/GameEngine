@@ -6,6 +6,12 @@ namespace Application
 {
 	namespace Rendering
 	{
+		RenderObjectManager::RenderObjectManager(Ptr<RenderManager> manager)
+			: Manager(manager)
+		{
+
+		}
+
 		void RenderObjectManager::Initialize()
 		{
 

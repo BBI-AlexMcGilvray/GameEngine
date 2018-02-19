@@ -14,11 +14,14 @@ namespace Application
 {
 	namespace Rendering
 	{
+		struct RenderManager;
 		struct RenderObjectBase;
 
 		// holds all render objects, handles updating them and passing them in to be rendered
 		struct RenderObjectManager
 		{
+			RenderObjectManager(Ptr<RenderManager> manager);
+
 			virtual void Initialize();
 
 			virtual void Update(Second dt);
@@ -29,7 +32,7 @@ namespace Application
 			template <typename T, typename ...Ts>
 			SharedPtr<T> AddRenderObject(Ts ...args)
 			{
-				T newRenderObject = MakeShared<T>(Forward<Ts>(args)...);
+				T newRenderObject = MakeShared<T>(&Manager, Forward<Ts>(args)...);
 
 				AddRenderObject(newRenderObject);
 
@@ -40,6 +43,10 @@ namespace Application
 			virtual void RemoveRenderObject(SharedPtr<RenderObjectBase> renderObject);
 
 		private:
+			// ideally we find a way to make this not a raw pointer, but it should be fine for now since this object
+			// will only exist within a render manager, so lifetime is not a concern
+			Ptr<RenderManager> Manager;
+
 			List<SharedPtr<RenderObjectBase>> RenderObjects;
 		};
 	}

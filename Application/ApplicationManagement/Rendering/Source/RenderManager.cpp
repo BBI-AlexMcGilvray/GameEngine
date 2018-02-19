@@ -9,6 +9,7 @@ namespace Application
 	namespace Rendering
 	{
 		RenderManager::RenderManager()
+			: ObjectManager(this)
 		{}
 
 		void RenderManager::Initialize(WindowManager& window, Color clearColor)

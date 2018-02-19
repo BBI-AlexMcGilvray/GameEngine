@@ -6,7 +6,8 @@ namespace Application
 	{
 		RenderObjectBase::RenderObjectBase(RenderManager& manager, SharedPtr<const Transform> renderTransform, Color color)
 			: ObjectColor(color)
-			, Manager(manager), RenderTransform(renderTransform)
+			, Manager(manager)
+			, RenderTransform(renderTransform)
 		{
 
 		}

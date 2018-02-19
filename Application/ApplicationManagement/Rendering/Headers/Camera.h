@@ -34,7 +34,7 @@ namespace Application
 			float NearPlane = 0.1f;
 			float FarPlane = 100.0f;
 
-			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 0.0f), const Float3& direction =Float3(0.0f, 0.0f, -1.0f));
+			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 10.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
 
 			// additional functions
 			Float3 MouseToWorld(const Float2& screenPosition);

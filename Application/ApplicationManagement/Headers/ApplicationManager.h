@@ -40,5 +40,8 @@ namespace Application
 		bool Update();
 		void End();
 		void CleanUp();
+
+		// debug/testing
+		SharedPtr<Transform> testTransform;
 	};
 }

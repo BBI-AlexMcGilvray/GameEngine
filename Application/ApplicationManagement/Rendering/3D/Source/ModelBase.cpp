@@ -6,9 +6,9 @@ namespace Application
 {
 	namespace Rendering
 	{
-		ModelBase::ModelBase(String folderName, RenderManager& manager, SharedPtr<const Transform> renderTransform)
+		ModelBase::ModelBase(RenderManager& manager, SharedPtr<const Transform> renderTransform, String folderName)
 			: RenderObjectBase(manager, renderTransform)
-			, mesh(Data::GetData<MeshBase>(folderName + ".msh"))
+			, Mesh(Data::GetData<MeshBase>(folderName + ".msh"))
 			, Shader(manager.ObjectShaderManager.DefaultShader)
 		{
 			// load material using mat file in folder
@@ -16,18 +16,18 @@ namespace Application
 
 		uint ModelBase::GetVertexCount() const
 		{
-			return mesh.VertexCount;
+			return Mesh.VertexCount;
 		}
 
 		void ModelBase::Prepare(const Float4x4& mvp, const Color& color) const
 		{
-			mesh.Prepare();
+			Mesh.Prepare();
 			Shader.Prepare(mvp, ObjectColor);
 		}
 
 		void ModelBase::CleanUp() const
 		{
-			mesh.Cleanup();
+			Mesh.Cleanup();
 			Shader.CleanUp();
 		}
 	}

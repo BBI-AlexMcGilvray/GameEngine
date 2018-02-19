@@ -12,10 +12,10 @@ namespace Application
 		// holds the mesh, texture(s), and shader that a model uses
 		struct ModelBase : RenderObjectBase
 		{
-			Material material;
-			MeshBase mesh;
+			Material Material;
+			MeshBase Mesh;
 
-			ModelBase(String folderName, RenderManager& manager, SharedPtr<const Transform> renderTransform);
+			ModelBase(RenderManager& manager, SharedPtr<const Transform> renderTransform, String folderName);
 
 			uint GetVertexCount() const override;
 
