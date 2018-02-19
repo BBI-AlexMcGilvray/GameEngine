@@ -2,6 +2,9 @@
 
 #include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
 
+// debug includes
+#include "Core/Math/Headers/MatrixFunctions.h"
+
 namespace Application
 {
 	namespace Rendering
@@ -28,7 +31,7 @@ namespace Application
 		void RenderObjectManager::Render(const Float4x4& mvp, const Color& color)
 		{
 			// as noted in AddRenderObject, we will need to update this to having multiple lists and render them accordingly
-
+			std::cout << MatrixString(mvp) << std::endl;
 			for (auto& renderObject : RenderObjects)
 			{
 				renderObject->Render(mvp, color);

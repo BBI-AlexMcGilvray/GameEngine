@@ -78,7 +78,8 @@ namespace Application
 		void RenderManager::RenderMiddle(Second dt)
 		{
 			// render manager render call
-			ObjectManager.Render(RenderCamera->GetRenderMatrix(), InitialColor);
+			auto initialMVP = RenderCamera->GetRenderMatrix();
+			ObjectManager.Render(initialMVP, InitialColor);
 
 			// dummy render
 			float rotationSpeed = 0.5f;

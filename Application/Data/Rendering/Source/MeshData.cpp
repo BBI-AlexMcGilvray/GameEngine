@@ -97,14 +97,20 @@ namespace Data
 						}
 					}
 				}
-
-				for (auto& index : indices)
-				{
-					VertexCount++;
-
-					Push(Vertices, VertexDataBase(positions[index], normals[index]));
-				}
 			}
+
+			std::cout << "Positions: " << positions.size() << std::endl;
+			std::cout << "Normals: " << normals.size() << std::endl;
+			std::cout << "Indices: " << indices.size() << std::endl;
+
+			for (auto& index : indices)
+			{
+				VertexCount++;
+
+				Push(Vertices, VertexDataBase(positions[index], normals[index]));
+			}
+
+			std::cout << "Vertices: " << VertexCount << std::endl;
 		}
 	}
 }

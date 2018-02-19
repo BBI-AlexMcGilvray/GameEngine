@@ -32,7 +32,7 @@ namespace Application
 			template <typename T, typename ...Ts>
 			SharedPtr<T> AddRenderObject(Ts ...args)
 			{
-				T newRenderObject = MakeShared<T>(&Manager, Forward<Ts>(args)...);
+				SharedPtr<T> newRenderObject = MakeShared<T>(*Manager, Forward<Ts>(args)...);
 
 				AddRenderObject(newRenderObject);
 
