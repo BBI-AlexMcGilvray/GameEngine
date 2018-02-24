@@ -19,7 +19,7 @@ namespace Data
 
 			List<Float3> positions;
 			List<Float3> normals;
-			List<uint> indices;
+			List<Uint3> indices;
 
 			enum ReadState
 			{
@@ -83,8 +83,12 @@ namespace Data
 						}
 						case ReadState::Indices:
 						{
-							uint newIndex;
-							lineStream >> newIndex;
+							Uint3 newIndex;
+							lineStream >> newIndex.X;
+							lineStream >> comma;
+							lineStream >> newIndex.Y;
+							lineStream >> comma;
+							lineStream >> newIndex.Z;
 
 							Push(indices, newIndex);
 
@@ -105,9 +109,12 @@ namespace Data
 
 			for (auto& index : indices)
 			{
-				VertexCount++;
+				for (auto& v : index.Axes)
+				{
+					VertexCount++;
 
-				Push(Vertices, VertexDataBase(positions[index], normals[index]));
+					Push(Vertices, VertexDataBase(positions[v], normals[v]));
+				}
 			}
 
 			std::cout << "Vertices: " << VertexCount << std::endl;

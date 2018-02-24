@@ -28,6 +28,10 @@ namespace Core
 				VectorA<T, 3> Bases[3];
 			};
 
+			MatrixAxB()
+				: MatrixAxB(II())
+			{}
+
 			MatrixAxB(MatrixAxB<T, 2, 2> const& m, Vector3<T> e3 = Vector3<T>(0))
 				: E1(m.E1), E2(m.E2), E3(e3)
 			{}
@@ -48,7 +52,7 @@ namespace Core
 				: E1(d), E2(d), E3(d)
 			{}
 
-			MatrixAxB(T d1 = 0, T d2 = 0, T d3 = 0, T d4 = 0, T d5 = 0, T d6 = 0, T d7 = 0, T d8 = 0, T d9 = 0)
+			MatrixAxB(T d1, T d2, T d3 = 0, T d4 = 0, T d5 = 0, T d6 = 0, T d7 = 0, T d8 = 0, T d9 = 0)
 				: E1(d1, d2, d3), E2(d4, d5, d6), E3(d7, d8, d9)
 			{}
 

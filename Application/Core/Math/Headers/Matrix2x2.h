@@ -21,6 +21,10 @@ namespace Core
 			};
 
 			// constructors
+			MatrixAxB()
+				: MatrixAxB(II())
+			{}
+
 			MatrixAxB(MatrixAxB<T, 2, 2> const& m)
 				: E1(m.E1), E2(m.E2)
 			{}
@@ -37,7 +41,7 @@ namespace Core
 				: E1(d), E2(d)
 			{}
 
-			MatrixAxB(T d1 = 0, T d2 = 0, T d3 = 0, T d4 = 0)
+			MatrixAxB(T d1, T d2, T d3 = 0, T d4 = 0)
 				: E1(d1, d2), E2(d3, d4)
 			{}
 

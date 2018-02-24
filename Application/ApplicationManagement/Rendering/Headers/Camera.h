@@ -14,7 +14,7 @@ namespace Application
 	namespace Rendering
 	{
 		// anything needed for camera. should create specifications for perspective and orthographic
-		struct Camera // inherits from node to have a transform, and to be able to be listed in the children of a scene (if needed?)
+		struct Camera // should make camera inherit from Transform, should make Transform functions be virtual
 		{
 			const Float3 DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
 
@@ -32,15 +32,23 @@ namespace Application
 			int Height;
 
 			float NearPlane = 0.1f;
-			float FarPlane = 100.0f;
+			float FarPlane = 1000.0f;
 
-			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 10.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
+			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 200.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
 
 			// additional functions
 			Float3 MouseToWorld(const Float2& screenPosition);
 			Float2 WorldToMouse(const Float3& worldPosition);
 
 			Float4x4 GetRenderMatrix() const;
+
+			void SetPosition(Float3 position);
+			void AdjustPosition(Float3 adjustment);
+
+			void SetRotation(FQuaternion rotation);
+			void AdjustRotation(FQuaternion adjustment);
+
+			void LookAt(Float3 position);
 
 		private:
 			void RecalculateRotationMatrix();

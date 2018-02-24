@@ -15,11 +15,6 @@
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/Color.h"
 
-// below is only used for the dummy data
-#include "ApplicationManagement/Rendering/OpenGL/Headers/GLArrayBuffer.h"
-#include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
-#include "ApplicationManagement/Rendering/Shaders/Headers/DebugObjectShader.h"
-
 using namespace Core;
 using namespace Core::Math;
 using namespace Core::Functionality;
@@ -41,7 +36,7 @@ namespace Application
 
 			void Initialize(WindowManager& window, Color clearColor = Color(1.0f, 0.5f, 0.5f, 1.0f));
 			void Update(Second dt);
-			void Render(Second dt = 0_s);
+			void Render();
 			void CleanUp();
 
 			void SetOpenGLAttributes();
@@ -57,15 +52,8 @@ namespace Application
 			Ptr<WindowManager> Window;
 
 			void RenderStart();
-			void RenderMiddle(Second dt);
+			void RenderMiddle();
 			void RenderEnd();
-
-			// dummy garbage used to just test the shader system
-			List<Float3> Vertices = { Float3(-1.0f, -1.0f, 0.0f), Float3(1.0f, 1.0f, 0.0f) };
-			uint VertexCount = 2;
-
-			GLArrayBuffer Vao;
-			List<GLBuffer> Vbos;
 		};
 	}
 }

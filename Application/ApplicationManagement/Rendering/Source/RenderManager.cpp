@@ -1,9 +1,5 @@
 #include "ApplicationManagement\Rendering\Headers\RenderManager.h"
 
-// dummy includes
-#include "Core/Math/Headers/QuaternionFunctions.h"
-#include "Core/Math/Headers/UtilityFunctions.h"
-
 namespace Application
 {
 	namespace Rendering
@@ -31,13 +27,13 @@ namespace Application
 		{
 			// update render object manager
 			ObjectManager.Update(dt);
-			Render(dt);
+			Render();
 		}
 
-		void RenderManager::Render(Second dt)
+		void RenderManager::Render()
 		{
 			RenderStart();
-			RenderMiddle(dt);
+			RenderMiddle();
 			RenderEnd();
 		}
 
@@ -75,47 +71,13 @@ namespace Application
 			glClear(GL_COLOR_BUFFER_BIT);
 		}
 
-		void RenderManager::RenderMiddle(Second dt)
+		void RenderManager::RenderMiddle()
 		{
 			// render manager render call
 			auto initialMVP = RenderCamera->GetRenderMatrix();
 			ObjectManager.Render(initialMVP, InitialColor);
 
-			// dummy render
-			float rotationSpeed = 0.5f;
-			auto time = Duration(dt);
-			for (auto& vertex : Vertices)
-			{
-				auto vertexMagnitude = Magnitude(vertex);
-				auto newVertex = Core::Math::RotateNormalVectorBy(vertex, Core::Math::FQuaternion(0.707f, 0.0f, 0.0f, 0.707f));
-
-				vertex = Normalize(Core::Math::Lerp(vertex, newVertex, rotationSpeed *time)) * vertexMagnitude;
-			}
-
-			// create a dummy VAO/VBO and Shader pair to render
-			{
-				Vao.Generate();
-				Vao.Bind();
-
-				auto newBuffer = GLBuffer(0, GL_ARRAY_BUFFER);
-				newBuffer.Generate();
-				newBuffer.Bind();
-
-				// glBufferData( < type >, < size of data >, < start of data >, < draw type >);
-				glBufferData(newBuffer.Type, VertexCount * sizeof(Float3), &Vertices[0], GL_STATIC_DRAW);
-
-				// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
-				// position
-				glEnableVertexAttribArray(0); // this matches with object shader construction
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Float3), (void*)(0));
-				
-				Vao.Unbind();
-				newBuffer.Unbind();
-				glDisableVertexAttribArray(0);
-
-				Push(Vbos, newBuffer);
-			}
-
+			/*
 			Color dummyColor = BLUE;
 			ObjectShaderManager.DebugShader.Prepare(dummyColor);
 			Vao.Bind();
@@ -123,6 +85,7 @@ namespace Application
 			ObjectRenderer.DrawLines(2);
 			Vao.Unbind();
 			ObjectShaderManager.DebugShader.CleanUp();
+			*/
 		}
 
 		void RenderManager::RenderEnd()

@@ -15,10 +15,18 @@ namespace Application
 	{
 		Camera::Camera(const int& width, const int& height, const Float3& position, const Float3& direction)
 		{
-			Position = position;
+			AspectRatio = (float(width) / float(height));
+			Width = width;
+			Height = height;
+
+			SetPosition(position);
 			Direction = Normalize(direction);
 
-			FQuaternion newRotation = RotationBetweenVectors(DefaultDirection, Direction);
+			SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
+			RecalculateProjectionMatrix();
+
+			std::cout << "Rotation Matrix: " << MatrixString(RotationMatrix) << std::endl;
+			std::cout << "Projection Matrix: " << MatrixString(ProjectionMatrix) << std::endl;
 		}
 
 		Float3 Camera::MouseToWorld(const Float2& screenPosition)
@@ -65,6 +73,35 @@ namespace Application
 			transformationMatrix = Float4x4(Inverse(RotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f)) * transformationMatrix; // rotate it
 
 			return ProjectionMatrix * transformationMatrix;
+		}
+
+		void Camera::SetPosition(Float3 position)
+		{
+			Position = position;
+		}
+
+		void Camera::AdjustPosition(Float3 adjustment)
+		{
+			Position += adjustment;
+		}
+
+		void Camera::SetRotation(FQuaternion rotation)
+		{
+			Rotation = rotation;
+
+			RecalculateRotationMatrix();
+		}
+
+		void Camera::AdjustRotation(FQuaternion adjustment)
+		{
+			SetRotation(adjustment * Rotation);
+		}
+
+		void Camera::LookAt(Float3 position)
+		{
+			Direction = Normalize(position - Position);
+
+			SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
 		}
 
 		void Camera::RecalculateRotationMatrix()

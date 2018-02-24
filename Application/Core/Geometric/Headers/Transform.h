@@ -32,7 +32,7 @@ namespace Core
 				: Position(position), Rotation(rotation), Scale(scale)
 			{}
 
-			Matrix4x4<T> GetTransformationMatrix() const
+			virtual Matrix4x4<T> GetTransformationMatrix() const
 			{
 				// scale
 				Matrix4x4<T> transformationMatrix = Matrix4x4<T>(Vector4<T>(Scale.X), Vector4<T>(Scale.Y), Vector4<T>(Scale.Z), Vector4<T>(II{}));
@@ -46,26 +46,26 @@ namespace Core
 				return transformationMatrix;
 			}
 
-			Quaternion<T> Rotate(Quaternion<T> additionalRotation)
+			virtual Quaternion<T> Rotate(Quaternion<T> additionalRotation)
 			{
 				Rotation = additionalRotation * Rotation;
 
 				return Rotation;
 			}
 
-			Vector3<T> Move(Vector3<T> movement)
+			virtual Vector3<T> Move(Vector3<T> movement)
 			{
 				Position += movement;
 
 				return Position;
 			}
 
-			void SetScale(Vector3<T> scale)
+			virtual void SetScale(Vector3<T> scale)
 			{
 				Scale = scale;
 			}
 
-			Vector3<T> ApplyScale(Vector3<T> scaleRatio)
+			virtual Vector3<T> ApplyScale(Vector3<T> scaleRatio)
 			{
 				Scale *= scaleRatio;
 
