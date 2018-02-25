@@ -16,7 +16,7 @@ namespace Application
 		{
 			Float4x4 perspectiveMatrix;
 
-			if (VERIFY(fovy <= 0 || aspectRatio == 0))
+			if (fovy <= 0 || aspectRatio == 0)
 			{
 				return perspectiveMatrix;
 			}

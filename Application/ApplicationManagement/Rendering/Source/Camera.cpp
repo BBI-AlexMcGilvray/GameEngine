@@ -23,7 +23,7 @@ namespace Application
 			SetProjectionVariables(FOVY, width, height, NearPlane, FarPlane);
 		}
 
-		Float3 Camera::MouseToWorld(const Float2& screenPosition)
+		Float3 Camera::ScreenToWorld(const Float2& screenPosition)
 		{
 			float worldX = screenPosition.X / Width * 2.0f - 1.0f;
 			float worldY = 1.0f - screenPosition.Y / Height * 2.0f;
@@ -40,7 +40,7 @@ namespace Application
 			// Note: Create a ray class that has a direction and origin and can test for intersection & find the values when an axis (typically y) is 0
 		}
 
-		Float2 Camera::WorldToMouse(const Float3& worldPosition)
+		Float2 Camera::WorldToScreen(const Float3& worldPosition)
 		{
 			Float4x4 MVP = GetTransformationMatrix();
 			Float4 transformedPosition = MVP * Float4(worldPosition, 1.0f);
@@ -58,25 +58,17 @@ namespace Application
 		{
 			// Reference: http://www.ntu.edu.sg/home/ehchua/programming/opengl/cg_basicstheory.html
 			Float4x4 transformationMatrix(II{});
-			std::cout << "Transformation matrix: " << MatrixString(transformationMatrix) << std::endl;
-			// set translation portion
-			{
-				transformationMatrix.E4.X = -Position.X;
-				transformationMatrix.E4.Y = -Position.Y;
-				transformationMatrix.E4.Z = -Position.Z;
-			}
-			std::cout << "Transformation matrix (Position): " << MatrixString(transformationMatrix) << std::endl;
 
-			Float3x3 rotationMatrixInverse = Inverse(RotationMatrix);
-			transformationMatrix = Float4x4(rotationMatrixInverse, Float4(0.0f, 0.0f, 0.0f, 1.0f)) * transformationMatrix; // rotate it
-			std::cout << "Rotation: " << QuaternionString(Rotation) << std::endl;
-			std::cout << "Rotation matrix: " << MatrixString(RotationMatrix) << std::endl;
-			std::cout << "Inverse rotation matrix: " << MatrixString(rotationMatrixInverse) << std::endl;
-			std::cout << "Transformation matrix (Rotation): " << MatrixString(transformationMatrix) << std::endl;
+			// position
+			transformationMatrix.E4.X = -Position.X;
+			transformationMatrix.E4.Y = -Position.Y;
+			transformationMatrix.E4.Z = -Position.Z;
 
+			// rotation
+			transformationMatrix = Float4x4(Inverse(RotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f)) * transformationMatrix;
+
+			// projection
 			transformationMatrix = ProjectionMatrix * transformationMatrix;
-			std::cout << "Projection matrix: " << MatrixString(ProjectionMatrix) << std::endl;
-			std::cout << "Transformation matrix: " << MatrixString(transformationMatrix) << std::endl;
 			
 			return transformationMatrix;
 		}

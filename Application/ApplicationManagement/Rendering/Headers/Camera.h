@@ -26,8 +26,8 @@ namespace Application
 			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 750.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
 
 			// these should be moved to being utility functions
-			Float3 MouseToWorld(const Float2& screenPosition);
-			Float2 WorldToMouse(const Float3& worldPosition);
+			Float3 ScreenToWorld(const Float2& screenPosition);
+			Float2 WorldToScreen(const Float3& worldPosition);
 
 			Float4x4 GetTransformationMatrix() const override;
 

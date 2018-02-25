@@ -25,7 +25,6 @@ namespace Application
 		void RenderObjectBase::Render(const Float4x4& mvp, const Color& color) const
 		{
 			auto renderMVP = mvp * RenderTransform->GetTransformationMatrix();
-			std::cout << "Render matrix: " << MatrixString(renderMVP) << std::endl;
 
 			Prepare(renderMVP, color);
 			Draw();

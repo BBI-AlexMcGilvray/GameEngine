@@ -44,7 +44,7 @@ namespace Core
 	#endif
 
 	#if DEBUG
-	#define ALERT( M ) VerifyMessage( false, M )
+	#define ALERT( M ) Message(  M )
 	#else
 	#define MESSAGE( M ) // do nothing
 	#endif
