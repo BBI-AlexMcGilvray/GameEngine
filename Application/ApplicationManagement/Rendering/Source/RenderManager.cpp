@@ -74,7 +74,7 @@ namespace Application
 		void RenderManager::RenderMiddle()
 		{
 			// render manager render call
-			auto initialMVP = RenderCamera->GetRenderMatrix();
+			auto initialMVP = RenderCamera->GetTransformationMatrix();
 			ObjectManager.Render(initialMVP, InitialColor);
 
 			/*

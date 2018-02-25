@@ -13,20 +13,14 @@ namespace Application
 {
 	namespace Rendering
 	{
-		Camera::Camera(const int& width, const int& height, const Float3& position, const Float3& direction)
-		{
-			AspectRatio = (float(width) / float(height));
-			Width = width;
-			Height = height;
+		const Float3 Camera::DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
 
-			SetPosition(position);
+		Camera::Camera(const int& width, const int& height, const Float3& position, const Float3& direction)
+			: Transform(position, RotationBetweenVectors(DefaultDirection, direction))
+		{
 			Direction = Normalize(direction);
 
-			SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
-			RecalculateProjectionMatrix();
-
-			std::cout << "Rotation Matrix: " << MatrixString(RotationMatrix) << std::endl;
-			std::cout << "Projection Matrix: " << MatrixString(ProjectionMatrix) << std::endl;
+			SetProjectionVariables(FOVY, width, height, NearPlane, FarPlane);
 		}
 
 		Float3 Camera::MouseToWorld(const Float2& screenPosition)
@@ -34,7 +28,7 @@ namespace Application
 			float worldX = screenPosition.X / Width * 2.0f - 1.0f;
 			float worldY = 1.0f - screenPosition.Y / Height * 2.0f;
 
-			Float4x4 inverseMVP = GetRenderMatrix();
+			Float4x4 inverseMVP = GetTransformationMatrix();
 
 			Float4 worldPosition = inverseMVP * Float4(worldX, worldY, 0.0f, 1.0f);
 
@@ -48,7 +42,7 @@ namespace Application
 
 		Float2 Camera::WorldToMouse(const Float3& worldPosition)
 		{
-			Float4x4 MVP = GetRenderMatrix();
+			Float4x4 MVP = GetTransformationMatrix();
 			Float4 transformedPosition = MVP * Float4(worldPosition, 1.0f);
 
 			float screenX = transformedPosition.X / transformedPosition.Z; // scaled down based on distance from 0 x
@@ -60,41 +54,19 @@ namespace Application
 			return Float2(screenX, screenY);
 		}
 
-		Float4x4 Camera::GetRenderMatrix() const
+		Float4x4 Camera::GetTransformationMatrix() const
 		{
 			// Reference: http://www.ntu.edu.sg/home/ehchua/programming/opengl/cg_basicstheory.html
-			Float4x4 transformationMatrix(1.0f);
+			Float4x4 transformationMatrix(II{});
 			// set translation portion
 			{
-				transformationMatrix[3][0] = -Position.X;
-				transformationMatrix[3][1] = -Position.Y;
-				transformationMatrix[3][2] = -Position.Z;
+				transformationMatrix.E4.X = -Position.X;
+				transformationMatrix.E4.Y = -Position.Y;
+				transformationMatrix.E4.Z = -Position.Z;
 			}
 			transformationMatrix = Float4x4(Inverse(RotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f)) * transformationMatrix; // rotate it
 
 			return ProjectionMatrix * transformationMatrix;
-		}
-
-		void Camera::SetPosition(Float3 position)
-		{
-			Position = position;
-		}
-
-		void Camera::AdjustPosition(Float3 adjustment)
-		{
-			Position += adjustment;
-		}
-
-		void Camera::SetRotation(FQuaternion rotation)
-		{
-			Rotation = rotation;
-
-			RecalculateRotationMatrix();
-		}
-
-		void Camera::AdjustRotation(FQuaternion adjustment)
-		{
-			SetRotation(adjustment * Rotation);
 		}
 
 		void Camera::LookAt(Float3 position)
@@ -104,9 +76,64 @@ namespace Application
 			SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
 		}
 
-		void Camera::RecalculateRotationMatrix()
+		void Camera::SetFOVY(float fovy)
 		{
-			RotationMatrix = GetRotationMatrix(Rotation);
+			FOVY = fovy;
+
+			RecalculateProjectionMatrix();
+		}
+
+		void Camera::SetWidth(const int& width)
+		{
+			SetWidthHeight(width, Height);
+		}
+
+		void Camera::SetHeight(const int& height)
+		{
+			SetWidthHeight(Width, height);
+		}
+
+		void Camera::SetWidthHeight(const int& width, const int& height)
+		{
+			Width = width;
+			Height = height;
+
+			AspectRatio = (float(Width) / float(Height));
+
+			RecalculateProjectionMatrix();
+		}
+
+		void Camera::SetNearPlane(const float& nearPlane)
+		{
+			SetPlanes(nearPlane, FarPlane);
+		}
+
+		void Camera::SetFarPlane(const float& farPlane)
+		{
+			SetPlanes(NearPlane, farPlane);
+		}
+
+		void Camera::SetPlanes(const float& nearPlane, const float& farPlane)
+		{
+			NearPlane = nearPlane;
+			FarPlane = farPlane;
+
+			RecalculateProjectionMatrix();
+		}
+
+		void Camera::SetProjectionVariables(const float& fovy, const int& width, const int& height, const float& nearPlane, const float& farPlane)
+		{
+			FOVY = fovy;
+
+			Width = width;
+			Height = height;
+
+			AspectRatio = (float(Width) / float(Height));
+
+			NearPlane = nearPlane;
+			FarPlane = farPlane;
+
+			RecalculateProjectionMatrix();
 		}
 
 		void Camera::RecalculateProjectionMatrix()

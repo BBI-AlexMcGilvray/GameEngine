@@ -103,10 +103,6 @@ namespace Data
 				}
 			}
 
-			std::cout << "Positions: " << positions.size() << std::endl;
-			std::cout << "Normals: " << normals.size() << std::endl;
-			std::cout << "Indices: " << indices.size() << std::endl;
-
 			for (auto& index : indices)
 			{
 				for (auto& v : index.Axes)
@@ -116,8 +112,6 @@ namespace Data
 					Push(Vertices, VertexDataBase(positions[v], normals[v]));
 				}
 			}
-
-			std::cout << "Vertices: " << VertexCount << std::endl;
 		}
 	}
 }

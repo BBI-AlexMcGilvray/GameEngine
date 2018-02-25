@@ -136,7 +136,7 @@ namespace Core
 		}
 
 		template <typename T>
-		Matrix4x4<T> TransformationMatrix(Quaternion<T> quaternion)
+		Matrix4x4<T> GetTransformationMatrix(Quaternion<T> quaternion)
 		{
 			Matrix4x4<T> rotationMatrix(GetRotationMatrix(quaternion), Vector4<T>(0, 0, 0, 1));
 

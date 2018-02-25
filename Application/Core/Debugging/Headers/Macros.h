@@ -42,4 +42,10 @@ namespace Core
 	#else
 	#define MESSAGE( X, M ) // do nothing
 	#endif
+
+	#if DEBUG
+	#define ALERT( M ) VerifyMessage( false, M )
+	#else
+	#define MESSAGE( M ) // do nothing
+	#endif
 }

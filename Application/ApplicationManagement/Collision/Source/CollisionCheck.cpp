@@ -106,7 +106,7 @@ namespace Application
 			// general collision checks
 			bool QuickCheckCollision(SharedPtr<const ColliderBase> c1, SharedPtr<const ColliderBase> c2)
 			{
-				float colliderDistance = Distance(c1->CollisionTransform->Position, c2->CollisionTransform->Position);
+				float colliderDistance = Distance(c1->CollisionTransform->GetPosition(), c2->CollisionTransform->GetPosition());
 				float maxReach = (c1->GetBoundingRadius() + c2->GetBoundingRadius());
 
 				return (colliderDistance < maxReach);
@@ -194,8 +194,8 @@ namespace Application
 
 			Float3 GetCollisionLocation(SharedPtr<const SphericalCollider> sphere1, SharedPtr<const SphericalCollider> sphere2)
 			{
-				Float3 direction = (sphere1->CollisionTransform->Position - sphere2->CollisionTransform->Position);
-				Float3 middlePoint = sphere1->CollisionTransform->Position + (direction / 2.0f);
+				Float3 direction = (sphere1->CollisionTransform->GetPosition() - sphere2->CollisionTransform->GetPosition());
+				Float3 middlePoint = sphere1->CollisionTransform->GetPosition() + (direction / 2.0f);
 				
 				return (middlePoint);
 			}
