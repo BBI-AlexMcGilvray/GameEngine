@@ -147,8 +147,15 @@ namespace Core
 		Quaternion<T> RotationBetweenVectors(Vector3<T> const& v1, Vector3<T> const& v2)
 		{
 			Quaternion<T> rotation;
+
+			// handle case where vectors are parrallel
+			if (Dot(Normalize(v1), Normalize(v2)) >= (1.0f - Hundredth()))
+			{
+				return rotation;
+			}
+
 			Vector3<T> crossProduct = CrossProduct(v1, v2);
-			rotation.W = Sqrt(Magnitude(v1) * Magnitude(v2)) + Dot(v1, v2);
+			rotation.W = Sqrt(MagnitudeSqr(v1) * MagnitudeSqr(v2)) + Dot(v1, v2);
 			rotation.X = crossProduct.X;
 			rotation.Y = crossProduct.Y;
 			rotation.Z = crossProduct.Z;

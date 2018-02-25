@@ -23,7 +23,7 @@ namespace Application
 		{
 			static const Float3 DefaultDirection;
 
-			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 200.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
+			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 750.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
 
 			// these should be moved to being utility functions
 			Float3 MouseToWorld(const Float2& screenPosition);

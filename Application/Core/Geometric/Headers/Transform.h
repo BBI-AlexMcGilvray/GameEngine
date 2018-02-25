@@ -23,7 +23,7 @@ namespace Core
 		{
 			constexpr TransformBase()
 			{
-				SetPosition(Vector3<T>(II{}));
+				SetPosition(Vector3<T>(T(0)));
 				SetRotation(Quaternion<T>(II{}));
 				SetScale(Vector3<T>(II{}));
 			}
@@ -39,21 +39,21 @@ namespace Core
 			{
 				// scale
 				Matrix4x4<T> transformationMatrix = Matrix4x4<T>(Vector4<T>(Scale.X, T(0), T(0), T(0)), Vector4<T>(T(0), Scale.Y, T(0), T(0)), Vector4<T>(T(0), T(0), Scale.Z, T(0)), Vector4<T>(T(0), T(0), T(0), II{}));
-				//std::cout << "Scale: " << VectorString(Scale) << std::endl;
-				//std::cout << "Transformation Matrix (Scale): " << MatrixString(transformationMatrix) << std::endl;
+				std::cout << "Scale: " << VectorString(Scale) << std::endl;
+				std::cout << "Transformation Matrix (Scale): " << MatrixString(transformationMatrix) << std::endl;
 
 				// rotation
 				transformationMatrix = Float4x4(RotationMatrix, Float4(T(0), T(0), T(0), T(1))) * transformationMatrix;
-				//std::cout << "Rotation: " << QuaternionString(Rotation) << std::endl;
-				//std::cout << "Transformation Matrix: " << MatrixString(transformationMatrix) << std::endl;
-				//std::cout << "Transformation Matrix (Rotation): " << MatrixString(transformationMatrix) << std::endl;
+				std::cout << "Rotation: " << QuaternionString(Rotation) << std::endl;
+				std::cout << "Transformation Matrix: " << MatrixString(transformationMatrix) << std::endl;
+				std::cout << "Transformation Matrix (Rotation): " << MatrixString(transformationMatrix) << std::endl;
 
 				// position
 				transformationMatrix.E4.X = Position.X;
 				transformationMatrix.E4.Y = Position.Y;
 				transformationMatrix.E4.Z = Position.Z;
-				//std::cout << "Position: " << VectorString(Position) << std::endl;
-				//std::cout << "Transformation Matrix (Position): " << MatrixString(transformationMatrix) << std::endl;
+				std::cout << "Position: " << VectorString(Position) << std::endl;
+				std::cout << "Transformation Matrix (Position): " << MatrixString(transformationMatrix) << std::endl;
 
 				return transformationMatrix;
 			}

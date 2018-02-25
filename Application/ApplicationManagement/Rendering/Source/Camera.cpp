@@ -58,15 +58,27 @@ namespace Application
 		{
 			// Reference: http://www.ntu.edu.sg/home/ehchua/programming/opengl/cg_basicstheory.html
 			Float4x4 transformationMatrix(II{});
+			std::cout << "Transformation matrix: " << MatrixString(transformationMatrix) << std::endl;
 			// set translation portion
 			{
 				transformationMatrix.E4.X = -Position.X;
 				transformationMatrix.E4.Y = -Position.Y;
 				transformationMatrix.E4.Z = -Position.Z;
 			}
-			transformationMatrix = Float4x4(Inverse(RotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f)) * transformationMatrix; // rotate it
+			std::cout << "Transformation matrix (Position): " << MatrixString(transformationMatrix) << std::endl;
 
-			return ProjectionMatrix * transformationMatrix;
+			Float3x3 rotationMatrixInverse = Inverse(RotationMatrix);
+			transformationMatrix = Float4x4(rotationMatrixInverse, Float4(0.0f, 0.0f, 0.0f, 1.0f)) * transformationMatrix; // rotate it
+			std::cout << "Rotation: " << QuaternionString(Rotation) << std::endl;
+			std::cout << "Rotation matrix: " << MatrixString(RotationMatrix) << std::endl;
+			std::cout << "Inverse rotation matrix: " << MatrixString(rotationMatrixInverse) << std::endl;
+			std::cout << "Transformation matrix (Rotation): " << MatrixString(transformationMatrix) << std::endl;
+
+			transformationMatrix = ProjectionMatrix * transformationMatrix;
+			std::cout << "Projection matrix: " << MatrixString(ProjectionMatrix) << std::endl;
+			std::cout << "Transformation matrix: " << MatrixString(transformationMatrix) << std::endl;
+			
+			return transformationMatrix;
 		}
 
 		void Camera::LookAt(Float3 position)
