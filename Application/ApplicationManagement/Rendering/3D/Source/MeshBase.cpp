@@ -23,7 +23,7 @@ namespace Application
 			newBuffer.Bind();
 
 			// glBufferData( < type >, < size of data >, < start of data >, < draw type >);
-			glBufferData(newBuffer.Type, VertexCount * sizeof(Float3), &Vertices[0], GL_STATIC_DRAW);
+			glBufferData(newBuffer.Type, VertexCount * sizeof(Data::Rendering::VertexDataBase), &Vertices[0], GL_STATIC_DRAW);
 
 			// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
 			// position

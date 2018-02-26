@@ -62,8 +62,6 @@ namespace Application
 			// rotation
 			Float4x4 inverseRotationMatrix = Float4x4(Inverse(RotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f));
 			transformationMatrix = inverseRotationMatrix * transformationMatrix;
-			//std::cout << "Rotation Matrix: " << MatrixString(RotationMatrix) << std::endl;
-			//std::cout << "Inverse Rotation Matrix: " << MatrixString(Inverse(RotationMatrix)) << std::endl;
 
 			// position
 			Float4 rotatedPosition = inverseRotationMatrix * Float4(Position, 1.0f);
@@ -72,13 +70,9 @@ namespace Application
 			transformationMatrix.E4.Z = -Position.Z;
 			transformationMatrix.E4.W = 1.0f;
 
-			//std::cout << "Transformation Matrix: " << MatrixString(transformationMatrix) << std::endl;
-
 			// projection
-			//std::cout << "Projection Matrix: " << MatrixString(ProjectionMatrix) << std::endl;
 			transformationMatrix = ProjectionMatrix * transformationMatrix;
 
-			//std::cout << "Transformation Matrix: " << MatrixString(transformationMatrix) << std::endl;
 			return transformationMatrix;
 		}
 

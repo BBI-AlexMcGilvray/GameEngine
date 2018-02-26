@@ -13,9 +13,9 @@ namespace Application
 			Push(DebugVertices, { Float3{ -50.0f, 50.0f, 0.0f }, Float3{ 0.0f } });
 			Push(DebugVertices, { Float3{ 50.0f, 50.0f, 0.0f }, Float3{ 0.0f } });
 			
-			Push(DebugVertices, { Float3{ -50.0f, -50.0f, 0.0f }, Float3{ 0.0f } });
 			Push(DebugVertices, { Float3{ 50.0f, 50.0f, 0.0f }, Float3{ 0.0f } });
 			Push(DebugVertices, { Float3{ 50.0f, -50.0f, 0.0f }, Float3{ 0.0f } });
+			Push(DebugVertices, { Float3{ -50.0f, -50.0f, 0.0f }, Float3{ 0.0f } });
 
 			DebugVao.Generate();
 			DebugVao.Bind();
@@ -25,7 +25,7 @@ namespace Application
 			newBuffer.Bind();
 
 			// glBufferData( < type >, < size of data >, < start of data >, < draw type >);
-			glBufferData(newBuffer.Type, DebugVertices.size() * sizeof(Float3), &DebugVertices[0], GL_STATIC_DRAW);
+			glBufferData(newBuffer.Type, DebugVertices.size() * sizeof(Data::Rendering::VertexDataBase), &DebugVertices[0], GL_STATIC_DRAW);
 
 			// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
 			// position
@@ -65,27 +65,11 @@ namespace Application
 			Manager.ObjectShaderManager.DefaultShader.Prepare(renderMVP, dummyColor);
 			DebugVao.Bind();
 
-			//Manager.ObjectRenderer.DrawTriangles(DebugVertices.size());
+			Manager.ObjectRenderer.DrawTriangles(DebugVertices.size());
 			Manager.ObjectRenderer.DrawLines(DebugVertices.size());
 
 			DebugVao.Unbind();
 			Manager.ObjectShaderManager.DefaultShader.CleanUp();
-
-			//std::cout << "Passed in MVP: " << MatrixString(mvp) << std::endl;
-			std::cout << std::endl;
-
-			//std::cout << "Local Transformation Matrix: " << MatrixString(RenderTransform->GetTransformationMatrix()) << std::endl;
-			std::cout << std::endl;
-
-			//std::cout << "MVP: " << MatrixString(renderMVP) << std::endl;
-			std::cout << std::endl;
-
-			//for (auto& vertex : DebugVertices)
-			//{
-			//	std::cout << "Initial Position: " << VectorString(vertex.Position) << std::endl;
-			//	std::cout << "Altered Position: " << VectorString(renderMVP * vertex.Position) << std::endl;
-			//	std::cout << std::endl;
-			//}
 		}
 
 		void RenderObjectBase::Draw() const
