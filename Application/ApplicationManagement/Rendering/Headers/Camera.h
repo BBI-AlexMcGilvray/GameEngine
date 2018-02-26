@@ -23,7 +23,7 @@ namespace Application
 		{
 			static const Float3 DefaultDirection;
 
-			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 750.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
+			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 0.0f, 300.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
 
 			// these should be moved to being utility functions
 			Float3 ScreenToWorld(const Float2& screenPosition);
@@ -57,7 +57,7 @@ namespace Application
 			Float4x4 ProjectionMatrix;
 
 			float AspectRatio;
-			float FOVY = 0.785398f; // radian representation of 45 degrees
+			float FOVY = 1.57079f; // radian representation of 90 degrees
 			int Width;
 			int Height;
 

@@ -53,6 +53,11 @@ namespace Application
 
 			// we are going to use double buffering (this only sets a 23bit Z buffer)
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+			// facing and culling
+			glEnable(GL_CULL_FACE);
+			glFrontFace(GL_CW);
+			glCullFace(GL_BACK);
 		}
 
 		SharedPtr<const Camera> RenderManager::GetCamera() const
@@ -68,7 +73,7 @@ namespace Application
 		void RenderManager::RenderStart()
 		{
 			glClearColor(ClearColor.R, ClearColor.G, ClearColor.B, ClearColor.A);
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
 		void RenderManager::RenderMiddle()
@@ -76,16 +81,6 @@ namespace Application
 			// render manager render call
 			auto initialMVP = RenderCamera->GetTransformationMatrix();
 			ObjectManager.Render(initialMVP, InitialColor);
-
-			/*
-			Color dummyColor = BLUE;
-			ObjectShaderManager.DebugShader.Prepare(dummyColor);
-			Vao.Bind();
-			// something is wrong with the buffers or the shaders
-			ObjectRenderer.DrawLines(2);
-			Vao.Unbind();
-			ObjectShaderManager.DebugShader.CleanUp();
-			*/
 		}
 
 		void RenderManager::RenderEnd()

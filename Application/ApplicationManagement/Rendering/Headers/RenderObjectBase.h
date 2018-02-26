@@ -9,6 +9,11 @@
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 #include "ApplicationManagement/Rendering/Shaders/Headers/ObjectShaderBase.h"
 
+// debug
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLArrayBuffer.h"
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
+#include "Data/Rendering/Headers/VertexBaseData.h"
+
 using namespace Core;
 using namespace Core::Geometric;
 
@@ -50,6 +55,11 @@ namespace Application
 			virtual void Prepare(const Float4x4& mvp, const Color& color) const = 0;
 			virtual void Draw() const;
 			virtual void CleanUp() const = 0;
+
+			// debug stuff
+			GLArrayBuffer DebugVao;
+			List<GLBuffer> DebugVbos;
+			List<Data::Rendering::VertexDataBase> DebugVertices;
 		};
 	}
 }

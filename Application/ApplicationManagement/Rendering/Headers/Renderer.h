@@ -17,6 +17,7 @@ namespace Application
 		// this should also hold (a point perhaps) to the camera that is being used by the system
 		struct Renderer
 		{
+			void DrawMesh(Ptr<const RenderObjectBase> object) const;
 			void Draw(Ptr<const RenderObjectBase> object) const;
 
 			void DrawLines(uint vertexCount) const;

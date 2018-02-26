@@ -59,17 +59,26 @@ namespace Application
 			// Reference: http://www.ntu.edu.sg/home/ehchua/programming/opengl/cg_basicstheory.html
 			Float4x4 transformationMatrix(II{});
 
+			// rotation
+			Float4x4 inverseRotationMatrix = Float4x4(Inverse(RotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f));
+			transformationMatrix = inverseRotationMatrix * transformationMatrix;
+			//std::cout << "Rotation Matrix: " << MatrixString(RotationMatrix) << std::endl;
+			//std::cout << "Inverse Rotation Matrix: " << MatrixString(Inverse(RotationMatrix)) << std::endl;
+
 			// position
+			Float4 rotatedPosition = inverseRotationMatrix * Float4(Position, 1.0f);
 			transformationMatrix.E4.X = -Position.X;
 			transformationMatrix.E4.Y = -Position.Y;
 			transformationMatrix.E4.Z = -Position.Z;
+			transformationMatrix.E4.W = 1.0f;
 
-			// rotation
-			transformationMatrix = Float4x4(Inverse(RotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f)) * transformationMatrix;
+			//std::cout << "Transformation Matrix: " << MatrixString(transformationMatrix) << std::endl;
 
 			// projection
+			//std::cout << "Projection Matrix: " << MatrixString(ProjectionMatrix) << std::endl;
 			transformationMatrix = ProjectionMatrix * transformationMatrix;
-			
+
+			//std::cout << "Transformation Matrix: " << MatrixString(transformationMatrix) << std::endl;
 			return transformationMatrix;
 		}
 

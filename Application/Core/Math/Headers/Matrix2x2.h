@@ -197,7 +197,7 @@ namespace Core
 
 			friend VectorA<T, 2> operator*(MatrixAxB<T, 2, 2> m, VectorA<T, 2> const& v)
 			{
-				VectorA<T, 2> nV(m.E1.Dot(v), m.E2.Dot(v));
+				VectorA<T, 2> nV(Dotr(m.GetRow(0), v), Dot(m.GetRow(1), v));
 
 				return nV;
 			}

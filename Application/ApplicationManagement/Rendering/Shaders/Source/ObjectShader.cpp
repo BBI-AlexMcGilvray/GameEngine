@@ -6,7 +6,6 @@ namespace Application
 	{
 		Ptr<const char> ObjectShader::Name = "ObjectShader";
 
-
 		Ptr<const char> ObjectShader::GetName()
 		{
 			return Name;

@@ -5,7 +5,12 @@
 namespace Application
 {
 	namespace Rendering
-	{		
+	{
+		void Renderer::DrawMesh(Ptr<const RenderObjectBase> object) const
+		{
+			DrawLines(object->GetVertexCount());
+		}
+
 		void Renderer::Draw(Ptr<const RenderObjectBase> object) const
 		{
 			DrawTriangles(object->GetVertexCount());
