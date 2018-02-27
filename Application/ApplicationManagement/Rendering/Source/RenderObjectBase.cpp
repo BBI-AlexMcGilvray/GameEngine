@@ -65,8 +65,7 @@ namespace Application
 			Manager.ObjectShaderManager.DefaultShader.Prepare(renderMVP, dummyColor);
 			DebugVao.Bind();
 
-			Manager.ObjectRenderer.DrawTriangles(DebugVertices.size());
-			Manager.ObjectRenderer.DrawLines(DebugVertices.size());
+			//Manager.ObjectRenderer.DrawTriangles(DebugVertices.size());
 
 			DebugVao.Unbind();
 			Manager.ObjectShaderManager.DefaultShader.CleanUp();
@@ -74,7 +73,8 @@ namespace Application
 
 		void RenderObjectBase::Draw() const
 		{
-			Manager.ObjectRenderer.Draw(this);
+			//Manager.ObjectRenderer.Draw(this);
+			Manager.ObjectRenderer.DrawMesh(this);
 		}
 	}
 }

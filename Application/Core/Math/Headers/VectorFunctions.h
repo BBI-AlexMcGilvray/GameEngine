@@ -149,7 +149,7 @@ namespace Core
 		template <typename T>
 		Vector3<T> CrossProduct(Vector3<T> const& v1, Vector3<T> const& v2)
 		{
-			T crossX = (v1.Y * v2.Z) - (v1.Z - v2.Y);
+			T crossX = (v1.Y * v2.Z) - (v1.Z * v2.Y);
 			T crossY = (v1.Z * v2.X) - (v1.X * v2.Z);
 			T crossZ = (v1.X * v2.Y) - (v1.Y * v2.X);
 
