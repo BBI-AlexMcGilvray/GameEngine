@@ -16,7 +16,7 @@ namespace Application
 		int Width;
 		int Height;
 
-		WindowManager(String name = "DEFAULT WINDOW", int width = 512, int height = 512);
+		WindowManager(String name = "DEFAULT WINDOW", int width = 1024, int height = 800);
 
 		Ptr<SDL_Window> GetWindow() const;
 
