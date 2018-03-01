@@ -21,35 +21,40 @@ namespace Data
 			List<Float3> normals;
 			List<Uint3> indices;
 
-			enum ReadState
+			enum class ReadState
 			{
 				Started,
+				Pending,
 				Positions,
 				Normals,
 				Indices
 			};
 			ReadState readState = ReadState::Started;
+			int stateCount = 0;
 
 			String line;
 			while (std::getline(meshFile, line))
 			{
 				IOSStreamChar lineStream(line);
 
-				String word;
-				lineStream >> word;
+				if (readState == ReadState::Started || readState == ReadState::Pending)
+				{
+					String word;
+					lineStream >> word;
 
-				String comma;
-				if (word == "positions")
-				{
-					readState = ReadState::Positions;
-				}
-				else if (word == "normals")
-				{
-					readState = ReadState::Normals;
-				}
-				else if (word == "indices")
-				{
-					readState = ReadState::Indices;
+					if (word == "positions")
+					{
+						readState = ReadState::Positions;
+					}
+					else if (word == "normals")
+					{
+						readState = ReadState::Normals;
+					}
+					else if (word == "indices")
+					{
+						readState = ReadState::Indices;
+					}
+					lineStream >> stateCount;
 				}
 				else
 				{
@@ -59,9 +64,7 @@ namespace Data
 						{
 							Float3 newPosition;
 							lineStream >> newPosition.X;
-							lineStream >> comma;
 							lineStream >> newPosition.Y;
-							lineStream >> comma;
 							lineStream >> newPosition.Z;
 
 							Push(positions, newPosition);
@@ -72,9 +75,7 @@ namespace Data
 						{
 							Float3 newNormal;
 							lineStream >> newNormal.X;
-							lineStream >> comma;
 							lineStream >> newNormal.Y;
-							lineStream >> comma;
 							lineStream >> newNormal.Z;
 
 							Push(normals, newNormal);
@@ -85,9 +86,7 @@ namespace Data
 						{
 							Uint3 newIndex;
 							lineStream >> newIndex.X;
-							lineStream >> comma;
 							lineStream >> newIndex.Y;
-							lineStream >> comma;
 							lineStream >> newIndex.Z;
 
 							Push(indices, newIndex);
@@ -95,10 +94,18 @@ namespace Data
 							break;
 						}
 						case ReadState::Started:
+						case ReadState::Pending:
 						{
 							cout << "Unsuppoerted specifier read in mesh file <<" + fileName + ">>" << endl;
 							break;
 						}
+					}
+
+					stateCount--;
+
+					if (stateCount <= 0)
+					{
+						readState = ReadState::Pending;
 					}
 				}
 			}

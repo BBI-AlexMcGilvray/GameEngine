@@ -428,6 +428,7 @@
     <Library Include="Dependencies\Libs\SDL2\_SDL2main.lib" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Data\Assets\Cube.msh" />
     <Text Include="__Planning\Notes.txt" />
   </ItemGroup>
   <ItemGroup>

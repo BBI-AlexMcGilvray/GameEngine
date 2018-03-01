@@ -9,13 +9,13 @@ namespace Application
 			, Manager(manager)
 			, RenderTransform(renderTransform)
 		{
-			Push(DebugVertices, { Float3{ -50.0f, -50.0f, 0.0f }, Float3{ 0.0f } });
-			Push(DebugVertices, { Float3{ -50.0f, 50.0f, 0.0f }, Float3{ 0.0f } });
-			Push(DebugVertices, { Float3{ 50.0f, 50.0f, 0.0f }, Float3{ 0.0f } });
+			Push(DebugVertices, { Float3{ -0.5f, -0.5f, 0.0f }, Float3{ 0.0f } });
+			Push(DebugVertices, { Float3{ -0.5f, 0.5f, 0.0f }, Float3{ 0.0f } });
+			Push(DebugVertices, { Float3{ 0.5f, 0.5f, 0.0f }, Float3{ 0.0f } });
 			
-			Push(DebugVertices, { Float3{ 50.0f, 50.0f, 0.0f }, Float3{ 0.0f } });
-			Push(DebugVertices, { Float3{ 50.0f, -50.0f, 0.0f }, Float3{ 0.0f } });
-			Push(DebugVertices, { Float3{ -50.0f, -50.0f, 0.0f }, Float3{ 0.0f } });
+			Push(DebugVertices, { Float3{ 0.5f, 0.5f, 0.0f }, Float3{ 0.0f } });
+			Push(DebugVertices, { Float3{ 0.5f, -0.5f, 0.0f }, Float3{ 0.0f } });
+			Push(DebugVertices, { Float3{ -0.5f, -0.5f, 0.0f }, Float3{ 0.0f } });
 
 			DebugVao.Generate();
 			DebugVao.Bind();

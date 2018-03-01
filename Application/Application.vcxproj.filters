@@ -111,9 +111,6 @@
     <ClCompile Include="ApplicationManagement\Geometric\Source\Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Geometric\Headers\Container.h">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShaderBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -774,6 +771,9 @@
     <ClInclude Include="ApplicationManagement\Input\Headers\InputReceiverBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\Container.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\Libs\SDL2\_SDL2main.lib" />
@@ -786,6 +786,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="__Planning\Notes.txt" />
+    <Text Include="Data\Assets\Cube.msh" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="__Planning\class diagram.png">
