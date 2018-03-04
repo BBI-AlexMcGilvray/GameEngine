@@ -91,16 +91,16 @@ namespace Core
 			{}
 
 			// from euler angles
-			Quaternion(T x, T y, T z)
+			Quaternion(Deg<T> x, Deg<T> y, Deg<T> z)
 			{
-				T cosX = cos(x * 0.5f);
-				T sinX = sin(x * 0.5f);
+				T cosX = cos(x / T(2));
+				T sinX = sin(x / T(2));
 
-				T cosY = cos(y * 0.5f);
-				T sinY = sin(y * 0.5f);
+				T cosY = cos(y / T(2));
+				T sinY = sin(y / T(2));
 
-				T cosZ = cos(z * 0.5f);
-				T sinZ = cos(z * 0.5f);
+				T cosZ = cos(z / T(2));
+				T sinZ = cos(z / T(2));
 
 				W = (cosX * cosY * cosZ) + (sinX * sinY * sinZ);
 				X = (cosX * sinY * cosZ) + (sinX * cosY * sinZ);

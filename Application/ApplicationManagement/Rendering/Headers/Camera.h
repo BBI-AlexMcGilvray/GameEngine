@@ -39,7 +39,7 @@ namespace Application
 
 			void LookAt(Float3 position);
 
-			void SetFOVY(float fovy);
+			void SetFOVY(Rad fovy);
 
 			void SetWidth(const int& width);
 			void SetHeight(const int& height);
@@ -49,7 +49,7 @@ namespace Application
 			void SetFarPlane(const float& farPlane);
 			void SetPlanes(const float& nearPlane, const float& farPlane);
 
-			void SetProjectionVariables(const float& fovy, const int& width, const int& height, const float& nearPlane, const float& farPlane);
+			void SetProjectionVariables(const Rad& fovy, const int& width, const int& height, const float& nearPlane, const float& farPlane);
 
 		protected:
 			Float3 Direction; // direction the camera is looking
@@ -57,7 +57,7 @@ namespace Application
 			Float4x4 ProjectionMatrix;
 
 			float AspectRatio;
-			float FOVY = 1.57079f; // radian representation of 90 degrees
+			Rad FOVY = 1.57079f; // radian representation of 90 
 			int Width;
 			int Height;
 

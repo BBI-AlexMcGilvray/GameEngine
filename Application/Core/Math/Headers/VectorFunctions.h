@@ -5,6 +5,8 @@
 #include "Vector3.h"
 #include "Vector4.h"
 
+#include "MathUtils.h"
+
 #include "Core/Debugging/Headers/Declarations.h"
 
 namespace Core
@@ -144,6 +146,14 @@ namespace Core
 			}
 
 			return dot;
+		}
+
+		template <typename T, int D>
+		Rad AngleBetweenVectors(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			T dot = Dot(Normalize(v1), Normalize(v2));
+
+			return Acos(dot);
 		}
 
 		template <typename T>

@@ -12,7 +12,7 @@ namespace Application
 	namespace Rendering
 	{
 		// this is wrong
-		Float4x4 CalculatePerspectiveMatrix(float fovy, float aspectRatio, float nearPlane, float farPlane)
+		Float4x4 CalculatePerspectiveMatrix(Rad fovy, float aspectRatio, float nearPlane, float farPlane)
 		{
 			Float4x4 perspectiveMatrix;
 

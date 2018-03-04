@@ -83,7 +83,7 @@ namespace Application
 			SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
 		}
 
-		void Camera::SetFOVY(float fovy)
+		void Camera::SetFOVY(Rad fovy)
 		{
 			FOVY = fovy;
 
@@ -128,7 +128,7 @@ namespace Application
 			RecalculateProjectionMatrix();
 		}
 
-		void Camera::SetProjectionVariables(const float& fovy, const int& width, const int& height, const float& nearPlane, const float& farPlane)
+		void Camera::SetProjectionVariables(const Rad& fovy, const int& width, const int& height, const float& nearPlane, const float& farPlane)
 		{
 			FOVY = fovy;
 

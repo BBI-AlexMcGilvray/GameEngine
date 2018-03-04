@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <limits>
 
 #include "Axis.h"
 #include "Basis.h"
@@ -9,6 +10,14 @@ namespace Core
 {
 	namespace Math
 	{
+		constexpr double PI_D = 3.1415926535897;
+		constexpr float PI_F = 3.1415927f;
+		constexpr int PI_I = 3;
+
+		constexpr double Inf_D = std::numeric_limits<double>::max();
+		constexpr float Inf_F = std::numeric_limits<float>::max();
+		constexpr int Inf_I = std::numeric_limits<int>::max();
+
 		template <typename int D>
 		struct Precision
 		{
@@ -37,8 +46,36 @@ namespace Core
 			constexpr operator float() const { return float(i); }
 		};
 
-		const double PI_D = 3.1415926535897;
-		const float PI_F = 3.1415927f;
-		const int PI_I = 3;
+		struct Rad;
+
+		template <typename T = float>
+		struct Deg
+		{
+			constexpr Deg(T degrees = T(0))
+				: Degrees(degrees)
+			{}
+
+			constexpr Deg(Rad radians)
+				: Degrees(radians * T(180) / T(PI_F))
+			{}
+
+			T Degrees = T(0);
+			constexpr operator T() const { return Degrees; }
+		};
+
+		struct Rad
+		{
+			constexpr Rad(float radians = 0.0f)
+				: Radians(radians)
+			{}
+
+			template <typename T>
+			constexpr Rad(Deg<T> degrees)
+				: Radians(float(degrees) * PI_F / 180.0f)
+			{}
+
+			float Radians = 0.0f;
+			constexpr operator float() const { return Radians; }
+		};
 	}
 }

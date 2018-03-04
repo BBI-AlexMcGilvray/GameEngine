@@ -25,15 +25,33 @@ namespace Core
 		}
 
 		template <typename T>
+		T Acos(T a)
+		{
+			return acos(a);
+		}
+
+		template <typename T>
 		T Sin(T a)
 		{
 			return sin(a);
 		}
 
 		template <typename T>
+		T Asin(T a)
+		{
+			return asin(a);
+		}
+
+		template <typename T>
 		T Tan(T a)
 		{
 			return tan(a);
+		}
+
+		template <typename T>
+		T Atan(T a)
+		{
+			return atan(a);
 		}
 
 		template <typename T>

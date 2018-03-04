@@ -8,6 +8,6 @@ namespace Application
 {
 	namespace Rendering
 	{
-		Float4x4 CalculatePerspectiveMatrix(float fov, float aspectRatio, float nearPlane, float farPlane);
+		Float4x4 CalculatePerspectiveMatrix(Rad fov, float aspectRatio, float nearPlane, float farPlane);
 	}
 }
