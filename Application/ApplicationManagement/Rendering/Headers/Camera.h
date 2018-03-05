@@ -23,7 +23,7 @@ namespace Application
 		{
 			static const Float3 DefaultDirection;
 
-			Camera(const int& width, const int& height, const Float3& position = Float3(4.0f, 4.0f, 20.0f), const Float3& direction = Float3(-4.0f, -4.0f, -20.0f));
+			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 250.0f, 500.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
 
 			// these should be moved to being utility functions
 			Float3 ScreenToWorld(const Float2& screenPosition);
@@ -62,7 +62,7 @@ namespace Application
 			int Height;
 
 			float NearPlane = 0.1f;
-			float FarPlane = 100.0f;
+			float FarPlane = 1000.0f;
 
 			void RecalculateProjectionMatrix();
 		};

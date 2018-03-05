@@ -59,7 +59,7 @@ namespace Application
 	{
 		// Debug test for rendering a model
 		testTransform = MakeShared<Transform>();
-		RenderSystem.ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform, "Cube");
+		RenderSystem.ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform, "MI");
 	}
 
 	bool ApplicationManager::Update()
