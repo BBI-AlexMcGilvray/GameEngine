@@ -55,7 +55,7 @@ namespace Application
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
 			// facing and culling
-			glEnable(GL_CULL_FACE);
+			glEnable(GL_CULL_FACE | GL_DEPTH_TEST);
 			glFrontFace(GL_CW);
 			glCullFace(GL_BACK);
 
