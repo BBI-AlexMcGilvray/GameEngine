@@ -81,6 +81,8 @@ namespace Application
 
 		void RenderManager::RenderMiddle()
 		{
+			// NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
+			
 			// render manager render call
 			auto initialMVP = RenderCamera->GetTransformationMatrix();
 			ObjectManager.Render(initialMVP, InitialColor);
