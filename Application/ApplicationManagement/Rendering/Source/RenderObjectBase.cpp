@@ -83,8 +83,9 @@ namespace Application
 
 		void RenderObjectBase::Draw() const
 		{
-			//Manager.ObjectRenderer.Draw(this);
-			Manager.ObjectRenderer.DrawMesh(this);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // turns on wireframe mode
+			Manager.ObjectRenderer.Draw(this);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // turns off wireframe mode
 		}
 	}
 }
