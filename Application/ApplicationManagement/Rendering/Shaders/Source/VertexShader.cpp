@@ -8,6 +8,7 @@ namespace Application
 {
 	namespace Rendering
 	{
+		// try the below, but with the 'facingCamera' variable set as the actual camera's facing
 		Ptr<const char> VertexShader::Shader = R"(
 			#version 450 core
 			
@@ -24,12 +25,12 @@ namespace Application
 			
 			void main()
 			{
-				vec3 facingCamera = vec3(0, 0, 1);
+				vec3 facingCamera = vec3(0.0, 0.0, -1.0);
 				vec3 rotatedNormal = vec3(MVP * vec4(vNormal, 0.0));
 				float dotProduct = dot(rotatedNormal, facingCamera);
 				float cameraFacingRatio = (dotProduct * dotProduct) / dot(rotatedNormal, rotatedNormal);
 
-				Color = modColor * cameraFacingRatio;
+				Color = vec4(modColor.xyz * (1.0 - cameraFacingRatio), modColor.w);
 				
 				gl_Position = MVP * vec4(vPosition, 1.0);
 			}

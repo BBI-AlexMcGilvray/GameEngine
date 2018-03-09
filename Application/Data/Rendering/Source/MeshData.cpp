@@ -112,11 +112,19 @@ namespace Data
 
 			for (auto& index : indices)
 			{
+				Float3 faceNormal = { 0.0f };
+
+				for (auto& v : index.Axes)
+				{
+					faceNormal += normals[v];
+				}
+				faceNormal /= 3.0f; // each face should average out each vertex normal to be more accurate for the face
+
 				for (auto& v : index.Axes)
 				{
 					VertexCount++;
 
-					Push(Vertices, VertexDataBase(positions[v], normals[v]));
+					Push(Vertices, VertexDataBase(positions[v], faceNormal));
 				}
 			}
 		}

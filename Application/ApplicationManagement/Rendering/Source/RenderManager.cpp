@@ -58,6 +58,9 @@ namespace Application
 			glEnable(GL_CULL_FACE);
 			glFrontFace(GL_CW);
 			glCullFace(GL_BACK);
+
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // turns on wireframe mode
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // turns off wireframe mode
 		}
 
 		SharedPtr<const Camera> RenderManager::GetCamera() const
