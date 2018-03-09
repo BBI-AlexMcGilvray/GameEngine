@@ -24,7 +24,13 @@ namespace Application
 			
 			void main()
 			{
-				Color = modColor;
+				// normal ratio for outlining
+				vec3 facingCamera = vec3(0, 0, 1);
+				vec3 rotatedNormal = (MVP * vec4(vNormal, 0.0)).xyz;
+				float dot = dot(rotatedNormal, facingCamera);
+				float normalRatio = (dot * dot) / dot(rotatedNormal, rotatedNormal);
+
+				Color = modColor * (1.0 - normalRatio);
 				
 				gl_Position = MVP * vec4(vPosition, 1.0);
 			}
