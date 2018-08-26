@@ -16,8 +16,8 @@ namespace Application
 		const Float3 Camera::DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
 
 		Camera::Camera(const int& width, const int& height, const Float3& position, const Float3& direction)
-			: Transform(position, RotationBetweenVectors(DefaultDirection, direction))
 		{
+			CameraTransform = Transform(position, RotationBetweenVectors(DefaultDirection, direction));
 			Direction = Normalize(direction);
 
 			SetProjectionVariables(FOVY, width, height, NearPlane, FarPlane);
@@ -60,10 +60,11 @@ namespace Application
 			Float4x4 transformationMatrix(II{});
 
 			// rotation
-			Float4x4 inverseRotationMatrix = Float4x4(Inverse(RotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f));
+			Float4x4 inverseRotationMatrix = Float4x4(Inverse(CameraTransform.GetRotationMatrix()), Float4(0.0f, 0.0f, 0.0f, 1.0f));
 			transformationMatrix = inverseRotationMatrix * transformationMatrix;
 
 			// position
+			Float3 Position = CameraTransform.GetPosition();
 			Float4 rotatedPosition = inverseRotationMatrix * Float4(Position, 1.0f);
 			transformationMatrix.E4.X = -Position.X;
 			transformationMatrix.E4.Y = -Position.Y;
@@ -78,9 +79,9 @@ namespace Application
 
 		void Camera::LookAt(Float3 position)
 		{
-			Direction = Normalize(position - Position);
+			Direction = Normalize(position - CameraTransform.GetPosition());
 
-			SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
+			CameraTransform.SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
 		}
 
 		void Camera::SetFOVY(Rad fovy)

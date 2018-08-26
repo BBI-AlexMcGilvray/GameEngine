@@ -99,7 +99,7 @@ namespace Core
 		*/
 
 		template <typename T>
-		Matrix3x3<T> GetRotationMatrix(Quaternion<T> quaternion)
+		Matrix3x3<T> CalculateRotationMatrix(Quaternion<T> quaternion)
 		{
 			Matrix3x3<T> rotationMatrix;
 
@@ -136,9 +136,9 @@ namespace Core
 		}
 
 		template <typename T>
-		Matrix4x4<T> GetTransformationMatrix(Quaternion<T> quaternion)
+		Matrix4x4<T> CalculateTransformationMatrix(Quaternion<T> quaternion)
 		{
-			Matrix4x4<T> rotationMatrix(GetRotationMatrix(quaternion), Vector4<T>(0, 0, 0, 1));
+			Matrix4x4<T> rotationMatrix(CalculateTransformationMatrix(quaternion), Vector4<T>(0, 0, 0, 1));
 
 			return rotationMatrix;
 		}

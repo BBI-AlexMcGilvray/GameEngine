@@ -19,7 +19,7 @@ namespace Application
 	namespace Rendering
 	{
 		// anything needed for camera. should create specifications for perspective and orthographic
-		struct Camera : Transform
+		struct Camera
 		{
 			static const Float3 DefaultDirection;
 
@@ -29,13 +29,9 @@ namespace Application
 			Float3 ScreenToWorld(const Float2& screenPosition);
 			Float2 WorldToScreen(const Float3& worldPosition);
 
-			Float4x4 GetTransformationMatrix() const override;
+			Transform& GetCameraTransform();
 
-			Float3 SetScale(Float3 const& scale) override
-			{
-				ALERT("Cannot adjust scale for cameras");
-				return Scale;
-			}
+			Float4x4 GetTransformationMatrix() const;
 
 			void LookAt(Float3 position);
 
@@ -52,6 +48,8 @@ namespace Application
 			void SetProjectionVariables(const Rad& fovy, const int& width, const int& height, const float& nearPlane, const float& farPlane);
 
 		protected:
+			Transform CameraTransform;
+
 			Float3 Direction; // direction the camera is looking
 
 			Float4x4 ProjectionMatrix;

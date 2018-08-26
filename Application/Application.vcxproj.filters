@@ -222,6 +222,9 @@
     <ClCompile Include="Core\Source\Hash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Geometric\Source\Transform.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\Dlls\SDL2\libfreetype-6.dll" />
@@ -705,58 +708,10 @@
     <ClInclude Include="ApplicationManagement\Collision\Headers\CollisionCheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\PlaneFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Plane.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Plane2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Plane3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Plane4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Ellipsoid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Line.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Line2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Line3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Line4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\LineFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Ellipsoid2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Ellipsoid3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\Ellipsoid4.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\EllipsoidFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Math\Headers\Axis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Math\Headers\Basis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Geometric\Headers\UtilityFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Math\Headers\UtilityFunctions.h">

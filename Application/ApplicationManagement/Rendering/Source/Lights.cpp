@@ -1,6 +1,7 @@
 #include "ApplicationManagement/Rendering/Headers/Lights.h"
 
 #include "Core/Math/Headers/VectorFunctions.h"
+#include "Core/Math/Headers/QuaternionFunctions.h"
 
 namespace Application
 {
