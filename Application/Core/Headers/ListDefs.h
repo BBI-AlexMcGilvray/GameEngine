@@ -45,7 +45,7 @@ namespace Core
 	{
 		auto index = std::find(list.begin(), list.end(), entry);
 		
-		if (index != list.end())
+		if (index == list.end())
 		{
 			return Truth<uint>(false, 0);
 		}

@@ -54,6 +54,11 @@ namespace Core
 				function.FunctionObject = nullptr;
 			}
 
+			rT Call(Ts... args)
+			{
+				return (*this)(Forward<Ts>(args)...);
+			}
+
 			operator bool()
 			{
 				return (FunctionObject != nullptr);

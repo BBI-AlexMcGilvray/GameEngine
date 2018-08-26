@@ -48,4 +48,10 @@ namespace Core
 	#else
 	#define MESSAGE( M ) // do nothing
 	#endif
+
+	#if DEBUG
+	#define LOG( L ) Message( L, std::string(__FILE__) + " (" + std::to_string(__LINE__) + "): " )
+	#else
+	#define LOG( L ) // do nothing
+	#endif
 }
