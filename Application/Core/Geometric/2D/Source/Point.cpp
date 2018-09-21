@@ -1,11 +1,22 @@
 #include "Core/Geometric/2D/Headers/Point.h"
 
+#include "Core/Geometric/2D/Headers/Line.h"
+#include "Core/Geometric/2D/Headers/Box.h"
+#include "Core/Geometric/2D/Headers/Circle.h"
+#include "Core/Geometric/2D/Headers/Polygon.h"
+
 #include "Core/Geometric/2D/Headers/GeometryFunctions.h"
 
 namespace Core
 {
 	namespace Geometric
 	{
+		Point2D::Point2D(Float2 point)
+		{
+			X = point.X;
+			Y = point.Y;
+		}
+
 		void Point2D::SetPosition(const Float2& position)
 		{
 			X = position.X;
@@ -63,29 +74,29 @@ namespace Core
 			return Float2{ 1.0f };
 		}
 
-		Ptr<const Geometry2D> Point2D::Intersection(Ptr<const Geometry2D> geometry) const
+		bool Point2D::Intersect(Ptr<const Geometry2D> geometry) const
 		{
-			return geometry->Intersection(this);
+			return geometry->Intersect(this);
 		}
-		Ptr<const Geometry2D> Point2D::Intersection(Ptr<const Point2D> point) const
+		bool Point2D::Intersect(Ptr<const Point2D> point) const
 		{
-			return GeometryFunctions2D::Intersection(this, point);
+			return GeometryFunctions2D::Intersect(this, point);
 		}
-		Ptr<const Geometry2D> Point2D::Intersection(Ptr<const Line2D> line) const
+		bool Point2D::Intersect(Ptr<const Line2D> line) const
 		{
-			return GeometryFunctions2D::Intersection(this, line);
+			return GeometryFunctions2D::Intersect(this, line);
 		}
-		Ptr<const Geometry2D> Point2D::Intersection(Ptr<const Box2D> box) const
+		bool Point2D::Intersect(Ptr<const Box2D> box) const
 		{
-			return GeometryFunctions2D::Intersection(this, box);
+			return GeometryFunctions2D::Intersect(this, box);
 		}
-		Ptr<const Geometry2D> Point2D::Intersection(Ptr<const Circle2D> circle) const
+		bool Point2D::Intersect(Ptr<const Circle2D> circle) const
 		{
-			return GeometryFunctions2D::Intersection(this, circle);
+			return GeometryFunctions2D::Intersect(this, circle);
 		}
-		Ptr<const Geometry2D> Point2D::Intersection(Ptr<const Polygon2D> polygon) const
-		{
-			return GeometryFunctions2D::Intersection(this, polygon);
-		}
+		// Ptr<const Geometry2D> Point2D::Intersection(Ptr<const Polygon2D> polygon) const
+		// {
+		// 	return GeometryFunctions2D::Intersection(this, polygon);
+		// }
 	}
 }

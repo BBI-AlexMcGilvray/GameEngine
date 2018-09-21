@@ -34,14 +34,16 @@ namespace Core
 		}
 	};
 	
-	template <typename T>
-	T&& Min(T&& a, T&& b) { return ((Forward<T>(a) < Forward<T>(b)) ? Forward<T>(a) : Forward<T>(b)); }
-	template <typename T>
-	T&& Max(T&& a, T&& b) { return ((Forward<T>(a) > Forward<T>(b)) ? Forward<T>(a) : Forward<T>(b)); }
-	template <typename T>
-	T&& Clamp(T&& a, T&& min, T&& max) { return (Max(Min(Forward<T>(a), Forward<T>(max)), Forward<T>(min))); }
-	template <typename T>
-	bool Within(T&& d, T&& v, T&& var) { return ((Forward<T>(d) >= Forward<T>(v) - Forward<T>(var)) && (Forward<T>(d) <= Forward<T>(v) + Forward<T>(var))); }
+	template <typename T1, typename T2>
+	auto Min(T1&& a, T2&& b) { return ((Forward<T1>(a) < Forward<T2>(b)) ? Forward<T1>(a) : Forward<T2>(b)); }
+	template <typename T1, typename T2>
+	auto Max(T1&& a, T2&& b) { return ((Forward<T1>(a) > Forward<T2>(b)) ? Forward<T1>(a) : Forward<T2>(b)); }
+	template <typename T1, typename T2, typename T3>
+	auto Clamp(T1&& a, T2&& min, T3&& max) { return (Max(Min(Forward<T1>(a), Forward<T3>(max)), Forward<T2>(min))); }
+	template <typename T1, typename T2, typename T3>
+	bool Within(T1&& d, T2&& v, T3&& var) { return ((Forward<T1>(d) >= Forward<T2>(v) - Forward<T3>(var)) && (Forward<T1>(d) <= Forward<T2>(v) + Forward<T3>(var))); }
+	template <typename T1, typename T2, typename T3>
+	bool InRange(T1&& var, T2&& min, T3&& max) { return ((Forward<T1>(var) >= Forward<T2>(min)) && (Forward<T1>(var) <= Forward<T3>(max))); }
 	
 	using uint = unsigned int;
 }

@@ -26,16 +26,25 @@ namespace Core
 			void AdjustScale(const Float2& adjustment) override;
 			Float2 GetScale() const override;
 
-			Ptr<const Geometry2D> Intersection(Ptr<const Geometry2D> geometry) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Point2D> point) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Line2D> line) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Box2D> box) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Circle2D> circle) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Polygon2D> polygon) const override;
+			bool PointOnLine(const Point2D& point) const;
+			Point2D PointAtScale(float scale) const;
+			Point2D ClosestPointToPoint(const Point2D& point) const;
+			float DistanceToPoint(const Point2D& point) const;
+			float DistanceToPointSqr(const Point2D& point) const;
+
+			float GetSlope() const;
+			float GetIntercept() const;
+
+			bool Intersect(Ptr<const Geometry2D> geometry) const override;
+			bool Intersect(Ptr<const Point2D> point) const override;
+			bool Intersect(Ptr<const Line2D> line) const override;
+			bool Intersect(Ptr<const Box2D> box) const override;
+			bool Intersect(Ptr<const Circle2D> circle) const override;
+			// Ptr<const Geometry2D> Intersection(Ptr<const Polygon2D> polygon) const override;
 
 		private:
 			Float2 Origin;
-			Float2 MaxAddition; // this is as far in the given direction the line can go
+			Float2 MaxAddition; // this is as far in the given direction the line can go, so the 'scale' of the line can go from 0.0 to 1.0
 		};
 	}
 }

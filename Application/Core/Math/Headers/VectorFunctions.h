@@ -14,6 +14,69 @@ namespace Core
 	namespace Math
 	{
 		template <typename T, int D>
+		bool Perpendicular(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			return (Dot(v1, v2) == T(0));
+		}
+
+		template <typename T, int D>
+		bool Parallel(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			bool multipleSet = false;
+			float multiple = 0.0f;
+
+			if (Perpendicular(v1, v2))
+			{
+				return false;
+			}
+
+			for (int i = 0; i < D; i++)
+			{
+				if (v2[i] == T(0))
+				{
+					if (v1[i] == T(0))
+					{
+						continue;
+					}
+
+					return false;
+				}
+
+				if (v1[i] == T(0))
+				{
+					return false;
+				}
+
+				float newMultiple = float(v1[i]) / float(v2[i]);
+				if (!multipleSet)
+				{
+					multiple = newMultiple;
+					multipleSet = true;
+				}
+				else
+				{
+					if (multiple != newMultiple)
+					{
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+
+		template <typename T, int D>
+		bool SameDirection(VectorA<T, D> const& v1, VectorA<T, D> const& v2)
+		{
+			if (Parallel(v1, v2))
+			{
+				return (Dot(v1, v2) >= T(0));
+			}
+
+			return false;
+		}
+
+		template <typename T, int D>
 		T MagnitudeSqr(VectorA<T, D> const& v)
 		{
 			return Dot(v, v);
@@ -169,9 +232,9 @@ namespace Core
 		template <typename T, int A>
 		VectorA<T, A> Project(VectorA<T, A> const& v1, VectorA<T, A> const& v2)
 		{
-			auto projection = Normalize(v2);
+			auto projection = v2;
 			projection *= Dot(v1, v2);
-			projection /= Magnitude(v2);
+			projection /= MagnitudeSqr(v2);
 
 			return projection;
 		}

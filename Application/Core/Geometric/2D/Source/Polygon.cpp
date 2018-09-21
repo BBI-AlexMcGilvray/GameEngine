@@ -1,4 +1,10 @@
+/*
 #include "Core/Geometric/2D/Headers/Polygon.h"
+
+#include "Core/Geometric/2D/Headers/Point.h"
+#include "Core/Geometric/2D/Headers/Line.h"
+#include "Core/Geometric/2D/Headers/Box.h"
+#include "Core/Geometric/2D/Headers/Circle.h"
 
 #include "Core/Geometric/2D/Headers/GeometryFunctions.h"
 
@@ -97,3 +103,4 @@ namespace Core
 		}
 	}
 }
+*/

@@ -16,17 +16,19 @@ namespace Core
 
 			Float4x4 GetTransformationMatrix() const;
 
-			void SetPosition(Float3 const& position) override;
-			void AdjustPosition(Float3 const& movement) override;
+			void SetPosition(const Float3& position) override;
+			void AdjustPosition(const Float3& movement) override;
 			Float3 GetPosition() const override;
 
-			void SetRotation(FQuaternion const& rotation) override;
-			void AdjustRotation(FQuaternion const& rotation) override;
+			void SetRotation(const FQuaternion& rotation) override;
+			void AdjustRotation(const FQuaternion& rotation) override;
 			FQuaternion GetRotation() const override;
 			Float3x3 GetRotationMatrix() const;
 
-			void SetScale(Float3 const& scale) override;
-			void AdjustScale(Float3 const& scale) override;
+			void SetScale(const float& scale) override;
+			void SetScale(const Float3& scale) override;
+			void AdjustScale(const float& scale) override;
+			void AdjustScale(const Float3& scale) override;
 			Float3 GetScale() const override;
 
 		protected:

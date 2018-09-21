@@ -190,6 +190,11 @@ namespace Core
 				return (X == v.X && Y == v.Y && Z == v.Z);
 			}
 
+			bool operator!=(VectorA<T, 3> const& v)
+			{
+				return (X != v.X || Y != v.Y || Z != v.Z);
+			}
+
 			// add in other comparison operaators
 
 			T& operator[](int axis)

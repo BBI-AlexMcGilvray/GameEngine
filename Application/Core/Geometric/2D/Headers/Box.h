@@ -28,12 +28,20 @@ namespace Core
 			void AdjustScale(const Float2& adjustment) override;
 			Float2 GetScale() const override;
 
-			Ptr<const Geometry2D> Intersection(Ptr<const Geometry2D> geometry) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Point2D> point) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Line2D> line) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Box2D> box) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Circle2D> circle) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Polygon2D> polygon) const override;
+			Float2 GetTopLeftCorner() const;
+			Float2 GetTopRightCorner() const;
+			Float2 GetBottomLeftCorner() const;
+			Float2 GetBottomRightCorner() const;
+
+			Float2 GetRelativeHeightAxis() const;
+			Float2 GetRelativeWidthAxis() const;
+
+			bool Intersect(Ptr<const Geometry2D> geometry) const override;
+			bool Intersect(Ptr<const Point2D> point) const override;
+			bool Intersect(Ptr<const Line2D> line) const override;
+			bool Intersect(Ptr<const Box2D> box) const override;
+			bool Intersect(Ptr<const Circle2D> circle) const override;
+			// Ptr<const Geometry2D> Intersection(Ptr<const Polygon2D> polygon) const override;
 
 		private:
 			Float2 Origin;

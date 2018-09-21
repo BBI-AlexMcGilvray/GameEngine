@@ -1,5 +1,10 @@
 #include "Core/Geometric/2D/Headers/Circle.h"
 
+#include "Core/Geometric/2D/Headers/Point.h"
+#include "Core/Geometric/2D/Headers/Line.h"
+#include "Core/Geometric/2D/Headers/Box.h"
+#include "Core/Geometric/2D/Headers/Polygon.h"
+
 #include "Core/Geometric/2D/Headers/GeometryFunctions.h"
 
 namespace Core
@@ -73,29 +78,34 @@ namespace Core
 			return Radius;
 		}
 
-		Ptr<const Geometry2D> Circle2D::Intersection(Ptr<const Geometry2D> geometry) const
+		bool Circle2D::PointInCircle(const Point2D& point) const
 		{
-			return geometry->Intersection(this);
+			return (MagnitudeSqr(point - Origin) <= Sqr(Radius));
 		}
-		Ptr<const Geometry2D> Circle2D::Intersection(Ptr<const Point2D> point) const
+
+		bool Circle2D::Intersect(Ptr<const Geometry2D> geometry) const
 		{
-			return GeometryFunctions2D::Intersection(this, point);
+			return geometry->Intersect(this);
 		}
-		Ptr<const Geometry2D> Circle2D::Intersection(Ptr<const Line2D> line) const
+		bool Circle2D::Intersect(Ptr<const Point2D> point) const
 		{
-			return GeometryFunctions2D::Intersection(this, line);
+			return GeometryFunctions2D::Intersect(this, point);
 		}
-		Ptr<const Geometry2D> Circle2D::Intersection(Ptr<const Box2D> Box2D) const
+		bool Circle2D::Intersect(Ptr<const Line2D> line) const
 		{
-			return GeometryFunctions2D::Intersection(this, Box2D);
+			return GeometryFunctions2D::Intersect(this, line);
 		}
-		Ptr<const Geometry2D> Circle2D::Intersection(Ptr<const Circle2D> circle) const
+		bool Circle2D::Intersect(Ptr<const Box2D> Box2D) const
 		{
-			return GeometryFunctions2D::Intersection(this, circle);
+			return GeometryFunctions2D::Intersect(this, Box2D);
 		}
-		Ptr<const Geometry2D> Circle2D::Intersection(Ptr<const Polygon2D> polygon) const
+		bool Circle2D::Intersect(Ptr<const Circle2D> circle) const
 		{
-			return GeometryFunctions2D::Intersection(this, polygon);
+			return GeometryFunctions2D::Intersect(this, circle);
 		}
+		// Ptr<const Geometry2D> Circle2D::Intersection(Ptr<const Polygon2D> polygon) const
+		// {
+		// 	return GeometryFunctions2D::Intersection(this, polygon);
+		// }
 	}
 }

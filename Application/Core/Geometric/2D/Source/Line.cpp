@@ -1,6 +1,13 @@
 #include "Core/Geometric/2D/Headers/Line.h"
 
+#include "Core/Geometric/2D/Headers/Point.h"
+#include "Core/Geometric/2D/Headers/Box.h"
+#include "Core/Geometric/2D/Headers/Circle.h"
+#include "Core/Geometric/2D/Headers/Polygon.h"
+
 #include "Core/Geometric/2D/Headers/GeometryFunctions.h"
+
+#include "Core/Math/Headers/QuaternionFunctions.h"
 
 namespace Core
 {
@@ -73,29 +80,103 @@ namespace Core
 			return MaxAddition;
 		}
 
-		Ptr<const Geometry2D> Line2D::Intersection(Ptr<const Geometry2D> geometry) const
+		bool Line2D::PointOnLine(const Point2D& point) const
 		{
-			return geometry->Intersection(this);
+			if (MaxAddition.X == 0.0f && MaxAddition.Y == 0.0f)
+			{
+				return (point.Axes == Origin.Axes);
+			}
+
+			if (MaxAddition.X == 0.0f)
+			{
+				if (Origin.X != point.X)
+				{
+					return false;
+				}
+
+				float additionScale = (point.Y - Origin.Y) / MaxAddition.Y;
+				return InRange(additionScale, 0.0f, 1.0f);
+			}
+
+			if (MaxAddition.Y == 0.0f)
+			{
+				if (Origin.Y != point.Y)
+				{
+					return false;
+				}
+
+				float additionScale = (point.X - Origin.X) / MaxAddition.X;
+				return InRange(additionScale, 0.0f, 1.0f);
+			}
+
+			float additionScaleX = (point.X - Origin.X) / MaxAddition.X;
+			float additionScaleY = (point.Y - Origin.Y) / MaxAddition.Y;
+			return (additionScaleX == additionScaleY && InRange(additionScaleX, 0.0f, 1.0f));
 		}
-		Ptr<const Geometry2D> Line2D::Intersection(Ptr<const Point2D> point) const
+
+		Point2D Line2D::PointAtScale(float scale) const
 		{
-			return GeometryFunctions2D::Intersection(this, point);
+			if (InRange(scale, 0.0f, 1.0f))
+			{
+				Float2 point = Origin + (scale * MaxAddition);
+				return Point2D(point.X, point.Y);
+			}
+			else if (scale < 0.0f)
+			{
+				return Origin;
+			}
+			return (Origin + MaxAddition);
 		}
-		Ptr<const Geometry2D> Line2D::Intersection(Ptr<const Line2D> line) const
+
+		Point2D Line2D::ClosestPointToPoint(const Point2D& point) const
 		{
-			return GeometryFunctions2D::Intersection(this, line);
+			Float2 closestPoint = Origin + Project(point - Origin, MaxAddition);
+			return Point2D(closestPoint.X, closestPoint.Y);
 		}
-		Ptr<const Geometry2D> Line2D::Intersection(Ptr<const Box2D> box) const
+
+		float Line2D::DistanceToPoint(const Point2D& point) const
 		{
-			return GeometryFunctions2D::Intersection(this, box);
+			return Sqrt(DistanceToPointSqr(point));
 		}
-		Ptr<const Geometry2D> Line2D::Intersection(Ptr<const Circle2D> circle) const
+
+		float Line2D::DistanceToPointSqr(const Point2D& point) const
 		{
-			return GeometryFunctions2D::Intersection(this, circle);
+			return MagnitudeSqr(Perp(point - Origin, MaxAddition));
 		}
-		Ptr<const Geometry2D> Line2D::Intersection(Ptr<const Polygon2D> polygon) const
+
+		float Line2D::GetSlope() const
 		{
-			return GeometryFunctions2D::Intersection(this, polygon);
+			return (MaxAddition.Y - Origin.Y) / (MaxAddition.X - Origin.X);
 		}
+
+		float Line2D::GetIntercept() const
+		{
+			return Origin.Y - (GetSlope() * Origin.X);
+		}
+
+		bool Line2D::Intersect(Ptr<const Geometry2D> geometry) const
+		{
+			return geometry->Intersect(this);
+		}
+		bool Line2D::Intersect(Ptr<const Point2D> point) const
+		{
+			return GeometryFunctions2D::Intersect(this, point);
+		}
+		bool Line2D::Intersect(Ptr<const Line2D> line) const
+		{
+			return GeometryFunctions2D::Intersect(this, line);
+		}
+		bool Line2D::Intersect(Ptr<const Box2D> box) const
+		{
+			return GeometryFunctions2D::Intersect(this, box);
+		}
+		bool Line2D::Intersect(Ptr<const Circle2D> circle) const
+		{
+			return GeometryFunctions2D::Intersect(this, circle);
+		}
+		// Ptr<const Geometry2D> Line2D::Intersection(Ptr<const Polygon2D> polygon) const
+		// {
+		// 	return GeometryFunctions2D::Intersection(this, polygon);
+		// }
 	}
 }

@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include "Core/Geometric/2D/Headers/Geometry.h"
 
 #include "Core/Headers/ListDefs.h"
@@ -43,3 +43,4 @@ namespace Core
 		};
 	}
 }
+*/

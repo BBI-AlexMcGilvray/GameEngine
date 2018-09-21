@@ -45,12 +45,12 @@ namespace Core
 			return transformationMatrix;
 		}
 
-		void Transform::SetPosition(Float3 const& position)
+		void Transform::SetPosition(const Float3& position)
 		{
 			Position = position;
 		}
 
-		void Transform::AdjustPosition(Float3 const& movement)
+		void Transform::AdjustPosition(const Float3& movement)
 		{
 			SetPosition(Position + movement);
 		}
@@ -60,14 +60,14 @@ namespace Core
 			return Position;
 		}
 
-		void Transform::SetRotation(FQuaternion const& rotation)
+		void Transform::SetRotation(const FQuaternion& rotation)
 		{
 			Rotation = rotation;
 
 			RecalculateRotationMatrix();
 		}
 
-		void Transform::AdjustRotation(FQuaternion const& rotation)
+		void Transform::AdjustRotation(const FQuaternion& rotation)
 		{
 			SetRotation(rotation * Rotation);
 		}
@@ -82,12 +82,22 @@ namespace Core
 			return RotationMatrix;
 		}
 
-		void Transform::SetScale(Float3 const& scale)
+		void Transform::SetScale(const float& scale)
 		{
 			Scale = scale;
 		}
 
-		void Transform::AdjustScale(Float3 const& scale)
+		void Transform::SetScale(const Float3& scale)
+		{
+			Scale = scale;
+		}
+
+		void Transform::AdjustScale(const float& scale)
+		{
+			SetScale(Scale * scale);
+		}
+
+		void Transform::AdjustScale(const Float3& scale)
 		{
 			SetScale(Scale * scale);
 		}

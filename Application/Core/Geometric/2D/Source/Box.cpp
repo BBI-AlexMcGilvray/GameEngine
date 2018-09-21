@@ -1,6 +1,13 @@
 #include "Core/Geometric/2D/Headers/Box.h"
 
+#include "Core/Geometric/2D/Headers/Point.h"
+#include "Core/Geometric/2D/Headers/Line.h"
+#include "Core/Geometric/2D/Headers/Circle.h"
+#include "Core/Geometric/2D/Headers/Polygon.h"
+
 #include "Core/Geometric/2D/Headers/GeometryFunctions.h"
+
+#include "Core/Math/Headers/QuaternionFunctions.h"
 
 namespace Core
 {
@@ -81,29 +88,65 @@ namespace Core
 			return Scale;
 		}
 
-		Ptr<const Geometry2D> Box2D::Intersection(Ptr<const Geometry2D> geometry) const
+		Float2 Box2D::GetTopLeftCorner() const
 		{
-			return geometry->Intersection(this);
+			Float2 corner = Float2(Origin.X - Scale.X, Origin.Y + Scale.Y);
+			return RotateVectorBy(corner, Rotation);
 		}
-		Ptr<const Geometry2D> Box2D::Intersection(Ptr<const Point2D> point) const
+
+		Float2 Box2D::GetTopRightCorner() const
 		{
-			return GeometryFunctions2D::Intersection(this, point);
+			Float2 corner = Float2(Origin.X + Scale.X, Origin.Y + Scale.Y);
+			return RotateVectorBy(corner, Rotation);
 		}
-		Ptr<const Geometry2D> Box2D::Intersection(Ptr<const Line2D> line) const
+
+		Float2 Box2D::GetBottomLeftCorner() const
 		{
-			return GeometryFunctions2D::Intersection(this, line);
+			Float2 corner = Float2(Origin.X - Scale.X, Origin.Y - Scale.Y);
+			return RotateVectorBy(corner, Rotation);
 		}
-		Ptr<const Geometry2D> Box2D::Intersection(Ptr<const Box2D> box) const
+
+		Float2 Box2D::GetBottomRightCorner() const
 		{
-			return GeometryFunctions2D::Intersection(this, box);
+			Float2 corner = Float2(Origin.X + Scale.X, Origin.Y - Scale.Y);
+			return RotateVectorBy(corner, Rotation);
 		}
-		Ptr<const Geometry2D> Box2D::Intersection(Ptr<const Circle2D> circle) const
+
+		Float2 Box2D::GetRelativeHeightAxis() const
 		{
-			return GeometryFunctions2D::Intersection(this, circle);
+			Float2 axis = (GetTopRightCorner() - GetBottomRightCorner());
+			return RotateVectorBy(axis, Rotation);
 		}
-		Ptr<const Geometry2D> Box2D::Intersection(Ptr<const Polygon2D> polygon) const
+
+		Float2 Box2D::GetRelativeWidthAxis() const
 		{
-			return GeometryFunctions2D::Intersection(this, polygon);
+			Float2 axis = (GetTopRightCorner() - GetTopLeftCorner());
+			return RotateVectorBy(axis, Rotation);
 		}
+
+		bool Box2D::Intersect(Ptr<const Geometry2D> geometry) const
+		{
+			return geometry->Intersect(this);
+		}
+		bool Box2D::Intersect(Ptr<const Point2D> point) const
+		{
+			return GeometryFunctions2D::Intersect(this, point);
+		}
+		bool Box2D::Intersect(Ptr<const Line2D> line) const
+		{
+			return GeometryFunctions2D::Intersect(this, line);
+		}
+		bool Box2D::Intersect(Ptr<const Box2D> box) const
+		{
+			return GeometryFunctions2D::Intersect(this, box);
+		}
+		bool Box2D::Intersect(Ptr<const Circle2D> circle) const
+		{
+			return GeometryFunctions2D::Intersect(this, circle);
+		}
+		// Ptr<const Geometry2D> Box2D::Intersection(Ptr<const Polygon2D> polygon) const
+		// {
+		// 	return GeometryFunctions2D::Intersection(this, polygon);
+		// }
 	}
 }

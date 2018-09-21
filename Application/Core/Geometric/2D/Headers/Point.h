@@ -8,6 +8,9 @@ namespace Core
 	{
 		struct Point2D : Float2, Geometry2D
 		{
+			using Float2::Float2;
+			Point2D(Float2 point);
+
 			void SetPosition(const Float2& position) override;
 			void AdjustPosition(const Float2& adjustment) override;
 			Float2 GetPosition() const override;
@@ -22,12 +25,12 @@ namespace Core
 			void AdjustScale(const Float2& adjustment) override;
 			Float2 GetScale() const override;
 
-			Ptr<const Geometry2D> Intersection(Ptr<const Geometry2D> geometry) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Point2D> point) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Line2D> line) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Box2D> box) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Circle2D> circle) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Polygon2D> polygon) const override;
+			bool Intersect(Ptr<const Geometry2D> geometry) const override;
+			bool Intersect(Ptr<const Point2D> point) const override;
+			bool Intersect(Ptr<const Line2D> line) const override;
+			bool Intersect(Ptr<const Box2D> box) const override;
+			bool Intersect(Ptr<const Circle2D> circle) const override;
+			// Ptr<const Geometry2D> Intersection(Ptr<const Polygon2D> polygon) const override;
 		};
 	}
 }
