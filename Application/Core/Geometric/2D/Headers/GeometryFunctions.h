@@ -10,34 +10,22 @@ namespace Core
 {
 	namespace Geometric
 	{
-		struct Geometry2D;
-		struct Point2D;
-		struct Line2D;
-		struct Box2D;
-		struct Circle2D;
-		struct Polygon2D;
-
 		namespace GeometryFunctions2D
 		{
-			bool Intersect(Ptr<const Geometry2D> geometry1, Ptr<const Geometry2D> geometry2)
-			{ return geometry1->Intersect(geometry2); }
+			bool Intersect(Ptr<const Geometry2D> geometry1, Ptr<const Geometry2D> geometry2);
 
-			bool Intersect(Ptr<const Geometry2D> geometry, Ptr<const Point2D> point)
-			{ return geometry->Intersect(point); }
-			bool Intersect(Ptr<const Point2D> point, Ptr<const Geometry2D> geometry)
-			{ return geometry->Intersect(point); }
-			bool Intersect(Ptr<const Geometry2D> geometry, Ptr<const Line2D> line)
-			{ return geometry->Intersect(line); }
-			bool Intersect(Ptr<const Line2D> line, Ptr<const Geometry2D> geometry)
-			{ return geometry->Intersect(line); }
-			bool Intersect(Ptr<const Geometry2D> geometry, Ptr<const Box2D> box)
-			{ return geometry->Intersect(box); }
-			bool Intersect(Ptr<const Box2D> box, Ptr<const Geometry2D> geometry)
-			{ return geometry->Intersect(box); }
-			bool Intersect(Ptr<const Geometry2D> geometry, Ptr<const Circle2D> circle)
-			{ return geometry->Intersect(circle); }
-			bool Intersect(Ptr<const Circle2D> circle, Ptr<const Geometry2D> geometry)
-			{ return geometry->Intersect(circle); }
+			bool Intersect(Ptr<const Geometry2D> geometry, Ptr<const Point2D> point);
+			bool Intersect(Ptr<const Point2D> point, Ptr<const Geometry2D> geometry);
+
+			bool Intersect(Ptr<const Geometry2D> geometry, Ptr<const Line2D> line);
+			bool Intersect(Ptr<const Line2D> line, Ptr<const Geometry2D> geometry);
+
+			bool Intersect(Ptr<const Geometry2D> geometry, Ptr<const Box2D> box);
+			bool Intersect(Ptr<const Box2D> box, Ptr<const Geometry2D> geometry);
+
+			bool Intersect(Ptr<const Geometry2D> geometry, Ptr<const Circle2D> circle);
+			bool Intersect(Ptr<const Circle2D> circle, Ptr<const Geometry2D> geometry);
+
 			// bool Intersect(Ptr<const Geometry2D> geometry, Ptr<const Polygon2D> polygon)
 			// { return geometry->Intersect(polygon); }
 			// bool Intersect(Ptr<const Polygon2D> polygon, Ptr<const Geometry2D> geometry)
@@ -49,27 +37,21 @@ namespace Core
 			bool Intersect(Ptr<const Point2D> point, Ptr<const Circle2D> circle);
 			// bool Intersect(Ptr<const Point2D> point, Ptr<const Polygon2D> polygon);
 
-			bool Intersect(Ptr<const Line2D> line, Ptr<const Point2D> point)
-			{ return Intersect(point, line); }
+			bool Intersect(Ptr<const Line2D> line, Ptr<const Point2D> point);
 			bool Intersect(Ptr<const Line2D> line1, Ptr<const Line2D> line2);
 			bool Intersect(Ptr<const Line2D> line, Ptr<const Box2D> box);
 			bool Intersect(Ptr<const Line2D> line, Ptr<const Circle2D> circle);
 			// bool Intersect(Ptr<const Line2D> line, Ptr<const Polygon2D> polygon);
 
-			bool Intersect(Ptr<const Box2D> box, Ptr<const Point2D> point)
-			{ return Intersect(point, box); }
-			bool Intersect(Ptr<const Box2D> box, Ptr<const Line2D> line)
-			{ return Intersect(line, box); }
+			bool Intersect(Ptr<const Box2D> box, Ptr<const Point2D> point);
+			bool Intersect(Ptr<const Box2D> box, Ptr<const Line2D> line);
 			bool Intersect(Ptr<const Box2D> box1, Ptr<const Box2D> box2);
 			bool Intersect(Ptr<const Box2D> box, Ptr<const Circle2D> circle);
 			// bool Intersect(Ptr<const Box2D> box, Ptr<const Polygon2D> polygon);
 
-			bool Intersect(Ptr<const Circle2D> circle, Ptr<const Point2D> point)
-			{ return Intersect(point, circle); }
-			bool Intersect(Ptr<const Circle2D> circle, Ptr<const Line2D> line)
-			{ return Intersect(line, circle); }
-			bool Intersect(Ptr<const Circle2D> circle, Ptr<const Box2D> box)
-			{ return Intersect(box, circle); }
+			bool Intersect(Ptr<const Circle2D> circle, Ptr<const Point2D> point);
+			bool Intersect(Ptr<const Circle2D> circle, Ptr<const Line2D> line);
+			bool Intersect(Ptr<const Circle2D> circle, Ptr<const Box2D> box);
 			bool Intersect(Ptr<const Circle2D> circle1, Ptr<const Circle2D> circle2);
 			// bool Intersect(Ptr<const Circle2D> circle, Ptr<const Polygon2D> polygon);
 

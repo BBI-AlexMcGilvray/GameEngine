@@ -248,20 +248,31 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Dependencies\Dlls\SDL2\libfreetype-6.dll" />
-    <None Include="Dependencies\Dlls\SDL2\libjpeg-9.dll" />
-    <None Include="Dependencies\Dlls\SDL2\libpng16-16.dll" />
-    <None Include="Dependencies\Dlls\SDL2\libtiff-5.dll" />
-    <None Include="Dependencies\Dlls\SDL2\libwebp-4.dll" />
-    <None Include="Dependencies\Dlls\SDL2\SDL2.dll" />
-    <None Include="Dependencies\Dlls\SDL2\SDL2_image.dll" />
-    <None Include="Dependencies\Dlls\SDL2\SDL2_net.dll" />
-    <None Include="Dependencies\Dlls\SDL2\SDL2_ttf.dll" />
-    <None Include="Dependencies\Dlls\SDL2\zlib1.dll" />
-    <None Include="Dependencies\Dlls\GLEW\glew32.dll" />
     <None Include="__Planning\GameEngine.xmi" />
     <None Include="Data\Assets\MI.msh" />
     <None Include="Data\Assets\MI.mat" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libfreetype-6.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libjpeg-9.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libpng16-16.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libtiff-5.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libwebp-4.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\SDL2_image.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\SDL2_net.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\SDL2_ttf.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\zlib1.dll" />
+    <None Include="Dependencies\Dlls\32Bit\GLEW\glew32.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\SDL2.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libfreetype-6.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libjpeg-9.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libpng16-16.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libtiff-5.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libwebp-7.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\SDL2.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\SDL2_image.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\SDL2_net.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\SDL2_ttf.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\zlib1.dll" />
+    <None Include="Dependencies\Dlls\64Bit\GLEW\glew32.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Includes\SDL2\begin_code.h">
@@ -792,15 +803,78 @@
     <ClInclude Include="Core\Geometric\2D\Headers\GeometryFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Headers\Exception.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_android.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_iphoneos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_macosx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_minimal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_pandora.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_psp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_windows.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_winrt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_wiz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_copying.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_egl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles2_khrplatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles2_gl2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles2_gl2ext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles2_gl2platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengl_glext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_test_memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_vulkan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Dependencies\Libs\SDL2\_SDL2main.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2_image.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2_net.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2_ttf.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2main.lib" />
-    <Library Include="Dependencies\Libs\GLEW\glew32.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\_SDL2main.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2_image.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2_net.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2_ttf.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2main.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2main.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2_image.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2_net.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2_ttf.lib" />
+    <Library Include="Dependencies\Libs\32Bit\GLEW\glew32s.lib" />
+    <Library Include="Dependencies\Libs\64Bit\GLEW\glew32s.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="__Planning\Notes.txt" />

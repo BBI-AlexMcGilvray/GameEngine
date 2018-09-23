@@ -69,7 +69,7 @@ namespace Core
 	{
 		if (auto truth = InList(list, Forward<T>(entry)))
 		{
-			list.erase(list.begin() + truth);
+			list.erase(list.begin() + truth.Value);
 		}
 	}
 

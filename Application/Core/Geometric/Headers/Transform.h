@@ -2,6 +2,8 @@
 
 #include "Core/Geometric/Headers/GeometryDefs.h"
 
+#include "Core/Math/Headers/Matrix4x4.h"
+
 using namespace Core::Math;
 
 namespace Core

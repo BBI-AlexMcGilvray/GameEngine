@@ -94,8 +94,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Application\Dependencies\Libs\GLEW;$(SolutionDir)\Application\Dependencies\Libs\SDL2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2_image.lib;SDL2_net.lib;SDL2_ttf.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Application\Dependencies\Libs\32Bit\GLEW;$(SolutionDir)\Application\Core;$(SolutionDir)\Application\Dependencies\Libs\32Bit\SDL2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;SDL2_image.lib;SDL2_net.lib;SDL2_ttf.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -106,10 +106,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Application\Core;$(SolutionDir)\Application\ApplicationManagement;$(SolutionDir)\Application;$(SolutionDir)\Application\Dependencies\Includes\GLEW;$(SolutionDir)\Application\Dependencies\Includes\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Application\Dependencies\Libs\64Bit\GLEW;$(SolutionDir)\Application\Core;$(SolutionDir)\Application\Dependencies\Libs\64Bit\SDL2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;SDL2_image.lib;SDL2_net.lib;SDL2_ttf.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,8 +132,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Application\Dependencies\Libs\GLEW;$(SolutionDir)\Application\Dependencies\Libs\SDL2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2_image.lib;SDL2_net.lib;SDL2_ttf.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Application\Dependencies\Libs\32Bit\GLEW;$(SolutionDir)\Application\Core;$(SolutionDir)\Application\Dependencies\Libs\32Bit\SDL2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;SDL2_image.lib;SDL2_net.lib;SDL2_ttf.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,12 +146,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Application\Core;$(SolutionDir)\Application\ApplicationManagement;$(SolutionDir)\Application;$(SolutionDir)\Application\Dependencies\Includes\GLEW;$(SolutionDir)\Application\Dependencies\Includes\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Application\Dependencies\Libs\64Bit\GLEW;$(SolutionDir)\Application\Core;$(SolutionDir)\Application\Dependencies\Libs\64Bit\SDL2;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32s.lib;SDL2_image.lib;SDL2_net.lib;SDL2_ttf.lib;SDL2main.lib;SDL2.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -233,18 +239,29 @@
   <ItemGroup>
     <None Include="Data\Assets\MI.mat" />
     <None Include="Data\Assets\MI.msh" />
+    <None Include="Dependencies\Dlls\32Bit\GLEW\glew32.dll" />
+    <None Include="Dependencies\Dlls\64Bit\GLEW\glew32.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libfreetype-6.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libjpeg-9.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libpng16-16.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libtiff-5.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\libwebp-7.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\SDL2.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\SDL2_image.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\SDL2_net.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\SDL2_ttf.dll" />
+    <None Include="Dependencies\Dlls\64Bit\SDL2\zlib1.dll" />
     <None Include="__Planning\GameEngine.xmi" />
-    <None Include="Dependencies\Dlls\GLEW\glew32.dll" />
-    <None Include="Dependencies\Dlls\SDL2\libfreetype-6.dll" />
-    <None Include="Dependencies\Dlls\SDL2\libjpeg-9.dll" />
-    <None Include="Dependencies\Dlls\SDL2\libpng16-16.dll" />
-    <None Include="Dependencies\Dlls\SDL2\libtiff-5.dll" />
-    <None Include="Dependencies\Dlls\SDL2\libwebp-4.dll" />
-    <None Include="Dependencies\Dlls\SDL2\SDL2.dll" />
-    <None Include="Dependencies\Dlls\SDL2\SDL2_image.dll" />
-    <None Include="Dependencies\Dlls\SDL2\SDL2_net.dll" />
-    <None Include="Dependencies\Dlls\SDL2\SDL2_ttf.dll" />
-    <None Include="Dependencies\Dlls\SDL2\zlib1.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libfreetype-6.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libjpeg-9.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libpng16-16.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libtiff-5.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\libwebp-4.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\SDL2.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\SDL2_image.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\SDL2_net.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\SDL2_ttf.dll" />
+    <None Include="Dependencies\Dlls\32Bit\SDL2\zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationManagement\Collision\Headers\BoxCollider.h" />
@@ -367,7 +384,18 @@
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_blendmode.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_clipboard.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_config.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_android.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_iphoneos.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_macosx.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_minimal.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_pandora.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_psp.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_windows.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_winrt.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_config_wiz.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_copying.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_cpuinfo.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_egl.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_endian.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_error.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_events.h" />
@@ -391,6 +419,11 @@
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengl.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles2.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles2_gl2.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles2_gl2ext.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles2_gl2platform.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengles2_khrplatform.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_opengl_glext.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_pixels.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_platform.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_power.h" />
@@ -416,6 +449,7 @@
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_test_images.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_test_log.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_test_md5.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_test_memory.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_test_random.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_thread.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_timer.h" />
@@ -424,15 +458,22 @@
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_types.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_version.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\SDL_video.h" />
+    <ClInclude Include="Dependencies\Includes\SDL2\SDL_vulkan.h" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="Dependencies\Libs\GLEW\glew32.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2main.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2_image.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2_net.lib" />
-    <Library Include="Dependencies\Libs\SDL2\SDL2_ttf.lib" />
-    <Library Include="Dependencies\Libs\SDL2\_SDL2main.lib" />
+    <Library Include="Dependencies\Libs\32Bit\GLEW\glew32s.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2main.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2_image.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2_net.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\SDL2_ttf.lib" />
+    <Library Include="Dependencies\Libs\32Bit\SDL2\_SDL2main.lib" />
+    <Library Include="Dependencies\Libs\64Bit\GLEW\glew32s.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2main.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2_image.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2_net.lib" />
+    <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2_ttf.lib" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Data\Assets\Cube.msh" />

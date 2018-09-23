@@ -6,11 +6,9 @@
 
 #include "Core/Math/Headers/Matrix2x2.h"
 #include "Core/Math/Headers/Matrix3x3.h"
-#include "Core/Math/Headers/Matrix4x4.h"
 
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/Vector3.h"
-#include "Core/Math/Headers/Vector4.h"
 
 #include "Core/Math/Headers/Quaternion.h"
 
