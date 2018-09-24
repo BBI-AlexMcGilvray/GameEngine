@@ -1,5 +1,8 @@
 #pragma once
 
+// this is needed if we want to link to GLEW statically (for some reason...)
+#define GLEW_STATIC
+
 #include "Dependencies/Includes/SDL2/SDL.h"
 #include "Dependencies/Includes/GLEW/glew.h"
 
