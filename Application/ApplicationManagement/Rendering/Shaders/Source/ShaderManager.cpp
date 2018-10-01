@@ -37,7 +37,7 @@ namespace Application
 			DefaultShader.Initialize();
 		}
 
-		void ShaderManager::Destroy()
+		void ShaderManager::CleanUp()
 		{
 			DebugShader.Destroy();
 			DefaultShader.Destroy();

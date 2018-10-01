@@ -20,6 +20,11 @@ namespace Application
 
 		}
 
+		void RenderObjectManager::Start()
+		{
+
+		}
+
 		void RenderObjectManager::Update(Second dt)
 		{
 			for (auto& renderObject : RenderObjects)
@@ -35,6 +40,11 @@ namespace Application
 			{
 				renderObject->Render(mvp, color);
 			}
+		}
+
+		void RenderObjectManager::End()
+		{
+
 		}
 
 		void RenderObjectManager::CleanUp()

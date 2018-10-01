@@ -8,46 +8,41 @@ namespace Core
 	namespace Functionality
 	{
 		// base set up for (essentially) entity-component system
-
+		/*
 		template <typename T>
 		struct Subscription;
 
 		template <typename T>
-		struct Subscriber : SubscriberBase
+		struct Subscriber
 		{
-			Ptr<T> Object;
+			Ptr<Subscription<T>> Subscription;
 
-			Subscriber() = delete;
+			Subscriber()
+				: Subscription(nullptr)
+			{}
 
 			Subscriber(Ptr<T> object)
-				: Object(object)
+				: Subscription(object)
 			{}
-
-			Subscriber(Ptr<T> object, Ptr<Subscription<T>> subscription)
-				: SubscriberBase(subscription), Object(object)
-			{}
-
-			Subscriber(Ptr<Subscription<T>> subscription)
-			{
-				subscription->Subscribe(this);
-			}
 
 			~Subscriber()
 			{
-				if (SubscriptionHolder != nullptr)
+				EndSubscription();
+			}
+
+			void SubscribeTo(Ptr<Subscription<T>> subscription)
+			{
+				Subscription = subscription;
+				Subscription->AddSubscriber(this);
+			}
+
+			void EndSubscription()
+			{
+				if (Subscription != nullptr)
 				{
-					SubscriptionHolder->Unsubscribe(this);
+					Subscription->RemoveSubscriber(this);
+					Subscription = nullptr;
 				}
-			}
-
-			void OnSubscription(Ptr<Subscriber> subscription)
-			{
-				SubscriptionHolder = subscription;
-			}
-
-			void OnSubscriptionDeleted()
-			{
-				SubscriptionHolder = nullptr;
 			}
 		};
 
@@ -60,21 +55,24 @@ namespace Core
 			{
 				for (auto& subscriber : Subscribers)
 				{
-					subscriber->OnSubscriptionDeleted();
+					subscriber->EndSubscription();
 				}
 			}
 
-			void Subscribe(Ptr<Subscriber<T>> newSubscriber)
+			void AddSubscriber(Ptr<Subscriber<T>> newSubscriber)
 			{
 				Push(Subscribers, newSubscriber);
-				newSubscriber->OnSubscription(this);
 			}
 
-			void Unsubscribe(Ptr<Subscriber<T>> currentSubscriber)
+			void RemoveSubscriber(Ptr<Subscriber<T>> currentSubscriber)
 			{
 				Remove(Subscribers, currentSubscriber);
-				currentSubscriber->OnSubscriptionDeleted();
 			}
 		};
+
+		template <typename T>
+		struct SelfSubscriber : Subscriber<T>, Subscription<T>
+		{};
+		*/
 	}
 }

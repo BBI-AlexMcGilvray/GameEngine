@@ -45,7 +45,7 @@ namespace Application
 			Vao.Bind();
 		}
 
-		void MeshBase::Cleanup() const
+		void MeshBase::CleanUp() const
 		{
 			Vao.Unbind();
 		}

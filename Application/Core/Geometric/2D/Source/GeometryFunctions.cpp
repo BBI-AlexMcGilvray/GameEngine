@@ -137,13 +137,13 @@ namespace Core
 
 				auto orientation = [](Point2D p1, Point2D p2, Point2D p3)
 				{
-					int val = ((p2.Y - p1.Y) * (p3.X - p2.X)) - ((p2.X - p1.X) * (p3.Y - p2.Y));
+					float val = ((p2.Y - p1.Y) * (p3.X - p2.X)) - ((p2.X - p1.X) * (p3.Y - p2.Y));
 
-					if (val == 0)
+					if (val == 0.0f)
 					{
 						return Orientation::Colinear;
 					}
-					else if (val > 0)
+					else if (val > 0.0f)
 					{
 						return Orientation::Clockwise;
 					}

@@ -2,19 +2,16 @@
 
 #include <iostream>
 
-// debug/testing includes
-#include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
-
 namespace Application
 {
 	ApplicationManager::ApplicationManager()
-		: Input(SDL)
-		, GameSystem(RenderSystem)
+		: InputSystem(SDL)
+		, GameSystem(RenderSystem, InputSystem)
 		, OnQuit([this]()
 			{
 				Quit = true;
 				return false;
-			}, Input.Quit)
+			}, InputSystem.Quit)
 	{
 
 	}
@@ -48,24 +45,26 @@ namespace Application
 			return false;
 		}
 
-		GameSystem.Initialize();
-		Input.Initialize();
+		Time.Initialize();
 		RenderSystem.Initialize(SDL.GetWindowManager());
+		InputSystem.Initialize();
+		GameSystem.Initialize();
 
 		return true;
 	}
 
 	void ApplicationManager::Start()
 	{
-		// Debug test for rendering a model
-		testTransform = MakeShared<Transform>();
-		RenderSystem.ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform, "MI");
+		SDL.Start();
+		Time.Start();
+		RenderSystem.Start();
+		InputSystem.Start();
+		GameSystem.Start();
 	}
 
 	bool ApplicationManager::Update()
 	{
-		// this loop should probably be in the InputManager
-		Input.Update();
+		InputSystem.Update(); // gets input through SDL
 
 		// game manager update (will update game logic, colliders, game object, renderers)
 		auto dt = Time.Update();
@@ -86,15 +85,20 @@ namespace Application
 
 	void ApplicationManager::End()
 	{
-
+		GameSystem.End();
+		InputSystem.End();
+		RenderSystem.End();
+		Time.End();
+		SDL.End();
 	}
 
 	void ApplicationManager::CleanUp()
 	{
 		// possible we want to thread this to make it faster (since saving could be done)
-		RenderSystem.CleanUp();
-		Input.CleanUp();
 		GameSystem.CleanUp();
+		InputSystem.CleanUp();
+		RenderSystem.CleanUp();
+		Time.CleanUp();
 		SDL.CleanUp();
 	}
 }

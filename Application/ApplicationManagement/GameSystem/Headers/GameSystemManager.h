@@ -8,6 +8,7 @@
 
 #include "ApplicationManagement/GameSystem/Headers/GameObjectManager.h"
 
+#include "ApplicationManagement/Input/Headers/InputManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 #include "ApplicationManagement/Collision/Headers/CollisionManager.h"
 
@@ -28,15 +29,21 @@ namespace Application
 
 			// the game system manager should hold onto the current 'scene' and be able to switch between scenes (in order to load different game states)
 
-			GameSystemManager(Rendering::RenderManager& renderSystem);
+			GameSystemManager(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem);
 
-			virtual void Initialize();
-			virtual void Update(Second dt);
-			virtual void CleanUp();
+			void Initialize();
+			void Start();
+			void Update(Second dt);
+			void End();
+			void CleanUp();
 
 		private:
 			// needs the render system to make changes on a game level. Ex: setting dead screen to red and the like
 			Rendering::RenderManager& RenderSystem;
+			Input::InputManager& InputSystem;
+
+			// debug/testing
+			SharedPtr<Transform> testTransform;
 		};
 	}
 }

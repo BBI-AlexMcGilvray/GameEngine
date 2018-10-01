@@ -6,7 +6,7 @@ namespace Application
 {
 	namespace Rendering
 	{
-		ModelBase::ModelBase(RenderManager& manager, SharedPtr<const Transform> renderTransform, String folderName)
+		ModelBase::ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, String folderName)
 			: RenderObjectBase(manager, renderTransform)
 			, Mesh(Data::GetData<MeshBase>(folderName + ".msh"))
 			, Shader(manager.ObjectShaderManager.DefaultShader)
@@ -27,7 +27,7 @@ namespace Application
 
 		void ModelBase::CleanUp() const
 		{
-			Mesh.Cleanup();
+			Mesh.CleanUp();
 			Shader.CleanUp();
 		}
 	}

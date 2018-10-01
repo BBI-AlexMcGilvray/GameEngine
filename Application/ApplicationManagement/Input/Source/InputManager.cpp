@@ -16,41 +16,24 @@ namespace Application
 			// have controller logic mapping initialize
 		}
 
-		void InputManager::HandleInput(SharedPtr<InputEventBase> event)
+		void InputManager::Start()
 		{
-			switch (event->GetInputEventType())
-			{
-			case InputEventType::Undetermined:
-			{
-				return;
-			}
-			case InputEventType::MouseClickedEvent:
-			{
-				return HandleMouseClick(static_pointer_cast<InputEvent<MouseClickedData>>(event));
-			}
-			case InputEventType::MouseMovedEvent:
-			{
-				return HandleMouseMovement(static_pointer_cast<InputEvent<MouseMovedData>>(event));
-			}
-			case InputEventType::MouseWheelEvent:
-			{
-				return HandleMouseWheel(static_pointer_cast<InputEvent<MouseWheeledData>>(event));
-			}
-			case InputEventType::KeyboardEvent:
-			{
-				return HandleKeyboardInput(static_pointer_cast<InputEvent<KeyboardButtonData>>(event));
-			}
-			}
-		}
 
-		void InputManager::CleanUp()
-		{
-			// have controller mapping save any changed made during gameplay (?)
 		}
 
 		void InputManager::Update()
 		{
 			PollSDL();
+		}
+
+		void InputManager::End()
+		{
+
+		}
+
+		void InputManager::CleanUp()
+		{
+			// have controller mapping save any changes made during gameplay (?)
 		}
 
 		void InputManager::PollSDL()
@@ -63,35 +46,25 @@ namespace Application
 				{
 				case SDL_QUIT:
 				{
-					// send of quit event
+					// send an quit event
 					Quit();
+					break;
 				}
-				case SDL_KEYDOWN:
+				case SDL_WINDOWEVENT:
 				{
-					HandleInput(MakeShared<InputEvent<KeyboardButtonData>>(InputEventType::KeyboardEvent, event.key.timestamp, event.key.windowID, GetKeyboardButton(event.key.keysym.sym), GetButtonState(event.key.type)));
+					// pass event to SDL.WindowManager to handle resizing
+					break;
+				}
+				default:
+				{
+					if (Controller != nullptr)
+					{
+						Controller->HandleInput(CreateInputEvent(event));
+					}
+					break;
 				}
 				}
 			}
-		}
-
-		void InputManager::HandleMouseClick(SharedPtr<const InputEvent<MouseClickedData>> event)
-		{
-
-		}
-
-		void InputManager::HandleMouseMovement(SharedPtr<const InputEvent<MouseMovedData>> event)
-		{
-
-		}
-
-		void InputManager::HandleMouseWheel(SharedPtr<const InputEvent<MouseWheeledData>> event)
-		{
-
-		}
-
-		void InputManager::HandleKeyboardInput(SharedPtr<const InputEvent<KeyboardButtonData>> event)
-		{
-
 		}
 	}
 }

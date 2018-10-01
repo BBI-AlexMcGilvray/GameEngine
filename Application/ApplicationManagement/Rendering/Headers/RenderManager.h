@@ -35,8 +35,12 @@ namespace Application
 			RenderManager();
 
 			void Initialize(WindowManager& window, Color clearColor = Color(1.0f, 0.5f, 0.5f, 1.0f));
+			void Start();
+
 			void Update(Second dt);
 			void Render();
+
+			void End();
 			void CleanUp();
 
 			void SetOpenGLAttributes();

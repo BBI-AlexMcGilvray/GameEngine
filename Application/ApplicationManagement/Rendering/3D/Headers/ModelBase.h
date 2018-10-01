@@ -15,7 +15,7 @@ namespace Application
 			Material Material;
 			MeshBase Mesh;
 
-			ModelBase(RenderManager& manager, SharedPtr<const Transform> renderTransform, String folderName);
+			ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, String folderName);
 
 			uint GetVertexCount() const override;
 

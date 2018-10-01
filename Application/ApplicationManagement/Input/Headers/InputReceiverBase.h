@@ -3,6 +3,7 @@
 #include "InputEvent.h"
 
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/ListDefs.h"
 
 namespace Application
 {
@@ -14,11 +15,24 @@ namespace Application
 		struct InputReceiverBase
 		{
 			InputReceiverBase();
+			~InputReceiverBase();
 
 			void Initialize();
 			void CleanUp();
 
-			virtual void HandleInput(SharedPtr<InputEventBase> event) = 0;
+			void SubscribeTo(Ptr<InputReceiverBase> parent);
+			void EndSubscriptionToParent();
+
+			void AddSubscriber(Ptr<InputReceiverBase> receiver);
+			void RemoveSubscriber(Ptr<InputReceiverBase> receiver);
+
+			Ptr<const InputReceiverBase> HandleInput(Ptr<const InputEventBase> event) const;
+			
+		private:
+			Ptr<InputReceiverBase> ParentReceiver = nullptr;
+			List<Ptr<InputReceiverBase>> ChildReceivers;
+
+			virtual bool HandlesInput(Ptr<const InputEventBase> event) const = 0;
 		};
 	}
 }

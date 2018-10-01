@@ -11,6 +11,7 @@ namespace Application
 		void RenderManager::Initialize(WindowManager& window, Color clearColor)
 		{
 			ObjectShaderManager.Initialize();
+			ObjectManager.Initialize();
 
 			Window = &window;
 
@@ -21,6 +22,11 @@ namespace Application
 			SetCamera(MakeShared<Camera>(Window->Width, Window->Height));
 			RenderStart();
 			RenderEnd();
+		}
+
+		void RenderManager::Start()
+		{
+			ObjectManager.Start();
 		}
 
 		void RenderManager::Update(Second dt)
@@ -37,9 +43,15 @@ namespace Application
 			RenderEnd();
 		}
 
+		void RenderManager::End()
+		{
+			ObjectManager.End();
+		}
+
 		void RenderManager::CleanUp()
 		{
-			ObjectShaderManager.Destroy();
+			ObjectManager.CleanUp();
+			ObjectShaderManager.CleanUp();
 		}
 
 		void RenderManager::SetOpenGLAttributes()

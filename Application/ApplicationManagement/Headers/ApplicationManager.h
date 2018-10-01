@@ -29,7 +29,7 @@ namespace Application
 		SDL2Manager SDL;
 		FixedStepTimeManager Time;
 		RenderManager RenderSystem;
-		InputManager Input;
+		InputManager InputSystem;
 		GameSystemManager GameSystem;
 
 		Delegate<> OnQuit;
@@ -40,8 +40,5 @@ namespace Application
 		bool Update();
 		void End();
 		void CleanUp();
-
-		// debug/testing
-		SharedPtr<Transform> testTransform;
 	};
 }

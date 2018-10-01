@@ -25,7 +25,7 @@ namespace Application
 			Ptr<const ObjectShaderBase> GetShader(ObjectShaderType shader) const;
 
 			void Initialize();
-			void Destroy();
+			void CleanUp();
 		};
 	}
 }

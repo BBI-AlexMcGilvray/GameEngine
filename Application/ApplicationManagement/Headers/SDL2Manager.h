@@ -10,7 +10,11 @@ namespace Application
 		SDL2Manager() = default;
 
 		bool Initialize();
+		void Start();
+
 		int Poll(SDL_Event& event) const;
+
+		void End();
 		void CleanUp();
 
 		WindowManager& GetWindowManager();

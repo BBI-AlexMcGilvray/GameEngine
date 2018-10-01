@@ -36,9 +36,19 @@ namespace Application
 		return true;
 	}
 
+	void SDL2Manager::Start()
+	{
+
+	}
+
 	int SDL2Manager::Poll(SDL_Event& event) const
 	{
 		return SDL_PollEvent(&event);
+	}
+
+	void SDL2Manager::End()
+	{
+
 	}
 
 	void SDL2Manager::CleanUp()

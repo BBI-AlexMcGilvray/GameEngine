@@ -15,7 +15,13 @@ namespace Application
 			{
 				CollisionManager();
 
-				virtual void Update(Second dt);
+				void Initialize();
+				void Start();
+
+				void Update(Second dt);
+
+				void End();
+				void CleanUp();
 
 			private:
 				List<ColliderBase> Colliders;

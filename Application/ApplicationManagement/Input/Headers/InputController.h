@@ -15,21 +15,23 @@ namespace Application
 
 		Then, that action is passed down to the receivers (starting with the focus, and moving on if it does not consume the input).
 		*/
-		struct InputControllerBase
+		struct InputController
 		{
-			InputControllerBase();
+			InputController() = default;
 
 			void Initialize();
 			void CleanUp();
 
-			void SetFocus(SharedPtr<InputReceiverBase> focus);
+			void SetParentReceiver(Ptr<const InputReceiverBase> parentReceiver);
 			void ClearFocus();
 
-			virtual void HandleInput(SharedPtr<InputEventBase> event) = 0;
+			void HandleInput(UniquePtr<const InputEventBase> inputEvent);
 
 		private:
-			SharedPtr<InputReceiverBase> Focus;
-			SharedPtr<InputReceiverBase> ParentReceiver;
+			Ptr<const InputReceiverBase> FocusedReceiver = nullptr;
+			Ptr<const InputReceiverBase> Receiver = nullptr;
+
+			void SetFocus(Ptr<const InputReceiverBase> focus);
 		};
 	}
 }

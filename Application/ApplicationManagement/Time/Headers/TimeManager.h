@@ -29,7 +29,13 @@ namespace Application
 
 			TimeManager();
 
+			void Initialize();
+			void Start();
+
 			virtual Second Update();
+
+			void End();
+			void CleanUp();
 
 			Second GetDeltaTime();
 			Second GetTimeSpan();

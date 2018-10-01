@@ -35,11 +35,11 @@ namespace Application
 			NOTE: These should be created (potentially?) directly in the RenderObjectManager as a UniquePtr! This should also be followed by the Collision and GameSystem groups.
 			Because the transform is a SharedPtr, we should still be able to local-space relative to nodes by passing down the changes through the node chain
 		*/
-		struct RenderObjectBase // THIS SHOULD NOT INHERIT FROM SUBSCRIBER - we need to handle the passing of the transformation matrix
+		struct RenderObjectBase
 		{
 			Color ObjectColor;
 
-			RenderObjectBase(RenderManager& manager, SharedPtr<const Transform> renderTransform, Color color = Color(1.0f, 1.0f, 1.0f, 1.0f));
+			RenderObjectBase(RenderManager& manager, Ptr<const Transform> renderTransform, Color color = Color(1.0f, 1.0f, 1.0f, 1.0f));
 			virtual ~RenderObjectBase();
 
 			virtual void Update(Second dt);
@@ -50,16 +50,11 @@ namespace Application
 		protected:
 			RenderManager& Manager;
 			// this is private because it should never be changed by the render object - it simply reads the transform (same for colliders, but game objects will be able to modify their transform)
-			SharedPtr<const Transform> RenderTransform;
+			Ptr<const Transform> RenderTransform;
 
 			virtual void Prepare(const Float4x4& mvp, const Color& color) const = 0;
 			virtual void Draw() const;
 			virtual void CleanUp() const = 0;
-
-			// debug stuff
-			GLArrayBuffer DebugVao;
-			List<GLBuffer> DebugVbos;
-			List<Data::Rendering::VertexDataBase> DebugVertices;
 		};
 	}
 }

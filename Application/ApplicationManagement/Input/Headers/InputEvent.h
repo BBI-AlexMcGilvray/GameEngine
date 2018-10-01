@@ -2,6 +2,8 @@
 
 #include "InputDefs.h"
 
+#include "Core/Headers/PtrDefs.h"
+
 using namespace Core;
 
 namespace Application
@@ -98,5 +100,7 @@ namespace Application
 				return Type;
 			}
 		};
+
+		UniquePtr<const InputEventBase> CreateInputEvent(const SDL_Event& sdlEvent);
 	}
 }

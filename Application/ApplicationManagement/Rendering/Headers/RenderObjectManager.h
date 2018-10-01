@@ -22,12 +22,14 @@ namespace Application
 		{
 			RenderObjectManager(Ptr<RenderManager> manager);
 
-			virtual void Initialize();
+			void Initialize();
+			void Start();
 
-			virtual void Update(Second dt);
-			virtual void Render(const Float4x4& mvp, const Color& color);
+			void Update(Second dt);
+			void Render(const Float4x4& mvp, const Color& color);
 
-			virtual void CleanUp();
+			void End();
+			void CleanUp();
 
 			template <typename T, typename ...Ts>
 			SharedPtr<T> AddRenderObject(Ts ...args)

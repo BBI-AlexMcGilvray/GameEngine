@@ -6,10 +6,20 @@ namespace Application
 	{
 		TimeManager::TimeManager()
 		{
+
+		}
+
+		void TimeManager::Initialize()
+		{
 			InitialTime = Clock.now();
 
 			PreviousTick = InitialTime;
 			CurrentTick = InitialTime;
+		}
+
+		void TimeManager::Start()
+		{
+
 		}
 
 		Second TimeManager::Update()
@@ -18,6 +28,16 @@ namespace Application
 			CurrentTick = Clock.now();
 
 			return GetDeltaTime();
+		}
+
+		void TimeManager::End()
+		{
+
+		}
+
+		void TimeManager::CleanUp()
+		{
+
 		}
 
 		Second TimeManager::GetDeltaTime()
