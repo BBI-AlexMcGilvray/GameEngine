@@ -1,6 +1,7 @@
 #include "ApplicationManagement/GameSystem/Headers/GameSystemManager.h"
 
 // debug/testing includes
+#include "ApplicationManagement/Rendering/Headers/Camera.h"
 #include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
 #include "ApplicationManagement/Rendering/2D/Headers/BoxRenderObject.h"
 #include "ApplicationManagement/Rendering/2D/Headers/CircleRenderObject.h"
@@ -26,8 +27,11 @@ namespace Application
 			testTransform = MakeShared<Transform>();
 			RenderSystem.ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform.get(), "MI");
 
-			//RenderSystem.ObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform.get(), BLACK, Float2(1.5f));
-			RenderSystem.ObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform.get(), WHITE, 1.5f);
+			RenderSystem.ObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform.get(), BLACK, Float2(1.5f));
+			RenderSystem.ObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform.get(), WHITE, 2.0f);
+
+			// should not need to set width/height! very dumb!
+			RenderSystem.SetCamera(MakeShared<Rendering::Camera>(1024, 800));
 		}
 
 		void GameSystemManager::Update(Second dt)

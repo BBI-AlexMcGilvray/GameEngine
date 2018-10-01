@@ -54,6 +54,11 @@ namespace Application
 			return Float2(screenX, screenY);
 		}
 
+		Transform& Camera::GetCameraTransform()
+		{
+			return CameraTransform;
+		}
+
 		Float4x4 Camera::GetTransformationMatrix() const
 		{
 			// Reference: http://www.ntu.edu.sg/home/ehchua/programming/opengl/cg_basicstheory.html

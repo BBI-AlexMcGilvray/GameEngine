@@ -30,7 +30,9 @@ namespace Application
 				float dotProduct = dot(rotatedNormal, facingCamera);
 				float cameraFacingRatio = (dotProduct * dotProduct) / dot(rotatedNormal, rotatedNormal);
 
-				Color = vec4(modColor.xyz * (1.0 - cameraFacingRatio), modColor.w);
+				// the below can be used to outline characters based on normal
+				//Color = vec4(modColor.xyz * (1.0 - cameraFacingRatio), modColor.w);
+				Color = modColor;
 				
 				gl_Position = MVP * vec4(vPosition, 1.0);
 			}

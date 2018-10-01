@@ -19,7 +19,6 @@ namespace Application
 			ClearColor = clearColor;
 
 			// don't render everything, but set up the default state
-			SetCamera(MakeShared<Camera>(Window->Width, Window->Height));
 			RenderStart();
 			RenderEnd();
 		}

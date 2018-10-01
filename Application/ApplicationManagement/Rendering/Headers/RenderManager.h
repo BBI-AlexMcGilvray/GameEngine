@@ -5,6 +5,7 @@
 
 #include "Renderer.h"
 #include "RenderObjectManager.h"
+#include "ApplicationManagement/Rendering/Headers/Camera.h"
 #include "ApplicationManagement/Rendering/Shaders/Headers/ShaderManager.h"
 
 #include "Core/Functionality/Headers/Subscription.h"

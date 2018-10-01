@@ -3,8 +3,6 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/PtrDefs.h"
 
-#include "ApplicationManagement/Rendering/Headers/Camera.h"
-
 using namespace Core;
 
 namespace Application

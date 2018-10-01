@@ -1,5 +1,7 @@
 #include "ApplicationManagement/Rendering/2D/Headers/CircleRenderObject.h"
 
+#include "Core/Math/Headers/UtilityFunctions.h"
+
 namespace Application
 {
 	namespace Rendering
@@ -19,31 +21,29 @@ namespace Application
 		void CircleRenderObject::Initialize()
 		{
 			Float3 center = RenderTransform->GetPosition();
-			float stepCountPerQuadrant = 20.0f;
+			float halfStepCount = 50.0f;
 
-			auto createVertices = [this, center, stepCountPerQuadrant](bool positiveX, bool positiveY)
+			auto createVertices = [this, center, halfStepCount](bool positiveY)
 			{
-				for (float i = 0.0f; i < stepCountPerQuadrant; i++)
+				float startX = positiveY ? center.X - Radius : center.X + Radius;
+				float endX = positiveY ? center.X + Radius : center.X - Radius;
+
+				Float3 normal = Float3(0.0f);
+				Float3 currentPosition = Float3{ startX, center.Y, 0.0f };
+				for (float i = 1.0f; i <= halfStepCount; i++)
 				{
-					if (int(i) % 2 == 0)
-					{
-						Push(Vertices, { Float3{ center.X, center.Y, 0.0f }, Float3{ 0.0f } });
-					}
+					Push(Vertices, { currentPosition, normal });
 
-					float xRatio = positiveX ? (positiveY ? i : stepCountPerQuadrant - i) : (positiveY ? stepCountPerQuadrant - i : i);
-					float xPercent = xRatio / stepCountPerQuadrant;
+					currentPosition.X = Lerp(startX, endX, i / halfStepCount);
+					currentPosition.Y = positiveY ? Sqrt(Sqr(Radius) - Sqr(currentPosition.X)) : -Sqrt(Sqr(Radius) - Sqr(currentPosition.X));
 
-					float xPos = center.X + (xPercent * (positiveX ? Radius : -Radius));
-					float yPos = center.Y + ((1.0f - xPercent) * (positiveY ? Radius : -Radius));
-
-					Push(Vertices, { Float3{ xPos, yPos, 0.0f }, Float3{ 0.0f } });
+					Push(Vertices, { currentPosition, normal });
+					Push(Vertices, { center, normal });
 				}
 			};
 
-			createVertices(false, true);
-			createVertices(true, true);
-			createVertices(true, false);
-			createVertices(false, false);
+			createVertices(true);
+			createVertices(false);
 
 			Vao.Generate();
 			Vao.Bind();
