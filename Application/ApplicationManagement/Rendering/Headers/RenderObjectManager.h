@@ -31,6 +31,8 @@ namespace Application
 			void End();
 			void CleanUp();
 
+			// This should return a RanderObjectPtr that holds a unique ptr to the render object and will remove the object from
+			// the manager once deleted
 			template <typename T, typename ...Ts>
 			SharedPtr<T> AddRenderObject(Ts ...args)
 			{
