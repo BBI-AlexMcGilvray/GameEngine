@@ -25,13 +25,13 @@ namespace Application
 		{
 			// Debug test for rendering a model
 			testTransform = MakeShared<Transform>();
-			RenderSystem.ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform, "MI");
+			RenderSystem.ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform.get(), "MI");
 
-			RenderSystem.ObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform, BLACK, Float2(1.5f));
-			RenderSystem.ObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform, WHITE, 2.0f);
+			RenderSystem.ObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform.get(), BLACK, Float2(1.5f));
+			RenderSystem.ObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform.get(), WHITE, 2.0f);
 
 			// should not need to set width/height! very dumb!
-			RenderSystem.SetCamera(MakeShared<Rendering::Camera>(1024, 800));
+			RenderSystem.SetCamera(MakeShared<Rendering::Camera>(1024.0f / 800.0f));
 		}
 
 		void GameSystemManager::Update(Second dt)

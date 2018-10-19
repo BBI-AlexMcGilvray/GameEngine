@@ -13,8 +13,8 @@ namespace Application
 {
 	namespace Geometric
 	{
-		CameraNode::CameraNode(const int& width, const int& height, const Float3& position, const Float3& direction)
-			: RenderCamera(width, height, position, direction)
+		CameraNode::CameraNode(const float& aspectRatio, const Float3& position, const Float3& direction)
+			: RenderCamera(aspectRatio, position, direction)
 		{
 		}
 

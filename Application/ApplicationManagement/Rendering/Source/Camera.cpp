@@ -15,43 +15,12 @@ namespace Application
 	{
 		const Float3 Camera::DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
 
-		Camera::Camera(const int& width, const int& height, const Float3& position, const Float3& direction)
+		Camera::Camera(const float& aspectRatio, const Float3& position, const Float3& direction)
 		{
 			CameraTransform = Transform(position, RotationBetweenVectors(DefaultDirection, direction));
 			Direction = Normalize(direction);
 
-			SetProjectionVariables(FOVY, width, height, NearPlane, FarPlane);
-		}
-
-		Float3 Camera::ScreenToWorld(const Float2& screenPosition)
-		{
-			float worldX = screenPosition.X / Width * 2.0f - 1.0f;
-			float worldY = 1.0f - screenPosition.Y / Height * 2.0f;
-
-			Float4x4 inverseMVP = GetTransformationMatrix();
-
-			Float4 worldPosition = inverseMVP * Float4(worldX, worldY, 0.0f, 1.0f);
-
-			return Float3(worldPosition.X, worldPosition.Y, worldPosition.Z) / worldPosition.W;
-			
-			// This gives the world coordinate of clicked area. Using the vector of camera->this (given by: this - camera) you
-			// can calculate the coordinates that would be found at y = 0.
-
-			// Note: Create a ray class that has a direction and origin and can test for intersection & find the values when an axis (typically y) is 0
-		}
-
-		Float2 Camera::WorldToScreen(const Float3& worldPosition)
-		{
-			Float4x4 MVP = GetTransformationMatrix();
-			Float4 transformedPosition = MVP * Float4(worldPosition, 1.0f);
-
-			float screenX = transformedPosition.X / transformedPosition.Z; // scaled down based on distance from 0 x
-			float screenY = transformedPosition.Y / transformedPosition.Z; // scaled down based on distance from 0 y
-
-			screenX = (screenX + 1.f) * 0.5f * Width;
-			screenY = (1.0f - screenY) * 0.5f * Height; // y goes from top to bottom in screen space
-
-			return Float2(screenX, screenY);
+			SetProjectionVariables(FOVY, aspectRatio, NearPlane, FarPlane);
 		}
 
 		Transform& Camera::GetCameraTransform()
@@ -96,22 +65,19 @@ namespace Application
 			RecalculateProjectionMatrix();
 		}
 
-		void Camera::SetWidth(const int& width)
+		void Camera::SetAspectRatio(float width, float height)
 		{
-			SetWidthHeight(width, Height);
+			SetAspectRatio(Float2(width, height));
 		}
 
-		void Camera::SetHeight(const int& height)
+		void Camera::SetAspectRatio(Float2 viewRect)
 		{
-			SetWidthHeight(Width, height);
+			SetAspectRatio(viewRect.X / viewRect.Y);
 		}
 
-		void Camera::SetWidthHeight(const int& width, const int& height)
+		void Camera::SetAspectRatio(float aspectRatio)
 		{
-			Width = width;
-			Height = height;
-
-			AspectRatio = (float(Width) / float(Height));
+			AspectRatio = aspectRatio;
 
 			RecalculateProjectionMatrix();
 		}
@@ -128,20 +94,22 @@ namespace Application
 
 		void Camera::SetPlanes(const float& nearPlane, const float& farPlane)
 		{
-			NearPlane = nearPlane;
-			FarPlane = farPlane;
+			SetPlanes(Float2(nearPlane, farPlane));
+		}
+
+		void Camera::SetPlanes(const Float2& planes)
+		{
+			NearPlane = planes.X;
+			FarPlane = planes.Y;
 
 			RecalculateProjectionMatrix();
 		}
 
-		void Camera::SetProjectionVariables(const Rad& fovy, const int& width, const int& height, const float& nearPlane, const float& farPlane)
+		void Camera::SetProjectionVariables(const Rad& fovy, const float& aspectRatio, const float& nearPlane, const float& farPlane)
 		{
 			FOVY = fovy;
 
-			Width = width;
-			Height = height;
-
-			AspectRatio = (float(Width) / float(Height));
+			AspectRatio = aspectRatio;
 
 			NearPlane = nearPlane;
 			FarPlane = farPlane;

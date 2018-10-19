@@ -23,11 +23,7 @@ namespace Application
 		{
 			static const Float3 DefaultDirection;
 
-			Camera(const int& width, const int& height, const Float3& position = Float3(0.0f, 2.5f, 5.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
-
-			// these should be moved to being utility functions
-			Float3 ScreenToWorld(const Float2& screenPosition);
-			Float2 WorldToScreen(const Float3& worldPosition);
+			Camera(const float& aspectRatio, const Float3& position = Float3(0.0f, 2.5f, 5.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
 
 			Transform& GetCameraTransform();
 
@@ -37,15 +33,16 @@ namespace Application
 
 			void SetFOVY(Rad fovy);
 
-			void SetWidth(const int& width);
-			void SetHeight(const int& height);
-			void SetWidthHeight(const int& width, const int& height);
+			void SetAspectRatio(float width, float height);
+			void SetAspectRatio(Float2 viewRect);
+			void SetAspectRatio(float aspectRatio);
 
 			void SetNearPlane(const float& nearPlane);
 			void SetFarPlane(const float& farPlane);
 			void SetPlanes(const float& nearPlane, const float& farPlane);
+			void SetPlanes(const Float2& planes);
 
-			void SetProjectionVariables(const Rad& fovy, const int& width, const int& height, const float& nearPlane, const float& farPlane);
+			void SetProjectionVariables(const Rad& fovy, const float& AspectRatio, const float& nearPlane, const float& farPlane);
 
 		protected:
 			Transform CameraTransform;
@@ -56,8 +53,6 @@ namespace Application
 
 			float AspectRatio;
 			Rad FOVY = 1.57079f; // radian representation of 90 
-			int Width;
-			int Height;
 
 			float NearPlane = 0.1f;
 			float FarPlane = 1000.0f;
