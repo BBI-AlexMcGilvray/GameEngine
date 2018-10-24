@@ -20,18 +20,19 @@ namespace Application
 			uniform mat4 MVP;
 			uniform vec4 modColor;
 			
-			// values to return
+			// values to return to fragment shader
 			out vec4 Color;
+			out smooth float CameraFacingRatio;
 			
 			void main()
 			{
 				vec3 facingCamera = vec3(0.0, 0.0, -1.0);
 				vec3 rotatedNormal = vec3(MVP * vec4(vNormal, 0.0));
 				float dotProduct = dot(rotatedNormal, facingCamera);
-				float cameraFacingRatio = (dotProduct * dotProduct) / dot(rotatedNormal, rotatedNormal);
 
 				// the below can be used to outline characters based on normal
-				//Color = vec4(modColor.xyz * (1.0 - cameraFacingRatio), modColor.w);
+				CameraFacingRatio = (dotProduct * dotProduct) / dot(rotatedNormal, rotatedNormal);
+
 				Color = modColor;
 				
 				gl_Position = MVP * vec4(vPosition, 1.0);

@@ -152,15 +152,15 @@ namespace Core
 
 			MatrixAxB<T, 4, 4>& operator*=(MatrixAxB<T, 4, 4> const& m)
 			{
-				auto newE1 = VectorA<T, 4>(Dot((*this).GetRow(0), m.E1), Dot((*this).GetRow(0), m.E2), Dot((*this).GetRow(0), m.E3), Dot((*this).GetRow(0), m.E4));
-				auto newE2 = VectorA<T, 4>(Dot((*this).GetRow(1), m.E1), Dot((*this).GetRow(1), m.E2), Dot((*this).GetRow(1), m.E3), Dot((*this).GetRow(1), m.E4));
-				auto newE3 = VectorA<T, 4>(Dot((*this).GetRow(2), m.E1), Dot((*this).GetRow(2), m.E2), Dot((*this).GetRow(2), m.E3), Dot((*this).GetRow(2), m.E4));
-				auto newE4 = VectorA<T, 4>(Dot((*this).GetRow(3), m.E1), Dot((*this).GetRow(3), m.E2), Dot((*this).GetRow(3), m.E3), Dot((*this).GetRow(3), m.E4));
+				auto newCol1 = VectorA<T, 4>(Dot((*this).GetRow(0), m.E1), Dot((*this).GetRow(0), m.E2), Dot((*this).GetRow(0), m.E3), Dot((*this).GetRow(0), m.E4));
+				auto newCol2 = VectorA<T, 4>(Dot((*this).GetRow(1), m.E1), Dot((*this).GetRow(1), m.E2), Dot((*this).GetRow(1), m.E3), Dot((*this).GetRow(1), m.E4));
+				auto newCol3 = VectorA<T, 4>(Dot((*this).GetRow(2), m.E1), Dot((*this).GetRow(2), m.E2), Dot((*this).GetRow(2), m.E3), Dot((*this).GetRow(2), m.E4));
+				auto newCol4 = VectorA<T, 4>(Dot((*this).GetRow(3), m.E1), Dot((*this).GetRow(3), m.E2), Dot((*this).GetRow(3), m.E3), Dot((*this).GetRow(3), m.E4));
 
-				E1 = newE1;
-				E2 = newE2;
-				E3 = newE3;
-				E4 = newE4;
+				E1 = VectorA<T, 4>(newCol1.X, newCol2.X, newCol3.X, newCol4.X);
+				E2 = VectorA<T, 4>(newCol1.Y, newCol2.Y, newCol3.Y, newCol4.Y);
+				E3 = VectorA<T, 4>(newCol1.Z, newCol2.Z, newCol3.Z, newCol4.Z);
+				E4 = VectorA<T, 4>(newCol1.W, newCol2.W, newCol3.W, newCol4.W);
 
 				return *this;
 			}

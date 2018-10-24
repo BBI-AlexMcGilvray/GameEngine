@@ -88,6 +88,9 @@ namespace Application
 		{
 			glClearColor(ClearColor.R, ClearColor.G, ClearColor.B, ClearColor.A);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+			// to render lines of triangles in mesh and both front and back
+			//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
 		void RenderManager::RenderMiddle()

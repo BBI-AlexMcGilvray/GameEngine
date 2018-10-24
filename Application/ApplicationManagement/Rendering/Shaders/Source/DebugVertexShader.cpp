@@ -19,10 +19,12 @@ namespace Application
 			
 			// values to return
 			out vec4 Color;
+			out smooth float CameraFacingRatio;
 			
 			void main()
 			{
 				Color = modColor;
+				CameraFacingRatio = 0.0;
 				
 				gl_Position = vec4(vPosition, 1.0);
 			}

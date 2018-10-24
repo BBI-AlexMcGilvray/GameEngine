@@ -16,10 +16,12 @@ namespace Core
 			return (a + ((b - a) * p));
 		}
 
+		FQuaternion LerpQuat(FQuaternion a, FQuaternion b, float p);
+
 		template <typename T>
 		T NLerp(T a, T b, float p)
 		{
-			// initial + ((total possible difference) * percent)
+			// Normalized Lerp
 			return Normalize(Lerp(a, b, p));
 		}
 

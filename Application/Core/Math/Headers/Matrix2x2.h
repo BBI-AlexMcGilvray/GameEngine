@@ -118,11 +118,11 @@ namespace Core
 
 			MatrixAxB<T, 2, 2>& operator*=(MatrixAxB<T, 2, 2> const& m)
 			{
-				auto newE1 = VectorA<T, 4>(Dot((*this).GetRow(0), m.E1), Dot((*this).GetRow(0), m.E2));
-				auto newE2 = VectorA<T, 4>(Dot((*this).GetRow(1), m.E1), Dot((*this).GetRow(1), m.E2));
+				auto newCol1 = VectorA<T, 2>(Dot((*this).GetRow(0), m.E1), Dot((*this).GetRow(0), m.E2));
+				auto newCol2 = VectorA<T, 2>(Dot((*this).GetRow(1), m.E1), Dot((*this).GetRow(1), m.E2));
 
-				E1 = newE1;
-				E2 = newE2;
+				E1 = VectorA<T, 2>(newCol1.X, newCol2.X);
+				E2 = VectorA<T, 2>(newCol1.Y, newCol2.Y);
 
 				return *this;
 			}

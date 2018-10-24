@@ -21,9 +21,11 @@ namespace Core
 			{
 				for (int b = 0; b < B; b++)
 				{
-					mTranspose[b][a] = this[a][b];
+					mTranspose[b][a] = m[a][b];
 				}
 			}
+
+			return mTranspose;
 		}
 
 		template <typename T>

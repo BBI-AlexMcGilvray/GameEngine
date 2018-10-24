@@ -13,14 +13,15 @@ namespace Application
 			
 			layout(location = 0) out vec4 fColor;
 
+			// values passed from vertex shader
 			in vec4 Color;
+			in smooth float CameraFacingRatio; // DebugVertexShader ALSO uses this
 			
 			// Values that stay constant for the whole mesh
 			
-			
 			void main()
 			{
-				fColor = Color;
+				fColor = vec4(Color.xyz * (1.0 - CameraFacingRatio), Color.w);
 			}
 		)";
 

@@ -34,7 +34,7 @@ namespace Application
 			Float4x4 transformationMatrix(II{});
 
 			// rotation
-			Float4x4 inverseRotationMatrix = Float4x4(Inverse(CameraTransform.GetRotationMatrix()), Float4(0.0f, 0.0f, 0.0f, 1.0f));
+			Float4x4 inverseRotationMatrix = Float4x4(Transpose(CameraTransform.GetRotationMatrix()), Float4(0.0f, 0.0f, 0.0f, 1.0f));
 			transformationMatrix = inverseRotationMatrix * transformationMatrix;
 
 			// position

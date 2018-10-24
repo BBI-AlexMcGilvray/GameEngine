@@ -229,6 +229,7 @@
     <ClCompile Include="Core\Geometric\2D\Source\Polygon.cpp" />
     <ClCompile Include="Core\Geometric\2D\Source\GeometryFunctions.cpp" />
     <ClCompile Include="Core\Geometric\Source\Transform.cpp" />
+    <ClCompile Include="Core\Math\Source\UtilityFunctions.cpp" />
     <ClCompile Include="Core\Math\UnitTests\MatrixTests.cpp" />
     <ClCompile Include="Core\Math\UnitTests\VectorTests.cpp" />
     <ClCompile Include="Core\Source\Exception.cpp" />

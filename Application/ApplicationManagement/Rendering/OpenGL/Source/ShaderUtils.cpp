@@ -39,9 +39,8 @@ namespace Application
 				int infoLogLength = 0;
 				int maxLength = 0;
 				glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
-				std::vector<char> programLog;
-				programLog.reserve(maxLength);
-				glGetProgramInfoLog(program, infoLogLength, nullptr, &programLog[0]);
+				std::vector<GLchar> programLog(maxLength);
+				glGetProgramInfoLog(program, maxLength, &infoLogLength, &programLog[0]);
 				cout << "Shader Loader: LINK ERROR <<" << objectShader->GetName() << ">>" << endl << &programLog[0] << endl;
 
 				return;

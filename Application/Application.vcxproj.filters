@@ -255,6 +255,9 @@
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\CircleRenderObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Math\Source\UtilityFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Planning\GameEngine.xmi" />
