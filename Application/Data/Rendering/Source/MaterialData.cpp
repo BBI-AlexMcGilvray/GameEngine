@@ -1,11 +1,11 @@
 #include "Data/Rendering/Headers/MaterialData.h"
 
-#include "Data/IO/Headers/IOUtils.h"
+#include "Core/IO/Headers/IOUtils.h"
 
 #include "Core/Debugging/Headers/Macros.h"
 
-using namespace Data::IO;
 using namespace Core;
+using namespace Core::IO;
 
 namespace Data
 {
@@ -13,61 +13,58 @@ namespace Data
 	{
 		MaterialData::MaterialData(String fileName)
 		{
-			IFStreamChar materialFile = OpenFileI(fileName);
+			File materialFile = OpenFileI(FilePath{ String("Resources/ExportedAssets/Materials/"), fileName });
 
-			MESSAGE(materialFile.is_open(), "FAILED TO READ FILE <<" + fileName + ">>");
+			MESSAGE(materialFile.FileStream.is_open(), "FAILED TO READ FILE <<" + fileName + ">>");
 
-			String line;
-			while (std::getline(materialFile, line))
+			try
 			{
-				IOSStreamChar lineStream(line);
+				while (true)
+				{
+					String line = materialFile.GetLine();
 
-				String word;
-				lineStream >> word;
+					IOSStreamChar lineStream(line);
 
-				String comma;
-				lineStream >> comma;
-				if (word == "spec")
-				{
-					lineStream >> Specular.R;
-					lineStream >> comma;
-					lineStream >> Specular.G;
-					lineStream >> comma;
-					lineStream >> Specular.B;
-					lineStream >> comma;
-					lineStream >> Specular.A;
-				}
-				else if (word == "diff")
-				{
-					lineStream >> Diffuse.R;
-					lineStream >> comma;
-					lineStream >> Diffuse.G;
-					lineStream >> comma;
-					lineStream >> Diffuse.B;
-					lineStream >> comma;
-					lineStream >> Diffuse.A;
-					lineStream >> comma;
-				}
-				else if (word == "amb")
-				{
-					lineStream >> Ambient.R;
-					lineStream >> comma;
-					lineStream >> Ambient.G;
-					lineStream >> comma;
-					lineStream >> Ambient.B;
-					lineStream >> comma;
-					lineStream >> Ambient.A;
-					lineStream >> comma;
-				}
-				else if (word == "shin")
-				{
-					lineStream >> Shininess;
-				}
-				else
-				{
-					cout << "Unsuppoerted specifier read in material file <<" + fileName + ">>" << endl;
+					String word;
+					lineStream >> word;
+
+					if (word == "spec")
+					{
+						lineStream >> Specular.R;
+						lineStream >> Specular.G;
+						lineStream >> Specular.B;
+						lineStream >> Specular.A;
+					}
+					else if (word == "diff")
+					{
+						lineStream >> Diffuse.R;
+						lineStream >> Diffuse.G;
+						lineStream >> Diffuse.B;
+						lineStream >> Diffuse.A;
+					}
+					else if (word == "amb")
+					{
+						lineStream >> Ambient.R;
+						lineStream >> Ambient.G;
+						lineStream >> Ambient.B;
+						lineStream >> Ambient.A;
+					}
+					else if (word == "shin")
+					{
+						lineStream >> Shininess;
+					}
+					else
+					{
+						cout << "Unsuppoerted specifier read in material file <<" + fileName + ">>" << endl;
+					}
 				}
 			}
+			catch (EOFException& e)
+			{
+				std::cout << e.GetError() << std::endl;
+			}
+
+			materialFile.Close();
 		}
 	}
 }

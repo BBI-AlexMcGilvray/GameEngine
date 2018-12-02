@@ -90,7 +90,7 @@ namespace Core
 			template <typename T, typename ...Ts>
 			bool Write(T&& source, Ts&& ...args)
 			{
-				if (Write(source))
+				if (Write(source) && Write(String(" ")))
 				{
 					return Write(forward<Ts>(args)...);
 				}

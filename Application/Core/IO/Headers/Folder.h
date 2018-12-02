@@ -1,6 +1,9 @@
 #pragma once
 
+#include "File.h"
 #include "IODefs.h"
+
+#include "Core/Headers/ListDefs.h"
 
 namespace Core
 {

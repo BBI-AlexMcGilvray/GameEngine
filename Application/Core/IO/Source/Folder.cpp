@@ -1,5 +1,7 @@
 #include "Core/IO/Headers/Folder.h"
 
+#include "Core/IO/Headers/IOUtils.h"
+
 /*
 Need to figure out how we want to split this for different operating systems. Maybe the standard
 has a better way to do this.

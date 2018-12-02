@@ -46,4 +46,5 @@ namespace Core
 	bool InRange(T1&& var, T2&& min, T3&& max) { return ((Forward<T1>(var) >= Forward<T2>(min)) && (Forward<T1>(var) <= Forward<T3>(max))); }
 	
 	using uint = unsigned int;
+	using size = size_t;
 }

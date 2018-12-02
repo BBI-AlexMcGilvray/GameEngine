@@ -41,6 +41,15 @@ namespace Core
 	}
 
 	template <typename T>
+	void Push(List<T>& list, List<T> subList)
+	{
+		for (size i = 0; i < subList.size(); i++)
+		{
+			Push(list, subList[i]);
+		}
+	}
+
+	template <typename T>
 	Truth<uint> InList(const List<T>& list, T entry)
 	{
 		auto index = std::find(list.begin(), list.end(), entry);

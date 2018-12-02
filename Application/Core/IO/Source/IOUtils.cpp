@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <Windows.h>
+#include <stringapiset.h>
+
 namespace Core
 {
 	namespace IO
