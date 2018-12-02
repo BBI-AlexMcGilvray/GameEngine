@@ -234,15 +234,18 @@
     <ClCompile Include="Core\Math\UnitTests\VectorTests.cpp" />
     <ClCompile Include="Core\Source\Exception.cpp" />
     <ClCompile Include="Core\Source\Hash.cpp" />
-    <ClCompile Include="Data\IO\Source\IOUtils.cpp" />
-    <ClCompile Include="Data\Rendering\Source\MaterialData.cpp" />
-    <ClCompile Include="Data\Rendering\Source\MeshData.cpp" />
-    <ClCompile Include="Data\Source\DataUtils.cpp" />
+    <ClCompile Include="Data\Rendering\Source\AnimatedMeshData.cpp" />
+    <ClCompile Include="Data\Rendering\Source\AnimatedModelData.cpp" />
+    <ClCompile Include="Data\Rendering\Source\SkeletonAnimationData.cpp" />
+    <ClCompile Include="Data\Rendering\Source\SkeletonData.cpp" />
+    <ClCompile Include="Data\Rendering\Source\StaticMeshData.cpp" />
+    <ClCompile Include="Data\Rendering\Source\StaticModelData.cpp" />
+    <ClCompile Include="Data\Rendering\Source\TextureData.cpp" />
+    <ClCompile Include="Data\Source\AssetUtils.cpp" />
+    <ClCompile Include="Data\SQL\Source\SQLInstance.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\Assets\MI.mat" />
-    <None Include="Data\Assets\MI.msh" />
     <None Include="Dependencies\Dlls\32Bit\GLEW\glew32.dll" />
     <None Include="Dependencies\Dlls\64Bit\GLEW\glew32.dll" />
     <None Include="Dependencies\Dlls\64Bit\SDL2\libfreetype-6.dll" />
@@ -325,7 +328,18 @@
     <ClInclude Include="Core\Headers\Hash.h" />
     <ClInclude Include="Core\Math\Headers\Axis.h" />
     <ClInclude Include="Core\Math\Headers\Basis.h" />
-    <ClInclude Include="Data\Headers\DataUtils.h" />
+    <ClInclude Include="Data\Headers\AssetData.h" />
+    <ClInclude Include="Data\Headers\AssetExceptions.h" />
+    <ClInclude Include="Data\Headers\AssetName.h" />
+    <ClInclude Include="Data\Headers\AssetType.h" />
+    <ClInclude Include="Data\Headers\AssetUtils.h" />
+    <ClInclude Include="Data\Rendering\Headers\AnimatedMeshData.h" />
+    <ClInclude Include="Data\Rendering\Headers\AnimatedModelData.h" />
+    <ClInclude Include="Data\Rendering\Headers\SkeletonAnimationData.h" />
+    <ClInclude Include="Data\Rendering\Headers\SkeletonData.h" />
+    <ClInclude Include="Data\Rendering\Headers\StaticMeshData.h" />
+    <ClInclude Include="Data\Rendering\Headers\StaticModelData.h" />
+    <ClInclude Include="Data\Rendering\Headers\TextureData.h" />
     <ClInclude Include="Data\Rendering\Headers\VertexBaseData.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\KeyFrame.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Animation\Headers\Timeline.h" />
@@ -375,10 +389,9 @@
     <ClInclude Include="Core\Math\UnitTests\MathUnitTests.h" />
     <ClInclude Include="Core\Math\UnitTests\MatrixTests.h" />
     <ClInclude Include="Core\Math\UnitTests\VectorTests.h" />
-    <ClInclude Include="Data\IO\Headers\IOUtils.h" />
-    <ClInclude Include="Data\IO\Headers\IODefs.h" />
-    <ClInclude Include="Data\Rendering\Headers\MaterialData.h" />
-    <ClInclude Include="Data\Rendering\Headers\MeshData.h" />
+    <ClInclude Include="Data\SQL\Headers\SQLDefs.h" />
+    <ClInclude Include="Data\SQL\Headers\SQLExceptions.h" />
+    <ClInclude Include="Data\SQL\Headers\SQLInstance.h" />
     <ClInclude Include="Dependencies\Includes\GLEW\glew.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\begin_code.h" />
     <ClInclude Include="Dependencies\Includes\SDL2\close_code.h" />
@@ -482,7 +495,6 @@
     <Library Include="Dependencies\Libs\64Bit\SDL2\SDL2_ttf.lib" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Data\Assets\Cube.msh" />
     <Text Include="__Planning\Notes.txt" />
   </ItemGroup>
   <ItemGroup>

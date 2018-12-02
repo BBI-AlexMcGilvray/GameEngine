@@ -63,7 +63,7 @@ namespace Data
 						}
 						else if (word == "bones")
 						{
-							readState == ReadState::BoneIndices;
+							readState = ReadState::BoneIndices;
 						}
 						else if (word == "indices")
 						{

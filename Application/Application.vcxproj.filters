@@ -120,15 +120,6 @@
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\ModelBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Data\IO\Source\IOUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\Rendering\Source\MaterialData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\Rendering\Source\MeshData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\ShaderUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -187,9 +178,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationManagement\Collision\Source\CollisionCheck.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Data\Source\DataUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationManagement\Geometric\Headers\ContainerBase.h">
@@ -258,11 +246,36 @@
     <ClCompile Include="Core\Math\Source\UtilityFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\AnimatedMeshData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\AnimatedModelData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\TextureData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\SkeletonAnimationData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\SkeletonData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\StaticMeshData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\StaticModelData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Source\AssetUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\SQL\Source\SQLInstance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Planning\GameEngine.xmi" />
-    <None Include="Data\Assets\MI.msh" />
-    <None Include="Data\Assets\MI.mat" />
     <None Include="Dependencies\Dlls\32Bit\SDL2\libfreetype-6.dll" />
     <None Include="Dependencies\Dlls\32Bit\SDL2\libjpeg-9.dll" />
     <None Include="Dependencies\Dlls\32Bit\SDL2\libpng16-16.dll" />
@@ -683,18 +696,6 @@
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\ModelBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Data\IO\Headers\IODefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\IO\Headers\IOUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\Rendering\Headers\MaterialData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\Rendering\Headers\MeshData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Math\Headers\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -759,9 +760,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Math\Headers\UtilityFunctions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Data\Headers\DataUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Functionality\Headers\LockerBase.h">
@@ -878,6 +876,51 @@
     <ClInclude Include="ApplicationManagement\Rendering\2D\Headers\BoxRenderObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\AnimatedMeshData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\AnimatedModelData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\SkeletonAnimationData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\SkeletonData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\StaticMeshData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\StaticModelData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\TextureData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Headers\AssetData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Headers\AssetExceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Headers\AssetName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Headers\AssetType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Headers\AssetUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\SQL\Headers\SQLDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\SQL\Headers\SQLExceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\SQL\Headers\SQLInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\Libs\32Bit\SDL2\_SDL2main.lib" />
@@ -896,7 +939,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="__Planning\Notes.txt" />
-    <Text Include="Data\Assets\Cube.msh" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="__Planning\class diagram.png">
