@@ -24,7 +24,6 @@ namespace Data
 		};
 	}
 
-	/*
 	template <>
 	struct AssetType<Rendering::AnimatedMeshData>
 	{
@@ -40,8 +39,7 @@ namespace Data
 
 		String GetFileType() const
 		{
-			return ".AMsh";
+			return ".amsh";
 		}
 	};
-	*/
 }

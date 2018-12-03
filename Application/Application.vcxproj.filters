@@ -270,9 +270,6 @@
     <ClCompile Include="Data\Source\AssetUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Data\SQL\Source\SQLInstance.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Planning\GameEngine.xmi" />
@@ -298,6 +295,28 @@
     <None Include="Dependencies\Dlls\64Bit\SDL2\SDL2_ttf.dll" />
     <None Include="Dependencies\Dlls\64Bit\SDL2\zlib1.dll" />
     <None Include="Dependencies\Dlls\64Bit\GLEW\glew32.dll" />
+    <None Include="Resources\CustomData\1238742485.Mdl" />
+    <None Include="Resources\CustomData\1431655765.Tst" />
+    <None Include="Resources\CustomData\1631375646.Mdl" />
+    <None Include="Resources\CustomData\3273357991.Mdl" />
+    <None Include="Resources\CustomData\3616917144.Tst" />
+    <None Include="Resources\Materials\1740916818.mat" />
+    <None Include="Resources\Materials\3593970672.mat" />
+    <None Include="Resources\Meshes\1740916818.msh" />
+    <None Include="Resources\Meshes\3593970672.msh" />
+    <None Include="Resources\Models\1740916818.mdl" />
+    <None Include="Resources\Models\3593970672.mdl" />
+    <None Include="Resources\SkeletonAnimations\844489769.sanim" />
+    <None Include="Resources\SkeletonAnimations\901733766.sanim" />
+    <None Include="Resources\SkeletonAnimations\1071957458.sanim" />
+    <None Include="Resources\SkeletonAnimations\1369896036.sanim" />
+    <None Include="Resources\SkeletonAnimations\2755309342.sanim" />
+    <None Include="Resources\SkeletonAnimations\2996026449.sanim" />
+    <None Include="Resources\SkeletonAnimations\3091893559.sanim" />
+    <None Include="Resources\SkeletonAnimations\3864277979.sanim" />
+    <None Include="Resources\SkeletonAnimations\3944548261.sanim" />
+    <None Include="Resources\SkeletonAnimations\4064909834.sanim" />
+    <None Include="Resources\Skeletons\3593970672.skl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\Includes\SDL2\begin_code.h">
@@ -912,13 +931,16 @@
     <ClInclude Include="Data\Headers\AssetUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Data\SQL\Headers\SQLDefs.h">
+    <ClInclude Include="Resources\Assets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Data\SQL\Headers\SQLExceptions.h">
+    <ClInclude Include="Resources\CustomAssets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Data\SQL\Headers\SQLInstance.h">
+    <ClInclude Include="Resources\MaterialAssets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\MeshAssets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -50,7 +50,7 @@ namespace Core
 		template <typename T>
 		Hash& operator=(T&& t)
 		{
-			H = HashValue(Forward<T>(t), (*this));
+			H = HashValue(Forward<T>(t));
 
 			return (*this);
 		}
@@ -84,12 +84,12 @@ namespace Core
 	template <typename T>
 	void HashValue(T&& type, Hash& existingHash)
 	{
-		int numBytes = sizeof(type);
+		size numBytes = sizeof(type);
 
 		// this should be redone once serialization stuff is working
 		Ptr<const char> typeBytes = reinterpret_cast<Ptr<const char>>(&type); // <- this is not being consistent
 
-		for (int i = 0; i < numBytes; i++)
+		for (size i = 0; i < numBytes; i++)
 		{
 			// pending the serialization stuff, maybe this works
 			char byte = typeBytes[i];

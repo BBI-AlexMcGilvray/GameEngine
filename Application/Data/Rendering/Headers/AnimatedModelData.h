@@ -29,7 +29,6 @@ namespace Data
 		};
 	}
 
-	/*
 	template <>
 	struct AssetType<Rendering::AnimatedModelData>
 	{
@@ -45,8 +44,7 @@ namespace Data
 
 		String GetFileType() const
 		{
-			return ".AMdl";
+			return ".amdl";
 		}
 	};
-	*/
 }

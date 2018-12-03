@@ -23,7 +23,6 @@ namespace Data
 		};
 	}
 
-	/*
 	template <>
 	struct AssetType<Rendering::MaterialData>
 	{
@@ -39,8 +38,7 @@ namespace Data
 
 		String GetFileType() const
 		{
-			return ".Mat";
+			return ".mat";
 		}
 	};
-	*/
 }

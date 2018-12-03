@@ -24,7 +24,6 @@ namespace Data
 		};
 	}
 
-	/*
 	template <>
 	struct AssetType<Rendering::StaticMeshData>
 	{
@@ -40,8 +39,7 @@ namespace Data
 
 		String GetFileType() const
 		{
-			return ".Msh";
+			return ".msh";
 		}
 	};
-	*/
 }

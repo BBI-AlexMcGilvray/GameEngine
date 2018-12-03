@@ -87,7 +87,6 @@ namespace Data
 		};
 	}
 
-	/*
 	template <>
 	struct AssetType<Rendering::SkeletonAnimationData>
 	{
@@ -103,8 +102,7 @@ namespace Data
 
 		String GetFileType() const
 		{
-			return ".SAnim";
+			return ".sanim";
 		}
 	};
-	*/
 }

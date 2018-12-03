@@ -51,7 +51,6 @@ namespace Data
 		};
 	}
 
-	/*
 	template <>
 	struct AssetType<Rendering::SkeletonData>
 	{
@@ -67,8 +66,7 @@ namespace Data
 
 		String GetFileType() const
 		{
-			return ".Skl";
+			return ".skl";
 		}
 	};
-	*/
 }

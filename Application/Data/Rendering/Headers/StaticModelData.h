@@ -29,7 +29,6 @@ namespace Data
 		};
 	}
 
-	/*
 	template <>
 	struct AssetType<Rendering::StaticModelData>
 	{
@@ -45,8 +44,7 @@ namespace Data
 
 		String GetFileType() const
 		{
-			return ".Mdl";
+			return ".mdl";
 		}
 	};
-	*/
 }
