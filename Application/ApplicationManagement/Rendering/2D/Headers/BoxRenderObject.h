@@ -20,7 +20,7 @@ namespace Application
 		{
 			GLArrayBuffer Vao;
 			List<GLBuffer> Vbos;
-			List<Data::Rendering::VertexDataBase> Vertices;
+			List<Data::Rendering::SimpleVertexDataBase> Vertices;
 
 			BoxRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color);
 			BoxRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color, float width, float height);

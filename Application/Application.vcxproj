@@ -186,7 +186,7 @@
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\Texture.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\AnimatedModel.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\CameraNode.cpp" />
-    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\MeshBase.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SimpleMeshBase.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\ModelBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Scene.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\World.cpp" />
@@ -236,6 +236,8 @@
     <ClCompile Include="Core\Source\Hash.cpp" />
     <ClCompile Include="Data\Rendering\Source\AnimatedMeshData.cpp" />
     <ClCompile Include="Data\Rendering\Source\AnimatedModelData.cpp" />
+    <ClCompile Include="Data\Rendering\Source\MaterialData.cpp" />
+    <ClCompile Include="Data\Rendering\Source\SimpleMeshData.cpp" />
     <ClCompile Include="Data\Rendering\Source\SkeletonAnimationData.cpp" />
     <ClCompile Include="Data\Rendering\Source\SkeletonData.cpp" />
     <ClCompile Include="Data\Rendering\Source\StaticMeshData.cpp" />
@@ -321,7 +323,7 @@
     <ClInclude Include="ApplicationManagement\Rendering\2D\Headers\Texture.h" />
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\AnimatedModel.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\CameraNode.h" />
-    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\MeshBase.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\SimpleMeshBase.h" />
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\ModelBase.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\ContentBase.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Node.h" />
@@ -356,6 +358,8 @@
     <ClInclude Include="Data\Headers\AssetUtils.h" />
     <ClInclude Include="Data\Rendering\Headers\AnimatedMeshData.h" />
     <ClInclude Include="Data\Rendering\Headers\AnimatedModelData.h" />
+    <ClInclude Include="Data\Rendering\Headers\MaterialData.h" />
+    <ClInclude Include="Data\Rendering\Headers\SimpleMeshData.h" />
     <ClInclude Include="Data\Rendering\Headers\SkeletonAnimationData.h" />
     <ClInclude Include="Data\Rendering\Headers\SkeletonData.h" />
     <ClInclude Include="Data\Rendering\Headers\StaticMeshData.h" />

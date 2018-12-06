@@ -20,7 +20,7 @@ namespace Application
 		{
 			GLArrayBuffer Vao;
 			List<GLBuffer> Vbos;
-			List<Data::Rendering::VertexDataBase> Vertices;
+			List<Data::Rendering::SimpleVertexDataBase> Vertices;
 
 			CircleRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color);
 			CircleRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color, float radius);

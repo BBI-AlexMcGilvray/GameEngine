@@ -3,7 +3,7 @@
 #include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
 
 #include "ApplicationManagement/Rendering/2D/Headers/Material.h"
-#include "ApplicationManagement/Rendering/3D/Headers/MeshBase.h"
+#include "ApplicationManagement/Rendering/3D/Headers/SimpleMeshBase.h"
 
 namespace Application
 {
@@ -13,9 +13,10 @@ namespace Application
 		struct ModelBase : RenderObjectBase
 		{
 			Material Material;
-			MeshBase Mesh;
+			SimpleMeshBase Mesh;
 
-			ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, String folderName);
+			// this should be loading up the model data instead of the mesh data
+			ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, Data::AssetName<SimpleMeshBase> asset);
 
 			uint GetVertexCount() const override;
 

@@ -114,9 +114,6 @@
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\ObjectShaderBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\MeshBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\ModelBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -268,6 +265,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Data\Source\AssetUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\MaterialData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\SimpleMeshData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SimpleMeshBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -709,9 +715,6 @@
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\ObjectShaderBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\MeshBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\ModelBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -941,6 +944,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Resources\MeshAssets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\MaterialData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\SimpleMeshData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\SimpleMeshBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

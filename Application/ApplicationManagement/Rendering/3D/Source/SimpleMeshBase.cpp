@@ -1,19 +1,21 @@
-#include "ApplicationManagement\Rendering\3D\Headers\MeshBase.h"
+#include "ApplicationManagement\Rendering\3D\Headers\SimpleMeshBase.h"
+
+#include "Data/Headers/AssetUtils.h"
 
 namespace Application
 {
 	namespace Rendering
 	{
-		MeshBase::MeshBase()
+		SimpleMeshBase::SimpleMeshBase()
 		{}
 
-		MeshBase::MeshBase(String fileName)
-			: Data::Rendering::MeshData(fileName)
+		SimpleMeshBase::SimpleMeshBase(Data::AssetName<Data::Rendering::SimpleMeshData> asset)
+			: Data(Data::GetAssetData(asset))
 		{
 			Initialize();
 		}
 
-		void MeshBase::Initialize()
+		void SimpleMeshBase::Initialize()
 		{
 			Vao.Generate();
 			Vao.Bind();
@@ -23,7 +25,8 @@ namespace Application
 			newBuffer.Bind();
 
 			// glBufferData( < type >, < size of data >, < start of data >, < draw type >);
-			glBufferData(newBuffer.Type, VertexCount * sizeof(Data::Rendering::VertexDataBase), &Vertices[0], GL_STATIC_DRAW);
+			// the Data->Data would go away with a DataPtr<T>
+			glBufferData(newBuffer.Type, Data->Data.VertexCount * sizeof(Data::Rendering::VertexDataBase), &(Data->Data.Vertices[0]), GL_STATIC_DRAW);
 
 			// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
 			// position
@@ -40,12 +43,12 @@ namespace Application
 			Push(Vbos, newBuffer);
 		}
 
-		void MeshBase::Prepare() const
+		void SimpleMeshBase::Prepare() const
 		{
 			Vao.Bind();
 		}
 
-		void MeshBase::CleanUp() const
+		void SimpleMeshBase::CleanUp() const
 		{
 			Vao.Unbind();
 		}

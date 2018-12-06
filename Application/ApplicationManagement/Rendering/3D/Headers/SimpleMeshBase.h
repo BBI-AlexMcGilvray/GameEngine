@@ -3,7 +3,8 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/ListDefs.h"
 
-#include "Data/Rendering/Headers/MeshData.h"
+#include "Data/Headers/AssetData.h"
+#include "Data/Rendering/Headers/SimpleMeshData.h"
 
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
@@ -15,13 +16,14 @@ namespace Application
 	namespace Rendering
 	{
 		// holds the information about the mesh of a 3D object
-		struct MeshBase : Data::Rendering::MeshData
+		struct SimpleMeshBase
 		{
+			UniquePtr<Data::AssetData<Data::Rendering::SimpleMeshData>> Data;
 			GLArrayBuffer Vao;
 			List<GLBuffer> Vbos;
 
-			MeshBase();
-			MeshBase(String fileName);
+			SimpleMeshBase();
+			SimpleMeshBase(Data::AssetName<Data::Rendering::SimpleMeshData> asset);
 
 			virtual void Initialize();
 

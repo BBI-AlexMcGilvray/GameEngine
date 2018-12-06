@@ -1,14 +1,14 @@
 #include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
 
-#include "Data/Headers/DataUtils.h"
+#include "Data/Headers/AssetUtils.h"
 
 namespace Application
 {
 	namespace Rendering
 	{
-		ModelBase::ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, String folderName)
+		ModelBase::ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, Data::AssetName<SimpleMeshBase> asset)
 			: RenderObjectBase(manager, renderTransform)
-			, Mesh(Data::GetData<MeshBase>(folderName + ".msh"))
+			, Mesh(asset)
 			, Shader(manager.ObjectShaderManager.DefaultShader)
 		{
 			// load material using mat file in folder
@@ -16,7 +16,8 @@ namespace Application
 
 		uint ModelBase::GetVertexCount() const
 		{
-			return Mesh.VertexCount;
+			// again, should would be much easier with a DataPtr<T>
+			return Mesh.Data->Data.VertexCount;
 		}
 
 		void ModelBase::Prepare(const Float4x4& mvp, const Color& color) const
