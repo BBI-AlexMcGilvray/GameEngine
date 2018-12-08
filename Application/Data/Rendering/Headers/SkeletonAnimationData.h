@@ -9,7 +9,7 @@
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Quaternion.h"
 
-#include "Data/Headers/AssetType.h"
+#include "Data/Headers/AssetName.h"
 
 namespace Data
 {
@@ -83,24 +83,24 @@ namespace Data
 			Core::Second Duration;
 
 			SkeletonAnimationData() = default;
-			SkeletonAnimationData(Core::String fileName);
+			SkeletonAnimationData(AssetName<SkeletonAnimationData> asset);
 		};
 	}
 
 	template <>
 	struct AssetType<Rendering::SkeletonAnimationData>
 	{
-		Hash ClassHash() const
+		static Hash ClassHash()
 		{
 			return HashValue("SkeletonAnimationData");
 		}
 
-		String GetPath() const
+		static String GetPath()
 		{
-			return "Resources/ExportedAssets/SkeletonAnimations/";
+			return "Resources/SkeletonAnimations/";
 		}
 
-		String GetFileType() const
+		static String GetFileType()
 		{
 			return ".sanim";
 		}

@@ -3,7 +3,7 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Math/Headers/Vector2.h"
 
-#include "Data/Headers/AssetType.h"
+#include "Data/Headers/AssetName.h"
 
 using namespace Core;
 using namespace Core::Math;
@@ -19,24 +19,24 @@ namespace Data
 
 			TextureData() = delete;
 
-			TextureData(String file);
+			TextureData(AssetName<TextureData> asset);
 		};
 	}
 
 	template <>
 	struct AssetType<Rendering::TextureData>
 	{
-		Hash ClassHash() const
+		static Hash ClassHash()
 		{
 			return HashValue("TextureData");
 		}
 
-		String GetPath() const
+		static String GetPath()
 		{
-			return "Resources/ExportedAssets/Textures/";
+			return "Resources/Textures/";
 		}
 
-		String GetFileType() const
+		static String GetFileType()
 		{
 			return ".txt";
 		}

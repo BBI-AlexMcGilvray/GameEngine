@@ -3,7 +3,7 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/ListDefs.h"
 
-#include "Data/Headers/AssetType.h"
+#include "Data/Headers/AssetName.h"
 
 #include "Data/Rendering/Headers/VertexBaseData.h"
 
@@ -20,24 +20,24 @@ namespace Data
 			uint VertexCount = 0;
 
 			AnimatedMeshData() = default;
-			AnimatedMeshData(String fileName);
+			AnimatedMeshData(AssetName<AnimatedMeshData> asset);
 		};
 	}
 
 	template <>
 	struct AssetType<Rendering::AnimatedMeshData>
 	{
-		Hash ClassHash() const
+		static Hash ClassHash()
 		{
 			return HashValue("AnimatedMeshData");
 		}
 
-		String GetPath() const
+		static String GetPath()
 		{
-			return "Resources/ExportedAssets/Meshes/";
+			return "Resources/Meshes/";
 		}
 
-		String GetFileType() const
+		static String GetFileType()
 		{
 			return ".amsh";
 		}

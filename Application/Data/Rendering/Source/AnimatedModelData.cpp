@@ -12,11 +12,11 @@ namespace Data
 {
 	namespace Rendering
 	{
-		AnimatedModelData::AnimatedModelData(String fileName)
+		AnimatedModelData::AnimatedModelData(AssetName<AnimatedModelData> asset)
 		{
-			File modelFile = OpenFileI(FilePath{ String("Resources/ExportedAssets/Models/"), fileName });
+			File modelFile = OpenFileI(asset.GetFilePath());
 
-			MESSAGE(modelFile.FileStream.is_open(), "FAILED TO READ FILE <<" + fileName + ">>");
+			MESSAGE(modelFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
 
 			try
 			{

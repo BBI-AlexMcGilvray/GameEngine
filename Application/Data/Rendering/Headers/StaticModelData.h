@@ -25,24 +25,24 @@ namespace Data
 			AssetName<TextureData> Texture;
 
 			StaticModelData() = default;
-			StaticModelData(String fileName);
+			StaticModelData(AssetName<StaticModelData> asset);
 		};
 	}
 
 	template <>
 	struct AssetType<Rendering::StaticModelData>
 	{
-		Hash ClassHash() const
+		static Hash ClassHash()
 		{
 			return HashValue("StaticModelData");
 		}
 
-		String GetPath() const
+		static String GetPath()
 		{
-			return "Resources/ExportedAssets/Models/";
+			return "Resources/Models/";
 		}
 
-		String GetFileType() const
+		static String GetFileType()
 		{
 			return ".mdl";
 		}

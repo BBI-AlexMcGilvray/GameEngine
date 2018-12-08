@@ -11,11 +11,11 @@ namespace Data
 {
 	namespace Rendering
 	{
-		MaterialData::MaterialData(String fileName)
+		MaterialData::MaterialData(AssetName<MaterialData> asset)
 		{
-			File materialFile = OpenFileI(FilePath{ String("Resources/ExportedAssets/Materials/"), fileName });
+			File materialFile = OpenFileI(asset.GetFilePath());
 
-			MESSAGE(materialFile.FileStream.is_open(), "FAILED TO READ FILE <<" + fileName + ">>");
+			MESSAGE(materialFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
 
 			try
 			{
@@ -55,7 +55,7 @@ namespace Data
 					}
 					else
 					{
-						cout << "Unsuppoerted specifier read in material file <<" + fileName + ">>" << endl;
+						cout << "Unsuppoerted specifier read in material file <<" + asset.GetFilePath().GetFullPath() + ">>" << endl;
 					}
 				}
 			}

@@ -3,7 +3,7 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/ListDefs.h"
 
-#include "Data\Headers\AssetType.h"
+#include "Data/Headers/AssetName.h"
 
 #include "Data/Rendering/Headers/VertexBaseData.h"
 
@@ -20,24 +20,24 @@ namespace Data
 			uint VertexCount = 0;
 
 			SimpleMeshData() = default;
-			SimpleMeshData(String fileName);
+			SimpleMeshData(AssetName<SimpleMeshData> asset);
 		};
 	}
 
 	template <>
 	struct AssetType<Rendering::SimpleMeshData>
 	{
-		Hash ClassHash() const
+		static Hash ClassHash()
 		{
 			return HashValue("SimpleMeshData");
 		}
 
-		String GetPath() const
+		static String GetPath()
 		{
-			return "Resources/ExportedAssets/Meshes/";
+			return "Resources/Meshes/";
 		}
 
-		String GetFileType() const
+		static String GetFileType()
 		{
 			return ".msh";
 		}

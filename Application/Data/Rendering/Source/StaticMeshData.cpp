@@ -11,11 +11,11 @@ namespace Data
 {
 	namespace Rendering
 	{
-		StaticMeshData::StaticMeshData(String fileName)
+		StaticMeshData::StaticMeshData(AssetName<StaticMeshData> asset)
 		{
-			File meshFile = OpenFileI(FilePath{ String("Resources/ExportedAssets/Meshes/"), fileName });
+			File meshFile = OpenFileI(asset.GetFilePath());
 
-			MESSAGE(meshFile.FileStream.is_open(), "FAILED TO READ FILE <<" + fileName + ">>");
+			MESSAGE(meshFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
 
 			List<Float3> positions;
 			List<Float3> normals;
@@ -115,7 +115,7 @@ namespace Data
 						case ReadState::Started:
 						case ReadState::Pending:
 						{
-							cout << "Unsupported specifier read in mesh file <<" + fileName + ">>" << endl;
+							cout << "Unsupported specifier read in mesh file <<" + asset.GetFilePath().GetFullPath() + ">>" << endl;
 							break;
 						}
 						}

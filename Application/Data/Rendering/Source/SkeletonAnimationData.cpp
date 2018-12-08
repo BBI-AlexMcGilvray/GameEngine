@@ -181,11 +181,11 @@ namespace Data
 			Push(ScaleChannel, ScaleFrameData(scale, time));
 		}
 
-		SkeletonAnimationData::SkeletonAnimationData(String fileName)
+		SkeletonAnimationData::SkeletonAnimationData(AssetName<SkeletonAnimationData> asset)
 		{
-			File animationFile = OpenFileI(FilePath{ String("Resources/ExportedAssets/SkeletonAnimations/"), fileName });
+			File animationFile = OpenFileI(asset.GetFilePath());
 
-			MESSAGE(animationFile.FileStream.is_open(), "FAILED TO READ FILE <<" + fileName + ">>");
+			MESSAGE(animationFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
 
 			try
 			{

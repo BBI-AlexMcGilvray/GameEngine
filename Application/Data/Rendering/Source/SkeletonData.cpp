@@ -25,11 +25,11 @@ namespace Data
 			Push(ChildBones, move(bone));
 		}
 
-		SkeletonData::SkeletonData(String fileName)
+		SkeletonData::SkeletonData(AssetName<SkeletonData> asset)
 		{
-			File skeletonFile = OpenFileI(FilePath{ String("Resources/ExportedAssets/Skeletons/"), fileName });
+			File skeletonFile = OpenFileI(asset.GetFilePath());
 
-			MESSAGE(skeletonFile.FileStream.is_open(), "FAILED TO READ FILE <<" + fileName + ">>");
+			MESSAGE(skeletonFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
 
 			try
 			{

@@ -38,7 +38,7 @@ namespace Data
 			Core::List<AssetName<SkeletonAnimationData>> Animations;
 
 			SkeletonData() = default;
-			SkeletonData(Core::String fileName);
+			SkeletonData(AssetName<SkeletonData> asset);
 
 		private:
 			void ReadAnimations(Core::IO::File& skeletonFile);
@@ -54,17 +54,17 @@ namespace Data
 	template <>
 	struct AssetType<Rendering::SkeletonData>
 	{
-		Hash ClassHash() const
+		static Hash ClassHash()
 		{
 			return HashValue("SkeletonData");
 		}
 
-		String GetPath() const
+		static String GetPath()
 		{
-			return "Resources/ExportedAssets/Skeletons/";
+			return "Resources/Skeletons/";
 		}
 
-		String GetFileType() const
+		static String GetFileType()
 		{
 			return ".skl";
 		}

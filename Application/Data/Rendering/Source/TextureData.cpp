@@ -11,11 +11,11 @@ namespace Data
 {
 	namespace Rendering
 	{
-		TextureData::TextureData(String fileName)
+		TextureData::TextureData(AssetName<TextureData> asset)
 		{
-			File textureFile = OpenFileI(FilePath{ String("Resources/ExportedAssets/Textures/"), fileName });
+			File textureFile = OpenFileI(asset.GetFilePath());
 
-			MESSAGE(textureFile.FileStream.is_open(), "FAILED TO READ FILE <<" + fileName + ">>");
+			MESSAGE(textureFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
 
 			try
 			{

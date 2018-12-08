@@ -16,9 +16,6 @@ namespace Data
 	template <typename T>
 	UniquePtr<AssetData<T>> GetAssetData(AssetName<T> asset)
 	{
-		FilePath assetPath = asset.GetFilePath();
-		assetPath.Path = GetCWD() + assetPath.Path;
-
-		return MakeUnique(AssetData<T>(asset, T(assetPath)));
+		return MakeUnique<AssetData<T>>(asset, T(asset));
 	};
 }

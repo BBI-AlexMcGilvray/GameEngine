@@ -229,6 +229,9 @@
     <ClCompile Include="Core\Geometric\2D\Source\Polygon.cpp" />
     <ClCompile Include="Core\Geometric\2D\Source\GeometryFunctions.cpp" />
     <ClCompile Include="Core\Geometric\Source\Transform.cpp" />
+    <ClCompile Include="Core\IO\Source\File.cpp" />
+    <ClCompile Include="Core\IO\Source\Folder.cpp" />
+    <ClCompile Include="Core\IO\Source\IOUtils.cpp" />
     <ClCompile Include="Core\Math\Source\UtilityFunctions.cpp" />
     <ClCompile Include="Core\Math\UnitTests\MatrixTests.cpp" />
     <ClCompile Include="Core\Math\UnitTests\VectorTests.cpp" />
@@ -349,6 +352,11 @@
     <ClInclude Include="Core\Geometric\2D\Headers\GeometryFunctions.h" />
     <ClInclude Include="Core\Headers\Exception.h" />
     <ClInclude Include="Core\Headers\Hash.h" />
+    <ClInclude Include="Core\IO\Headers\Exception.h" />
+    <ClInclude Include="Core\IO\Headers\File.h" />
+    <ClInclude Include="Core\IO\Headers\Folder.h" />
+    <ClInclude Include="Core\IO\Headers\IODefs.h" />
+    <ClInclude Include="Core\IO\Headers\IOUtils.h" />
     <ClInclude Include="Core\Math\Headers\Axis.h" />
     <ClInclude Include="Core\Math\Headers\Basis.h" />
     <ClInclude Include="Data\Headers\AssetData.h" />

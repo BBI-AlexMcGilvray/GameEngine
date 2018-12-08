@@ -168,7 +168,7 @@ namespace Core
 				String Line;
 				if (!std::getline(FileStream, Line))
 				{
-					return "";
+					throw EOFException("can't get line for this file - likely EOF");
 				}
 
 				return Line;

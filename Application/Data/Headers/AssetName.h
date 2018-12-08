@@ -39,7 +39,7 @@ namespace Data
 
 		FilePath GetFilePath() const
 		{
-			return FilePath{ Type.GetPath(), String(uint(Name)) + Type.GetFileType() };
+			return FilePath{ GetCWD() + Type.GetPath(), ToString(uint(Name)) + Type.GetFileType() };
 		}
 	};
 }

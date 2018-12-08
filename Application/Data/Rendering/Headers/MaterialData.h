@@ -2,7 +2,7 @@
 
 #include "Core/Math/Headers/Color.h"
 
-#include "Data/Headers/AssetType.h"
+#include "Data/Headers/AssetName.h"
 
 using namespace Core;
 using namespace Core::Math;
@@ -19,24 +19,24 @@ namespace Data
 			float Shininess;
 
 			MaterialData() = default;
-			MaterialData(String fileName);
+			MaterialData(AssetName<MaterialData> asset);
 		};
 	}
 
 	template <>
 	struct AssetType<Rendering::MaterialData>
 	{
-		Hash ClassHash() const
+		static Hash ClassHash()
 		{
 			return HashValue("MaterialData");
 		}
 
-		String GetPath() const
+		static String GetPath()
 		{
-			return "Resources/ExportedAssets/Materials/";
+			return "Resources/Materials/";
 		}
 
-		String GetFileType() const
+		static String GetFileType()
 		{
 			return ".mat";
 		}

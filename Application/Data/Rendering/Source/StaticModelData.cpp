@@ -12,11 +12,11 @@ namespace Data
 {
 	namespace Rendering
 	{
-		StaticModelData::StaticModelData(String fileName)
+		StaticModelData::StaticModelData(AssetName<StaticModelData> asset)
 		{
-			File modelFile = OpenFileI(FilePath{ String("Resources/ExportedAssets/Models/"), fileName });
+			File modelFile = OpenFileI(asset.GetFilePath());
 
-			MESSAGE(modelFile.FileStream.is_open(), "FAILED TO READ FILE <<" + fileName + ">>");
+			MESSAGE(modelFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
 
 			try
 			{

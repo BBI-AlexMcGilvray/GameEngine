@@ -25,24 +25,24 @@ namespace Data
 			AssetName<TextureData> Texture;
 
 			AnimatedModelData() = default;
-			AnimatedModelData(String fileName);
+			AnimatedModelData(AssetName<AnimatedModelData> asset);
 		};
 	}
 
 	template <>
 	struct AssetType<Rendering::AnimatedModelData>
 	{
-		Hash ClassHash() const
+		static Hash ClassHash()
 		{
 			return HashValue("AnimatedModelData");
 		}
 
-		String GetPath() const
+		static String GetPath()
 		{
-			return "Resources/ExportedAssets/Models/";
+			return "Resources/Models/";
 		}
 
-		String GetFileType() const
+		static String GetFileType()
 		{
 			return ".amdl";
 		}
