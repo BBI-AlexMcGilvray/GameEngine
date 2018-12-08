@@ -31,7 +31,7 @@ namespace Application
 		{
 			// Debug test for rendering a model
 			testTransform = MakeShared<Transform>();
-			RenderSystem.ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform.get(), Data::Ast.smdl.MI_0);
+			RenderSystem.ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform.get(), Data::Ast.smpmdl.MI_0);
 
 			RenderSystem.ObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform.get(), BLACK, Float2(1.5f));
 			RenderSystem.ObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform.get(), WHITE, 2.0f);

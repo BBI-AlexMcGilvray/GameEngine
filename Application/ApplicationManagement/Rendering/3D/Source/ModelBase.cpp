@@ -6,9 +6,10 @@ namespace Application
 {
 	namespace Rendering
 	{
-		ModelBase::ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, Data::AssetName<SimpleMeshBase> asset)
+		ModelBase::ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
 			: RenderObjectBase(manager, renderTransform)
-			, Mesh(asset)
+			, Data(asset)
+			, Mesh(Data.Mesh)
 			, Shader(manager.ObjectShaderManager.DefaultShader)
 		{
 			// load material using mat file in folder

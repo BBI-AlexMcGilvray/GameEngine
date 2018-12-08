@@ -15,22 +15,30 @@ namespace Data
 	struct AssetName
 	{
 		Hash Name;
-		AssetType<T> Type;
 
 		AssetName() = default;
 
-		AssetName(Hash hash)
+		AssetName(const AssetName<T>& aN)
+			: Name(aN.Name)
+		{}
+
+		AssetName(const uint& u)
+			: AssetName(Hash(u))
+		{}
+
+		AssetName(const Hash& hash)
+			: Name(hash)
 		{
-			Name = hash;
 		}
 
-		template <typename C>
-		AssetName(C&& c)
-			: AssetName(HashValue(Forward<C>(c)))
+		AssetName<T>& operator=(const AssetName<T> aN)
 		{
+			Name = aN.Name;
+
+			return (*this);
 		}
 		
-		AssetName<T>& operator=(Hash name)
+		AssetName<T>& operator=(const Hash& name)
 		{
 			Name = name;
 
@@ -39,7 +47,7 @@ namespace Data
 
 		FilePath GetFilePath() const
 		{
-			return FilePath{ GetCWD() + Type.GetPath(), ToString(uint(Name)) + Type.GetFileType() };
+			return FilePath{ GetCWD() + AssetType<T>::GetPath(), ToString(uint(Name)) + AssetType<T>::GetFileType() };
 		}
 	};
 }

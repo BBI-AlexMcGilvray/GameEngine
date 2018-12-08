@@ -5,6 +5,8 @@
 #include "ApplicationManagement/Rendering/2D/Headers/Material.h"
 #include "ApplicationManagement/Rendering/3D/Headers/SimpleMeshBase.h"
 
+#include "Data/Rendering/Headers/SimpleModelData.h"
+
 namespace Application
 {
 	namespace Rendering
@@ -12,11 +14,12 @@ namespace Application
 		// holds the mesh, texture(s), and shader that a model uses
 		struct ModelBase : RenderObjectBase
 		{
+			Data::Rendering::SimpleModelData Data;
 			Material Material;
 			SimpleMeshBase Mesh;
 
 			// this should be loading up the model data instead of the mesh data
-			ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, Data::AssetName<SimpleMeshBase> asset);
+			ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset);
 
 			uint GetVertexCount() const override;
 

@@ -3,6 +3,7 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Math/Headers/Color.h"
 
+#include "Data/Headers/AssetName.h"
 #include "Data/Rendering/Headers/MaterialData.h"
 
 using namespace Core;
@@ -16,7 +17,7 @@ namespace Application
 		struct Material : Data::Rendering::MaterialData
 		{
 			Material();
-			Material(String fileName);
+			Material(Data::AssetName<Data::Rendering::MaterialData> asset);
 		};
 	}
 }

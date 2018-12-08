@@ -34,16 +34,7 @@ namespace Core
 
 			if (!FileStream.is_open())
 			{
-				cout << "File could not open, attempting to create and then reopening" << endl;
-
-				if (Create())
-				{
-					Open();
-				}
-				else
-				{
-					throw IOException("File <" + GetFullPath() + "> was unable to be opened");
-				}
+				throw IOException("File <" + GetFullPath() + "> was unable to be opened");
 			}
 		}
 

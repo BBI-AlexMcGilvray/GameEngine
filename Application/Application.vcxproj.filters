@@ -285,6 +285,9 @@
     <ClCompile Include="Core\IO\Source\IOUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Data\Rendering\Source\SimpleModelData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Planning\GameEngine.xmi" />
@@ -977,6 +980,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\IO\Headers\IODefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Rendering\Headers\SimpleModelData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

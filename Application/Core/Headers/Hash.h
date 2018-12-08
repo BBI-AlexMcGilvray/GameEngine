@@ -36,9 +36,20 @@ namespace Core
 			: H(StartHashValue)
 		{}
 
+		constexpr Hash(const uint& u)
+			: H(u)
+		{}
+
 		constexpr Hash(const Hash& h)
 			: H(h.H)
 		{}
+
+		Hash& operator=(const uint& u)
+		{
+			H = u;
+
+			return (*this);
+		}
 
 		Hash& operator=(const Hash& h)
 		{

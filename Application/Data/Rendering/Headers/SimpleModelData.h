@@ -6,7 +6,7 @@
 #include "Data/Headers/AssetName.h"
 
 #include "Data/Rendering/Headers/MaterialData.h"
-#include "Data/Rendering/Headers/StaticMeshData.h"
+#include "Data/Rendering/Headers/SimpleMeshData.h"
 #include "Data/Rendering/Headers/TextureData.h"
 
 using namespace Core;
@@ -16,23 +16,23 @@ namespace Data
 	namespace Rendering
 	{
 		// holds the information about the mesh of a 3D object
-		struct StaticModelData
+		struct SimpleModelData
 		{
 			AssetName<MaterialData> Material;
-			AssetName<StaticMeshData> Mesh;
+			AssetName<SimpleMeshData> Mesh;
 			AssetName<TextureData> Texture;
 
-			StaticModelData() = default;
-			StaticModelData(AssetName<StaticModelData> asset);
+			SimpleModelData() = default;
+			SimpleModelData(AssetName<SimpleModelData> asset);
 		};
 	}
 
 	template <>
-	struct AssetType<Rendering::StaticModelData>
+	struct AssetType<Rendering::SimpleModelData>
 	{
 		static Hash ClassHash()
 		{
-			return HashValue("StaticModelData");
+			return HashValue("SimpleModelData");
 		}
 
 		static String GetPath()

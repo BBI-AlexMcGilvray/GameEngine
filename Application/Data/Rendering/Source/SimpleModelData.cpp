@@ -1,4 +1,4 @@
-#include "Data/Rendering/Headers/StaticModelData.h"
+#include "Data/Rendering/Headers/SimpleModelData.h"
 
 #include "Core/IO/Headers/IOUtils.h"
 
@@ -12,7 +12,7 @@ namespace Data
 {
 	namespace Rendering
 	{
-		StaticModelData::StaticModelData(AssetName<StaticModelData> asset)
+		SimpleModelData::SimpleModelData(AssetName<SimpleModelData> asset)
 		{
 			File modelFile = OpenFileI(asset.GetFilePath());
 
@@ -23,9 +23,9 @@ namespace Data
 				String line = modelFile.GetLine();
 
 				IOSStreamChar lineStream(line);
-				
-				lineStream >> Material.Name.H;
+
 				lineStream >> Mesh.Name.H;
+				lineStream >> Material.Name.H;
 				lineStream >> Texture.Name.H;
 			}
 			catch (EOFException& e)

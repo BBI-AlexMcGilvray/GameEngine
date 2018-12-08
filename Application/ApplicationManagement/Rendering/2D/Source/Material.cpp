@@ -7,8 +7,8 @@ namespace Application
 		Material::Material()
 		{}
 
-		Material::Material(String fileName)
-			: Data::Rendering::MaterialData(fileName)
+		Material::Material(Data::AssetName<Data::Rendering::MaterialData> asset)
+			: Data::Rendering::MaterialData(asset)
 		{}
 	}
 }
