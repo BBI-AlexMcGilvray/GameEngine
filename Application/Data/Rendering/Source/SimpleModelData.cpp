@@ -20,13 +20,24 @@ namespace Data
 
 			try
 			{
-				String line = modelFile.GetLine();
+				while (true)
+				{
+					String line = modelFile.GetLine();
 
-				IOSStreamChar lineStream(line);
+					IOSStreamChar lineStream(line);
 
-				lineStream >> Mesh.Name.H;
-				lineStream >> Material.Name.H;
-				lineStream >> Texture.Name.H;
+					String word;
+					lineStream >> word;
+
+					if (word == "mesh")
+					{
+						lineStream >> Mesh.Name.H;
+					}
+					else if (word == "material")
+					{
+						lineStream >> Material.Name.H;
+					}
+				}
 			}
 			catch (EOFException& e)
 			{

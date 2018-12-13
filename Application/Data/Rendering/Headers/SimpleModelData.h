@@ -20,7 +20,6 @@ namespace Data
 		{
 			AssetName<MaterialData> Material;
 			AssetName<SimpleMeshData> Mesh;
-			AssetName<TextureData> Texture;
 
 			SimpleModelData() = default;
 			SimpleModelData(AssetName<SimpleModelData> asset);
