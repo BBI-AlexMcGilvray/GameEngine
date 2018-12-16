@@ -6,7 +6,7 @@ namespace Application
 {
 	ApplicationManager::ApplicationManager()
 		: InputSystem(SDL)
-		, GameSystem(RenderSystem, InputSystem)
+		, GameState(RenderSystem, InputSystem)
 		, OnQuit([this]()
 			{
 				Quit = true;
@@ -48,7 +48,7 @@ namespace Application
 		Time.Initialize();
 		RenderSystem.Initialize(SDL.GetWindowManager());
 		InputSystem.Initialize();
-		GameSystem.Initialize();
+		GameState.Initialize();
 
 		return true;
 	}
@@ -59,7 +59,7 @@ namespace Application
 		Time.Start();
 		RenderSystem.Start();
 		InputSystem.Start();
-		GameSystem.Start();
+		GameState.Start();
 	}
 
 	bool ApplicationManager::Update()
@@ -73,7 +73,7 @@ namespace Application
 		while (dt > 0_s)
 		{
 			// update everything
-			GameSystem.Update(dt);
+			GameState.Update(dt);
 
 			RenderSystem.Update(dt);
 
@@ -85,7 +85,7 @@ namespace Application
 
 	void ApplicationManager::End()
 	{
-		GameSystem.End();
+		GameState.End();
 		InputSystem.End();
 		RenderSystem.End();
 		Time.End();
@@ -95,7 +95,7 @@ namespace Application
 	void ApplicationManager::CleanUp()
 	{
 		// possible we want to thread this to make it faster (since saving could be done)
-		GameSystem.CleanUp();
+		GameState.CleanUp();
 		InputSystem.CleanUp();
 		RenderSystem.CleanUp();
 		Time.CleanUp();

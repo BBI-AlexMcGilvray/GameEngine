@@ -1,12 +1,30 @@
 #include "ApplicationManagement/StateSystem/Headers/StateManager.h"
 
-#include "ApplicationManagement/StateSystem/Headers/State.h"
-
 namespace Application
 {
+	StateManager::StateManager(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem)
+		: RenderSystem(renderSystem), InputSystem(inputSystem)
+	{
+
+	}
+
 	void StateManager::Initialize()
 	{
+		// knowing what state to push first can be in a config file, or based on an instantation of a specific templated type
+		PushState();
+		ActiveState()->Initialize();
+
 		CurrentState = SystemState::Initialized;
+	}
+
+	void StateManager::Start()
+	{
+		for (int i = 0; i < States.size(); i++)
+		{
+			States[i]->Start();
+		}
+
+		CurrentState = SystemState::Started;
 	}
 
 	void StateManager::Update(Second dt)
@@ -19,11 +37,21 @@ namespace Application
 		ActiveState()->Update(dt);
 	}
 
+	void StateManager::End()
+	{
+		for (int i = 0; i < States.size(); i++)
+		{
+			States[i]->End();
+		}
+
+		CurrentState = SystemState::Ended;
+	}
+
 	void StateManager::CleanUp()
 	{
-		for (int i = 0; i < States.size; i++)
+		for (int i = 0; i < States.size(); i++)
 		{
-			States[i].CleanUp();
+			States[i]->CleanUp();
 		}
 
 		CurrentState = SystemState::Clean;
@@ -31,7 +59,7 @@ namespace Application
 
 	void StateManager::PushState()
 	{
-		Push(States, MakeUnique<State>());
+		Push(States, MakeUnique<State>(RenderSystem, InputSystem));
 	}
 
 	// void StateManager::PushState(AssetData<State> state)
@@ -67,11 +95,11 @@ namespace Application
 
 	Ptr<State> StateManager::ActiveState() const
 	{
-		if (States.size < 1)
+		if (States.size() < 1)
 		{
 			return nullptr;
 		}
 
-		return States[States.size];
+		return States[States.size() - 1].get();
 	}
 }

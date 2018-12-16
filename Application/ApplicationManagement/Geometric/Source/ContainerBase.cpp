@@ -14,19 +14,28 @@ namespace Application
 		ContainerBase::~ContainerBase()
 		{
 			// tell content that it's node was deleted
-			Content->OnContainerDeletion();
+			if (Content != nullptr)
+			{
+				Content->OnContainerDeletion();
+			}
 		}
 
 		void ContainerBase::Update(Second dt)
 		{
 			// update content as it may affect children
-			Content->Update(dt);
+			if (Content != nullptr)
+			{
+				Content->Update(dt);
+			}
 		}
 
 		void ContainerBase::Render(Renderer& renderer, Float4x4 transformationMatrix) const
 		{
 			// render content with the passed in positional information
-			Content->Render(renderer, transformationMatrix);
+			if (Content != nullptr)
+			{
+				Content->Render(renderer, transformationMatrix);
+			}
 		}
 
 		void ContainerBase::SetContent(UniquePtr<ContentBase> newContent)

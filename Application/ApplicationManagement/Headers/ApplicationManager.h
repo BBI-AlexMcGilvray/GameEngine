@@ -2,14 +2,13 @@
 
 #include "SDL2Manager.h"
 
-#include "ApplicationManagement/GameSystem/Headers/GameSystemManager.h"
+#include "ApplicationManagement/StateSystem/Headers/StateManager.h"
 #include "ApplicationManagement/Input/Headers/InputManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 #include "ApplicationManagement/Time/Headers/TimeManager.h"
 
 #include "Core/Functionality/Headers/Event.h"
 
-using namespace Application::GameSystem;
 using namespace Application::Input;
 using namespace Application::Rendering;
 using namespace Application::Time;
@@ -30,7 +29,7 @@ namespace Application
 		FixedStepTimeManager Time;
 		RenderManager RenderSystem;
 		InputManager InputSystem;
-		GameSystemManager GameSystem;
+		StateManager GameState;
 
 		Delegate<> OnQuit;
 		bool Quit = false;
