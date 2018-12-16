@@ -45,8 +45,6 @@ namespace Application
 			Scheduler.Update(dt);
 			ObjectManager.Update(dt);
 
-			// something is wrong, objects are not rotating or moving, instead they seem to be getting clipped
-
 			// movement test
 			//testTransform->AdjustPosition(Float3(0.0f, 1.0f, 0.0f) * Duration(dt));
 

@@ -217,6 +217,8 @@
     <ClCompile Include="ApplicationManagement\Source\ApplicationManager.cpp" />
     <ClCompile Include="ApplicationManagement\Source\GLContextManager.cpp" />
     <ClCompile Include="ApplicationManagement\Source\SDL2Manager.cpp" />
+    <ClCompile Include="ApplicationManagement\StateSystem\Source\State.cpp" />
+    <ClCompile Include="ApplicationManagement\StateSystem\Source\StateManager.cpp" />
     <ClCompile Include="Core\Functionality\Source\Scheduler.cpp" />
     <ClCompile Include="ApplicationManagement\Time\Source\TimeManager.cpp" />
     <ClCompile Include="Core\CoreUnitTests.cpp" />
@@ -343,6 +345,8 @@
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLArrayBuffer.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugObjectShader.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugVertexShader.h" />
+    <ClInclude Include="ApplicationManagement\StateSystem\Headers\State.h" />
+    <ClInclude Include="ApplicationManagement\StateSystem\Headers\StateManager.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\Box.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\Circle.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\Geometry.h" />

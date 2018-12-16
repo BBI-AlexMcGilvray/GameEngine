@@ -28,6 +28,12 @@ namespace Core
 	}
 
 	template <typename T>
+	void Pop(List<T>& list)
+	{
+		list.pop_back();
+	}
+
+	template <typename T>
 	void Push(List<T>& list, T entry)
 	{
 		list.push_back(Forward<T>(entry));

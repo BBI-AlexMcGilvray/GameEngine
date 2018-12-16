@@ -288,6 +288,12 @@
     <ClCompile Include="Data\Rendering\Source\SimpleModelData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationManagement\StateSystem\Source\State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\StateSystem\Source\StateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Planning\GameEngine.xmi" />
@@ -983,6 +989,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Data\Rendering\Headers\SimpleModelData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\StateSystem\Headers\StateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\StateSystem\Headers\State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
