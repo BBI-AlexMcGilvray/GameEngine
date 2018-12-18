@@ -5,13 +5,11 @@ namespace Application
 	namespace Rendering
 	{
 		RenderManager::RenderManager()
-			: ObjectManager(this)
 		{}
 
 		void RenderManager::Initialize(WindowManager& window, Color clearColor)
 		{
 			ObjectShaderManager.Initialize();
-			ObjectManager.Initialize();
 
 			Window = &window;
 
@@ -25,13 +23,29 @@ namespace Application
 
 		void RenderManager::Start()
 		{
-			ObjectManager.Start();
+
+		}
+
+		void RenderManager::AttachRenderObjectManager(Ptr<RenderObjectManager> objectManager)
+		{
+			ObjectManager = objectManager;
+		}
+
+		void RenderManager::DettachRenderObjectManager(Ptr<RenderObjectManager> objectManager)
+		{
+			if (ObjectManager == objectManager)
+			{
+				ObjectManager = nullptr;
+			}
 		}
 
 		void RenderManager::Update(Second dt)
 		{
 			// update render object manager
-			ObjectManager.Update(dt);
+			if (ObjectManager != nullptr)
+			{
+				ObjectManager->Update(dt);
+			}
 			Render();
 		}
 
@@ -44,12 +58,11 @@ namespace Application
 
 		void RenderManager::End()
 		{
-			ObjectManager.End();
+
 		}
 
 		void RenderManager::CleanUp()
 		{
-			ObjectManager.CleanUp();
 			ObjectShaderManager.CleanUp();
 		}
 
@@ -99,7 +112,10 @@ namespace Application
 			
 			// render manager render call
 			auto initialMVP = RenderCamera->GetTransformationMatrix();
-			ObjectManager.Render(initialMVP, InitialColor);
+			if (ObjectManager != nullptr)
+			{
+				ObjectManager->Render(initialMVP, InitialColor);
+			}
 		}
 
 		void RenderManager::RenderEnd()

@@ -10,6 +10,7 @@
 
 #include "ApplicationManagement/Input/Headers/InputManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
+#include "ApplicationManagement/Rendering/Headers/RenderObjectManager.h"
 #include "ApplicationManagement/Collision/Headers/CollisionManager.h"
 
 using namespace Core;
@@ -25,6 +26,7 @@ namespace Application
 		{
 			SchedulerBase Scheduler;
 			GameObjectManager ObjectManager;
+			Rendering::RenderObjectManager RObjectManager;
 			//CollisionManager CollisionSystem;
 
 			// the game system manager should hold onto the current 'scene' and be able to switch between scenes (in order to load different game states)

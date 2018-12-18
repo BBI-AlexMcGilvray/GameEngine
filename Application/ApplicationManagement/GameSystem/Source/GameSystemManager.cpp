@@ -17,27 +17,29 @@ namespace Application
 	namespace GameSystem
 	{
 		GameSystemManager::GameSystemManager(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem)
-			: RenderSystem(renderSystem), InputSystem(inputSystem)
+			: RObjectManager(&renderSystem), RenderSystem(renderSystem), InputSystem(inputSystem)
 		{
 
 		}
 
 		void GameSystemManager::Initialize()
 		{
-
+			RObjectManager.Initialize();
 		}
 
 		void GameSystemManager::Start()
 		{
+			RObjectManager.Start();
+			RenderSystem.AttachRenderObjectManager(&RObjectManager);
+
+			RenderSystem.SetCamera(MakeShared<Rendering::Camera>(1024.0f / 800.0f));
+
 			// Debug test for rendering a model
 			testTransform = MakeShared<Transform>();
-			RenderSystem.ObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform.get(), Data::Ast.spmdl.MI_0);
+			RObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform.get(), Data::Ast.spmdl.MI_0);
 
-			RenderSystem.ObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform.get(), BLACK, Float2(1.5f));
-			RenderSystem.ObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform.get(), WHITE, 2.0f);
-
-			// should not need to set width/height! very dumb!
-			RenderSystem.SetCamera(MakeShared<Rendering::Camera>(1024.0f / 800.0f));
+			RObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform.get(), BLACK, Float2(1.5f));
+			RObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform.get(), WHITE, 2.0f);
 		}
 
 		void GameSystemManager::Update(Second dt)
@@ -59,12 +61,13 @@ namespace Application
 
 		void GameSystemManager::End()
 		{
-
+			RenderSystem.DettachRenderObjectManager(&RObjectManager);
+			RObjectManager.End();
 		}
 
 		void GameSystemManager::CleanUp()
 		{
-
+			RObjectManager.CleanUp();
 		}
 	}
 }

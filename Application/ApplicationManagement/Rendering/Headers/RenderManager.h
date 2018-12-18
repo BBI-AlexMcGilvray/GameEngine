@@ -31,12 +31,15 @@ namespace Application
 		{
 			ShaderManager ObjectShaderManager;
 			Renderer ObjectRenderer;
-			RenderObjectManager ObjectManager;
+			Ptr<RenderObjectManager> ObjectManager = nullptr;
 
 			RenderManager();
 
 			void Initialize(WindowManager& window, Color clearColor = Color(1.0f, 0.5f, 0.5f, 1.0f));
 			void Start();
+
+			void AttachRenderObjectManager(Ptr<RenderObjectManager> objectManager);
+			void DettachRenderObjectManager(Ptr<RenderObjectManager> objectManager);
 
 			void Update(Second dt);
 			void Render();
