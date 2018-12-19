@@ -1,17 +1,12 @@
 #pragma once
 
 #include "Core/Headers/ListDefs.h"
+#include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
-
-#include "Core/Math/Headers/Matrix4x4.h"
-
-#include "ApplicationManagement/Rendering/Headers/Renderer.h"
+#include "Core/Functionality/Headers/Event.h"
 
 using namespace Core;
-using namespace Core::Math;
-
-using namespace Application;
-using namespace Application::Rendering;
+using namespace Core::Functionality;
 
 namespace Application
 {
@@ -22,25 +17,29 @@ namespace Application
 		// generic class that can be inherited from for anything that needs to be stored inside a node
 		struct ContainerBase
 		{
+			Event<> ContainerDeleted;
+
 			ContainerBase();
 
 			virtual ~ContainerBase();
 
 			virtual void Update(Second dt);
-			// if rendering is going to be handled as a UniquePtr in the RenderObjectManager, then we may not even need this render call?
-			virtual void Render(Renderer& renderer, Float4x4 transformationMatrix) const;
+
+			// is this the best way to do this?
+			//virtual Ptr<Transform> GetTransform() const;
 
 			template <typename T, typename ...Ts>
-			void SetContent(Ts ...args)
+			Ptr<ContentBase> AddContent(Ts ...args)
 			{
-				SetContent(MakeUnique<T>(Forward<Ts>(args)...));
+				return AddContent(MakeUnique<T>(Forward<Ts>(args)...));
 			}
 
-			void SetContent(UniquePtr<ContentBase> newContent);
-			void RemoveContent();
+			Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent);
+			void RemoveContent(Ptr<ContentBase> content);
+			bool HasContent(Ptr<ContentBase> content);
 
 		protected:
-			UniquePtr<ContentBase> Content;
+			List<UniquePtr<ContentBase>> Content;
 		};
 	}
 }

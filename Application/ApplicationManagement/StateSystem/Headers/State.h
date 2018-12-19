@@ -23,6 +23,8 @@ namespace Application
 		void End();
 		void CleanUp();
 
+		Ptr<Transform> CreateNewNode(String name);
+
 	private:
 		Geometric::Node Hierarchy;
 		GameSystem::GameSystemManager GameSystem;

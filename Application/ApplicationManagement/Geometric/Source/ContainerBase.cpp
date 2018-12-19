@@ -13,48 +13,44 @@ namespace Application
 
 		ContainerBase::~ContainerBase()
 		{
-			// tell content that it's node was deleted
-			if (Content != nullptr)
-			{
-				Content->OnContainerDeletion();
-			}
+			ContainerDeleted();
 		}
 
 		void ContainerBase::Update(Second dt)
 		{
-			// update content as it may affect children
-			if (Content != nullptr)
+			for (int i = 0; i < Content.size(); i++)
 			{
-				Content->Update(dt);
+				Content[i]->Update(dt);
 			}
 		}
 
-		void ContainerBase::Render(Renderer& renderer, Float4x4 transformationMatrix) const
+		Ptr<ContentBase> ContainerBase::AddContent(UniquePtr<ContentBase> newContent)
 		{
-			// render content with the passed in positional information
-			if (Content != nullptr)
+			Push(Content, move(newContent));
+		}
+
+		void ContainerBase::RemoveContent(Ptr<ContentBase> content)
+		{
+			for (int i = 0; i < Content.size(); i++)
 			{
-				Content->Render(renderer, transformationMatrix);
+				if (Content[i].get() == content)
+				{
+					RemoveIndex(Content, i);
+				}
 			}
 		}
 
-		void ContainerBase::SetContent(UniquePtr<ContentBase> newContent)
+		bool ContainerBase::HasContent(Ptr<ContentBase> content)
 		{
-			if (newContent != nullptr)
+			for (int i = 0; i < Content.size(); i++)
 			{
-				newContent->OnContainerSet(this);
-				RemoveContent();
-				Content = move(newContent);
+				if (Content[i].get() == content)
+				{
+					return true;
+				}
 			}
-		}
 
-		void ContainerBase::RemoveContent()
-		{
-			if (Content != nullptr)
-			{
-				Content->OnContainerDeletion();
-			}
-			Content = nullptr;
+			return false;
 		}
 	}
 }

@@ -1,5 +1,7 @@
 #include "ApplicationManagement/StateSystem/Headers/StateManager.h"
 
+#include "Core/Debugging/Headers/Macros.h"
+
 namespace Application
 {
 	StateManager::StateManager(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem)
@@ -12,7 +14,6 @@ namespace Application
 	{
 		// knowing what state to push first can be in a config file, or based on an instantation of a specific templated type
 		PushState();
-		ActiveState()->Initialize();
 
 		CurrentState = SystemState::Initialized;
 	}
@@ -31,10 +32,11 @@ namespace Application
 	{
 		if (CurrentState == SystemState::Transitioning)
 		{
+			ChangeToState(States[States.size() - 1].get());
 			// Transition(dt);
 		}
 
-		ActiveState()->Update(dt);
+		GetActiveState()->Update(dt);
 	}
 
 	void StateManager::End()
@@ -57,33 +59,87 @@ namespace Application
 		CurrentState = SystemState::Clean;
 	}
 
-	void StateManager::PushState()
+	void StateManager::PushState(StateTransitionInfo transitionInfo)
 	{
 		Push(States, MakeUnique<State>(RenderSystem, InputSystem));
+		States[States.size() - 1]->Initialize();
+		
+		GoToState(States[States.size() - 1].get(), transitionInfo);
 	}
 
-	// void StateManager::PushState(AssetData<State> state)
+	// void StateManager::PushState(AssetData<State> state, StateTransitionInfo transitionInfo)
 	//{
 
 	//}
 
-	// void StateManager::PushState(AsseName<State> state)
+	// void StateManager::PushState(AsseName<State> state, StateTransitionInfo transitionInfo)
 	//{
 
 	//}
+
+	void StateManager::GoToState(Ptr<State> state, StateTransitionInfo transitionInfo)
+	{
+		TransitionInfo = transitionInfo;
+
+		switch (TransitionInfo.Process)
+		{
+		case TransitionProcess::PreEmptive:
+		{
+			break;
+		}
+		case TransitionProcess::Immediate:
+		{
+			ChangeToState(state);
+			break;
+		}
+		case TransitionProcess::Transition:
+		{
+			CurrentState = SystemState::Transitioning;
+			break;
+		}
+		}
+	}
 
 	void StateManager::PopState()
 	{
-		Pop(States);
+		if (States.size() > 0)
+		{
+			RemoveState(States[States.size() - 1].get());
+		}
 	}
 
 	void StateManager::RemoveState(Ptr<State> state)
 	{
-		for (int i = 0; i < States.size(); i++)
+		for (int i = States.size(); i >= 0; i--)
 		{
 			if (States[i].get() == state)
 			{
+				if (States[i].get() == ActiveState)
+				{
+					if (i > 0)
+					{
+						ActiveState = States[i - 1].get();
+					}
+					else
+					{
+						ActiveState = nullptr;
+					}
+				}
+
+				if (States[i].get() == PreviousState)
+				{
+					if (i > 0)
+					{
+						PreviousState = States[i - 1].get();
+					}
+					else
+					{
+						PreviousState = nullptr;
+					}
+				}
+
 				RemoveIndex(States, i);
+				break;
 			}
 		}
 	}
@@ -93,13 +149,25 @@ namespace Application
 		return CurrentState;
 	}
 
-	Ptr<State> StateManager::ActiveState() const
+	Ptr<State> StateManager::GetActiveState() const
 	{
-		if (States.size() < 1)
+		return ActiveState;
+	}
+
+	void StateManager::ChangeToState(Ptr<State> state)
+	{
+		VERIFY(state != nullptr);
+
+		if (ActiveState != nullptr)
 		{
-			return nullptr;
+			ActiveState->End();
 		}
 
-		return States[States.size() - 1].get();
+		PreviousState = ActiveState;
+		ActiveState = state;
+
+		ActiveState->Start();
+
+		CurrentState = SystemState::Displaying;
 	}
 }

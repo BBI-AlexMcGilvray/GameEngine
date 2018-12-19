@@ -22,7 +22,6 @@ namespace Application
 
 			// generic functions that pass calls down to children and contents
 			void Update(Second dt) override;
-			void Render(Renderer& renderer, Float4x4 transformationMatrix) const override;
 
 			// set children/parent
 			template <typename T, typename ...Ts>

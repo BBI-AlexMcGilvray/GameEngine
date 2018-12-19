@@ -31,12 +31,22 @@ namespace Core
 				Remove(this);
 			}
 
+			virtual void Add(DelegateNode<Ts...>& node)
+			{
+				return Add(&node);
+			}
+
 			virtual void Add(Ptr<DelegateNode<Ts...>> node)
 			{
 				node->Previous = this;
 				node->Next = Next;
 
 				Next = node;
+			}
+
+			virtual void Remove(DelegateNode<Ts...>& node)
+			{
+				return Remove(&);
 			}
 
 			virtual void Remove(Ptr<DelegateNode<Ts...>> node)
@@ -63,9 +73,19 @@ namespace Core
 				CallFunction(args...);
 			}
 
+			void operator +=(DelegateNode<Ts...>& node)
+			{
+				this += &node;
+			}
+
 			void operator +=(Ptr<DelegateNode<Ts...>> node)
 			{
 				Add(node);
+			}
+
+			void operator -=(DelegateNode<Ts...>& node)
+			{
+				this -= &node;
 			}
 
 			void operator -=(Ptr<DelegateNode<Ts...>> node)

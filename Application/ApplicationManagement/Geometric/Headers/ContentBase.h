@@ -2,15 +2,10 @@
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
-
-#include "Core/Math/Headers/Matrix4x4.h"
-
-#include "ApplicationManagement/Rendering/Headers/Renderer.h"
+#include "Core/Functionality/Headers/Event.h"
 
 using namespace Core;
-using namespace Core::Math;
-
-using namespace Application::Rendering;
+using namespace Core::Functionality;
 
 namespace Application
 {
@@ -21,15 +16,20 @@ namespace Application
 		// generic class that can be inherited from for anything that needs to be stored inside a node
 		struct ContentBase
 		{
+			Event<> ContentDeleted;
+			Delegate<> OnContainerDeleted;
+
 			ContentBase() = default;
-			virtual ~ContentBase() = default;
+			virtual ~ContentBase();
 
 			// generic functions
-			virtual void Update(Second dt) = 0;
-			virtual void Render(const Renderer& renderer, Float4x4 transformationMatrix) = 0;
+			virtual void Update(Second dt);
 
-			virtual void OnContainerSet(Ptr<ContainerBase> parentContainer);
-			virtual void OnContainerDeletion();
+			void SetContainer(Ptr<ContainerBase> parentContainer);
+			Ptr<ContainerBase> GetContainer() const;
+
+		private:
+			Ptr<ContainerBase> Container;
 		};
 	}
 }

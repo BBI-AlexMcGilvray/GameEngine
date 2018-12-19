@@ -14,7 +14,7 @@ namespace Application
 
 		}
 
-		GameObjectBase:: ~GameObjectBase()
+		GameObjectBase::~GameObjectBase()
 		{
 
 		}

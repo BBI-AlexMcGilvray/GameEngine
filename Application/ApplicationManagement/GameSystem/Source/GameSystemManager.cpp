@@ -25,12 +25,6 @@ namespace Application
 		void GameSystemManager::Initialize()
 		{
 			RObjectManager.Initialize();
-		}
-
-		void GameSystemManager::Start()
-		{
-			RObjectManager.Start();
-			RenderSystem.AttachRenderObjectManager(&RObjectManager);
 
 			RenderSystem.SetCamera(MakeShared<Rendering::Camera>(1024.0f / 800.0f));
 
@@ -40,6 +34,12 @@ namespace Application
 
 			RObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform.get(), BLACK, Float2(1.5f));
 			RObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform.get(), WHITE, 2.0f);
+		}
+
+		void GameSystemManager::Start()
+		{
+			RObjectManager.Start();
+			RenderSystem.AttachRenderObjectManager(&RObjectManager);
 		}
 
 		void GameSystemManager::Update(Second dt)

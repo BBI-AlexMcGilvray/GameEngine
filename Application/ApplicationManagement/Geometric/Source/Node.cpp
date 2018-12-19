@@ -31,19 +31,6 @@ namespace Application
 			}
 		}
 
-		void Node::Render(Renderer& renderer, Float4x4 transformationMatrix) const
-		{
-			// pass down modified transformation matrix
-			auto modifiedTransformationMatrix = Transformation.GetTransformationMatrix() * transformationMatrix;
-
-			for (auto& child : Children)
-			{
-				child->Render(renderer, modifiedTransformationMatrix);
-			}
-
-			ContainerBase::Render(renderer, transformationMatrix);
-		}
-
 		void Node::AddChild(SharedPtr<Node> newChild)
 		{
 			Push(Children, move(newChild));

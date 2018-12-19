@@ -6,14 +6,26 @@ namespace Application
 {
 	namespace Geometric
 	{
-		void ContentBase::OnContainerSet(Ptr<ContainerBase> parentContainer)
+		ContentBase::~ContentBase()
 		{
-			// do nothing by default
+			ContentDeleted();
 		}
 
-		void ContentBase::OnContainerDeletion()
+		void ContentBase::Update(Second dt)
 		{
-			// do nothing by default
+			// nothing by default
+		}
+
+		void ContentBase::SetContainer(Ptr<ContainerBase> parentContainer)
+		{
+			Container = parentContainer;
+
+			Container->ContainerDeleted += OnContainerDeleted;
+		}
+
+		Ptr<ContainerBase> ContentBase::GetContainer() const
+		{
+			return Container;
 		}
 	}
 }
