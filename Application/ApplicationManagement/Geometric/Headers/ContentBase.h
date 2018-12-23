@@ -19,7 +19,7 @@ namespace Application
 			Event<> ContentDeleted;
 			Delegate<> OnContainerDeleted;
 
-			ContentBase() = default;
+			ContentBase();
 			virtual ~ContentBase();
 
 			// generic functions

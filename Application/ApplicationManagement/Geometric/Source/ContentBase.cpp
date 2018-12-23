@@ -6,6 +6,16 @@ namespace Application
 {
 	namespace Geometric
 	{
+		ContentBase::ContentBase()
+			: OnContainerDeleted([this]
+		{
+			Container = nullptr;
+			return false;
+		})
+		{
+
+		}
+
 		ContentBase::~ContentBase()
 		{
 			ContentDeleted();

@@ -313,6 +313,8 @@
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameSystemManager.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Container.h" />
     <ClInclude Include="ApplicationManagement\Headers\ApplicationManager.h" />
+    <ClInclude Include="ApplicationManagement\Headers\Component.h" />
+    <ClInclude Include="ApplicationManagement\Headers\Entity.h" />
     <ClInclude Include="ApplicationManagement\Headers\GLContextManager.h" />
     <ClInclude Include="ApplicationManagement\Headers\SDL2Manager.h" />
     <ClInclude Include="ApplicationManagement\Headers\WindowManager.h" />

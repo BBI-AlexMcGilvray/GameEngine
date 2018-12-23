@@ -21,6 +21,14 @@ namespace Core
 		map.insert(pair);
 	}
 
+	/*
+	template <typename Key, typename ...Ts>
+	void Emplace(Map<Key, T>& map, Key&& key, Ts ...args)
+	{
+		map.emplace
+	}
+	*/
+
 	template <typename Key, typename T>
 	void Erase(Map<Key, T>& map, Key&& key)
 	{

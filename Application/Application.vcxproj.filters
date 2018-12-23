@@ -997,6 +997,12 @@
     <ClInclude Include="ApplicationManagement\StateSystem\Headers\State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationManagement\Headers\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Headers\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\Libs\32Bit\SDL2\_SDL2main.lib" />
