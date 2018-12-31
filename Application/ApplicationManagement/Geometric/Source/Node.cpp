@@ -31,12 +31,12 @@ namespace Application
 			}
 		}
 
-		void Node::AddChild(SharedPtr<Node> newChild)
+		void Node::AddChild(UniquePtr<Node> newChild)
 		{
 			Push(Children, move(newChild));
 		}
 
-		void Node::RemoveChild(SharedPtr<Node> oldChild)
+		void Node::RemoveChild(UniquePtr<Node> oldChild)
 		{
 			Remove(Children, move(oldChild));
 		}

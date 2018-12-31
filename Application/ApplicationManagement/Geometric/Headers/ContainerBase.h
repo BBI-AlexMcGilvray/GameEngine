@@ -28,8 +28,6 @@ namespace Application
 			// is this the best way to do this?
 			//virtual Ptr<Transform> GetTransform() const;
 
-			// may as well go full ECS with this being the main entity? That way the 'Tansform Component' will be the container?
-
 			template <typename T, typename ...Ts>
 			Ptr<ContentBase> AddContent(Ts ...args)
 			{

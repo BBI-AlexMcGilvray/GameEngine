@@ -25,20 +25,20 @@ namespace Application
 
 			// set children/parent
 			template <typename T, typename ...Ts>
-			SharedPtr<T> AddChild(Ts ...args)
+			UniquePtr<T> AddChild(Ts ...args)
 			{
-				SharedPtr<T> newNode = MakeShared<T>(Forward<Ts>(args)...);
+				UniquePtr<T> newNode = MakeUnique<T>(Forward<Ts>(args)...);
 
 				AddChild(newNode);
 
 				return newNode;
 			}
 
-			virtual void AddChild(SharedPtr<Node> newChild);
-			virtual void RemoveChild(SharedPtr<Node> oldChild);
+			virtual void AddChild(UniquePtr<Node> newChild);
+			virtual void RemoveChild(UniquePtr<Node> oldChild);
 
 		protected:
-			List<SharedPtr<Node>> Children;
+			List<UniquePtr<Node>> Children;
 		};
 	}
 }

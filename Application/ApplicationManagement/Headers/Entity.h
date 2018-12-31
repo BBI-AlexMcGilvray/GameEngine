@@ -27,18 +27,19 @@ namespace Templates
 
 namespace Application
 {
-	struct Component;
+	struct ComponentBase;
 
-	struct Entity
+	struct EntityBase
 	{
 		Core::Functionality::Event<> OnDestroyed;
 
-		Entity() = default;
+		EntityBase() = default;
+		virtual ~EntityBase();
 
 		template <typename T, typename ...Ts, Templates::is_component<T>>
 		Core::Ptr<Component> AddComponent(Ts ...args)
 		{
-			return AddComponent<T>(Core::MakeUnique<T>(Templates::Forward<Ts>(args)...));
+			return AddComponent<T>(Core::MakeUnique<T>(this, Templates::Forward<Ts>(args)...));
 		}
 
 		template <typename T, Templates::is_component<T>>
@@ -97,6 +98,6 @@ namespace Application
 		}
 
 	private:
-		Core::Map<Core::Hash, Core::UniquePtr<Component>> Components;
+		Core::Map<Core::Hash, Core::UniquePtr<ComponentBase>> Components;
 	};
 }

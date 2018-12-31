@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ApplicationManagement/Headers/Entity.h"
+
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Functionality/Headers/Event.h"
@@ -14,7 +16,7 @@ namespace Application
 		struct ContainerBase;
 
 		// generic class that can be inherited from for anything that needs to be stored inside a node
-		struct ContentBase
+		struct ContentBase : EntityBase
 		{
 			Event<> ContentDeleted;
 			Delegate<> OnContainerDeleted;
