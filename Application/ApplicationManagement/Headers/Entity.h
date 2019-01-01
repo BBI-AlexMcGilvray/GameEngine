@@ -8,6 +8,8 @@
 
 #include "Core/Functionality/Headers/Event.h"
 
+/*
+// Find out what is wrong with this before using it
 namespace Templates
 {
 	template <typename T>
@@ -24,6 +26,7 @@ namespace Templates
 		static constexpr bool value = IsSame<std::true_type, decltype(is_component_test<T>())>::value;
 	};
 }
+*/
 
 namespace Application
 {
@@ -36,13 +39,13 @@ namespace Application
 		EntityBase() = default;
 		virtual ~EntityBase();
 
-		template <typename T, typename ...Ts, Templates::is_component<T>>
+		template <typename T, typename ...Ts>//, Templates::is_component<T>>
 		Core::Ptr<Component> AddComponent(Ts ...args)
 		{
 			return AddComponent<T>(Core::MakeUnique<T>(this, Templates::Forward<Ts>(args)...));
 		}
 
-		template <typename T, Templates::is_component<T>>
+		template <typename T>//, Templates::is_component<T>>
 		Core::Ptr<Component> AddComponent(Core::UniquePtr<T> component)
 		{
 			if (HasComponent<T>())
@@ -55,19 +58,19 @@ namespace Application
 			return Components[T::ClassHash()];
 		}
 
-		template <typename T, Templates::is_component<T>>
+		template <typename T>//, Templates::is_component<T>>
 		void RemoveComponent()
 		{
 			Core::Erase(Components, T::ClashHash());
 		}
 
-		template <typename T, Templates::is_component<T>>
+		template <typename T>//, Templates::is_component<T>>
 		bool HasComponent()
 		{
 			return Core::In(Components, T::ClassHash());
 		}
 
-		template <typename T, Templates::is_component<T>>
+		template <typename T>//, Templates::is_component<T>>
 		Core::Ptr<Component> GetComponent()
 		{
 			if (!HasComponent<T>())
@@ -79,13 +82,13 @@ namespace Application
 			return Components[T::ClashHash()];
 		}
 
-		template <typename T, Templates::is_component<T>>
+		template <typename T>//, Templates::is_component<T>>
 		void ClaimComponentFrom(Core::Ptr<Entity> entity)
 		{
 			entity->GiveComponentTo<T>(this);
 		}
 
-		template <typename T, Templates::is_component<T>>
+		template <typename T>//, Templates::is_component<T>>
 		void GiveComponentTo(Core::Ptr<Entity> entity)
 		{
 			if (!HasComponent<T>())

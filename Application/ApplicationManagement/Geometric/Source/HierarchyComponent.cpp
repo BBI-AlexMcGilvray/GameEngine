@@ -14,9 +14,35 @@ namespace Application
 
 		Hierarchy::Hierarchy(Ptr<EntityBase> entity, Ptr<Node> hierarchyNode)
 			: Component<Hierarchy>(entity)
-			, HierarchyNode(hierarchyNode)
+			, OnNodeDeleted([this]()
 		{
+			DeleteComponent();
 
+			return false;
+		})
+		{
+			SetHierarchyNode(hierarchyNode);
+		}
+
+		void Hierarchy::SetHierarchyNode(Core::Ptr<Node> hierarchyNode)
+		{
+			if (hierarchyNode == nullptr)
+			{
+				return;
+			}
+
+			if (HierarchyNode != nullptr)
+			{
+				HierarchyNode->Deleted -= OnNodeDeleted;
+			}
+
+			HierarchyNode = hierarchyNode;
+			HierarchyNode->Deleted += OnNodeDeleted;
+		}
+
+		Core::Ptr<Node> Hierarchy::GetHeirarchyNode() const
+		{
+			return HierarchyNode;
 		}
 	}
 }

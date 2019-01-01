@@ -25,16 +25,13 @@ namespace Application
 
 			virtual void Update(Second dt);
 
-			// is this the best way to do this?
-			//virtual Ptr<Transform> GetTransform() const;
-
 			template <typename T, typename ...Ts>
 			Ptr<ContentBase> AddContent(Ts ...args)
 			{
 				return AddContent(MakeUnique<T>(Forward<Ts>(args)...));
 			}
 
-			Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent);
+			virtual Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent);
 			void RemoveContent(Ptr<ContentBase> content);
 			bool HasContent(Ptr<ContentBase> content);
 

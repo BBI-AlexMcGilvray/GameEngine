@@ -1,4 +1,6 @@
 #include "ApplicationManagement\Geometric\Headers\Node.h"
+#include "ApplicationManagement/Geometric/Headers/HierarchyComponent.h"
+#include "ApplicationManagement/Geometric/Headers/ContentBase.h"
 
 namespace Application
 {
@@ -17,7 +19,7 @@ namespace Application
 
 		Node::~Node()
 		{
-
+			Deleted();
 		}
 
 		// generic functions that pass calls down to children and contents
@@ -29,6 +31,15 @@ namespace Application
 			{
 				child->Update(dt);
 			}
+		}
+
+		Ptr<ContentBase> Node::AddContent(UniquePtr<ContentBase> newContent)
+		{
+			Ptr<ContentBase> addedContent = ContainerBase::AddContent(move(newContent));
+
+			addedContent->AddComponent<Hierarchy>(addedContent, this);
+
+			return addedContent;
 		}
 
 		void Node::AddChild(UniquePtr<Node> newChild)

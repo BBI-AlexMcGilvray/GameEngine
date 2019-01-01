@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Geometric/Headers/Transform.h"
+#include "Core/Functionality/Headers/Event.h"
 
 #include "ApplicationManagement/Geometric/Headers/ContainerBase.h"
 
@@ -13,12 +14,15 @@ namespace Application
 		// a recursive struct to hold elements in a scene
 		struct Node : ContainerBase
 		{
+			Event<> Deleted;
 			Transform Transformation;
 
 			Node();
 			Node(Float3 position, FQuaternion rotation, Float3 scale);
 
 			virtual ~Node();
+
+			Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent) override;
 
 			// generic functions that pass calls down to children and contents
 			void Update(Second dt) override;

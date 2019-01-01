@@ -13,15 +13,21 @@ namespace Application
 		// a recursive struct to hold elements in a scene
 		struct Hierarchy : Component<Hierarchy>
 		{
-			Core::Ptr<Node> HierarchyNode = nullptr;
-
-			Hierarchy(Core::Ptr<EntityBase> entity);
-			Hierarchy(Core::Ptr<EntityBase> entity, Core::Ptr<Node> hierarchyNode);
-
 			static Hash ClashHash()
 			{
 				return Core::HashValue("Hierarchy");
 			}
+
+			Hierarchy(Core::Ptr<EntityBase> entity);
+			Hierarchy(Core::Ptr<EntityBase> entity, Core::Ptr<Node> hierarchyNode);
+
+			void SetHierarchyNode(Core::Ptr<Node> hierarchyNode);
+			Core::Ptr<Node> GetHeirarchyNode() const;
+
+		private:
+			Delegate<> OnNodeDeleted;
+
+			Core::Ptr<Node> HierarchyNode = nullptr;
 		};
 	}
 }
