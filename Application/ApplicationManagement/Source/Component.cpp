@@ -1,5 +1,7 @@
 #include "ApplicationManagement/Headers/Component.h"
 
+#include "ApplicationManagement/Headers/Entity.h"
+
 using namespace Core;
 
 namespace Application

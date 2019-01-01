@@ -18,7 +18,7 @@ namespace Core
 	template <typename Key, typename T>
 	void Insert(Map<Key, T>& map, Pair<Key, T> pair)
 	{
-		map.insert(pair);
+		map.insert(move(pair));
 	}
 
 	/*

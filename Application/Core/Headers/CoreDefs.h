@@ -3,6 +3,8 @@
 #include <string>
 #include <utility>
 
+#include "Core/Headers/TemplateDefs.h"
+
 namespace Core
 {
 	using String = std::string;
@@ -12,6 +14,9 @@ namespace Core
 
 	template <typename T1, typename T2 = T1>
 	using Pair = std::pair<T1, T2>;
+
+	template <typename T1, typename T2 = T1>
+	Pair<T1, T2> MakePair(T1&& a, T2&& b) { return std::make_pair(Forward<T1>(a), Forward<T2>(b)); }
 
 	template <typename T>
 	struct Truth
@@ -46,5 +51,6 @@ namespace Core
 	bool InRange(T1&& var, T2&& min, T3&& max) { return ((Forward<T1>(var) >= Forward<T2>(min)) && (Forward<T1>(var) <= Forward<T3>(max))); }
 	
 	using uint = unsigned int;
+	using uint64 = unsigned long int;
 	using size = size_t;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ApplicationManagement/Headers/Component.h"
+
 #include "Core/Debugging/Headers/Macros.h"
 
 #include "Core/Headers/Hash.h"
@@ -30,8 +32,6 @@ namespace Templates
 
 namespace Application
 {
-	struct ComponentBase;
-
 	struct EntityBase
 	{
 		Core::Functionality::Event<> OnDestroyed;
@@ -40,22 +40,22 @@ namespace Application
 		virtual ~EntityBase();
 
 		template <typename T, typename ...Ts>//, Templates::is_component<T>>
-		Core::Ptr<Component> AddComponent(Ts ...args)
+		Core::Ptr<ComponentBase> AddComponent(Ts ...args)
 		{
-			return AddComponent<T>(Core::MakeUnique<T>(this, Templates::Forward<Ts>(args)...));
+			return AddComponent<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
 		}
 
 		template <typename T>//, Templates::is_component<T>>
-		Core::Ptr<Component> AddComponent(Core::UniquePtr<T> component)
+		Core::Ptr<ComponentBase> AddComponent(Core::UniquePtr<T> component)
 		{
-			if (HasComponent<T>())
+			if (Core::Ptr<ComponentBase> existingComponent = GetComponent<T>())
 			{
 				ALERT("Can't have two of the same component!");
-				return;
+				return existingComponent;
 			}
 
-			Core::Insert(Components, T::ClassHash(), move(component));
-			return Components[T::ClassHash()];
+			Core::Insert<Core::Hash, Core::UniquePtr<ComponentBase>>(Components, Core::MakePair(T::ClassHash(), move(component)));
+			return Components[T::ClassHash()].get();
 		}
 
 		template <typename T>//, Templates::is_component<T>>
@@ -71,7 +71,7 @@ namespace Application
 		}
 
 		template <typename T>//, Templates::is_component<T>>
-		Core::Ptr<Component> GetComponent()
+		Core::Ptr<ComponentBase> GetComponent()
 		{
 			if (!HasComponent<T>())
 			{
@@ -79,17 +79,17 @@ namespace Application
 				return nullptr;
 			}
 
-			return Components[T::ClashHash()];
+			return Components[T::ClashHash()].get();
 		}
 
 		template <typename T>//, Templates::is_component<T>>
-		void ClaimComponentFrom(Core::Ptr<Entity> entity)
+		void ClaimComponentFrom(Core::Ptr<EntityBase> entity)
 		{
 			entity->GiveComponentTo<T>(this);
 		}
 
 		template <typename T>//, Templates::is_component<T>>
-		void GiveComponentTo(Core::Ptr<Entity> entity)
+		void GiveComponentTo(Core::Ptr<EntityBase> entity)
 		{
 			if (!HasComponent<T>())
 			{

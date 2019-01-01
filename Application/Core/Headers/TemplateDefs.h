@@ -4,7 +4,7 @@
 #include <utility>
 #include <type_traits>
 
-namespace Templates
+namespace Core
 {
 	template <typename T>
 	constexpr decltype(auto) Forward(std::remove_reference_t<T>&& t) noexcept

@@ -37,7 +37,7 @@ namespace Application
 		{
 			Ptr<ContentBase> addedContent = ContainerBase::AddContent(move(newContent));
 
-			addedContent->AddComponent<Hierarchy>(addedContent, this);
+			addedContent->AddComponent<Hierarchy>(this);
 
 			return addedContent;
 		}

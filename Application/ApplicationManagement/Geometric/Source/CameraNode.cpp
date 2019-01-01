@@ -9,6 +9,8 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
+using namespace Application::Rendering;
+
 namespace Application
 {
 	namespace Geometric
@@ -23,18 +25,18 @@ namespace Application
 			Node::Update(dt);
 		}
 
-		void CameraNode::Render(Renderer& renderer, Float4x4 transformationMatrix) const
-		{
+		//void CameraNode::Render(Renderer& renderer, Float4x4 transformationMatrix) const
+		//{
 			// NOTE: the commented out code below should be done by the WORLD class
 
 			// make this the currently used camera
 			//auto previousCamera = renderer.GetCamera();
 			//renderer.SetCamera(ToShared<Camera>(this));
 
-			Node::Render(renderer, transformationMatrix);
+			//Node::Render(renderer, transformationMatrix);
 
 			// switch back to previous camera
 			//renderer.SetCamera(previousCamera);
-		}
+		//}
 	}
 }

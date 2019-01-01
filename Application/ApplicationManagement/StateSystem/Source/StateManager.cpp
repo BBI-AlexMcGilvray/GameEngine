@@ -110,7 +110,7 @@ namespace Application
 
 	void StateManager::RemoveState(Ptr<State> state)
 	{
-		for (int i = States.size(); i >= 0; i--)
+		for (Core::size i = States.size(); i >= 0; i--)
 		{
 			if (States[i].get() == state)
 			{

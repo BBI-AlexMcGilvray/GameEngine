@@ -27,6 +27,8 @@ namespace Application
 		Ptr<ContentBase> ContainerBase::AddContent(UniquePtr<ContentBase> newContent)
 		{
 			Push(Content, move(newContent));
+
+			return Content[Content.size() - 1].get();
 		}
 
 		void ContainerBase::RemoveContent(Ptr<ContentBase> content)

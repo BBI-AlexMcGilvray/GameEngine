@@ -1,7 +1,5 @@
 #pragma once
 
-#include "ApplicationManagement/Headers/Entity.h"
-
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/MapDefs.h"
 #include "Core/Headers/PtrDefs.h"
@@ -9,12 +7,12 @@
 
 namespace Application
 {
+	struct EntityBase;
+
 	struct ComponentBase
 	{
 		ComponentBase(Core::Ptr<EntityBase> entity);
 		virtual ~ComponentBase();
-
-		virtual Core::Hash ClassHash() const = 0;
 
 		Core::Ptr<EntityBase> GetEntity() const;
 
@@ -41,9 +39,9 @@ namespace Application
 			: ComponentBase(entity)
 		{}
 
-		Core::Hash ClassHash() override const
+		static Core::Hash ClassHash()
 		{
-			return T::ClashHash();
+			return T::ClassHash();
 		}
 	};
 }

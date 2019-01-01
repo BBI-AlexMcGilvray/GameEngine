@@ -56,22 +56,22 @@ namespace Core
 	}
 
 	template <typename T>
-	Truth<uint> InList(const List<T>& list, T entry)
+	Truth<uint64> InList(const List<T>& list, T entry)
 	{
 		auto index = std::find(list.begin(), list.end(), entry);
 		
 		if (index == list.end())
 		{
-			return Truth<uint>(false, 0);
+			return Truth<uint64>(false, 0);
 		}
 
-		return Truth<uint>(true, (index - list.begin()));
+		return Truth<uint64>(true, (index - list.begin()));
 	}
 
 	template <typename T, typename ...Ts>
-	List<Truth<uint>> InList(const List<T>& list, T entry, Ts... otherEntries)
+	List<Truth<uint64>> InList(const List<T>& list, T entry, Ts... otherEntries)
 	{
-		List<Trust<uint>> results;
+		List<Trust<uint64>> results;
 
 		Push(results, InList(list, Forward<T>(entry)));
 		

@@ -46,7 +46,7 @@ namespace Core
 
 			virtual void Remove(DelegateNode<Ts...>& node)
 			{
-				return Remove(&);
+				return Remove(&node);
 			}
 
 			virtual void Remove(Ptr<DelegateNode<Ts...>> node)
@@ -75,7 +75,7 @@ namespace Core
 
 			void operator +=(DelegateNode<Ts...>& node)
 			{
-				this += &node;
+				Add(node);
 			}
 
 			void operator +=(Ptr<DelegateNode<Ts...>> node)
@@ -85,7 +85,7 @@ namespace Core
 
 			void operator -=(DelegateNode<Ts...>& node)
 			{
-				this -= &node;
+				Remove(node);
 			}
 
 			void operator -=(Ptr<DelegateNode<Ts...>> node)
