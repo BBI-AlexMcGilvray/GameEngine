@@ -11,6 +11,8 @@ namespace Application
 
 	struct ComponentBase
 	{
+		Core::Functionality::Event<> Deleted;
+
 		ComponentBase(Core::Ptr<EntityBase> entity);
 		virtual ~ComponentBase();
 
@@ -43,5 +45,20 @@ namespace Application
 		{
 			return T::ClassHash();
 		}
+	};
+
+	//to simplify holding a reference to a component
+	template <typename T>
+	struct ComponentPtr
+	{
+		ComponentPtr(Core::Ptr<Component<T>> component = nullptr);
+
+		void SetComponent(Core::Ptr<Component<T>> component);
+		Core::Ptr<Component<T>> GetComponent();
+
+	private:
+		Core::Ptr<Component<T>> Component;
+
+		Core::Functionality::Delegate<> OnComponentDeleted;
 	};
 }

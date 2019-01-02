@@ -21,7 +21,7 @@ namespace Application
 
 	ComponentBase::~ComponentBase()
 	{
-
+		Deleted();
 	}
 
 	Ptr<EntityBase> ComponentBase::GetEntity() const
