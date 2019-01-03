@@ -34,24 +34,22 @@ namespace Application
 			// This should return a RanderObjectPtr that holds a unique ptr to the render object and will remove the object from
 			// the manager once deleted
 			template <typename T, typename ...Ts>
-			SharedPtr<T> AddRenderObject(Ts ...args)
+			Ptr<RenderObjectBase> AddRenderObject(Ts ...args)
 			{
-				SharedPtr<T> newRenderObject = MakeShared<T>(*Manager, Forward<Ts>(args)...);
+				UniquePtr<RenderObjectBase> newRenderObject = UniquePtr<T>(*Manager, Forward<Ts>(args)...);
 
-				AddRenderObject(newRenderObject);
-
-				return newRenderObject;
+				return AddRenderObject(move(newRenderObject));
 			}
 
-			virtual void AddRenderObject(SharedPtr<RenderObjectBase> renderObject);
-			virtual void RemoveRenderObject(SharedPtr<RenderObjectBase> renderObject);
+			virtual Ptr<RenderObjectBase> AddRenderObject(UniquePtr<RenderObjectBase> renderObject);
+			virtual void RemoveRenderObject(Ptr<RenderObjectBase> renderObject);
 
 		private:
 			// ideally we find a way to make this not a raw pointer, but it should be fine for now since this object
 			// will only exist within a render manager, so lifetime is not a concern
 			Ptr<RenderManager> Manager;
 
-			List<SharedPtr<RenderObjectBase>> RenderObjects;
+			List<UniquePtr<RenderObjectBase>> RenderObjects;
 		};
 	}
 }

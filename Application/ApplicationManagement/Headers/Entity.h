@@ -70,8 +70,9 @@ namespace Application
 			return Core::In(Components, T::ClassHash());
 		}
 
+		// Change this to return ComponentPtr<T>
 		template <typename T>//, Templates::is_component<T>>
-		Core::Ptr<ComponentBase> GetComponent()
+		Core::Ptr<T> GetComponent()
 		{
 			if (!HasComponent<T>())
 			{
@@ -79,7 +80,7 @@ namespace Application
 				return nullptr;
 			}
 
-			return Components[T::ClashHash()].get();
+			return static_cast<T*>(Components[T::ClashHash()].get());
 		}
 
 		template <typename T>//, Templates::is_component<T>>

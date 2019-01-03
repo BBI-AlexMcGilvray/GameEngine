@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Headers/CoreDefs.h"
+#include "Core/Functionality/Headers/Event.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
@@ -13,9 +14,6 @@
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
 #include "Data/Rendering/Headers/VertexBaseData.h"
-
-using namespace Core;
-using namespace Core::Geometric;
 
 namespace Application
 {
@@ -37,6 +35,8 @@ namespace Application
 		*/
 		struct RenderObjectBase
 		{
+			Core::Functionality::Event<> Delete;
+
 			Color ObjectColor;
 
 			RenderObjectBase(RenderManager& manager, Ptr<const Transform> renderTransform, Color color = Color(1.0f, 1.0f, 1.0f, 1.0f));

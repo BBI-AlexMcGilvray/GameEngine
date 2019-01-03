@@ -2,6 +2,10 @@
 
 #include "Core/Math/Headers/MatrixFunctions.h"
 
+using namespace Core;
+using namespace Core::Geometric;
+using namespace Core::Functionality;
+
 namespace Application
 {
 	namespace Rendering
@@ -15,7 +19,7 @@ namespace Application
 
 		RenderObjectBase::~RenderObjectBase()
 		{
-
+			Delete();
 		}
 
 		void RenderObjectBase::Update(Second dt)
