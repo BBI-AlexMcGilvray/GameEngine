@@ -33,8 +33,6 @@ namespace Application
 		virtual void End();
 		virtual void CleanUp();
 
-		virtual void OnActiveChanged();
-
 	private:
 		bool Active = true;
 		bool Delete = false;
@@ -49,13 +47,19 @@ namespace Application
 	template <typename T>
 	struct Component : ComponentBase
 	{
-		Component(Core::Ptr<EntityBase> entity)
+		Component(Core::Ptr<EntityBase> entity, Core::Ptr<T> actualComponent)
 			: ComponentBase(entity)
+			, ActualComponent(actualComponent)
 		{}
 
 		static Core::Hash ClassHash()
 		{
 			return T::ClassHash();
+		}
+
+		Core::Ptr<T> operator->()
+		{
+			return ActualComponent;
 		}
 
 	private:

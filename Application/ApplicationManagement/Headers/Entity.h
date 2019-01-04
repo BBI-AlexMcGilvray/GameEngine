@@ -72,7 +72,7 @@ namespace Application
 
 		// Change this to return ComponentPtr<T>
 		template <typename T>//, Templates::is_component<T>>
-		Core::Ptr<T> GetComponent()
+		ComponentPtr<T> GetComponent()
 		{
 			if (!HasComponent<T>())
 			{
@@ -80,7 +80,7 @@ namespace Application
 				return nullptr;
 			}
 
-			return static_cast<T*>(Components[T::ClashHash()].get());
+			return ComponentPtr<T>(this, static_cast<T*>(Components[T::ClashHash()].get()));
 		}
 
 		template <typename T>//, Templates::is_component<T>>
@@ -100,6 +100,12 @@ namespace Application
 
 			entity->AddComponent<T>(Components[T::ClashHash()]);
 		}
+
+		virtual void Initialize();
+		virtual void Start();
+		virtual void Update();
+		virtual void End();
+		virtual void CleanUp();
 
 	private:
 		Core::Map<Core::Hash, Core::UniquePtr<ComponentBase>> Components;

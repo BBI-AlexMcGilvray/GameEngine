@@ -48,4 +48,29 @@ namespace Application
 	{
 		return Delete;
 	}
+
+	void ComponentBase::Initialize()
+	{
+		// nothing by default
+	}
+
+	void ComponentBase::Start()
+	{
+		// nothing by default
+	}
+
+	void ComponentBase::Update()
+	{
+		// nothing by default
+	}
+
+	void ComponentBase::End()
+	{
+		// nothing by default
+	}
+
+	void ComponentBase::CleanUp()
+	{
+		// nothing by default
+	}
 }
