@@ -13,7 +13,7 @@ namespace Application
 		}
 
 		Hierarchy::Hierarchy(Ptr<EntityBase> entity, Ptr<Node> hierarchyNode)
-			: Component<Hierarchy>(entity)
+			: Component<Hierarchy>(entity, this)
 			, OnNodeDeleted([this]()
 		{
 			DeleteComponent();

@@ -7,7 +7,7 @@ namespace Application
 	namespace Rendering
 	{
 		Render::Render(Core::Ptr<EntityBase> entity, RenderObjectManager& renderManager)
-			: Component<Render>(entity)
+			: Component<Render>(entity, this)
 			, RObjectManager(renderManager)
 		{
 

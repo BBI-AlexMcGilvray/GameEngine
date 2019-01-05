@@ -64,7 +64,7 @@ namespace Application
 
 		void RenderObjectManager::RemoveRenderObject(Ptr<RenderObjectBase> renderObject)
 		{
-			for (Core::size i = 0; i < RenderObjects.size()l i++)
+			for (Core::size i = 0; i < RenderObjects.size(); i++)
 			{
 				if (RenderObjects[i].get() == renderObject)
 				{

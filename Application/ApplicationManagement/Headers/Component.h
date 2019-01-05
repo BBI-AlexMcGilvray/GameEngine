@@ -16,6 +16,8 @@ namespace Application
 		ComponentBase(Core::Ptr<EntityBase> entity);
 		virtual ~ComponentBase();
 
+		virtual Core::Hash ComponentHash() = 0;
+
 		Core::Ptr<EntityBase> GetEntity() const;
 
 		void SetActive(bool active = true);
@@ -52,6 +54,11 @@ namespace Application
 			, ActualComponent(actualComponent)
 		{}
 
+		Core::Hash ComponentHash() override
+		{
+			return T::ClassHash();
+		}
+
 		static Core::Hash ClassHash()
 		{
 			return T::ClassHash();
@@ -70,7 +77,19 @@ namespace Application
 	template <typename T>
 	struct ComponentPtr
 	{
+		ComponentPtr(Core::Ptr<ComponentBase> component = nullptr)
+			: ComponentPtr()
+		{
+			SetComponent(component);
+		}
+
 		ComponentPtr(Core::Ptr<Component<T>> component = nullptr)
+			: ComponentPtr()
+		{
+			SetComponent(component);
+		}
+
+		ComponentPtr()
 			: OnComponentDeleted([this]()
 		{
 			Component = nullptr;
@@ -81,24 +100,46 @@ namespace Application
 			SetComponent(component);
 		}
 
+		void SetComponent(Core::Ptr<ComponentBase> component)
+		{
+			if (component->ClassHash() == T::ClassHash())
+			{
+				SetComponent(static_cast<Core::Ptr<Component<T>>>(component));
+			}
+			else
+			{
+				SetComponent(Core::Ptr<Component<T>(nullptr));
+			}
+		}
+
 		void SetComponent(Core::Ptr<Component<T>> component)
 		{
 			if (component != Component && Component != nullptr)
 			{
-				Component->Delete -= OnComponentDeleted;
+				Component->Deleted -= OnComponentDeleted;
 			}
 
 			Component = component;
 
 			if (Component != nullptr)
 			{
-				Component->Delete += OnComponentDeleted;
+				Component->Deleted += OnComponentDeleted;
 			}
 		}
 
 		Core::Ptr<Component<T>> GetComponent()
 		{
 			return Component;
+		}
+
+		ComponentPtr<T> operator=(Core::Ptr<ComponentBase> component)
+		{
+			SetComponent(component);
+		}
+
+		ComponentPtr<T> operator=(Core::Ptr<Component<T>> component)
+		{
+			SetComponent(component);
 		}
 
 		operator bool()

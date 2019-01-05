@@ -2,6 +2,7 @@
 
 #include "ApplicationManagement/Headers/Component.h"
 
+#include "ApplicationManagement/Rendering/Headers/RenderObjectManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
 
 namespace Application

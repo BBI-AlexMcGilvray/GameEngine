@@ -40,22 +40,22 @@ namespace Application
 		virtual ~EntityBase();
 
 		template <typename T, typename ...Ts>//, Templates::is_component<T>>
-		Core::Ptr<ComponentBase> AddComponent(Ts ...args)
+		ComponentPtr<T> AddComponent(Ts ...args)
 		{
-			return AddComponent<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
+ 			return AddComponent<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
 		}
 
 		template <typename T>//, Templates::is_component<T>>
-		Core::Ptr<ComponentBase> AddComponent(Core::UniquePtr<T> component)
+		ComponentPtr<T> AddComponent(Core::UniquePtr<T> component)
 		{
-			if (Core::Ptr<ComponentBase> existingComponent = GetComponent<T>())
+			if (ComponentPtr<T> existingComponent = GetComponent<T>())
 			{
 				ALERT("Can't have two of the same component!");
 				return existingComponent;
 			}
 
 			Core::Insert<Core::Hash, Core::UniquePtr<ComponentBase>>(Components, Core::MakePair(T::ClassHash(), move(component)));
-			return Components[T::ClassHash()].get();
+			return GetComponent<T>();
 		}
 
 		template <typename T>//, Templates::is_component<T>>
@@ -77,10 +77,10 @@ namespace Application
 			if (!HasComponent<T>())
 			{
 				ALERT("Entity does not have component!");
-				return nullptr;
+				return ComponentPtr<T>(nullptr);
 			}
 
-			return ComponentPtr<T>(this, static_cast<T*>(Components[T::ClashHash()].get()));
+			return ComponentPtr<T>(static_cast<Core::Ptr<Component<T>>>(Components[T::ClashHash()].get()));
 		}
 
 		template <typename T>//, Templates::is_component<T>>
