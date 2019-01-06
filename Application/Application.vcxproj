@@ -347,6 +347,7 @@
     <ClInclude Include="ApplicationManagement\Rendering\Headers\Lights.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderComponent.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLBuffer.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLDefs.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLObject.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLShader.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLShaderProgram.h" />

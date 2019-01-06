@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
+
 #include "Core/Headers/ListDefs.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
@@ -12,7 +14,6 @@ namespace Application
 	namespace Rendering
 	{
 		struct RenderManager;
-		struct RenderObjectBase;
 
 		// holds all render objects, handles updating them and passing them in to be rendered
 		struct RenderObjectManager
@@ -33,7 +34,7 @@ namespace Application
 			template <typename T, typename ...Ts>
 			Core::Ptr<RenderObjectBase> AddRenderObject(Ts ...args)
 			{
-				Core::UniquePtr<RenderObjectBase> newRenderObject = Core::UniquePtr<T>(*Manager, Forward<Ts>(args)...);
+				Core::UniquePtr<RenderObjectBase> newRenderObject = Core::MakeUnique<T>(Manager, Forward<Ts>(args)...);
 
 				return AddRenderObject(move(newRenderObject));
 			}

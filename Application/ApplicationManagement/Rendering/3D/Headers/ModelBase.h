@@ -2,6 +2,8 @@
 
 #include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
 
+#include "ApplicationManagement/Rendering/Shaders/Headers/ObjectShader.h"
+
 #include "ApplicationManagement/Rendering/2D/Headers/Material.h"
 #include "ApplicationManagement/Rendering/3D/Headers/SimpleMeshBase.h"
 
@@ -19,14 +21,14 @@ namespace Application
 			SimpleMeshBase Mesh;
 
 			// this should be loading up the model data instead of the mesh data
-			ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset);
+			ModelBase(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset);
 
 			uint GetVertexCount() const override;
 
 		protected:
 			ObjectShader& Shader;
 
-			void Prepare(const Float4x4& mvp, const Color& color) const override;
+			void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const override;
 			void CleanUp() const override;
 		};
 	}

@@ -1,5 +1,9 @@
 #include "ApplicationManagement\Rendering\Headers\RenderManager.h"
 
+using namespace Core;
+using namespace Core::Math;
+using namespace Core::Functionality;
+
 namespace Application
 {
 	namespace Rendering

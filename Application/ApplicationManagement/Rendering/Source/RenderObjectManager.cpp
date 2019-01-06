@@ -1,9 +1,6 @@
 #include "ApplicationManagement/Rendering/Headers/RenderObjectManager.h"
 
-#include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
-
-// debug includes
-#include "Core/Math/Headers/MatrixFunctions.h"
+using namespace Core;
 
 namespace Application
 {
@@ -38,7 +35,7 @@ namespace Application
 			// as noted in AddRenderObject, we will need to update this to having multiple lists and render them accordingly
 			for (auto& renderObject : RenderObjects)
 			{
-				renderObject->Render(mvp, color);
+				renderObject->Render(Manager, mvp, color);
 			}
 		}
 

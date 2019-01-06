@@ -2,6 +2,10 @@
 
 #include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
 
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
+
+using namespace Core;
+
 namespace Application
 {
 	namespace Rendering

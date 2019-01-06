@@ -1021,6 +1021,9 @@
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\Libs\32Bit\SDL2\_SDL2main.lib" />

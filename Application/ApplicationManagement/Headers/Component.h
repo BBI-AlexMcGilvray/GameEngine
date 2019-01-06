@@ -54,7 +54,7 @@ namespace Application
 			, ActualComponent(actualComponent)
 		{}
 
-		Core::Hash ComponentHash() override
+		Core::Hash ComponentHash() final
 		{
 			return T::ClassHash();
 		}
@@ -77,13 +77,26 @@ namespace Application
 	template <typename T>
 	struct ComponentPtr
 	{
-		ComponentPtr(Core::Ptr<ComponentBase> component = nullptr)
+		ComponentPtr(nullptr_t null)
+			: ComponentPtr()
+		{
+
+		}
+
+		ComponentPtr(Core::Ptr<ComponentBase> component)
 			: ComponentPtr()
 		{
 			SetComponent(component);
 		}
 
-		ComponentPtr(Core::Ptr<Component<T>> component = nullptr)
+		ComponentPtr(Core::Ptr<Component<T>> component)
+			: ComponentPtr()
+		{
+			SetComponent(component);
+		}
+
+		template <typename O>
+		ComponentPtr(ComponentPtr<O> component)
 			: ComponentPtr()
 		{
 			SetComponent(component);
@@ -92,12 +105,12 @@ namespace Application
 		ComponentPtr()
 			: OnComponentDeleted([this]()
 		{
-			Component = nullptr;
+			this->Component = nullptr;
 
 			return false;
 		})
 		{
-			SetComponent(component);
+
 		}
 
 		void SetComponent(Core::Ptr<ComponentBase> component)

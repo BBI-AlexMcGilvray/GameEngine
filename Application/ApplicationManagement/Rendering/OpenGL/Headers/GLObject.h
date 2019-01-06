@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Dependencies\Includes\GLEW\glew.h"
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
 
 namespace Application
 {

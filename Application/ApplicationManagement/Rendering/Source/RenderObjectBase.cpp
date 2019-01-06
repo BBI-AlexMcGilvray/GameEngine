@@ -1,8 +1,11 @@
 #include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
 
+#include "ApplicationManagement/Rendering/Headers/RenderManager.h"
+
 #include "Core/Math/Headers/MatrixFunctions.h"
 
 using namespace Core;
+using namespace Core::Math;
 using namespace Core::Geometric;
 using namespace Core::Functionality;
 
@@ -10,7 +13,7 @@ namespace Application
 {
 	namespace Rendering
 	{
-		RenderObjectBase::RenderObjectBase(RenderManager& manager, Ptr<const Transform> renderTransform, Color color)
+		RenderObjectBase::RenderObjectBase(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color)
 			: ObjectColor(color)
 			, Manager(manager)
 			, RenderTransform(renderTransform)
@@ -27,18 +30,18 @@ namespace Application
 			// this will be used to handle animations and the like
 		}
 
-		void RenderObjectBase::Render(const Float4x4& mvp, const Color& color) const
+		void RenderObjectBase::Render(Ptr<RenderManager> manager, const Float4x4& mvp, const Color& color) const
 		{
 			auto renderMVP = mvp * RenderTransform->GetTransformationMatrix();
 			
 			Prepare(renderMVP, color);
-			Draw();
+			Draw(manager);
 			CleanUp();
 		}
 
-		void RenderObjectBase::Draw() const
+		void RenderObjectBase::Draw(Ptr<RenderManager> manager) const
 		{
-			Manager.ObjectRenderer.Draw(this);
+			manager->ObjectRenderer.Draw(this);
 		}
 	}
 }

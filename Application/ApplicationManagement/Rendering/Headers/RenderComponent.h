@@ -12,7 +12,7 @@ namespace Application
 		// a recursive struct to hold elements in a scene
 		struct Render : Component<Render>
 		{
-			static Hash ClashHash()
+			static Core::Hash ClashHash()
 			{
 				return Core::HashValue("Render");
 			}

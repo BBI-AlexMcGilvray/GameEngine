@@ -1,24 +1,21 @@
 #pragma once
 
 #include "Core/Headers/CoreDefs.h"
-#include "Core/Functionality/Headers/Event.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
+#include "Core/Functionality/Headers/Event.h"
+
 #include "Core/Geometric/Headers/Transform.h"
 
-#include "ApplicationManagement/Rendering/Headers/RenderManager.h"
-#include "ApplicationManagement/Rendering/Shaders/Headers/ObjectShaderBase.h"
-
-// debug
-#include "ApplicationManagement/Rendering/OpenGL/Headers/GLArrayBuffer.h"
-#include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
-#include "Data/Rendering/Headers/VertexBaseData.h"
+#include "Core/Math/Headers/Color.h"
 
 namespace Application
 {
 	namespace Rendering
 	{
+		struct RenderManager;
+
 		/*
 			This is an INTERFACE to be used by any object that needs rendering.
 
@@ -37,23 +34,23 @@ namespace Application
 		{
 			Core::Functionality::Event<> Delete;
 
-			Color ObjectColor;
+			Core::Math::Color ObjectColor;
 
-			RenderObjectBase(RenderManager& manager, Ptr<const Transform> renderTransform, Color color = Color(1.0f, 1.0f, 1.0f, 1.0f));
+			RenderObjectBase(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Core::Math::Color color = Core::Math::Color(1.0f, 1.0f, 1.0f, 1.0f));
 			virtual ~RenderObjectBase();
 
-			virtual void Update(Second dt);
-			void Render(const Float4x4& mvp, const Color& color) const;
+			virtual void Update(Core::Second dt);
+			void Render(Core::Ptr<RenderManager> manager, const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;
 
-			virtual uint GetVertexCount() const = 0;
+			virtual Core::uint GetVertexCount() const = 0;
 
 		protected:
-			RenderManager& Manager;
+			Core::Ptr<RenderManager> Manager;
 			// this is private because it should never be changed by the render object - it simply reads the transform (same for colliders, but game objects will be able to modify their transform)
-			Ptr<const Transform> RenderTransform;
+			Core::Ptr<const Core::Geometric::Transform> RenderTransform;
 
-			virtual void Prepare(const Float4x4& mvp, const Color& color) const = 0;
-			virtual void Draw() const;
+			virtual void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const = 0;
+			virtual void Draw(Core::Ptr<RenderManager> manager) const;
 			virtual void CleanUp() const = 0;
 		};
 	}

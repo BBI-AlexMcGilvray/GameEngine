@@ -1,21 +1,27 @@
 #include "ApplicationManagement/Rendering/2D/Headers/BoxRenderObject.h"
 
+#include "ApplicationManagement/Rendering/Headers/RenderManager.h"
+
+using namespace Core;
+using namespace Core::Math;
+using namespace Core::Geometric;
+
 namespace Application
 {
 	namespace Rendering
 	{
-		BoxRenderObject::BoxRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color)
+		BoxRenderObject::BoxRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color)
 			: BoxRenderObject(manager, renderTransform, color, Float2(1.0f))
 		{}
 
-		BoxRenderObject::BoxRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color,float width, float height)
+		BoxRenderObject::BoxRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color,float width, float height)
 			: BoxRenderObject(manager, renderTransform, color, Float2(width, height))
 		{}
 
-		BoxRenderObject::BoxRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color, Float2 scale)
+		BoxRenderObject::BoxRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color, Float2 scale)
 			: RenderObjectBase(manager, renderTransform, color)
 			, Scale(scale)
-			, Shader(manager.ObjectShaderManager.DefaultShader)
+			, Shader(manager->ObjectShaderManager.DefaultShader)
 		{
 			Initialize();
 		}

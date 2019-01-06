@@ -1,15 +1,16 @@
 #pragma once
 
 #include "Core/Headers/CoreDefs.h"
+#include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/ListDefs.h"
 
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
 
+#include "ApplicationManagement/Rendering/Shaders/Headers/ObjectShader.h"
+
 #include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
 #include "Data/Rendering/Headers/VertexBaseData.h"
-
-using namespace Core;
 
 namespace Application
 {
@@ -19,16 +20,16 @@ namespace Application
 		struct BoxRenderObject : RenderObjectBase
 		{
 			GLArrayBuffer Vao;
-			List<GLBuffer> Vbos;
-			List<Data::Rendering::SimpleVertexDataBase> Vertices;
+			Core::List<GLBuffer> Vbos;
+			Core::List<Data::Rendering::SimpleVertexDataBase> Vertices;
 
-			BoxRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color);
-			BoxRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color, float width, float height);
-			BoxRenderObject(RenderManager& manager, Ptr<const Transform> renderTransform, Color color, Float2 scale);
+			BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Core::Math::Color color);
+			BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Core::Math::Color color, float width, float height);
+			BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Core::Math::Color color, Core::Math::Float2 scale);
 
 			virtual void Initialize();
 
-			virtual void Prepare(const Float4x4& mvp, const Color& color) const;
+			virtual void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;
 			virtual void CleanUp() const;
 
 			uint GetVertexCount() const override

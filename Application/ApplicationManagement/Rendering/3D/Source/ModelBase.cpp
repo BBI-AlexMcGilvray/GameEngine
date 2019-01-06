@@ -1,16 +1,22 @@
 #include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
 
+#include "ApplicationManagement/Rendering/Headers/RenderManager.h"
+
 #include "Data/Headers/AssetUtils.h"
+
+using namespace Core;
+using namespace Core::Geometric;
+using namespace Core::Math;
 
 namespace Application
 {
 	namespace Rendering
 	{
-		ModelBase::ModelBase(RenderManager& manager, Ptr<const Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
+		ModelBase::ModelBase(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
 			: RenderObjectBase(manager, renderTransform)
 			, Data(asset)
 			, Mesh(Data.Mesh)
-			, Shader(manager.ObjectShaderManager.DefaultShader)
+			, Shader(manager->ObjectShaderManager.DefaultShader)
 		{
 			// load material using mat file in folder
 		}
