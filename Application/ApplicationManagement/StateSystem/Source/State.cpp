@@ -10,11 +10,13 @@ namespace Application
 
 	void State::Initialize()
 	{
+		Hierarchy.Initialize();
 		GameSystem.Initialize();
 	}
 
 	void State::Start()
 	{
+		Hierarchy.Start();
 		GameSystem.Start();
 	}
 
@@ -26,11 +28,13 @@ namespace Application
 
 	void State::End()
 	{
+		Hierarchy.End();
 		GameSystem.End();
 	}
 
 	void State::CleanUp()
 	{
+		Hierarchy.CleanUp();
 		GameSystem.CleanUp();
 	}
 }

@@ -26,7 +26,8 @@ namespace Application
 		{
 			RObjectManager.Initialize();
 
-			RenderSystem.SetCamera(MakeShared<Rendering::Camera>(1024.0f / 800.0f));
+			testCamera = MakeUnique<Rendering::Camera>(1024.0f / 800.0f);
+			RenderSystem.SetCamera(testCamera.get());
 
 			// Debug test for rendering a model
 			testTransform = MakeShared<Transform>();

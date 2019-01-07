@@ -25,6 +25,7 @@ namespace Application
 			Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent) override;
 
 			// generic functions that pass calls down to children and contents
+			void Initialize() override;
 			void Update(Second dt) override;
 
 			// set children/parent

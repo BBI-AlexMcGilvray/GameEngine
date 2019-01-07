@@ -64,7 +64,7 @@ namespace Application
 			return T::ClassHash();
 		}
 
-		Core::Ptr<T> operator->()
+		Core::Ptr<T> operator->() const
 		{
 			return ActualComponent;
 		}
@@ -158,6 +158,11 @@ namespace Application
 		operator bool()
 		{
 			return (Component != nullptr);
+		}
+
+		Component<T>& operator->() const
+		{
+			return *Component;
 		}
 
 	private:

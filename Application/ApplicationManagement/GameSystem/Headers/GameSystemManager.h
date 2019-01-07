@@ -20,6 +20,9 @@ using namespace Application::GameSystem::Collision;
 
 namespace Application
 {
+	// debug
+	struct Rendering::Camera;
+
 	namespace GameSystem
 	{
 		struct GameSystemManager
@@ -46,6 +49,8 @@ namespace Application
 
 			// debug/testing
 			SharedPtr<Transform> testTransform;
+
+			UniquePtr<Rendering::Camera> testCamera;
 		};
 	}
 }

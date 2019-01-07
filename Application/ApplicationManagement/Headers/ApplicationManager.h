@@ -7,6 +7,7 @@
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 #include "ApplicationManagement/Time/Headers/TimeManager.h"
 
+#include "Core/Headers/PtrDefs.h"
 #include "Core/Functionality/Headers/Event.h"
 
 using namespace Application::Input;
@@ -19,7 +20,18 @@ namespace Application
 {
 	struct ApplicationManager
 	{
-		ApplicationManager();
+		static Core::Ptr<ApplicationManager> Application();
+
+		static FixedStepTimeManager& AppTime();
+		static RenderManager& AppRenderSystem();
+		static InputManager& AppInputSystem();
+		static StateManager& AppStateSystem();
+
+	private:
+		// to make sure that constructor can't be called except through static Application() method to get instance
+		struct ConstructorTag { ConstructorTag() = default; };
+	public:
+		ApplicationManager(ConstructorTag tag);
 
 		void Run();
 
@@ -29,10 +41,12 @@ namespace Application
 		FixedStepTimeManager Time;
 		RenderManager RenderSystem;
 		InputManager InputSystem;
-		StateManager GameState;
+		StateManager StateSystem;
 
 		Delegate<> OnQuit;
 		bool Quit = false;
+
+		static Core::UniquePtr<ApplicationManager> Instance;
 
 		bool Initialize();
 		void Start();

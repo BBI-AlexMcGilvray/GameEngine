@@ -4,9 +4,41 @@
 
 namespace Application
 {
-	ApplicationManager::ApplicationManager()
+	Core::UniquePtr<ApplicationManager> ApplicationManager::Instance = nullptr;
+
+	Core::Ptr<ApplicationManager> ApplicationManager::Application()
+	{
+		if (Instance == nullptr)
+		{
+			Instance = MakeUnique<ApplicationManager>(ConstructorTag());
+		}
+
+		return Instance.get();
+	}
+
+	FixedStepTimeManager& ApplicationManager::AppTime()
+	{
+		return Application()->Time;
+	}
+
+	RenderManager& ApplicationManager::AppRenderSystem()
+	{
+		return Application()->RenderSystem;
+	}
+
+	InputManager& ApplicationManager::AppInputSystem()
+	{
+		return Application()->InputSystem;
+	}
+
+	StateManager& ApplicationManager::AppStateSystem()
+	{
+		return Application()->StateSystem;
+	}
+
+	ApplicationManager::ApplicationManager(ConstructorTag tag)
 		: InputSystem(SDL)
-		, GameState(RenderSystem, InputSystem)
+		, StateSystem(RenderSystem, InputSystem)
 		, OnQuit([this]()
 			{
 				Quit = true;
@@ -48,7 +80,7 @@ namespace Application
 		Time.Initialize();
 		RenderSystem.Initialize(SDL.GetWindowManager());
 		InputSystem.Initialize();
-		GameState.Initialize();
+		StateSystem.Initialize();
 
 		return true;
 	}
@@ -59,7 +91,7 @@ namespace Application
 		Time.Start();
 		RenderSystem.Start();
 		InputSystem.Start();
-		GameState.Start();
+		StateSystem.Start();
 	}
 
 	bool ApplicationManager::Update()
@@ -73,7 +105,7 @@ namespace Application
 		while (dt > 0_s)
 		{
 			// update everything
-			GameState.Update(dt);
+			StateSystem.Update(dt);
 
 			RenderSystem.Update(dt);
 
@@ -85,7 +117,7 @@ namespace Application
 
 	void ApplicationManager::End()
 	{
-		GameState.End();
+		StateSystem.End();
 		InputSystem.End();
 		RenderSystem.End();
 		Time.End();
@@ -95,7 +127,7 @@ namespace Application
 	void ApplicationManager::CleanUp()
 	{
 		// possible we want to thread this to make it faster (since saving could be done)
-		GameState.CleanUp();
+		StateSystem.CleanUp();
 		InputSystem.CleanUp();
 		RenderSystem.CleanUp();
 		Time.CleanUp();

@@ -2,6 +2,11 @@
 #include "ApplicationManagement/Geometric/Headers/HierarchyComponent.h"
 #include "ApplicationManagement/Geometric/Headers/ContentBase.h"
 
+// debug
+#include "ApplicationManagement/Headers/ApplicationManager.h"
+#include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
+#include "ApplicationManagement/Rendering/2D/Headers/CircleRenderObject.h"
+
 namespace Application
 {
 	namespace Geometric
@@ -20,6 +25,14 @@ namespace Application
 		Node::~Node()
 		{
 			Deleted();
+		}
+
+		void Node::Initialize()
+		{
+			// debug
+			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
+			ComponentPtr<Rendering::Render> debugComponent = debugContent->AddComponent<Rendering::Render>(*(ApplicationManager::AppRenderSystem().ObjectManager));
+			debugComponent->AddRenderObject<Rendering::CircleRenderObject>(&(debugContent->GetComponent<Hierarchy>()->GetHeirarchyNode()->Transformation), BLUE);
 		}
 
 		// generic functions that pass calls down to children and contents

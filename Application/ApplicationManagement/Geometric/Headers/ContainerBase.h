@@ -23,7 +23,11 @@ namespace Application
 
 			virtual ~ContainerBase();
 
+			virtual void Initialize();
+			virtual void Start();
 			virtual void Update(Second dt);
+			virtual void End();
+			virtual void CleanUp();
 
 			template <typename T, typename ...Ts>
 			Ptr<ContentBase> AddContent(Ts ...args)

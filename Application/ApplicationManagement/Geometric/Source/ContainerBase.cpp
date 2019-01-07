@@ -16,12 +16,32 @@ namespace Application
 			ContainerDeleted();
 		}
 
+		void ContainerBase::Initialize()
+		{
+
+		}
+
+		void ContainerBase::Start()
+		{
+
+		}
+
 		void ContainerBase::Update(Second dt)
 		{
 			for (int i = 0; i < Content.size(); i++)
 			{
 				Content[i]->Update(dt);
 			}
+		}
+
+		void ContainerBase::End()
+		{
+
+		}
+
+		void ContainerBase::CleanUp()
+		{
+
 		}
 
 		Ptr<ContentBase> ContainerBase::AddContent(UniquePtr<ContentBase> newContent)

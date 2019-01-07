@@ -91,12 +91,12 @@ namespace Application
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // turns off wireframe mode
 		}
 
-		SharedPtr<const Camera> RenderManager::GetCamera() const
+		Ptr<const Camera> RenderManager::GetCamera() const
 		{
 			return RenderCamera;
 		}
 
-		void RenderManager::SetCamera(SharedPtr<Camera> renderCamera)
+		void RenderManager::SetCamera(Ptr<Camera> renderCamera)
 		{
 			RenderCamera = renderCamera;
 		}

@@ -4,8 +4,8 @@ using namespace Application;
 
 int main(int argc, char* argv[])
 {
-	auto AppManager = ApplicationManager();
-	AppManager.Run();
+	auto AppManager = ApplicationManager::Application();
+	AppManager->Run();
 
 	return 0;
 }
