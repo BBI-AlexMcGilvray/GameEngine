@@ -3,16 +3,18 @@
 #include "ApplicationManagement/Headers/Component.h"
 
 #include "ApplicationManagement/Rendering/Headers/RenderObjectManager.h"
-#include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
 
 namespace Application
 {
 	namespace Rendering
 	{
-		// a recursive struct to hold elements in a scene
+		struct RenderObjectManager;
+		struct RenderObjectBase;
+
+		// a struct to hold all render objects of an entity
 		struct Render : Component<Render>
 		{
-			static Core::Hash ClashHash()
+			static Core::Hash ClassHash()
 			{
 				return Core::HashValue("Render");
 			}
@@ -24,10 +26,10 @@ namespace Application
 			{
 				Core::Ptr<RenderObjectBase> newRenderObject = RObjectManager.AddRenderObject<T>(Forward<Ts>(args)...);
 				
-				Push(RenderObjects, newRenderObject);
-
-				return newRenderObject;
+				AddRenderObject(newRenderObject);
 			}
+
+			Core::Ptr<RenderObjectBase> AddRenderObject(Core::Ptr<RenderObjectBase> renderObject);
 
 			void RemoveRenderObject(Core::Ptr<RenderObjectBase> renderObject);
 

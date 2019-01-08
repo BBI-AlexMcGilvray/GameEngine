@@ -80,7 +80,7 @@ namespace Application
 				return ComponentPtr<T>(nullptr);
 			}
 
-			return ComponentPtr<T>(static_cast<Core::Ptr<Component<T>>>(Components[T::ClashHash()].get()));
+			return ComponentPtr<T>(static_cast<Core::Ptr<Component<T>>>(Components[T::ClassHash()].get()));
 		}
 
 		template <typename T>//, Templates::is_component<T>>

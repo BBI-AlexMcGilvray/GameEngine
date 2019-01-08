@@ -13,6 +13,13 @@ namespace Application
 
 		}
 
+		Ptr<RenderObjectBase> Render::AddRenderObject(Ptr<RenderObjectBase> renderObject)
+		{
+			Push(RenderObjects, move(renderObject));
+
+			return RenderObjects[RenderObjects.size() - 1];
+		}
+
 		void Render::RemoveRenderObject(Core::Ptr<RenderObjectBase> renderObject)
 		{
 			RObjectManager.RemoveRenderObject(renderObject);

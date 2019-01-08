@@ -13,7 +13,7 @@ namespace Application
 		// a recursive struct to hold elements in a scene
 		struct Hierarchy : Component<Hierarchy>
 		{
-			static Hash ClashHash()
+			static Core::Hash ClassHash()
 			{
 				return Core::HashValue("Hierarchy");
 			}
