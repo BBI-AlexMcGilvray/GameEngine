@@ -32,7 +32,7 @@ namespace Application
 			// debug
 			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
 			// figure out why these break
-			ComponentPtr<Rendering::Render> debugComponent = debugContent->AddComponent<Rendering::Render>(*(ApplicationManager::AppRenderSystem().ObjectManager));
+			ComponentPtr<Rendering::Render> debugComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderSystem().ObjectManager);
 			//debugComponent->AddRenderObject<Rendering::CircleRenderObject>(&(debugContent->GetComponent<Hierarchy>()->GetHeirarchyNode()->Transformation), BLUE);
 		}
 

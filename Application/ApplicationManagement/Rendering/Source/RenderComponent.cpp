@@ -6,11 +6,16 @@ namespace Application
 {
 	namespace Rendering
 	{
-		Render::Render(Core::Ptr<EntityBase> entity, RenderObjectManager& renderManager)
+		Render::Render(Core::Ptr<EntityBase> entity, Ptr<RenderObjectManager> renderManager)
 			: Component<Render>(entity, this)
 			, RObjectManager(renderManager)
 		{
 
+		}
+
+		Core::Ptr<RenderObjectBase> Render::AddRenderObject(Core::UniquePtr<RenderObjectBase> renderObject)
+		{
+			return AddRenderObject(RObjectManager->AddRenderObject(move(renderObject)));
 		}
 
 		Ptr<RenderObjectBase> Render::AddRenderObject(Ptr<RenderObjectBase> renderObject)
@@ -22,7 +27,7 @@ namespace Application
 
 		void Render::RemoveRenderObject(Core::Ptr<RenderObjectBase> renderObject)
 		{
-			RObjectManager.RemoveRenderObject(renderObject);
+			RObjectManager->RemoveRenderObject(renderObject);
 		}
 	}
 }
