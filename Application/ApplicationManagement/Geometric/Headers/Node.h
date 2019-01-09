@@ -18,7 +18,7 @@ namespace Application
 			Transform Transformation;
 
 			Node();
-			Node(Float3 position, FQuaternion rotation, Float3 scale);
+			Node(Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f));
 
 			virtual ~Node();
 
@@ -26,7 +26,11 @@ namespace Application
 
 			// generic functions that pass calls down to children and contents
 			void Initialize() override;
+			void Start() override;
+			bool firstUpdate = false; // THIS IS ONLY FOR DEBUGGING
 			void Update(Second dt) override;
+			void End() override;
+			void CleanUp() override;
 
 			// set children/parent
 			template <typename T, typename ...Ts>

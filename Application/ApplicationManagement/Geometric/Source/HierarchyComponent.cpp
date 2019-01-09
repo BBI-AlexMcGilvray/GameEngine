@@ -20,6 +20,7 @@ namespace Application
 
 			return false;
 		})
+			, HierarchyNode(hierarchyNode)
 		{
 			SetHierarchyNode(hierarchyNode);
 		}

@@ -30,11 +30,11 @@ namespace Application
 			RenderSystem.SetCamera(testCamera.get());
 
 			// Debug test for rendering a model
-			testTransform = MakeShared<Transform>();
-			RObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform.get(), Data::Ast.spmdl.MI_0);
+			//testTransform = MakeShared<Transform>();
+			//RObjectManager.AddRenderObject<Rendering::ModelBase>(testTransform.get(), Data::Ast.spmdl.MI_0);
 
-			RObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform.get(), BLACK, Float2(1.5f));
-			RObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform.get(), WHITE, 2.0f);
+			//RObjectManager.AddRenderObject<Rendering::BoxRenderObject>(testTransform.get(), BLACK, Float2(1.5f));
+			//RObjectManager.AddRenderObject<Rendering::CircleRenderObject>(testTransform.get(), WHITE, 2.0f);
 		}
 
 		void GameSystemManager::Start()

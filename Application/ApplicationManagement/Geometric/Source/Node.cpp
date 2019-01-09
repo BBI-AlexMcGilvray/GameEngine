@@ -5,7 +5,10 @@
 // debug
 #include "ApplicationManagement/Headers/ApplicationManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
+#include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
 #include "ApplicationManagement/Rendering/2D/Headers/CircleRenderObject.h"
+
+#include "Resources/Assets.h"
 
 namespace Application
 {
@@ -29,22 +32,47 @@ namespace Application
 
 		void Node::Initialize()
 		{
-			// debug
-			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
-			// figure out why these break
-			ComponentPtr<Rendering::Render> debugComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderSystem().ObjectManager);
-			//debugComponent->AddRenderObject<Rendering::CircleRenderObject>(&(debugContent->GetComponent<Hierarchy>()->GetHeirarchyNode()->Transformation), BLUE);
+			// NEED TO SORT OUT THE ORDERING, SINCE AT THIS POINT THE RENDER SYSTEM DOES NOT EXIST
+		}
+
+		void Node::Start()
+		{
+			// NEED TO SORT OUT THE ORDERING, SINCE AT THIS POINT THE OBJECT MANAGER OF THE RENDER SYSTEM HAS NOT BEEN SET
 		}
 
 		// generic functions that pass calls down to children and contents
 		void Node::Update(Second dt)
 		{
+			// we really need to implement a DEBUG macro
+			if (!firstUpdate)
+			{
+				firstUpdate = true;
+
+				// debug
+				Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
+
+				ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
+				ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderSystem().ObjectManager);
+
+				renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
+				renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 1.0f);
+			}
 			ContainerBase::Update(dt);
 			
 			for (auto& child : Children)
 			{
 				child->Update(dt);
 			}
+		}
+
+		void Node::End()
+		{
+
+		}
+
+		void Node::CleanUp()
+		{
+
 		}
 
 		Ptr<ContentBase> Node::AddContent(UniquePtr<ContentBase> newContent)

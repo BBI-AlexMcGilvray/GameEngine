@@ -34,7 +34,7 @@ namespace Application
 		{
 			auto renderMVP = mvp * RenderTransform->GetTransformationMatrix();
 			
-			Prepare(renderMVP, color);
+			Prepare(renderMVP, color * ObjectColor);
 			Draw(manager);
 			CleanUp();
 		}

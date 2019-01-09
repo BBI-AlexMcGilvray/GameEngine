@@ -24,7 +24,7 @@ namespace Application
 			template <typename T, typename ...Ts>
 			Core::Ptr<RenderObjectBase> AddRenderObject(Ts ...args)
 			{
-				AddRenderObject(Core::MakeUnique<T>(Forward<Ts>(args)...));
+				return AddRenderObject(RObjectManager->AddRenderObject<T>(Forward<Ts>(args)...));
 			}
 
 			Core::Ptr<RenderObjectBase> AddRenderObject(Core::UniquePtr<RenderObjectBase> renderObject);

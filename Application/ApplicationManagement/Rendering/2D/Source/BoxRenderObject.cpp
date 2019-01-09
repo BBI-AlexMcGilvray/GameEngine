@@ -66,7 +66,7 @@ namespace Application
 		void BoxRenderObject::Prepare(const Float4x4& mvp, const Color& color) const
 		{
 			Vao.Bind();
-			Shader.Prepare(mvp, ObjectColor);
+			Shader.Prepare(mvp, color);
 		}
 
 		void BoxRenderObject::CleanUp() const

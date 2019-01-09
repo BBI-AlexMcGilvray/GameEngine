@@ -109,6 +109,7 @@ namespace Application
 
 			return false;
 		})
+			, Component(nullptr)
 		{
 
 		}

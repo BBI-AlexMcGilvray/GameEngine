@@ -21,7 +21,9 @@ namespace Application
 			
 			void main()
 			{
-				fColor = vec4(Color.xyz * (1.0 - CameraFacingRatio), Color.w);
+				// this is to try and get some shading
+				//fColor = vec4(Color.xyz * (1.0 - CameraFacingRatio), Color.w);
+				fColor = Color;
 			}
 		)";
 

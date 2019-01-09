@@ -30,7 +30,7 @@ namespace Application
 		void ModelBase::Prepare(const Float4x4& mvp, const Color& color) const
 		{
 			Mesh.Prepare();
-			Shader.Prepare(mvp, ObjectColor);
+			Shader.Prepare(mvp, color);
 		}
 
 		void ModelBase::CleanUp() const

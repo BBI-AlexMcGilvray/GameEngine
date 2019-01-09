@@ -48,7 +48,8 @@ namespace Application
 		template <typename T>//, Templates::is_component<T>>
 		ComponentPtr<T> AddComponent(Core::UniquePtr<T> component)
 		{
-			if (ComponentPtr<T> existingComponent = GetComponent<T>())
+			ComponentPtr<T> existingComponent = GetComponent<T>();
+			if (existingComponent)
 			{
 				ALERT("Can't have two of the same component!");
 				return existingComponent;
@@ -76,7 +77,6 @@ namespace Application
 		{
 			if (!HasComponent<T>())
 			{
-				ALERT("Entity does not have component!");
 				return ComponentPtr<T>(nullptr);
 			}
 
@@ -94,7 +94,6 @@ namespace Application
 		{
 			if (!HasComponent<T>())
 			{
-				ALERT("Entity does not have component!");
 				return;
 			}
 
