@@ -27,7 +27,7 @@ namespace Application
 
 		//void CameraNode::Render(Renderer& renderer, Float4x4 transformationMatrix) const
 		//{
-			// NOTE: the commented out code below should be done by the WORLD class
+			// NOTE: the commented out code below should be done by the WORLD class... Or not?
 
 			// make this the currently used camera
 			//auto previousCamera = renderer.GetCamera();

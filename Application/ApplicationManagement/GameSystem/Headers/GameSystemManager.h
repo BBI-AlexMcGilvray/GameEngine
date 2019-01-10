@@ -48,8 +48,6 @@ namespace Application
 			Input::InputManager& InputSystem;
 
 			// debug/testing
-			SharedPtr<Transform> testTransform;
-
 			UniquePtr<Rendering::Camera> testCamera;
 		};
 	}

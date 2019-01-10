@@ -2,13 +2,14 @@
 #include "ApplicationManagement/Geometric/Headers/HierarchyComponent.h"
 #include "ApplicationManagement/Geometric/Headers/ContentBase.h"
 
-// debug
+#if _DEBUG
 #include "ApplicationManagement/Headers/ApplicationManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
 #include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
 #include "ApplicationManagement/Rendering/2D/Headers/CircleRenderObject.h"
 
 #include "Resources/Assets.h"
+#endif
 
 namespace Application
 {
@@ -32,20 +33,19 @@ namespace Application
 
 		void Node::Initialize()
 		{
-			// NEED TO SORT OUT THE ORDERING, SINCE AT THIS POINT THE RENDER SYSTEM DOES NOT EXIST
+			ContainerBase::Initialize();
 		}
 
 		void Node::Start()
 		{
-			// NEED TO SORT OUT THE ORDERING, SINCE AT THIS POINT THE OBJECT MANAGER OF THE RENDER SYSTEM HAS NOT BEEN SET
+			ContainerBase::Start();
 		}
 
-		// generic functions that pass calls down to children and contents
 		void Node::Update(Second dt)
 		{
-			// we really need to implement a DEBUG macro
+#if _DEBUG
 			if (!firstUpdate)
-			{
+			{ // this should be done in start or initialize or parts in both...
 				firstUpdate = true;
 
 				// debug
@@ -57,6 +57,7 @@ namespace Application
 				renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
 				renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 1.0f);
 			}
+#endif
 			ContainerBase::Update(dt);
 			
 			for (auto& child : Children)
@@ -67,12 +68,12 @@ namespace Application
 
 		void Node::End()
 		{
-
+			ContainerBase::End();
 		}
 
 		void Node::CleanUp()
 		{
-
+			ContainerBase::CleanUp();
 		}
 
 		Ptr<ContentBase> Node::AddContent(UniquePtr<ContentBase> newContent)

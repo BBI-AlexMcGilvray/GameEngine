@@ -27,7 +27,7 @@ namespace Application
 			// generic functions that pass calls down to children and contents
 			void Initialize() override;
 			void Start() override;
-			bool firstUpdate = false; // THIS IS ONLY FOR DEBUGGING
+			bool firstUpdate = false; // this should not be done, see .cpp note
 			void Update(Second dt) override;
 			void End() override;
 			void CleanUp() override;

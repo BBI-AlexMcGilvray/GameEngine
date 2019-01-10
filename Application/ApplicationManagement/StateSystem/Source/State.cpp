@@ -16,6 +16,8 @@ namespace Application
 
 	void State::Start()
 	{
+		// NEED TO SORT OUT THE ORDERING - start is when content start is called, systems should be set up by then
+		// and what about pre-loading other states? that needs to work in here too
 		Hierarchy.Start();
 		GameSystem.Start();
 	}

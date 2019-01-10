@@ -16,7 +16,7 @@ namespace Application
 		{
 			Rendering::Camera RenderCamera;
 
-			CameraNode(const float& aspectRatio, const Float3& position = Float3(0.0f, 0.0f, 0.0f), const Float3& direction =Float3(0.0f, 0.0f, -1.0f));
+			CameraNode(const float& aspectRatio, const Float3& position = Float3(0.0f, 0.0f, 0.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
 
 			void Update(Second dt) override;
 			//void Render(Rendering::Renderer& renderer, Float4x4 transformationMatrix) const override;
