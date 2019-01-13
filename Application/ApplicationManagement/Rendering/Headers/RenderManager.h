@@ -12,28 +12,35 @@
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
+#include "Core/Headers/MapDefs.h"
 
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/Color.h"
 
 namespace Application
 {
+	struct State;
+
 	namespace Rendering
 	{
-		// handles the tie in between RenderObjectManager (object that needs to be rendered), ShaderManager (available shaders) and the Renderer (act of rendering them)
 		struct RenderManager
 		{
 			ShaderManager ObjectShaderManager;
 			Renderer ObjectRenderer;
-			Core::Ptr<RenderObjectManager> ObjectManager = nullptr;
 
+			Core::Ptr<State> ActiveState = nullptr;
+
+			// should subscribe to StateManager::StateChanged to change active state automatically
 			RenderManager();
 
 			void Initialize(WindowManager& window, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
 			void Start();
 
-			void AttachRenderObjectManager(Core::Ptr<RenderObjectManager> objectManager);
-			void DettachRenderObjectManager(Core::Ptr<RenderObjectManager> objectManager);
+			void AttachRenderObjectManager(Core::Ptr<State> state, Core::Ptr<RenderObjectManager> objectManager);
+			void DettachRenderObjectManager(Core::Ptr<State> state);
+			void SetActiveState(Core::Ptr<State> state);
+			void DeactivateState(Core::Ptr<State> state);
+			Core::Ptr<RenderObjectManager> GetObjectManagerForState(Core::Ptr<State> state);
 
 			void Update(Core::Second dt);
 			void Render();
@@ -52,6 +59,11 @@ namespace Application
 
 			Core::Math::Color ClearColor;
 			Core::Ptr<WindowManager> Window;
+
+			// maybe this should change to be a map of ptr to structs so that each renderobjectmanager can have a state, so that multiple can be active at once
+			// this would allow transitioning to occur and such? unless our transitioning does not update the one being transitioned OUT of
+			Core::Map<Core::Ptr<State>, Core::Ptr<RenderObjectManager>> ObjectManagers;
+			Core::Ptr<State> ActiveState;
 
 			void RenderStart();
 			void RenderMiddle();

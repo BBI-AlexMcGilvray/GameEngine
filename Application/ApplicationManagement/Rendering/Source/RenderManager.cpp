@@ -30,18 +30,45 @@ namespace Application
 
 		}
 
-		void RenderManager::AttachRenderObjectManager(Ptr<RenderObjectManager> objectManager)
+		void RenderManager::AttachRenderObjectManager(Ptr<State> state, Ptr<RenderObjectManager> objectManager)
 		{
-			ObjectManager = objectManager;
+			Insert(ObjectManagers, move(state), move(objectManager));
 		}
 
-		void RenderManager::DettachRenderObjectManager(Ptr<RenderObjectManager> objectManager)
+		void RenderManager::DettachRenderObjectManager(Ptr<State> state)
 		{
-			if (ObjectManager == objectManager)
+			Erase(ObjectManagers, move(state));
+		}
+
+		void RenderManager::SetActiveState(Ptr<State> state)
+		{
+			if (state == nullptr)
 			{
-				ObjectManager = nullptr;
+				LOG("RenderManager active state can't be null!");
+				return;
+			}
+
+			if (ActiveState == state)
+			{
+				return;
+			}
+
+			ActiveState = state;
+		}
+
+		void RenderManager::DeactivateState(Ptr<State> state)
+		{
+			if (ActiveState == state)
+			{
+				ActiveState = nullptr;
 			}
 		}
+
+		Ptr<RenderObjectManager> RenderManager::GetObjectManagerForState(Ptr<State> state)
+		{
+			return ObjectManagers[state];
+		}
+
 
 		void RenderManager::Update(Second dt)
 		{

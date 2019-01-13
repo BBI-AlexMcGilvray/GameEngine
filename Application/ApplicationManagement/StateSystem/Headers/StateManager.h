@@ -4,6 +4,8 @@
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
+#include "Core/Functionality/Headers/Event.h"
+
 #include "ApplicationManagement/Input/Headers/InputManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 
@@ -39,6 +41,8 @@ namespace Application
 			FadeIn,
 			FadeOutFadeIn
 		};
+
+		Event<> StateChanged;
 
 		// maybe this should be a transition manager or something? can be done later
 		struct StateTransitionInfo

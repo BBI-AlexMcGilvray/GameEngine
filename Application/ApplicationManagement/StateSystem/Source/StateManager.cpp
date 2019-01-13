@@ -169,5 +169,6 @@ namespace Application
 		ActiveState->Start();
 
 		CurrentState = SystemState::Displaying;
+		StateChanged();
 	}
 }
