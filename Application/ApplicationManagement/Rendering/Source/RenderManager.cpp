@@ -40,6 +40,11 @@ namespace Application
 			Erase(ObjectManagers, move(state));
 		}
 
+		Core::Ptr<State> RenderManager::GetActiveState()
+		{
+			return ActiveState;
+		}
+
 		void RenderManager::SetActiveState(Ptr<State> state)
 		{
 			if (state == nullptr)
@@ -73,9 +78,9 @@ namespace Application
 		void RenderManager::Update(Second dt)
 		{
 			// update render object manager
-			if (ObjectManager != nullptr)
+			if (ActiveState != nullptr)
 			{
-				ObjectManager->Update(dt);
+				ObjectManagers[ActiveState]->Update(dt);
 			}
 			Render();
 		}
@@ -143,9 +148,9 @@ namespace Application
 			
 			// render manager render call
 			auto initialMVP = RenderCamera->GetTransformationMatrix();
-			if (ObjectManager != nullptr)
+			if (ActiveState != nullptr)
 			{
-				ObjectManager->Render(initialMVP, InitialColor);
+				ObjectManagers[ActiveState]->Render(initialMVP, InitialColor);
 			}
 		}
 

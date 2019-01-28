@@ -20,6 +20,8 @@ using namespace Application::GameSystem::Collision;
 
 namespace Application
 {
+	struct State;
+
 	// debug
 	struct Rendering::Camera;
 
@@ -27,6 +29,8 @@ namespace Application
 	{
 		struct GameSystemManager
 		{
+			const Ptr<State> ParentState;
+
 			SchedulerBase Scheduler;
 			GameObjectManager ObjectManager;
 			Rendering::RenderObjectManager RObjectManager;
@@ -34,7 +38,7 @@ namespace Application
 
 			// the game system manager should hold onto the current 'scene' and be able to switch between scenes (in order to load different game states)
 
-			GameSystemManager(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem);
+			GameSystemManager(Ptr<State> parentState, Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem);
 
 			void Initialize();
 			void Start();

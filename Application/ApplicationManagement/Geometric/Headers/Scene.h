@@ -12,6 +12,7 @@ namespace Application
 		// a parent scene. holds a list of nodes (that represent that scene's content - all other content types should inherit from Node)
 		struct Scene : Node
 		{
+			Scene(Core::Ptr<State> parentState);
 		};
 	}
 }

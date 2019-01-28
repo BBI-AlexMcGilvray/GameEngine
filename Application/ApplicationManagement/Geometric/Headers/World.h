@@ -9,7 +9,7 @@ namespace Application
 		// a world is a scene, but it also has a camera (and probably more stuff in the future)
 		struct World : Scene
 		{
-			World();
+			World(Core::Ptr<State> parentState);
 		};
 	}
 }

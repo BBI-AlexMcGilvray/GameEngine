@@ -1,11 +1,16 @@
 #include "ApplicationManagement/GameSystem/Headers/GameSystemManager.h"
 
+#include "ApplicationManagement/StateSystem/Headers/State.h"
+
 namespace Application
 {
 	namespace GameSystem
 	{
-		GameSystemManager::GameSystemManager(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem)
-			: RObjectManager(&renderSystem), RenderSystem(renderSystem), InputSystem(inputSystem)
+		GameSystemManager::GameSystemManager(Ptr<State> parentState, Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem)
+			: ParentState(parentState)
+			, RObjectManager(&renderSystem)
+			, RenderSystem(renderSystem)
+			, InputSystem(inputSystem)
 		{
 
 		}
@@ -17,12 +22,14 @@ namespace Application
 			// move this to the world node
 			testCamera = MakeUnique<Rendering::Camera>(1024.0f / 800.0f);
 			RenderSystem.SetCamera(testCamera.get());
+
+			RenderSystem.AttachRenderObjectManager(ParentState, &RObjectManager);
 		}
 
 		void GameSystemManager::Start()
 		{
 			RObjectManager.Start();
-			RenderSystem.AttachRenderObjectManager(&RObjectManager);
+			RenderSystem.SetActiveState(ParentState);
 		}
 
 		void GameSystemManager::Update(Second dt)
@@ -33,7 +40,7 @@ namespace Application
 
 		void GameSystemManager::End()
 		{
-			RenderSystem.DettachRenderObjectManager(&RObjectManager);
+			RenderSystem.DettachRenderObjectManager(ParentState);
 			RObjectManager.End();
 		}
 

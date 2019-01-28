@@ -2,6 +2,8 @@
 #include "ApplicationManagement/Geometric/Headers/HierarchyComponent.h"
 #include "ApplicationManagement/Geometric/Headers/ContentBase.h"
 
+#include "ApplicationManagement/StateSystem/Headers/State.h"
+
 #if _DEBUG
 #include "ApplicationManagement/Headers/ApplicationManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
@@ -15,15 +17,15 @@ namespace Application
 {
 	namespace Geometric
 	{
-		Node::Node()
+		Node::Node(Ptr<State> parentState)
 		{
-
+			SetParentState(parentState);
 		}
 
-		Node::Node(Float3 position, FQuaternion rotation, Float3 scale)
+		Node::Node(Ptr<State> parentState, Float3 position, FQuaternion rotation, Float3 scale)
 			: Transformation(position, rotation, scale)
 		{
-
+			SetParentState(parentState);
 		}
 
 		Node::~Node()
@@ -52,7 +54,7 @@ namespace Application
 				Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
 
 				ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
-				ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderSystem().ObjectManager);
+				ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderSystem().GetObjectManagerForState(ParentState));
 
 				renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
 				renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 1.0f);
@@ -93,6 +95,16 @@ namespace Application
 		void Node::RemoveChild(UniquePtr<Node> oldChild)
 		{
 			Remove(Children, move(oldChild));
+		}
+
+		Core::Ptr<State> Node::GetParentState() const
+		{
+			return ParentState;
+		}
+
+		void Node::SetParentState(Core::Ptr<State> parentState)
+		{
+			ParentState = parentState;
 		}
 	}
 }

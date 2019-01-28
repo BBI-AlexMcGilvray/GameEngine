@@ -4,6 +4,8 @@ namespace Application
 {
 	namespace Geometric
 	{
-
+		Scene::Scene(Ptr<State> parentState)
+			: Node(parentState)
+		{}
 	}
 }

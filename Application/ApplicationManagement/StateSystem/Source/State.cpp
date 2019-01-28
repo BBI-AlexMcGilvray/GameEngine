@@ -3,7 +3,8 @@
 namespace Application
 {
 	State::State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem)
-		: GameSystem(renderSystem, inputSystem)
+		: Hierarchy(this)
+		, GameSystem(this, renderSystem, inputSystem)
 	{
 
 	}

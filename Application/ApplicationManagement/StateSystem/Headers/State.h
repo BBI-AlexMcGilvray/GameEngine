@@ -13,6 +13,8 @@ namespace Application
 {
 	struct State
 	{
+		Event<> StateDeleted;
+
 		State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem);
 		// State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetName<State> state);
 		// State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetData<State> state);
