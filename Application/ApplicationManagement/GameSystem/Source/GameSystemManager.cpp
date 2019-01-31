@@ -21,7 +21,6 @@ namespace Application
 
 			// move this to the world node
 			testCamera = MakeUnique<Rendering::Camera>(1024.0f / 800.0f);
-			RenderSystem.SetCamera(testCamera.get());
 
 			RenderSystem.AttachRenderObjectManager(ParentState, &RObjectManager);
 		}
@@ -30,6 +29,9 @@ namespace Application
 		{
 			RObjectManager.Start();
 			RenderSystem.SetActiveState(ParentState);
+
+			// move this to the world node
+			RenderSystem.SetCamera(testCamera.get());
 		}
 
 		void GameSystemManager::Update(Second dt)

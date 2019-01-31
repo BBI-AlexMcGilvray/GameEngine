@@ -170,6 +170,7 @@
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameObjectManager.cpp" />
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameSystemManager.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Headers\ContainerBase.h" />
+    <ClCompile Include="ApplicationManagement\Geometric\Source\CameraComponent.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\ContainerBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\ContentBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\Node.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameObjectBase.h" />
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameObjectManager.h" />
     <ClInclude Include="ApplicationManagement\GameSystem\Headers\GameSystemManager.h" />
+    <ClInclude Include="ApplicationManagement\Geometric\Headers\CameraComponent.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Container.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\HierarchyComponent.h" />
     <ClInclude Include="ApplicationManagement\Headers\ApplicationManager.h" />

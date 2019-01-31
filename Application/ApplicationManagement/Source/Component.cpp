@@ -16,7 +16,7 @@ namespace Application
 		return false;
 	})
 	{
-
+		// can't initialize here as the derived class won't be instantiated
 	}
 
 	ComponentBase::~ComponentBase()

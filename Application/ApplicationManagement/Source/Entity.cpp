@@ -10,26 +10,39 @@ namespace Application
 	void EntityBase::Initialize()
 	{
 		// nothing by default
+		//	- not initializing components as they are initialized on load
 		// child classes will be adding in and initializing components here
 	}
 
 	void EntityBase::Start()
 	{
-		// start all components
+		for (auto const& component : Components)
+		{
+			component.second->Start();
+		}
 	}
 
 	void EntityBase::Update()
 	{
-		// update all components
+		for (auto const& component : Components)
+		{
+			component.second->Update();
+		}
 	}
 
 	void EntityBase::End()
 	{
-		// end all components
+		for (auto const& component : Components)
+		{
+			component.second->End();
+		}
 	}
 
 	void EntityBase::CleanUp()
 	{
-		// clean up all components
+		for (auto const& component : Components)
+		{
+			component.second->CleanUp();
+		}
 	}
 }

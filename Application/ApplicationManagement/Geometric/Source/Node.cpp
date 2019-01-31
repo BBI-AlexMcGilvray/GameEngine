@@ -41,25 +41,21 @@ namespace Application
 		void Node::Start()
 		{
 			ContainerBase::Start();
+
+#if _DEBUG
+			// debug
+			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
+
+			ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
+			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderSystem().GetObjectManagerForState(ParentState));
+
+			renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
+			renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 0.25f);
+#endif
 		}
 
 		void Node::Update(Second dt)
 		{
-#if _DEBUG
-			if (!firstUpdate)
-			{ // this should be done in start or initialize or parts in both...
-				firstUpdate = true;
-
-				// debug
-				Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
-
-				ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
-				ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderSystem().GetObjectManagerForState(ParentState));
-
-				renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
-				renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 1.0f);
-			}
-#endif
 			ContainerBase::Update(dt);
 			
 			for (auto& child : Children)

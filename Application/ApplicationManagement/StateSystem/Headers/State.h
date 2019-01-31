@@ -2,7 +2,7 @@
 
 #include "Core/Headers/TimeDefs.h"
 
-#include "ApplicationManagement/Geometric/Headers/Node.h"
+#include "ApplicationManagement/Geometric/Headers/World.h"
 #include "ApplicationManagement/GameSystem/Headers/GameSystemManager.h"
 #include "ApplicationManagement/Input/Headers/InputManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
@@ -28,7 +28,7 @@ namespace Application
 		//Ptr<Transform> CreateNewNode(String name);
 
 	private:
-		Geometric::Node Hierarchy;
+		Core::UniquePtr<Geometric::World> Hierarchy;
 		GameSystem::GameSystemManager GameSystem;
 	};
 }

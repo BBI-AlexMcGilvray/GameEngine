@@ -54,6 +54,11 @@ namespace Application
 				ALERT("Can't have two of the same component!");
 				return existingComponent;
 			}
+			else
+			{
+				// this means a new component is created, so initialize it
+				component->Initialize();
+			}
 
 			Core::Insert<Core::Hash, Core::UniquePtr<ComponentBase>>(Components, Core::MakePair(T::ClassHash(), move(component)));
 			return GetComponent<T>();
