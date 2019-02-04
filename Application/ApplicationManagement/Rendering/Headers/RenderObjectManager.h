@@ -32,7 +32,7 @@ namespace Application
 			// This should return a RanderObjectPtr that holds a unique ptr to the render object and will remove the object from
 			// the manager once deleted
 			template <typename T, typename ...Ts>
-			Core::Ptr<RenderObjectBase> AddRenderObject(Ts ...args)
+			Core::Ptr<RenderObjectBase> AddRenderObject(Ts&& ...args)
 			{
 				Core::UniquePtr<RenderObjectBase> newRenderObject = Core::MakeUnique<T>(Manager, Forward<Ts>(args)...);
 

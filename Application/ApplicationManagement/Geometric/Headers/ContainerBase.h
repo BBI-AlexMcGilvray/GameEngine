@@ -30,7 +30,7 @@ namespace Application
 			virtual void CleanUp();
 
 			template <typename T, typename ...Ts>
-			Ptr<ContentBase> AddContent(Ts ...args)
+			Ptr<ContentBase> AddContent(Ts&& ...args)
 			{
 				return AddContent(MakeUnique<T>(Forward<Ts>(args)...));
 			}

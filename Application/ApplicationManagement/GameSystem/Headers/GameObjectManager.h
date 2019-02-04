@@ -19,7 +19,7 @@ namespace Application
 			virtual void CleanUp();
 
 			template <typename T, typename ...Ts>
-			SharedPtr<T> AddGameObject(Ts ...args)
+			SharedPtr<T> AddGameObject(Ts&& ...args)
 			{
 				T newGameObject = MakeShared<T>(Forward<Ts>(args)...);
 

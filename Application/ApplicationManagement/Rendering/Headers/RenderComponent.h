@@ -22,7 +22,7 @@ namespace Application
 			Render(Core::Ptr<EntityBase> entity, Core::Ptr<RenderObjectManager> renderManager);
 
 			template <typename T, typename ...Ts>
-			Core::Ptr<RenderObjectBase> AddRenderObject(Ts ...args)
+			Core::Ptr<RenderObjectBase> AddRenderObject(Ts&& ...args)
 			{
 				return AddRenderObject(RObjectManager->AddRenderObject<T>(Forward<Ts>(args)...));
 			}
