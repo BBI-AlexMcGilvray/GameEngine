@@ -25,6 +25,8 @@ namespace Application
 
 		void CameraComponent::Initialize()
 		{
+			Component<CameraComponent>::Initialize();
+
 			ComponentPtr<Geometric::Hierarchy> hierarchyComponent = GetEntity()->GetComponent<Geometric::Hierarchy>();
 			if (!VERIFY(hierarchyComponent))
 			{
@@ -32,11 +34,12 @@ namespace Application
 			}
 
 			RenderCamera = move(MakeUnique<Camera>(AspectRatio, hierarchyComponent->GetHeirarchyNode()->Transformation));
-			LOG("Current camera component camera memory position: " + ToString(uint(GetCamera())));
 		}
 
 		void CameraComponent::Start()
 		{
+			Component<CameraComponent>::Start();
+
 			RenderSystem.SetCamera(GetCamera());
 		}
 	}

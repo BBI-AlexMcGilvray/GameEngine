@@ -37,14 +37,14 @@ namespace Application
 
 			// set children/parent
 			template <typename T, typename ...Ts>
-			void AddChild(Ts ...args)
+			Ptr<Node> AddChild(Ts&& ...args)
 			{
 				UniquePtr<T> newNode = MakeUnique<T>(ParentState, Forward<Ts>(args)...);
 
-				AddChild(move(newNode));
+				return AddChild(move(newNode));
 			}
 
-			virtual void AddChild(UniquePtr<Node> newChild);
+			virtual Ptr<Node> AddChild(UniquePtr<Node> newChild);
 			virtual void RemoveChild(UniquePtr<Node> oldChild);
 
 			Core::Ptr<State> GetParentState() const;

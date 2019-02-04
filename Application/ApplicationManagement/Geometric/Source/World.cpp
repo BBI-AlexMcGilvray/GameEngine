@@ -11,7 +11,10 @@ namespace Application
 		World::World(Ptr<State> parentState)
 			: Scene(parentState)
 		{
-			AddChild<CameraNode>(ApplicationManager::AppRenderManager(), 1024.0f / 800.0f);
+			AddChild<Node>();
+
+			Ptr<Node> cameraNode = AddChild<CameraNode>(ApplicationManager::AppRenderManager(), 1024.0f / 800.0f);
+			cameraNode->Transformation.SetPosition(Float3(0.0f, 0.0f, 10.0f));
 		}
 	}
 }

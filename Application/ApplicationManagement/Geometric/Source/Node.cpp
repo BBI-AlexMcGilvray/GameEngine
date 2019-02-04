@@ -45,14 +45,12 @@ namespace Application
 
 		void Node::Start()
 		{
-			LOG("Current camera memory position: " + ToString(uint(ApplicationManager::AppRenderManager().GetCamera())));
 			ContainerBase::Start();
 
 			for (auto& child : Children)
 			{
 				child->Start();
 			}
-			LOG("Current camera memory position: " + ToString(uint(ApplicationManager::AppRenderManager().GetCamera())));
 
 #if _DEBUG
 			// debug
@@ -61,7 +59,8 @@ namespace Application
 			ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 
-			renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
+			// no need, leaving in for future reference on how using data is set up
+			//renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
 			renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 0.25f);
 #endif
 		}
@@ -105,9 +104,11 @@ namespace Application
 			return addedContent;
 		}
 
-		void Node::AddChild(UniquePtr<Node> newChild)
+		Ptr<Node> Node::AddChild(UniquePtr<Node> newChild)
 		{
 			Push(Children, move(newChild));
+
+			return Children[Children.size() - 1].get();
 		}
 
 		void Node::RemoveChild(UniquePtr<Node> oldChild)

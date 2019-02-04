@@ -20,12 +20,10 @@ namespace Application
 
 	void EntityBase::Start()
 	{
-		LOG("Current camera memory position: " + ToString(uint(ApplicationManager::AppRenderManager().GetCamera())));
 		for (auto const& component : Components)
 		{
 			component.second->Start();
 		}
-		LOG("Current camera memory position: " + ToString(uint(ApplicationManager::AppRenderManager().GetCamera())));
 	}
 
 	void EntityBase::Update(Second dt)

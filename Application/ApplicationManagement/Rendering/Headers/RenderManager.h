@@ -50,7 +50,7 @@ namespace Application
 
 			void SetOpenGLAttributes();
 
-			Core::Ptr<Camera> GetCamera() const;
+			Core::Ptr<const Camera> GetCamera() const;
 			void SetCamera(Core::Ptr<Camera> renderCamera);
 
 		private:

@@ -41,7 +41,7 @@ namespace Application
 		virtual ~EntityBase();
 
 		template <typename T, typename ...Ts>//, Templates::is_component<T>>
-		ComponentPtr<T> AddComponent(Ts ...args)
+		ComponentPtr<T> AddComponent(Ts&& ...args)
 		{
  			return AddComponent<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
 		}
