@@ -7,6 +7,7 @@
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/MapDefs.h"
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/TimeDefs.h"
 
 #include "Core/Functionality/Headers/Event.h"
 
@@ -107,7 +108,7 @@ namespace Application
 
 		virtual void Initialize();
 		virtual void Start();
-		virtual void Update();
+		virtual void Update(Core::Second dt);
 		virtual void End();
 		virtual void CleanUp();
 

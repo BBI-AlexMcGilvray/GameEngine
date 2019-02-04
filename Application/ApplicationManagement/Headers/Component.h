@@ -3,6 +3,7 @@
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/MapDefs.h"
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/TimeDefs.h"
 #include "Core/Functionality/Headers/Event.h"
 
 namespace Application
@@ -31,7 +32,7 @@ namespace Application
 		// NOTE: presumably the entity would be in charge of handling things like this and when they get called
 		virtual void Initialize();
 		virtual void Start();
-		virtual void Update();
+		virtual void Update(Core::Second dt);
 		virtual void End();
 		virtual void CleanUp();
 

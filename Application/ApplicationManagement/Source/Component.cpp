@@ -59,7 +59,7 @@ namespace Application
 		// nothing by default
 	}
 
-	void ComponentBase::Update()
+	void ComponentBase::Update(Second dt)
 	{
 		// nothing by default
 	}

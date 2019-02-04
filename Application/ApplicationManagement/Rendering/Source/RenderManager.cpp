@@ -27,7 +27,7 @@ namespace Application
 
 		void RenderManager::Start()
 		{
-
+			RenderCamera = nullptr;
 		}
 
 		void RenderManager::AttachRenderObjectManager(Ptr<State> state, Ptr<RenderObjectManager> objectManager)
@@ -82,6 +82,12 @@ namespace Application
 			{
 				ObjectManagers[ActiveState]->Update(dt);
 			}
+			LOG("Current camera memory position: " + ToString(uint(RenderCamera)));
+			if (RenderCamera == nullptr)
+			{
+				LOG("NO RENDER CAMERA IN RENDER MANAGER!");
+				return;
+			}
 			Render();
 		}
 
@@ -123,7 +129,7 @@ namespace Application
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // turns off wireframe mode
 		}
 
-		Ptr<const Camera> RenderManager::GetCamera() const
+		Ptr<Camera> RenderManager::GetCamera() const
 		{
 			return RenderCamera;
 		}
@@ -131,6 +137,7 @@ namespace Application
 		void RenderManager::SetCamera(Ptr<Camera> renderCamera)
 		{
 			RenderCamera = renderCamera;
+			LOG("Current camera memory position: " + ToString(uint(GetCamera())));
 		}
 
 		void RenderManager::RenderStart()

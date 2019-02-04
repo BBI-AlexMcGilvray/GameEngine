@@ -23,9 +23,10 @@ namespace Application
 		{
 			static const Float3 DefaultDirection;
 
-			Camera(const float& aspectRatio, const Float3& position = Float3(0.0f, 2.5f, 5.0f), const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
+			Camera(const float& aspectRatio, Transform& transform, const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
 
 			Transform& GetCameraTransform();
+			void SetCameraTransform(Transform& transform);
 
 			Float4x4 GetTransformationMatrix() const;
 
@@ -45,7 +46,7 @@ namespace Application
 			void SetProjectionVariables(const Rad& fovy, const float& AspectRatio, const float& nearPlane, const float& farPlane);
 
 		protected:
-			Transform CameraTransform;
+			Transform& CameraTransform;
 
 			Float3 Direction; // direction the camera is looking
 

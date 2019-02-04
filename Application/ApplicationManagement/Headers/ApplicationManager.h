@@ -22,10 +22,10 @@ namespace Application
 	{
 		static Core::Ptr<ApplicationManager> Application();
 
-		static FixedStepTimeManager& AppTime();
-		static RenderManager& AppRenderSystem();
-		static InputManager& AppInputSystem();
-		static StateManager& AppStateSystem();
+		static FixedStepTimeManager& AppTimeManager();
+		static RenderManager& AppRenderManager();
+		static InputManager& AppInputManager();
+		static StateManager& AppStateManager();
 
 	private:
 		// to make sure that constructor can't be called except through static Application() method to get instance

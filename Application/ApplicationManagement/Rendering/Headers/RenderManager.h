@@ -50,11 +50,11 @@ namespace Application
 
 			void SetOpenGLAttributes();
 
-			Core::Ptr<const Camera> GetCamera() const;
+			Core::Ptr<Camera> GetCamera() const;
 			void SetCamera(Core::Ptr<Camera> renderCamera);
 
 		private:
-			Core::Ptr<Camera> RenderCamera;
+			Core::Ptr<Camera> RenderCamera = nullptr;
 			Core::Math::Color InitialColor;
 
 			Core::Math::Color ClearColor;

@@ -16,22 +16,22 @@ namespace Application
 		return Instance.get();
 	}
 
-	FixedStepTimeManager& ApplicationManager::AppTime()
+	FixedStepTimeManager& ApplicationManager::AppTimeManager()
 	{
 		return Application()->Time;
 	}
 
-	RenderManager& ApplicationManager::AppRenderSystem()
+	RenderManager& ApplicationManager::AppRenderManager()
 	{
 		return Application()->RenderSystem;
 	}
 
-	InputManager& ApplicationManager::AppInputSystem()
+	InputManager& ApplicationManager::AppInputManager()
 	{
 		return Application()->InputSystem;
 	}
 
-	StateManager& ApplicationManager::AppStateSystem()
+	StateManager& ApplicationManager::AppStateManager()
 	{
 		return Application()->StateSystem;
 	}

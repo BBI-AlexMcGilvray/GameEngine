@@ -21,11 +21,6 @@ namespace Application
 			ContentDeleted();
 		}
 
-		void ContentBase::Update(Second dt)
-		{
-			// nothing by default
-		}
-
 		void ContentBase::SetContainer(Ptr<ContainerBase> parentContainer)
 		{
 			Container = parentContainer;

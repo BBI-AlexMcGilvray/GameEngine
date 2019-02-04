@@ -1,5 +1,6 @@
 #include "ApplicationManagement/StateSystem/Headers/State.h"
 
+#include "ApplicationManagement/Headers/ApplicationManager.h"
 namespace Application
 {
 	State::State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem)

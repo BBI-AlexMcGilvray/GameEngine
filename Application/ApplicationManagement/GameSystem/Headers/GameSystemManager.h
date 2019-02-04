@@ -50,9 +50,6 @@ namespace Application
 			// needs the render system to make changes on a game level. Ex: setting dead screen to red and the like
 			Rendering::RenderManager& RenderSystem;
 			Input::InputManager& InputSystem;
-
-			// debug/testing
-			UniquePtr<Rendering::Camera> testCamera;
 		};
 	}
 }

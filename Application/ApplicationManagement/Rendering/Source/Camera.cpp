@@ -15,9 +15,9 @@ namespace Application
 	{
 		const Float3 Camera::DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
 
-		Camera::Camera(const float& aspectRatio, const Float3& position, const Float3& direction)
+		Camera::Camera(const float& aspectRatio, Transform& transform, const Float3& direction)
+			: CameraTransform(transform)
 		{
-			CameraTransform = Transform(position, RotationBetweenVectors(DefaultDirection, direction));
 			Direction = Normalize(direction);
 
 			SetProjectionVariables(FOVY, aspectRatio, NearPlane, FarPlane);
@@ -26,6 +26,11 @@ namespace Application
 		Transform& Camera::GetCameraTransform()
 		{
 			return CameraTransform;
+		}
+		
+		void Camera::SetCameraTransform(Transform& transform)
+		{
+			CameraTransform = transform;
 		}
 
 		Float4x4 Camera::GetTransformationMatrix() const

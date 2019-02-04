@@ -1,5 +1,9 @@
 #include "ApplicationManagement/Headers/Entity.h"
 
+#include "Core/Debugging/Headers/Macros.h"
+#include "ApplicationManagement/Headers/ApplicationManager.h"
+using namespace Core;
+
 namespace Application
 {
 	EntityBase::~EntityBase()
@@ -16,17 +20,19 @@ namespace Application
 
 	void EntityBase::Start()
 	{
+		LOG("Current camera memory position: " + ToString(uint(ApplicationManager::AppRenderManager().GetCamera())));
 		for (auto const& component : Components)
 		{
 			component.second->Start();
 		}
+		LOG("Current camera memory position: " + ToString(uint(ApplicationManager::AppRenderManager().GetCamera())));
 	}
 
-	void EntityBase::Update()
+	void EntityBase::Update(Second dt)
 	{
 		for (auto const& component : Components)
 		{
-			component.second->Update();
+			component.second->Update(dt);
 		}
 	}
 

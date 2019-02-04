@@ -166,7 +166,10 @@ namespace Application
 		PreviousState = ActiveState;
 		ActiveState = state;
 
-		ActiveState->Start();
+		if (CurrentState != SystemState::None)
+		{
+			ActiveState->Start();
+		}
 
 		CurrentState = SystemState::Displaying;
 		StateChanged();

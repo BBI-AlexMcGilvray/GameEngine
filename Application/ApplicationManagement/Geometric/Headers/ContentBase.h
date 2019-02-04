@@ -24,9 +24,6 @@ namespace Application
 			ContentBase();
 			virtual ~ContentBase();
 
-			// generic functions
-			virtual void Update(Second dt);
-
 			void SetContainer(Ptr<ContainerBase> parentContainer);
 			Ptr<ContainerBase> GetContainer() const;
 

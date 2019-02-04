@@ -18,12 +18,18 @@ namespace Application
 
 		void ContainerBase::Initialize()
 		{
-
+			for (int i = 0; i < Content.size(); i++)
+			{
+				Content[i]->Initialize();
+			}
 		}
 
 		void ContainerBase::Start()
 		{
-
+			for (int i = 0; i < Content.size(); i++)
+			{
+				Content[i]->Start();
+			}
 		}
 
 		void ContainerBase::Update(Second dt)
@@ -36,12 +42,18 @@ namespace Application
 
 		void ContainerBase::End()
 		{
-
+			for (int i = 0; i < Content.size(); i++)
+			{
+				Content[i]->End();
+			}
 		}
 
 		void ContainerBase::CleanUp()
 		{
-
+			for (int i = 0; i < Content.size(); i++)
+			{
+				Content[i]->CleanUp();
+			}
 		}
 
 		Ptr<ContentBase> ContainerBase::AddContent(UniquePtr<ContentBase> newContent)

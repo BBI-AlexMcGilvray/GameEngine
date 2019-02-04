@@ -1,43 +1,18 @@
 #include "ApplicationManagement/Geometric/Headers/CameraNode.h"
 
-#include "ApplicationManagement/Rendering/Headers/CameraUtils.h"
+#include "ApplicationManagement/Geometric/Headers/ContentBase.h"
 
-#include "Core/Math/Headers/MathUtils.h"
-#include "Core/Math/Headers/MatrixFunctions.h"
-#include "Core/Math/Headers/VectorFunctions.h"
-#include "Core/Math/Headers/QuaternionFunctions.h"
-
-#include "Core/Debugging/Headers/Macros.h"
-
-using namespace Application::Rendering;
+#include "ApplicationManagement/Rendering/Headers/CameraComponent.h"
 
 namespace Application
 {
 	namespace Geometric
 	{
-		CameraNode::CameraNode(Ptr<State> parentState, const float& aspectRatio, const Float3& position, const Float3& direction)
+		CameraNode::CameraNode(Ptr<State> parentState, Rendering::RenderManager& renderSystem, const float& aspectRatio)
 			: Node(parentState)
-			, RenderCamera(aspectRatio, position, direction)
 		{
+			CameraContent = AddContent(MakeUnique<ContentBase>());
+			CameraContent->AddComponent<Rendering::CameraComponent>(renderSystem, aspectRatio);
 		}
-
-		void CameraNode::Update(Second dt)
-		{
-			Node::Update(dt);
-		}
-
-		//void CameraNode::Render(Renderer& renderer, Float4x4 transformationMatrix) const
-		//{
-			// NOTE: the commented out code below should be done by the WORLD class... Or not?
-
-			// make this the currently used camera
-			//auto previousCamera = renderer.GetCamera();
-			//renderer.SetCamera(ToShared<Camera>(this));
-
-			//Node::Render(renderer, transformationMatrix);
-
-			// switch back to previous camera
-			//renderer.SetCamera(previousCamera);
-		//}
 	}
 }
