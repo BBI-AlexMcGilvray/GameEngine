@@ -26,11 +26,11 @@ namespace Application
 			{
 				if (!IsTrigger)
 				{
-					Collision(collision);
+					Collision(move(collision));
 				}
 				else
 				{
-					Trigger(collision);
+					Trigger(move(collision));
 				}
 
 				return;

@@ -36,7 +36,7 @@ namespace Core
 	}
 
 	template <typename Key, typename T>
-	void Clear(Map<Key, T>& maap)
+	void Clear(Map<Key, T>& map)
 	{
 		map.clear();
 	}

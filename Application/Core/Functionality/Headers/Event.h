@@ -68,9 +68,9 @@ namespace Core
 				}
 			}
 
-			void operator ()(Ts ...args)
+			void operator ()(Ts&& ...args)
 			{
-				CallFunction(args...);
+				CallFunction(Forward<Ts>(args)...);
 			}
 
 			void operator +=(DelegateNode<Ts...>& node)
@@ -104,7 +104,7 @@ namespace Core
 			}
 
 		private:
-			virtual void CallFunction(Ts ...args) = 0;
+			virtual void CallFunction(Ts&& ...args) = 0;
 		};
 
 // EVENT
@@ -127,7 +127,7 @@ namespace Core
 			}
 
 		private:
-			void CallFunction(Ts ...args) override
+			void CallFunction(Ts&& ...args) override
 			{
 				auto next = Next;
 				while (next != nullptr)
@@ -135,7 +135,7 @@ namespace Core
 					auto currentNode = next;
 					next = currentNode->Next;
 
-					(*currentNode)(args...);
+					(*currentNode)(Forward<Ts>(args)...);
 				}
 			}
 		};
@@ -181,9 +181,9 @@ namespace Core
 				return (*this);
 			}
 
-			void CallFunction(Ts ...args) override
+			void CallFunction(Ts&& ...args) override
 			{
-				if (!DelegateFunction || DelegateFunction(args...))
+				if (!DelegateFunction || DelegateFunction(Forward<Ts>(args)...))
 				{
 					Remove(this);
 				}
