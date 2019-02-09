@@ -23,7 +23,7 @@ namespace Application
 			// this should be loading up the model data instead of the mesh data
 			ModelBase(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset);
 
-			uint GetVertexCount() const override;
+			Core::size GetVertexCount() const override;
 
 		protected:
 			ObjectShader& Shader;

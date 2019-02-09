@@ -31,7 +31,7 @@ namespace Application
 			virtual void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;
 			virtual void CleanUp() const;
 
-			Core::uint GetVertexCount() const override
+			Core::size GetVertexCount() const override
 			{
 				return Vertices.size();
 			}

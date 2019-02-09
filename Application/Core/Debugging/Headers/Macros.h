@@ -38,6 +38,12 @@ namespace Core
 	#endif
 
 	#if DEBUG
+#define ASSERT( X ) if (!VERIFY(X)) { assert(false, "Assertion failed"); }
+	#else
+	#define ASSERT( X ) // do nothing if not debugging
+	#endif
+
+	#if DEBUG
 	#define MESSAGE( X, M ) VerifyMessage( X, M, std::string(__FILE__) + " (" + std::to_string(__LINE__) + "): " )
 	#else
 	#define MESSAGE( X, M ) // do nothing

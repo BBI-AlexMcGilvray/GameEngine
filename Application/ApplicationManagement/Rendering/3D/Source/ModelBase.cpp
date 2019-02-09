@@ -21,7 +21,7 @@ namespace Application
 			// load material using mat file in folder
 		}
 
-		uint ModelBase::GetVertexCount() const
+		Core::size ModelBase::GetVertexCount() const
 		{
 			// again, should would be much easier with a DataPtr<T>
 			return Mesh.Data->Data.VertexCount;

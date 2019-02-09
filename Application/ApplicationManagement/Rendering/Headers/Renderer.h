@@ -16,8 +16,8 @@ namespace Application
 			void DrawMesh(Core::Ptr<const RenderObjectBase> object) const;
 			void Draw(Core::Ptr<const RenderObjectBase> object) const;
 
-			void DrawLines(Core::uint vertexCount) const;
-			void DrawTriangles(Core::uint vertexCount) const;
+			void DrawLines(Core::size vertexCount) const;
+			void DrawTriangles(Core::size vertexCount) const;
 		};
 	}
 }

@@ -56,16 +56,16 @@ namespace Core
 	}
 
 	template <typename T>
-	Truth<uint64> InList(const List<T>& list, T entry)
+	Truth<size> InList(const List<T>& list, T entry)
 	{
 		auto index = std::find(list.begin(), list.end(), entry);
 		
 		if (index == list.end())
 		{
-			return Truth<uint64>(false, 0);
+			return Truth<size>(false, 0);
 		}
 
-		return Truth<uint64>(true, (index - list.begin()));
+		return Truth<size>(true, (index - list.begin()));
 	}
 
 	template <typename T, typename ...Ts>
@@ -110,13 +110,13 @@ namespace Core
 	}
 
 	template <typename T>
-	void RemoveIndex(List<T>& list, int index)
+	void RemoveIndex(List<T>& list, size index)
 	{
 		list.erase(list.begin() + index);
 	}
 
 	template <typename T, typename ...Ts>
-	void RemoveIndex(List<T>& list, int index, Ts... otherIndices)
+	void RemoveIndex(List<T>& list, size index, Ts... otherIndices)
 	{
 		RemoveIndex(list, index);
 		RemoveIndex(list, otherIndices...);

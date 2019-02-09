@@ -13,6 +13,29 @@ namespace Application
 
 	namespace Geometric
 	{
+		/* / *********************************
+		NOTE: Need to determine how we are going to have it set up so that moving one node moves all child nodes
+		And, if this is something that we actually want.
+
+		* Need to keep in mind that (for example) two changes in rotation should only change the rotation of the child by the delta
+			(since it would already have applied the fist change)
+
+		Options:
+		- Update child nodes on Update
+			- Pros:
+				- Update done a single time
+			- Const:
+				- Multiple updates will cause over-transforming
+				- REQUIRES update call to work
+
+		- Have events that proc and are listened to for when parent transform has updated
+			- Pros:
+				- Updates handled automatically
+				- Requires no update call, anything that changes parent will be taken into account
+			- Cons:
+				- Multiple changes will result in multiple calculations and over-transforming
+		// *********************************/
+
 		// a recursive struct to hold elements in a scene
 		struct Node : ContainerBase
 		{

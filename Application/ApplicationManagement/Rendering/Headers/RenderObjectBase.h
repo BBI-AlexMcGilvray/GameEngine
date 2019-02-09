@@ -42,7 +42,7 @@ namespace Application
 			virtual void Update(Core::Second dt);
 			void Render(Core::Ptr<RenderManager> manager, const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;
 
-			virtual Core::uint GetVertexCount() const = 0;
+			virtual Core::size GetVertexCount() const = 0;
 
 		protected:
 			Core::Ptr<RenderManager> Manager;
