@@ -4,6 +4,12 @@
 
 #include "ApplicationManagement/Rendering/Headers/CameraComponent.h"
 
+#if _DEBUG
+#include "ApplicationManagement/Headers/ApplicationManager.h"
+#include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
+#include "ApplicationManagement/Rendering/2D/Headers/CircleRenderObject.h"
+#endif
+
 namespace Application
 {
 	namespace Geometric
@@ -13,6 +19,26 @@ namespace Application
 		{
 			CameraContent = AddContent(MakeUnique<ContentBase>());
 			CameraContent->AddComponent<Rendering::CameraComponent>(renderSystem, aspectRatio);
+		}
+
+		void CameraNode::Start()
+		{
+			ContainerBase::Start();
+
+			for (auto& child : Children)
+			{
+				child->Start();
+			}
+
+#if _DEBUG
+			// debug
+			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
+
+			ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
+			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
+
+			renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), RED, 0.25f);
+#endif
 		}
 	}
 }

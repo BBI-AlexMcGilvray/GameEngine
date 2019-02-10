@@ -13,6 +13,8 @@ namespace Application
 		{
 			CameraNode(Core::Ptr<State> parentState, Rendering::RenderManager& renderSystem, const float& aspectRatio);
 
+			void Start() override;
+
 		private:
 			Core::Ptr<ContentBase> CameraContent;
 		};

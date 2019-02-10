@@ -306,7 +306,13 @@
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Geometric\Source\CameraComponent.cpp">
+    <ClCompile Include="ApplicationManagement\Rendering\Source\CameraComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Skeleton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SkinnedMeshBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1027,7 +1033,13 @@
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLDefs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Geometric\Headers\CameraComponent.h">
+    <ClInclude Include="ApplicationManagement\Rendering\Headers\CameraComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\Skeleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\SkinnedMeshBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,7 +7,8 @@
 #if _DEBUG
 #include "ApplicationManagement/Headers/ApplicationManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
-#include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
+//#include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
+#include "ApplicationManagement/Rendering/3D/Headers/AnimatedModel.h"
 #include "ApplicationManagement/Rendering/2D/Headers/CircleRenderObject.h"
 
 #include "Resources/Assets.h"
@@ -17,15 +18,22 @@ namespace Application
 {
 	namespace Geometric
 	{
-		Node::Node(Ptr<State> parentState)
+		Node::Node(Ptr<State> parentState, Core::String name)
+			: Name(name)
+		{
+			SetParentState(parentState);
+		}
+
+		Node::Node(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
+			: Name(name)
+			, Transformation(position, rotation, scale)
 		{
 			SetParentState(parentState);
 		}
 
 		Node::Node(Ptr<State> parentState, Float3 position, FQuaternion rotation, Float3 scale)
-			: Transformation(position, rotation, scale)
+			: Node(parentState, DEFAULT_NODE_NAME, position, rotation, scale)
 		{
-			SetParentState(parentState);
 		}
 
 		Node::~Node()
@@ -61,6 +69,7 @@ namespace Application
 
 			// no need, leaving in for future reference on how using data is set up
 			//renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
+			renderComponent->AddRenderObject<Rendering::AnimatedModel>(this, Data::Ast.amdl.Woman_0);
 			renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 0.25f);
 #endif
 		}
@@ -106,9 +115,35 @@ namespace Application
 
 		Ptr<Node> Node::AddChild(UniquePtr<Node> newChild)
 		{
+			newChild->Initialize();
+			// need to think about if we want Start to be called like this
+			if (ApplicationManager::AppStateManager().GetActiveState() == ParentState)
+			{
+				newChild->Start();
+			}
+
 			Push(Children, move(newChild));
 
 			return Children[Children.size() - 1].get();
+		}
+
+		Ptr<Node> Node::GetChild(Core::String name)
+		{
+			for (Core::size i = 0; i < Children.size(); i++)
+			{
+				if (Children[i]->Name == name)
+				{
+					return Children[i].get();
+				}
+
+				Ptr<Node> childInChildren = Children[i]->GetChild(name);
+				if (childInChildren != nullptr)
+				{
+					return childInChildren;
+				}
+			}
+
+			return nullptr;
 		}
 
 		void Node::RemoveChild(UniquePtr<Node> oldChild)

@@ -10,6 +10,8 @@ namespace Application
 		struct World : Scene
 		{
 			World(Core::Ptr<State> parentState);
+
+			void Start() override;
 		};
 	}
 }

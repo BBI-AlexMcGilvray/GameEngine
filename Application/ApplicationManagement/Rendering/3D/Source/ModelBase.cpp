@@ -2,8 +2,6 @@
 
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 
-#include "Data/Headers/AssetUtils.h"
-
 using namespace Core;
 using namespace Core::Geometric;
 using namespace Core::Math;
@@ -15,7 +13,7 @@ namespace Application
 		ModelBase::ModelBase(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
 			: RenderObjectBase(manager, renderTransform)
 			, Data(asset)
-			, Mesh(Data.Mesh)
+			, Mesh(Data.Data.Mesh)
 			, Shader(manager->ObjectShaderManager.DefaultShader)
 		{
 			// load material using mat file in folder
@@ -24,7 +22,7 @@ namespace Application
 		Core::size ModelBase::GetVertexCount() const
 		{
 			// again, should would be much easier with a DataPtr<T>
-			return Mesh.Data->Data.VertexCount;
+			return Mesh.Data.Data.VertexCount;
 		}
 
 		void ModelBase::Prepare(const Float4x4& mvp, const Color& color) const

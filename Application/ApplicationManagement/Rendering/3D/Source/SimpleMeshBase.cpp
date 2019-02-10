@@ -6,11 +6,8 @@ namespace Application
 {
 	namespace Rendering
 	{
-		SimpleMeshBase::SimpleMeshBase()
-		{}
-
 		SimpleMeshBase::SimpleMeshBase(Data::AssetName<Data::Rendering::SimpleMeshData> asset)
-			: Data(Data::GetAssetData(asset))
+			: Data(asset)
 		{
 			Initialize();
 		}
@@ -26,7 +23,7 @@ namespace Application
 
 			// glBufferData( < type >, < size of data >, < start of data >, < draw type >);
 			// the Data->Data would go away with a DataPtr<T>
-			glBufferData(newBuffer.Type, Data->Data.VertexCount * sizeof(Data::Rendering::SimpleVertexDataBase), &(Data->Data.Vertices[0]), GL_STATIC_DRAW);
+			glBufferData(newBuffer.Type, Data.Data.VertexCount * sizeof(Data::Rendering::SimpleVertexDataBase), &(Data.Data.Vertices[0]), GL_STATIC_DRAW);
 
 			// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
 			// position

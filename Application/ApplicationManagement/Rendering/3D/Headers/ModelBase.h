@@ -7,6 +7,7 @@
 #include "ApplicationManagement/Rendering/2D/Headers/Material.h"
 #include "ApplicationManagement/Rendering/3D/Headers/SimpleMeshBase.h"
 
+#include "Data/Headers/AssetData.h"
 #include "Data/Rendering/Headers/SimpleModelData.h"
 
 namespace Application
@@ -16,7 +17,7 @@ namespace Application
 		// holds the mesh, texture(s), and shader that a model uses
 		struct ModelBase : RenderObjectBase
 		{
-			Data::Rendering::SimpleModelData Data;
+			Data::AssetData<Data::Rendering::SimpleModelData> Data;
 			Material Material;
 			SimpleMeshBase Mesh;
 

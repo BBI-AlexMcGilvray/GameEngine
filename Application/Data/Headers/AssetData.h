@@ -16,13 +16,20 @@ namespace Data
 		T Data;
 		AssetName<T> Asset;
 
+		// AssetData()
+		// {
+			// once this is more of a 'Ptr' class, this will set things to the nullptr
+		// }
+
 		AssetData(const AssetData<T>& assetData)
 			: Data(assetData.Data), Asset(assetData.Asset)
 		{}
 
-		AssetData(const AssetName<T>& assetName, const T& data)
-			: Asset(assetName), Data(data)
-		{}
+		AssetData(const AssetName<T>& assetName)
+			: Asset(assetName), Data(assetName)
+		{
+
+		}
 
 		Ptr<T> operator ->()
 		{

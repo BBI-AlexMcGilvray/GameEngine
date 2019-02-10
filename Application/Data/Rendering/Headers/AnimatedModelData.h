@@ -44,7 +44,7 @@ namespace Data
 
 		static String GetFileType()
 		{
-			return ".amdl";
+			return ".mdl";
 		}
 	};
 }

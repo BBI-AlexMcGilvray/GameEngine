@@ -37,12 +37,15 @@ namespace Application
 		// *********************************/
 
 		// a recursive struct to hold elements in a scene
+		#define DEFAULT_NODE_NAME "Unnamed"
 		struct Node : ContainerBase
 		{
 			Event<> Deleted;
+			Core::String Name;
 			Transform Transformation;
 
-			Node(Core::Ptr<State> parentState);
+			Node(Core::Ptr<State> parentState, Core::String name = DEFAULT_NODE_NAME);
+			Node(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f));
 			Node(Core::Ptr<State> parentState, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f));
 
 			virtual ~Node();
@@ -60,14 +63,15 @@ namespace Application
 
 			// set children/parent
 			template <typename T, typename ...Ts>
-			Ptr<Node> AddChild(Ts&& ...args)
+			Ptr<T> AddChild(Ts&& ...args)
 			{
 				UniquePtr<T> newNode = MakeUnique<T>(ParentState, Forward<Ts>(args)...);
 
-				return AddChild(move(newNode));
+				return static_cast<Ptr<T>>(AddChild(move(newNode)));
 			}
 
 			virtual Ptr<Node> AddChild(UniquePtr<Node> newChild);
+			virtual Ptr<Node> GetChild(Core::String name);
 			virtual void RemoveChild(UniquePtr<Node> oldChild);
 
 			Core::Ptr<State> GetParentState() const;

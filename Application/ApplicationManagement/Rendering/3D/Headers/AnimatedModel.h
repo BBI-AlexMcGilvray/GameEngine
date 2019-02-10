@@ -1,33 +1,44 @@
 #pragma once
 
-#include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
+#include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
+
+#include "ApplicationManagement/Rendering/Shaders/Headers/ObjectShader.h"
+
+#include "ApplicationManagement/Rendering/2D/Headers/Material.h"
+#include "ApplicationManagement/Rendering/3D/Headers/SkinnedMeshBase.h"
+
+#include "ApplicationManagement/Rendering/3D/Headers/Skeleton.h"
+
+#include "Data/Headers/AssetData.h"
+#include "Data/Rendering/Headers/AnimatedModelData.h"
 
 namespace Application
 {
 	namespace Rendering
 	{
-		// holds positional information for each bone that the mesh is weighted against
-		struct Bone
-		{
-			Core::List<Core::Ptr<Bone>> Children;
-		};
-
-		struct Skeleton
-		{
-			Core::Ptr<Bone> Root;
-		};
-
 		// is a model,  but also has a list of timelines that can be called for animations
 		// also holds a list of the relevant bones
-		struct AnimatedModel : ModelBase
+		struct AnimatedModel : RenderObjectBase
 		{
+			Data::AssetData<Data::Rendering::AnimatedModelData> Data;
+			Material Material;
+			SkinnedMeshBase Mesh;
+
+			AnimatedModel(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset);
 
 			// be able to change what skeleton a model is listening to - returns true if able to map to skeleton
 			bool SkinToSkeleton(Core::UniquePtr<Skeleton> skeleton);
 
-		private:
+			Core::size GetVertexCount() const override;
+
+		protected:
+			ObjectShader& Shader;
+
 			// should this be a unique ptr? or is the skeleton owned by the node heirarchy?
-			Core::UniquePtr<Skeleton> Skeleton;
+			Core::UniquePtr<Skeleton> SkinnedSkeleton;
+
+			void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const override;
+			void CleanUp() const override;
 		};
 	}
 }

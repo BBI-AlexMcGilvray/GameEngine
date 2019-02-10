@@ -39,7 +39,7 @@ namespace Data
 
 		static String GetFileType()
 		{
-			return ".amsh";
+			return ".msh";
 		}
 	};
 }
