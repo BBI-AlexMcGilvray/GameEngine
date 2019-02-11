@@ -26,7 +26,8 @@ namespace Application
 
 		void CircleRenderObject::Initialize()
 		{
-			Float3 center = RenderTransform->GetPosition();
+			// we want the circles drawn to be centered around the point. Any positional changed come from the transformation matrix
+			Float3 center = 0.0f;
 			float halfStepCount = 50.0f;
 
 			auto createVertices = [this, center, halfStepCount](bool positiveY)

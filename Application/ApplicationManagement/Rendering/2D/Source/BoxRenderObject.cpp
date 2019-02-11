@@ -28,7 +28,7 @@ namespace Application
 
 		void BoxRenderObject::Initialize()
 		{
-			Float3 center = RenderTransform->GetPosition();
+			Float3 center = 0.0f; // want box to be centered on transform
 
 			Push(Vertices, { Float3{ center.X - Scale.X, center.Y - Scale.Y, 0.0f }, Float3{ 0.0f } });
 			Push(Vertices, { Float3{ center.X - Scale.X, center.Y + Scale.Y, 0.0f }, Float3{ 0.0f } });

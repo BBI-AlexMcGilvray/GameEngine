@@ -191,12 +191,15 @@ namespace Core
 		template <typename T>
 		Vector3<T> RotateVectorBy(Vector3<T> const& v, Quaternion<T> const& q)
 		{
+			T vMagnitude = Magnitude(v);
+
 			// conjugate of q
 			auto qI = Inverse(q);
-			qI *= v;
+			Quaternion<T> vAsQuaternion = Quaternion<T>(v);
+			qI *= vAsQuaternion;
 			qI *= q;
 
-			Vector3<T> rV = Vector3<T>(qI.X, qI.Y, qI.Z);
+			Vector3<T> rV = Vector3<T>(qI.X * vMagnitude, qI.Y * vMagnitude, qI.Z * vMagnitude);
 
 			return rV;
 		}

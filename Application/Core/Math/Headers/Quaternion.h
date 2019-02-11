@@ -78,7 +78,7 @@ namespace Core
 
 			Quaternion(Vector4<T> v)
 			{
-				auto vNormalize = Normalize(v);
+				auto vNormalize = (v == Vector4<T>(0)) ? Vector4<T>(0) : Normalize(v);
 
 				W = vNormalize.W;
 				X = vNormalize.X;
@@ -133,7 +133,7 @@ namespace Core
 				T newW = (W * q.W) - (X * q.X) - (Y * q.Y) - (Z * q.Z);
 				T newX = (W * q.X) + (X * q.W) + (Y * q.Z) - (Z * q.Y);
 				T newY = (W * q.Y) - (X * q.Z) + (Y * q.W) + (Z * q.X);
-				T newZ = (W * q.Z) + (X * q.Y) - (Y * q.X) + (Z * q.X);
+				T newZ = (W * q.Z) + (X * q.Y) - (Y * q.X) + (Z * q.W);
 
 				W = newW;
 				X = newX;

@@ -1,5 +1,7 @@
 #include "ApplicationManagement/Rendering/3D/Headers/Skeleton.h"
 
+#include "Core/Math/Headers/QuaternionFunctions.h"
+
 #if _DEBUG
 #include "Core/Headers/PtrDefs.h"
 
@@ -8,12 +10,13 @@
 
 #include "ApplicationManagement/Headers/ApplicationManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
-#include "ApplicationManagement/Rendering/2D/Headers/CircleRenderObject.h"
+#include "ApplicationManagement/Rendering/3D/Headers/SphereRenderObject.h"
 
 #include "Resources/Assets.h"
 #endif
 
 using namespace Core;
+using namespace Core::Math;
 
 namespace Application
 {
@@ -32,8 +35,10 @@ namespace Application
 
 			ComponentPtr<Geometric::Hierarchy> hierarchyComponent = debugContent->GetComponent<Geometric::Hierarchy>();
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
-
-			renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), WHITE, 0.25f);
+			
+			Float3 position = Transformation.GetPosition();
+			LOG("Creating dot for " + Name + " at (" + ToString(position.X) + ", " + ToString(position.Y) + ", " + ToString(position.Z));
+			renderComponent->AddRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), WHITE, 0.5f);
 #endif
 		}
 

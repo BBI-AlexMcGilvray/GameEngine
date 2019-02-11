@@ -27,7 +27,7 @@ namespace Application
 
 		void RenderObjectBase::Update(Second dt)
 		{
-			// this will be used to handle animations and the like
+			// this will be used to handle (mesh/texture) animations and the like
 		}
 
 		void RenderObjectBase::Render(Ptr<RenderManager> manager, const Float4x4& mvp, const Color& color) const

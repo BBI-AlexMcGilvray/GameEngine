@@ -9,7 +9,7 @@
 #include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
 //#include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
 #include "ApplicationManagement/Rendering/3D/Headers/AnimatedModel.h"
-#include "ApplicationManagement/Rendering/2D/Headers/CircleRenderObject.h"
+#include "ApplicationManagement/Rendering/3D/Headers/SphereRenderObject.h"
 
 #include "Resources/Assets.h"
 #endif
@@ -70,7 +70,7 @@ namespace Application
 			// no need, leaving in for future reference on how using data is set up
 			//renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
 			renderComponent->AddRenderObject<Rendering::AnimatedModel>(this, Data::Ast.amdl.Woman_0);
-			renderComponent->AddRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 0.25f);
+			renderComponent->AddRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 1.0f);
 #endif
 		}
 
