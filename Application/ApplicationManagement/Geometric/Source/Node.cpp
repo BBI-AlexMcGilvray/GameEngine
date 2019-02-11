@@ -61,15 +61,11 @@ namespace Application
 			}
 
 #if _DEBUG
-			// debug
 			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
 
 			ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 
-			// no need, leaving in for future reference on how using data is set up
-			//renderComponent->AddRenderObject<Rendering::ModelBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
-			renderComponent->AddRenderObject<Rendering::AnimatedModel>(this, Data::Ast.amdl.Woman_0);
 			renderComponent->AddRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 1.0f);
 #endif
 		}

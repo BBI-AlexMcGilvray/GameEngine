@@ -37,7 +37,6 @@ namespace Application
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 			
 			Float3 position = Transformation.GetPosition();
-			LOG("Creating dot for " + Name + " at (" + ToString(position.X) + ", " + ToString(position.Y) + ", " + ToString(position.Z));
 			renderComponent->AddRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), WHITE, 0.5f);
 #endif
 		}

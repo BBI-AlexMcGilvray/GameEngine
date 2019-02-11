@@ -161,7 +161,8 @@ namespace Data
 				{
 					VertexCount++;
 
-					Push(Vertices, AnimatedVertexDataBase(positions[v], normals[v], uvs[v], boneIndices[v]));
+					LOG("Position values should be modified on the data side!");
+					Push(Vertices, AnimatedVertexDataBase(positions[v]*500.0f, normals[v]/10.0f, uvs[v], boneIndices[v]));
 				}
 			}
 		}
