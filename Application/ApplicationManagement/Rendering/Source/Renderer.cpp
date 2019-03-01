@@ -22,13 +22,13 @@ namespace Application
 
 		void Renderer::DrawLines(Core::size vertexCount) const
 		{
-			ASSERT((INT32_MAX >= vertexCount));
+			VERIFY((INT32_MAX >= vertexCount));
 			glDrawArrays(GL_LINE_STRIP, 0, GLsizei(vertexCount));
 		}
 
 		void Renderer::DrawTriangles(Core::size vertexCount) const
 		{
-			ASSERT((INT32_MAX >= vertexCount));
+			VERIFY((INT32_MAX >= vertexCount));
 			glDrawArrays(GL_TRIANGLES, 0, GLsizei(vertexCount));
 		}
 	}

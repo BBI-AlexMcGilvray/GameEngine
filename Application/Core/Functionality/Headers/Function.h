@@ -15,7 +15,7 @@ namespace Core
 		{
 			struct FunctionImplBase
 			{
-				virtual rT operator()(Ts&&... args) = 0;
+				virtual rT operator()(Ts... args) = 0;
 			};
 
 			template <typename O>
@@ -27,20 +27,20 @@ namespace Core
 					: Object(move(object))
 				{}
 
-				rT operator()(Ts&&... args)
+				rT operator()(Ts... args)
 				{
-					return Object(Forward<Ts>(args)...);
+					return Object(args...);
 				}
 			};
 
-			Ptr<FunctionImplBase> FunctionObject = nullptr;
+			SharedPtr<FunctionImplBase> FunctionObject = nullptr;
 
 			Function() = default;
 
 			template <typename O>
 			Function(O object)
 			{
-				FunctionObject = new FunctionImpl<O>(object);
+				FunctionObject = MakeShared<FunctionImpl<O>>(object);
 			}
 
 			Function(Function&& function)
@@ -48,15 +48,19 @@ namespace Core
 				FunctionObject = move(function.FunctionObject);
 			}
 
-			Function(Function& function)
+			Function(const Function& function)
 			{
-				FunctionObject = move(function.FunctionObject);
-				function.FunctionObject = nullptr;
+				FunctionObject = function.FunctionObject;
+			}
+
+			~Function()
+			{
+
 			}
 
 			rT Call(Ts... args)
 			{
-				return (*this)(Forward<Ts>(args)...);
+				return (*this)(args...);
 			}
 
 			operator bool()
@@ -64,10 +68,9 @@ namespace Core
 				return (FunctionObject != nullptr);
 			}
 
-			Function& operator= (Function& function)
+			Function& operator= (const Function& function)
 			{
-				FunctionObject = move(function.FunctionObject);
-				function.FunctionObject = nullptr;
+				FunctionObject = function.FunctionObject;
 
 				return (*this);
 			}
@@ -81,16 +84,16 @@ namespace Core
 
 			rT operator()(Ts... args)
 			{
-				return (*FunctionObject)(Forward<Ts>(args)...);
+				return (*FunctionObject)(args...);
 			}
 		};
 		
 		/*	TYPE DEFS	*/
 		template <typename ...Ts>
-		using BoolFunction = Function<bool, Ts&&...>;
+		using BoolFunction = Function<bool, Ts...>;
 
 		template <typename ...Ts>
-		using VoidFunction = Function<void, Ts&&...>;
+		using VoidFunction = Function<void, Ts...>;
 
 		/*
 		Not using the below because there is likely no need, and the method in which I was using this (having a base class with overloaded () operator) does not work

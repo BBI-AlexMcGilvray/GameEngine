@@ -56,7 +56,7 @@ namespace Application
 
 		Core::Ptr<Bone> Skeleton::GetSkeletonHierarchy() const
 		{
-			ASSERT(Root != nullptr);
+			VERIFY(Root != nullptr);
 			return Root;
 		}
 

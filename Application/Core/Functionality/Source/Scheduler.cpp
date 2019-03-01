@@ -27,12 +27,12 @@ namespace Core
 
 		void SchedulerBase::Add(VoidFunction<Second> func, Second key)
 		{
-			Push<Pair<Second, VoidFunction<Second>>>(ScheduledFunctions, Pair<Second, VoidFunction<Second>>(key, func));
+			Push<Pair<Second, VoidFunction<Second>>>(ScheduledFunctions, Pair<Second, VoidFunction<Second>>(key, move(func)));
 		}
 
 		void SchedulerBase::Execute(VoidFunction<Second>& func, Second dt)
 		{
-			func(move(dt));
+			func(dt);
 		}
 	}
 }
