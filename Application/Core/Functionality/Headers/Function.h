@@ -46,10 +46,15 @@ namespace Core
 			Function(Function&& function)
 			{
 				FunctionObject = move(function.FunctionObject);
+				function.FunctionObject = nullptr;
 			}
 
+			// NOTE: We currently need this to allow use with the std::vector since it requires copy-construction
+			// https://en.cppreference.com/w/cpp/container/vector
+			// Once we implement our own list we can get rid of this (and not have the FunctionObject be a SharedPtr - since that is terrible)
 			Function(const Function& function)
 			{
+				// do we want it to be set up like this? I don't think so
 				FunctionObject = function.FunctionObject;
 			}
 
@@ -68,6 +73,9 @@ namespace Core
 				return (FunctionObject != nullptr);
 			}
 
+			// NOTE: We currently need this to allow use with the std::vector since it requires copy-construction
+			// https://en.cppreference.com/w/cpp/container/vector
+			// Once we implement our own list we can get rid of this (and not have the FunctionObject be a SharedPtr - since that is terrible)
 			Function& operator= (const Function& function)
 			{
 				FunctionObject = function.FunctionObject;
