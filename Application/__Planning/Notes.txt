@@ -2,3 +2,8 @@
 	- maybe do this after working on skinning and animations as it may just be a broken 'default' pose?
 	- assimp data seems like it is the RELATIVE transform according to docs, maybe just convert to world for export
 		- we will likely be using world coords instead of local
+
+- https://stackoverflow.com/questions/3695174/visual-studio-2010s-strange-warning-lnk4042
+	- [C/C++ -> Output Files -> Object File Name] is set to $(IntDir)/%(RelativeDir)/ due to the above
+	- I think this is needed because classes with templates will also compile the header, and maybe windows gets confused by [Name].h and [Name].cpp sharing the same name?
+		- Maybe two [Name].obj files are generated? - this does seem to be the case, there are two .obj files being generated now, but they are separated by their relative paths
