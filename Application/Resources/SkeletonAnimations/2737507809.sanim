@@ -1,0 +1,82 @@
+idle2 19 0.75
+Bone
+preState default
+postState default
+position 1
+0 -0.366507 0.0148335 1.76468
+scale 1
+0 1 1 1
+rotation 1
+0 0.611635 0.354827 -0.354827 0.611635
+Bone.001
+preState default
+postState default
+position 1
+0 -3.07012e-09 2.03896 7.29135e-10
+scale 1
+0 1 1 1
+rotation 1
+0 0.215195 -0.673566 0.215195 0.673566
+Bone.002
+preState default
+postState default
+position 1
+0 -1.85086e-10 1.7628 3.92045e-08
+scale 1
+0 1 1 1
+rotation 1
+0 -0.221435 -1.52399e-07 3.74194e-08 0.975175
+Bone.003
+preState default
+postState default
+position 1
+0 -0.366507 0.0148335 1.76468
+scale 1
+0 1 1 1
+rotation 1
+0 -0.408138 -0.408138 0.577428 0.577428
+Bone.004
+preState default
+postState default
+position 1
+0 1.26006e-10 1.45316 -8.39836e-09
+scale 1
+0 1 1 1
+rotation 1
+0 0.401687 0.412695 -0.547528 0.607078
+Bone.005
+preState default
+postState default
+position 1
+0 1.26006e-10 1.45316 -8.39836e-09
+scale 1
+0 1 1 1
+rotation 1
+0 0.384571 -0.431895 0.587949 0.565587
+Bone.006
+preState default
+postState default
+position 1
+0 -6.96382e-08 0.799488 -1.72295e-08
+scale 1
+0 1 1 1
+rotation 1
+0 -0.429343 -0.422381 0.537939 0.589814
+Bone.008
+preState default
+postState default
+position 1
+0 3.34985e-08 0.759578 1.39698e-08
+scale 1
+0 1 1 1
+rotation 1
+0 -0.360091 0.419569 -0.594859 0.583471
+Esqueleto
+preState default
+postState default
+position 1
+0 19.591 24.9682 2.24593
+scale 1
+0 15.372 15.372 15.372
+rotation 1
+0 -0.50218 -0.497811 -0.497809 0.502182

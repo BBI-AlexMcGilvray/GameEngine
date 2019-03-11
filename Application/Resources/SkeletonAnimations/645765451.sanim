@@ -1,0 +1,118 @@
+EagleArmature|Flying 25 1.20833
+Bone
+preState default
+postState default
+position 1
+0 0 0 0
+scale 1
+0 1 1 1
+rotation 1
+0 -0.0240259 1.19037e-07 2.8608e-09 0.999711
+Bone.001
+preState default
+postState default
+position 1
+0 0 0.674037 0
+scale 1
+0 1 1 1
+rotation 1
+0 0.028226 -1.19162e-07 3.3648e-09 0.999602
+Bone.002
+preState default
+postState default
+position 1
+0 0 0.68926 1.86265e-09
+scale 1
+0 1 1 1
+rotation 1
+0 0.108981 0 0 0.994044
+Bone.003
+preState default
+postState default
+position 1
+0 -4.78214e-24 0.386368 2.98023e-08
+scale 1
+0 1 1 1
+rotation 1
+0 -0.135987 0 0 0.990711
+Bone.016
+preState default
+postState default
+position 1
+0 0.404062 0.248725 -0.122915
+scale 1
+0 1 1 1
+rotation 1
+0 0.703029 0.21634 -0.671248 -0.0915026
+Bone.017
+preState default
+postState default
+position 1
+0 1.07102e-08 0.351843 -2.8871e-08
+scale 1
+0 1 1 1
+rotation 1
+0 0.21653 -0.704428 0.108412 0.66719
+Bone.018
+preState default
+postState default
+position 1
+0 -1.2893e-08 0.298113 4.38781e-08
+scale 1
+0 1 1 1
+rotation 1
+0 -0.0379208 0.001188 0.00752947 0.999252
+Bone.019
+preState default
+postState default
+position 1
+0 2.03181e-08 0.273769 -8.80466e-09
+scale 1
+0 1 1 1
+rotation 1
+0 0.017208 0.885688 -0.463874 -0.00901274
+Bone.020
+preState default
+postState default
+position 1
+0 -0.378431 0.248725 -0.122915
+scale 1
+0 1 1 1
+rotation 1
+0 -0.667722 -0.112631 0.696198 0.238263
+Bone.021
+preState default
+postState default
+position 1
+0 -2.00234e-08 0.351843 -8.3819e-09
+scale 1
+0 1 1 1
+rotation 1
+0 0.160493 -0.650949 0.268308 0.691751
+Bone.022
+preState default
+postState default
+position 1
+0 -1.18162e-08 0.298113 -8.24946e-09
+scale 1
+0 1 1 1
+rotation 1
+0 -0.0744153 -0.00233111 -0.00751397 0.997196
+Bone.023
+preState default
+postState default
+position 1
+0 5.75674e-08 0.273769 -3.38876e-09
+scale 1
+0 1 1 1
+rotation 1
+0 -0.0172081 0.885688 -0.463873 0.00901254
+EagleArmature
+preState default
+postState default
+position 1
+0 -0.629642 -1.79529 147.75
+scale 1
+0 100 100 100
+rotation 1
+0 -0.707107 0 0 0.707107

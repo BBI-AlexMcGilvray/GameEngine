@@ -37,7 +37,7 @@ namespace Application
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 			
 			Float3 position = Transformation.GetPosition();
-			renderComponent->AddRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), WHITE, 0.5f);
+			renderComponent->AddRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), GREEN, 0.1f);
 #endif
 		}
 
@@ -63,9 +63,11 @@ namespace Application
 		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData)
 		{
 			// need to determine if assimp values are relative (local) or not (global)
-			Float3 finalPosition = parentNode->Transformation.GetPosition() + boneData->Position;
-			FQuaternion finalRotation = boneData->Rotation * parentNode->Transformation.GetRotation();
-			Float3 finalScale = parentNode->Transformation.GetScale() * boneData->Scale;
+			Float3 finalPosition = boneData->Position;// parentNode->Transformation.GetPosition() + boneData->Position;
+			FQuaternion finalRotation = boneData->Rotation;// *parentNode->Transformation.GetRotation();
+			Float3 finalScale = boneData->Scale;// parentNode->Transformation.GetScale() * boneData->Scale;
+			finalScale = 1.0f;
+			LOG("Should not be modifying scale on import");
 
 			Ptr<Bone> newBone = parentNode->AddChild<Bone>(boneData->Name, finalPosition, finalRotation, finalScale);
 

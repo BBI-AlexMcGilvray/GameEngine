@@ -1,0 +1,82 @@
+Esqueleto|picotear 19 1.5
+Bone.003
+preState default
+postState default
+position 1
+0 -0.366507 0.0148335 1.76468
+scale 1
+0 1 1 1
+rotation 1
+0 -0.408138 -0.408138 0.577428 0.577428
+Bone.005
+preState default
+postState default
+position 1
+0 1.26006e-10 1.45316 -8.39836e-09
+scale 1
+0 1 1 1
+rotation 1
+0 0.384571 -0.431895 0.587949 0.565587
+Bone.006
+preState default
+postState default
+position 1
+0 -6.96382e-08 0.799488 -1.72295e-08
+scale 1
+0 1 1 1
+rotation 1
+0 -0.429343 -0.422381 0.537939 0.589814
+Bone.007
+preState default
+postState default
+position 1
+0 -8.39776e-08 0.642453 -1.03372e-07
+scale 1
+0 1 1 1
+rotation 1
+0 0.0460283 3.65986e-07 2.85633e-08 0.99894
+Bone.010
+preState default
+postState default
+position 1
+0 -1.25592e-07 1.13506 -3.80732e-08
+scale 1
+0 1 1 1
+rotation 1
+0 0.515153 0.23932 -0.209052 0.796016
+Bone.011
+preState default
+postState default
+position 1
+0 -1.25592e-07 1.13506 -3.80732e-08
+scale 1
+0 1 1 1
+rotation 1
+0 0.356557 -0.605436 -0.332299 0.629199
+Bone.012
+preState default
+postState default
+position 1
+0 -1.25592e-07 1.13506 -3.80732e-08
+scale 1
+0 1 1 1
+rotation 1
+0 0.502147 -0.272654 0.227522 0.788506
+Bone.013
+preState default
+postState default
+position 1
+0 -1.25592e-07 1.13506 -3.80732e-08
+scale 1
+0 1 1 1
+rotation 1
+0 0.0243261 -0.659351 0.75144 -0.00167607
+Esqueleto
+preState default
+postState default
+position 1
+0 19.591 24.9682 2.24593
+scale 1
+0 15.372 15.372 15.372
+rotation 1
+0 -0.50218 -0.497811 -0.497809 0.502182

@@ -2,8 +2,6 @@
 
 #include "ApplicationManagement/Geometric/Headers/ContentBase.h"
 
-#include "ApplicationManagement/Rendering/Headers/CameraComponent.h"
-
 #if _DEBUG
 #include "ApplicationManagement/Headers/ApplicationManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
@@ -17,8 +15,8 @@ namespace Application
 		CameraNode::CameraNode(Ptr<State> parentState, Rendering::RenderManager& renderSystem, const float& aspectRatio)
 			: Node(parentState)
 		{
-			CameraContent = AddContent(MakeUnique<ContentBase>());
-			CameraContent->AddComponent<Rendering::CameraComponent>(renderSystem, aspectRatio);
+			Core::Ptr<ContentBase> cameraContent = AddContent(MakeUnique<ContentBase>());
+			CameraComponent = cameraContent->AddComponent<Rendering::CameraComponent>(renderSystem, aspectRatio);
 		}
 
 		void CameraNode::Start()
