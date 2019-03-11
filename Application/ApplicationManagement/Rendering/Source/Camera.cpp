@@ -40,15 +40,15 @@ namespace Application
 
 			// rotation
 			Float4x4 inverseRotationMatrix = Float4x4(Transpose(CameraTransform.GetRotationMatrix()), Float4(0.0f, 0.0f, 0.0f, 1.0f));
-			transformationMatrix = inverseRotationMatrix * transformationMatrix;
+			transformationMatrix = inverseRotationMatrix * transformationMatrix; // can probably just set the transformation matrix to tbe the inverse rotation matrix, doing this for clarity
 
-			// position
+			// translation
 			Float3 Position = CameraTransform.GetPosition();
-			Float4 rotatedPosition = inverseRotationMatrix * Float4(Position, 1.0f);
-			transformationMatrix.E4.X = -Position.X;
-			transformationMatrix.E4.Y = -Position.Y;
-			transformationMatrix.E4.Z = -Position.Z;
-			transformationMatrix.E4.W = 1.0f;
+			//Float4 rotatedPosition = inverseRotationMatrix * Float4(-1.0f * Position), 1.0f);
+			//transformationMatrix.E4 = rotatedPosition;
+			// the above should work equivalently with the below...
+			// the model is flipping on the x axis for some reason
+			transformationMatrix.E4 = Float4(Dot(transformationMatrix.E1, Float4(-1.0f * Position, 1.0f)), Dot(transformationMatrix.E2, Float4(-1.0f * Position, 1.0f)), Dot(transformationMatrix.E3, Float4(-1.0f * Position, 1.0f)), 1.0f);
 
 			// projection
 			transformationMatrix = ProjectionMatrix * transformationMatrix;

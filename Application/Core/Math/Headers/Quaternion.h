@@ -108,6 +108,12 @@ namespace Core
 				Z = (cosX * cosY * sinZ) + (sinX * sinY * cosZ);
 			}
 
+			template <int A>
+			Quaternion(const Deg<T>& deg, const Axis<A>& axis)
+				: Quaternion((axis == XAxis()) ? deg : T(0), (axis == YAxis()) ? deg : T(0), (axis == ZAxis()) ? deg : T(0))
+			{
+			}
+
 			operator VectorA<T, 4>() const
 			{
 				return VectorA<T, 4>(X, Y, Z, W);

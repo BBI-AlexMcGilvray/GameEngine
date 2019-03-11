@@ -23,7 +23,7 @@ namespace Application
 		{
 			static const Float3 DefaultDirection;
 
-			Camera(const float& aspectRatio, Transform& transform, const Float3& direction = Float3(0.0f, 0.0f, -1.0f));
+			Camera(const float& aspectRatio, Transform& transform, const Float3& direction = DefaultDirection);
 
 			Transform& GetCameraTransform();
 			void SetCameraTransform(Transform& transform);

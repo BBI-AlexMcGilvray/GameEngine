@@ -143,22 +143,35 @@ namespace Core
 			return rotationMatrix;
 		}
 
-		template <typename T>
-		Quaternion<T> RotationBetweenVectors(Vector3<T> const& v1, Vector3<T> const& v2)
+		template <typename T, int A = 0>
+		Quaternion<T> RotationBetweenVectors(Vector3<T> const& v1, Vector3<T> const& v2, const Axis<A>& fallbackAxis = XAxis())
 		{
 			Quaternion<T> rotation;
 
-			// handle case where vectors are parrallel
-			if (Dot(Normalize(v1), Normalize(v2)) >= (1.0f - Hundredth()))
+			Vector3<T> nV1 = Normalize(v1);
+			Vector3<T> nV2 = Normalize(v2);
+
+			T dot = Dot(nV1, nV2);
+
+			if (dot >= (T(1) - Hundredth()))
 			{
 				return rotation;
 			}
+			if (dot <= Hundredth() - T(1))
+			{
+				return Quaternion<T>(Rad(PI_F), fallbackAxis);
+			}
 
-			Vector3<T> crossProduct = CrossProduct(v1, v2);
-			rotation.W = Sqrt(MagnitudeSqr(v1) * MagnitudeSqr(v2)) + Dot(v1, v2);
-			rotation.X = crossProduct.X;
-			rotation.Y = crossProduct.Y;
-			rotation.Z = crossProduct.Z;
+			T sqrt = Sqrt((1 + dot) * 2);
+			T inverseSqrt = T(1) / sqrt;
+
+			Vector3<T> crossProduct = CrossProduct(nV1, nV2);
+
+			rotation.X = crossProduct.X * inverseSqrt;
+			rotation.Y = crossProduct.Y * inverseSqrt;
+			rotation.Z = crossProduct.Z * inverseSqrt;
+
+			rotation.W = sqrt * 0.5f;
 
 			rotation = Normalize(rotation);
 

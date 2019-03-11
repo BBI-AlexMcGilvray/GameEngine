@@ -25,9 +25,8 @@ namespace Application
 			: Scene(parentState)
 		{
 			Ptr<CameraNode> cameraNode = AddChild<CameraNode>(ApplicationManager::AppRenderManager(), 1280.0f / 1080.0f);
-			// seems like camera rotation is not working properly at the moment
-			// could be that some matrix method is not working properly (maybe inverse/transpose method?) - need to do some unit tests?
-			cameraNode->Transformation.SetPosition(Float3(5.0f, 0.0f, 20.0f));
+			// camera position not acting correctly in final transformation matrix (from camera)
+			cameraNode->Transformation.SetPosition(Float3(-10.0f, -10.0f, 30.0f));
 			cameraNode->CameraComponent->GetCamera()->LookAt(Float3(0.0f, 0.0f, 0.0f));
 		}
 
