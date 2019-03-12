@@ -26,7 +26,7 @@ namespace Application
 		{
 			Ptr<CameraNode> cameraNode = AddChild<CameraNode>(ApplicationManager::AppRenderManager(), 1280.0f / 1080.0f);
 			// camera position not acting correctly in final transformation matrix (from camera)
-			cameraNode->Transformation.SetPosition(Float3(-10.0f, -10.0f, 30.0f));
+			cameraNode->Transformation.SetPosition(Float3(10.0f, 0.0f, 0.0f));
 			cameraNode->CameraComponent->GetCamera()->LookAt(Float3(0.0f, 0.0f, 0.0f));
 		}
 

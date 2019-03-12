@@ -18,7 +18,7 @@ namespace Application
 		Camera::Camera(const float& aspectRatio, Transform& transform, const Float3& direction)
 			: CameraTransform(transform)
 		{
-			Direction = Normalize(direction);
+			LookAt(CameraTransform.GetPosition() + direction);
 
 			SetProjectionVariables(FOVY, aspectRatio, NearPlane, FarPlane);
 		}
@@ -39,16 +39,19 @@ namespace Application
 			Float4x4 transformationMatrix(II{});
 
 			// rotation
-			Float4x4 inverseRotationMatrix = Float4x4(Transpose(CameraTransform.GetRotationMatrix()), Float4(0.0f, 0.0f, 0.0f, 1.0f));
+			Float3x3 rotationMatrix = CameraTransform.GetRotationMatrix();
+			std::cout << "Rotation: " + QuaternionString(CameraTransform.GetRotation()) << std::endl;
+			std::cout << "Rotation Matrix: " + MatrixString(rotationMatrix) << std::endl;
+			Float4x4 inverseRotationMatrix = Float4x4(Transpose(rotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f));
 			transformationMatrix = inverseRotationMatrix * transformationMatrix; // can probably just set the transformation matrix to tbe the inverse rotation matrix, doing this for clarity
 
 			// translation
 			Float3 Position = CameraTransform.GetPosition();
-			//Float4 rotatedPosition = inverseRotationMatrix * Float4(-1.0f * Position), 1.0f);
+			std::cout << "Position: " + VectorString(Position) << std::endl;
+			//Float4 rotatedPosition = inverseRotationMatrix * Float4(-1.0f * Position, 1.0f);
 			//transformationMatrix.E4 = rotatedPosition;
-			// the above should work equivalently with the below...
-			// the model is flipping on the x axis for some reason
-			transformationMatrix.E4 = Float4(Dot(transformationMatrix.E1, Float4(-1.0f * Position, 1.0f)), Dot(transformationMatrix.E2, Float4(-1.0f * Position, 1.0f)), Dot(transformationMatrix.E3, Float4(-1.0f * Position, 1.0f)), 1.0f);
+			transformationMatrix.E4 = Float4(-Dot(rotationMatrix.E1, Position), -Dot(rotationMatrix.E2, Position), -Dot(rotationMatrix.E3, Position), 1.0f);
+			std::cout << "View Matrix: " + MatrixString(transformationMatrix) << std::endl;
 
 			// projection
 			transformationMatrix = ProjectionMatrix * transformationMatrix;

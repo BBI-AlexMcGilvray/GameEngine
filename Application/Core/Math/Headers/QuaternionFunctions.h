@@ -99,7 +99,7 @@ namespace Core
 		*/
 
 		template <typename T>
-		Matrix3x3<T> CalculateRotationMatrix(Quaternion<T> quaternion)
+		Matrix3x3<T> CalculateRotationMatrix(const Quaternion<T>& quaternion)
 		{
 			Matrix3x3<T> rotationMatrix;
 
@@ -108,29 +108,19 @@ namespace Core
 			auto sqrY = Sqr(quaternion.Y);
 			auto sqrZ = Sqr(quaternion.Z);
 
-			auto inverse = 1 / (sqrX + sqrY + sqrZ + sqrW);
+			auto inverse = T(1) / (sqrX + sqrY + sqrZ + sqrW);
 
-			rotationMatrix[0][0] = (sqrX - sqrY - sqrZ + sqrW) * inverse;
-			rotationMatrix[1][1] = (-sqrX + sqrY - sqrZ + sqrW) * inverse;
-			rotationMatrix[2][2] = (sqrX - sqrY + sqrZ + sqrW) * inverse;
+			rotationMatrix[0][0] = T(1) - T(2) * (sqrY + sqrZ) * inverse;
+			rotationMatrix[0][1] = T(2) * ((quaternion.X * quaternion.Y) + (quaternion.Z * quaternion.W)) * inverse;
+			rotationMatrix[0][2] = T(2) * ((quaternion.X * quaternion.Z) - (quaternion.Y * quaternion.W)) * inverse;
 
-			auto temp1 = quaternion.X * quaternion.Y;
-			auto temp2 = quaternion.Z * quaternion.W;
+			rotationMatrix[1][0] = T(2) * ((quaternion.X * quaternion.Y) - (quaternion.Z * quaternion.W)) * inverse;
+			rotationMatrix[1][1] = T(1) - T(2) * (sqrX + sqrZ) * inverse;
+			rotationMatrix[1][2] = T(2) * ((quaternion.Y * quaternion.Z) + (quaternion.X * quaternion.W)) * inverse;
 
-			rotationMatrix[1][0] = 2.0f * (temp1 + temp2) * inverse;
-			rotationMatrix[0][1] = 2.0f * (temp1 - temp2) * inverse;
-
-			temp1 = quaternion.X * quaternion.Z;
-			temp2 = quaternion.Y * quaternion.W;
-
-			rotationMatrix[2][0] = 2.0f * (temp1 - temp2) * inverse;
-			rotationMatrix[0][2] = 2.0f * (temp1 + temp2) * inverse;
-
-			temp1 = quaternion.Y * quaternion.Z;
-			temp2 = quaternion.X * quaternion.W;
-
-			rotationMatrix[2][1] = 2.0f * (temp1 + temp2) * inverse;
-			rotationMatrix[1][2] = 2.0f * (temp1 - temp2) * inverse;
+			rotationMatrix[2][0] = T(2) * ((quaternion.X * quaternion.Z) + (quaternion.Y * quaternion.W)) * inverse;
+			rotationMatrix[2][1] = T(2) * ((quaternion.Y * quaternion.Z) - (quaternion.X * quaternion.W)) * inverse;
+			rotationMatrix[2][2] = T(1) - T(2) * (sqrX + sqrY) * inverse;
 
 			return rotationMatrix;
 		}
@@ -162,7 +152,7 @@ namespace Core
 				return Quaternion<T>(Rad(PI_F), fallbackAxis);
 			}
 
-			T sqrt = Sqrt((1 + dot) * 2);
+			T sqrt = Sqrt((T(1) + dot) * T(2));
 			T inverseSqrt = T(1) / sqrt;
 
 			Vector3<T> crossProduct = CrossProduct(nV1, nV2);

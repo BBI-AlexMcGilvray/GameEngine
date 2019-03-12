@@ -25,12 +25,12 @@ namespace Application
 
 			// Note: tan(FOV_H/2) / screen_width = tan(FOV_V/2) / screen_height
 
-			float fovyRatio = 1.0f / Tan(0.5f * fovy);
-			float fovxRatio = fovyRatio / aspectRatio;
+			float fovYRatio = 1.0f / Tan(0.5f * fovy);
+			float fovXRatio = fovYRatio / aspectRatio;
 			float frustrumDepth = farPlane - nearPlane;
 
-			perspectiveMatrix[0][0] = fovxRatio;
-			perspectiveMatrix[1][1] = fovyRatio;
+			perspectiveMatrix[0][0] = fovXRatio;
+			perspectiveMatrix[1][1] = fovYRatio;
 			perspectiveMatrix[2][2] = -1.0f * (farPlane + nearPlane) / frustrumDepth;
 			perspectiveMatrix[2][3] = -1.0f;
 			perspectiveMatrix[3][2] = -2.0f * (farPlane * nearPlane) / frustrumDepth;
