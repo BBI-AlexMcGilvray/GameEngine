@@ -35,28 +35,7 @@ namespace Application
 
 		Float4x4 Camera::GetTransformationMatrix() const
 		{
-			// Reference: http://www.ntu.edu.sg/home/ehchua/programming/opengl/cg_basicstheory.html
-			Float4x4 transformationMatrix(II{});
-
-			// rotation
-			Float3x3 rotationMatrix = CameraTransform.GetRotationMatrix();
-			std::cout << "Rotation: " + QuaternionString(CameraTransform.GetRotation()) << std::endl;
-			std::cout << "Rotation Matrix: " + MatrixString(rotationMatrix) << std::endl;
-			Float4x4 inverseRotationMatrix = Float4x4(Transpose(rotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f));
-			transformationMatrix = inverseRotationMatrix * transformationMatrix; // can probably just set the transformation matrix to tbe the inverse rotation matrix, doing this for clarity
-
-			// translation
-			Float3 Position = CameraTransform.GetPosition();
-			std::cout << "Position: " + VectorString(Position) << std::endl;
-			//Float4 rotatedPosition = inverseRotationMatrix * Float4(-1.0f * Position, 1.0f);
-			//transformationMatrix.E4 = rotatedPosition;
-			transformationMatrix.E4 = Float4(-Dot(rotationMatrix.E1, Position), -Dot(rotationMatrix.E2, Position), -Dot(rotationMatrix.E3, Position), 1.0f);
-			std::cout << "View Matrix: " + MatrixString(transformationMatrix) << std::endl;
-
-			// projection
-			transformationMatrix = ProjectionMatrix * transformationMatrix;
-
-			return transformationMatrix;
+			return ProjectionMatrix * CameraTransform.GetInverseTransformationMatrix();
 		}
 
 		void Camera::LookAt(Float3 position)

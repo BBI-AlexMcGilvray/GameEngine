@@ -17,6 +17,7 @@ namespace Core
 			Transform(Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f));
 
 			Float4x4 GetTransformationMatrix() const;
+			Float4x4 GetInverseTransformationMatrix() const;
 
 			void SetPosition(const Float3& position) override;
 			void AdjustPosition(const Float3& movement) override;

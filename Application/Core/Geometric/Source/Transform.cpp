@@ -45,6 +45,27 @@ namespace Core
 			return transformationMatrix;
 		}
 
+		Float4x4 Transform::GetInverseTransformationMatrix() const
+		{
+			// Reference: http://www.ntu.edu.sg/home/ehchua/programming/opengl/cg_basicstheory.html
+			Float4x4 inverseTransformationMatrix(II{});
+
+			// rotation
+			Float3x3 rotationMatrix = RotationMatrix;
+			Float4x4 inverseRotationMatrix = Float4x4(Transpose(rotationMatrix), Float4(0.0f, 0.0f, 0.0f, 1.0f));
+			inverseTransformationMatrix = inverseRotationMatrix * inverseTransformationMatrix; // can probably just set the transformation matrix to tbe the inverse rotation matrix, doing this for clarity
+
+			// translation
+			//Float4 rotatedPosition = inverseRotationMatrix * Float4(-1.0f * Position, 1.0f);
+			//transformationMatrix.E4 = rotatedPosition;
+			inverseTransformationMatrix.E4 = Float4(-Dot(rotationMatrix.E1, Position), -Dot(rotationMatrix.E2, Position), -Dot(rotationMatrix.E3, Position), 1.0f);
+
+			// projection
+			inverseTransformationMatrix = inverseTransformationMatrix;
+
+			return inverseTransformationMatrix;
+		}
+
 		void Transform::SetPosition(const Float3& position)
 		{
 			Position = position;
