@@ -224,19 +224,26 @@ namespace Core
 			}
 
 			// other comparison operators have no meaning
-
-			T& operator[](int axis)
+			template <int A>
+			T& operator[](Axis<A> axis)
 			{
-				auto modifiedAxis = (axis + 1) % 4;
-
-				return quat[modifiedAxis];
+				return (*this)[(int(axis) + 1) % 4];
 			}
 
-			T operator[](int axis) const
+			template <int A>
+			T& operator[](Axis<A> axis) const
 			{
-				auto modifiedAxis = (axis + 1) % 4;
+				return (*this)[(int(axis) + 1) % 4];
+			}
 
-				return quat[modifiedAxis];
+			T& operator[](int index)
+			{
+				return quat[index];
+			}
+
+			T operator[](int index) const
+			{
+				return quat[index];
 			}
 		};
 		

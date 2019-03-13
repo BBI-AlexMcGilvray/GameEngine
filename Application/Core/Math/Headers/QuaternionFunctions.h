@@ -89,14 +89,60 @@ namespace Core
 			return (q / Magnitude(q));
 		}
 
-		/*
 		template <typename T>
 		Quaternion<T> QuatFromRotationMatrix(Matrix3x3<T> const& m)
 		{
-			// Leaving this empty for now - not convinced this method would ever (or should ever) be used.
-			// should only really need the transformation TO matrices for shaders - the matrix itself is not as efficient otherwise
+			/*
+				Note: Code taken from here: http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
+
+				but changed because our matrices are column-major, NOT row-major.
+			*/
+			Quaternion<T> quaternion;
+
+			T trace = m[0][0] + m[1][1] + m[2][2];
+
+			T root = (T(1) / T(2)) / Sqrt(trace + T(1));
+
+			if (trace > 0)
+			{
+				quaternion.W = (T(1) / T(4)) / root;
+				quaternion.X = (m[1][2] - m[2][1]) * root;
+				quaternion.Y = (m[2][0] - m[0][2]) * root;
+				quaternion.Z = (m[0][1] - m[1][0]) * root;
+			}
+			else
+			{
+				if (m[0][0] > m[1][1] && m[0][0] > m[2][2])
+				{
+					root = T(2) * Sqrt(T(1) + m[0][0] - m[1][1] - m[2][2]);
+
+					quaternion.W = (m[1][2] - m[2][1]) / root;
+					quaternion.X = (T(1) / T(4)) * root;
+					quaternion.Y = (m[1][0] + m[0][1]) / root;
+					quaternion.Z = (m[2][0] + m[0][2]) / root;
+				}
+				else if (m[1][1] > m[2][2])
+				{
+					root = T(2) * Sqrt(T(1) + m[1][1] - m[0][0] - m[2][2]);
+
+					quaternion.W = (m[2][0] - m[0][2]) / root;
+					quaternion.X = (m[1][0] + m[0][1]) / root;
+					quaternion.Y = (T(1) / T(4)) * root;
+					quaternion.Z = (m[2][1] + m[1][2]) / root;
+				}
+				else
+				{
+					root = T(2) * Sqrt(T(1) + m[2][2] - m[0][0] - m[1][1]);
+
+					quaternion.W = (m[0][1] - m[1][0]) / root;
+					quaternion.X = (m[2][0] + m[0][2]) / root;
+					quaternion.Y = (m[2][1] + m[1][2]) / root;
+					quaternion.Z = (T(1) / T(4)) * root;
+				}
+			}
+
+			return quaternion;
 		}
-		*/
 
 		template <typename T>
 		Matrix3x3<T> CalculateRotationMatrix(const Quaternion<T>& quaternion)

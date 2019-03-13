@@ -6,6 +6,9 @@ namespace Core
 {
 	namespace Math
 	{
+		/*
+			Our matrices are column - major, NOT row - major.
+		*/
 		namespace Details
 		{
 			template<int A, int B, int C, int R>

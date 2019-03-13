@@ -7,6 +7,9 @@ namespace Core
 {
 	namespace Math
 	{
+		/*
+			Our matrices are column - major, NOT row - major.
+		*/
 		template <typename T>
 		struct MatrixAxB<T, 3, 3>
 		{

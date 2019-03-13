@@ -22,8 +22,9 @@ namespace Application
 {
 	namespace Rendering
 	{
-		Bone::Bone(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
+		Bone::Bone(Core::Ptr<State> parentState/*, Float4x4 inverseBindMatrix*/, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
 			: Node(parentState, name, position, rotation, scale)
+			//, InverseBindMatrix(inverseBindMatrix)
 		{
 
 		}
@@ -70,6 +71,7 @@ namespace Application
 			LOG("Should not be modifying scale on import");
 
 			Ptr<Bone> newBone = parentNode->AddChild<Bone>(boneData->Name, finalPosition, finalRotation, finalScale);
+			Push(BoneList, newBone);
 
 			for (Core::size i = 0; i < boneData->ChildBones.size(); i++)
 			{
