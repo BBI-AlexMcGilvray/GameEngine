@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Functionality/Headers/Event.h"
 
 #include "Core/Math/Headers/MathDefs.h"
 

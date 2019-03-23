@@ -26,7 +26,7 @@ namespace Application
 			: Node(parentState, name, position, rotation, scale)
 			//, InverseBindMatrix(inverseBindMatrix)
 		{
-
+			Transformation.SetLocal(false);
 		}
 
 		void Bone::Start()

@@ -22,7 +22,7 @@ namespace Application
 			SimpleMeshBase Mesh;
 
 			// this should be loading up the model data instead of the mesh data
-			ModelBase(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset);
+			ModelBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset);
 
 			Core::size GetVertexCount() const override;
 

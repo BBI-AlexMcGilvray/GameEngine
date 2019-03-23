@@ -10,15 +10,15 @@ namespace Application
 {
 	namespace Rendering
 	{
-		BoxRenderObject::BoxRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color)
+		BoxRenderObject::BoxRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color)
 			: BoxRenderObject(manager, renderTransform, color, Float2(1.0f))
 		{}
 
-		BoxRenderObject::BoxRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color,float width, float height)
+		BoxRenderObject::BoxRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color,float width, float height)
 			: BoxRenderObject(manager, renderTransform, color, Float2(width, height))
 		{}
 
-		BoxRenderObject::BoxRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color, Float2 scale)
+		BoxRenderObject::BoxRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color, Float2 scale)
 			: RenderObjectBase(manager, renderTransform, color)
 			, Scale(scale)
 			, Shader(manager->ObjectShaderManager.DefaultShader)

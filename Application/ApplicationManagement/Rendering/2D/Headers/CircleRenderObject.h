@@ -23,8 +23,8 @@ namespace Application
 			Core::List<GLBuffer> Vbos;
 			Core::List<Data::Rendering::SimpleVertexDataBase> Vertices;
 
-			CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Core::Math::Color color);
-			CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Core::Math::Color color, float radius);
+			CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
+			CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float radius);
 
 			virtual void Initialize();
 

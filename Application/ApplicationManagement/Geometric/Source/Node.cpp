@@ -111,6 +111,7 @@ namespace Application
 
 		Ptr<Node> Node::AddChild(UniquePtr<Node> newChild)
 		{
+			newChild->Transformation.SetParent(&Transformation);
 			newChild->Initialize();
 			// need to think about if we want Start to be called like this
 			if (ApplicationManager::AppStateManager().GetActiveState() == ParentState)

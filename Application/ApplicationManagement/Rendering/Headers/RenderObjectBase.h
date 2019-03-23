@@ -36,7 +36,7 @@ namespace Application
 
 			Core::Math::Color ObjectColor;
 
-			RenderObjectBase(Core::Ptr<RenderManager> manager, Core::Ptr<const Core::Geometric::Transform> renderTransform, Core::Math::Color color = Core::Math::Color(1.0f, 1.0f, 1.0f, 1.0f));
+			RenderObjectBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color = Core::Math::Color(1.0f, 1.0f, 1.0f, 1.0f));
 			virtual ~RenderObjectBase();
 
 			virtual void Update(Core::Second dt);
@@ -47,7 +47,7 @@ namespace Application
 		protected:
 			Core::Ptr<RenderManager> Manager;
 			// this is private because it should never be changed by the render object - it simply reads the transform (same for colliders, but game objects will be able to modify their transform)
-			Core::Ptr<const Core::Geometric::Transform> RenderTransform;
+			Core::Ptr<Core::Geometric::Transform> RenderTransform;
 
 			virtual void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const = 0;
 			virtual void Draw(Core::Ptr<RenderManager> manager) const;

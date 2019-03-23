@@ -12,11 +12,11 @@ namespace Application
 {
 	namespace Rendering
 	{
-		CircleRenderObject::CircleRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color)
+		CircleRenderObject::CircleRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color)
 			: CircleRenderObject(manager, renderTransform, color, 1.0f)
 		{}
 
-		CircleRenderObject::CircleRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color, float radius)
+		CircleRenderObject::CircleRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color, float radius)
 			: RenderObjectBase(manager, renderTransform, color)
 			, Radius(radius)
 			, Shader(manager->ObjectShaderManager.DefaultShader)

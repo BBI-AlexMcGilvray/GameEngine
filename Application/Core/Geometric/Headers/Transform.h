@@ -3,6 +3,7 @@
 #include "Core/Geometric/Headers/GeometryDefs.h"
 
 #include "Core/Math/Headers/Matrix4x4.h"
+#include "Core/Functionality/Headers/Event.h"
 
 using namespace Core::Math;
 
@@ -12,11 +13,15 @@ namespace Core
 	{
 		struct Transform : ITranslatable3D, IRotatable3D, IScalable3D
 		{
+			Functionality::Event<> Dirtied;
+
 			Transform();
+			Transform(Ptr<Transform> parent);
 
 			Transform(Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f));
+			Transform(Ptr<Transform> parent, Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f));
 
-			Float4x4 GetTransformationMatrix() const;
+			Float4x4 GetTransformationMatrix();
 			Float4x4 GetInverseTransformationMatrix() const;
 
 			void SetPosition(const Float3& position) override;
@@ -34,14 +39,33 @@ namespace Core
 			void AdjustScale(const Float3& scale) override;
 			Float3 GetScale() const override;
 
+			void SetParent(Ptr<Transform> parent);
+			Ptr<Transform> GetParent() const;
+
+			void SetLocal(bool local);
+			bool IsLocal() const;
+
+			void Dirty(bool rotation = false);
+			bool IsDirty() const;
+
 		protected:
+			Ptr<Transform> Parent = nullptr;
+			Functionality::Delegate<> ParentDirtied;
+
+			bool IsLocalTransformation = true;
+			bool TransformationMatrixDirty = false;
+			bool RotationMatrixDirty = false;
+
 			Float3 Position;
 			FQuaternion Rotation;
 			Float3 Scale;
 
-			Float3x3 RotationMatrix;
+			Float3x3 LocalRotationMatrix;
+			Float4x4 WorldTransformationMatrix;
 
-			void RecalculateRotationMatrix();
+			void RecalculateLocalRotationMatrix();
+			Float4x4 LocalTransformationMatrix();
+			void RecalculateWorldTransformationMatrix();
 		};
 	}
 }

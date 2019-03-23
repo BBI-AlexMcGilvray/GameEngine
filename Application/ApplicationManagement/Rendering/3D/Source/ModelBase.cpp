@@ -10,7 +10,7 @@ namespace Application
 {
 	namespace Rendering
 	{
-		ModelBase::ModelBase(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
+		ModelBase::ModelBase(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
 			: RenderObjectBase(manager, renderTransform)
 			, Data(asset)
 			, Mesh(Data.Data.Mesh)

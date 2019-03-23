@@ -12,11 +12,11 @@ namespace Application
 {
 	namespace Rendering
 	{
-		SphereRenderObject::SphereRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color)
+		SphereRenderObject::SphereRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color)
 			: SphereRenderObject(manager, renderTransform, color, 1.0f)
 		{}
 
-		SphereRenderObject::SphereRenderObject(Core::Ptr<RenderManager> manager, Ptr<const Transform> renderTransform, Color color, float radius)
+		SphereRenderObject::SphereRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color, float radius)
 			: RenderObjectBase(manager, renderTransform, color)
 			, Radius(radius)
 			, Shader(manager->ObjectShaderManager.DefaultShader)

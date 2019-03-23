@@ -42,6 +42,7 @@ namespace Application
 		{
 			Event<> Deleted;
 			Core::String Name;
+			// change this to be a HierarchyTransform, and update methods to make sure child nodes get their parent node set correctly
 			Transform Transformation;
 
 			Node(Core::Ptr<State> parentState, Core::String name = DEFAULT_NODE_NAME);
