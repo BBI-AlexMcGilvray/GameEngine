@@ -69,6 +69,8 @@ namespace Core
 					{
 						Next->Previous = Previous;
 					}
+					Next = nullptr;
+					Previous = nullptr;
 				}
 				else if (Next != nullptr)
 				{
