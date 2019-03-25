@@ -137,6 +137,11 @@ namespace Core
 		void Transform::SetLocal(bool local)
 		{
 			IsLocalTransformation = local;
+			if (!IsLocalTransformation)
+			{
+				SetParent(nullptr);
+			}
+
 			Dirty();
 		}
 

@@ -38,6 +38,14 @@ namespace Core
 
 			virtual void Add(Ptr<DelegateNode<Ts...>> node)
 			{
+				if (node == nullptr)
+				{
+					return;
+				}
+
+				// can only be in on DelegateNode linked list at a time
+				node->Remove(node);
+
 				node->Previous = this;
 				node->Next = Next;
 
@@ -64,6 +72,7 @@ namespace Core
 				}
 				else if (Next != nullptr)
 				{
+					// the bug is caused by (somehow) Node being deleted and not removed beforehand
 					Next->Remove(node);
 				}
 			}

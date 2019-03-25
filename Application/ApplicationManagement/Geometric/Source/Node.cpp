@@ -19,10 +19,8 @@ namespace Application
 	namespace Geometric
 	{
 		Node::Node(Ptr<State> parentState, Core::String name)
-			: Name(name)
-		{
-			SetParentState(parentState);
-		}
+			:Node(parentState, name, Float3(0.0f))
+		{}
 
 		Node::Node(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
 			: Name(name)
@@ -38,6 +36,11 @@ namespace Application
 
 		Node::~Node()
 		{
+			LOG("Deleting node: " + Name);
+			if (Name == "LeftHandIndex1")
+			{
+				LOG("This is the one that breaks...");
+			}
 			Deleted();
 		}
 
@@ -145,6 +148,7 @@ namespace Application
 
 		void Node::RemoveChild(UniquePtr<Node> oldChild)
 		{
+			oldChild->Transformation.SetParent(nullptr);
 			Remove(Children, move(oldChild));
 		}
 

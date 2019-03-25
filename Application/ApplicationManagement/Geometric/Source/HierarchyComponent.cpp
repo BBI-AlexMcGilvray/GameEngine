@@ -8,9 +8,7 @@ namespace Application
 	{
 		Hierarchy::Hierarchy(Ptr<EntityBase> entity)
 			: Hierarchy(entity, nullptr)
-		{
-
-		}
+		{}
 
 		Hierarchy::Hierarchy(Ptr<EntityBase> entity, Ptr<Node> hierarchyNode)
 			: Component<Hierarchy>(entity, this)
@@ -38,7 +36,11 @@ namespace Application
 			}
 
 			HierarchyNode = hierarchyNode;
-			HierarchyNode->Deleted += OnNodeDeleted;
+
+			if (HierarchyNode != nullptr)
+			{
+				HierarchyNode->Deleted += OnNodeDeleted;
+			}
 		}
 
 		Core::Ptr<Node> Hierarchy::GetHeirarchyNode() const

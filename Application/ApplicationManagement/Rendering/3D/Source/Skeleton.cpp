@@ -44,7 +44,7 @@ namespace Application
 
 		Skeleton::Skeleton(Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset)
 			: Data(asset)
-			, OnRootDeleted{ [this]()
+			, OnRootDeleted{[this]()
 		{
 			Root = nullptr;
 
