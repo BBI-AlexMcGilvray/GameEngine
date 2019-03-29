@@ -159,14 +159,14 @@ namespace Core
 
 			if (Parent != nullptr)
 			{
-				//Parent->Dirtied -= ParentDirtied;
+				Parent->Dirtied -= ParentDirtied;
 			}
 
 			Parent = parent;
 
 			if (Parent != nullptr)
 			{
-				//Parent->Dirtied += ParentDirtied;
+				Parent->Dirtied += ParentDirtied;
 			}
 
 			Dirty();

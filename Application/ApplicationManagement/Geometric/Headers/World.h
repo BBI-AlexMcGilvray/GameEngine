@@ -12,6 +12,10 @@ namespace Application
 			World(Core::Ptr<State> parentState);
 
 			void Start() override;
+
+			// debugging
+			Core::Ptr<Node> holderNode;
+			void Update(Second dt) override;
 		};
 	}
 }
