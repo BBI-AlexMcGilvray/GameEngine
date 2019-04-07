@@ -70,8 +70,10 @@ namespace Application
 		// debugging
 		void World::Update(Second dt)
 		{
+			// just for testing currently
 			FQuaternion newRot = LerpQuat(holderNode->Transformation.GetRotation(), FQuaternion(0.525322f, 0.8509035f, 0.0f, 0.0f) * holderNode->Transformation.GetRotation(), Duration(dt));
 			holderNode->Transformation.SetRotation(newRot);
+			//end of testing
 		}
 	}
 }

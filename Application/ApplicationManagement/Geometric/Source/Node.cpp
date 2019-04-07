@@ -7,8 +7,6 @@
 #if _DEBUG
 #include "ApplicationManagement/Headers/ApplicationManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderComponent.h"
-//#include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
-#include "ApplicationManagement/Rendering/3D/Headers/AnimatedModel.h"
 #include "ApplicationManagement/Rendering/3D/Headers/SphereRenderObject.h"
 
 #include "Resources/Assets.h"
@@ -36,11 +34,6 @@ namespace Application
 
 		Node::~Node()
 		{
-			LOG("Deleting node: " + Name);
-			if (Name == "LeftHandIndex1")
-			{
-				LOG("This is the one that breaks...");
-			}
 			Deleted();
 		}
 

@@ -4,6 +4,9 @@
 
 #include "Function.h"
 
+// testing
+#include "Core/Debugging/Headers/Macros.h"
+
 namespace Core
 {
 	namespace Functionality
@@ -28,7 +31,7 @@ namespace Core
 
 			virtual ~DelegateNode()
 			{
-				Remove(this);
+				Remove();
 			}
 
 			virtual void Add(DelegateNode<Ts...>& node)
@@ -44,7 +47,12 @@ namespace Core
 				}
 
 				// can only be in on DelegateNode linked list at a time
-				node->Remove(node);
+				node->Remove();
+
+				if (Next != nullptr)
+				{
+					Next->Previous = node;
+				}
 
 				node->Previous = this;
 				node->Next = Next;
@@ -52,31 +60,49 @@ namespace Core
 				Next = node;
 			}
 
-			virtual void Remove(DelegateNode<Ts...>& node)
+			virtual void Remove()
 			{
-				return Remove(&node);
-			}
-
-			virtual void Remove(Ptr<DelegateNode<Ts...>> node)
-			{
-				if (node == this)
+				if (Previous != nullptr)
 				{
-					if (Previous != nullptr)
+					Previous->Next = Next;
+				}
+				if (Next != nullptr)
+				{
+#if _DEBUG
+					if (Previous == nullptr)
 					{
-						Previous->Next = Next;
+						LOG("Removing an event where all delegates were not removed!");
 					}
-					if (Next != nullptr)
+					else
+#endif
 					{
 						Next->Previous = Previous;
 					}
-					Next = nullptr;
-					Previous = nullptr;
 				}
-				else if (Next != nullptr)
+				Next = nullptr;
+				Previous = nullptr;
+			}
+
+			virtual void RemoveNode(DelegateNode<Ts...>& node)
+			{
+				return RemoveNode(&node);
+			}
+
+			virtual void RemoveNode(Ptr<DelegateNode<Ts...>> node)
+			{
+				Ptr<DelegateNode<Ts...>> currentNode = Next;
+
+				while (currentNode != node)
 				{
-					// the bug is caused by (somehow) Node being deleted and not removed beforehand
-					Next->Remove(node);
+					if (currentNode == nullptr)
+					{
+						return;
+					}
+
+					currentNode = currentNode->Next;
 				}
+
+				currentNode->Remove();
 			}
 
 			void operator ()(Ts&& ...args)
@@ -96,12 +122,12 @@ namespace Core
 
 			void operator -=(DelegateNode<Ts...>& node)
 			{
-				Remove(node);
+				RemoveNode(node);
 			}
 
 			void operator -=(Ptr<DelegateNode<Ts...>> node)
 			{
-				Remove(node);
+				RemoveNode(node);
 			}
 
 			friend void operator +(DelegateNode<Ts...>& cNode, Ptr<DelegateNode<Ts...>> node)
@@ -128,7 +154,7 @@ namespace Core
 			{
 				while (Next != nullptr)
 				{
-					Remove(Next);
+					Next->Remove();
 				}
 			}
 
@@ -196,7 +222,7 @@ namespace Core
 			{
 				if (!DelegateFunction || DelegateFunction(Forward<Ts>(args)...))
 				{
-					Remove(this);
+					Remove();
 				}
 			}
 
