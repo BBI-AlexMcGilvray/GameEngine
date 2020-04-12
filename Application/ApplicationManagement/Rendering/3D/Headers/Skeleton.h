@@ -28,7 +28,7 @@ namespace Application
 			// this constructor should take in the inverse bind matrix and the local transfromation matrix (the latter to set up it's world/local position)
 			// Also, nodes should be able to be set to local or world for their transformations
 			// Local nodes should be required to have a parent node to build their final transformation matrix
-			Bone(Core::Ptr<State> parentState/*, Float4x4 inverseBindMatrix*/, Core::String name, Float3 position, FQuaternion rotation, Float3 scale);
+			Bone(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale);
 
 			// child bones are handled through the Node inheritance
 
@@ -56,7 +56,7 @@ namespace Application
 			// hold list of all bones - in order - to be able to calculate the matrices to pass to shader in the same order
 			Core::List<Core::Ptr<Bone>> BoneList;
 
-			Core::Ptr<Bone> CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData);
+			Core::Ptr<Bone> CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, bool rootNode);
 		};
 	}
 }

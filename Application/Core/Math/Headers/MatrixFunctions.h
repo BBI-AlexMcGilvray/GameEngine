@@ -264,37 +264,39 @@ namespace Core
 			}
 
 			// build "right" matrix R
-			Matrix3 kR;
-			kR[0][0] = kQ[0][0] * m[0][0] + kQ[0][1] * m[0][1] + kQ[0][2] * m[0][2];
-			kR[1][0] = kQ[0][0] * m[1][0] + kQ[0][1] * m[1][1] + kQ[0][2] * m[1][2];
-			kR[1][1] = kQ[1][0] * m[1][0] + kQ[1][1] * m[1][1] + kQ[1][2] * m[1][2];
-			kR[2][0] = kQ[0][0] * m[2][0] + kQ[0][1] * m[2][1] + kQ[0][2] * m[2][2];
-			kR[2][1] = kQ[1][0] * m[2][0] + kQ[1][1] * m[2][1] + kQ[1][2] * m[2][2];
-			kR[2][2] = kQ[2][0] * m[2][0] + kQ[2][1] * m[2][1] + kQ[2][2] * m[2][2];
+			Matrix3x3<T> r;
+			r[0][0] = q[0][0] * m[0][0] + q[0][1] * m[0][1] + q[0][2] * m[0][2];
+			r[1][0] = q[0][0] * m[1][0] + q[0][1] * m[1][1] + q[0][2] * m[1][2];
+			r[1][1] = q[1][0] * m[1][0] + q[1][1] * m[1][1] + q[1][2] * m[1][2];
+			r[2][0] = q[0][0] * m[2][0] + q[0][1] * m[2][1] + q[0][2] * m[2][2];
+			r[2][1] = q[1][0] * m[2][0] + q[1][1] * m[2][1] + q[1][2] * m[2][2];
+			r[2][2] = q[2][0] * m[2][0] + q[2][1] * m[2][1] + q[2][2] * m[2][2];
 
 			// the scaling component
-			d[0] = kR[0][0];
-			d[1] = kR[1][1];
-			d[2] = kR[2][2];
+			d[0] = r[0][0];
+			d[1] = r[1][1];
+			d[2] = r[2][2];
 
 			// the shear component
 			T fInvD0 = T(1) / d[0];
-			u[0] = kR[1][0] * fInvD0;
-			u[1] = kR[2][0] * fInvD0;
-			u[2] = kR[2][1] / d[1];
+			u[0] = r[1][0] * fInvD0;
+			u[1] = r[2][0] * fInvD0;
+			u[2] = r[2][1] / d[1];
 		}
 
 		// Taken from Ogre3D (https://bitbucket.org/sinbad/ogre/src/67a17b4dc55037f9d816df3fdfc80f6b1365f7ae/OgreMain/src/OgreMatrix4.cpp?at=default&fileviewer=file-view-default)
 		// with some changes since they are row-major and we are column-major
 		template <typename T>
-		void TransformationMatrixDecomposition(Matrix4x4<T> const& m, Vector3<T>& position, Vector3<T>& scale, Quaternion<T>& rotation)
+		void TransformationMatrixDecomposition(Matrix4x4<T>& m, Vector3<T>& position, Vector3<T>& scale, Quaternion<T>& rotation)
 		{
 			Matrix3x3<T> matQ;
 			Vector3<T> vecU;
-			DecomposeQDU(Matrix3x3<T>(m), Matrix3x3<T>& matQ, Vector3<T>& scale, Vector3<T>& vecU);
+			// this rotation matrix needs to also be gotten from the QDU decomposition...
+			Matrix3x3<T> rotationMatrix = Matrix3x3<T>(m);
+			DecomposeQDU(rotationMatrix, matQ, scale, vecU);
 
 			rotation = QuatFromRotationMatrix(matQ);
-			position = Vector3(m[3][0], m[3][1], m[3][2]);
+			position = Vector3<T>(m[3][0], m[3][1], m[3][2]);
 		}
 #if DEBUG
 

@@ -4,6 +4,7 @@
 
 #if _DEBUG
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Math/Headers/MatrixFunctions.h"
 
 #include "ApplicationManagement/Geometric/Headers/HierarchyComponent.h"
 #include "ApplicationManagement/Geometric/Headers/ContentBase.h"
@@ -22,11 +23,12 @@ namespace Application
 {
 	namespace Rendering
 	{
-		Bone::Bone(Core::Ptr<State> parentState/*, Float4x4 inverseBindMatrix*/, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
+		Bone::Bone(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
 			: Node(parentState, name, position, rotation, scale)
-			//, InverseBindMatrix(inverseBindMatrix)
+			// initial position is the bind position
+			, InverseBindMatrix(Transformation.GetInverseTransformationMatrix())
 		{
-			Transformation.SetLocal(false);
+
 		}
 
 		void Bone::Start()
@@ -51,7 +53,8 @@ namespace Application
 			return true;
 		} }
 		{
-			Root = CreateBoneHeirarchy(parentNode, Data.Data.Root.get());
+			LOG("BONE | PARENT | FINAL");
+			Root = CreateBoneHeirarchy(parentNode, Data.Data.Root.get(), true);
 			Root->Deleted += OnRootDeleted;
 		}
 
@@ -61,12 +64,24 @@ namespace Application
 			return Root;
 		}
 
-		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData)
+		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, bool rootNode)
 		{
-			// need to determine if assimp values are relative (local) or not (global)
-			Float3 finalPosition = boneData->Position;// parentNode->Transformation.GetPosition() + boneData->Position;
-			FQuaternion finalRotation = boneData->Rotation;// *parentNode->Transformation.GetRotation();
-			Float3 finalScale = boneData->Scale;// parentNode->Transformation.GetScale() * boneData->Scale;
+			Float4x4 transformationMatrix = parentNode->Transformation.GetTransformationMatrix();
+			Float3 deconstructedPosition;
+			FQuaternion deconstructedRotation;
+			Float3 deconstructredScale;
+			TransformationMatrixDecomposition(transformationMatrix, deconstructedPosition, deconstructredScale, deconstructedRotation);
+
+			// testing
+			Float3 finalPosition = rootNode ? boneData->Position + deconstructedPosition : boneData->Position - deconstructedPosition;
+			FQuaternion finalRotation = rootNode ? boneData->Rotation * deconstructedRotation : deconstructedRotation / boneData->Rotation;
+			Float3 finalScale = rootNode ? boneData->Scale * deconstructredScale : boneData->Scale / deconstructredScale;
+
+			LOG(boneData->Name);
+			LOG("P: " + VectorString(boneData->Position) + " | " + VectorString(deconstructedPosition) + " | " + VectorString(finalPosition));
+			//LOG("Q: " + QuaternionString(boneData->Rotation) + " | " + QuaternionString(deconstructedRotation) + " | " + QuaternionString(finalRotation));
+			//LOG(VectorString(boneData->Scale) + " | " + VectorString(deconstructredScale) + " | " + VectorString(finalScale));
+
 			finalScale = 1.0f;
 			LOG("Should not be modifying scale on import");
 
@@ -75,7 +90,7 @@ namespace Application
 
 			for (Core::size i = 0; i < boneData->ChildBones.size(); i++)
 			{
-				CreateBoneHeirarchy(newBone, boneData->ChildBones[i].get());
+				CreateBoneHeirarchy(newBone, boneData->ChildBones[i].get(), false);
 			}
 
 			return newBone;

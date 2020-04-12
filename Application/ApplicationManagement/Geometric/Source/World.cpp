@@ -41,7 +41,7 @@ namespace Application
 			//ComponentPtr<Rendering::Render> staticRenderComponent = staticMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 			//staticRenderComponent->AddRenderObject<Rendering::ModelBase>(&(staticHierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
 
-			holderNode = AddChild<Node>("Holder", Float3(0.0f, 0.0f, 5.0f));
+			holderNode = AddChild<Node>("Holder", Float3(0.0f, 0.0f, 0.0f));
 
 			Ptr<Node> animatedMeshNode = holderNode->AddChild<Node>("AnimatedMesh", Float3(0.0f, 0.0f, 5.0f));
 			Ptr<ContentBase> animatedMeshContent = animatedMeshNode->AddContent(MakeUnique<ContentBase>());

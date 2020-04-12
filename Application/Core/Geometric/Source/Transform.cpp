@@ -46,7 +46,7 @@ namespace Core
 			return WorldTransformationMatrix;
 		}
 
-		Float4x4 Transform::GetInverseTransformationMatrix() const
+		Float4x4 Transform::GetInverseTransformationMatrix()
 		{
 			/*
 			// Reference: http://www.ntu.edu.sg/home/ehchua/programming/opengl/cg_basicstheory.html
@@ -68,7 +68,7 @@ namespace Core
 			return inverseTransformationMatrix;
 			*/
 
-			return Math::Inverse(WorldTransformationMatrix);
+			return Math::Inverse(GetTransformationMatrix());
 		}
 
 		void Transform::SetPosition(const Float3& position)
@@ -117,6 +117,7 @@ namespace Core
 		void Transform::SetScale(const Float3& scale)
 		{
 			Scale = scale;
+			Dirty();
 		}
 
 		void Transform::AdjustScale(const float& scale)

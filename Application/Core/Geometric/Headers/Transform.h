@@ -25,17 +25,20 @@ namespace Core
 			Transform(Ptr<Transform> parent, Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f));
 
 			Float4x4 GetTransformationMatrix();
-			Float4x4 GetInverseTransformationMatrix() const;
+			Float4x4 GetInverseTransformationMatrix();
 
+			// Should have world-relative equivalents for the below
 			void SetPosition(const Float3& position) override;
 			void AdjustPosition(const Float3& movement) override;
 			Float3 GetPosition() const override;
 
+			// Should have world-relative equivalents for the below
 			void SetRotation(const FQuaternion& rotation) override;
 			void AdjustRotation(const FQuaternion& rotation) override;
 			FQuaternion GetRotation() const override;
 			Float3x3 GetRotationMatrix() const;
 
+			// Should have world-relative equivalents for the below
 			void SetScale(const float& scale) override;
 			void SetScale(const Float3& scale) override;
 			void AdjustScale(const float& scale) override;

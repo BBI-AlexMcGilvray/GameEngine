@@ -197,7 +197,7 @@ namespace Core
 
 			friend Quaternion<T> operator*(Quaternion<T> q, Vector3<T> const& v)
 			{
-				(return q * Quaternion<T>(v));
+				return q * Quaternion<T>(v);
 			}
 
 			friend Quaternion<T> operator*(Quaternion<T> q, Quaternion<T> const& oQ)

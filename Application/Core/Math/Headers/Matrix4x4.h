@@ -84,7 +84,7 @@ namespace Core
 
 			operator MatrixAxB<T, 3, 3>()
 			{
-				return MatrixAxB<T, 3, 3>(E1, E2, E3);
+				return MatrixAxB<T, 3, 3>(VectorA<T, 3>(E1), VectorA<T, 3>(E2), VectorA<T, 3>(E3));
 			}
 
 			// methods
