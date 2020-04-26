@@ -46,8 +46,11 @@ namespace Application
 			Transform Transformation;
 
 			Node(Core::Ptr<State> parentState, Core::String name = DEFAULT_NODE_NAME);
-			Node(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f));
-			Node(Core::Ptr<State> parentState, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f));
+			Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name = DEFAULT_NODE_NAME);
+			Node(Core::Ptr<State> parentState, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
+			Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
+			Node(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
+			Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
 
 			virtual ~Node();
 
@@ -66,14 +69,14 @@ namespace Application
 			template <typename T, typename ...Ts>
 			Ptr<T> AddChild(Ts&& ...args)
 			{
-				UniquePtr<T> newNode = MakeUnique<T>(ParentState, Forward<Ts>(args)...);
+				UniquePtr<T> newNode = MakeUnique<T>(ParentState, this, Forward<Ts>(args)...);
 
 				return static_cast<Ptr<T>>(AddChild(move(newNode)));
 			}
 
 			virtual Ptr<Node> AddChild(UniquePtr<Node> newChild);
 			virtual Ptr<Node> GetChild(Core::String name);
-			virtual void RemoveChild(UniquePtr<Node> oldChild);
+			virtual void RemoveChild(Ptr<Node> oldChild);
 
 			Core::Ptr<State> GetParentState() const;
 			void SetParentState(Core::Ptr<State> parentState);

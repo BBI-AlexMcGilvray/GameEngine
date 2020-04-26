@@ -5,3 +5,4 @@
 #include "PtrDefs.h"
 #include "TemplateDefs.h"
 #include "TimeDefs.h"
+#include "FlagEnum.h"

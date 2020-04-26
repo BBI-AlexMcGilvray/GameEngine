@@ -28,7 +28,7 @@ namespace Application
 			// this constructor should take in the inverse bind matrix and the local transfromation matrix (the latter to set up it's world/local position)
 			// Also, nodes should be able to be set to local or world for their transformations
 			// Local nodes should be required to have a parent node to build their final transformation matrix
-			Bone(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale);
+			Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation, Float3 scale);
 
 			// child bones are handled through the Node inheritance
 

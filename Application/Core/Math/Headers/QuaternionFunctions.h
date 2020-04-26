@@ -58,7 +58,7 @@ namespace Core
 		template <typename T>
 		Quaternion<T> Inverse(Quaternion<T> const& q)
 		{
-			return (Conjugate(q) / Magnitude(q));
+			return q.Inverse();
 		}
 
 		template <typename T>
@@ -156,17 +156,17 @@ namespace Core
 
 			auto inverse = T(1) / (sqrX + sqrY + sqrZ + sqrW);
 
-			rotationMatrix[0][0] = T(1) - T(2) * (sqrY + sqrZ) * inverse;
-			rotationMatrix[0][1] = T(2) * ((quaternion.X * quaternion.Y) + (quaternion.Z * quaternion.W)) * inverse;
-			rotationMatrix[0][2] = T(2) * ((quaternion.X * quaternion.Z) - (quaternion.Y * quaternion.W)) * inverse;
+			rotationMatrix[0][0] = (T(1) - (T(2) * (sqrY + sqrZ))) * inverse;
+			rotationMatrix[0][1] = (T(2) * ((quaternion.X * quaternion.Y) + (quaternion.Z * quaternion.W))) * inverse;
+			rotationMatrix[0][2] = (T(2) * ((quaternion.X * quaternion.Z) - (quaternion.Y * quaternion.W))) * inverse;
 
-			rotationMatrix[1][0] = T(2) * ((quaternion.X * quaternion.Y) - (quaternion.Z * quaternion.W)) * inverse;
-			rotationMatrix[1][1] = T(1) - T(2) * (sqrX + sqrZ) * inverse;
-			rotationMatrix[1][2] = T(2) * ((quaternion.Y * quaternion.Z) + (quaternion.X * quaternion.W)) * inverse;
+			rotationMatrix[1][0] = (T(2) * ((quaternion.X * quaternion.Y) - (quaternion.Z * quaternion.W))) * inverse;
+			rotationMatrix[1][1] = (T(1) - (T(2) * (sqrX + sqrZ))) * inverse;
+			rotationMatrix[1][2] = (T(2) * ((quaternion.Y * quaternion.Z) + (quaternion.X * quaternion.W))) * inverse;
 
-			rotationMatrix[2][0] = T(2) * ((quaternion.X * quaternion.Z) + (quaternion.Y * quaternion.W)) * inverse;
-			rotationMatrix[2][1] = T(2) * ((quaternion.Y * quaternion.Z) - (quaternion.X * quaternion.W)) * inverse;
-			rotationMatrix[2][2] = T(1) - T(2) * (sqrX + sqrY) * inverse;
+			rotationMatrix[2][0] = (T(2) * ((quaternion.X * quaternion.Z) + (quaternion.Y * quaternion.W))) * inverse;
+			rotationMatrix[2][1] = (T(2) * ((quaternion.Y * quaternion.Z) - (quaternion.X * quaternion.W))) * inverse;
+			rotationMatrix[2][2] = (T(1) - (T(2) * (sqrX + sqrY))) * inverse;
 
 			return rotationMatrix;
 		}

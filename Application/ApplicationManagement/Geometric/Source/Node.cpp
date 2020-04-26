@@ -17,19 +17,30 @@ namespace Application
 	namespace Geometric
 	{
 		Node::Node(Ptr<State> parentState, Core::String name)
-			:Node(parentState, name, Float3(0.0f))
+			:Node(parentState, nullptr, name, Float3(0.0f))
 		{}
 
-		Node::Node(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
+		Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name)
+			: Node(parentState, parentNode, name, Float3(0.0f))
+		{}
+
+		Node::Node(Ptr<State> parentState, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+			: Node(parentState, DEFAULT_NODE_NAME, position, rotation, scale, settingLocal)
+		{}
+
+		Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+			: Node(parentState, parentNode, DEFAULT_NODE_NAME, position, rotation, scale, settingLocal)
+		{}
+
+		Node::Node(Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+			: Node(parentState, nullptr, name, position, rotation, scale, settingLocal)
+		{}
+
+		Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
 			: Name(name)
-			, Transformation(position, rotation, scale)
+			, Transformation((parentNode == nullptr ? nullptr : &(parentNode->Transformation)), position, rotation, scale, settingLocal)
 		{
 			SetParentState(parentState);
-		}
-
-		Node::Node(Ptr<State> parentState, Float3 position, FQuaternion rotation, Float3 scale)
-			: Node(parentState, DEFAULT_NODE_NAME, position, rotation, scale)
-		{
 		}
 
 		Node::~Node()
@@ -139,10 +150,18 @@ namespace Application
 			return nullptr;
 		}
 
-		void Node::RemoveChild(UniquePtr<Node> oldChild)
+		void Node::RemoveChild(Ptr<Node> oldChild)
 		{
 			oldChild->Transformation.SetParent(nullptr);
-			Remove(Children, move(oldChild));
+
+			for (Core::size i = 0; i < Children.size(); i++)
+			{
+				if (Children[i].get() == oldChild)
+				{
+					RemoveIndex(Children, i);
+					break;
+				}
+			}
 		}
 
 		Core::Ptr<State> Node::GetParentState() const

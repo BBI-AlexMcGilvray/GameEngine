@@ -12,8 +12,8 @@ namespace Application
 {
 	namespace Geometric
 	{
-		CameraNode::CameraNode(Ptr<State> parentState, Rendering::RenderManager& renderSystem, const float& aspectRatio)
-			: Node(parentState)
+		CameraNode::CameraNode(Ptr<State> parentState, Ptr<Node> parentNode, Rendering::RenderManager& renderSystem, const float& aspectRatio)
+			: Node(parentState, parentNode)
 		{
 			Core::Ptr<ContentBase> cameraContent = AddContent(MakeUnique<ContentBase>());
 			CameraComponent = cameraContent->AddComponent<Rendering::CameraComponent>(renderSystem, aspectRatio);

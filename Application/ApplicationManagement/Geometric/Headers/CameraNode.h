@@ -14,7 +14,7 @@ namespace Application
 		{
 			ComponentPtr<Rendering::CameraComponent> CameraComponent;
 
-			CameraNode(Core::Ptr<State> parentState, Rendering::RenderManager& renderSystem, const float& aspectRatio);
+			CameraNode(Core::Ptr<State> parentState, Ptr<Node> parentNode, Rendering::RenderManager& renderSystem, const float& aspectRatio);
 
 			void Start() override;
 		};

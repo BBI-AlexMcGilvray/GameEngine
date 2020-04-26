@@ -376,6 +376,7 @@
     <ClInclude Include="Core\Geometric\Headers\GeometryDefs.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\GeometryFunctions.h" />
     <ClInclude Include="Core\Headers\Exception.h" />
+    <ClInclude Include="Core\Headers\FlagEnum.h" />
     <ClInclude Include="Core\Headers\Hash.h" />
     <ClInclude Include="Core\IO\Headers\Exception.h" />
     <ClInclude Include="Core\IO\Headers\File.h" />

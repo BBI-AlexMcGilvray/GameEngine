@@ -35,7 +35,8 @@ namespace Application
 
 		Float4x4 Camera::GetTransformationMatrix() const
 		{
-			return ProjectionMatrix * CameraTransform.GetInverseTransformationMatrix();
+			// Camera uses 'World' because it's rotation matters for rendering
+			return ProjectionMatrix * CameraTransform.GetWorldInverseTransformationMatrix();
 		}
 
 		void Camera::LookAt(Float3 position)

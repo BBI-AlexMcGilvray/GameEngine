@@ -32,7 +32,8 @@ namespace Application
 
 		void RenderObjectBase::Render(Ptr<RenderManager> manager, const Float4x4& mvp, const Color& color) const
 		{
-			auto renderMVP = mvp * RenderTransform->GetTransformationMatrix();
+			// Rendering uses WorldTransformationMatrix because it's rotation affects what is being held by it
+			auto renderMVP = mvp * RenderTransform->GetWorldTransformationMatrix();
 			
 			Prepare(renderMVP, color * ObjectColor);
 			Draw(manager);

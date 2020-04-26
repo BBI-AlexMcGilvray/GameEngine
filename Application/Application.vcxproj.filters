@@ -1054,6 +1054,9 @@
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\SphereRenderObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Headers\FlagEnum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="Dependencies\Libs\32Bit\SDL2\_SDL2main.lib" />

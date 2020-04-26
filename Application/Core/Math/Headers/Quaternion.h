@@ -119,6 +119,18 @@ namespace Core
 				return VectorA<T, 4>(X, Y, Z, W);
 			}
 
+			Quaternion<T> Inverse() const
+			{
+				T qMagnitudeSqr = (W * W) + (X * X) + (Y * Y) + (Z * Z);
+
+				return Conjugate() / qMagnitudeSqr;
+			}
+
+			Quaternion<T> Conjugate() const
+			{
+				return Quaternion<T>(W, -X, -Y, -Z);
+			}
+
 			// operators
 			Quaternion<T>& operator-=(Quaternion<T> const& q)
 			{
@@ -160,15 +172,15 @@ namespace Core
 
 			Quaternion<T>& operator/=(Quaternion<T> const& q)
 			{
-				T qMagnitude = Sqrt((q.W * q.W) + (q.X * q.X) + (q.Y * q.Y) + (q.Z * q.Z));
+				Quaternion<T> qInverse = q.Inverse();
+				qInverse *= (*this);
 
-				Quaternion<T> qInverse;
-				qInverse.W = q.W / qMagnitude;
-				qInverse.X = -q.X / qMagnitude;
-				qInverse.Y = -q.Y / qMagnitude;
-				qInverse.Z = -q.Z / qMagnitude;
+				W = qInverse.W;
+				X = qInverse.X;
+				Y = qInverse.Y;
+				Z = qInverse.Z;
 
-				return ((*this) * qInverse);
+				return (*this);
 			}
 
 			Quaternion<T>& operator=(Quaternion<T> const& q)

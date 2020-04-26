@@ -21,35 +21,49 @@ namespace Core
 			Transform();
 			Transform(Ptr<Transform> parent);
 
-			Transform(Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f));
-			Transform(Ptr<Transform> parent, Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f));
+			Transform(Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f), bool settingLocal = false);
+			Transform(Ptr<Transform> parent, Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f), bool settingLocal = false);
 
-			Float4x4 GetTransformationMatrix();
-			Float4x4 GetInverseTransformationMatrix();
+			//Float4x4 GetTransformationMatrix();
+			//Float4x4 GetInverseTransformationMatrix();
+			Float4x4 GetLocalTransformationMatrix();
+			Float4x4 GetInverseLocalTransformationMatrix();
+			Float4x4 GetWorldTransformationMatrix();
+			Float4x4 GetWorldInverseTransformationMatrix();
 
-			// Should have world-relative equivalents for the below
+			// parent-relative
 			void SetPosition(const Float3& position) override;
 			void AdjustPosition(const Float3& movement) override;
 			Float3 GetPosition() const override;
+			// world-relative
+			void SetWorldPosition(const Float3& position);
+			void AdjustWorldPosition(const Float3& movement);
+			Float3 GetWorldPosition();
 
-			// Should have world-relative equivalents for the below
+			// parent-relative
 			void SetRotation(const FQuaternion& rotation) override;
 			void AdjustRotation(const FQuaternion& rotation) override;
 			FQuaternion GetRotation() const override;
-			Float3x3 GetRotationMatrix() const;
+			// world-relative
+			void SetWorldRotation(const FQuaternion& rotation);
+			void AdjustWorldRotation(const FQuaternion& rotation);
+			FQuaternion GetWorldRotation();
 
-			// Should have world-relative equivalents for the below
+			// parent-relative
 			void SetScale(const float& scale) override;
 			void SetScale(const Float3& scale) override;
 			void AdjustScale(const float& scale) override;
 			void AdjustScale(const Float3& scale) override;
 			Float3 GetScale() const override;
+			// world-relative
+			void SetWorldScale(const float& scale);
+			void SetWorldScale(const Float3& scale);
+			void AdjustWorldScale(const float& scale);
+			void AdjustWorldScale(const Float3& scale);
+			Float3 GetWorldScale();
 
 			void SetParent(Ptr<Transform> parent);
 			Ptr<Transform> GetParent() const;
-
-			void SetLocal(bool local);
-			bool IsLocal() const;
 
 			void Dirty(bool rotation = false);
 			bool IsDirty() const;
@@ -58,20 +72,35 @@ namespace Core
 			Ptr<Transform> Parent = nullptr;
 			Functionality::Delegate<> ParentDirtied;
 
-			bool IsLocalTransformation = true;
-			bool TransformationMatrixDirty = false;
 			bool RotationMatrixDirty = false;
+			//bool TransformationMatrixDirty = false;
+			bool LocalTransformationMatrixDirty = false;
+			bool WorldTransformationMatrixDirty = false;
+			bool WorldInformationDirty = false;
 
+			// The below are relative (local) - not world
 			Float3 Position;
 			FQuaternion Rotation;
 			Float3 Scale;
 
+			Float3 WorldPosition;
+			FQuaternion WorldRotation;
+			Float3 WorldScale;
+
 			Float3x3 LocalRotationMatrix;
+
+			//Float4x4 TransformationMatrix;
+			Float4x4 LocalTransformationMatrix;
 			Float4x4 WorldTransformationMatrix;
 
+			Float3x3 GetRotationMatrix();
+
 			void RecalculateLocalRotationMatrix();
-			Float4x4 LocalTransformationMatrix();
+			//void RecalculateTransformationMatrix();
+			void RecalculateLocalTransformationMatrix();
 			void RecalculateWorldTransformationMatrix();
+
+			void RecalculateWorldInformation();
 		};
 	}
 }
