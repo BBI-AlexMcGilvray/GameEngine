@@ -243,12 +243,12 @@ namespace Core
 			T vMagnitude = Magnitude(v);
 
 			// conjugate of q
-			auto qI = Inverse(q);
+			auto rotatedV = q;
 			Quaternion<T> vAsQuaternion = Quaternion<T>(v);
-			qI *= vAsQuaternion;
-			qI *= q;
+			rotatedV *= vAsQuaternion;
+			rotatedV *= q.Inverse();
 
-			Vector3<T> rV = Vector3<T>(qI.X * vMagnitude, qI.Y * vMagnitude, qI.Z * vMagnitude);
+			Vector3<T> rV = Vector3<T>(rotatedV.X * vMagnitude, rotatedV.Y * vMagnitude, rotatedV.Z * vMagnitude);
 
 			return rV;
 		}
