@@ -139,7 +139,7 @@ namespace Core
 				d00, d10, d20, d30,
 				d01, d11, d21, d31,
 				d02, d12, d22, d32,
-				d03, d31, d23, d33);
+				d03, d13, d23, d33);
 		}
 
 		// Vector * Matrix
