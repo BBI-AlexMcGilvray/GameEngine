@@ -100,32 +100,13 @@ namespace Core
 
 		void Transform::SetWorldPosition(const Float3& position)
 		{
-			/*
-			Float3 ParentPosition = (Parent != nullptr) ? Parent->GetWorldPosition() : Float3(0.0f);
-			FQuaternion ParentRotation = (Parent != nullptr) ? Parent->GetWorldRotation() : FQuaternion(II{});
-			Float3 ParentScale = (Parent != nullptr) ? Parent->GetWorldScale() : Float3(1.0f);
-			
-			Float3 modifiedPosition = position;
-			modifiedPosition -= ParentPosition; 
-			modifiedPosition = RotateVectorBy(modifiedPosition, ParentRotation.Inverse());
-			modifiedPosition /= ParentScale;
-
-			//LOG("Setting World position: (" + VectorString(position) + " - " + VectorString(ParentPosition) + ") Rotate(" + QuaternionString(ParentRotation.Inverse()) + ") / " + VectorString(ParentScale) + " = " + VectorString(modifiedPosition));
-			LOG("Setting World position: " + VectorString(modifiedPosition));
-
-			SetPosition(modifiedPosition);
-			*/
-
-			// The below should work, and should be more efficient than the above
 			if (Parent == nullptr)
 			{
-				LOG("Setting World position: " + VectorString(position));
 				SetPosition(position);
 			}
 			else
 			{
 				Float3 finalPosition = (Parent->GetWorldInverseTransformationMatrix() * Float4(position, 1.0f)).XYZ;
-				LOG("Setting World position: " + VectorString(finalPosition));
 				SetPosition(finalPosition);
 			}
 		}
@@ -163,8 +144,6 @@ namespace Core
 		{
 			FQuaternion ParentRotation = (Parent != nullptr) ? Parent->GetWorldRotation() : FQuaternion();
 			FQuaternion finalRotation = rotation / ParentRotation;
-			//LOG("Setting World rotation: " + QuaternionString(rotation) + " / " + QuaternionString(ParentRotation) + " = " + QuaternionString(finalRotation));
-			LOG("Setting World rotation: " + QuaternionString(finalRotation));
 
 			SetRotation(finalRotation);
 		}
@@ -217,8 +196,6 @@ namespace Core
 		void Transform::SetWorldScale(const Float3& scale)
 		{
 			Float3 ParentScale = (Parent != nullptr) ? Parent->GetWorldScale() : Float3(1.0f);
-			//LOG("Setting World scale: " + VectorString(scale) + " / " + VectorString(ParentScale) + " = " + VectorString(scale / ParentScale));
-			LOG("Setting World scale: " + VectorString(scale / ParentScale));
 
 			SetScale(scale / ParentScale);
 		}

@@ -39,7 +39,6 @@ namespace Application
 			ComponentPtr<Geometric::Hierarchy> hierarchyComponent = debugContent->GetComponent<Geometric::Hierarchy>();
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 			
-			Float3 position = Transformation.GetPosition();
 			renderComponent->AddRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), GREEN, 0.1f);
 #endif
 		}
@@ -53,8 +52,11 @@ namespace Application
 			return true;
 		} }
 		{
-			LOG("BONE | PARENT | FINAL");
 			Root = CreateBoneHeirarchy(parentNode, Data.Data.Root.get(), true);
+			LOG(VectorString(Root->Transformation.GetWorldPosition()));
+			LOG(VectorString(parentNode->Transformation.GetWorldPosition()));
+			Root->Transformation.AdjustPosition(-1 * (parentNode->Transformation.GetWorldPosition()));
+			LOG(VectorString(Root->Transformation.GetWorldPosition()));
 			Root->Deleted += OnRootDeleted;
 		}
 
@@ -66,36 +68,7 @@ namespace Application
 
 		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, bool rootNode)
 		{
-			/*
-			Float4x4 transformationMatrix = parentNode->Transformation.GetTransformationMatrix();
-			Float3 deconstructedPosition;
-			FQuaternion deconstructedRotation;
-			Float3 deconstructredScale;
-			TransformationMatrixDecomposition(transformationMatrix, deconstructedPosition, deconstructredScale, deconstructedRotation);
-
-			// testing
-			Float3 finalPosition = rootNode ? boneData->Position + deconstructedPosition : boneData->Position - deconstructedPosition;
-			FQuaternion finalRotation = rootNode ? boneData->Rotation * deconstructedRotation : deconstructedRotation / boneData->Rotation;
-			Float3 finalScale = rootNode ? boneData->Scale * deconstructredScale : boneData->Scale / deconstructredScale;
-
-			LOG(boneData->Name);
-			LOG("P: " + VectorString(boneData->Position) + " | " + VectorString(deconstructedPosition) + " | " + VectorString(finalPosition));
-			//LOG("Q: " + QuaternionString(boneData->Rotation) + " | " + QuaternionString(deconstructedRotation) + " | " + QuaternionString(finalRotation));
-			//LOG(VectorString(boneData->Scale) + " | " + VectorString(deconstructredScale) + " | " + VectorString(finalScale));
-
-			finalScale = 1.0f;
-			LOG("Should not be modifying scale on import");
-			*/
-
-			//Ptr<Bone> newBone = parentNode->AddChild<Bone>(boneData->Name, finalPosition, finalRotation, finalScale);
-
-			//LOG("Q: " + QuaternionString(boneData->Rotation) + " | " + QuaternionString(deconstructedRotation) + " | " + QuaternionString(finalRotation));
-			//LOG(VectorString(boneData->Scale) + " | " + VectorString(deconstructredScale) + " | " + VectorString(finalScale));
 			Ptr<Bone> newBone = parentNode->AddChild<Bone>(boneData->Name, boneData->Position, boneData->Rotation, 1.0f);// boneData->Scale);
-			LOG(boneData->Name);
-			LOG("P: " + VectorString(boneData->Position) + " | " + VectorString(newBone->Transformation.GetWorldPosition()) + " | " + VectorString(newBone->Transformation.GetPosition()));
-			LOG("R: " + QuaternionString(boneData->Rotation) + " | " + QuaternionString(newBone->Transformation.GetWorldRotation()) + " | " + QuaternionString(newBone->Transformation.GetRotation()));
-			LOG("S: " + VectorString(boneData->Scale) + " | " + VectorString(newBone->Transformation.GetWorldScale()) + " | " + VectorString(newBone->Transformation.GetScale()));
 
 			Push(BoneList, newBone);
 
