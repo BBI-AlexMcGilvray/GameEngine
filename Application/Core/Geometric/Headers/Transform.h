@@ -24,10 +24,10 @@ namespace Core
 			Transform(Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f), bool settingLocal = false);
 			Transform(Ptr<Transform> parent, Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f), bool settingLocal = false);
 
-			//Float4x4 GetTransformationMatrix();
-			//Float4x4 GetInverseTransformationMatrix();
+			// parent-relative
 			Float4x4 GetLocalTransformationMatrix();
 			Float4x4 GetInverseLocalTransformationMatrix();
+			// world-relative
 			Float4x4 GetWorldTransformationMatrix();
 			Float4x4 GetWorldInverseTransformationMatrix();
 
@@ -73,30 +73,28 @@ namespace Core
 			Functionality::Delegate<> ParentDirtied;
 
 			bool RotationMatrixDirty = false;
-			//bool TransformationMatrixDirty = false;
 			bool LocalTransformationMatrixDirty = false;
 			bool WorldTransformationMatrixDirty = false;
 			bool WorldInformationDirty = false;
 
-			// The below are relative (local) - not world
+			// parent-relative
 			Float3 Position;
 			FQuaternion Rotation;
 			Float3 Scale;
 
+			// world-relative
 			Float3 WorldPosition;
 			FQuaternion WorldRotation;
 			Float3 WorldScale;
 
 			Float3x3 LocalRotationMatrix;
 
-			//Float4x4 TransformationMatrix;
 			Float4x4 LocalTransformationMatrix;
 			Float4x4 WorldTransformationMatrix;
 
 			Float3x3 GetRotationMatrix();
 
 			void RecalculateLocalRotationMatrix();
-			//void RecalculateTransformationMatrix();
 			void RecalculateLocalTransformationMatrix();
 			void RecalculateWorldTransformationMatrix();
 

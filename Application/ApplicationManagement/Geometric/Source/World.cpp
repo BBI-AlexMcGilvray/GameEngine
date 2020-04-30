@@ -50,25 +50,15 @@ namespace Application
 			LOG(QuaternionString(q2 / q6));
 			LOG(QuaternionString(q7 * q6));
 
-			Ptr<Node> staticMeshNode = AddChild<Node>("StaticMesh", Float3(-10.0f, 0.0f, 0.0f));
+			//Ptr<Node> staticMeshNode = AddChild<Node>("StaticMesh", Float3(-10.0f, 0.0f, 0.0f));
 			//Ptr<ContentBase> staticMeshContent = staticMeshNode->AddContent(MakeUnique<ContentBase>());
 			//ComponentPtr<Hierarchy> staticHierarchyComponent = staticMeshContent->GetComponent<Hierarchy>();
 			//ComponentPtr<Rendering::Render> staticRenderComponent = staticMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 			//staticRenderComponent->AddRenderObject<Rendering::ModelBase>(&(staticHierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
-			LOG("Creating Holder");
-			holderNode = AddChild<Node>("Holder", Float3(0.0f, 5.0f, 0.0f), FQuaternion(0.707f, 0.0f, 0.0f, 0.707f), Float3(1.0f));
 
-			LOG("Creating animatedMeshNode");
-			Ptr<Node> animatedMeshNode = holderNode->AddChild<Node>("AnimatedMesh", Float3(0.0f, 3.0f, 0.0f), FQuaternion(II{}), Float3(1.0f), true);
+			holderNode = AddChild<Node>("Holder");
 
-			LOG("Creating n1");
-			Ptr<Node> n1 = animatedMeshNode->AddChild<Node>("AnimatedMesh", Float3(0.0f, 3.0f, 0.0f), FQuaternion(II{}), Float3(1.0f), true);
-			LOG("Creating n2");
-			Ptr<Node> n2 = n1->AddChild<Node>("AnimatedMesh", Float3(0.0f, 6.0f, 0.0f), FQuaternion(II{}), Float3(1.0f), false);
-			LOG("Creating n3");
-			Ptr<Node> n3 = n2->AddChild<Node>("AnimatedMesh", Float3(0.0f, 7.0f, 0.0f), FQuaternion(II{}), Float3(1.0f), true);
-			LOG("Creating n4");
-			Ptr<Node> n4 = n3->AddChild<Node>("AnimatedMesh", Float3(0.0f, 8.0f, 0.0f), FQuaternion(II{}), Float3(1.0f), false);
+			Ptr<Node> animatedMeshNode = holderNode->AddChild<Node>("AnimatedMesh", Float3(0.0f, 3.0f, 0.0f), FQuaternion(0.707f, -0.707f, 0.0f, 0.0f));
 
 			Ptr<ContentBase> animatedMeshContent = animatedMeshNode->AddContent(MakeUnique<ContentBase>());
 			ComponentPtr<Rendering::Render> animatedRenderComponent = animatedMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
@@ -97,9 +87,9 @@ namespace Application
 		void World::Update(Second dt)
 		{
 			// just for testing currently
-			//FQuaternion currentRotation = holderNode->Transformation.GetRotation();
-			//FQuaternion newRot = LerpQuat(currentRotation, FQuaternion(0.707f, 0.0f, 0.0f, 0.707f) * currentRotation, Duration(dt));
-			//holderNode->Transformation.SetRotation(newRot);
+			FQuaternion currentRotation = holderNode->Transformation.GetRotation();
+			FQuaternion newRot = LerpQuat(currentRotation, FQuaternion(0.9f, 0.0f, 0.1f, 0.0f) * currentRotation, Duration(dt));
+			holderNode->Transformation.SetRotation(newRot);
 			//end of testing
 		}
 	}

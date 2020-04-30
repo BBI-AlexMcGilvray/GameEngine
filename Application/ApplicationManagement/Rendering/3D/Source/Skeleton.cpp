@@ -53,10 +53,11 @@ namespace Application
 		} }
 		{
 			Root = CreateBoneHeirarchy(parentNode, Data.Data.Root.get(), true);
-			LOG(VectorString(Root->Transformation.GetWorldPosition()));
-			LOG(VectorString(parentNode->Transformation.GetWorldPosition()));
-			Root->Transformation.AdjustPosition(-1 * (parentNode->Transformation.GetWorldPosition()));
-			LOG(VectorString(Root->Transformation.GetWorldPosition()));
+
+			// fit root to node
+			Root->Transformation.AdjustPosition(-1 * Root->Transformation.GetPosition());
+			Root->Transformation.AdjustRotation(Root->Transformation.GetRotation().Inverse());
+
 			Root->Deleted += OnRootDeleted;
 		}
 
@@ -68,6 +69,7 @@ namespace Application
 
 		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, bool rootNode)
 		{
+			LOG("Should not be explicitly setting bones to have a scale of 1");
 			Ptr<Bone> newBone = parentNode->AddChild<Bone>(boneData->Name, boneData->Position, boneData->Rotation, 1.0f);// boneData->Scale);
 
 			Push(BoneList, newBone);

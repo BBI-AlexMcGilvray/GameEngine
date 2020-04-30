@@ -46,18 +46,6 @@ namespace Core
 			}
 		}
 
-		/*Float4x4 Transform::GetTransformationMatrix()
-		{
-			RecalculateTransformationMatrix();
-
-			return TransformationMatrix;
-		}
-
-		Float4x4 Transform::GetInverseTransformationMatrix()
-		{
-			return Math::Inverse(GetTransformationMatrix());
-		}*/
-
 		Float4x4 Transform::GetLocalTransformationMatrix()
 		{
 			RecalculateLocalTransformationMatrix();
@@ -258,7 +246,6 @@ namespace Core
 			RotationMatrixDirty |= rotation;
 			WorldTransformationMatrixDirty = true;
 			LocalTransformationMatrixDirty = true;
-			//TransformationMatrixDirty = true;
 			WorldInformationDirty = true;
 
 			Dirtied();
@@ -266,7 +253,7 @@ namespace Core
 
 		bool Transform::IsDirty() const
 		{
-			return WorldInformationDirty || WorldTransformationMatrixDirty /*|| TransformationMatrixDirty*/ || LocalTransformationMatrixDirty || RotationMatrixDirty;
+			return WorldInformationDirty || WorldTransformationMatrixDirty || LocalTransformationMatrixDirty || RotationMatrixDirty;
 		}
 
 		Float3x3 Transform::GetRotationMatrix()
@@ -286,32 +273,6 @@ namespace Core
 			LocalRotationMatrix = CalculateRotationMatrix(Rotation);
 			RotationMatrixDirty = false;
 		}
-
-		/*void Transform::RecalculateTransformationMatrix()
-		{
-			if (!IsDirty())
-			{
-				return;
-			}
-
-			TransformationMatrix = Float4x4(II{});
-
-			// scale
-			TransformationMatrix.E1.X = Scale.X;
-			TransformationMatrix.E2.Y = Scale.Y;
-			TransformationMatrix.E3.Z = Scale.Z;
-
-			// position
-			TransformationMatrix.E4.X = Position.X;
-			TransformationMatrix.E4.Y = Position.Y;
-			TransformationMatrix.E4.Z = Position.Z;
-
-			Float4x4 parentTransformationMatrix = (Parent == nullptr) ? Float4x4(II{}) : Parent->GetWorldTransformationMatrix();
-
-			TransformationMatrix = parentTransformationMatrix * TransformationMatrix;
-
-			TransformationMatrixDirty = false;
-		}*/
 
 		void Transform::RecalculateLocalTransformationMatrix()
 		{

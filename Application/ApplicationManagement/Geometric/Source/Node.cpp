@@ -150,18 +150,23 @@ namespace Application
 			return nullptr;
 		}
 
-		void Node::RemoveChild(Ptr<Node> oldChild)
+		UniquePtr<Node> Node::RemoveChild(Ptr<Node> oldChild)
 		{
 			oldChild->Transformation.SetParent(nullptr);
+
+			UniquePtr<Node> formerChild = nullptr;
 
 			for (Core::size i = 0; i < Children.size(); i++)
 			{
 				if (Children[i].get() == oldChild)
 				{
+					formerChild = move(Children[i]);
 					RemoveIndex(Children, i);
 					break;
 				}
 			}
+
+			return formerChild;
 		}
 
 		Core::Ptr<State> Node::GetParentState() const
