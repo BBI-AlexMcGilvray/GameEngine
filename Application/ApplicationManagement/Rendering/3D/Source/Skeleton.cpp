@@ -23,12 +23,18 @@ namespace Application
 {
 	namespace Rendering
 	{
-		Bone::Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
+		Bone::Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Ptr<Bone> rootBone, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
 			: Node(parentState, parentNode, name, position, rotation, scale, false)
-			// initial position is the bind position
-			, InverseBindMatrix(Transformation.GetWorldInverseTransformationMatrix())
 		{
-
+			// initial position is the bind position
+			if (rootBone == nullptr)
+			{
+				InverseBindMatrix = Float4x4(II{});
+			}
+			else
+			{
+				InverseBindMatrix = Inverse(rootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix());
+			}
 		}
 
 		void Bone::Start()
@@ -43,6 +49,11 @@ namespace Application
 #endif
 		}
 
+		Float4x4 Bone::GetBindOffset()
+		{
+			return (InverseBindMatrix * Transformation.GetWorldTransformationMatrix());
+		}
+
 		Skeleton::Skeleton(Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset)
 			: Data(asset)
 			, OnRootDeleted{[this]()
@@ -52,7 +63,7 @@ namespace Application
 			return true;
 		} }
 		{
-			Root = CreateBoneHeirarchy(parentNode, Data.Data.Root.get(), true);
+			Root = CreateBoneHeirarchy(parentNode, Data.Data.Root.get());
 
 			// fit root to node
 			Root->Transformation.AdjustPosition(-1 * Root->Transformation.GetPosition());
@@ -67,16 +78,20 @@ namespace Application
 			return Root;
 		}
 
-		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, bool rootNode)
+		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, Ptr<Bone> rootBone)
 		{
 			LOG("Should not be explicitly setting bones to have a scale of 1");
-			Ptr<Bone> newBone = parentNode->AddChild<Bone>(boneData->Name, boneData->Position, boneData->Rotation, 1.0f);// boneData->Scale);
+			Ptr<Bone> newBone = parentNode->AddChild<Bone>(rootBone, boneData->Name, boneData->Position, boneData->Rotation, 1.0f);// boneData->Scale);
+			if (rootBone == nullptr)
+			{
+				rootBone = newBone;
+			}
 
 			Push(BoneList, newBone);
 
 			for (Core::size i = 0; i < boneData->ChildBones.size(); i++)
 			{
-				CreateBoneHeirarchy(newBone, boneData->ChildBones[i].get(), false);
+				CreateBoneHeirarchy(newBone, boneData->ChildBones[i].get(), rootBone);
 			}
 
 			return newBone;

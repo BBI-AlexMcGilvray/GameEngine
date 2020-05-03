@@ -26,6 +26,10 @@ namespace Application
 				{
 					return &DefaultShader;
 				}
+				case ObjectShaderType::SkinnedDefault:
+				{
+					return &DefaultSkinnedShader;
+				}
 				default:
 					return &DefaultShader;
 			}
@@ -35,12 +39,14 @@ namespace Application
 		{
 			DebugShader.Initialize();
 			DefaultShader.Initialize();
+			DefaultSkinnedShader.Initialize();
 		}
 
 		void ShaderManager::CleanUp()
 		{
 			DebugShader.Destroy();
 			DefaultShader.Destroy();
+			DefaultSkinnedShader.Destroy();
 		}
 	}
 }

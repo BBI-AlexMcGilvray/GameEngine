@@ -13,7 +13,7 @@ namespace Application
 			, Data(asset)
 			, Material(Data.Data.Material)
 			, Mesh(Data.Data.Mesh)
-			, Shader(manager->ObjectShaderManager.DefaultShader)
+			, Shader(manager->ObjectShaderManager.DefaultSkinnedShader)
 		{
 			SkinnedSkeleton = MakeUnique<Skeleton>(parentNode, Data.Data.Skeleton);
 		}

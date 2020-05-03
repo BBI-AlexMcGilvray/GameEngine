@@ -2,7 +2,7 @@
 
 #include "ApplicationManagement/Rendering/Headers/RenderObjectBase.h"
 
-#include "ApplicationManagement/Rendering/Shaders/Headers/ObjectShader.h"
+#include "ApplicationManagement/Rendering/Shaders/Headers/SkinnedObjectShader.h"
 
 #include "ApplicationManagement/Rendering/2D/Headers/Material.h"
 #include "ApplicationManagement/Rendering/3D/Headers/SkinnedMeshBase.h"
@@ -32,7 +32,7 @@ namespace Application
 			Core::size GetVertexCount() const override;
 
 		protected:
-			ObjectShader& Shader;
+			SkinnedObjectShader& Shader;
 
 			// should this be a unique ptr? or is the skeleton owned by the node heirarchy?
 			Core::UniquePtr<Skeleton> SkinnedSkeleton;

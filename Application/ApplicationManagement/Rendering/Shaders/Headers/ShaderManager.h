@@ -2,6 +2,7 @@
 
 #include "DebugObjectShader.h"
 #include "ObjectShader.h"
+#include "SkinnedObjectShader.h"
 
 namespace Application
 {
@@ -13,11 +14,13 @@ namespace Application
 			enum class ObjectShaderType
 			{
 				Debug,
-				Default
+				Default,
+				SkinnedDefault
 			};
 
 			DebugObjectShader DebugShader;
 			ObjectShader DefaultShader;
+			SkinnedObjectShader DefaultSkinnedShader;
 
 			ShaderManager();
 			~ShaderManager();

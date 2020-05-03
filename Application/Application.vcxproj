@@ -175,6 +175,7 @@
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Skeleton.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SkinnedMeshBase.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SphereRenderObject.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\SkinnedObjectShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\CameraComponent.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\ContainerBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\ContentBase.cpp" />
@@ -247,8 +248,10 @@
     <ClCompile Include="Core\Math\Source\UtilityFunctions.cpp" />
     <ClCompile Include="Core\Math\UnitTests\MatrixTests.cpp" />
     <ClCompile Include="Core\Math\UnitTests\VectorTests.cpp" />
+    <ClCompile Include="Core\Source\AnimationCurve.cpp" />
     <ClCompile Include="Core\Source\Exception.cpp" />
     <ClCompile Include="Core\Source\Hash.cpp" />
+    <ClCompile Include="Core\Source\Keyframe.cpp" />
     <ClCompile Include="Data\Rendering\Source\AnimatedMeshData.cpp" />
     <ClCompile Include="Data\Rendering\Source\AnimatedModelData.cpp" />
     <ClCompile Include="Data\Rendering\Source\MaterialData.cpp" />
@@ -365,6 +368,7 @@
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLArrayBuffer.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugObjectShader.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugVertexShader.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\SkinnedObjectShader.h" />
     <ClInclude Include="ApplicationManagement\StateSystem\Headers\State.h" />
     <ClInclude Include="ApplicationManagement\StateSystem\Headers\StateManager.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\Box.h" />
@@ -375,9 +379,11 @@
     <ClInclude Include="Core\Geometric\2D\Headers\Polygon.h" />
     <ClInclude Include="Core\Geometric\Headers\GeometryDefs.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\GeometryFunctions.h" />
+    <ClInclude Include="Core\Headers\AnimationCurve.h" />
     <ClInclude Include="Core\Headers\Exception.h" />
     <ClInclude Include="Core\Headers\FlagEnum.h" />
     <ClInclude Include="Core\Headers\Hash.h" />
+    <ClInclude Include="Core\Headers\Keyframe.h" />
     <ClInclude Include="Core\IO\Headers\Exception.h" />
     <ClInclude Include="Core\IO\Headers\File.h" />
     <ClInclude Include="Core\IO\Headers\Folder.h" />
