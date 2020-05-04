@@ -178,5 +178,17 @@ namespace Application
 		{
 			ParentState = parentState;
 		}
+
+		int Node::GetSubNodeCount() const
+		{
+			int count = 0;
+			for (int i = 0; i < Children.size(); i++)
+			{
+				count++;
+				count += Children[i]->GetSubNodeCount();
+			}
+
+			return count;
+		}
 	}
 }

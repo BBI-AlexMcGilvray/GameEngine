@@ -330,6 +330,9 @@
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\SkinnedObjectShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\SkinnedVertexShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Planning\GameEngine.xmi" />
@@ -1073,6 +1076,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\SkinnedObjectShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\SkinnedVertexShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

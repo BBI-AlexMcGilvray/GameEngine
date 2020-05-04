@@ -54,6 +54,20 @@ namespace Application
 			return (InverseBindMatrix * Transformation.GetWorldTransformationMatrix());
 		}
 
+		List<Float4x4> Bone::GetBoneMatrices()
+		{
+			int boneCount = GetSubNodeCount();
+			List<Float4x4> boneMatrices = List<Float4x4>(boneCount);
+
+			Push(boneMatrices, GetBindOffset());
+			for (int i = 0; i < Children.size(); i++)
+			{
+				Push(boneMatrices, ((Ptr<Bone>)Children[i].get())->GetBoneMatrices());
+			}
+
+			return boneMatrices;
+		}
+
 		Skeleton::Skeleton(Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset)
 			: Data(asset)
 			, OnRootDeleted{[this]()
@@ -72,10 +86,22 @@ namespace Application
 			Root->Deleted += OnRootDeleted;
 		}
 
+		int Skeleton::GetBoneCount() const
+		{
+			VERIFY(Root != nullptr);
+			return Root->GetSubNodeCount();
+		}
+
 		Core::Ptr<Bone> Skeleton::GetSkeletonHierarchy() const
 		{
 			VERIFY(Root != nullptr);
 			return Root;
+		}
+
+		List<Float4x4> Skeleton::GetBoneMatrices() const
+		{
+			VERIFY(Root != nullptr);
+			return Root->GetBoneMatrices();
 		}
 
 		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, Ptr<Bone> rootBone)

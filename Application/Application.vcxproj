@@ -176,6 +176,7 @@
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SkinnedMeshBase.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SphereRenderObject.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\SkinnedObjectShader.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\SkinnedVertexShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\CameraComponent.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\ContainerBase.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Source\ContentBase.cpp" />
@@ -369,6 +370,7 @@
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugObjectShader.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\DebugVertexShader.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\SkinnedObjectShader.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\SkinnedVertexShader.h" />
     <ClInclude Include="ApplicationManagement\StateSystem\Headers\State.h" />
     <ClInclude Include="ApplicationManagement\StateSystem\Headers\StateManager.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\Box.h" />

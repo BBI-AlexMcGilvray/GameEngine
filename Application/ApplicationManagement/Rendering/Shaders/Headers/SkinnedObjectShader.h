@@ -4,7 +4,7 @@
 #include "ObjectShaderBase.h"
 
 #include "FragmentShader.h"
-#include "VertexShader.h"
+#include "SkinnedVertexShader.h"
 
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/ListDefs.h"
@@ -37,6 +37,8 @@ namespace Application
 			Ptr<ShaderBase> GetVertexShader() override;
 			Ptr<ShaderBase> GetFragmentxShader() override;
 
+			void SetSkinningInformation(const List<Float4x4> boneList);
+
 			virtual void Prepare(const Float4x4& mvp, const Color& color) const;
 			virtual void CleanUp() const override;
 
@@ -47,7 +49,7 @@ namespace Application
 			static Ptr<const char> Name;
 
 			FragmentShader FShader;
-			VertexShader VShader;
+			SkinnedVertexShader VShader;
 		};
 	}
 }

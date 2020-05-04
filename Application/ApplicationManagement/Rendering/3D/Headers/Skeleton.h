@@ -36,6 +36,8 @@ namespace Application
 
 			Float4x4 GetBindOffset();
 
+			List<Float4x4> GetBoneMatrices();
+
 		private:
 			Float4x4 InverseBindMatrix;
 		};
@@ -48,7 +50,10 @@ namespace Application
 			// we will need the parent node in constructor to know where our bones are rooted to
 			Skeleton(Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset);
 
+			int GetBoneCount() const;
 			Core::Ptr<Bone> GetSkeletonHierarchy() const;
+
+			List<Float4x4> GetBoneMatrices() const;
 
 		private:
 			Data::AssetData<Data::Rendering::SkeletonData> Data;

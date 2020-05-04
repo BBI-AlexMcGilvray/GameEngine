@@ -21,6 +21,11 @@ namespace Application
 			return &VShader;
 		}
 
+		void SkinnedObjectShader::SetSkinningInformation(const List<Float4x4> boneList)
+		{
+			VShader.SetSkinningInformation(boneList);
+		}
+
 		void SkinnedObjectShader::Prepare(const Float4x4& mvp, const Color& color) const
 		{
 			ObjectShaderBase::Prepare();
@@ -43,6 +48,8 @@ namespace Application
 
 			glBindAttribLocation(Object, 0, "vPosition"); // maybe not needed if specified in shader?
 			glBindAttribLocation(Object, 1, "vNormal"); // maybe not needed if specified in shader?
+			glBindAttribLocation(Object, 2, "vWeight"); // maybe not needed if specified in shader?
+			glBindAttribLocation(Object, 3, "vBoneIndex"); // maybe not needed if specified in shader?
 		}
 
 		void SkinnedObjectShader::Destroy()

@@ -34,6 +34,7 @@ namespace Application
 		void AnimatedModel::Prepare(const Float4x4& mvp, const Color& color) const
 		{
 			Mesh.Prepare();
+			Shader.SetSkinningInformation(SkinnedSkeleton->GetBoneMatrices());
 			Shader.Prepare(mvp, color);
 		}
 

@@ -81,6 +81,8 @@ namespace Application
 			Core::Ptr<State> GetParentState() const;
 			void SetParentState(Core::Ptr<State> parentState);
 
+			int GetSubNodeCount() const;
+
 		protected:
 			List<UniquePtr<Node>> Children;
 			Core::Ptr<State> ParentState = nullptr;
