@@ -108,6 +108,7 @@ namespace Application
 		{
 			LOG("Should not be explicitly setting bones to have a scale of 1");
 			Ptr<Bone> newBone = parentNode->AddChild<Bone>(rootBone, boneData->Name, boneData->Position, boneData->Rotation, 1.0f);// boneData->Scale);
+
 			if (rootBone == nullptr)
 			{
 				rootBone = newBone;

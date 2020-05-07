@@ -148,9 +148,6 @@ namespace Data
 			lineStream >> position.X;
 			lineStream >> position.Y;
 			lineStream >> position.Z;
-
-			position /= 10.0f;
-			LOG("Position values should be modified on the data side!");
 		}
 
 		void SkeletonData::ReadRotation(IOSStreamChar& lineStream, FQuaternion& rotation)

@@ -37,6 +37,8 @@ namespace Application
 			// should this be a unique ptr? or is the skeleton owned by the node heirarchy?
 			Core::UniquePtr<Skeleton> SkinnedSkeleton;
 
+			List<Uint4> BoneIndices;
+
 			void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const override;
 			void CleanUp() const override;
 		};
