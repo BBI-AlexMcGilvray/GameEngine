@@ -59,6 +59,13 @@ namespace Core
 				: E1(d1, d2, d3), E2(d4, d5, d6), E3(d7, d8, d9)
 			{}
 
+			~MatrixAxB()
+			{
+				E1.~VectorA<T, 3>();
+				E2.~VectorA<T, 3>();
+				E3.~VectorA<T, 3>();
+			}
+
 			// conversions
 			operator MatrixAxB<T, 2, 2>()
 			{

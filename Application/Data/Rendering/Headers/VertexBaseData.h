@@ -4,6 +4,8 @@
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Vector4.h"
 
+#include "Core/Debugging/Headers/Macros.h"
+
 using namespace Core::Math;
 
 namespace Data
@@ -44,15 +46,18 @@ namespace Data
 
 		struct AnimatedVertexDataBase : VertexDataBase
 		{
-			Uint4 BoneIndex;
+			List<String> BoneName;
+			Float4 BoneWeight;
 
 			AnimatedVertexDataBase()
 			{}
 
-			AnimatedVertexDataBase(const Float3& pos, const Float3& normal, const Float2& uvs, const Uint4& boneIndex)
+			AnimatedVertexDataBase(const Float3& pos, const Float3& normal, const Float2& uvs, const List<String>& boneName, const Float4& boneWeight)
 				: VertexDataBase(pos, normal, uvs)
 			{
-				BoneIndex = boneIndex;
+				ASSERT(boneName.size() == 4);
+				BoneName = boneName;
+				BoneWeight = boneWeight;
 			}
 		};
 	}

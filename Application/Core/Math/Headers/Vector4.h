@@ -35,7 +35,10 @@ namespace Core
 				T Axes[4];
 			};
 
-			VectorA(T d = 0)
+			VectorA()
+			{}
+
+			VectorA(T d)
 				: X(d), Y(d), Z(d), W(d)
 			{}
 
@@ -54,6 +57,14 @@ namespace Core
 			VectorA(VectorA<T, 4> const& v)
 				: X(v.X), Y(v.Y), Z(v.Z), W(v.W)
 			{}
+
+			~VectorA()
+			{
+				X.~T();
+				Y.~T();
+				Z.~T();
+				W.~T();
+			}
 
 			// conversions
 			operator VectorA<T, 2>()

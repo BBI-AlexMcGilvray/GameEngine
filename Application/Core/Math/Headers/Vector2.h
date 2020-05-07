@@ -19,7 +19,10 @@ namespace Core
 				T Axes[2];
 			};
 
-			VectorA(T d = 0)
+			VectorA()
+			{}
+
+			VectorA(T d)
 				: X(d), Y(d)
 			{}
 
@@ -40,6 +43,12 @@ namespace Core
 			operator VectorA<T, 4>()
 			{
 				return VectorA<T, 3>(X, Y, T(0), T(0));
+			}
+
+			~VectorA()
+			{
+				X.~T();
+				Y.~T();
 			}
 
 			// methods

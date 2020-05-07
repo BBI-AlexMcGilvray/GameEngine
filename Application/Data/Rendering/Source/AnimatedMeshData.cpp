@@ -20,7 +20,8 @@ namespace Data
 			List<Float3> positions;
 			List<Float3> normals;
 			List<Float2> uvs;
-			List<Uint4> boneIndices;
+			List<List<String>> boneNames;
+			List<Float4> boneWeights;
 			List<Uint3> indices;
 
 			enum class ReadState
@@ -30,7 +31,7 @@ namespace Data
 				Positions,
 				Normals,
 				UVs,
-				BoneIndices,
+				Bones,
 				Indices
 			};
 			ReadState readState = ReadState::Started;
@@ -63,7 +64,7 @@ namespace Data
 						}
 						else if (word == "bones")
 						{
-							readState = ReadState::BoneIndices;
+							readState = ReadState::Bones;
 						}
 						else if (word == "indices")
 						{
@@ -107,15 +108,38 @@ namespace Data
 
 							break;
 						}
-						case ReadState::BoneIndices:
+						case ReadState::Bones:
 						{
-							Uint4 newBoneIndex;
-							lineStream >> newBoneIndex.X;
-							lineStream >> newBoneIndex.Y;
-							lineStream >> newBoneIndex.Z;
-							lineStream >> newBoneIndex.W;
+							string bone1;
+							string bone2;
+							string bone3;
+							string bone4;
+							Float4 newBoneWeight;
 
-							Push(boneIndices, newBoneIndex);
+							String comma;
+
+							lineStream >> bone1;
+							lineStream >> newBoneWeight.X;
+
+							lineStream >> comma;
+
+							lineStream >> bone2;
+							lineStream >> newBoneWeight.Y;
+
+							lineStream >> comma;
+
+							lineStream >> bone3;
+							lineStream >> newBoneWeight.Z;
+
+							lineStream >> comma;
+
+							lineStream >> bone4;
+							lineStream >> newBoneWeight.W;
+
+							List<String> newBoneString = { bone1, bone2, bone3, bone4 };
+
+							Push(boneNames, newBoneString);
+							Push(boneWeights, newBoneWeight);
 
 							break;
 						}
@@ -161,8 +185,8 @@ namespace Data
 				{
 					VertexCount++;
 
-					LOG("Should not be modifying data on import");
-					Push(Vertices, AnimatedVertexDataBase(positions[v]*100.0f, normals[v], uvs[v], boneIndices[v]));
+					LOG("Position values should be modified on the data side!");
+					Push(Vertices, AnimatedVertexDataBase(positions[v]*500.0f, normals[v]/10.0f, uvs[v], boneNames[v], boneWeights[v]));
 				}
 			}
 		}
