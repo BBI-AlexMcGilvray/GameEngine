@@ -33,7 +33,7 @@ namespace Application
 				// the below can be used to outline characters based on normal
 				CameraFacingRatio = (dotProduct * dotProduct) / dot(rotatedNormal, rotatedNormal);
 
-				Color = modColor;
+				Color = modColor * CameraFacingRatio;
 				
 				gl_Position = MVP * vec4(vPosition, 1.0);
 			}

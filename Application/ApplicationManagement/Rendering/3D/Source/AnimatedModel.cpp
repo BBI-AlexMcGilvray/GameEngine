@@ -16,6 +16,7 @@ namespace Application
 			, Shader(manager->ObjectShaderManager.DefaultSkinnedShader)
 		{
 			SkinnedSkeleton = MakeUnique<Skeleton>(parentNode, Data.Data.Skeleton);
+			Mesh.Skin(*SkinnedSkeleton);
 		}
 
 		// be able to change what skeleton a model is listening to - returns true if able to map to skeleton

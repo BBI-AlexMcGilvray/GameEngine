@@ -53,6 +53,7 @@ namespace Application
 			int GetBoneCount() const;
 			Core::Ptr<Bone> GetSkeletonHierarchy() const;
 
+			int GetIndexOf(String& const nodeName) const;
 			List<Float4x4> GetBoneMatrices() const;
 
 		private:

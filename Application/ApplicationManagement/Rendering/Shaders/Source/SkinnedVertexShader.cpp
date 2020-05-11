@@ -38,15 +38,15 @@ namespace Application
 				CameraFacingRatio = (dotProduct * dotProduct) / dot(rotatedNormal, rotatedNormal);
 
 				// colour
-				Color = modColor;
+				Color = modColor * CameraFacingRatio;
 
 				// positional
 				mat4 boneTransform = boneMatrices[vBoneIndex.x] * vWeight.x;
-				boneTransform = boneMatrices[vBoneIndex.y] * vWeight.y;
-				boneTransform = boneMatrices[vBoneIndex.z] * vWeight.z;
-				boneTransform = boneMatrices[vBoneIndex.w] * vWeight.w;
+				boneTransform = boneMatrices[vBoneIndex.y] * vWeight.y + boneTransform;
+				boneTransform = boneMatrices[vBoneIndex.z] * vWeight.z + boneTransform;
+				boneTransform = boneMatrices[vBoneIndex.w] * vWeight.w + boneTransform;
 
-				gl_Position = MVP * boneTransform * vec4(vPosition, 1.0);
+				gl_Position = MVP * vec4((boneTransform * vec4(vPosition, 1.0)).xyz, 1.0);
 			}
 		)";
 

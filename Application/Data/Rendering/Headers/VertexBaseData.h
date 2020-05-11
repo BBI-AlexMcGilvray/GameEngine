@@ -44,8 +44,11 @@ namespace Data
 			}
 		};
 
-		struct AnimatedVertexDataBase : VertexDataBase
+		struct AnimatedVertexDataBase
 		{
+			Float3 Position; // standard vertex attribute
+			Float3 Normal; // vertex normal
+			Float2 UVs; // vertex uvs
 			List<String> BoneName;
 			Float4 BoneWeight;
 
@@ -53,9 +56,11 @@ namespace Data
 			{}
 
 			AnimatedVertexDataBase(const Float3& pos, const Float3& normal, const Float2& uvs, const List<String>& boneName, const Float4& boneWeight)
-				: VertexDataBase(pos, normal, uvs)
 			{
 				ASSERT(boneName.size() == 4);
+				Position = pos;
+				Normal = normal;
+				UVs = uvs;
 				BoneName = boneName;
 				BoneWeight = boneWeight;
 			}

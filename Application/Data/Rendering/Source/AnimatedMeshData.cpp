@@ -137,6 +137,22 @@ namespace Data
 							lineStream >> newBoneWeight.W;
 
 							List<String> newBoneString = { bone1, bone2, bone3, bone4 };
+							if (bone1 == "")
+							{
+								newBoneWeight.X = 0;
+							}
+							if (bone2 == "")
+							{
+								newBoneWeight.Y = 0;
+							}
+							if (bone3 == "")
+							{
+								newBoneWeight.Z = 0;
+							}
+							if (bone4 == "")
+							{
+								newBoneWeight.W = 0;
+							}
 
 							Push(boneNames, newBoneString);
 							Push(boneWeights, newBoneWeight);
@@ -186,7 +202,7 @@ namespace Data
 					VertexCount++;
 
 					LOG("Position values should be modified on the data side!");
-					Push(Vertices, AnimatedVertexDataBase(positions[v]*500.0f, normals[v]/10.0f, uvs[v], boneNames[v], boneWeights[v]));
+					Push(Vertices, AnimatedVertexDataBase(positions[v]*500.0f, normals[v], uvs[v], boneNames[v], boneWeights[v]));
 				}
 			}
 		}

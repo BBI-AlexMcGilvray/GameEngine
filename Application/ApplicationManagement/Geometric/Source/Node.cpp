@@ -150,6 +150,30 @@ namespace Application
 			return nullptr;
 		}
 
+		// -1 means the child is not contained
+		int Node::GetChildDepth(Core::String name)
+		{
+			int depth = Name == name ? 0 : -1;
+
+			for (Core::size i = 0; i < Children.size(); i++)
+			{
+				if (Children[i]->Name == name)
+				{
+					depth++;
+					break;
+				}
+
+				int childDepth = Children[i]->GetChildDepth(name);
+				if (childDepth != -1)
+				{
+					depth += childDepth;
+					break;
+				}
+			}
+
+			return depth;
+		}
+
 		UniquePtr<Node> Node::RemoveChild(Ptr<Node> oldChild)
 		{
 			oldChild->Transformation.SetParent(nullptr);

@@ -104,9 +104,14 @@ namespace Application
 			return Root->GetBoneMatrices();
 		}
 
+		int Skeleton::GetIndexOf(String& const nodeName) const
+		{
+			return Root->GetChildDepth(nodeName);
+		}
+
 		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, Ptr<Bone> rootBone)
 		{
-			LOG("Should not be explicitly setting bones to have a scale of 1");
+			LOG("Setting bone to have scale of 1.0f instead of " + VectorString(boneData->Scale));
 			Ptr<Bone> newBone = parentNode->AddChild<Bone>(rootBone, boneData->Name, boneData->Position, boneData->Rotation, 1.0f);// boneData->Scale);
 
 			if (rootBone == nullptr)
