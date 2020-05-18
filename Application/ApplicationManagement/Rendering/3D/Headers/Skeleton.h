@@ -39,6 +39,7 @@ namespace Application
 			void GetBoneMatrices(List<Float4x4>& boneMatrices, int& offset);
 
 		private:
+			Ptr<Bone> RootBone;
 			Float4x4 InverseBindMatrix;
 		};
 

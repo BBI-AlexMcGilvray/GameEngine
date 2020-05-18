@@ -25,16 +25,18 @@ namespace Application
 	{
 		Bone::Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Ptr<Bone> rootBone, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
 			: Node(parentState, parentNode, name, position, rotation, scale, false)
+			, RootBone(rootBone)
 		{
 			// initial position is the bind position
 			if (rootBone == nullptr)
 			{
-				InverseBindMatrix = Float4x4(II{});
+				InverseBindMatrix = Transformation.GetWorldInverseTransformationMatrix();
 			}
 			else
 			{
 				InverseBindMatrix = Inverse(rootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix());
 			}
+			VERIFY(GetBindOffset() == Float4x4(II{}));
 		}
 
 		void Bone::Start()
@@ -51,7 +53,14 @@ namespace Application
 
 		Float4x4 Bone::GetBindOffset()
 		{
-			return (InverseBindMatrix * Transformation.GetWorldTransformationMatrix());
+			if (RootBone != nullptr)
+			{
+				return InverseBindMatrix * RootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix();
+			}
+			else
+			{
+				return InverseBindMatrix * Transformation.GetLocalTransformationMatrix();
+			}
 		}
 
 		void Bone::GetBoneMatrices(List<Float4x4>& boneMatrices, int& offset)
