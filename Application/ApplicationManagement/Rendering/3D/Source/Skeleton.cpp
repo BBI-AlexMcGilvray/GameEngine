@@ -45,7 +45,7 @@ namespace Application
 			ComponentPtr<Geometric::Hierarchy> hierarchyComponent = debugContent->GetComponent<Geometric::Hierarchy>();
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 			
-			renderComponent->AddRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), GREEN, 0.1f);
+			renderComponent->AddRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), GREEN, 0.3f);
 #endif
 		}
 
@@ -54,18 +54,13 @@ namespace Application
 			return (InverseBindMatrix * Transformation.GetWorldTransformationMatrix());
 		}
 
-		List<Float4x4> Bone::GetBoneMatrices()
+		void Bone::GetBoneMatrices(List<Float4x4>& boneMatrices, int& offset)
 		{
-			int boneCount = GetSubNodeCount();
-			List<Float4x4> boneMatrices = List<Float4x4>(boneCount);
-
-			Push(boneMatrices, GetBindOffset());
+			boneMatrices[offset] = GetBindOffset();
 			for (int i = 0; i < Children.size(); i++)
 			{
-				Push(boneMatrices, ((Ptr<Bone>)Children[i].get())->GetBoneMatrices());
+				((Ptr<Bone>)Children[i].get())->GetBoneMatrices(boneMatrices, ++offset);
 			}
-
-			return boneMatrices;
 		}
 
 		Skeleton::Skeleton(Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset)
@@ -89,7 +84,7 @@ namespace Application
 		int Skeleton::GetBoneCount() const
 		{
 			VERIFY(Root != nullptr);
-			return Root->GetSubNodeCount();
+			return Root->GetSubNodeCount() + 1;
 		}
 
 		Core::Ptr<Bone> Skeleton::GetSkeletonHierarchy() const
@@ -101,7 +96,10 @@ namespace Application
 		List<Float4x4> Skeleton::GetBoneMatrices() const
 		{
 			VERIFY(Root != nullptr);
-			return Root->GetBoneMatrices();
+			int initialOffset = 0;
+			List<Float4x4> boneMatrices = List<Float4x4>(GetBoneCount());
+			Root->GetBoneMatrices(boneMatrices, initialOffset);
+			return boneMatrices;
 		}
 
 		int Skeleton::GetIndexOf(String& const nodeName) const

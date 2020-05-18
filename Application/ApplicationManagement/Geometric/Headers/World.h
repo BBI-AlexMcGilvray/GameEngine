@@ -15,6 +15,7 @@ namespace Application
 
 			// debugging
 			Core::Ptr<Node> holderNode;
+			Core::Ptr<Node> neckBone;
 			void Update(Second dt) override;
 		};
 	}

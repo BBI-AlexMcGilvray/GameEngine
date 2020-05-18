@@ -36,7 +36,7 @@ namespace Application
 
 			Float4x4 GetBindOffset();
 
-			List<Float4x4> GetBoneMatrices();
+			void GetBoneMatrices(List<Float4x4>& boneMatrices, int& offset);
 
 		private:
 			Float4x4 InverseBindMatrix;

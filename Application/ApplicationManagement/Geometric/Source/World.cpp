@@ -62,7 +62,8 @@ namespace Application
 
 			Ptr<ContentBase> animatedMeshContent = animatedMeshNode->AddContent(MakeUnique<ContentBase>());
 			ComponentPtr<Rendering::Render> animatedRenderComponent = animatedMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
-			animatedRenderComponent->AddRenderObject<Rendering::AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
+			Ptr<Rendering::AnimatedModel> animatedModel = animatedRenderComponent->AddRenderObject<Rendering::AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
+			neckBone = animatedMeshNode->GetChild("Neck");
 			//end of testing
 
 			ContainerBase::Start();
@@ -90,6 +91,9 @@ namespace Application
 			FQuaternion currentRotation = holderNode->Transformation.GetRotation();
 			FQuaternion newRot = LerpQuat(currentRotation, FQuaternion(0.9f, 0.0f, 0.1f, 0.0f) * currentRotation, Duration(dt));
 			holderNode->Transformation.SetRotation(newRot);
+
+			FQuaternion rotationModification = neckBone->Transformation.GetRotation();
+			neckBone->Transformation.AdjustRotation(FQuaternion(0.99f, 0.0f, 0.0f, 0.01f));
 			//end of testing
 		}
 	}

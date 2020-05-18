@@ -77,6 +77,8 @@ namespace Application
 						vertexRenderData.BoneIndices[j] = 0;
 					}
 				}
+
+				RenderData[i] = vertexRenderData;
 			}
 		}
 

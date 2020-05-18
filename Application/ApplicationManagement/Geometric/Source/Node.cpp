@@ -153,22 +153,26 @@ namespace Application
 		// -1 means the child is not contained
 		int Node::GetChildDepth(Core::String name)
 		{
-			int depth = Name == name ? 0 : -1;
+			if (Name == name)
+			{
+				return 0;
+			}
+
+			int depth = -1;
 
 			for (Core::size i = 0; i < Children.size(); i++)
 			{
-				if (Children[i]->Name == name)
-				{
-					depth++;
-					break;
-				}
-
 				int childDepth = Children[i]->GetChildDepth(name);
 				if (childDepth != -1)
 				{
-					depth += childDepth;
+					depth = childDepth;
 					break;
 				}
+			}
+
+			if (depth != -1)
+			{
+				return depth + 1;
 			}
 
 			return depth;
