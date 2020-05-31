@@ -1,5 +1,7 @@
 #include "ApplicationManagement/Rendering/Shaders/Headers/SkinnedVertexShader.h"
 
+#include "Core/Debugging/Headers/Macros.h"
+
 #include <string>  
 
 using namespace std::string_literals;
@@ -41,10 +43,13 @@ namespace Application
 				Color = modColor * CameraFacingRatio;
 
 				// positional
-				mat4 boneTransform = boneMatrices[vBoneIndex.x] * vWeight.x;
-				boneTransform = boneMatrices[vBoneIndex.y] * vWeight.y + boneTransform;
-				boneTransform = boneMatrices[vBoneIndex.z] * vWeight.z + boneTransform;
-				boneTransform = boneMatrices[vBoneIndex.w] * vWeight.w + boneTransform;
+				mat4 boneTransform = boneMatrices[vBoneIndex[0]] * vWeight[0];
+				boneTransform += boneMatrices[vBoneIndex[1]] * vWeight[1];
+				boneTransform += boneMatrices[vBoneIndex[2]] * vWeight[2];
+				boneTransform += boneMatrices[vBoneIndex[3]] * vWeight[3];
+
+				// testing
+				Color = vec4(vec3(1.0) - (vPosition - (boneTransform * vec4(vPosition, 1.0)).xyz), 1.0);
 
 				gl_Position = MVP * vec4((boneTransform * vec4(vPosition, 1.0)).xyz, 1.0);
 			}
@@ -63,17 +68,21 @@ namespace Application
 
 		void SkinnedVertexShader::Prepare(GLuint program, const Float4x4& mvp, const Color& color) const
 		{
+			// Should this be using it's own Object field value instead of the passed in program value?
+			// Why is modColor returning a value of -1?
+
 			// set the required information that needs to be used in the shader
 			GLint MVP = glGetUniformLocation(program, "MVP");
-			glUniformMatrix4fv(MVP, 1, GL_FALSE, (GLfloat*)&(mvp.Bases[0]));
+			glUniformMatrix4fv(MVP, 1, GL_FALSE, (GLfloat*)&(mvp.E1.X));
 
 			// assign color to shader
 			GLint modColor = glGetUniformLocation(program, "modColor");
 			glUniform4fv(modColor, 1, color.Values);
 
 			// assign bones to shader
+			VERIFY(BoneList.size() <= 50);
 			GLint boneMatrices = glGetUniformLocation(program, "boneMatrices");
-			glUniformMatrix4fv(boneMatrices, BoneList.size(), GL_FALSE, (GLfloat*)&(BoneList[0].Bases[0]));
+			glUniformMatrix4fv(boneMatrices, BoneList.size(), GL_FALSE, (GLfloat*)&(BoneList[0].E1.X));
 		}
 
 		void SkinnedVertexShader::CleanUp() const

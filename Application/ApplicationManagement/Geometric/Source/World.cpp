@@ -36,19 +36,6 @@ namespace Application
 		void World::Start()
 		{
 			// just for testing currently
-			FQuaternion q1 = FQuaternion(0.707107f, -0.707107f, 0.000000f, 0.000000f);
-			FQuaternion q2 = FQuaternion();
-			FQuaternion q3 = q1 * q2;
-			FQuaternion q4 = q3 / q1;
-			FQuaternion q5 = q1 / q2;
-			LOG(QuaternionString(q3));
-			LOG(QuaternionString(q4));
-			LOG(QuaternionString(q5));
-
-			FQuaternion q6 = FQuaternion(-0.383f, -0.003f, -0.876f, 0.292f);
-			FQuaternion q7 = FQuaternion(-0.3832537f, 0.003002f, 0.8765803f, -0.2921934f);
-			LOG(QuaternionString(q2 / q6));
-			LOG(QuaternionString(q7 * q6));
 
 			//Ptr<Node> staticMeshNode = AddChild<Node>("StaticMesh", Float3(-10.0f, 0.0f, 0.0f));
 			//Ptr<ContentBase> staticMeshContent = staticMeshNode->AddContent(MakeUnique<ContentBase>());
@@ -58,12 +45,13 @@ namespace Application
 
 			holderNode = AddChild<Node>("Holder");
 
-			Ptr<Node> animatedMeshNode = holderNode->AddChild<Node>("AnimatedMesh", Float3(0.0f, 3.0f, 0.0f), FQuaternion(0.707f, -0.707f, 0.0f, 0.0f));
+			Ptr<Node> animatedMeshNode = holderNode->AddChild<Node>("AnimatedMesh", Float3(0.0f, 0.0f, 0.0f), FQuaternion(0.707f, 0.0f, 0.707f, 0.0f) * FQuaternion(0.707f, -0.707f, 0.0f, 0.0f));
+			//animatedMeshNode->Transformation.SetRotation()
 
 			Ptr<ContentBase> animatedMeshContent = animatedMeshNode->AddContent(MakeUnique<ContentBase>());
 			ComponentPtr<Rendering::Render> animatedRenderComponent = animatedMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 			Ptr<Rendering::AnimatedModel> animatedModel = animatedRenderComponent->AddRenderObject<Rendering::AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
-			neckBone = animatedMeshNode->GetChild("Neck");
+			neckBone = animatedMeshNode->GetChild("LeftShoulder"); // Targetting the "RootNode" works... maybe an issue with how the values are uploaded?
 			//end of testing
 
 			ContainerBase::Start();

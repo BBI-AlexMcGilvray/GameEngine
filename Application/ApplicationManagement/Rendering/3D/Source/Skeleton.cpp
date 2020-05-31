@@ -30,13 +30,18 @@ namespace Application
 			// initial position is the bind position
 			if (rootBone == nullptr)
 			{
-				InverseBindMatrix = Transformation.GetWorldInverseTransformationMatrix();
+				// InverseBindMatrix is the initial binding offset between the root node and the current node. For the root node, this is always 0
+				InverseBindMatrix = Float4x4(II{});
 			}
 			else
 			{
 				InverseBindMatrix = Inverse(rootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix());
 			}
-			VERIFY(GetBindOffset() == Float4x4(II{}));
+			// This is a useless verification as the == operator will likely never be EXACT in this case - need a 'within range' equator
+			if (!VERIFY(GetBindOffset() == Float4x4(II{})))
+			{
+				LOG(Name + ": " + MatrixString(GetBindOffset()));
+			}
 		}
 
 		void Bone::Start()
@@ -59,6 +64,7 @@ namespace Application
 			}
 			else
 			{
+				// Since this is the root node, the InverseBindMatrix is always 0, so we are essentially just forwarding in the transform itself (to accound for the node being moved at all)
 				return InverseBindMatrix * Transformation.GetLocalTransformationMatrix();
 			}
 		}

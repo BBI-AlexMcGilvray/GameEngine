@@ -22,9 +22,8 @@ namespace Application
 			newBuffer.Generate();
 			newBuffer.Bind();
 
-			// glBufferData( < type >, < size of data >, < start of data >, < draw type >);
-			// the Data->Data would go away with a DataPtr<T>
-			glBufferData(newBuffer.Type, RenderData.size() * sizeof(Application::Rendering::AnimatedVertexRenderDataBase), &(RenderData[0]), GL_STATIC_DRAW);
+			// glBufferData( < type >, < size of data >, < start of data >, < draw type >); // GL_DYNAMIC_DRAW because Skin(...) could be called multiple times, changing indices
+			glBufferData(newBuffer.Type, RenderData.size() * sizeof(Application::Rendering::AnimatedVertexRenderDataBase), &(RenderData[0]), GL_DYNAMIC_DRAW);
 
 			// glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
 			// position

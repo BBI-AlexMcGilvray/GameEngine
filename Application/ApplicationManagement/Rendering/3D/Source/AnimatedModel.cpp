@@ -29,7 +29,7 @@ namespace Application
 		Core::size AnimatedModel::GetVertexCount() const
 		{
 			// again, should would be much easier with a DataPtr<T>
-			return Mesh.Data.Data.VertexCount;
+			return Mesh.RenderData.size();
 		}
 
 		void AnimatedModel::Prepare(const Float4x4& mvp, const Color& color) const
