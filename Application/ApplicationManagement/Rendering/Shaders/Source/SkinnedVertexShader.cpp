@@ -69,7 +69,7 @@ namespace Application
 		void SkinnedVertexShader::Prepare(GLuint program, const Float4x4& mvp, const Color& color) const
 		{
 			// Should this be using it's own Object field value instead of the passed in program value?
-			// Why is modColor returning a value of -1?
+			// Why is modColor returning a value of -1? because it is not currently being used
 
 			// set the required information that needs to be used in the shader
 			GLint MVP = glGetUniformLocation(program, "MVP");

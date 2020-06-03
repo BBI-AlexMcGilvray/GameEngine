@@ -1,5 +1,7 @@
 #include "ApplicationManagement/Headers/SDL2Manager.h"
 
+#include "ApplicationManagement/Headers/ApplicationManager.h"
+
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -8,7 +10,7 @@ namespace Application
 {
 	bool SDL2Manager::Initialize()
 	{
-		if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 		{
 			return false;
 		}
@@ -18,6 +20,9 @@ namespace Application
 			CheckSDLError(__LINE__);
 			return false;
 		}
+
+		// NOTE!! https://stackoverflow.com/questions/47188856/cant-make-opengl-glew-and-sdl2-work-together
+		ApplicationManager::AppRenderManager().SetOpenGLAttributes();
 
 		if (!MainContext.Initialize(MainWindow.GetWindow()))
 		{
