@@ -49,6 +49,9 @@ namespace Application
 			void CleanUp();
 
 			void SetOpenGLAttributes();
+#if DEBUG
+			void VerifyOpenGLAttributes();
+#endif
 
 			Core::Ptr<const Camera> GetCamera() const;
 			void SetCamera(Core::Ptr<Camera> renderCamera);

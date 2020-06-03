@@ -30,6 +30,11 @@ namespace Application
 			return false;
 		}
 
+#if DEBUG
+		// This is just to verify that our attributes are being set to what we want them to be
+		ApplicationManager::AppRenderManager().VerifyOpenGLAttributes();
+#endif
+
 		glewExperimental = true;
 		GLenum glewError = glewInit();
 		if (glewError != GLEW_OK)

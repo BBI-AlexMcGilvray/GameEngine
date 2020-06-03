@@ -112,8 +112,8 @@ namespace Application
 		void RenderManager::SetOpenGLAttributes()
 		{
 			// starting with version 3.2 of OpenGL as it is modern and should be runnable by most video cards
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 5);
 
 			// we are going to use double buffering (this only sets a 23bit Z buffer)
 			SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -129,6 +129,27 @@ namespace Application
 			// SDL_GL_CONTEXT_PROFILE_CORE uses only the newer version, deprecated functions are disabled
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 		}
+
+#if DEBUG
+		void RenderManager::VerifyOpenGLAttributes()
+		{
+			// In the future, the attribute values should be stored in a struct so that they are not floating magic numbers
+			// Would also enable reading them from a file and such
+
+			int attributeValue = -100;
+
+			SDL_GL_GetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, &attributeValue);
+			ASSERT(attributeValue == 4);
+
+			attributeValue = -100;
+			SDL_GL_GetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, &attributeValue);
+			ASSERT(attributeValue == 5);
+
+			attributeValue = -100;
+			SDL_GL_GetAttribute(SDL_GL_DOUBLEBUFFER, &attributeValue);
+			ASSERT(attributeValue == 1);
+		}
+#endif
 
 		Ptr<const Camera> RenderManager::GetCamera() const
 		{
