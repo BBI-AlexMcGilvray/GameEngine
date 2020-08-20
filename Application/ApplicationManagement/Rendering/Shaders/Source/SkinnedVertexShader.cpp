@@ -43,10 +43,11 @@ namespace Application
 				Color = modColor * CameraFacingRatio;
 
 				// positional
-				mat4 boneTransform = boneMatrices[vBoneIndex[0]] * vWeight[0];
-				boneTransform += boneMatrices[vBoneIndex[1]] * vWeight[1];
-				boneTransform += boneMatrices[vBoneIndex[2]] * vWeight[2];
-				boneTransform += boneMatrices[vBoneIndex[3]] * vWeight[3];
+				vec4 boneWeight = vec4(1, 0, 0, 0);
+				mat4 boneTransform = boneMatrices[vBoneIndex[0]] * boneWeight[0];
+				boneTransform += boneMatrices[vBoneIndex[1]] * boneWeight[1];
+				boneTransform += boneMatrices[vBoneIndex[2]] * boneWeight[2];
+				boneTransform += boneMatrices[vBoneIndex[3]] * boneWeight[3];
 
 				// testing
 				Color = vec4(vec3(1.0) - (vPosition - (boneTransform * vec4(vPosition, 1.0)).xyz), 1.0);

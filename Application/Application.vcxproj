@@ -249,6 +249,7 @@
     <ClCompile Include="Core\Math\Source\UtilityFunctions.cpp" />
     <ClCompile Include="Core\Math\UnitTests\MatrixTests.cpp" />
     <ClCompile Include="Core\Math\UnitTests\VectorTests.cpp" />
+    <ClCompile Include="Core\Networking\Source\Utils.cpp" />
     <ClCompile Include="Core\Source\AnimationCurve.cpp" />
     <ClCompile Include="Core\Source\Exception.cpp" />
     <ClCompile Include="Core\Source\Hash.cpp" />
@@ -374,6 +375,10 @@
     <ClInclude Include="ApplicationManagement\Rendering\Shaders\Headers\SkinnedVertexShader.h" />
     <ClInclude Include="ApplicationManagement\StateSystem\Headers\State.h" />
     <ClInclude Include="ApplicationManagement\StateSystem\Headers\StateManager.h" />
+    <ClInclude Include="Core\Debugging\Headers\NetworkConnection.h" />
+    <ClInclude Include="Core\Debugging\Headers\NetworkData.h" />
+    <ClInclude Include="Core\Debugging\Headers\NetworkReceiver.h" />
+    <ClInclude Include="Core\Debugging\Headers\NetworkSender.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\Box.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\Circle.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\Geometry.h" />
@@ -394,6 +399,9 @@
     <ClInclude Include="Core\IO\Headers\IOUtils.h" />
     <ClInclude Include="Core\Math\Headers\Axis.h" />
     <ClInclude Include="Core\Math\Headers\Basis.h" />
+    <ClInclude Include="Core\Networking\Headers\Macros.h" />
+    <ClInclude Include="Core\Networking\Headers\NetworkMap.h" />
+    <ClInclude Include="Core\Networking\Headers\Utils.h" />
     <ClInclude Include="Data\Headers\AssetData.h" />
     <ClInclude Include="Data\Headers\AssetExceptions.h" />
     <ClInclude Include="Data\Headers\AssetName.h" />
