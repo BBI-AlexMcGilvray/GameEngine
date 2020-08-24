@@ -336,6 +336,9 @@
     <ClCompile Include="Core\Networking\Source\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Core\Networking\Source\NetworkProtocol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Planning\GameEngine.xmi" />
@@ -1096,16 +1099,22 @@
     <ClInclude Include="Core\Networking\Headers\NetworkMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Debugging\Headers\NetworkSender.h">
+    <ClInclude Include="Core\Networking\Headers\NetworkData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Debugging\Headers\NetworkReceiver.h">
+    <ClInclude Include="Core\Networking\Headers\NetworkProtocol.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Debugging\Headers\NetworkData.h">
+    <ClInclude Include="Core\Networking\Headers\NetworkReceiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Debugging\Headers\NetworkConnection.h">
+    <ClInclude Include="Core\Networking\Headers\NetworkSender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Headers\Property.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Networking\Headers\NetworkConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

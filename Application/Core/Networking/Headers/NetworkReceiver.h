@@ -7,7 +7,7 @@ namespace Core
 		class NetworkReceiver
 		{
 			// network map to handle parsed data
-			// network connection to communicate through
+			// network protocol to communicate through
 
 			// receive network data
 			// parse network data

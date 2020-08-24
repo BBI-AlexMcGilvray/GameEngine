@@ -7,7 +7,7 @@ namespace Core
 		class NetworkSender
 		{
 			// network data to send up
-			// network connection to communicate through
+			// network protocol to communicate through
 
 			// add to network data
 			// remove (?) from network data

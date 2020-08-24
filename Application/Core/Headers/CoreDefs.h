@@ -53,4 +53,5 @@ namespace Core
 	using uint = unsigned int;
 	using uint64 = unsigned long int;
 	using size = size_t;
+	using byte = unsigned char;
 }
