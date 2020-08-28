@@ -339,6 +339,9 @@
     <ClCompile Include="Core\Networking\Source\NetworkProtocol.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLMappedBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Planning\GameEngine.xmi" />
@@ -1115,6 +1118,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Networking\Headers\NetworkConnection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLMappedBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

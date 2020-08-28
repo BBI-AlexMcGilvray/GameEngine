@@ -175,6 +175,7 @@
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Skeleton.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SkinnedMeshBase.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SphereRenderObject.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\GLMappedBuffer.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\SkinnedObjectShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\SkinnedVertexShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\CameraComponent.cpp" />
@@ -366,6 +367,7 @@
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderComponent.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLBuffer.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLDefs.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLMappedBuffer.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLObject.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLShader.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLShaderProgram.h" />

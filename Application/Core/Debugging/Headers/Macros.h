@@ -32,13 +32,13 @@ namespace Core
 	}
 
 	#if DEBUG
-#define VERIFY( X ) VerifyCondition( X, #X, std::string(__FILE__) + " (" + std::to_string(__LINE__) + "): " )
+	#define VERIFY( X ) VerifyCondition( X, #X, std::string(__FILE__) + " (" + std::to_string(__LINE__) + "): " )
 	#else
 	#define VERIFY( X ) // do nothing if not debugging
 	#endif
 
 	#if DEBUG
-#define ASSERT( X ) if (!VERIFY(X)) { assert(false, "Assertion failed"); }
+	#define ASSERT( X ) if (!VERIFY(X)) { assert(false, "Assertion failed"); }
 	#else
 	#define ASSERT( X ) // do nothing if not debugging
 	#endif

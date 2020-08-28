@@ -13,6 +13,11 @@ namespace Application
 			Initialize();
 		}
 
+		SkinnedMeshBase::~SkinnedMeshBase()
+		{
+			MappedMesh.Unmap();
+		}
+
 		void SkinnedMeshBase::Initialize()
 		{
 			Vao.Generate();
@@ -44,6 +49,9 @@ namespace Application
 			glDisableVertexAttribArray(0);
 
 			Push(Vbos, newBuffer);
+
+			MappedMesh = GLMappedBuffer(newBuffer);
+			MappedMesh.Map(GL_WRITE_ONLY);
 		}
 
 		void SkinnedMeshBase::Prepare() const
@@ -79,6 +87,8 @@ namespace Application
 
 				RenderData[i] = vertexRenderData;
 			}
+
+			MappedMesh.Assign(&RenderData, sizeof(RenderData));
 		}
 
 		void SkinnedMeshBase::CreateRenderData()

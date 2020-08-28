@@ -10,6 +10,7 @@
 #include "ApplicationManagement/Rendering/3D/Headers/RenderVertexBaseData.h"
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLMappedBuffer.h"
 
 using namespace Core;
 
@@ -25,6 +26,8 @@ namespace Application
 
 			SkinnedMeshBase(Data::AssetName<Data::Rendering::AnimatedMeshData> asset);
 
+			~SkinnedMeshBase();
+
 			virtual void Initialize();
 
 			virtual void Prepare() const;
@@ -35,6 +38,7 @@ namespace Application
 		private:
 			GLArrayBuffer Vao;
 			List<GLBuffer> Vbos;
+			GLMappedBuffer MappedMesh;
 
 			void CreateRenderData();
 		};
