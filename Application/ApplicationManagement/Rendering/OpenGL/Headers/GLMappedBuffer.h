@@ -25,9 +25,9 @@ namespace Application
 
 			void Bind() const;
 
-			void Map(GLenum accessType);
-			void Assign(Core::Ptr<void> data, Core::size dataSize);
-			bool Unmap() const;
+			void Map(GLenum accessType, bool internalHandling = true);
+			void Assign(Core::Ptr<void> data, Core::size dataSize, bool internalHandling = true);
+			bool Unmap(bool internalHandling = true) const;
 
 			void Unbind() const;
 		};

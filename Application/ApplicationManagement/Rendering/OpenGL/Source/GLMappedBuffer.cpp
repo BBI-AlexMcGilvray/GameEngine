@@ -25,17 +25,21 @@ namespace Application
 			_buffer.Bind();
 		}
 
-		void GLMappedBuffer::Map(GLenum accessType)
+		void GLMappedBuffer::Map(GLenum accessType, bool internalHandling)
 		{
 			if (accessType == _accessType)
 			{
 				return;
 			}
 
-			Unmap();
+			Unmap(internalHandling);
 			_accessType = accessType;
 
-			Bind();
+			if (internalHandling)
+			{
+				Bind();
+			}
+
 			_mappedBuffer = glMapBuffer(_buffer.Type, _accessType);
 		#if DEBUG
 			if (_mappedBuffer == nullptr)
@@ -44,12 +48,20 @@ namespace Application
 				std::cout << "Failed to assign mapped buffer" << std::endl;
 			}
 		#endif
-			Unbind();
+
+			if (internalHandling)
+			{
+				Unbind();
+			}
 		}
 
-		void GLMappedBuffer::Assign(Core::Ptr<void> data, Core::size dataSize)
+		void GLMappedBuffer::Assign(Core::Ptr<void> data, Core::size dataSize, bool internalHandling)
 		{
-			Bind();
+			if (internalHandling)
+			{
+				Bind();
+			}
+
 			if (_mappedBuffer != nullptr)
 			{
 				memcpy(_mappedBuffer, data, dataSize);
@@ -61,14 +73,31 @@ namespace Application
 				std::cout << "No buffer to assign to" << std::endl;
 			}
 		#endif
-			Unbind();
+
+			if (internalHandling)
+			{
+				Unbind();
+			}
 		}
 
-		bool GLMappedBuffer::Unmap() const
+		bool GLMappedBuffer::Unmap(bool internalHandling) const
 		{
-			Bind();
+			if (_mappedBuffer == nullptr)
+			{
+				return true;
+			}
+
+			if (internalHandling)
+			{
+				Bind();
+			}
+
 			bool result = glUnmapBuffer(_buffer.Type);
-			Unbind();
+
+			if (internalHandling)
+			{
+				Unbind();
+			}
 
 			return result;
 		}
