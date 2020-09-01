@@ -26,6 +26,15 @@ namespace Application
 			Initialize();
 		}
 
+		BoxRenderObject::~BoxRenderObject()
+		{
+			Vao.Delete();
+			for (int i = 0; i < Vbos.size(); i++)
+			{
+				Vbos[i].Delete();
+			}
+		}
+
 		void BoxRenderObject::Initialize()
 		{
 			Float3 center = 0.0f; // want box to be centered on transform

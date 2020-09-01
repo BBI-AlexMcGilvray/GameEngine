@@ -13,11 +13,13 @@ namespace Application
 
 			~GLBuffer();
 
-			void Bind() const;
-
 			void Generate();
 
+			void Bind() const;
+
 			void Unbind() const;
+
+			void Delete();
 		};
 	}
 }

@@ -1,5 +1,8 @@
 #include "ApplicationManagement/Rendering/OpenGL/Headers/GLBuffer.h"
 
+#if _DEBUG
+#include "Core/Debugging/Headers/Macros.h"
+#endif
 namespace Application
 {
 	namespace Rendering
@@ -14,12 +17,7 @@ namespace Application
 
 		GLBuffer::~GLBuffer()
 		{
-			glDeleteBuffers(1, &Object);
-		}
-
-		void GLBuffer::Bind() const
-		{
-			glBindBuffer(Type, Object);
+			// don't delete here as any stack-based instances will clear for all and using pointers for this is probably unnecessary
 		}
 
 		void GLBuffer::Generate()
@@ -27,9 +25,19 @@ namespace Application
 			glGenBuffers(1, &Object);
 		}
 
+		void GLBuffer::Bind() const
+		{
+			glBindBuffer(Type, Object);
+		}
+
 		void GLBuffer::Unbind() const
 		{
 			glBindBuffer(Type, 0);
+		}
+
+		void GLBuffer::Delete()
+		{
+			glDeleteBuffers(1, &Object);
 		}
 	}
 }

@@ -12,6 +12,15 @@ namespace Application
 			Initialize();
 		}
 
+		SimpleMeshBase::~SimpleMeshBase()
+		{
+			Vao.Delete();
+			for (int i = 0; i < Vbos.size(); i++)
+			{
+				Vbos[i].Delete();
+			}
+		}
+
 		void SimpleMeshBase::Initialize()
 		{
 			Vao.Generate();

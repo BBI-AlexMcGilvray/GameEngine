@@ -24,6 +24,8 @@ namespace Application
 
 			SimpleMeshBase(Data::AssetName<Data::Rendering::SimpleMeshData> asset);
 
+			~SimpleMeshBase();
+
 			virtual void Initialize();
 
 			virtual void Prepare() const;

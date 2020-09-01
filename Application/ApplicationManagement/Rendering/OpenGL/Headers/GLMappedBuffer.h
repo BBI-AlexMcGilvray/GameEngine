@@ -13,13 +13,12 @@ namespace Application
 		struct GLMappedBuffer
 		{
 		private:
-			GLBuffer _buffer;
+			Core::Ptr<GLBuffer> _buffer;
 			Core::Ptr<void> _mappedBuffer = nullptr;
-			GLenum _accessType = GL_NONE;
 
 		public:
 			GLMappedBuffer();
-			GLMappedBuffer(GLBuffer bufferToMap);
+			GLMappedBuffer(Core::Ptr<GLBuffer> bufferToMap);
 
 			~GLMappedBuffer();
 

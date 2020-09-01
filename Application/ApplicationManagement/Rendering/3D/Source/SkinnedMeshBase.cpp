@@ -15,7 +15,11 @@ namespace Application
 
 		SkinnedMeshBase::~SkinnedMeshBase()
 		{
-			//MappedMesh.Unmap();
+			Vao.Delete();
+			for (int i = 0; i < Vbos.size(); i++)
+			{
+				Vbos[i].Delete();
+			}
 		}
 
 		void SkinnedMeshBase::Initialize()
@@ -44,15 +48,14 @@ namespace Application
 			glEnableVertexAttribArray(3); // this matches with object shader construction
 			glVertexAttribPointer(3, 4, GL_INT, GL_FALSE, sizeof(Application::Rendering::AnimatedVertexRenderDataBase), (void*)(offsetof(Application::Rendering::AnimatedVertexRenderDataBase, Application::Rendering::AnimatedVertexRenderDataBase::BoneIndices)));
 
-			// keep track of mesh data to write to
-			//MappedMesh = GLMappedBuffer(newBuffer);
-			//MappedMesh.Map(GL_WRITE_ONLY, false);
-
 			Vao.Unbind(); // must be done first, as it stores the states of the binded vbos
 			newBuffer.Unbind();
 			glDisableVertexAttribArray(0);
 
 			Push(Vbos, newBuffer);
+
+			// keep track of mesh data to write to
+			MappedMesh = GLMappedBuffer(&Vbos[0]);
 		}
 
 		void SkinnedMeshBase::Prepare() const
@@ -89,7 +92,10 @@ namespace Application
 				RenderData[i] = vertexRenderData;
 			}
 
-			//MappedMesh.Assign(&RenderData, sizeof(RenderData));
+			// Update the data in the opengl buffer
+			MappedMesh.Map(GL_WRITE_ONLY);
+			MappedMesh.Assign(&(RenderData[0]), RenderData.size() * sizeof(Application::Rendering::AnimatedVertexRenderDataBase));
+			MappedMesh.Unmap();
 		}
 
 		void SkinnedMeshBase::CreateRenderData()

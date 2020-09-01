@@ -26,6 +26,8 @@ namespace Application
 			SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
 			SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float radius);
 
+			~SphereRenderObject();
+
 			virtual void Initialize();
 
 			virtual void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;

@@ -26,6 +26,15 @@ namespace Application
 			Initialize();
 		}
 
+		CubeRenderObject::~CubeRenderObject()
+		{
+			Vao.Delete();
+			for (int i = 0; i < Vbos.size(); i++)
+			{
+				Vbos[i].Delete();
+			}
+		}
+
 		void CubeRenderObject::Initialize()
 		{
 			CreateMesh();

@@ -24,6 +24,15 @@ namespace Application
 			Initialize();
 		}
 
+		CircleRenderObject::~CircleRenderObject()
+		{
+			Vao.Delete();
+			for (int i = 0; i < Vbos.size(); i++)
+			{
+				Vbos[i].Delete();
+			}
+		}
+
 		void CircleRenderObject::Initialize()
 		{
 			// we want the circles drawn to be centered around the point. Any positional changed come from the transformation matrix

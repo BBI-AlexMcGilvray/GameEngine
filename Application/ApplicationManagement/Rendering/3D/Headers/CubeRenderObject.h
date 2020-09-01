@@ -27,6 +27,8 @@ namespace Application
 			CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float width, float height, float depth);
 			CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, Core::Math::Float3 scale);
 
+			~CubeRenderObject();
+
 			virtual void Initialize();
 
 			virtual void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;

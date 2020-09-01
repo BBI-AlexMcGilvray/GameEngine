@@ -24,6 +24,15 @@ namespace Application
 			Initialize();
 		}
 
+		SphereRenderObject::~SphereRenderObject()
+		{
+			Vao.Delete();
+			for (int i = 0; i < Vbos.size(); i++)
+			{
+				Vbos[i].Delete();
+			}
+		}
+
 		void SphereRenderObject::Initialize()
 		{
 			CreateMesh();

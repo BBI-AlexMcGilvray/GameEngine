@@ -27,6 +27,8 @@ namespace Application
 			BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float width, float height);
 			BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, Core::Math::Float2 scale);
 
+			~BoxRenderObject();
+
 			virtual void Initialize();
 
 			virtual void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;

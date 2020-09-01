@@ -14,12 +14,7 @@ namespace Application
 
 		GLArrayBuffer::~GLArrayBuffer()
 		{
-			glDeleteVertexArrays(1, &Object);
-		}
-
-		void GLArrayBuffer::Bind() const
-		{
-			glBindVertexArray(Object);
+			// don't delete here as any stack-based instances will clear for all and using pointers for this is probably unnecessary
 		}
 
 		void GLArrayBuffer::Generate()
@@ -27,9 +22,19 @@ namespace Application
 			glGenVertexArrays(1, &Object);
 		}
 
+		void GLArrayBuffer::Bind() const
+		{
+			glBindVertexArray(Object);
+		}
+
 		void GLArrayBuffer::Unbind() const
 		{
 			glBindVertexArray(0);
+		}
+
+		void GLArrayBuffer::Delete()
+		{
+			glDeleteVertexArrays(1, &Object);
 		}
 	}
 }
