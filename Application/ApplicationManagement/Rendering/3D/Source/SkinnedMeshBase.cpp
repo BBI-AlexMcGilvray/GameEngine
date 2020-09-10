@@ -46,7 +46,7 @@ namespace Application
 			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::AnimatedVertexRenderDataBase), (void*)(offsetof(Application::Rendering::AnimatedVertexRenderDataBase, Application::Rendering::AnimatedVertexRenderDataBase::BoneWeight)));
 			// bone indices
 			glEnableVertexAttribArray(3); // this matches with object shader construction
-			glVertexAttribPointer(3, 4, GL_INT, GL_FALSE, sizeof(Application::Rendering::AnimatedVertexRenderDataBase), (void*)(offsetof(Application::Rendering::AnimatedVertexRenderDataBase, Application::Rendering::AnimatedVertexRenderDataBase::BoneIndices)));
+			glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::AnimatedVertexRenderDataBase), (void*)(offsetof(Application::Rendering::AnimatedVertexRenderDataBase, Application::Rendering::AnimatedVertexRenderDataBase::BoneIndices)));
 
 			Vao.Unbind(); // must be done first, as it stores the states of the binded vbos
 			newBuffer.Unbind();

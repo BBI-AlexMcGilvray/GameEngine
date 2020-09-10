@@ -18,7 +18,7 @@ namespace Application
 			layout(location = 0) in vec3 vPosition;
 			layout(location = 1) in vec3 vNormal;
 			layout(location = 2) in vec4 vWeight;
-			layout(location = 3) in ivec4 vBoneIndex;
+			layout(location = 3) in vec4 vBoneIndex; // for some reason, ints are not being read in correctly
 			
 			// Values that stay constant for the whole mesh
 			uniform mat4 MVP;
@@ -28,6 +28,20 @@ namespace Application
 			// values to return to fragment shader
 			out vec4 Color;
 			out smooth float CameraFacingRatio;
+
+			// testing
+			out mat4 bTransform;
+			out mat4 bOne;
+			out mat4 bTwo;
+			out mat4 bThree;
+			out mat4 bFour;
+			out vec4 wA;
+			//out vec4 iA;
+			//out float i1;
+			//out int i2;
+			//out int i3;
+			//out int i4;
+
 			
 			void main()
 			{
@@ -40,14 +54,27 @@ namespace Application
 				CameraFacingRatio = (dotProduct * dotProduct) / dot(rotatedNormal, rotatedNormal);
 
 				// colour
-				Color = modColor * CameraFacingRatio;
+				//Color = modColor * CameraFacingRatio;
 
 				// positional
-				vec4 boneWeight = vec4(1, 0, 0, 0);
-				mat4 boneTransform = boneMatrices[vBoneIndex[0]] * boneWeight[0];
-				boneTransform += boneMatrices[vBoneIndex[1]] * boneWeight[1];
-				boneTransform += boneMatrices[vBoneIndex[2]] * boneWeight[2];
-				boneTransform += boneMatrices[vBoneIndex[3]] * boneWeight[3];
+				vec4 boneWeight = vWeight;
+				mat4 boneTransform = (boneMatrices[int(vBoneIndex[0])] * boneWeight[0]);
+				boneTransform += (boneMatrices[int(vBoneIndex[1])] * boneWeight[1]);
+				boneTransform += (boneMatrices[int(vBoneIndex[2])] * boneWeight[2]);
+				boneTransform += (boneMatrices[int(vBoneIndex[3])] * boneWeight[3]);
+
+				// testing
+				bTransform = boneTransform;
+				bOne = (boneMatrices[int(vBoneIndex[0])]);
+				bTwo = (boneMatrices[int(vBoneIndex[1])]);
+				bThree = (boneMatrices[int(vBoneIndex[2])]);
+				bFour = (boneMatrices[int(vBoneIndex[3])]);
+				wA = vWeight;
+				//iA = vBoneIndex;
+				//i1 = float(vBoneIndex[0]);
+				//i2 = int(vBoneIndex.y);
+				//i3 = int(vBoneIndex[2]);
+				//i4 = 7;
 
 				// testing
 				Color = vec4(vec3(1.0) - (vPosition - (boneTransform * vec4(vPosition, 1.0)).xyz), 1.0);

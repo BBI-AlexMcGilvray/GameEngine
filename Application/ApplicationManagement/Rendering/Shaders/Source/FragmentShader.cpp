@@ -16,6 +16,14 @@ namespace Application
 			// values passed from vertex shader
 			in vec4 Color;
 			in smooth float CameraFacingRatio; // DebugVertexShader ALSO uses this
+
+			// testing
+			in vec4 wA;
+			in ivec4 iA;
+			in int i1;
+			in int i2;
+			in int i3;
+			in int i4;
 			
 			// Values that stay constant for the whole mesh
 			

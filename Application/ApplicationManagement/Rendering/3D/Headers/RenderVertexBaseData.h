@@ -54,7 +54,8 @@ namespace Application
 			Float3 Normal; // vertex normal
 			//Float2 UVs; // vertex uvs
 			Float4 BoneWeight;
-			Int4 BoneIndices;
+			//Int4 BoneIndices; // for some reason, shader is not able to read ints correctly
+			Float4 BoneIndices;
 
 			AnimatedVertexRenderDataBase()
 			{}
@@ -69,7 +70,8 @@ namespace Application
 				Normal = normal;
 				//UVs = uvs;
 				BoneWeight = boneWeight;
-				BoneIndices = boneIndices;
+				//BoneIndices = boneIndices;
+				BoneIndices = Float4(boneIndices.X, boneIndices.Y, boneIndices.Z, boneIndices.W);
 			}
 		};
 	}
