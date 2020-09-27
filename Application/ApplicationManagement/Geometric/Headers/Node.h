@@ -76,7 +76,6 @@ namespace Application
 
 			virtual Ptr<Node> AddChild(UniquePtr<Node> newChild);
 			virtual Ptr<Node> GetChild(Core::String name);
-			virtual int GetChildDepth(Core::String name);
 			virtual UniquePtr<Node> RemoveChild(Ptr<Node> oldChild);
 
 			Core::Ptr<State> GetParentState() const;

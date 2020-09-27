@@ -36,11 +36,14 @@ namespace Application
 
 			Float4x4 GetBindOffset();
 
+			int GetBoneIndex(Core::String name);
 			void GetBoneMatrices(List<Float4x4>& boneMatrices, int& offset);
 
 		private:
 			Ptr<Bone> RootBone;
 			Float4x4 InverseBindMatrix;
+
+			int GetBoneIndex(Core::String name, bool& indexFound);
 		};
 
 		struct Skeleton

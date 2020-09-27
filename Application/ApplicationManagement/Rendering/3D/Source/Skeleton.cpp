@@ -69,6 +69,16 @@ namespace Application
 			}
 		}
 
+		// Problem was: was returning the depth, but the way it was calculated is not equivalent to bone INDEX
+		// New Problem: Keeps counting forever, need to break out of the recursion when a bone is found
+		int Bone::GetBoneIndex(Core::String name)
+		{
+			bool indexFound = false;
+			int index = GetBoneIndex(name, indexFound);
+			
+			return (indexFound ? index : -1);
+		}
+
 		void Bone::GetBoneMatrices(List<Float4x4>& boneMatrices, int& offset)
 		{
 			boneMatrices[offset] = GetBindOffset();
@@ -76,6 +86,29 @@ namespace Application
 			{
 				((Ptr<Bone>)Children[i].get())->GetBoneMatrices(boneMatrices, ++offset);
 			}
+		}
+
+		int Bone::GetBoneIndex(Core::String name, bool& indexFound)
+		{
+			if (Name == name)
+			{
+				indexFound = true;
+				return 0;
+			}
+
+			int depth = 1;
+
+			for (Core::size i = 0; i < Children.size(); i++)
+			{
+				int childDepth = ((Ptr<Bone>)Children[i].get())->GetBoneIndex(name, indexFound);
+				depth += childDepth;
+				if (childDepth == 0 || indexFound)
+				{
+					break;
+				}
+			}
+
+			return depth;
 		}
 
 		Skeleton::Skeleton(Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset)
@@ -119,7 +152,7 @@ namespace Application
 
 		int Skeleton::GetIndexOf(String& const nodeName) const
 		{
-			return Root->GetChildDepth(nodeName);
+			return ((Ptr<Bone>)Root)->GetBoneIndex(nodeName);
 		}
 
 		Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, Ptr<Bone> rootBone)

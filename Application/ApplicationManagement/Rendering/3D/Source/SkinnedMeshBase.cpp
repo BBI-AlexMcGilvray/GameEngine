@@ -1,5 +1,9 @@
 #include "ApplicationManagement/Rendering/3D/Headers/SkinnedMeshBase.h"
 
+// testing
+#include "Core/Math/Headers/VectorFunctions.h"
+#include "Core/Debugging/Headers/Macros.h"
+
 using namespace Core;
 
 namespace Application
@@ -75,6 +79,15 @@ namespace Application
 				Data::Rendering::AnimatedVertexDataBase vertexData = Data.Data.Vertices[i];
 				Application::Rendering::AnimatedVertexRenderDataBase vertexRenderData = RenderData[i];
 
+				if (i == 2262)
+				{
+					LOG("Trying to get bone index for 2262");
+				}
+				if (i == 2337)
+				{
+					LOG("Trying to get bone index for 2337");
+				}
+
 				int bonesPerVert = 4;
 				for (int j = 0; j < bonesPerVert; j++)
 				{
@@ -87,6 +100,15 @@ namespace Application
 						// unused bone indices should be zeroed out by the weight
 						vertexRenderData.BoneIndices[j] = 0;
 					}
+				}
+
+				if (i == 2262)
+				{
+					LOG("Index 2262: BoneIndices: " + Core::Math::VectorString(vertexRenderData.BoneIndices));
+				}
+				if (i == 2337)
+				{
+					LOG("Index 2337: BoneIndices: " + Core::Math::VectorString(vertexRenderData.BoneIndices));
 				}
 
 				RenderData[i] = vertexRenderData;
