@@ -91,6 +91,14 @@ namespace Application
 				int bonesPerVert = 4;
 				for (int j = 0; j < bonesPerVert; j++)
 				{
+					if (i == 2262)
+					{
+						LOG("2262: IndexOf " + vertexData.BoneName[j] + " = " + std::to_string(skeleton.GetIndexOf(vertexData.BoneName[j])));
+					}
+					if (i == 2337)
+					{
+						LOG("2337: IndexOf " + vertexData.BoneName[j] + " = " + std::to_string(skeleton.GetIndexOf(vertexData.BoneName[j])));
+					}
 					if (j < vertexData.BoneName.size() && vertexData.BoneName[j] != "")
 					{
 						vertexRenderData.BoneIndices[j] = skeleton.GetIndexOf(vertexData.BoneName[j]);

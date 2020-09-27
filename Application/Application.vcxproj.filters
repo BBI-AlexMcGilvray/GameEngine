@@ -1141,6 +1141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="__Planning\Notes.txt" />
+    <Text Include="__Planning\ScratchPad.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="__Planning\class diagram.png">
