@@ -79,7 +79,7 @@ namespace Application
 				// testing
 				Color = vec4(vec3(1.0) - (vPosition - (boneTransform * vec4(vPosition, 1.0)).xyz), 1.0);
 
-				gl_Position = MVP * vec4((boneTransform * vec4(vPosition, 1.0)).xyz, 1.0);
+				gl_Position = MVP * (boneTransform * vec4(vPosition, 1.0));
 			}
 		)";
 

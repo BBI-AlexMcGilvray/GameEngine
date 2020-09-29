@@ -79,26 +79,9 @@ namespace Application
 				Data::Rendering::AnimatedVertexDataBase vertexData = Data.Data.Vertices[i];
 				Application::Rendering::AnimatedVertexRenderDataBase vertexRenderData = RenderData[i];
 
-				if (i == 2262)
-				{
-					LOG("Trying to get bone index for 2262");
-				}
-				if (i == 2337)
-				{
-					LOG("Trying to get bone index for 2337");
-				}
-
 				int bonesPerVert = 4;
 				for (int j = 0; j < bonesPerVert; j++)
 				{
-					if (i == 2262)
-					{
-						LOG("2262: IndexOf " + vertexData.BoneName[j] + " = " + std::to_string(skeleton.GetIndexOf(vertexData.BoneName[j])));
-					}
-					if (i == 2337)
-					{
-						LOG("2337: IndexOf " + vertexData.BoneName[j] + " = " + std::to_string(skeleton.GetIndexOf(vertexData.BoneName[j])));
-					}
 					if (j < vertexData.BoneName.size() && vertexData.BoneName[j] != "")
 					{
 						vertexRenderData.BoneIndices[j] = skeleton.GetIndexOf(vertexData.BoneName[j]);
@@ -108,15 +91,6 @@ namespace Application
 						// unused bone indices should be zeroed out by the weight
 						vertexRenderData.BoneIndices[j] = 0;
 					}
-				}
-
-				if (i == 2262)
-				{
-					LOG("Index 2262: BoneIndices: " + Core::Math::VectorString(vertexRenderData.BoneIndices));
-				}
-				if (i == 2337)
-				{
-					LOG("Index 2337: BoneIndices: " + Core::Math::VectorString(vertexRenderData.BoneIndices));
 				}
 
 				RenderData[i] = vertexRenderData;

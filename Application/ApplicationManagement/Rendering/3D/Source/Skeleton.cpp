@@ -40,7 +40,7 @@ namespace Application
 			// This is a useless verification as the == operator will likely never be EXACT in this case - need a 'within range' equator
 			if (!VERIFY(GetBindOffset() == Float4x4(II{})))
 			{
-				LOG(Name + ": " + MatrixString(GetBindOffset()));
+				LOG(Name + " does not have a valid bind matrix: " + MatrixString(GetBindOffset()));
 			}
 		}
 
@@ -60,12 +60,12 @@ namespace Application
 		{
 			if (RootBone != nullptr)
 			{
-				return InverseBindMatrix * RootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix();
+				return RootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix() * InverseBindMatrix;
 			}
 			else
 			{
 				// Since this is the root node, the InverseBindMatrix is always 0, so we are essentially just forwarding in the transform itself (to accound for the node being moved at all)
-				return InverseBindMatrix * Transformation.GetLocalTransformationMatrix();
+				return Transformation.GetLocalTransformationMatrix() * InverseBindMatrix;
 			}
 		}
 
