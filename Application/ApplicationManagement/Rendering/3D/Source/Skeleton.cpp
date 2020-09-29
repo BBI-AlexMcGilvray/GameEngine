@@ -37,11 +37,14 @@ namespace Application
 			{
 				InverseBindMatrix = Inverse(rootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix());
 			}
+
+#if _DEBUG
 			// This is a useless verification as the == operator will likely never be EXACT in this case - need a 'within range' equator
-			if (!VERIFY(GetBindOffset() == Float4x4(II{})))
-			{
-				LOG(Name + " does not have a valid bind matrix: " + MatrixString(GetBindOffset()));
-			}
+			//if (!VERIFY(GetBindOffset() == Float4x4(II{})))
+			//{
+			//	LOG(Name + " does not have a valid bind matrix: " + MatrixString(GetBindOffset()));
+			//}
+#endif
 		}
 
 		void Bone::Start()
