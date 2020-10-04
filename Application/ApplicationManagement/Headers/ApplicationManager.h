@@ -2,6 +2,7 @@
 
 #include "SDL2Manager.h"
 
+#include "ApplicationManagement/Animation/Headers/AnimationManager.h"
 #include "ApplicationManagement/StateSystem/Headers/StateManager.h"
 #include "ApplicationManagement/Input/Headers/InputManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
@@ -10,6 +11,7 @@
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Functionality/Headers/Event.h"
 
+using namespace Application::Animation;
 using namespace Application::Input;
 using namespace Application::Rendering;
 using namespace Application::Time;
@@ -23,6 +25,7 @@ namespace Application
 		static Core::Ptr<ApplicationManager> Application();
 
 		static FixedStepTimeManager& AppTimeManager();
+		static AnimationManager& AppAnimationManager();
 		static RenderManager& AppRenderManager();
 		static InputManager& AppInputManager();
 		static StateManager& AppStateManager();
@@ -39,6 +42,7 @@ namespace Application
 		// Note: the below are in an order such that they should only _possibly_ know about what is above them (as it would need to be for constructors...)
 		SDL2Manager SDL;
 		FixedStepTimeManager Time;
+		AnimationManager AnimationSystem;
 		RenderManager RenderSystem;
 		InputManager InputSystem;
 		StateManager StateSystem;

@@ -3,6 +3,7 @@
 #include "ApplicationManagement\Headers\GLContextManager.h"
 #include "ApplicationManagement\Headers\WindowManager.h"
 
+#include "ApplicationManagement/Rendering/Headers/MaterialManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderObjectManager.h"
 #include "ApplicationManagement/Rendering/Headers/Renderer.h"
 #include "ApplicationManagement/Rendering/Headers/Camera.h"
@@ -37,10 +38,14 @@ namespace Application
 			void AttachRenderObjectManager(Core::Ptr<State> state, Core::Ptr<RenderObjectManager> objectManager);
 			void DettachRenderObjectManager(Core::Ptr<State> state);
 
+			void AttachMaterialManager(Core::Ptr<State> state, Core::Ptr<MaterialManager> materialManager);
+			void DettachMaterialManager(Core::Ptr<State> state);
+
 			Core::Ptr<State> GetActiveState();
 			void SetActiveState(Core::Ptr<State> state);
 			void DeactivateState(Core::Ptr<State> state);
 			Core::Ptr<RenderObjectManager> GetObjectManagerForState(Core::Ptr<State> state);
+			Core::Ptr<MaterialManager> GetMaterialManagerForState(Core::Ptr<State> state);
 
 			void Update(Core::Second dt);
 			void Render();
@@ -66,6 +71,7 @@ namespace Application
 			// maybe this should change to be a map of ptr to structs so that each renderobjectmanager can have a state, so that multiple can be active at once
 			// this would allow transitioning to occur and such? unless our transitioning does not update the one being transitioned OUT of
 			Core::Map<Core::Ptr<State>, Core::Ptr<RenderObjectManager>> ObjectManagers;
+			Core::Map<Core::Ptr<State>, Core::Ptr<MaterialManager>> MaterialManagers;
 			Core::Ptr<State> ActiveState = nullptr;
 
 			void RenderStart();

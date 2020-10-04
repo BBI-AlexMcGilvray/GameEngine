@@ -34,6 +34,7 @@ namespace Application
 			SchedulerBase Scheduler;
 			GameObjectManager ObjectManager;
 			Rendering::RenderObjectManager RObjectManager;
+			Rendering::MaterialManager MaterialManager;
 			//CollisionManager CollisionSystem;
 
 			// the game system manager should hold onto the current 'scene' and be able to switch between scenes (in order to load different game states)

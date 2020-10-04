@@ -6,8 +6,15 @@ namespace Application
 {
 	namespace Rendering
 	{
-		SimpleMeshBase::SimpleMeshBase(Data::AssetName<Data::Rendering::SimpleMeshData> asset)
-			: Data(asset)
+		SimpleMeshBase::SimpleMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleMeshData> asset)
+			: RenderObjectBase(manager, renderTransform)
+			, Data(asset)
+			, _onMaterialDeleted([this]
+		{
+			ClearMaterialComponent();
+
+			return false;
+		})
 		{
 			Initialize();
 		}
@@ -19,6 +26,21 @@ namespace Application
 			{
 				Vbos[i].Delete();
 			}
+		}
+
+		Core::size SimpleMeshBase::GetVertexCount() const
+		{
+			return Data.Data.VertexCount;
+		}
+
+		void SimpleMeshBase::SetMaterialComponent(ComponentPtr<MaterialComponent> materialComponent)
+		{
+			_materialComponent = materialComponent;
+		}
+
+		void SimpleMeshBase::ClearMaterialComponent()
+		{
+			_materialComponent = ComponentPtr<MaterialComponent>(nullptr);
 		}
 
 		void SimpleMeshBase::Initialize()
@@ -49,14 +71,24 @@ namespace Application
 			Push(Vbos, newBuffer);
 		}
 
-		void SimpleMeshBase::Prepare() const
+		void SimpleMeshBase::Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const
 		{
 			Vao.Bind();
+
+			if ((bool)_materialComponent)
+			{
+				_materialComponent->GetMaterial()->Prepare(mvp, color);
+			}
 		}
 
 		void SimpleMeshBase::CleanUp() const
 		{
 			Vao.Unbind();
+
+			if ((bool)_materialComponent)
+			{
+				_materialComponent->GetMaterial()->CleanUp();
+			}
 		}
 	}
 }

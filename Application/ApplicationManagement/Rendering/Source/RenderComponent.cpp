@@ -27,6 +27,7 @@ namespace Application
 
 		void Render::RemoveRenderObject(Core::Ptr<RenderObjectBase> renderObject)
 		{
+			Remove(RenderObjects, renderObject);
 			RObjectManager->RemoveRenderObject(renderObject);
 		}
 	}

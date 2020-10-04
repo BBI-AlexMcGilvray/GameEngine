@@ -157,7 +157,7 @@ namespace Application
 			SetComponent(component);
 		}
 
-		operator bool()
+		operator bool() const
 		{
 			return (Component != nullptr);
 		}

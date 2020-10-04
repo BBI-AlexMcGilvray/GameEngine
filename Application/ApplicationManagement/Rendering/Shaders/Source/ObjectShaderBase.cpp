@@ -17,7 +17,7 @@ namespace Application
 
 		}
 
-		void ObjectShaderBase::Prepare() const
+		void ObjectShaderBase::Prepare(const Math::Float4x4& mvp, const Math::Color& color) const;
 		{
 			glUseProgram(Object);
 		}

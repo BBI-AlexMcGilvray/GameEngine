@@ -9,6 +9,7 @@ namespace Application
 		GameSystemManager::GameSystemManager(Ptr<State> parentState, Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem)
 			: ParentState(parentState)
 			, RObjectManager(&renderSystem)
+			, MaterialManager(&renderSystem)
 			, RenderSystem(renderSystem)
 			, InputSystem(inputSystem)
 		{
@@ -18,13 +19,17 @@ namespace Application
 		void GameSystemManager::Initialize()
 		{
 			RObjectManager.Initialize();
+			MaterialManager.Initialize();
 
 			RenderSystem.AttachRenderObjectManager(ParentState, &RObjectManager);
+			RenderSystem.AttachMaterialManager(ParentState, &MaterialManager);
 		}
 
 		void GameSystemManager::Start()
 		{
 			RObjectManager.Start();
+			MaterialManager.Start();
+
 			RenderSystem.SetActiveState(ParentState);
 		}
 
@@ -36,12 +41,16 @@ namespace Application
 
 		void GameSystemManager::End()
 		{
+			RenderSystem.DettachMaterialManager(ParentState);
 			RenderSystem.DettachRenderObjectManager(ParentState);
+
 			RObjectManager.End();
+			MaterialManager.End();
 		}
 
 		void GameSystemManager::CleanUp()
 		{
+			MaterialManager.CleanUp();
 			RObjectManager.CleanUp();
 		}
 	}

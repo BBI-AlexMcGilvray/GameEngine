@@ -28,7 +28,7 @@ namespace Application
 
 		void SkinnedObjectShader::Prepare(const Float4x4& mvp, const Color& color) const
 		{
-			ObjectShaderBase::Prepare();
+			ObjectShaderBase::Prepare(mvp, color);
 
 			VShader.Prepare(Object, mvp, color);
 			FShader.Prepare();

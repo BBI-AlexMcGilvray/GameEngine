@@ -21,6 +21,11 @@ namespace Application
 		return Application()->Time;
 	}
 
+	AnimationManager& ApplicationManager::AppAnimationManager()
+	{
+		return Application()->AnimationSystem;
+	}
+
 	RenderManager& ApplicationManager::AppRenderManager()
 	{
 		return Application()->RenderSystem;
@@ -75,6 +80,7 @@ namespace Application
 		}
 
 		Time.Initialize();
+		AnimationSystem.Initialize();
 		RenderSystem.Initialize(SDL.GetWindowManager());
 		InputSystem.Initialize();
 		StateSystem.Initialize();
@@ -86,6 +92,7 @@ namespace Application
 	{
 		SDL.Start();
 		Time.Start();
+		AnimationSystem.Start();
 		RenderSystem.Start();
 		InputSystem.Start();
 		StateSystem.Start();
@@ -104,6 +111,7 @@ namespace Application
 			// update everything
 			StateSystem.Update(dt);
 
+			AnimationSystem.Update(dt);
 			RenderSystem.Update(dt);
 
 			dt = Time.GetAccumulatedTime();
@@ -116,6 +124,7 @@ namespace Application
 	{
 		StateSystem.End();
 		InputSystem.End();
+		AnimationSystem.End();
 		RenderSystem.End();
 		Time.End();
 		SDL.End();
@@ -127,6 +136,7 @@ namespace Application
 		StateSystem.CleanUp();
 		InputSystem.CleanUp();
 		RenderSystem.CleanUp();
+		AnimationSystem.CleanUp();
 		Time.CleanUp();
 		SDL.CleanUp();
 	}

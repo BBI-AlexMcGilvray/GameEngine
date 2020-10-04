@@ -40,6 +40,16 @@ namespace Application
 			Erase(ObjectManagers, move(state));
 		}
 
+		void RenderManager::AttachMaterialManager(Core::Ptr<State> state, Core::Ptr<MaterialManager> materialManager)
+		{
+			Insert(MaterialManagers, move(state), move(materialManager));
+		}
+
+		void RenderManager::DettachMaterialManager(Core::Ptr<State> state)
+		{
+			Erase(MaterialManagers, move(state));
+		}
+
 		Core::Ptr<State> RenderManager::GetActiveState()
 		{
 			return ActiveState;
@@ -74,12 +84,17 @@ namespace Application
 			return ObjectManagers[state];
 		}
 
+		Core::Ptr<MaterialManager> RenderManager::GetMaterialManagerForState(Core::Ptr<State> state)
+		{
+			return MaterialManagers[state];
+		}
 
 		void RenderManager::Update(Second dt)
 		{
 			// update render object manager
 			if (ActiveState != nullptr)
 			{
+				MaterialManagers[ActiveState]->Update(dt);
 				ObjectManagers[ActiveState]->Update(dt);
 			}
 #if _DEBUG // check in debug to find errors, no errors should exist in live
@@ -178,6 +193,8 @@ namespace Application
 			auto initialMVP = RenderCamera->GetTransformationMatrix();
 			if (ActiveState != nullptr)
 			{
+				// MaterialManagers probably does not need a render call
+				//MaterialManagers[ActiveState]->Render(initialMVP, InitialColor);
 				ObjectManagers[ActiveState]->Render(initialMVP, InitialColor);
 			}
 		}

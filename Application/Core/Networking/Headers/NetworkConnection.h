@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Core/Headers/CoreDefs.h"
+#include "Core/Headers/PtrDefs.h"
+#include "Core/Networking/Headers/NetworkProtocol.h"
 
 //#ifdef __WIN32__
 #include <WinSock2.h>
@@ -14,15 +16,24 @@ namespace Core
 	{
 		class NetworkConnection
 		{
-		public:
-			String IpAddress;
-		//#ifdef __WIN32__
-			SOCKET Socket;
-		//#else
-			// struct sockaddr_in ipOfServer
-		//#endif
+		private:
+			Core::UniquePtr<NetworkProtocol> _protocol;
 
-			bool ConnectionActive;
+			String _ipAddress;
+			//#ifdef __WIN32__
+			SOCKET _socket;
+			//#else
+				// struct sockaddr_in ipOfServer
+			//#endif
+
+			bool _connectionActive;
+
+		public:
+			void Connect();
+			void Validate();
+			void Send();
+			void Receive();
+			void Disconnect();
 		};
 	}
 }

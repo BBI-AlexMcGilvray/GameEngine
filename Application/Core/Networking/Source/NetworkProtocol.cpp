@@ -6,11 +6,6 @@ namespace Core
 	{
 	// Network Protocol
 		NetworkProtocol::NetworkProtocol()
-			: NetworkProtocol(NetworkConnection())
-		{}
-
-		NetworkProtocol::NetworkProtocol(NetworkConnection connection)
-			: _connection(connection)
 		{}
 
 		NetworkProtocol::~NetworkProtocol()

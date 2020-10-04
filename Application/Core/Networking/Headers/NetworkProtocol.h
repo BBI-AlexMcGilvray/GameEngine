@@ -1,18 +1,13 @@
 #pragma once
 
-#include "Core/Networking/Headers/NetworkConnection.h"
-
 namespace Core
 {
 	namespace Networking
 	{
 		class NetworkProtocol
 		{
-			NetworkConnection _connection;
-
 		public:
 			NetworkProtocol();
-			NetworkProtocol(NetworkConnection connection);
 
 			virtual ~NetworkProtocol();
 

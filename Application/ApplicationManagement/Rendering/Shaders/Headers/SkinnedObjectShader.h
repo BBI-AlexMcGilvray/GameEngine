@@ -39,8 +39,8 @@ namespace Application
 
 			void SetSkinningInformation(const List<Float4x4> boneList);
 
-			virtual void Prepare(const Float4x4& mvp, const Color& color) const;
-			virtual void CleanUp() const override;
+			void Prepare(const Float4x4& mvp, const Color& color) const override;
+			void CleanUp() const override;
 
 			void Initialize() override;
 			void Destroy() override;
