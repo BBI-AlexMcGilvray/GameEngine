@@ -41,6 +41,8 @@ namespace Application
 			//void CleanUp() const override;
 
 		private:
+			Core::Ptr<Core::Geometric::Transform> _transform;
+
 			ComponentPtr<MaterialComponent> _materialComponent;
 			Core::Ptr<Material> _material;
 

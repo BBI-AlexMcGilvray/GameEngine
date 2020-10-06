@@ -22,9 +22,9 @@ namespace Application
 			return &VShader;
 		}
 
-		void DebugObjectShader::Prepare(const Color& color) const
+		void DebugObjectShader::Prepare(const Math::Float4x4& mvp, const Math::Color& color) const
 		{
-			ObjectShaderBase::Prepare();
+			ObjectShaderBase::Prepare(mvp, color);
 
 			VShader.Prepare(Object, color);
 			FShader.Prepare();

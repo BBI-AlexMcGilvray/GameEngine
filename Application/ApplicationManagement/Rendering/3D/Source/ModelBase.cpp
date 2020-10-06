@@ -17,12 +17,13 @@ namespace Application
 			//: RenderObjectBase(manager, renderTransform)
 			: ContentBase()
 			, Data(asset)
+			, _transform(renderTransform)
 			//, Mesh(Data.Data.Mesh)
 			//, Shader(manager->ObjectShaderManager.DefaultShader)
 		{
 			// load material using mat file in folder
-			_renderComponent = AddComponent<Render>(this, manager);
-			_materialComponent = AddComponent<MaterialComponent>(this, manager->GetMaterialManagerForState(manager->GetActiveState()));
+			_renderComponent = AddComponent<Render>(manager->GetObjectManagerForState(manager->GetActiveState()));
+			_materialComponent = AddComponent<MaterialComponent>(manager->GetMaterialManagerForState(manager->GetActiveState()));
 		}
 
 		//Core::size ModelBase::GetVertexCount() const
@@ -48,7 +49,7 @@ namespace Application
 			// create components
 			_material = _materialComponent->SetMaterial<Material>(Data.Data.Material);
 
-			_simpleMeshBase = _renderComponent->AddRenderObject<SimpleMeshBase>(Data.Data.Mesh);
+			_simpleMeshBase = _renderComponent->AddRenderObject<SimpleMeshBase>(_transform, Data.Data.Mesh);
 			_simpleMeshBase->SetMaterialComponent(_materialComponent);
 		}
 

@@ -24,6 +24,7 @@ namespace Application
 			template <typename T, typename ...Ts>
 			Core::Ptr<T> AddRenderObject(Ts&& ...args)
 			{
+				// have this automatically get a transform component and add it?
 				return static_cast<Ptr<T>>(AddRenderObject(RObjectManager->AddRenderObject<T>(Forward<Ts>(args)...)));
 			}
 

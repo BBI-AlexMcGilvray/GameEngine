@@ -36,7 +36,7 @@ namespace Application
 			Ptr<ShaderBase> GetVertexShader() override;
 			Ptr<ShaderBase> GetFragmentxShader() override;
 
-			virtual void Prepare(const Color& color) const;
+			virtual void Prepare(const Math::Float4x4& mvp, const Math::Color& color) const;
 			void CleanUp() const override;
 
 			void Initialize() override;
