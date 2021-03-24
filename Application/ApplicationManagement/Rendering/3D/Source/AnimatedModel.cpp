@@ -2,21 +2,31 @@
 
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 
+#include "ApplicationManagement/Geometric/Headers/HierarchyComponent.h"
+
+#include "ApplicationManagement/Rendering/2D/Headers/Material.h"
+#include "ApplicationManagement/Rendering/3D/Headers/SkinnedMeshBase.h"
+
 using namespace Core;
 
 namespace Application
 {
 	namespace Rendering
 	{
-		AnimatedModel::AnimatedModel(Ptr<RenderManager> manager, Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset)
-			: RenderObjectBase(manager, &(parentNode->Transformation))
+		AnimatedModel::AnimatedModel(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset)
+			: ContentBase()
 			, Data(asset)
-			, Material(Data.Data.Material)
-			, Mesh(Data.Data.Mesh)
-			, Shader(manager->ObjectShaderManager.DefaultSkinnedShader)
+			, _transform(&(parentNode->Transformation))
+			//, Material(Data.Data.Material)
+			//, Mesh(Data.Data.Mesh)
+			//, Shader(manager->ObjectShaderManager.DefaultSkinnedShader)
 		{
+			// this should probably be a component
 			SkinnedSkeleton = MakeUnique<Skeleton>(parentNode, Data.Data.Skeleton);
-			Mesh.Skin(*SkinnedSkeleton);
+			//Mesh.Skin(*SkinnedSkeleton);
+
+			_renderComponent = AddComponent<Render>(manager->GetObjectManagerForState(manager->GetActiveState()));
+			_materialComponent = AddComponent<MaterialComponent>(manager->GetMaterialManagerForState(manager->GetActiveState()));
 		}
 
 		// be able to change what skeleton a model is listening to - returns true if able to map to skeleton
@@ -26,23 +36,56 @@ namespace Application
 			return false;
 		}
 
-		Core::size AnimatedModel::GetVertexCount() const
+		//Core::size AnimatedModel::GetVertexCount() const
+		//{
+		//	// again, should would be much easier with a DataPtr<T>
+		//	return Mesh.RenderData.size();
+		//}
+
+		//void AnimatedModel::Prepare(const Float4x4& mvp, const Color& color) const
+		//{
+		//	Mesh.Prepare();
+		//	Shader.SetSkinningInformation(SkinnedSkeleton->GetBoneMatrices());
+		//	Shader.Prepare(mvp, color);
+		//}
+
+		//void AnimatedModel::CleanUp() const
+		//{
+		//	Mesh.CleanUp();
+		//	Shader.CleanUp();
+		//}
+
+		void AnimatedModel::Initialize()
 		{
-			// again, should would be much easier with a DataPtr<T>
-			return Mesh.RenderData.size();
+			// create components
+			_materialComponent->SetMaterial<Material>(Data.Data.Material);
+
+			Ptr<SkinnedMeshBase> mesh = _renderComponent->SetRenderObject<SkinnedMeshBase>(_transform, Data.Data.Mesh);
+			mesh->SetMaterialComponent(_materialComponent);
+			mesh->Skin(*SkinnedSkeleton);
 		}
 
-		void AnimatedModel::Prepare(const Float4x4& mvp, const Color& color) const
+		void AnimatedModel::Start()
 		{
-			Mesh.Prepare();
-			Shader.SetSkinningInformation(SkinnedSkeleton->GetBoneMatrices());
-			Shader.Prepare(mvp, color);
+
 		}
 
-		void AnimatedModel::CleanUp() const
+		void AnimatedModel::Update(Core::Second dt)
 		{
-			Mesh.CleanUp();
-			Shader.CleanUp();
+
+		}
+
+		void AnimatedModel::End()
+		{
+
+		}
+
+		void AnimatedModel::CleanUp()
+		{
+			// cleanup components
+			_renderComponent->GetRenderObject<SkinnedMeshBase>()->ClearMaterialComponent();
+			_renderComponent->RemoveRenderObject();
+			_materialComponent->RemoveMaterial();
 		}
 	}
 }

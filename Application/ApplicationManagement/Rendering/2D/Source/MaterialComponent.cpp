@@ -20,23 +20,23 @@ namespace Application
 
 		Core::Ptr<Material> MaterialComponent::SetMaterial(Core::UniquePtr<Material> material)
 		{
-#if _DEBUG
-			if (_material != nullptr)
+			if (_material != material.get())
 			{
-				LOG("Replacing a non-null material");
+				RemoveMaterial();
 			}
-#endif
+
 			_material = _materialManager->AddMaterial(move(material));
 
 			return _material;
 		}
 
-		void MaterialComponent::RemoveMaterial(Core::Ptr<Material> material)
+		void MaterialComponent::RemoveMaterial()
 		{
-			if (_material == material)
-			{
-				_material = nullptr;
-			}
+			// this needs to be changed to include
+			// _materialManager->RemoveMaterial(_material)
+			// that means that _materialManager will need to also include a reference counting implementation
+			// could make all managers hold a type of reference counting implementation
+			_material = nullptr;
 		}
 	}
 }

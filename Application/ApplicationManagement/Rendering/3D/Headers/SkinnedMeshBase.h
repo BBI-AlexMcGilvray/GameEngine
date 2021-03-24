@@ -19,26 +19,34 @@ namespace Application
 	namespace Rendering
 	{
 		// holds the information about the mesh of a 3D object
-		struct SkinnedMeshBase
+		struct SkinnedMeshBase : public RenderObjectBase
 		{
 			Data::AssetData<Data::Rendering::AnimatedMeshData> Data;
 			List<AnimatedVertexRenderDataBase> RenderData;
 
 			SkinnedMeshBase(Data::AssetName<Data::Rendering::AnimatedMeshData> asset);
-
 			~SkinnedMeshBase();
+
+			Core::size GetVertexCount() const override;
+
+			void SetMaterialComponent(ComponentPtr<MaterialComponent> materialComponent);
+			void ClearMaterialComponent();
 
 			virtual void Initialize();
 
+			void Skin(const Skeleton& skeleton);
+
+		protected:
 			virtual void Prepare() const;
 			virtual void CleanUp() const;
-
-			void Skin(const Skeleton& skeleton);
 
 		private:
 			GLArrayBuffer Vao;
 			List<GLBuffer> Vbos;
 			GLMappedBuffer MappedMesh;
+
+			Core::Functionality::Delegate<> _onMaterialDeleted;
+			ComponentPtr<MaterialComponent> _materialComponent;
 
 			void CreateRenderData();
 		};

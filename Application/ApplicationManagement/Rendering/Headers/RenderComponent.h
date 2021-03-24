@@ -22,21 +22,29 @@ namespace Application
 			Render(Core::Ptr<EntityBase> entity, Core::Ptr<RenderObjectManager> renderManager);
 
 			template <typename T, typename ...Ts>
-			Core::Ptr<T> AddRenderObject(Ts&& ...args)
+			Core::Ptr<T> SetRenderObject(Ts&& ...args)
 			{
 				// have this automatically get a transform component and add it?
-				return static_cast<Ptr<T>>(AddRenderObject(RObjectManager->AddRenderObject<T>(Forward<Ts>(args)...)));
+				return static_cast<Ptr<T>>(SetRenderObject(RObjectManager->AddRenderObject<T>(Forward<Ts>(args)...)));
 			}
 
-			Core::Ptr<RenderObjectBase> AddRenderObject(Core::UniquePtr<RenderObjectBase> renderObject);
+			template <typename T>
+			const Core::Ptr<T> GetRenderObject() const
+			{
+				return static_const<Ptr<T>>(GetRenderObject());
+			}
 
-			Core::Ptr<RenderObjectBase> AddRenderObject(Core::Ptr<RenderObjectBase> renderObject);
+			const Core::Ptr<RenderObjectBase> GetRenderObject() const;
 
-			void RemoveRenderObject(Core::Ptr<RenderObjectBase> renderObject);
+			Core::Ptr<RenderObjectBase> SetRenderObject(Core::UniquePtr<RenderObjectBase> renderObject);
+
+			Core::Ptr<RenderObjectBase> SetRenderObject(Core::Ptr<RenderObjectBase> renderObject);
+
+			void RemoveRenderObject();
 
 		private:
 			Core::Ptr<RenderObjectManager> RObjectManager;
-			Core::List<Core::Ptr<RenderObjectBase>> RenderObjects;
+			Core::Ptr<RenderObjectBase> RenderObject;
 		};
 	}
 }

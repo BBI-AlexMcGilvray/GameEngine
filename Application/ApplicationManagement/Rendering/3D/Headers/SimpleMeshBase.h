@@ -25,8 +25,6 @@ namespace Application
 		{
 		public:
 			Data::AssetData<Data::Rendering::SimpleMeshData> Data;
-			GLArrayBuffer Vao;
-			List<GLBuffer> Vbos;
 
 			SimpleMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleMeshData> asset);
 			~SimpleMeshBase();
@@ -43,8 +41,10 @@ namespace Application
 			void CleanUp() const override;
 
 		private:
-			Core::Functionality::Delegate<> _onMaterialDeleted;
+			GLArrayBuffer Vao;
+			List<GLBuffer> Vbos;
 
+			Core::Functionality::Delegate<> _onMaterialDeleted;
 			ComponentPtr<MaterialComponent> _materialComponent;
 		};
 	}

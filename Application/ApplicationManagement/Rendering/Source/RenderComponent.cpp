@@ -13,22 +13,29 @@ namespace Application
 
 		}
 
-		Core::Ptr<RenderObjectBase> Render::AddRenderObject(Core::UniquePtr<RenderObjectBase> renderObject)
+		const Core::Ptr<RenderObjectBase> Render::GetRenderObject() const
 		{
-			return AddRenderObject(RObjectManager->AddRenderObject(move(renderObject)));
+			return RenderObject;
 		}
 
-		Ptr<RenderObjectBase> Render::AddRenderObject(Ptr<RenderObjectBase> renderObject)
+		Core::Ptr<RenderObjectBase> Render::SetRenderObject(Core::UniquePtr<RenderObjectBase> renderObject)
 		{
-			Push(RenderObjects, move(renderObject));
-
-			return RenderObjects[RenderObjects.size() - 1];
+			return SetRenderObject(RObjectManager->AddRenderObject(move(renderObject)));
 		}
 
-		void Render::RemoveRenderObject(Core::Ptr<RenderObjectBase> renderObject)
+		Ptr<RenderObjectBase> Render::SetRenderObject(Ptr<RenderObjectBase> renderObject)
 		{
-			Remove(RenderObjects, renderObject);
-			RObjectManager->RemoveRenderObject(renderObject);
+			RenderObject = move(renderObject));
+
+			return RenderObject;
+		}
+
+		void Render::RemoveRenderObject()
+		{
+			// RObjectManager->RemoveRenderObject(RenderObject)
+			// should be changed to point to a reference (optionally?) so that we can reduce copies
+			RObjectManager->RemoveRenderObject(RenderObject);
+			RenderObject = nullptr;
 		}
 	}
 }

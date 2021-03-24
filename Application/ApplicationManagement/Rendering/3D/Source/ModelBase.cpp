@@ -47,10 +47,9 @@ namespace Application
 		void ModelBase::Initialize()
 		{
 			// create components
-			_material = _materialComponent->SetMaterial<Material>(Data.Data.Material);
+			_materialComponent->SetMaterial<Material>(Data.Data.Material);
 
-			_simpleMeshBase = _renderComponent->AddRenderObject<SimpleMeshBase>(_transform, Data.Data.Mesh);
-			_simpleMeshBase->SetMaterialComponent(_materialComponent);
+			_renderComponent->SetRenderObject<SimpleMeshBase>(_transform, Data.Data.Mesh)->SetMaterialComponent(_materialComponent);
 		}
 
 		void ModelBase::Start()
@@ -71,9 +70,9 @@ namespace Application
 		void ModelBase::CleanUp()
 		{
 			// cleanup components
-			_simpleMeshBase->ClearMaterialComponent();
-			_renderComponent->RemoveRenderObject(_simpleMeshBase);
-			_materialComponent->RemoveMaterial(_material);
+			_renderComponent->GetRenderObject<SimpleMeshBase>()->ClearMaterialComponent();
+			_renderComponent->RemoveRenderObject();
+			_materialComponent->RemoveMaterial();
 		}
 	}
 }

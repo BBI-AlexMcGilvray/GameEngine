@@ -29,7 +29,7 @@ namespace Application
 			const Core::Ptr<Material> GetMaterial() const;
 			Core::Ptr<Material> SetMaterial(Core::UniquePtr<Material> material);
 
-			void RemoveMaterial(Core::Ptr<Material> material);
+			void RemoveMaterial();
 
 		private:
 			Core::Ptr<MaterialManager> _materialManager;

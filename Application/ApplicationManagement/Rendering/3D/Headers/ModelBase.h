@@ -17,7 +17,7 @@ namespace Application
 		class SimpleMeshBase;
 
 		// holds the mesh, texture(s), and shader that a model uses
-		struct ModelBase : Geometric::ContentBase
+		struct ModelBase : public Geometric::ContentBase
 		{
 			Data::AssetData<Data::Rendering::SimpleModelData> Data;
 			//Material Material;
@@ -41,13 +41,11 @@ namespace Application
 			//void CleanUp() const override;
 
 		private:
+			// do we need this?
 			Core::Ptr<Core::Geometric::Transform> _transform;
 
 			ComponentPtr<MaterialComponent> _materialComponent;
-			Core::Ptr<Material> _material;
-
 			ComponentPtr<Render> _renderComponent;
-			Core::Ptr<SimpleMeshBase> _simpleMeshBase;
 		};
 	}
 }
