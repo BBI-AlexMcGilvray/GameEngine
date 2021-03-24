@@ -10,10 +10,16 @@ namespace Application
 {
 	namespace Rendering
 	{
-		SkinnedMeshBase::SkinnedMeshBase(Data::AssetName<Data::Rendering::AnimatedMeshData> asset)
-			: Data(asset)
+		SkinnedMeshBase::SkinnedMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::AnimatedMeshData> asset)
+			: RenderObjectBase(manager, renderTransform)
+			, Data(asset)
+			, _onMaterialDeleted([this]
 		{
-			CreateRenderData();
+			ClearMaterialComponent();
+
+			return false;
+		})
+		{
 			Initialize();
 		}
 
@@ -24,6 +30,23 @@ namespace Application
 			{
 				Vbos[i].Delete();
 			}
+
+			// do we need to delete MappedMesh?
+		}
+
+		Core::size SkinnedMeshBase::GetVertexCount() const
+		{
+			return Data.Data.VertexCount;
+		}
+
+		void SkinnedMeshBase::SetMaterialComponent(ComponentPtr<MaterialComponent> materialComponent)
+		{
+			_materialComponent = materialComponent;
+		}
+
+		void SkinnedMeshBase::ClearMaterialComponent()
+		{
+			_materialComponent = ComponentPtr<MaterialComponent>(nullptr);
 		}
 
 		void SkinnedMeshBase::Initialize()
@@ -62,14 +85,24 @@ namespace Application
 			MappedMesh = GLMappedBuffer(&Vbos[0]);
 		}
 
-		void SkinnedMeshBase::Prepare() const
+		void SkinnedMeshBase::Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const
 		{
 			Vao.Bind();
+
+			if ((bool)_materialComponent)
+			{
+				_materialComponent->GetMaterial()->Prepare(mvp, color);
+			}
 		}
 
 		void SkinnedMeshBase::CleanUp() const
 		{
 			Vao.Unbind();
+
+			if ((bool)_materialComponent)
+			{
+				_materialComponent->GetMaterial()->CleanUp();
+			}
 		}
 
 		void SkinnedMeshBase::Skin(const Skeleton& skeleton)

@@ -31,7 +31,7 @@ namespace Application
 			template <typename T>
 			const Core::Ptr<T> GetRenderObject() const
 			{
-				return static_const<Ptr<T>>(GetRenderObject());
+				return static_cast<Ptr<T>>(GetRenderObject());
 			}
 
 			const Core::Ptr<RenderObjectBase> GetRenderObject() const;

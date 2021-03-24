@@ -29,6 +29,8 @@ namespace Application
 			bool Unmap(bool internalHandling = true) const;
 
 			void Unbind() const;
+
+			// does this need a delete method?
 		};
 	}
 }

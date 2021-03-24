@@ -25,7 +25,7 @@ namespace Application
 
 		Ptr<RenderObjectBase> Render::SetRenderObject(Ptr<RenderObjectBase> renderObject)
 		{
-			RenderObject = move(renderObject));
+			RenderObject = move(renderObject);
 
 			return RenderObject;
 		}
