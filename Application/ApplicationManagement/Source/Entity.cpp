@@ -2,10 +2,17 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 #include "ApplicationManagement/Headers/ApplicationManager.h"
+#include "ApplicationManagement//StateSystem/Headers/State.h"
 using namespace Core;
 
 namespace Application
 {
+	EntityBase::EntityBase(const Ptr<State> owningState)
+		: _onwningState(owningState)
+	{
+
+	}
+
 	EntityBase::~EntityBase()
 	{
 		OnDestroyed();
@@ -20,26 +27,17 @@ namespace Application
 
 	void EntityBase::Start()
 	{
-		for (auto const& component : Components)
-		{
-			component.second->Start();
-		}
+		// nothing by default
 	}
 
 	void EntityBase::Update(Second dt)
 	{
-		for (auto const& component : Components)
-		{
-			component.second->Update(dt);
-		}
+		// nothing by default
 	}
 
 	void EntityBase::End()
 	{
-		for (auto const& component : Components)
-		{
-			component.second->End();
-		}
+		// nothing by default
 	}
 
 	void EntityBase::CleanUp()

@@ -27,7 +27,6 @@ namespace Application
 			Core::Ptr<Camera> GetCamera();
 
 			void Initialize() override;
-			void Start() override;
 
 		private:
 			RenderManager& RenderSystem;

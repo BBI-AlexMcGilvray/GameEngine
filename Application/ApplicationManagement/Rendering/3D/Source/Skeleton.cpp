@@ -48,7 +48,7 @@ namespace Application
 			return boneMatrices;
 		}
 
-		int Skeleton::GetIndexOf(String& const nodeName) const
+		int Skeleton::GetIndexOf(const String& nodeName) const
 		{
 			return ((Ptr<Bone>)Root)->GetBoneIndex(nodeName);
 		}

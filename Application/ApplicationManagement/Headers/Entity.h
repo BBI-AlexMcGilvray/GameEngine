@@ -33,11 +33,13 @@ namespace Templates
 
 namespace Application
 {
+	struct State;
+
 	struct EntityBase
 	{
 		Core::Functionality::Event<> OnDestroyed;
 
-		EntityBase() = default;
+		EntityBase(const Core::Ptr<State> owningState);
 		virtual ~EntityBase();
 
 		template <typename T, typename ...Ts>//, Templates::is_component<T>>
@@ -111,6 +113,9 @@ namespace Application
 		virtual void Update(Core::Second dt);
 		virtual void End();
 		virtual void CleanUp();
+
+	protected:
+		const Core::Ptr<State> _onwningState;
 
 	private:
 		Core::Map<Core::Hash, Core::UniquePtr<ComponentBase>> Components;

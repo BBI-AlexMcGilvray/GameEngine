@@ -68,7 +68,7 @@ namespace Application
 			}
 
 #if _DEBUG
-			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
+			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>(ParentState));
 
 			ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));

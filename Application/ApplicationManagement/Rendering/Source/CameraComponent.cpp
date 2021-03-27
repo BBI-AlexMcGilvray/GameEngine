@@ -34,12 +34,6 @@ namespace Application
 			}
 
 			RenderCamera = move(MakeUnique<Camera>(AspectRatio, hierarchyComponent->GetHeirarchyNode()->Transformation));
-		}
-
-		void CameraComponent::Start()
-		{
-			Component<CameraComponent>::Start();
-
 			RenderSystem.SetCamera(GetCamera());
 		}
 	}

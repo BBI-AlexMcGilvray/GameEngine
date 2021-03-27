@@ -24,7 +24,7 @@ namespace Application
 			//Material Material;
 			//SkinnedMeshBase Mesh;
 
-			AnimatedModel(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset);
+			AnimatedModel(const Core::Ptr<State> owningState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset);
 
 			// be able to change what skeleton a model is listening to - returns true if able to map to skeleton
 			bool SkinToSkeleton(Core::UniquePtr<Skeleton> skeleton);

@@ -1,5 +1,7 @@
 #include "ApplicationManagement/Rendering/3D/Headers/ModelBase.h"
 
+#include "ApplicationManagement/Headers/ApplicationManager.h"
+
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 
 #include "ApplicationManagement/Rendering/2D/Headers/Material.h"
@@ -13,17 +15,17 @@ namespace Application
 {
 	namespace Rendering
 	{
-		ModelBase::ModelBase(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
+		ModelBase::ModelBase(const Core::Ptr<State> owningState, Ptr<Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
 			//: RenderObjectBase(manager, renderTransform)
-			: ContentBase()
+			: ContentBase(owningState)
 			, Data(asset)
 			, _transform(renderTransform)
 			//, Mesh(Data.Data.Mesh)
 			//, Shader(manager->ObjectShaderManager.DefaultShader)
 		{
 			// load material using mat file in folder
-			_renderComponent = AddComponent<Render>(manager->GetObjectManagerForState(manager->GetActiveState()));
-			_materialComponent = AddComponent<MaterialComponent>(manager->GetMaterialManagerForState(manager->GetActiveState()));
+			_renderComponent = AddComponent<Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(_onwningState));
+			_materialComponent = AddComponent<MaterialComponent>(ApplicationManager::AppRenderManager().GetMaterialManagerForState(_onwningState));
 		}
 
 		//Core::size ModelBase::GetVertexCount() const

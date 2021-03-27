@@ -15,7 +15,7 @@ namespace Application
 		CameraNode::CameraNode(Ptr<State> parentState, Ptr<Node> parentNode, Rendering::RenderManager& renderSystem, const float& aspectRatio)
 			: Node(parentState, parentNode)
 		{
-			Core::Ptr<ContentBase> cameraContent = AddContent(MakeUnique<ContentBase>());
+			Core::Ptr<ContentBase> cameraContent = AddContent(MakeUnique<ContentBase>(ParentState));
 			CameraComponent = cameraContent->AddComponent<Rendering::CameraComponent>(renderSystem, aspectRatio);
 		}
 
@@ -30,7 +30,7 @@ namespace Application
 
 #if _DEBUG
 			// debug
-			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
+			Ptr<ContentBase> debugContent = AddContent<ContentBase>();
 
 			ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));

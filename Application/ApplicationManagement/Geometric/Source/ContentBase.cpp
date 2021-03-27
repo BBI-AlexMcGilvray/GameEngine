@@ -6,8 +6,9 @@ namespace Application
 {
 	namespace Geometric
 	{
-		ContentBase::ContentBase()
-			: OnContainerDeleted([this]
+		ContentBase::ContentBase(const Ptr<State> owningState)
+			: EntityBase(owningState)
+			, OnContainerDeleted([this]
 		{
 			Container = nullptr;
 			return false;

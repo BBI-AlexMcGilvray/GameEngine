@@ -21,7 +21,7 @@ namespace Application
 			Event<> ContentDeleted;
 			Delegate<> OnContainerDeleted;
 
-			ContentBase();
+			ContentBase(const Ptr<State> owningState);
 			virtual ~ContentBase();
 
 			void SetContainer(Ptr<ContainerBase> parentContainer);

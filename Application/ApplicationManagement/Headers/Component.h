@@ -27,13 +27,10 @@ namespace Application
 		void DeleteComponent();
 		bool ShouldBeDeleted() const;
 
-		// need to determine if we need/want the below. I think we do so that we can handle state changes and have a nice place
-		// to put things like getting access to other components and the like.
-		// NOTE: presumably the entity would be in charge of handling things like this and when they get called
+		// components are just a way to link to the system they are a part of
+		// only entities should update, it is a way to have entity-specific logic like unity's monobehaviours
+		// HOWEVER, this should be avoided in favour of components and systems
 		virtual void Initialize();
-		virtual void Start();
-		virtual void Update(Core::Second dt);
-		virtual void End();
 		virtual void CleanUp();
 
 	private:

@@ -48,7 +48,7 @@ namespace Application
 			Ptr<Node> animatedMeshNode = holderNode->AddChild<Node>("AnimatedMesh", Float3(0.0f, 0.0f, 0.0f), FQuaternion(0.707f, 0.0f, 0.707f, 0.0f) * FQuaternion(0.707f, -0.707f, 0.0f, 0.0f));
 			//animatedMeshNode->Transformation.SetRotation()
 
-			Ptr<ContentBase> animatedMeshContent = animatedMeshNode->AddContent(MakeUnique<AnimatedModel>(&(ApplicationManager::AppRenderManager()), animatedMeshNode, Data::Ast.amdl.Woman_0));
+			Ptr<ContentBase> animatedMeshContent = animatedMeshNode->AddContent<AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
 			//ComponentPtr<Rendering::Render> animatedRenderComponent = animatedMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 			//Ptr<Rendering::AnimatedModel> animatedModel = animatedRenderComponent->SetRenderObject<Rendering::AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
 			neckBone = animatedMeshNode->GetChild("LeftShoulder"); // Targetting the "RootNode" works... maybe an issue with how the values are uploaded?
@@ -63,7 +63,7 @@ namespace Application
 
 #if _DEBUG
 			// debug
-			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>());
+			Ptr<ContentBase> debugContent = AddContent<ContentBase>();
 
 			ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
 			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));

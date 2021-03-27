@@ -54,6 +54,14 @@ namespace Application
 
 			virtual ~Node();
 
+			// add content
+			template <typename T, typename ...Ts>
+			Ptr<T> AddContent(Ts&& ...args)
+			{
+				UniquePtr<T> newNode = MakeUnique<T>(ParentState, Forward<Ts>(args)...);
+
+				return static_cast<Ptr<T>>(AddContent(move(newNode)));
+			}
 			Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent) override;
 
 			// generic functions that pass calls down to children and contents

@@ -27,6 +27,9 @@ namespace Application
 
 	namespace GameSystem
 	{
+		// should handle any game-specifc logic on a global scale
+		// the rest should be handled by various entities and (almost entirely) their components
+		// essentially, this is where the 'hacks' go that can't work as components/need too much info
 		struct GameSystemManager
 		{
 			const Ptr<State> ParentState;

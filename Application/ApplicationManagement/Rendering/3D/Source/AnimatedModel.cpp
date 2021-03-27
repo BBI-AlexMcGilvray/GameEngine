@@ -1,5 +1,7 @@
 #include "ApplicationManagement/Rendering/3D/Headers/AnimatedModel.h"
 
+#include "ApplicationManagement/Headers/ApplicationManager.h"
+
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 
 #include "ApplicationManagement/Geometric/Headers/HierarchyComponent.h"
@@ -13,8 +15,8 @@ namespace Application
 {
 	namespace Rendering
 	{
-		AnimatedModel::AnimatedModel(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset)
-			: ContentBase()
+		AnimatedModel::AnimatedModel(const Core::Ptr<State> owningState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset)
+			: ContentBase(owningState)
 			, Data(asset)
 			, _transform(&(parentNode->Transformation))
 			//, Material(Data.Data.Material)
@@ -24,9 +26,12 @@ namespace Application
 			// this should probably be a component
 			SkinnedSkeleton = MakeUnique<Skeleton>(parentNode, Data.Data.Skeleton);
 			//Mesh.Skin(*SkinnedSkeleton);
+			
+			_renderComponent = AddComponent<Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(_onwningState));
+			_materialComponent = AddComponent<MaterialComponent>(ApplicationManager::AppRenderManager().GetMaterialManagerForState(_onwningState));
 
-			_renderComponent = AddComponent<Render>(manager->GetObjectManagerForState(manager->GetActiveState()));
-			_materialComponent = AddComponent<MaterialComponent>(manager->GetMaterialManagerForState(manager->GetActiveState()));
+			// should this be in the constructor? or left up to creators to call?
+			Initialize();
 		}
 
 		// be able to change what skeleton a model is listening to - returns true if able to map to skeleton
