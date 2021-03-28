@@ -16,7 +16,7 @@ namespace Application
 			: Node(parentState, parentNode)
 		{
 			Core::Ptr<ContentBase> cameraContent = AddContent(MakeUnique<ContentBase>(ParentState));
-			CameraComponent = cameraContent->AddComponent<Rendering::CameraComponent>(renderSystem, aspectRatio);
+			CameraComponent = cameraContent->AddComponent<Rendering::CameraComponent>(renderSystem.GetCameraManagerForState(ParentState), aspectRatio);
 		}
 
 		void CameraNode::Start()

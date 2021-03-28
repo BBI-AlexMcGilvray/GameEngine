@@ -2,6 +2,8 @@
 
 #include "ApplicationManagement/StateSystem/Headers/State.h"
 
+#include "ApplicationManagement/Rendering/Headers/SingleCameraManager.h"
+
 namespace Application
 {
 	namespace GameSystem
@@ -10,6 +12,7 @@ namespace Application
 			: ParentState(parentState)
 			, RObjectManager(&renderSystem)
 			, MaterialManager(&renderSystem)
+			, _cameraManager(MakeUnique<Rendering::SingleCameraManager>(&renderSystem))
 			, RenderSystem(renderSystem)
 			, InputSystem(inputSystem)
 		{
@@ -23,12 +26,14 @@ namespace Application
 
 			RenderSystem.AttachRenderObjectManager(ParentState, &RObjectManager);
 			RenderSystem.AttachMaterialManager(ParentState, &MaterialManager);
+			RenderSystem.AttachCameraManager(ParentState, _cameraManager.get());
 		}
 
 		void GameSystemManager::Start()
 		{
 			RObjectManager.Start();
 			MaterialManager.Start();
+			_cameraManager->Start();
 
 			RenderSystem.SetActiveState(ParentState);
 		}
@@ -43,15 +48,18 @@ namespace Application
 		{
 			RenderSystem.DettachMaterialManager(ParentState);
 			RenderSystem.DettachRenderObjectManager(ParentState);
+			RenderSystem.DettachCameraManager(ParentState);
 
 			RObjectManager.End();
 			MaterialManager.End();
+			_cameraManager->End();
 		}
 
 		void GameSystemManager::CleanUp()
 		{
 			MaterialManager.CleanUp();
 			RObjectManager.CleanUp();
+			_cameraManager->CleanUp();
 		}
 	}
 }

@@ -3,6 +3,7 @@
 #include "ApplicationManagement\Headers\GLContextManager.h"
 #include "ApplicationManagement\Headers\WindowManager.h"
 
+#include "ApplicationManagement/Rendering/Headers/CameraManager.h"
 #include "ApplicationManagement/Rendering/Headers/MaterialManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderObjectManager.h"
 #include "ApplicationManagement/Rendering/Headers/Renderer.h"
@@ -41,11 +42,16 @@ namespace Application
 			void AttachMaterialManager(Core::Ptr<State> state, Core::Ptr<MaterialManager> materialManager);
 			void DettachMaterialManager(Core::Ptr<State> state);
 
+			void AttachCameraManager(Core::Ptr<State> state, Core::Ptr<CameraManager> cameraManager);
+			void DettachCameraManager(Core::Ptr<State> state);
+
 			Core::Ptr<State> GetActiveState();
 			void SetActiveState(Core::Ptr<State> state);
 			void DeactivateState(Core::Ptr<State> state);
+
 			Core::Ptr<RenderObjectManager> GetObjectManagerForState(Core::Ptr<State> state);
 			Core::Ptr<MaterialManager> GetMaterialManagerForState(Core::Ptr<State> state);
+			Core::Ptr<CameraManager> GetCameraManagerForState(Core::Ptr<State> state);
 
 			void Update(Core::Second dt);
 			void Render();
@@ -59,7 +65,6 @@ namespace Application
 #endif
 
 			Core::Ptr<const Camera> GetCamera() const;
-			void SetCamera(Core::Ptr<Camera> renderCamera);
 
 		private:
 			Core::Ptr<Camera> RenderCamera = nullptr;
@@ -68,10 +73,10 @@ namespace Application
 			Core::Math::Color ClearColor;
 			Core::Ptr<WindowManager> Window;
 
-			// maybe this should change to be a map of ptr to structs so that each renderobjectmanager can have a state, so that multiple can be active at once
-			// this would allow transitioning to occur and such? unless our transitioning does not update the one being transitioned OUT of
+			// should all of these maps be combined into a single object to have a single mapping instead of multiple?
 			Core::Map<Core::Ptr<State>, Core::Ptr<RenderObjectManager>> ObjectManagers;
 			Core::Map<Core::Ptr<State>, Core::Ptr<MaterialManager>> MaterialManagers;
+			Core::Map<Core::Ptr<State>, Core::Ptr<CameraManager>> CameraManagers;
 			Core::Ptr<State> ActiveState = nullptr;
 
 			void RenderStart();

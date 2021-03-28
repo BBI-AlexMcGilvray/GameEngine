@@ -8,7 +8,7 @@
 #include "ApplicationManagement/Geometric/Headers/HierarchyComponent.h"
 
 #include "ApplicationManagement/Rendering/Headers/Camera.h"
-#include "ApplicationManagement/Rendering/Headers/RenderManager.h"
+#include "ApplicationManagement/Rendering/Headers/CameraManager.h"
 
 namespace Application
 {
@@ -22,16 +22,16 @@ namespace Application
 				return Core::HashValue("Camera");
 			}
 
-			CameraComponent(Core::Ptr<EntityBase> entity, RenderManager& renderSystem, const float& aspectRatio = (1024.0f / 800.0f));
+			CameraComponent(Core::Ptr<EntityBase> entity, Core::Ptr<CameraManager> cameraManager, const float& aspectRatio = (1024.0f / 800.0f));
 
 			Core::Ptr<Camera> GetCamera();
 
 			void Initialize() override;
 
 		private:
-			RenderManager& RenderSystem;
-			float AspectRatio;
-			Core::UniquePtr<Camera> RenderCamera = nullptr;
+			Core::Ptr<CameraManager> _cameraManager;
+			float _aspectRatio;
+			Core::Ptr<Camera> _camera = nullptr;
 		};
 	}
 }

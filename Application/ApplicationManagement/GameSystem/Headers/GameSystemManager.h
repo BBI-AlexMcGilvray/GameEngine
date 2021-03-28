@@ -9,6 +9,7 @@
 #include "ApplicationManagement/GameSystem/Headers/GameObjectManager.h"
 
 #include "ApplicationManagement/Input/Headers/InputManager.h"
+#include "ApplicationManagement/Rendering/Headers/CameraManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
 #include "ApplicationManagement/Rendering/Headers/RenderObjectManager.h"
 #include "ApplicationManagement/Collision/Headers/CollisionManager.h"
@@ -36,8 +37,11 @@ namespace Application
 
 			SchedulerBase Scheduler;
 			GameObjectManager ObjectManager;
+
+			// these should all be added in whenever a state is pushed, not as part of the game system
 			Rendering::RenderObjectManager RObjectManager;
 			Rendering::MaterialManager MaterialManager;
+			Core::UniquePtr<Rendering::CameraManager> _cameraManager; // this should likely be specified by the world/data
 			//CollisionManager CollisionSystem;
 
 			// the game system manager should hold onto the current 'scene' and be able to switch between scenes (in order to load different game states)

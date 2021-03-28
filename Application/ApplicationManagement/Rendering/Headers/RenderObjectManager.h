@@ -39,8 +39,8 @@ namespace Application
 				return static_cast<Ptr<T>>(AddRenderObject(move(newRenderObject)));
 			}
 
-			virtual Core::Ptr<RenderObjectBase> AddRenderObject(Core::UniquePtr<RenderObjectBase> renderObject);
-			virtual void RemoveRenderObject(Core::Ptr<RenderObjectBase> renderObject);
+			Core::Ptr<RenderObjectBase> AddRenderObject(Core::UniquePtr<RenderObjectBase> renderObject);
+			void RemoveRenderObject(Core::Ptr<RenderObjectBase> renderObject);
 
 		private:
 			// ideally we find a way to make this not a raw pointer, but it should be fine for now since this object

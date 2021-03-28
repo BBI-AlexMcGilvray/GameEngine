@@ -10,17 +10,15 @@ namespace Application
 {
 	namespace Rendering
 	{
-		CameraComponent::CameraComponent(Core::Ptr<EntityBase> entity, RenderManager& renderSystem, const float& aspectRatio)
+		CameraComponent::CameraComponent(Core::Ptr<EntityBase> entity, Core::Ptr<CameraManager> cameraManager, const float& aspectRatio)
 			: Component<CameraComponent>(entity, this)
-			, RenderSystem(renderSystem)
-			, AspectRatio(aspectRatio)
-		{
-
-		}
+			, _cameraManager(cameraManager)
+			, _aspectRatio(aspectRatio)
+		{}
 
 		Core::Ptr<Camera> CameraComponent::GetCamera()
 		{
-			return RenderCamera.get();
+			return _camera;
 		}
 
 		void CameraComponent::Initialize()
@@ -33,8 +31,7 @@ namespace Application
 				return;
 			}
 
-			RenderCamera = move(MakeUnique<Camera>(AspectRatio, hierarchyComponent->GetHeirarchyNode()->Transformation));
-			RenderSystem.SetCamera(GetCamera());
+			_camera = _cameraManager->AddCamera<Camera>(_aspectRatio, hierarchyComponent->GetHeirarchyNode()->Transformation);
 		}
 	}
 }

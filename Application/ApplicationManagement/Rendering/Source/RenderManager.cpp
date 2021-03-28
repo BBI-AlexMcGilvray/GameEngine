@@ -27,6 +27,7 @@ namespace Application
 
 		void RenderManager::Start()
 		{
+			// this is getting called correctly, but the problem is the camera is not initialized AFTER this - incorrectly
 			RenderCamera = nullptr;
 		}
 
@@ -48,6 +49,16 @@ namespace Application
 		void RenderManager::DettachMaterialManager(Core::Ptr<State> state)
 		{
 			Erase(MaterialManagers, move(state));
+		}
+
+		void RenderManager::AttachCameraManager(Core::Ptr<State> state, Core::Ptr<CameraManager> cameraManager)
+		{
+			Insert(CameraManagers, move(state), move(cameraManager));
+		}
+
+		void RenderManager::DettachCameraManager(Core::Ptr<State> state)
+		{
+			Erase(CameraManagers, move(state));
 		}
 
 		Core::Ptr<State> RenderManager::GetActiveState()
@@ -89,11 +100,17 @@ namespace Application
 			return MaterialManagers[state];
 		}
 
+		Core::Ptr<CameraManager> RenderManager::GetCameraManagerForState(Core::Ptr<State> state)
+		{
+			return CameraManagers[state];
+		}
+
 		void RenderManager::Update(Second dt)
 		{
 			// update render object manager
 			if (ActiveState != nullptr)
 			{
+				CameraManagers[ActiveState]->Update(dt);
 				MaterialManagers[ActiveState]->Update(dt);
 				ObjectManagers[ActiveState]->Update(dt);
 			}
@@ -171,11 +188,6 @@ namespace Application
 			return RenderCamera;
 		}
 
-		void RenderManager::SetCamera(Ptr<Camera> renderCamera)
-		{
-			RenderCamera = renderCamera;
-		}
-
 		void RenderManager::RenderStart()
 		{
 			glClearColor(ClearColor.R, ClearColor.G, ClearColor.B, ClearColor.A);
@@ -190,6 +202,7 @@ namespace Application
 			// NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
 			
 			// render manager render call
+			RenderCamera = CameraManagers[ActiveState]->GetCamera();
 			auto initialMVP = RenderCamera->GetTransformationMatrix();
 			if (ActiveState != nullptr)
 			{

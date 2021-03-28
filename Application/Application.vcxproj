@@ -223,6 +223,7 @@
     <ClCompile Include="ApplicationManagement\Rendering\OpenGL\Source\ShaderUtils.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Shaders\Source\VertexShader.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\Camera.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Source\CameraManager.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\CameraUtils.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\Lights.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\MaterialManager.cpp" />
@@ -231,6 +232,7 @@
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderManager.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderObjectBase.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\Source\RenderObjectManager.cpp" />
+    <ClCompile Include="ApplicationManagement\Rendering\Source\SingleCameraManager.cpp" />
     <ClCompile Include="ApplicationManagement\Source\Component.cpp" />
     <ClCompile Include="ApplicationManagement\Source\Entity.cpp" />
     <ClCompile Include="ApplicationManagement\Source\WindowManager.cpp" />
@@ -380,10 +382,12 @@
     <ClInclude Include="ApplicationManagement\Geometric\Headers\Scene.h" />
     <ClInclude Include="ApplicationManagement\Geometric\Headers\World.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\Camera.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Headers\CameraManager.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\CameraUtils.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\Lights.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\MaterialManager.h" />
     <ClInclude Include="ApplicationManagement\Rendering\Headers\RenderComponent.h" />
+    <ClInclude Include="ApplicationManagement\Rendering\Headers\SingleCameraManager.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLBuffer.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLDefs.h" />
     <ClInclude Include="ApplicationManagement\Rendering\OpenGL\Headers\GLMappedBuffer.h" />
