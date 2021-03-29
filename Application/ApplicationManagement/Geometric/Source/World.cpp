@@ -27,6 +27,12 @@ namespace Application
 		World::World(Ptr<State> parentState)
 			: Scene(parentState)
 		{
+
+		}
+
+		void World::Initialize()
+		{
+			// this will be data driven from the future
 			Ptr<CameraNode> cameraNode = AddChild<CameraNode>(ApplicationManager::AppRenderManager(), 1280.0f / 1080.0f);
 			// camera position not acting correctly in final transformation matrix (from camera)
 			cameraNode->Transformation.SetPosition(Float3(0.0f, 0.0f, 20.0f));

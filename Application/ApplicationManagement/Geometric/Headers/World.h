@@ -11,6 +11,7 @@ namespace Application
 		{
 			World(Core::Ptr<State> parentState);
 
+			void Initialize() override;
 			void Start() override;
 
 			// debugging

@@ -113,6 +113,8 @@ namespace Application
 				CameraManagers[ActiveState]->Update(dt);
 				MaterialManagers[ActiveState]->Update(dt);
 				ObjectManagers[ActiveState]->Update(dt);
+
+				RenderCamera = CameraManagers[ActiveState]->GetCamera();
 			}
 #if _DEBUG // check in debug to find errors, no errors should exist in live
 			if (RenderCamera == nullptr)
@@ -202,7 +204,6 @@ namespace Application
 			// NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
 			
 			// render manager render call
-			RenderCamera = CameraManagers[ActiveState]->GetCamera();
 			auto initialMVP = RenderCamera->GetTransformationMatrix();
 			if (ActiveState != nullptr)
 			{

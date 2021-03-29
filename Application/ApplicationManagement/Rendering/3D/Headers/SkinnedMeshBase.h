@@ -39,7 +39,7 @@ namespace Application
 
 			virtual void Initialize();
 
-			void Skin(const Skeleton& skeleton);
+			void Skin(const Ptr<Skeleton> skeleton);
 
 		protected:
 			virtual void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;
@@ -52,6 +52,7 @@ namespace Application
 
 			Core::Functionality::Delegate<> _onMaterialDeleted;
 			ComponentPtr<MaterialComponent> _materialComponent;
+			Core::Ptr<Skeleton> _skeleton; // should be a skeleton component in the future
 
 			void CreateRenderData();
 		};

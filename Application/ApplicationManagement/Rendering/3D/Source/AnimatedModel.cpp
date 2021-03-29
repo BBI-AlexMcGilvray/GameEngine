@@ -37,8 +37,10 @@ namespace Application
 		// be able to change what skeleton a model is listening to - returns true if able to map to skeleton
 		bool AnimatedModel::SkinToSkeleton(Core::UniquePtr<Skeleton> skeleton)
 		{
-			// change the mesh to use this skeleton bones (if they work) instead of the one it is currently using
-			return false;
+			// make sure this actually works
+			SkinnedSkeleton = move(skeleton);
+			_renderComponent->GetRenderObject<SkinnedMeshBase>()->Skin(SkinnedSkeleton.get());
+			return true;
 		}
 
 		//Core::size AnimatedModel::GetVertexCount() const
@@ -64,10 +66,12 @@ namespace Application
 		{
 			// create components
 			_materialComponent->SetMaterial<Material>(Data.Data.Material);
+			// this should be in the material data, but is here for now
+			_materialComponent->GetMaterial()->SetShader(&(ApplicationManager::AppRenderManager().ObjectShaderManager.DefaultSkinnedShader));
 
 			Ptr<SkinnedMeshBase> mesh = _renderComponent->SetRenderObject<SkinnedMeshBase>(_transform, Data.Data.Mesh);
 			mesh->SetMaterialComponent(_materialComponent);
-			mesh->Skin(*SkinnedSkeleton);
+			SkinToSkeleton(move(SkinnedSkeleton)); // this should be done at a better point
 		}
 
 		void AnimatedModel::Start()

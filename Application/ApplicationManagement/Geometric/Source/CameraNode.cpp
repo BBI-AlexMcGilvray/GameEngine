@@ -19,8 +19,15 @@ namespace Application
 			CameraComponent = cameraContent->AddComponent<Rendering::CameraComponent>(renderSystem.GetCameraManagerForState(ParentState), aspectRatio);
 		}
 
+		void CameraNode::Initialize()
+		{
+			CameraComponent->Initialize();
+		}
+
 		void CameraNode::Start()
 		{
+			// this is not needed, only used at the moment to switch the circle colour from blue (default for node) to red
+			// the debug content should be wrapped in a macro/script define so that it is always accessible anyways
 			ContainerBase::Start();
 
 			for (auto& child : Children)

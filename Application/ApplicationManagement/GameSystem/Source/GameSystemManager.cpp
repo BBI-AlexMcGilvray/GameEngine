@@ -16,17 +16,15 @@ namespace Application
 			, RenderSystem(renderSystem)
 			, InputSystem(inputSystem)
 		{
-
+			RenderSystem.AttachRenderObjectManager(ParentState, &RObjectManager);
+			RenderSystem.AttachMaterialManager(ParentState, &MaterialManager);
+			RenderSystem.AttachCameraManager(ParentState, _cameraManager.get());
 		}
 
 		void GameSystemManager::Initialize()
 		{
 			RObjectManager.Initialize();
 			MaterialManager.Initialize();
-
-			RenderSystem.AttachRenderObjectManager(ParentState, &RObjectManager);
-			RenderSystem.AttachMaterialManager(ParentState, &MaterialManager);
-			RenderSystem.AttachCameraManager(ParentState, _cameraManager.get());
 		}
 
 		void GameSystemManager::Start()

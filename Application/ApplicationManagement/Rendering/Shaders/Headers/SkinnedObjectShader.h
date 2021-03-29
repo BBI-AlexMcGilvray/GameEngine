@@ -37,7 +37,7 @@ namespace Application
 			Ptr<ShaderBase> GetVertexShader() override;
 			Ptr<ShaderBase> GetFragmentxShader() override;
 
-			void SetSkinningInformation(const List<Float4x4> boneList);
+			virtual void SetSkinningInformation(const List<Float4x4> boneList);
 
 			void Prepare(const Float4x4& mvp, const Color& color) const override;
 			void CleanUp() const override;

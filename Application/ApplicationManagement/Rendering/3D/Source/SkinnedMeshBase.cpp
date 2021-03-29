@@ -1,4 +1,5 @@
 #include "ApplicationManagement/Rendering/3D/Headers/SkinnedMeshBase.h"
+#include "ApplicationManagement/Rendering/Shaders/Headers/SkinnedObjectShader.h"
 
 // testing
 #include "Core/Math/Headers/VectorFunctions.h"
@@ -92,6 +93,8 @@ namespace Application
 
 			if ((bool)_materialComponent)
 			{
+				// need a better way to do this that doesn't involve static casting (or casting it here at least)
+				static_cast<Ptr<SkinnedObjectShader>>(_materialComponent->GetMaterial()->Shader)->SetSkinningInformation(_skeleton->GetBoneMatrices());
 				_materialComponent->GetMaterial()->Prepare(mvp, color);
 			}
 		}
@@ -106,8 +109,9 @@ namespace Application
 			}
 		}
 
-		void SkinnedMeshBase::Skin(const Skeleton& skeleton)
+		void SkinnedMeshBase::Skin(const Ptr<Skeleton> skeleton)
 		{
+			_skeleton = skeleton;
 			for (int i = 0; i < Data.Data.Vertices.size(); i++)
 			{
 				Data::Rendering::AnimatedVertexDataBase vertexData = Data.Data.Vertices[i];
@@ -118,7 +122,7 @@ namespace Application
 				{
 					if (j < vertexData.BoneName.size() && vertexData.BoneName[j] != "")
 					{
-						vertexRenderData.BoneIndices[j] = skeleton.GetIndexOf(vertexData.BoneName[j]);
+						vertexRenderData.BoneIndices[j] = skeleton->GetIndexOf(vertexData.BoneName[j]);
 					}
 					else
 					{
