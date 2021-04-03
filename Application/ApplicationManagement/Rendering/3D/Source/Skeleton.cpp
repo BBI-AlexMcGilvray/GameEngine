@@ -9,8 +9,9 @@ namespace Application
 {
 	namespace Rendering
 	{
-		Skeleton::Skeleton(Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset)
-			: Data(asset)
+		Skeleton::Skeleton(Core::Ptr<State> parentState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset)
+			: Geometric::Node(parentState, parentNode)
+			, Data(asset)
 			, OnRootDeleted{[this]()
 		{
 			Root = nullptr;

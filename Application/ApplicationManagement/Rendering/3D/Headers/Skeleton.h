@@ -17,13 +17,13 @@ namespace Application
 {
 	namespace Rendering
 	{
-		struct Skeleton
+		struct Skeleton : Geometric::Node
 		{
 			// animation system and how we want to plug it in is TBD - presumably a more generic system than wiring it specific to bones and such
 			//Core::List<BoneAnimation> Animations;
 
 			// we will need the parent node in constructor to know where our bones are rooted to
-			Skeleton(Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset);
+			Skeleton(Core::Ptr<State> parentState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset);
 
 			int GetBoneCount() const;
 			Core::Ptr<Bone> GetSkeletonHierarchy() const;

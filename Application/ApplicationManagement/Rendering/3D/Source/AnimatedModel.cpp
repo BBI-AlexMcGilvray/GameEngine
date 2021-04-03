@@ -18,15 +18,8 @@ namespace Application
 		AnimatedModel::AnimatedModel(const Core::Ptr<State> owningState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset)
 			: ContentBase(owningState)
 			, Data(asset)
-			, _transform(&(parentNode->Transformation))
-			//, Material(Data.Data.Material)
-			//, Mesh(Data.Data.Mesh)
-			//, Shader(manager->ObjectShaderManager.DefaultSkinnedShader)
-		{
-			// this should probably be a component
-			SkinnedSkeleton = MakeUnique<Skeleton>(parentNode, Data.Data.Skeleton);
-			//Mesh.Skin(*SkinnedSkeleton);
-			
+		{			
+			_skeletonComponent = AddComponent<SkeletonComponent>();
 			_renderComponent = AddComponent<Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(_onwningState));
 			_materialComponent = AddComponent<MaterialComponent>(ApplicationManager::AppRenderManager().GetMaterialManagerForState(_onwningState));
 
@@ -35,11 +28,10 @@ namespace Application
 		}
 
 		// be able to change what skeleton a model is listening to - returns true if able to map to skeleton
-		bool AnimatedModel::SkinToSkeleton(Core::UniquePtr<Skeleton> skeleton)
+		bool AnimatedModel::SkinToSkeleton(Core::Ptr<Skeleton> skeleton)
 		{
-			// make sure this actually works
-			SkinnedSkeleton = move(skeleton);
-			_renderComponent->GetRenderObject<SkinnedMeshBase>()->Skin(SkinnedSkeleton.get());
+			_skeletonComponent->SetSkeleton(skeleton);
+			_renderComponent->GetRenderObject<SkinnedMeshBase>()->Skin(skeleton);
 			return true;
 		}
 
@@ -65,13 +57,16 @@ namespace Application
 		void AnimatedModel::Initialize()
 		{
 			// create components
+			ComponentPtr<Geometric::Hierarchy> hierarchyComponent = GetComponent<Geometric::Hierarchy>();
+			_skeletonComponent->SetSkeleton<Skeleton>(this->_onwningState, hierarchyComponent->GetHeirarchyNode(), Data.Data.Skeleton);
+
 			_materialComponent->SetMaterial<Material>(Data.Data.Material);
 			// this should be in the material data, but is here for now
 			_materialComponent->GetMaterial()->SetShader(&(ApplicationManager::AppRenderManager().ObjectShaderManager.DefaultSkinnedShader));
 
-			Ptr<SkinnedMeshBase> mesh = _renderComponent->SetRenderObject<SkinnedMeshBase>(_transform, Data.Data.Mesh);
+			Ptr<SkinnedMeshBase> mesh = _renderComponent->SetRenderObject<SkinnedMeshBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data.Data.Mesh);
 			mesh->SetMaterialComponent(_materialComponent);
-			SkinToSkeleton(move(SkinnedSkeleton)); // this should be done at a better point
+			SkinToSkeleton(_skeletonComponent->GetSkeleton()); // this should be done at a better point
 		}
 
 		void AnimatedModel::Start()
