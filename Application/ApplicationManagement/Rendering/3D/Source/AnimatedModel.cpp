@@ -22,9 +22,6 @@ namespace Application
 			_skeletonComponent = AddComponent<SkeletonComponent>();
 			_renderComponent = AddComponent<Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(_onwningState));
 			_materialComponent = AddComponent<MaterialComponent>(ApplicationManager::AppRenderManager().GetMaterialManagerForState(_onwningState));
-
-			// should this be in the constructor? or left up to creators to call?
-			Initialize();
 		}
 
 		// be able to change what skeleton a model is listening to - returns true if able to map to skeleton
@@ -58,7 +55,7 @@ namespace Application
 		{
 			// create components
 			ComponentPtr<Geometric::Hierarchy> hierarchyComponent = GetComponent<Geometric::Hierarchy>();
-			_skeletonComponent->SetSkeleton<Skeleton>(this->_onwningState, hierarchyComponent->GetHeirarchyNode(), Data.Data.Skeleton);
+			_skeletonComponent->SetSkeleton<Skeleton>(_onwningState, hierarchyComponent->GetHeirarchyNode(), Data.Data.Skeleton);
 
 			_materialComponent->SetMaterial<Material>(Data.Data.Material);
 			// this should be in the material data, but is here for now
@@ -66,7 +63,8 @@ namespace Application
 
 			Ptr<SkinnedMeshBase> mesh = _renderComponent->SetRenderObject<SkinnedMeshBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data.Data.Mesh);
 			mesh->SetMaterialComponent(_materialComponent);
-			SkinToSkeleton(_skeletonComponent->GetSkeleton()); // this should be done at a better point
+
+			SkinToSkeleton(_skeletonComponent->GetSkeleton());
 		}
 
 		void AnimatedModel::Start()

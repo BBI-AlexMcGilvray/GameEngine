@@ -79,7 +79,12 @@ namespace Application
 			{
 				UniquePtr<T> newNode = MakeUnique<T>(ParentState, this, Forward<Ts>(args)...);
 
-				return static_cast<Ptr<T>>(AddChild(move(newNode)));
+				Ptr<T> newChild = static_cast<Ptr<T>>(AddChild(move(newNode)));
+
+				// should probably be called here?
+				// newChild->Initialize();
+
+				return newChild;
 			}
 
 			virtual Ptr<Node> AddChild(UniquePtr<Node> newChild);

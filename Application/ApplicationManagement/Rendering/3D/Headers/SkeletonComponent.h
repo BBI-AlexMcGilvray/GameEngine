@@ -4,14 +4,11 @@
 
 #include "ApplicationManagement/Geometric/Headers/Node.h"
 
-#include "ApplicationManagement/Rendering/Headers/RenderObjectManager.h"
-
 namespace Application
 {
 	namespace Rendering
 	{
-		class AnimatedModel;
-		class Skeleton;
+		struct Skeleton;
 
 		// a struct to hold all render objects of an entity
 		struct SkeletonComponent : Component<SkeletonComponent>
@@ -28,6 +25,7 @@ namespace Application
 			template <typename T, typename ...Ts>
 			Core::Ptr<T> SetSkeleton(Core::Ptr<State> parentState, Core::Ptr<Geometric::Node> parentNode, Ts&&... args)
 			{
+				// need to add it as a node since the hierarchy owns the skeleton
 				Core::Ptr<Skeleton> newSkeleton = parentNode->AddChild<Skeleton>(Forward<Ts>(args)...);
 				return SetSkeleton(newSkeleton);
 			}

@@ -55,6 +55,7 @@ namespace Application
 			//animatedMeshNode->Transformation.SetRotation()
 
 			Ptr<ContentBase> animatedMeshContent = animatedMeshNode->AddContent<AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
+			animatedMeshContent->Initialize();
 			//ComponentPtr<Rendering::Render> animatedRenderComponent = animatedMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 			//Ptr<Rendering::AnimatedModel> animatedModel = animatedRenderComponent->SetRenderObject<Rendering::AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
 			neckBone = animatedMeshNode->GetChild("LeftShoulder"); // Targetting the "RootNode" works... maybe an issue with how the values are uploaded?

@@ -14,7 +14,7 @@ namespace Application
 {
 	namespace Rendering
 	{
-		// a recursive struct to hold elements in a scene
+		// maybe cameras should not be a component?... component does make sense though
 		struct CameraComponent : Component<CameraComponent>
 		{
 			static Core::Hash ClassHash()
@@ -24,6 +24,7 @@ namespace Application
 
 			CameraComponent(Core::Ptr<EntityBase> entity, Core::Ptr<CameraManager> cameraManager, const float& aspectRatio = (1024.0f / 800.0f));
 
+			// should havea setter method
 			Core::Ptr<Camera> GetCamera();
 
 			void Initialize() override;

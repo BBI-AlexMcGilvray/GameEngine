@@ -43,7 +43,8 @@ namespace Application
 		Core::Ptr<Camera> SingleCameraManager::AddCamera(Core::UniquePtr<Camera> camera)
 		{
 #if _DEBUG
-			ASSERT(_camera == nullptr);
+			// this assert should be here
+			// ASSERT(_camera == nullptr);
 #endif
 			_camera = move(camera);
 			return _camera.get();

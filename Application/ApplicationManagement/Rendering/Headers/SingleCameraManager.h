@@ -26,7 +26,7 @@ namespace Application
 			void RemoveCamera(Core::Ptr<Camera> camera) override;
 
 		private:
-			Core::UniquePtr<Camera> _camera;
+			Core::UniquePtr<Camera> _camera = nullptr;
 		};
 	}
 }
