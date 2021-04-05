@@ -261,10 +261,10 @@
     <ClCompile Include="Core\Math\UnitTests\VectorTests.cpp" />
     <ClCompile Include="Core\Networking\Source\NetworkProtocol.cpp" />
     <ClCompile Include="Core\Networking\Source\Utils.cpp" />
-    <ClCompile Include="Core\Source\AnimationCurve.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\AnimationCurve.cpp" />
     <ClCompile Include="Core\Source\Exception.cpp" />
     <ClCompile Include="Core\Source\Hash.cpp" />
-    <ClCompile Include="Core\Source\Keyframe.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\Keyframe.cpp" />
     <ClCompile Include="Data\Rendering\Source\AnimatedMeshData.cpp" />
     <ClCompile Include="Data\Rendering\Source\AnimatedModelData.cpp" />
     <ClCompile Include="Data\Rendering\Source\MaterialData.cpp" />
@@ -332,6 +332,7 @@
     <ClInclude Include="ApplicationManagement\Animation\Headers\Animation.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationManager.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationMixer.h" />
+    <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationTrack.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\Animator.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\AnimatorComponent.h" />
     <ClInclude Include="ApplicationManagement\Collision\Headers\BoxCollider.h" />
@@ -414,11 +415,11 @@
     <ClInclude Include="Core\Geometric\2D\Headers\Polygon.h" />
     <ClInclude Include="Core\Geometric\Headers\GeometryDefs.h" />
     <ClInclude Include="Core\Geometric\2D\Headers\GeometryFunctions.h" />
-    <ClInclude Include="Core\Headers\AnimationCurve.h" />
+    <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationCurve.h" />
     <ClInclude Include="Core\Headers\Exception.h" />
     <ClInclude Include="Core\Headers\FlagEnum.h" />
     <ClInclude Include="Core\Headers\Hash.h" />
-    <ClInclude Include="Core\Headers\Keyframe.h" />
+    <ClInclude Include="ApplicationManagement\Animation\Headers\Keyframe.h" />
     <ClInclude Include="Core\IO\Headers\Exception.h" />
     <ClInclude Include="Core\IO\Headers\File.h" />
     <ClInclude Include="Core\IO\Headers\Folder.h" />
