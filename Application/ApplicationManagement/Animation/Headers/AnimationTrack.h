@@ -1,22 +1,27 @@
 #pragma once
 
 #include "Core/Headers/ListDefs.h"
-#include "Core/Headers/AnimationCurve.h"
+#include "ApplicationManagement/Animation/Headers/AnimationCurve.h"
 
 namespace Application
 {
 	namespace Animation
 	{
-		template <typename T>
 		class AnimationTrack
 		{
 		private:
-			Core::AnimationCurve _curve;
+			float& _target;
+			AnimationCurve _curve;
 
 		public:
-			AnimationTrack();
+			AnimationTrack(float& target);
+			AnimationTrack(float& target, AnimationCurve curve);
+			// maybe a constructor to take a serialized animation curve?
 
-			T Evaluate(Core::Second time);
+			void SetCurve(AnimationCurve curve);
+			AnimationCurve& GetCurve();
+
+			void Update(Core::Second time);
 		};
 	}
 }

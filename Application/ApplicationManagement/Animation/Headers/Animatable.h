@@ -2,26 +2,27 @@
 
 #include "Core/Headers/PtrDefs.h"
 
-#include "ApplicationManagement/Animation/Headers/AnimationMixer.h"
-
 namespace Application
 {
+	// is this useful? it does allow us to have multiple systems interact with a single object through the same mixer...
+	// current problem is with the fact that we would have circular dependencies due to templates
+	// alternative to templates is to have it be implementations instead of templates
 	namespace Animation
 	{
-		class IAnimator;
+		class AnimationnMixer;
 
-		template <typename T>
+		// implementations should create a mixer and hold a reference/the logic for applying the animation to the animatable object
 		class Animatable
 		{
 		private:
-			T& _animatedT;
-			AnimationMixer<T> _mixer;
+			Core::UniquePtr<AnimationnMixer> _mixer = nullptr;
 
 		public:
-			Animatable(T& animatedT);
+			Animatable();
+			~Animatable() = default;
 
-			AnimationMixer<T> GetMixer();
-			void SetValue(T animatedValue);
+			virtual void CreateMixer() = 0;
+			Core::Ptr<AnimationnMixer> GetMixer();
 		};
 	}
 }

@@ -1,23 +1,28 @@
 #pragma once
 
-#include "ListDefs.h"
-#include "Keyframe.h"
+#include "Core/Headers/ListDefs.h"
+#include "Core/Headers/TimeDefs.h"
+
+#include "ApplicationManagement/Animation/Headers/Keyframe.h"
 
 #include <tuple>
 
-namespace Core
+namespace Application
 {
-	struct AnimationCurve
+	namespace Animation
 	{
-	public:
-		AnimationCurve();
-		AnimationCurve(List<Keyframe> keyframes);
+		struct AnimationCurve
+		{
+		public:
+			AnimationCurve();
+			AnimationCurve(Core::List<Keyframe> keyframes);
 
-		float Evaluate(Second time);
+			float Evaluate(Core::Second time);
 
-	private:
-		List<Keyframe> _keyframes;
+		private:
+			Core::List<Keyframe> _keyframes;
 
-		std::tuple<Keyframe, Keyframe> GetClosestKeyframes(Second time);
-	};
+			std::tuple<Keyframe, Keyframe> GetClosestKeyframes(Core::Second time);
+		};
+	}
 }

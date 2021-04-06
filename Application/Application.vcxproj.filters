@@ -363,10 +363,28 @@
     <ClCompile Include="ApplicationManagement\Rendering\Source\SingleCameraManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Animation\Keyframe.cpp">
+    <ClCompile Include="ApplicationManagement\Animation\Source\Animatable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Animation\AnimationCurve.cpp">
+    <ClCompile Include="ApplicationManagement\Animation\Source\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\Source\AnimationMixer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\Source\Keyframe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\Source\AnimationCurve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\Source\AnimationTrack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\Source\Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\Source\AnimatorComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

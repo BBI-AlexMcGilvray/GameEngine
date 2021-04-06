@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
@@ -28,4 +28,4 @@ namespace Application
 			void Update(Core::Second dt);
 		};
 	}
-}
+}*/

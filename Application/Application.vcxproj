@@ -160,7 +160,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ApplicationManagement\Animation\Animators\Source\SkeletonAnimator.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\Source\Animation.cpp" />
     <ClCompile Include="ApplicationManagement\Animation\Source\AnimationManager.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\Source\Animatable.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\Source\AnimationMixer.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\Source\AnimationTrack.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\Source\Animator.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\Source\AnimatorComponent.cpp" />
     <ClCompile Include="ApplicationManagement\Collision\Headers\CollisionManager.h" />
     <ClCompile Include="ApplicationManagement\Collision\Source\BoxCollider.cpp" />
     <ClCompile Include="ApplicationManagement\Collision\Source\CollisionBase.cpp" />
@@ -261,10 +267,10 @@
     <ClCompile Include="Core\Math\UnitTests\VectorTests.cpp" />
     <ClCompile Include="Core\Networking\Source\NetworkProtocol.cpp" />
     <ClCompile Include="Core\Networking\Source\Utils.cpp" />
-    <ClCompile Include="ApplicationManagement\Animation\AnimationCurve.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\Source\AnimationCurve.cpp" />
     <ClCompile Include="Core\Source\Exception.cpp" />
     <ClCompile Include="Core\Source\Hash.cpp" />
-    <ClCompile Include="ApplicationManagement\Animation\Keyframe.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\Source\Keyframe.cpp" />
     <ClCompile Include="Data\Rendering\Source\AnimatedMeshData.cpp" />
     <ClCompile Include="Data\Rendering\Source\AnimatedModelData.cpp" />
     <ClCompile Include="Data\Rendering\Source\MaterialData.cpp" />
