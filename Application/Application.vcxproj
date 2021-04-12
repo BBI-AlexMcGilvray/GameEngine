@@ -159,14 +159,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ApplicationManagement\Animation\Animators\Source\SkeletonAnimator.cpp" />
-    <ClCompile Include="ApplicationManagement\Animation\Source\Animation.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimationTrack.cpp" />
     <ClCompile Include="ApplicationManagement\Animation\Source\AnimationManager.cpp" />
     <ClCompile Include="ApplicationManagement\Animation\Source\Animatable.cpp" />
     <ClCompile Include="ApplicationManagement\Animation\Source\AnimationMixer.cpp" />
-    <ClCompile Include="ApplicationManagement\Animation\Source\AnimationTrack.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\FieldAnimation\Source\FloatAnimationTrack.cpp" />
     <ClCompile Include="ApplicationManagement\Animation\Source\Animator.cpp" />
     <ClCompile Include="ApplicationManagement\Animation\Source\AnimatorComponent.cpp" />
+    <ClCompile Include="ApplicationManagement\Animation\TransformAnimation\Source\TransformAnimationTrack.cpp" />
     <ClCompile Include="ApplicationManagement\Collision\Headers\CollisionManager.h" />
     <ClCompile Include="ApplicationManagement\Collision\Source\BoxCollider.cpp" />
     <ClCompile Include="ApplicationManagement\Collision\Source\CollisionBase.cpp" />
@@ -332,15 +332,15 @@
     <None Include="Dependencies\Dlls\32Bit\SDL2\zlib1.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ApplicationManagement\Animation\Animators\Headers\SkeletonAnimator.h" />
-    <ClInclude Include="ApplicationManagement\Animation\Animators\Headers\TransformationAnimator.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\Animatable.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\Animation.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationManager.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationMixer.h" />
-    <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationTrack.h" />
+    <ClInclude Include="ApplicationManagement\Animation\FieldAnimation\Headers\FloatAnimationTrack.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\Animator.h" />
     <ClInclude Include="ApplicationManagement\Animation\Headers\AnimatorComponent.h" />
+    <ClInclude Include="ApplicationManagement\Animation\SkeletonAnimation\Headers\SkeletonAnimationTrack.h" />
+    <ClInclude Include="ApplicationManagement\Animation\TransformAnimation\Headers\TransformAnimationTrack.h" />
     <ClInclude Include="ApplicationManagement\Collision\Headers\BoxCollider.h" />
     <ClInclude Include="ApplicationManagement\Collision\Headers\CollisionBase.h" />
     <ClInclude Include="ApplicationManagement\Collision\Headers\CollisionCheck.h" />

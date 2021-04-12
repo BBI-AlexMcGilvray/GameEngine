@@ -151,6 +151,18 @@ namespace Application
 			return nullptr;
 		}
 
+		List<Ptr<Node>> Node::GetChildren()
+		{
+			List<Ptr<Node>> children(Children.size());
+
+			for (int i = 0; i < Children.size(); i++)
+			{
+				children[i] = Children[i].get();
+			}
+
+			return children;
+		}
+
 		UniquePtr<Node> Node::RemoveChild(Ptr<Node> oldChild)
 		{
 			oldChild->Transformation.SetParent(nullptr);

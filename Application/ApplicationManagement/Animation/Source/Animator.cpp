@@ -1,5 +1,6 @@
 #include "ApplicationManagement/Animation/Headers/Animator.h"
 
+#include "Core/Debugging/Headers/Macros.h"
 
 namespace Application
 {
@@ -73,13 +74,13 @@ namespace Application
 			if (_animating)
 			{
 				_currentAnimation.animationTime += dt;
-				mixer->MixValue(_animations[_currentAnimation.name]->Update(_currentAnimation.animationTime), _currentAnimation.weight);
+				mixer->MixAnimation(_currentAnimation.weight, _animations[_currentAnimation.name].get(), _currentAnimation.animationTime);
 			}
 
 			if (_transition.transitioning && _transition.transitionTimeLeft > Core::Second(0))
 			{
 				_transition.state.animationTime += dt;
-				mixer->MixValue(_animations[_transition.state.name]->Update(_transition.state.animationTime), _transition.state.weight);
+				mixer->MixAnimation(_transition.state.weight, _animations[_transition.state.name].get(), _transition.state.animationTime);
 
 				_transition.transitionTimeLeft -= dt;
 				_transition.transitioning = _transition.transitionTimeLeft > Core::Second(0);

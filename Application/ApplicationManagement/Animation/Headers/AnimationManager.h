@@ -26,19 +26,19 @@ namespace Application
 			template <typename T, typename ...Ts>
 			Core::Ptr<T> AddAnimator(Ts&& ...args)
 			{
-				Core::UniquePtr<IAnimator> newAnimator = Core::MakeUnique<T>(Forward<Ts>(args)...);
+				Core::UniquePtr<Animator> newAnimator = Core::MakeUnique<T>(Forward<Ts>(args)...);
 
 				return static_cast<Ptr<T>>(AddAnimator(move(newAnimator)));
 			}
 
-			Core::Ptr<IAnimator> AddAnimator(Core::UniquePtr<IAnimator> animator);
-			void RemoveAnimator(Core::Ptr<IAnimator> animator);
+			Core::Ptr<Animator> AddAnimator(Core::UniquePtr<Animator> animator);
+			void RemoveAnimator(Core::Ptr<Animator> animator);
 
 		private:
 			// Should this not be ptrs at all to have contiguous memory?
 			// ~ that would mean they would need to live here, and not on a component
 			// ~ so components point to element held by array within the system instead of the other way around
-			Core::List<Core::UniquePtr<IAnimator>> _animators;
+			Core::List<Core::UniquePtr<Animator>> _animators;
 		};
 	}
 }

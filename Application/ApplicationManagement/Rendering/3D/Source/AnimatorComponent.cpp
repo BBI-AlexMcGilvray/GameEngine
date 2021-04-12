@@ -14,19 +14,19 @@ namespace Application
 
 		}
 
-		Core::Ptr<IAnimator> AnimatorComponent::AddAnimator(Core::UniquePtr<IAnimator> animator)
+		Core::Ptr<Animator> AnimatorComponent::AddAnimator(Core::UniquePtr<Animator> animator)
 		{
 			return AddAnimator(_animationManager->AddAnimator(move(animator)));
 		}
 
-		Ptr<IAnimator> AnimatorComponent::AddAnimator(Ptr<IAnimator> animator)
+		Ptr<Animator> AnimatorComponent::AddAnimator(Ptr<Animator> animator)
 		{
 			Push(_animators, move(animator));
 
 			return _animators[_animators.size() - 1];
 		}
 
-		void AnimatorComponent::RemoveAnimator(Core::Ptr<IAnimator> animator)
+		void AnimatorComponent::RemoveAnimator(Core::Ptr<Animator> animator)
 		{
 			Remove(_animators, animator);
 			_animationManager->RemoveAnimator(animator);

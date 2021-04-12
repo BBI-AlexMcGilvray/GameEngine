@@ -1,5 +1,7 @@
 #include "ApplicationManagement/Animation/Headers/Animatable.h"
 
+#include "ApplicationManagement/Animation/Headers/AnimationMixer.h"
+
 
 namespace Application
 {
@@ -8,7 +10,7 @@ namespace Application
 		Animatable::Animatable()
 		{}
 
-		Core::Ptr<AnimationnMixer> Animatable::GetMixer()
+		Core::Ptr<AnimationMixer> Animatable::GetMixer()
 		{
 			if (_mixer == nullptr)
 			{

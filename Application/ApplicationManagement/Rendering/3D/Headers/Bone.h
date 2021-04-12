@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ApplicationManagement/Geometric/Headers/Node.h"
 
 namespace Application

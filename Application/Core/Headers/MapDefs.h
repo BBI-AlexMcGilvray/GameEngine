@@ -9,8 +9,9 @@ namespace Core
 	template <typename Key, typename T>
 	using Map = std::map<Key, T>;
 
-	template <typename Key, typename T>
-	void Insert(Map<Key, T>& map, Key&& key, T&& t)
+	// Key0 is needed because the key could be an l- or r-value (reference or not) and both should be accepted, but Map can't be
+	template <typename Key, typename T, typename Key0 = std::remove_reference<Key>::type>
+	void Insert(Map<Key, T>& map, Key0&& key, T&& t)
 	{
 		Insert(map, Pair<Key, T>(Forward<Key>(key), Forward<T>(t)));
 	}
@@ -29,8 +30,8 @@ namespace Core
 	}
 	*/
 
-	template <typename Key, typename T>
-	void Erase(Map<Key, T>& map, Key&& key)
+	template <typename Key, typename T, typename Key0 = std::remove_reference<Key>::type>
+	void Erase(Map<Key, T>& map, Key0&& key)
 	{
 		map.erase(Forward<Key>(key));
 	}
@@ -47,8 +48,8 @@ namespace Core
 		return map.empty();
 	}
 
-	template <typename Key, typename T>
-	bool In(Map<Key, T>& map, Key&& key)
+	template <typename Key, typename T, typename Key0 = std::remove_reference<Key>::type>
+	bool In(Map<Key, T>& map, Key0&& key)
 	{
 		auto iterator = map.find(Forward<Key>(key));
 

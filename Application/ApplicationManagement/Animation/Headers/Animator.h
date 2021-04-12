@@ -24,12 +24,10 @@ namespace Application
 			void SetAnimatable(Core::Ptr<Animatable> animatable);
 			Core::Ptr<Animatable> GetAnimatable();
 
-			// we probably want the animations to be driven through data?
+			// we probably want what animations are held to be driven through data?
 			// how do we handle different animation types through a similar system?
 			void AddAnimation(Core::Hash name, Core::SharedPtr<Animation> data);
-
 			void RemoveAnimation(Core::Hash name);
-
 
 			void PlayAnimation(Core::Hash name, Core::Second transitionTime);
 
@@ -77,7 +75,7 @@ namespace Application
 			Core::Ptr<Animatable> _animatable = nullptr;
 			Core::Map<Core::Hash, Core::SharedPtr<Animation>> _animations;
 			
-			// until we have more complex logic, we will just use simple transition data to manage it
+			// until we have more complex logic, we will just use simple transition data to manage it - as such, we can only blend two animations at the moment
 			TransitionData _transition;
 			// in the future, we shoud have behaviour trees that dictate the flow from one animation to another based on state and such for smoother transitions
 			// BehaviourTree _behaviourTree;

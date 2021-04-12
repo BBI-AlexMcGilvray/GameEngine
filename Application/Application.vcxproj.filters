@@ -339,9 +339,6 @@
     <ClCompile Include="ApplicationManagement\Animation\Source\AnimationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Animation\Animators\Source\SkeletonAnimator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Bone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -366,9 +363,6 @@
     <ClCompile Include="ApplicationManagement\Animation\Source\Animatable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Animation\Source\Animation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Animation\Source\AnimationMixer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -378,13 +372,19 @@
     <ClCompile Include="ApplicationManagement\Animation\Source\AnimationCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Animation\Source\AnimationTrack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Animation\Source\Animator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationManagement\Animation\Source\AnimatorComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\FieldAnimation\Source\FloatAnimationTrack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\TransformAnimation\Source\TransformAnimationTrack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimationTrack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1174,13 +1174,7 @@
     <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Animation\Animators\Headers\TransformationAnimator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationMixer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationManagement\Animation\Animators\Headers\SkeletonAnimator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Rendering\3D\Headers\Bone.h">
@@ -1204,13 +1198,19 @@
     <ClInclude Include="ApplicationManagement\Rendering\Headers\SingleCameraManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationTrack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationManagement\Animation\Headers\Keyframe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Animation\Headers\AnimationCurve.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Animation\FieldAnimation\Headers\FloatAnimationTrack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Animation\TransformAnimation\Headers\TransformAnimationTrack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Animation\SkeletonAnimation\Headers\SkeletonAnimationTrack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
