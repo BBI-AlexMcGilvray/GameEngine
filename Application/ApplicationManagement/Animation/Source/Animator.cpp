@@ -86,6 +86,7 @@ namespace Application
 				_transition.transitioning = _transition.transitionTimeLeft > Core::Second(0);
 			}
 
+			// this may need to be handled by the manager to better allow for multiple animators to be affecting the same mixer
 			mixer->Apply();
 		}
 	}

@@ -24,7 +24,7 @@ namespace Application
 			virtual void MixAnimation(float weight, Core::Ptr<Animation> value, Core::Second animationTime) = 0;
 			virtual void Apply() = 0;
 
-		private:
+		protected:
 			// implementations should also have a T& to the target of the animatable
 			Core::Ptr<Animatable> _target;
 		};

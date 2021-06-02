@@ -12,19 +12,18 @@ namespace Application
 		class SkeletonAnimationTrack
 		{
 		public:
-			SkeletonAnimationTrack();
-			// maybe a constructor to take a serialized animation curve?
+			SkeletonAnimationTrack(const Data::AssetData<Data::Rendering::SkeletonAnimationData>& data);
 
-			void SetTrack(int boneIndex, TransformAnimationTrack animationTrack);
+			void SetTrack(string boneName, TransformAnimationTrack animationTrack);
 
 			void SetStartState(const Rendering::Skeleton& skeleton);
-			Core::List<Transform> Evaluate(Core::Second time);
+			Core::Map<string, Transform> Evaluate(Core::Second time);
 
 		private:
 			Core::List<Transform> _startState;
 
-			// <bone index, animation track>
-			Core::Map<int, TransformAnimationTrack> _tracks;
+			// <bone name, animation track>
+			Core::Map<string, TransformAnimationTrack> _tracks;
 
 			int CreateStartState(Core::Ptr<Geometric::Node> rootBone, int index);
 		};

@@ -1,5 +1,7 @@
 #include "ApplicationManagement/Rendering/3D/Headers/AnimatedModel.h"
 
+#include "ApplicationManagement/Animation/Headers/Animator.h"
+
 #include "ApplicationManagement/Headers/ApplicationManager.h"
 
 #include "ApplicationManagement/Rendering/Headers/RenderManager.h"
@@ -22,6 +24,7 @@ namespace Application
 			_skeletonComponent = AddComponent<SkeletonComponent>();
 			_renderComponent = AddComponent<Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(_onwningState));
 			_materialComponent = AddComponent<MaterialComponent>(ApplicationManager::AppRenderManager().GetMaterialManagerForState(_onwningState));
+			_animatorComponent = AddComponent<Animation::AnimatorComponent>(ApplicationManager::AppAnimationManager()); // needs to be for a state in the future
 		}
 
 		// be able to change what skeleton a model is listening to - returns true if able to map to skeleton
@@ -65,6 +68,10 @@ namespace Application
 			mesh->SetMaterialComponent(_materialComponent);
 
 			SkinToSkeleton(_skeletonComponent->GetSkeleton());
+
+			_animatable = Animation::SkeletonAnimatable(*(_skeletonComponent->GetSkeleton()));
+			_animatorComponent->SetAnimator<Animation::Animator>(_animatable);
+			for (Data::AssetName<Animation> animation : _skeletonComponent->GetSkeleton()-)
 		}
 
 		void AnimatedModel::Start()

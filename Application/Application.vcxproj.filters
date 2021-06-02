@@ -387,6 +387,15 @@
     <ClCompile Include="ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimationTrack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimatable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimationMixer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="__Planning\GameEngine.xmi" />
@@ -1211,6 +1220,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationManagement\Animation\SkeletonAnimation\Headers\SkeletonAnimationTrack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Animation\SkeletonAnimation\Headers\SkeletonAnimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Animation\SkeletonAnimation\Headers\SkeletonAnimatable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationManagement\Animation\SkeletonAnimation\Headers\SkeletonAnimationMixer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,20 +20,18 @@ namespace Application
 			AnimatorComponent(Core::Ptr<EntityBase> entity, Core::Ptr<AnimationManager> animationManager);
 
 			template <typename T, typename ...Ts>
-			Core::Ptr<T> AddAnimator(Ts&& ...args)
+			Core::Ptr<T> SetAnimator(Ts&& ...args)
 			{
-				return static_cast<Ptr<T>>(AddAnimator(_animatorManager->AddAnimator<T>(Forward<Ts>(args)...)));
+				return static_cast<Ptr<T>>(SetAnimator(Core::MakeUnique<T>(Forward<Ts>(args)...)));
 			}
 
-			Core::Ptr<Animator> AddAnimator(Core::UniquePtr<Animator> animator);
-
-			Core::Ptr<Animator> AddAnimator(Core::Ptr<Animator> animator);
+			Core::Ptr<Animator> SetAnimator(Core::UniquePtr<Animator> animator);
 
 			void RemoveAnimator(Core::Ptr<Animator> animator);
 
 		private:
 			Core::Ptr<AnimationManager> _animationManager;
-			Core::List<Core::Ptr<Animator>> _animators;
+			Core::Ptr<Animator> _animator;
 		};
 	}
 }

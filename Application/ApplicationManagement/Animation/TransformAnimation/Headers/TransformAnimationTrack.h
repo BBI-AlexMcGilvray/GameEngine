@@ -4,6 +4,7 @@
 #include "Core/Headers/MapDefs.h"
 
 #include "ApplicationManagement/Animation/FieldAnimation/Headers/FloatAnimationTrack.h"
+#include "Data/Rendering/Headers/SkeletonAnimationData.h"
 
 namespace Application
 {
@@ -19,7 +20,7 @@ namespace Application
 				S_X, S_Y, S_Z
 			};
 
-			TransformAnimationTrack();
+			TransformAnimationTrack(const Data::Rendering::BoneAnimationData& data);
 			// maybe a constructor to take a serialized animation curve?
 
 			void SetTrack(TransformTarget target, FloatAnimationTrack animationTrack);

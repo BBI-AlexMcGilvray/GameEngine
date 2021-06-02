@@ -11,7 +11,8 @@ namespace Application
 	{
 		class AnimationManager
 		{
-			// Need a way to handle animators no longer being relevant for the current state
+			// ~ Need a way to handle animators no longer being relevant for the current state
+			// ~ The animation manager should handle holding all animations and have them just be referenced by the animators to limit data footprint and have them accessible by all
 		public:
 			AnimationManager();
 
@@ -38,6 +39,7 @@ namespace Application
 			// Should this not be ptrs at all to have contiguous memory?
 			// ~ that would mean they would need to live here, and not on a component
 			// ~ so components point to element held by array within the system instead of the other way around
+			// ~ which is what we want!
 			Core::List<Core::UniquePtr<Animator>> _animators;
 		};
 	}

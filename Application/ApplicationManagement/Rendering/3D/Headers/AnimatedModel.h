@@ -1,5 +1,8 @@
 #pragma once
 
+#include "ApplicationManagement/Animation/Headers/AnimatorComponent.h"
+#include "ApplicationManagement/Animation/SkeletonAnimation/Headers/SkeletonAnimatable.h"
+
 #include "ApplicationManagement/Geometric/Headers/ContentBase.h"
 #include "ApplicationManagement/Geometric/Headers/Node.h"
 
@@ -37,6 +40,8 @@ namespace Application
 			ComponentPtr<SkeletonComponent> _skeletonComponent;
 			ComponentPtr<MaterialComponent> _materialComponent;
 			ComponentPtr<Render> _renderComponent;
+			ComponentPtr<Animation::AnimatorComponent> _animatorComponent;
+			Animation::SkeletonAnimatable _animatable;
 		};
 	}
 }

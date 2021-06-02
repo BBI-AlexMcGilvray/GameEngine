@@ -9,17 +9,25 @@ namespace Application
 {
 	namespace Animation
 	{
-		SkeletonAnimationTrack::SkeletonAnimationTrack()
-		{}
-
-		void SkeletonAnimationTrack::SetTrack(int boneIndex, TransformAnimationTrack animationTrack)
+		SkeletonAnimationTrack::SkeletonAnimationTrack(const Data::AssetData<Data::Rendering::SkeletonAnimationData>& data)
 		{
-			if (!Core::In(_tracks, boneIndex))
+			int index = 0;
+			for (Data::Rendering::BoneAnimationData boneAnimationData : data.Data.BoneAnimations)
 			{
-				_tracks[boneIndex] = animationTrack;
+				// the data is not stored in correct order, so we can't do it this way - we need to get the skeleton get the index right
+				SetTrack(boneAnimationData.Name, TransformAnimationTrack(boneAnimationData));
+				index++;
+			}
+		}
+
+		void SkeletonAnimationTrack::SetTrack(string boneName, TransformAnimationTrack animationTrack)
+		{
+			if (!Core::In(_tracks, boneName))
+			{
+				_tracks[boneName] = animationTrack;
 			}
 
-			ALERT("Bone index " + std::to_string(boneIndex) + " already being affected by an animationtrack");
+			ALERT("Bone index " + boneName + " already being affected by an animationtrack");
 		}
 
 		void SkeletonAnimationTrack::SetStartState(const Rendering::Skeleton& skeleton)
@@ -28,11 +36,11 @@ namespace Application
 			CreateStartState(hierarchy, 0);
 		}
 
-		Core::List<Transform> SkeletonAnimationTrack::Evaluate(Core::Second time)
+		Core::Map<string, Transform> SkeletonAnimationTrack::Evaluate(Core::Second time)
 		{
-			Core::List<Transform> skeleton(_tracks.size());
+			Core::Map<string, Transform> skeleton;
 
-			for (Core::Pair<const int, TransformAnimationTrack>& pair : _tracks)
+			for (Core::Pair<const string, TransformAnimationTrack>& pair : _tracks)
 			{
 				skeleton[pair.first] = pair.second.Evaluate(time);
 			}

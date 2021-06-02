@@ -14,12 +14,12 @@ namespace Application
 		// implementations should create a mixer and hold a reference/the logic for applying the animation to the animatable object
 		class Animatable
 		{
-		private:
+		protected:
 			Core::UniquePtr<AnimationMixer> _mixer = nullptr;
 
 		public:
 			Animatable();
-			~Animatable() = default;
+			virtual ~Animatable() = default;
 
 			virtual void CreateMixer() = 0;
 			Core::Ptr<AnimationMixer> GetMixer();
