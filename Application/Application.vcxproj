@@ -183,7 +183,6 @@
     <ClCompile Include="ApplicationManagement\GameSystem\Source\GameSystemManager.cpp" />
     <ClCompile Include="ApplicationManagement\Geometric\Headers\ContainerBase.h" />
     <ClCompile Include="ApplicationManagement\Rendering\2D\Source\MaterialComponent.cpp" />
-    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\AnimatorComponent.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Bone.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\CubeRenderObject.cpp" />
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Skeleton.cpp" />

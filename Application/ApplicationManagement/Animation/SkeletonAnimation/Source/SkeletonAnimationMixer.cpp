@@ -15,7 +15,7 @@ namespace Application
 		void SkeletonAnimationMixer::MixAnimation(float weight, Core::Ptr<Animation> value, Core::Second animationTime)
 		{
 			value->Evaluate(animationTime);
-			Push(_animationsToMix, MixData(weight, static_cast<SkeletonAnimation*>(value)->GetAnimatinResults()));
+			Push(_animationsToMix, MixData(weight, static_cast<SkeletonAnimation*>(value)->GetAnimationResults()));
 		}
 
 		void SkeletonAnimationMixer::Apply()

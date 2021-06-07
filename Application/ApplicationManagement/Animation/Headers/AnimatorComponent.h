@@ -7,7 +7,7 @@ namespace Application
 {
 	namespace Animation
 	{
-		struct Animator;
+		class Animator;
 
 		// a struct to hold all render objects of an entity
 		struct AnimatorComponent : Component<AnimatorComponent>
@@ -31,7 +31,7 @@ namespace Application
 
 		private:
 			Core::Ptr<AnimationManager> _animationManager;
-			Core::Ptr<Animator> _animator;
+			Core::Ptr<Animator> _animator = nullptr;
 		};
 	}
 }

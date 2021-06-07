@@ -16,7 +16,7 @@ namespace Application
 			_evaluationResults = _track.Evaluate(time);
 		}
 
-		Map<string, Transform> SkeletonAnimation::GetAnimatinResults()
+		Map<string, Transform> SkeletonAnimation::GetAnimationResults()
 		{
 			return _evaluationResults;
 		}

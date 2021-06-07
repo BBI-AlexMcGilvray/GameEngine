@@ -24,7 +24,8 @@ namespace Application
 			_skeletonComponent = AddComponent<SkeletonComponent>();
 			_renderComponent = AddComponent<Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(_onwningState));
 			_materialComponent = AddComponent<MaterialComponent>(ApplicationManager::AppRenderManager().GetMaterialManagerForState(_onwningState));
-			_animatorComponent = AddComponent<Animation::AnimatorComponent>(ApplicationManager::AppAnimationManager()); // needs to be for a state in the future
+			_animatorComponent = AddComponent<Animation::AnimatorComponent>(&ApplicationManager::AppAnimationManager()); // needs to be for a state (_owningState) in the future like the above, and not a ptr (like the above)
+			_animatable = SkeletonAnimatable(*(_skeletonComponent->GetSkeleton()));
 		}
 
 		// be able to change what skeleton a model is listening to - returns true if able to map to skeleton
@@ -69,9 +70,10 @@ namespace Application
 
 			SkinToSkeleton(_skeletonComponent->GetSkeleton());
 
-			_animatable = Animation::SkeletonAnimatable(*(_skeletonComponent->GetSkeleton()));
-			_animatorComponent->SetAnimator<Animation::Animator>(_animatable);
-			for (Data::AssetName<Animation> animation : _skeletonComponent->GetSkeleton()-)
+			_animatorComponent->SetAnimator<Animation::Animator>(&_animatable);
+			// add the animations from the skeleton data to the animator component
+			// (maybe the skeleton component should be what adds the animation component? and the AnimatedModel pointer instead tries to get the component that is loaded up by the skeleton component)
+			//for (Data::AssetName<Animation> animation : _skeletonComponent->GetSkeleton())
 		}
 
 		void AnimatedModel::Start()

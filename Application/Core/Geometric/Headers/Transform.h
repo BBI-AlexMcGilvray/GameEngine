@@ -24,6 +24,9 @@ namespace Core
 			Transform(Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f), bool settingLocal = false);
 			Transform(Ptr<Transform> parent, Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f), bool settingLocal = false);
 
+			Transform(const Transform& other);
+			Transform& operator=(const Transform& other);
+
 			// parent-relative
 			Float4x4 GetLocalTransformationMatrix();
 			Float4x4 GetInverseLocalTransformationMatrix();
@@ -69,6 +72,9 @@ namespace Core
 			bool IsDirty() const;
 
 		protected:
+			// the event side of things should be moved into a decorator class used by the geometric system and such that does not allow copy constructor or assignment operator
+			// since they would not be copied anyways
+			// perhaps some other elements (like local position and such - not world since world would be the default) can also be moved to that
 			Ptr<Transform> Parent = nullptr;
 			Functionality::Delegate<> ParentDirtied;
 

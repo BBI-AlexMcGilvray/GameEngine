@@ -51,7 +51,7 @@ namespace Core
 	template <typename Key, typename T, typename Key0 = std::remove_reference<Key>::type>
 	bool In(Map<Key, T>& map, Key0&& key)
 	{
-		auto iterator = map.find(Forward<Key>(key));
+		auto iterator = map.find(Forward<Key0>(key));
 
 		return (iterator != map.end());
 	}

@@ -14,7 +14,7 @@ namespace Application
 			SkeletonAnimation(Data::AssetName<Data::Rendering::SkeletonAnimationData> data);
 
 			void Evaluate(Core::Second time) override;
-			Map<string, Transform> GetAnimatinResults();
+			Map<string, Transform> GetAnimationResults();
 
 		private:
 			Data::AssetData<Data::Rendering::SkeletonAnimationData> _data;

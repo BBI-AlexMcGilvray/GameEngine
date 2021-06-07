@@ -342,9 +342,6 @@
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\Bone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationManagement\Rendering\3D\Source\AnimatorComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationManagement\Rendering\3D\Source\SkeletonComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

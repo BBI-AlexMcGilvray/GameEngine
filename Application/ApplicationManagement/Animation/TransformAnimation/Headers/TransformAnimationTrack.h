@@ -20,6 +20,7 @@ namespace Application
 				S_X, S_Y, S_Z
 			};
 
+			TransformAnimationTrack() = default;
 			TransformAnimationTrack(const Data::Rendering::BoneAnimationData& data);
 			// maybe a constructor to take a serialized animation curve?
 

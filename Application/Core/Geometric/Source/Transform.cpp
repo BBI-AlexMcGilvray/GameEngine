@@ -46,6 +46,24 @@ namespace Core
 			}
 		}
 
+		Transform::Transform(const Transform& other)
+		{
+			// if this is separated into a base class, this should be copying world information, not local
+			SetPosition(other.Position);
+			SetRotation(other.Rotation);
+			SetScale(other.Scale);
+		}
+
+		Transform& Transform::operator=(const Transform& other)
+		{
+			// if this is separated into a base class, this should be copying world information, not local
+			SetPosition(other.Position);
+			SetRotation(other.Rotation);
+			SetScale(other.Scale);
+
+			return *this;
+		}
+
 		Float4x4 Transform::GetLocalTransformationMatrix()
 		{
 			RecalculateLocalTransformationMatrix();

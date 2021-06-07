@@ -12,6 +12,7 @@ namespace Application
 		class SkeletonAnimatable : public Animatable
 		{
 		public:
+			SkeletonAnimatable() = default; // ideally this doesn't exist, but postponing fixing until the dependencies are fixed (whatever makes this should have the data for it, and currently model has it but the data is in the skeleton)
 			SkeletonAnimatable(Rendering::Skeleton& target);
 			SkeletonAnimatable(const SkeletonAnimatable& other);
 

@@ -18,6 +18,8 @@ namespace Application
 		SkeletonAnimatable& SkeletonAnimatable::operator=(const SkeletonAnimatable& other)
 		{
 			_target = other._target;
+
+			return *this;
 		}
 
 		Rendering::Skeleton& SkeletonAnimatable::GetTarget() const
