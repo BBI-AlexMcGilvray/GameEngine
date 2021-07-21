@@ -8,7 +8,7 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/ListDefs.h"
 
-#include "Dependencies\Includes\GLEW\glew.h"
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
 
 using namespace Core;
 

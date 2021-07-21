@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IODefs.h"
-#include "File.h"
+#include "Core/IO/Headers/IODefs.h"
+#include "Core/IO/Headers/File.h"
 
 namespace Core
 {

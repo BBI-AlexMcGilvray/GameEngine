@@ -1,11 +1,8 @@
 #pragma once
 
-#include "Core/Headers/AllCore.h"
-
-#include "Function.h"
-
-// testing
+#include "Core/Headers/PtrDefs.h"
 #include "Core/Debugging/Headers/Macros.h"
+#include "Core/Functionality/Headers/Function.h"
 
 namespace Core
 {

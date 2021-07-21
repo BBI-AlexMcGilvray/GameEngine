@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CoreDefs.h"
-#include "PtrDefs.h"
-#include "TemplateDefs.h"
+#include "Core/Headers/CoreDefs.h"
+#include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/TemplateDefs.h"
 
 // delete once working
 #include <iostream>

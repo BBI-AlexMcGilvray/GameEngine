@@ -1,4 +1,4 @@
-#include "ApplicationManagement\Headers\ApplicationManager.h"
+#include "ApplicationManagement/Headers/ApplicationManager.h"
 
 using namespace Application;
 

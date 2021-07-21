@@ -2,10 +2,10 @@
 
 #include "Core/Headers/CoreDefs.h"
 
-#include "MathDefs.h"
-#include "MathUtils.h"
+#include "Core/Math/Headers/MathDefs.h"
+#include "Core/Math/Headers/MathUtils.h"
 
-#include "Vector.h"
+#include "Core/Math/Headers/Vector.h"
 
 namespace Core
 {

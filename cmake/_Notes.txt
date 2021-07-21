@@ -1,0 +1,7 @@
+1. Run 'cmake .' in ./builds/
+2. Run 'cmake --build .' in ./builds/
+
+// Dependencies
+- try to remove pre-build libraries and build sdl and glew when building project
+- sdl uses cmake, should just be able to reference the library that gets built
+- glew uses a makefile, see: https://stackoverflow.com/questions/18346849/how-to-get-cmake-to-use-existing-makefile

@@ -5,7 +5,7 @@
 #include <cassert>
 #include <string>
 
-#include "Declarations.h"
+#include "Core/Debugging/Headers/Declarations.h"
 
 namespace Core
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Dependencies\Includes\GLEW\glew.h"
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
 
 #include "ApplicationManagement/Rendering/Shaders/Headers/ObjectShaderBase.h"
 #include "ApplicationManagement/Rendering/Shaders/Headers/ShaderBase.h"

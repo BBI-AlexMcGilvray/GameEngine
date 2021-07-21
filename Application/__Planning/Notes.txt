@@ -1,3 +1,5 @@
+- to generate cmake files, this is a helper powershell command: Get-ChildItem -Include *.h -Recurse | Format-List FullName | Out-File .\Temp.txt
+
 - look into the skeleton data generated from assimp - something seems off
 	- maybe do this after working on skinning and animations as it may just be a broken 'default' pose?
 	- assimp data seems like it is the RELATIVE transform according to docs, maybe just convert to world for export

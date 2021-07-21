@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Dependencies/Includes/SDL2/SDL.h"
+#include "Dependencies/SDL2-2.0.14/include/SDL.h"
 
 #include "Core/Headers/CoreDefs.h"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector.h"
+// #include "Core/Math/Headers/Vector.h"
 
 namespace Core
 {
@@ -65,7 +65,7 @@ namespace Core
 
 			// Invert
 			/*
-			MatrixXxX<T, vT, V> Invert()
+			MatrixAxB<T, vT, V> Invert()
 			{
 				// does not seem to exist a simple inversion algorithm that works for all matrices - if needed, may need to be on a dimension basis
 				// or we can put in the super heavy generic algorithm here and have specific dimensions override it

@@ -3,8 +3,8 @@
 // this is needed if we want to link to GLEW statically (for some reason...)
 #define GLEW_STATIC
 
-#include "Dependencies/Includes/SDL2/SDL.h"
-#include "Dependencies/Includes/GLEW/glew.h"
+#include "Dependencies/SDL2-2.0.14/include/SDL.h"
+#include "Dependencies/glew-2.1.0/include/GL/glew.h"
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/CoreDefs.h"

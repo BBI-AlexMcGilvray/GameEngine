@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Vector.h"
-#include "Vector2.h"
-#include "Vector3.h"
-#include "Vector4.h"
+#include "Core/Math/Headers/Vector.h"
+#include "Core/Math/Headers/Vector2.h"
+#include "Core/Math/Headers/Vector3.h"
+#include "Core/Math/Headers/Vector4.h"
 
-#include "MathUtils.h"
+#include "Core/Math/Headers/MathUtils.h"
 
 #include "Core/Debugging/Headers/Declarations.h"
 

@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{30051DBA-3CD5-3F9C-BFE2-485D725CE589}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>ApplicationManagement</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Coding\VisualStudios\Application\builds\Application\ApplicationManagement\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ApplicationManagement.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">ApplicationManagement</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Coding\VisualStudios\Application\builds\Application\ApplicationManagement\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ApplicationManagement.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ApplicationManagement</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Coding\VisualStudios\Application\builds\Application\ApplicationManagement\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">ApplicationManagement.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">ApplicationManagement</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Coding\VisualStudios\Application\builds\Application\ApplicationManagement\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">ApplicationManagement.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">ApplicationManagement</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\Application\ApplicationManagement\..;D:\Coding\VisualStudios\Application\Application\Core\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:X86</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule D:/Coding/VisualStudios/Application/Application/ApplicationManagement/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Coding/VisualStudios/Application -BD:/Coding/VisualStudios/Application/builds --check-stamp-file D:/Coding/VisualStudios/Application/builds/Application/ApplicationManagement/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">D:\Coding\VisualStudios\Application\builds\Application\ApplicationManagement\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule D:/Coding/VisualStudios/Application/Application/ApplicationManagement/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Coding/VisualStudios/Application -BD:/Coding/VisualStudios/Application/builds --check-stamp-file D:/Coding/VisualStudios/Application/builds/Application/ApplicationManagement/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\Coding\VisualStudios\Application\builds\Application\ApplicationManagement\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule D:/Coding/VisualStudios/Application/Application/ApplicationManagement/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Coding/VisualStudios/Application -BD:/Coding/VisualStudios/Application/builds --check-stamp-file D:/Coding/VisualStudios/Application/builds/Application/ApplicationManagement/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">D:\Coding\VisualStudios\Application\builds\Application\ApplicationManagement\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule D:/Coding/VisualStudios/Application/Application/ApplicationManagement/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Coding/VisualStudios/Application -BD:/Coding/VisualStudios/Application/builds --check-stamp-file D:/Coding/VisualStudios/Application/builds/Application/ApplicationManagement/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">D:\Coding\VisualStudios\Application\builds\Application\ApplicationManagement\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\FieldAnimation\Source\FloatAnimationTrack.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimatable.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimation.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimationMixer.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\SkeletonAnimation\Source\SkeletonAnimationTrack.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\Source\Animatable.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\Source\AnimationCurve.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\Source\AnimationManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\Source\AnimationMixer.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\Source\Animator.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\Source\AnimatorComponent.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\Source\Keyframe.cpp">
+      <ObjectFileName>$(IntDir)/Animation/Source/Keyframe.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Animation\TransformAnimation\Source\TransformAnimationTrack.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Collision\Source\BoxCollider.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Collision\Source\ColliderBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Collision\Source\CollisionBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Collision\Source\CollisionCheck.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Collision\Source\CollisionManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Collision\Source\SphericalCollider.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Debugging\Source\Logging.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\GameSystem\Source\GameObjectBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\GameSystem\Source\GameObjectManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\GameSystem\Source\GameSystemManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Geometric\Source\CameraNode.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Geometric\Source\ContainerBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Geometric\Source\ContentBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Geometric\Source\HierarchyComponent.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Geometric\Source\Node.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Geometric\Source\Scene.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Geometric\Source\World.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Input\Source\InputController.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Input\Source\InputDefs.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Input\Source\InputEvent.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Input\Source\InputManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Input\Source\InputReceiverBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\2D\Source\BoxRenderObject.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\2D\Source\CircleRenderObject.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\2D\Source\Image.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\2D\Source\Material.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\2D\Source\MaterialComponent.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\2D\Source\Sprite.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\2D\Source\Texture.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\3D\Source\AnimatedModel.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\3D\Source\Bone.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\3D\Source\CubeRenderObject.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\3D\Source\ModelBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\3D\Source\SimpleMeshBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\3D\Source\Skeleton.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\3D\Source\SkeletonComponent.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\3D\Source\SkinnedMeshBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\3D\Source\SphereRenderObject.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Animation\Source\KeyFrame.cpp">
+      <ObjectFileName>$(IntDir)/Rendering/Animation/Source/KeyFrame.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Animation\Source\Timeline.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\OpenGL\Source\GLArrayBuffer.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\OpenGL\Source\GLBuffer.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\OpenGL\Source\GLMappedBuffer.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\OpenGL\Source\GLObject.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\OpenGL\Source\GLShader.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\OpenGL\Source\GLShaderProgram.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\OpenGL\Source\ShaderUtils.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\DebugObjectShader.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\DebugVertexShader.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\FragmentShader.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\ObjectShader.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\ObjectShaderBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\ShaderBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\ShaderManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\SkinnedObjectShader.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\SkinnedVertexShader.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Shaders\Source\VertexShader.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\Camera.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\CameraComponent.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\CameraManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\CameraUtils.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\Lights.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\MaterialManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\RenderComponent.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\Renderer.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\RenderManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\RenderObjectBase.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\RenderObjectManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Rendering\Source\SingleCameraManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Source\ApplicationManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Source\Component.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Source\Entity.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Source\GLContextManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Source\SDL2Manager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Source\WindowManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\StateSystem\Source\State.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\StateSystem\Source\StateManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\Application\ApplicationManagement\Time\Source\TimeManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ZERO_CHECK.vcxproj">
+      <Project>{1BE8D40B-F15F-3F3C-87B7-6DF47CC0E549}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\Core\Core.vcxproj">
+      <Project>{D7541FD3-6F82-3F31-8EA2-B494F6E55E4A}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\Data\Data.vcxproj">
+      <Project>{C74746A9-70FE-3187-9F55-90650F7AB44B}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

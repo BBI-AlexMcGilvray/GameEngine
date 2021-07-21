@@ -1,7 +1,7 @@
 #pragma once
 
-#include "File.h"
-#include "IODefs.h"
+#include "Core/IO/Headers/File.h"
+#include "Core/IO/Headers/IODefs.h"
 
 #include "Core/Headers/ListDefs.h"
 

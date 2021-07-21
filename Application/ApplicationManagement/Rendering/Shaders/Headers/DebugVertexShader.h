@@ -8,7 +8,7 @@
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
-#include "Dependencies\Includes\GLEW\glew.h"
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
 
 using namespace Core;
 using namespace Core::Math;

@@ -4,7 +4,7 @@
 
 #include "Core/Headers/PtrDefs.h"
 
-#include "Dependencies\Includes\GLEW\glew.h"
+#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
 
 using namespace Core;
 

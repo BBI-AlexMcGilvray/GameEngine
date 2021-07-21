@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TemplateDefs.h"
+#include "Core/Headers/TemplateDefs.h"
 
 namespace Core
 {

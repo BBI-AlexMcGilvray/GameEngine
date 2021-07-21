@@ -2,8 +2,8 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
-#include "QuaternionFunctions.h"
-#include "VectorFunctions.h"
+#include "Core/Math/Headers/QuaternionFunctions.h"
+#include "Core/Math/Headers/VectorFunctions.h"
 
 namespace Core
 {

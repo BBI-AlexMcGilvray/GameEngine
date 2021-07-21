@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Core/Geometric/Headers/GeometryDefs.h"
-
-#include "Core/Geometric/2D/Headers/Geometry.h"
-
 #include "Core/Headers/PtrDefs.h"
+
+#include "Core/Geometric/Headers/GeometryDefs.h"
+#include "Core/Geometric/2D/Headers/Geometry.h"
 
 namespace Core
 {

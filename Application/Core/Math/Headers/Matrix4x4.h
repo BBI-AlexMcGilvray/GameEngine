@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Matrix.h"
+#include "Core/Math/Headers/Matrix.h"
 
-#include "Vector4.h"
+#include "Core/Math/Headers/Vector4.h"
 
 #include "Core/Headers/ListDefs.h"
 
-#include "VectorFunctions.h"
+#include "Core/Math/Headers/VectorFunctions.h"
 
 namespace Core
 {

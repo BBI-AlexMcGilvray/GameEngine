@@ -1,0 +1,10 @@
+# CMake generation dependency list for this directory.
+C:/Program Files (x86)/glew/lib/cmake/glew/CopyImportedTargetProperties.cmake
+C:/Program Files (x86)/glew/lib/cmake/glew/glew-config.cmake
+C:/Program Files (x86)/glew/lib/cmake/glew/glew-targets-debug.cmake
+C:/Program Files (x86)/glew/lib/cmake/glew/glew-targets.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/ExternalProject.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/FindGLEW.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/FindPackageMessage.cmake
+D:/Coding/VisualStudios/Application/Application/Dependencies/CMakeLists.txt

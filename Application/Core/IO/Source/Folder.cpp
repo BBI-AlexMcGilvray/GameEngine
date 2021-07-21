@@ -29,10 +29,11 @@ namespace Core
 
 			auto codePage = GetACP();
 			int sz = MultiByteToWideChar(codePage, 0, &path[0], (int)path.size(), 0, 0);
-			wstring wPath(sz, 0);
-			MultiByteToWideChar(codePage, 0, &path[0], (int)path.size(), &wPath[0], sz);
+			// wstring wPath(sz, 0);
+			// MultiByteToWideChar(codePage, 0, &path[0], (int)path.size(), &wPath[0], sz);
 
-			if (CreateDirectory(wPath.c_str(), nullptr))
+			// if (CreateDirectory(wPath.c_str(), nullptr))
+			if (CreateDirectoryA(path.c_str(), nullptr))
 			{
 				return CreateFolderResult::Created;
 			}

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Dependencies/Includes/GLEW/glew.h"
+#include "Dependencies/glew-2.1.0/include/GL/glew.h"
 
-#include "Dependencies/Includes/SDL2/SDL.h"
-#include "Dependencies/Includes//SDL2/SDL_opengl.h"
+#include "Dependencies/SDL2-2.0.14/include/SDL.h"
+#include "Dependencies/SDL2-2.0.14/include/SDL_opengl.h"
 
 #include "Core/Headers/PtrDefs.h"
 

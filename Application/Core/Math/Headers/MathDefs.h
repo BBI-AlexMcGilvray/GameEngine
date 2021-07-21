@@ -3,8 +3,8 @@
 #include <cmath>
 #include <limits>
 
-#include "Axis.h"
-#include "Basis.h"
+#include "Core/Math/Headers/Axis.h"
+#include "Core/Math/Headers/Basis.h"
 
 namespace Core
 {

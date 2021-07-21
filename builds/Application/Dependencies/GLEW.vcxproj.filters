@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\28df8d031927f73f31e4e8fe07feaee7\GLEW-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\28df8d031927f73f31e4e8fe07feaee7\GLEW-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\28df8d031927f73f31e4e8fe07feaee7\GLEW-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\28df8d031927f73f31e4e8fe07feaee7\GLEW-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\28df8d031927f73f31e4e8fe07feaee7\GLEW-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\28df8d031927f73f31e4e8fe07feaee7\GLEW-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\28df8d031927f73f31e4e8fe07feaee7\GLEW-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\9b30c888ad4b7015b2e442a9ab751317\GLEW-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\8e3a34e2b1a49fbaeea097491c03104e\GLEW.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\Application\Dependencies\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Coding\VisualStudios\Application\builds\Application\Dependencies\CMakeFiles\GLEW" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{A1FC3C70-2520-3BE6-834E-D29E8530229F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

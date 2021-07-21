@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Matrix.h"
-#include "Matrix2x2.h"
-#include "Matrix3x3.h"
-#include "Matrix4x4.h"
-#include "Quaternion.h"
+#include "Core/Math/Headers/Matrix.h"
+#include "Core/Math/Headers/Matrix2x2.h"
+#include "Core/Math/Headers/Matrix3x3.h"
+#include "Core/Math/Headers/Matrix4x4.h"
+#include "Core/Math/Headers/Quaternion.h"
 
-#include "VectorFunctions.h"
-#include "QuaternionFunctions.h"
+#include "Core/Math/Headers/VectorFunctions.h"
+#include "Core/Math/Headers/QuaternionFunctions.h"
 
 namespace Core
 {

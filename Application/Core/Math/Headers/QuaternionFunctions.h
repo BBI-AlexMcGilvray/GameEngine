@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Quaternion.h"
+#include "Core/Math/Headers/Quaternion.h"
 
-#include "Vector3.h"
-#include "Matrix3x3.h"
-#include "Matrix4x4.h"
+#include "Core/Math/Headers/Vector3.h"
+#include "Core/Math/Headers/Matrix3x3.h"
+#include "Core/Math/Headers/Matrix4x4.h"
 
-#include "VectorFunctions.h"
+#include "Core/Math/Headers/VectorFunctions.h"
 
 #include "Core/Math/Headers/MathUtils.h"
 

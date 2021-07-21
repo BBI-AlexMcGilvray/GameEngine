@@ -1,7 +1,7 @@
 #pragma once
 
-#include "VectorTests.h"
-#include "MatrixTests.h"
+#include "Core/Math/UnitTests/VectorTests.h"
+#include "Core/Math/UnitTests/MatrixTests.h"
 
 #include "Core/Debugging/Headers/Macros.h"
 

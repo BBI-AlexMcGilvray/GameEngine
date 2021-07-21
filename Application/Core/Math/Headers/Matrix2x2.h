@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Matrix.h"
-#include "Vector2.h"
+#include "Core/Math/Headers/Matrix.h"
+#include "Core/Math/Headers/Vector2.h"
 
 namespace Core
 {

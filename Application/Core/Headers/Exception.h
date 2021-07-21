@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CoreDefs.h"
+#include "Core/Headers/CoreDefs.h"
 
 #include <exception>
 
