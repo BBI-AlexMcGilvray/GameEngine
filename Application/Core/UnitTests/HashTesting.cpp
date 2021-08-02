@@ -88,7 +88,7 @@ void TestHashes()
 		{
 			if (hashWordMapping[key.first].size() > 1)
 			{
-				numWordCollisions += factorial(hashWordMapping[key.first].size() - 1);
+				numWordCollisions += factorial(static_cast<int>(hashWordMapping[key.first].size()) - 1);
 
 				std::cout << "The following words collided: ";
 				for (auto word : hashWordMapping[key.first])
@@ -163,7 +163,7 @@ void TestHashes()
 		{
 			if (hashUintMapping[key.first].size() > 1)
 			{
-				numUintCollisions += factorial(hashUintMapping[key.first].size() - 1);
+				numUintCollisions += factorial(static_cast<int>(hashUintMapping[key.first].size()) - 1);
 
 				std::cout << "The following numbers collided: ";
 				for (auto word : hashUintMapping[key.first])

@@ -38,19 +38,19 @@ namespace Core
 			VectorA()
 			{}
 
-			VectorA(T d)
+			VectorA(const T& d)
 				: X(d), Y(d), Z(d), W(d)
 			{}
 
-			VectorA(T x, T y, T z, T w)
+			VectorA(const T& x, const T& y, const T& z, const T& w)
 				: X(x), Y(y), Z(z), W(w)
 			{}
 
-			VectorA(VectorA<T, 2> const& v, T d1 = 0, T d2 = 0)
+			VectorA(VectorA<T, 2> const& v, const T& d1 = 0, const T& d2 = 0)
 				: XY(v), Z(d1), W(d2)
 			{}
 
-			VectorA(VectorA<T, 3> const& v, T d = 0)
+			VectorA(VectorA<T, 3> const& v, const T& d = 0)
 				: XYZ(v), W(d)
 			{}
 

@@ -30,15 +30,15 @@ namespace Core
 			VectorA()
 			{}
 
-			VectorA(T d)
+			VectorA(const T& d)
 				: X(d), Y(d), Z(d)
 			{}
 
-			VectorA(T x, T y, T z)
+			VectorA(const T& x, const T& y, const T& z)
 				:X(x), Y(y), Z(z)
 			{}
 
-			VectorA(VectorA<T, 2> const& v, T d1 = 0)
+			VectorA(VectorA<T, 2> const& v, const T& d1 = 0)
 				: XY(v), Z(d1)
 			{}
 

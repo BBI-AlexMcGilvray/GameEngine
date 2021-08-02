@@ -4,7 +4,7 @@
 #define GLEW_STATIC
 
 #include "Dependencies/SDL2-2.0.14/include/SDL.h"
-#include "Dependencies/glew-2.1.0/include/GL/glew.h"
+#include "Dependencies/glew-2.2.0/include/GL/glew.h"
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/CoreDefs.h"

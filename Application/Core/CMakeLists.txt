@@ -12,6 +12,8 @@ Geometric/Source/Transform.cpp #
 IO/Source/File.cpp #
 IO/Source/Folder.cpp #
 IO/Source/IOUtils.cpp #
+Logging/ConsoleLogger.cpp #
+Logging/Logger.cpp #
 Math/Source/UtilityFunctions.cpp #
 Math/UnitTests/MatrixTests.cpp #
 Math/UnitTests/VectorTests.cpp #
@@ -23,6 +25,7 @@ UnitTests/HashTesting.cpp #
 CoreUnitTests.cpp)
 
 set(HEADER_FILES #
+Containers/CircularBuffer.h #
 Debugging/Headers/Declarations.h #
 Debugging/Headers/Macros.h #
 Functionality/Headers/Event.h #
@@ -45,6 +48,7 @@ Headers/Exception.h #
 Headers/FlagEnum.h #
 Headers/Hash.h #
 Headers/ListDefs.h #
+Headers/Macros.h #
 Headers/MapDefs.h #
 Headers/Property.h #
 Headers/PtrDefs.h #
@@ -55,6 +59,9 @@ IO/Headers/File.h #
 IO/Headers/Folder.h #
 IO/Headers/IODefs.h #
 IO/Headers/IOUtils.h #
+Logging/ConsoleLogger.h #
+Logging/ILogger.h #
+Logging/Logger.h #
 Math/Headers/Axis.h #
 Math/Headers/Basis.h #
 Math/Headers/Color.h #
@@ -84,9 +91,25 @@ Networking/Headers/NetworkProtocol.h #
 Networking/Headers/NetworkReceiver.h #
 Networking/Headers/NetworkSender.h #
 Networking/Headers/Utils.h #
-Serialization/Headers/Serialization.h #
-Serialization/Headers/SerializationDefs.h #
-Serialization/Headers/SerializationUtils.h #
+Random/Functions.h #
+Random/Random.h #
+Random/RandomGenerator.h #
+Reflection/Enums.h #
+Reflection/Reflectable.h #
+Reflection/ReflectableClasses.h #
+Reflection/type_traits.h #
+Serialization/Formats/Binary/Binary.h #
+Serialization/Formats/JSON/JSON.h #
+Serialization/Serialization.h #
+Serialization/SerializationDefs.h #
+Serialization/type_traits.h #
+TypeId/TypeId.h #
+TypeId/UUID.h #
+TypeSafety/NotNullPtr.h #
+TypeSafety/SafeVoidPtr.h #
+Versioning/SemanticVerion.h #
+Versioning/SimpleVersion.h #
+Versioning/Version.h #
 UnitTests/HashTesting.h)
 
 add_library(Core STATIC ${SOURCE_FILES})

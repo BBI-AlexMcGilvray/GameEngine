@@ -122,12 +122,13 @@ namespace Application
 				{
 					if (j < vertexData.BoneName.size() && vertexData.BoneName[j] != "")
 					{
-						vertexRenderData.BoneIndices[j] = skeleton->GetIndexOf(vertexData.BoneName[j]);
+						// BoneIndices needs to be a float because of GPU issues when it was an int (didn't read correctly)
+						vertexRenderData.BoneIndices[j] = static_cast<float>(skeleton->GetIndexOf(vertexData.BoneName[j]));
 					}
 					else
 					{
 						// unused bone indices should be zeroed out by the weight
-						vertexRenderData.BoneIndices[j] = 0;
+						vertexRenderData.BoneIndices[j] = 0.0f;
 					}
 				}
 

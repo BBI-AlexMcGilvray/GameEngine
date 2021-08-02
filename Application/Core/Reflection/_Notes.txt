@@ -1,0 +1,2 @@
+- To get the resulting code after preprocessor execution, run:
+    g++ .\Reflection\main.cpp -std=c++17 -E -C -P > test.txt

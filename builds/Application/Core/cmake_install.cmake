@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/application")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files/application")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,6 +34,7 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/Core" TYPE FILE FILES
+    "D:/Coding/VisualStudios/Application/Application/Core/Containers/CircularBuffer.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Debugging/Headers/Declarations.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Debugging/Headers/Macros.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Functionality/Headers/Event.h"
@@ -56,6 +57,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/Application/Core/Headers/FlagEnum.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Headers/Hash.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Headers/ListDefs.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Headers/Macros.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Headers/MapDefs.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Headers/Property.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Headers/PtrDefs.h"
@@ -66,6 +68,9 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/Application/Core/IO/Headers/Folder.h"
     "D:/Coding/VisualStudios/Application/Application/Core/IO/Headers/IODefs.h"
     "D:/Coding/VisualStudios/Application/Application/Core/IO/Headers/IOUtils.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Logging/ConsoleLogger.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Logging/ILogger.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Logging/Logger.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Math/Headers/Axis.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Math/Headers/Basis.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Math/Headers/Color.h"
@@ -95,9 +100,25 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/Application/Core/Networking/Headers/NetworkReceiver.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Networking/Headers/NetworkSender.h"
     "D:/Coding/VisualStudios/Application/Application/Core/Networking/Headers/Utils.h"
-    "D:/Coding/VisualStudios/Application/Application/Core/Serialization/Headers/Serialization.h"
-    "D:/Coding/VisualStudios/Application/Application/Core/Serialization/Headers/SerializationDefs.h"
-    "D:/Coding/VisualStudios/Application/Application/Core/Serialization/Headers/SerializationUtils.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Random/Functions.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Random/Random.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Random/RandomGenerator.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Reflection/Enums.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Reflection/Reflectable.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Reflection/ReflectableClasses.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Reflection/type_traits.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Serialization/Formats/Binary/Binary.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Serialization/Formats/JSON/JSON.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Serialization/Serialization.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Serialization/SerializationDefs.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Serialization/type_traits.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/TypeId/TypeId.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/TypeId/UUID.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/TypeSafety/NotNullPtr.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/TypeSafety/SafeVoidPtr.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Versioning/SemanticVerion.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Versioning/SimpleVersion.h"
+    "D:/Coding/VisualStudios/Application/Application/Core/Versioning/Version.h"
     "D:/Coding/VisualStudios/Application/Application/Core/UnitTests/HashTesting.h"
     )
 endif()

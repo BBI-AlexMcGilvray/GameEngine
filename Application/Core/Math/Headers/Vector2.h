@@ -22,11 +22,11 @@ namespace Core
 			VectorA()
 			{}
 
-			VectorA(T d)
+			VectorA(const T& d)
 				: X(d), Y(d)
 			{}
 
-			VectorA(T x, T y)
+			VectorA(const T& x, const T& y)
 				: X(x), Y(y)
 			{}
 

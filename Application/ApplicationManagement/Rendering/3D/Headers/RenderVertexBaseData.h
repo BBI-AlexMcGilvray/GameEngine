@@ -71,7 +71,8 @@ namespace Application
 				//UVs = uvs;
 				BoneWeight = boneWeight;
 				//BoneIndices = boneIndices;
-				BoneIndices = Float4(boneIndices.X, boneIndices.Y, boneIndices.Z, boneIndices.W);
+				// BoneIndices needs to be a float because of GPU issues when it was an int (didn't read correctly)
+				BoneIndices = Float4(static_cast<float>(boneIndices.X), static_cast<float>(boneIndices.Y), static_cast<float>(boneIndices.Z), static_cast<float>(boneIndices.W));
 			}
 		};
 	}

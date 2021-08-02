@@ -122,6 +122,7 @@ namespace Application
 			// should not be called here, unless called through templated version since that guarantees creation
 			newChild->Initialize();
 			// need to think about if we want Start to be called like this - likely should NOT be
+			auto& test = ApplicationManager::AppStateManager();
 			if (ApplicationManager::AppStateManager().GetActiveState() == ParentState)
 			{
 				newChild->Start();

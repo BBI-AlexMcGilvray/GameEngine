@@ -258,8 +258,8 @@ namespace Core
 
 			if (fDet < 0.0)
 			{
-				for (size_t iRow = 0; iRow < 3; iRow++)
-					for (size_t iCol = 0; iCol < 3; iCol++)
+				for (int iRow = 0; iRow < 3; iRow++)
+					for (int iCol = 0; iCol < 3; iCol++)
 						q[iCol][iRow] = -q[iCol][iRow];
 			}
 

@@ -10,12 +10,24 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
     PROPERTY STRINGS
              "Debug"
              "Release"
-             "MinSizeRel"
-             "RelWithDebInfo")
+             "MinSizeRelease"
+             "ReleaseWithDebugInfo")
 endif()
 
 # Generate compile_commands.json to make it easier to work with clang based tools
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# trying to get rid of lnk4217 errors (https://stackoverflow.com/questions/14172856/compile-with-mt-instead-of-md-using-cmake)
+# if change, rerun 'cmake .' before Building
+# issue may be the lack of settings extending to sdl and glew?
+# other options...
+#   - https://cmake.org/cmake/help/v3.19/prop_tgt/MSVC_RUNTIME_LIBRARY.html
+#set(CMAKE_CXX_FLAGS "/MT")
+#set(CMAKE_CXX_FLAGS_DEBUG "/MT")
+#set(CMAKE_CXX_FLAGS_RELEASE "/MT")
+#set(CMAKE_C_FLAGS "/MT")
+#set(CMAKE_C_FLAGS_DEBUG "/MT")
+#set(CMAKE_C_FLAGS_RELEASE "/MT")
 
 option(ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)" OFF)
 

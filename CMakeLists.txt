@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.12.2)
+set(CMAKE_GENERATOR "Visual Studio 16 2019")
 
 # Set the project name to application
 project(application VERSION 1.0.0 LANGUAGES CXX)

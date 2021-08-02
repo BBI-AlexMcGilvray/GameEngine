@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Dependencies/glew-2.1.0/include/GL/glew.h"
+#include "Dependencies/glew-2.2.0/include/GL/glew.h"
 
 #include "Dependencies/SDL2-2.0.14/include/SDL.h"
 #include "Dependencies/SDL2-2.0.14/include/SDL_opengl.h"

@@ -81,7 +81,7 @@ namespace Application
 			// assign bones to shader
 			VERIFY(BoneList.size() <= 50);
 			GLint boneMatrices = glGetUniformLocation(program, "boneMatrices");
-			glUniformMatrix4fv(boneMatrices, BoneList.size(), GL_FALSE, (GLfloat*)&(BoneList[0].E1.X));
+			glUniformMatrix4fv(boneMatrices, static_cast<GLsizei>(BoneList.size()), GL_FALSE, (GLfloat*)&(BoneList[0].E1.X));
 		}
 
 		void SkinnedVertexShader::CleanUp() const

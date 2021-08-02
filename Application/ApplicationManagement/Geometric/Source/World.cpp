@@ -84,7 +84,7 @@ namespace Application
 		{
 			// just for testing currently
 			FQuaternion currentRotation = holderNode->Transformation.GetRotation();
-			FQuaternion newRot = LerpQuat(currentRotation, FQuaternion(0.9f, 0.0f, 0.1f, 0.0f) * currentRotation, Duration(dt));
+			FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.9f, 0.0f, 0.1f, 0.0f) * currentRotation, Duration(dt));
 			//holderNode->Transformation.SetRotation(newRot);
 
 			FQuaternion rotationModification = neckBone->Transformation.GetRotation();

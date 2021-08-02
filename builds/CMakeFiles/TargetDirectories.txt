@@ -10,6 +10,10 @@ D:/Coding/VisualStudios/Application/builds/Application/Core/CMakeFiles/INSTALL.d
 D:/Coding/VisualStudios/Application/builds/Application/Data/CMakeFiles/Data.dir
 D:/Coding/VisualStudios/Application/builds/Application/Data/CMakeFiles/INSTALL.dir
 D:/Coding/VisualStudios/Application/builds/Application/Dependencies/CMakeFiles/INSTALL.dir
+D:/Coding/VisualStudios/Application/builds/Application/Dependencies/GLEW-2.2.0/CMakeFiles/libglew_static.dir
+D:/Coding/VisualStudios/Application/builds/Application/Dependencies/GLEW-2.2.0/CMakeFiles/libglew_shared.dir
+D:/Coding/VisualStudios/Application/builds/Application/Dependencies/GLEW-2.2.0/CMakeFiles/INSTALL.dir
+D:/Coding/VisualStudios/Application/builds/Application/Dependencies/GLEW-2.2.0/CMakeFiles/ALL_BUILD.dir
 D:/Coding/VisualStudios/Application/builds/Application/Dependencies/SDL2-2.0.14/CMakeFiles/SDL2-static.dir
 D:/Coding/VisualStudios/Application/builds/Application/Dependencies/SDL2-2.0.14/CMakeFiles/SDL2main.dir
 D:/Coding/VisualStudios/Application/builds/Application/Dependencies/SDL2-2.0.14/CMakeFiles/uninstall.dir

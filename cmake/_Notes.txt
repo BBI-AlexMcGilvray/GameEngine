@@ -1,4 +1,6 @@
 1. Run 'cmake .' in ./builds/
+    - adding '-DCMAKE_GENERATOR_PLATFORM=x64' makes it 64 bit, but that fails
+        - seems to be due to the SDL cmake settings identifying 32 bit builds instead of 64 (likely due to default generator?)
 2. Run 'cmake --build .' in ./builds/
 
 // Dependencies

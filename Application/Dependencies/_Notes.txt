@@ -1,0 +1,2 @@
+- Glew 2.2.0: https://github.com/Perlmint/glew-cmake
+- SDL2 2.0.14: https://libsdl.org/download-2.0.php
