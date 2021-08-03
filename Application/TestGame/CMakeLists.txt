@@ -1,6 +1,6 @@
 # dependencies on Application and Resources libraries
 
-message("Configurating TestGame")
+message("Configuring TestGame")
 
 set(SOURCE_FILES #
 # include source

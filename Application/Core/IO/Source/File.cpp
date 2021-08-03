@@ -2,170 +2,156 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
-namespace Core
-{
-	namespace IO
-	{
-		File::File(FilePath path, OpenMode permissions, Endian endian)
-			: Path(path), FilePermissions(permissions), FileEndian(endian)
-		{
+namespace Core {
+namespace IO {
+  File::File(FilePath path, OpenMode permissions, Endian endian)
+    : Path(path), FilePermissions(permissions), FileEndian(endian)
+  {
+  }
 
-		}
+  String File::GetFullPath()
+  {
+    return (Path.GetFullPath());
+  }
 
-		String File::GetFullPath()
-		{
-			return (Path.GetFullPath());
-		}
+  void File::SetPermissions(OpenMode permissions)
+  {
+    Close();
 
-		void File::SetPermissions(OpenMode permissions)
-		{
-			Close();
+    FilePermissions = permissions;
 
-			FilePermissions = permissions;
+    Open();
+  }
 
-			Open();
-		}
+  void File::Open()
+  {
+    cout << "Opening file <<" << GetFullPath() << ">>" << endl;
 
-		void File::Open()
-		{
-			cout << "Opening file <<" << GetFullPath() << ">>" << endl;
+    FileStream.open(GetFullPath(), FilePermissions);
 
-			FileStream.open(GetFullPath(), FilePermissions);
+    if (!FileStream.is_open()) {
+      throw IOException("File <" + GetFullPath() + "> was unable to be opened");
+    }
+  }
 
-			if (!FileStream.is_open())
-			{
-				throw IOException("File <" + GetFullPath() + "> was unable to be opened");
-			}
-		}
+  void File::Close()
+  {
+    cout << "Closing file <<" << GetFullPath() << ">>" << endl;
 
-		void File::Close()
-		{
-			cout << "Closing file <<" << GetFullPath() << ">>" << endl;
+    FileStream.close();
+  }
 
-			FileStream.close();
-		}
+  bool File::Create()
+  {
+    FileStream.open(GetFullPath(), ios::out);
 
-		bool File::Create()
-		{
-			FileStream.open(GetFullPath(), ios::out);
+    bool created = FileStream.is_open();
 
-			bool created = FileStream.is_open();
+    FileStream.close();
 
-			FileStream.close();
+    return created;
+  }
 
-			return created;
-		}
+  bool File::Delete()
+  {
+    return (remove(GetFullPath().c_str()) != 0);
+  }
 
-		bool File::Delete()
-		{
-			return (remove(GetFullPath().c_str()) != 0);
-		}
+  void File::Clear()
+  {
+    Close();
 
-		void File::Clear()
-		{
-			Close();
+    FileStream.open(GetFullPath(), ios::trunc);// reopen and clear
+    FileStream.close();
 
-			FileStream.open(GetFullPath(), ios::trunc); // reopen and clear
-			FileStream.close();
+    Open();
+  }
 
-			Open();
-		}
+  void File::Reset()
+  {
+    FileStream.clear();
+  }
 
-		void File::Reset()
-		{
-			FileStream.clear();
-		}
+  bool File::AtEndOfFile()
+  {
+    return FileStream.eof();
+  }
 
-		bool File::AtEndOfFile()
-		{
-			return FileStream.eof();
-		}
+  bool File::CanRead()
+  {
+    return HasPermission(FilePermissions, ios::in);
+  }
 
-		bool File::CanRead()
-		{
-			return HasPermission(FilePermissions, ios::in);
-		}
+  bool File::CanWrite()
+  {
+    return HasPermission(FilePermissions, ios::out);
+  }
 
-		bool File::CanWrite()
-		{
-			return HasPermission(FilePermissions, ios::out);
-		}
+  StreamPos File::GetLength()
+  {
+    auto currentPos = GetPosition();
 
-		StreamPos File::GetLength()
-		{
-			auto currentPos = GetPosition();
+    GoToPosition(0, false);
+    auto finalPosition = GetPosition();
 
-			GoToPosition(0, false);
-			auto finalPosition = GetPosition();
+    GoToPosition(currentPos);
 
-			GoToPosition(currentPos);
+    return finalPosition;
+  }
 
-			return finalPosition;
-		}
-		
-		void File::GoToPosition(StreamPos position, bool start)
-		{
-			auto origin = start ? ios::beg : ios::end;
-			if (CanRead())
-			{
-				FileStream.seekg(position, origin);
-			}
-			else if (CanWrite())
-			{
-				FileStream.seekp(position, origin);
-			}
+  void File::GoToPosition(StreamPos position, bool start)
+  {
+    auto origin = start ? ios::beg : ios::end;
+    if (CanRead()) {
+      FileStream.seekg(position, origin);
+    } else if (CanWrite()) {
+      FileStream.seekp(position, origin);
+    }
 
-			if (position != GetPosition())
-			{
-				throw IOException("Failed to jump to desired position");
-			}
-		}
+    if (position != GetPosition()) {
+      throw IOException("Failed to jump to desired position");
+    }
+  }
 
-		StreamPos File::GetPosition()
-		{
-			if (CanRead())
-			{
-				return FileStream.tellg();
-			}
-			else if (CanWrite())
-			{
-				return FileStream.tellp();
-			}
+  StreamPos File::GetPosition()
+  {
+    if (CanRead()) {
+      return FileStream.tellg();
+    } else if (CanWrite()) {
+      return FileStream.tellp();
+    }
 
-			throw IOException("Trying to get position from <" + GetFullPath() + "> when file is closed");
-		}
+    throw IOException("Trying to get position from <" + GetFullPath() + "> when file is closed");
+  }
 
-		bool File::MoveToNextLine()
-		{
-			if (CanRead())
-			{
-				FileStream.ignore(unsigned(-1), '\n');
+  bool File::MoveToNextLine()
+  {
+    if (CanRead()) {
+      FileStream.ignore(unsigned(-1), '\n');
 
-				return true;
-			}
+      return true;
+    }
 
-			return false;
-		}
+    return false;
+  }
 
-		bool File::CreateNewLine()
-		{
-			return Write('\n');
-		}
+  bool File::CreateNewLine()
+  {
+    return Write('\n');
+  }
 
-		String File::GetLine()
-		{			
-			if (CanRead())
-			{
-				String Line;
-				if (!std::getline(FileStream, Line))
-				{
-					throw EOFException("can't get line for this file - likely EOF");
-				}
+  String File::GetLine()
+  {
+    if (CanRead()) {
+      String Line;
+      if (!std::getline(FileStream, Line)) {
+        throw EOFException("can't get line for this file - likely EOF");
+      }
 
-				return Line;
-			}
+      return Line;
+    }
 
-			throw IOException("Can't get line for this file - incorrect permissions");
-		}
-	}
-}
+    throw IOException("Can't get line for this file - incorrect permissions");
+  }
+}// namespace IO
+}// namespace Core

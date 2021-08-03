@@ -2,7 +2,5 @@
 
 #include <stdlib.h>
 
-namespace Data
-{
-
+namespace Data {
 }

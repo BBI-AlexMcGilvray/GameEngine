@@ -1,0 +1,1 @@
+// script to generate all the CMakeLists.txt files

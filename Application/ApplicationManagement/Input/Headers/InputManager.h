@@ -11,29 +11,27 @@
 
 using namespace Core::Functionality;
 
-namespace Application
-{
-	namespace Input
-	{
-		struct InputManager
-		{
-			Event<> Quit;
+namespace Application {
+namespace Input {
+  struct InputManager
+  {
+    Event<> Quit;
 
-			InputManager(const SDL2Manager& sdl);
+    InputManager(const SDL2Manager &sdl);
 
-			void Initialize();
-			void Start();
+    void Initialize();
+    void Start();
 
-			void Update();
+    void Update();
 
-			void End();
-			void CleanUp();
+    void End();
+    void CleanUp();
 
-		private:
-			const SDL2Manager& SDL;
-			UniquePtr<InputController> Controller;
+  private:
+    const SDL2Manager &SDL;
+    UniquePtr<InputController> Controller;
 
-			virtual void PollSDL();
-		};
-	}
-}
+    virtual void PollSDL();
+  };
+}// namespace Input
+}// namespace Application

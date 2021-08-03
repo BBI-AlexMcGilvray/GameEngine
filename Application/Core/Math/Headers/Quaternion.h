@@ -1,20 +1,15 @@
 #pragma once
 
+#include "Core/Debugging/Headers/Macros.h"
 #include "Core/Headers/CoreDefs.h"
-
 #include "Core/Math/Headers/MathDefs.h"
-
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/VectorFunctions.h"
 
-#include "Core/Debugging/Headers/Macros.h"
-
-namespace Core
-{
-	namespace Math
-	{
-		/*
+namespace Core {
+namespace Math {
+  /*
 		NOTES: (https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation)
 			Quaternions, represented by (w, x, y, z), w + xi + yj + zk, or (w, u) - where u is a vector = (x, y, z),
 			represent the ROTATION of ANGLE w AROUND THE AXIS (x, y, z) CLOCKWISE (assuming we are looking in the direction (x, y, z)
@@ -31,235 +26,232 @@ namespace Core
 			to another transformation (v'q - first q then inverse of v), so we have v'q = qv which is equivalent to v' = qvq'
 		*/
 
-		template <typename T>
-		struct Quaternion
-		{
-			union
-			{
-				struct
-				{
-					T W;
-					union
-					{
-						struct
-						{
-							union
-							{
-								struct
-								{
-									T X;
-									T Y;
-								};
-								T XY[2];
-							};
-							T Z;
-						};
-						T XYZ[3];
-					};
-				};
-				T quat[4];
-			};
+  template<typename T>
+  struct Quaternion
+  {
+    union {
+      struct
+      {
+        T W;
+        union {
+          struct
+          {
+            union {
+              struct
+              {
+                T X;
+                T Y;
+              };
+              T XY[2];
+            };
+            T Z;
+          };
+          T XYZ[3];
+        };
+      };
+      T quat[4];
+    };
 
-			Quaternion()
-				: Quaternion(II())
-			{}
+    Quaternion()
+      : Quaternion(II())
+    {}
 
-			Quaternion(II i)
-				: Quaternion(Vector4<T>(0, 0, 0, i))
-			{}
+    Quaternion(II i)
+      : Quaternion(Vector4<T>(0, 0, 0, i))
+    {}
 
-			Quaternion(T w, T x, T y, T z)
-				: Quaternion(Vector4<T>(x, y, z, w))
-			{}
+    Quaternion(T w, T x, T y, T z)
+      : Quaternion(Vector4<T>(x, y, z, w))
+    {}
 
-			Quaternion(Vector3<T> v, T w = 0)
-				: Quaternion(Vector4<T>(v, w))
-			{}
+    Quaternion(Vector3<T> v, T w = 0)
+      : Quaternion(Vector4<T>(v, w))
+    {}
 
-			Quaternion(Vector4<T> v)
-			{
-				auto vNormalize = (v == Vector4<T>(0)) ? Vector4<T>(0) : Normalize(v);
+    Quaternion(Vector4<T> v)
+    {
+      auto vNormalize = (v == Vector4<T>(0)) ? Vector4<T>(0) : Normalize(v);
 
-				W = vNormalize.W;
-				X = vNormalize.X;
-				Y = vNormalize.Y;
-				Z = vNormalize.Z;
-			}
+      W = vNormalize.W;
+      X = vNormalize.X;
+      Y = vNormalize.Y;
+      Z = vNormalize.Z;
+    }
 
-			Quaternion(Quaternion const& q)
-				: W(q.W), X(q.X), Y(q.Y), Z(q.Z)
-			{}
+    Quaternion(Quaternion const &q)
+      : W(q.W), X(q.X), Y(q.Y), Z(q.Z)
+    {}
 
-			// from euler angles
-			Quaternion(Deg<T> x, Deg<T> y, Deg<T> z)
-			{
-				T cosX = cos(x / T(2));
-				T sinX = sin(x / T(2));
+    // from euler angles
+    Quaternion(Deg<T> x, Deg<T> y, Deg<T> z)
+    {
+      T cosX = cos(x / T(2));
+      T sinX = sin(x / T(2));
 
-				T cosY = cos(y / T(2));
-				T sinY = sin(y / T(2));
+      T cosY = cos(y / T(2));
+      T sinY = sin(y / T(2));
 
-				T cosZ = cos(z / T(2));
-				T sinZ = cos(z / T(2));
+      T cosZ = cos(z / T(2));
+      T sinZ = cos(z / T(2));
 
-				W = (cosX * cosY * cosZ) + (sinX * sinY * sinZ);
-				X = (cosX * sinY * cosZ) + (sinX * cosY * sinZ);
-				Y = (sinY * cosY * cosZ) + (cosX * sinY * sinZ);
-				Z = (cosX * cosY * sinZ) + (sinX * sinY * cosZ);
-			}
+      W = (cosX * cosY * cosZ) + (sinX * sinY * sinZ);
+      X = (cosX * sinY * cosZ) + (sinX * cosY * sinZ);
+      Y = (sinY * cosY * cosZ) + (cosX * sinY * sinZ);
+      Z = (cosX * cosY * sinZ) + (sinX * sinY * cosZ);
+    }
 
-			template <int A>
-			Quaternion(const Deg<T>& deg, const Axis<A>& axis)
-				: Quaternion((axis == XAxis()) ? deg : T(0), (axis == YAxis()) ? deg : T(0), (axis == ZAxis()) ? deg : T(0))
-			{
-			}
+    template<int A>
+    Quaternion(const Deg<T> &deg, const Axis<A> &axis)
+      : Quaternion((axis == XAxis()) ? deg : T(0), (axis == YAxis()) ? deg : T(0), (axis == ZAxis()) ? deg : T(0))
+    {
+    }
 
-			operator VectorA<T, 4>() const
-			{
-				return VectorA<T, 4>(X, Y, Z, W);
-			}
+    operator VectorA<T, 4>() const
+    {
+      return VectorA<T, 4>(X, Y, Z, W);
+    }
 
-			Quaternion<T> Inverse() const
-			{
-				T qMagnitudeSqr = (W * W) + (X * X) + (Y * Y) + (Z * Z);
+    Quaternion<T> Inverse() const
+    {
+      T qMagnitudeSqr = (W * W) + (X * X) + (Y * Y) + (Z * Z);
 
-				return Conjugate() / qMagnitudeSqr;
-			}
+      return Conjugate() / qMagnitudeSqr;
+    }
 
-			Quaternion<T> Conjugate() const
-			{
-				return Quaternion<T>(W, -X, -Y, -Z);
-			}
+    Quaternion<T> Conjugate() const
+    {
+      return Quaternion<T>(W, -X, -Y, -Z);
+    }
 
-			// operators
-			Quaternion<T>& operator-=(Quaternion<T> const& q)
-			{
-				MESSAGE(false, "Don't use this - why are you using this?");
+    // operators
+    Quaternion<T> &operator-=(Quaternion<T> const &q)
+    {
+      MESSAGE(false, "Don't use this - why are you using this?");
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			Quaternion<T>& operator+=(Quaternion<T> const& q)
-			{
-				MESSAGE(false, "Don't use this - why are you using this?");
+    Quaternion<T> &operator+=(Quaternion<T> const &q)
+    {
+      MESSAGE(false, "Don't use this - why are you using this?");
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			Quaternion<T>& operator*=(Quaternion<T> const& q)
-			{
-				T newW = (W * q.W) - (X * q.X) - (Y * q.Y) - (Z * q.Z);
-				T newX = (W * q.X) + (X * q.W) + (Y * q.Z) - (Z * q.Y);
-				T newY = (W * q.Y) - (X * q.Z) + (Y * q.W) + (Z * q.X);
-				T newZ = (W * q.Z) + (X * q.Y) - (Y * q.X) + (Z * q.W);
+    Quaternion<T> &operator*=(Quaternion<T> const &q)
+    {
+      T newW = (W * q.W) - (X * q.X) - (Y * q.Y) - (Z * q.Z);
+      T newX = (W * q.X) + (X * q.W) + (Y * q.Z) - (Z * q.Y);
+      T newY = (W * q.Y) - (X * q.Z) + (Y * q.W) + (Z * q.X);
+      T newZ = (W * q.Z) + (X * q.Y) - (Y * q.X) + (Z * q.W);
 
-				W = newW;
-				X = newX;
-				Y = newY;
-				Z = newZ;
+      W = newW;
+      X = newX;
+      Y = newY;
+      Z = newZ;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			Quaternion<T>& operator/=(T d)
-			{
-				W /= d;
-				X /= d;
-				Y /= d;
-				Z /= d;
-				return (*this);
-			}
+    Quaternion<T> &operator/=(T d)
+    {
+      W /= d;
+      X /= d;
+      Y /= d;
+      Z /= d;
+      return (*this);
+    }
 
-			Quaternion<T>& operator/=(Quaternion<T> const& q)
-			{
-				Quaternion<T> qInverse = q.Inverse();
-				qInverse *= (*this);
+    Quaternion<T> &operator/=(Quaternion<T> const &q)
+    {
+      Quaternion<T> qInverse = q.Inverse();
+      qInverse *= (*this);
 
-				W = qInverse.W;
-				X = qInverse.X;
-				Y = qInverse.Y;
-				Z = qInverse.Z;
+      W = qInverse.W;
+      X = qInverse.X;
+      Y = qInverse.Y;
+      Z = qInverse.Z;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			Quaternion<T>& operator=(Quaternion<T> const& q)
-			{
-				W = q.W;
-				X = q.X;
-				Y = q.Y;
-				Z = q.Z;
+    Quaternion<T> &operator=(Quaternion<T> const &q)
+    {
+      W = q.W;
+      X = q.X;
+      Y = q.Y;
+      Z = q.Z;
 
-				return *this;
-			}
+      return *this;
+    }
 
-			friend Quaternion<T> operator-(Quaternion<T> q, Quaternion<T> const& oQ)
-			{
-				MESSAGE(false, "Don't use this - why are you using this?");
+    friend Quaternion<T> operator-(Quaternion<T> q, Quaternion<T> const &oQ)
+    {
+      MESSAGE(false, "Don't use this - why are you using this?");
 
-				return q;
-			}
+      return q;
+    }
 
-			friend Quaternion<T> operator+(Quaternion<T> q, Quaternion<T> const& oQ)
-			{
-				MESSAGE(false, "Don't use this - why are you using this?");
+    friend Quaternion<T> operator+(Quaternion<T> q, Quaternion<T> const &oQ)
+    {
+      MESSAGE(false, "Don't use this - why are you using this?");
 
-				return q;
-			}
+      return q;
+    }
 
-			friend Quaternion<T> operator*(Quaternion<T> q, Vector3<T> const& v)
-			{
-				return q * Quaternion<T>(v);
-			}
+    friend Quaternion<T> operator*(Quaternion<T> q, Vector3<T> const &v)
+    {
+      return q * Quaternion<T>(v);
+    }
 
-			friend Quaternion<T> operator*(Quaternion<T> q, Quaternion<T> const& oQ)
-			{
-				q *= oQ;
-				return q;
-			}
+    friend Quaternion<T> operator*(Quaternion<T> q, Quaternion<T> const &oQ)
+    {
+      q *= oQ;
+      return q;
+    }
 
-			friend Quaternion<T> operator/(Quaternion<T> q, T d)
-			{
-				q /= d;
-				return q;
-			}
+    friend Quaternion<T> operator/(Quaternion<T> q, T d)
+    {
+      q /= d;
+      return q;
+    }
 
-			friend Quaternion<T> operator/(Quaternion<T> q, Quaternion<T> const& oQ)
-			{
-				q /= oQ;
-				return q;
-			}
+    friend Quaternion<T> operator/(Quaternion<T> q, Quaternion<T> const &oQ)
+    {
+      q /= oQ;
+      return q;
+    }
 
-			bool operator==(Quaternion<T> const& q)
-			{
-				return (W == q.W && == q.X && Y == q.Y && Z == q.Z);
-			}
+    bool operator==(Quaternion<T> const &q)
+    {
+      return (W == q.W && == q.X && Y == q.Y && Z == q.Z);
+    }
 
-			// other comparison operators have no meaning
-			template <int A>
-			T& operator[](Axis<A> axis)
-			{
-				return (*this)[(int(axis) + 1) % 4];
-			}
+    // other comparison operators have no meaning
+    template<int A>
+    T &operator[](Axis<A> axis)
+    {
+      return (*this)[(int(axis) + 1) % 4];
+    }
 
-			template <int A>
-			T& operator[](Axis<A> axis) const
-			{
-				return (*this)[(int(axis) + 1) % 4];
-			}
+    template<int A>
+    T &operator[](Axis<A> axis) const
+    {
+      return (*this)[(int(axis) + 1) % 4];
+    }
 
-			T& operator[](int index)
-			{
-				return quat[index];
-			}
+    T &operator[](int index)
+    {
+      return quat[index];
+    }
 
-			T operator[](int index) const
-			{
-				return quat[index];
-			}
-		};
-		
-		/*	TYPE DEFS	*/
-		using FQuaternion = Quaternion<float>;
-	}
-}
+    T operator[](int index) const
+    {
+      return quat[index];
+    }
+  };
+
+  /*	TYPE DEFS	*/
+  using FQuaternion = Quaternion<float>;
+}// namespace Math
+}// namespace Core

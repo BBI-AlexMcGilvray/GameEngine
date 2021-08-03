@@ -9,26 +9,24 @@
 using namespace Core;
 using namespace Core::Functionality;
 
-namespace Application
-{
-	namespace Geometric
-	{
-		struct ContainerBase;
+namespace Application {
+namespace Geometric {
+  struct ContainerBase;
 
-		// generic class that can be inherited from for anything that needs to be stored inside a node
-		struct ContentBase : EntityBase
-		{
-			Event<> ContentDeleted;
-			Delegate<> OnContainerDeleted;
+  // generic class that can be inherited from for anything that needs to be stored inside a node
+  struct ContentBase : EntityBase
+  {
+    Event<> ContentDeleted;
+    Delegate<> OnContainerDeleted;
 
-			ContentBase(const Ptr<State> owningState);
-			virtual ~ContentBase();
+    ContentBase(const Ptr<State> owningState);
+    virtual ~ContentBase();
 
-			void SetContainer(Ptr<ContainerBase> parentContainer);
-			Ptr<ContainerBase> GetContainer() const;
+    void SetContainer(Ptr<ContainerBase> parentContainer);
+    Ptr<ContainerBase> GetContainer() const;
 
-		private:
-			Ptr<ContainerBase> Container;
-		};
-	}
-}
+  private:
+    Ptr<ContainerBase> Container;
+  };
+}// namespace Geometric
+}// namespace Application

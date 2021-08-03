@@ -2,18 +2,16 @@
 
 #include "Core/Headers/Exception.h"
 
-namespace Core
-{
-	namespace IO
-	{
-		struct IOException : Exception
-		{
-			using Exception::Exception;
-		};
+namespace Core {
+namespace IO {
+  struct IOException : Exception
+  {
+    using Exception::Exception;
+  };
 
-		struct EOFException : IOException
-		{
-			using IOException::IOException;
-		};
-	}
-}
+  struct EOFException : IOException
+  {
+    using IOException::IOException;
+  };
+}// namespace IO
+}// namespace Core

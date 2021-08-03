@@ -9,105 +9,103 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
-namespace Application
-{
-	namespace Rendering
-	{
-		const Float3 Camera::DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
+namespace Application {
+namespace Rendering {
+  const Float3 Camera::DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
 
-		Camera::Camera(const float& aspectRatio, Transform& transform, const Float3& direction)
-			: CameraTransform(transform)
-		{
-			LookAt(CameraTransform.GetPosition() + direction);
+  Camera::Camera(const float &aspectRatio, Transform &transform, const Float3 &direction)
+    : CameraTransform(transform)
+  {
+    LookAt(CameraTransform.GetPosition() + direction);
 
-			SetProjectionVariables(FOVY, aspectRatio, NearPlane, FarPlane);
-		}
+    SetProjectionVariables(FOVY, aspectRatio, NearPlane, FarPlane);
+  }
 
-		Transform& Camera::GetCameraTransform()
-		{
-			return CameraTransform;
-		}
-		
-		void Camera::SetCameraTransform(Transform& transform)
-		{
-			CameraTransform = transform;
-		}
+  Transform &Camera::GetCameraTransform()
+  {
+    return CameraTransform;
+  }
 
-		Float4x4 Camera::GetTransformationMatrix() const
-		{
-			// Camera uses 'World' because it's rotation matters for rendering
-			return ProjectionMatrix * CameraTransform.GetWorldInverseTransformationMatrix();
-		}
+  void Camera::SetCameraTransform(Transform &transform)
+  {
+    CameraTransform = transform;
+  }
 
-		void Camera::LookAt(Float3 position)
-		{
-			Direction = Normalize(position - CameraTransform.GetPosition());
+  Float4x4 Camera::GetTransformationMatrix() const
+  {
+    // Camera uses 'World' because it's rotation matters for rendering
+    return ProjectionMatrix * CameraTransform.GetWorldInverseTransformationMatrix();
+  }
 
-			CameraTransform.SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
-		}
+  void Camera::LookAt(Float3 position)
+  {
+    Direction = Normalize(position - CameraTransform.GetPosition());
 
-		void Camera::SetFOVY(Rad fovy)
-		{
-			FOVY = fovy;
+    CameraTransform.SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
+  }
 
-			RecalculateProjectionMatrix();
-		}
+  void Camera::SetFOVY(Rad fovy)
+  {
+    FOVY = fovy;
 
-		void Camera::SetAspectRatio(float width, float height)
-		{
-			SetAspectRatio(Float2(width, height));
-		}
+    RecalculateProjectionMatrix();
+  }
 
-		void Camera::SetAspectRatio(Float2 viewRect)
-		{
-			SetAspectRatio(viewRect.X / viewRect.Y);
-		}
+  void Camera::SetAspectRatio(float width, float height)
+  {
+    SetAspectRatio(Float2(width, height));
+  }
 
-		void Camera::SetAspectRatio(float aspectRatio)
-		{
-			AspectRatio = aspectRatio;
+  void Camera::SetAspectRatio(Float2 viewRect)
+  {
+    SetAspectRatio(viewRect.X / viewRect.Y);
+  }
 
-			RecalculateProjectionMatrix();
-		}
+  void Camera::SetAspectRatio(float aspectRatio)
+  {
+    AspectRatio = aspectRatio;
 
-		void Camera::SetNearPlane(const float& nearPlane)
-		{
-			SetPlanes(nearPlane, FarPlane);
-		}
+    RecalculateProjectionMatrix();
+  }
 
-		void Camera::SetFarPlane(const float& farPlane)
-		{
-			SetPlanes(NearPlane, farPlane);
-		}
+  void Camera::SetNearPlane(const float &nearPlane)
+  {
+    SetPlanes(nearPlane, FarPlane);
+  }
 
-		void Camera::SetPlanes(const float& nearPlane, const float& farPlane)
-		{
-			SetPlanes(Float2(nearPlane, farPlane));
-		}
+  void Camera::SetFarPlane(const float &farPlane)
+  {
+    SetPlanes(NearPlane, farPlane);
+  }
 
-		void Camera::SetPlanes(const Float2& planes)
-		{
-			NearPlane = planes.X;
-			FarPlane = planes.Y;
+  void Camera::SetPlanes(const float &nearPlane, const float &farPlane)
+  {
+    SetPlanes(Float2(nearPlane, farPlane));
+  }
 
-			RecalculateProjectionMatrix();
-		}
+  void Camera::SetPlanes(const Float2 &planes)
+  {
+    NearPlane = planes.X;
+    FarPlane = planes.Y;
 
-		void Camera::SetProjectionVariables(const Rad& fovy, const float& aspectRatio, const float& nearPlane, const float& farPlane)
-		{
-			FOVY = fovy;
+    RecalculateProjectionMatrix();
+  }
 
-			AspectRatio = aspectRatio;
+  void Camera::SetProjectionVariables(const Rad &fovy, const float &aspectRatio, const float &nearPlane, const float &farPlane)
+  {
+    FOVY = fovy;
 
-			NearPlane = nearPlane;
-			FarPlane = farPlane;
+    AspectRatio = aspectRatio;
 
-			RecalculateProjectionMatrix();
-		}
+    NearPlane = nearPlane;
+    FarPlane = farPlane;
 
-		void Camera::RecalculateProjectionMatrix()
-		{
-			ProjectionMatrix = CalculatePerspectiveMatrix(FOVY, AspectRatio, NearPlane, FarPlane);
-		}
-	}
-}
+    RecalculateProjectionMatrix();
+  }
+
+  void Camera::RecalculateProjectionMatrix()
+  {
+    ProjectionMatrix = CalculatePerspectiveMatrix(FOVY, AspectRatio, NearPlane, FarPlane);
+  }
+}// namespace Rendering
+}// namespace Application

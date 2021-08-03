@@ -7,13 +7,11 @@
 
 using namespace Core::Geometric;
 
-namespace Application
-{
-	struct State;
+namespace Application {
+struct State;
 
-	namespace Geometric
-	{
-		/* / *********************************
+namespace Geometric {
+/* / *********************************
 		NOTE: Need to determine how we are going to have it set up so that moving one node moves all child nodes
 		And, if this is something that we actually want.
 
@@ -36,70 +34,70 @@ namespace Application
 				- Multiple changes will result in multiple calculations and over-transforming
 		// *********************************/
 
-		// a recursive struct to hold elements in a scene
-		#define DEFAULT_NODE_NAME "Unnamed"
-		struct Node : ContainerBase
-		{
-			Event<> Deleted;
+// a recursive struct to hold elements in a scene
+#define DEFAULT_NODE_NAME "Unnamed"
+  struct Node : ContainerBase
+  {
+    Event<> Deleted;
 
-			Core::String Name;
-			Transform Transformation;
+    Core::String Name;
+    Transform Transformation;
 
-			Node(Core::Ptr<State> parentState, Core::String name = DEFAULT_NODE_NAME);
-			Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name = DEFAULT_NODE_NAME);
-			Node(Core::Ptr<State> parentState, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
-			Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
-			Node(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
-			Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, Core::String name = DEFAULT_NODE_NAME);
+    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name = DEFAULT_NODE_NAME);
+    Node(Core::Ptr<State> parentState, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
 
-			virtual ~Node();
+    virtual ~Node();
 
-			// add content
-			template <typename T, typename ...Ts>
-			Ptr<T> AddContent(Ts&& ...args)
-			{
-				UniquePtr<T> newNode = MakeUnique<T>(ParentState, Forward<Ts>(args)...);
+    // add content
+    template<typename T, typename... Ts>
+    Ptr<T> AddContent(Ts &&...args)
+    {
+      UniquePtr<T> newNode = MakeUnique<T>(ParentState, Forward<Ts>(args)...);
 
-				return static_cast<Ptr<T>>(AddContent(move(newNode)));
-			}
-			Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent) override;
+      return static_cast<Ptr<T>>(AddContent(move(newNode)));
+    }
+    Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent) override;
 
-			// generic functions that pass calls down to children and contents
-			void Initialize() override;
-			void Start() override;
+    // generic functions that pass calls down to children and contents
+    void Initialize() override;
+    void Start() override;
 
-			void Update(Second dt) override;
+    void Update(Second dt) override;
 
-			void End() override;
-			void CleanUp() override;
+    void End() override;
+    void CleanUp() override;
 
-			// set children/parent
-			template <typename T, typename ...Ts>
-			Ptr<T> AddChild(Ts&& ...args)
-			{
-				UniquePtr<T> newNode = MakeUnique<T>(ParentState, this, Forward<Ts>(args)...);
+    // set children/parent
+    template<typename T, typename... Ts>
+    Ptr<T> AddChild(Ts &&...args)
+    {
+      UniquePtr<T> newNode = MakeUnique<T>(ParentState, this, Forward<Ts>(args)...);
 
-				Ptr<T> newChild = static_cast<Ptr<T>>(AddChild(move(newNode)));
+      Ptr<T> newChild = static_cast<Ptr<T>>(AddChild(move(newNode)));
 
-				// should probably be called here?
-				// newChild->Initialize();
+      // should probably be called here?
+      // newChild->Initialize();
 
-				return newChild;
-			}
+      return newChild;
+    }
 
-			virtual Ptr<Node> AddChild(UniquePtr<Node> newChild);
-			virtual Ptr<Node> GetChild(Core::String name);
-			List<Ptr<Node>> GetChildren();
-			virtual UniquePtr<Node> RemoveChild(Ptr<Node> oldChild);
+    virtual Ptr<Node> AddChild(UniquePtr<Node> newChild);
+    virtual Ptr<Node> GetChild(Core::String name);
+    List<Ptr<Node>> GetChildren();
+    virtual UniquePtr<Node> RemoveChild(Ptr<Node> oldChild);
 
-			Core::Ptr<State> GetParentState() const;
-			void SetParentState(Core::Ptr<State> parentState);
+    Core::Ptr<State> GetParentState() const;
+    void SetParentState(Core::Ptr<State> parentState);
 
-			int GetSubNodeCount() const;
+    int GetSubNodeCount() const;
 
-		protected:
-			List<UniquePtr<Node>> Children;
-			Core::Ptr<State> ParentState = nullptr;
-		};
-	}
-}
+  protected:
+    List<UniquePtr<Node>> Children;
+    Core::Ptr<State> ParentState = nullptr;
+  };
+}// namespace Geometric
+}// namespace Application

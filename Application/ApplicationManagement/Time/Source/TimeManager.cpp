@@ -1,88 +1,79 @@
 #include "ApplicationManagement\Time\Headers\TimeManager.h"
 
-namespace Application
-{
-	namespace Time
-	{
-		TimeManager::TimeManager()
-		{
+namespace Application {
+namespace Time {
+  TimeManager::TimeManager()
+  {
+  }
 
-		}
+  void TimeManager::Initialize()
+  {
+    InitialTime = Clock.now();
 
-		void TimeManager::Initialize()
-		{
-			InitialTime = Clock.now();
+    PreviousTick = InitialTime;
+    CurrentTick = InitialTime;
+  }
 
-			PreviousTick = InitialTime;
-			CurrentTick = InitialTime;
-		}
+  void TimeManager::Start()
+  {
+  }
 
-		void TimeManager::Start()
-		{
+  Second TimeManager::Update()
+  {
+    PreviousTick = CurrentTick;
+    CurrentTick = Clock.now();
 
-		}
+    return GetDeltaTime();
+  }
 
-		Second TimeManager::Update()
-		{
-			PreviousTick = CurrentTick;
-			CurrentTick = Clock.now();
+  void TimeManager::End()
+  {
+  }
 
-			return GetDeltaTime();
-		}
+  void TimeManager::CleanUp()
+  {
+  }
 
-		void TimeManager::End()
-		{
+  Second TimeManager::GetDeltaTime()
+  {
+    return (CurrentTick - PreviousTick);
+  }
 
-		}
+  Second TimeManager::GetTimeSpan()
+  {
+    return (CurrentTick - InitialTime);
+  }
 
-		void TimeManager::CleanUp()
-		{
+  // Fixed Time Step
+  FixedStepTimeManager::FixedStepTimeManager(Second maxStepSize)
+    : MaxStepSize(maxStepSize)
+  {
+  }
 
-		}
+  Second FixedStepTimeManager::Update()
+  {
+    auto timePassed = TimeManager::Update();
 
-		Second TimeManager::GetDeltaTime()
-		{
-			return (CurrentTick - PreviousTick);
-		}
+    if (timePassed > MaxStepSize) {
+      Accumulator += (timePassed - MaxStepSize);
+      timePassed = MaxStepSize;
+    }
 
-		Second TimeManager::GetTimeSpan()
-		{
-			return (CurrentTick - InitialTime);
-		}
+    return timePassed;
+  }
 
-		// Fixed Time Step
-		FixedStepTimeManager::FixedStepTimeManager(Second maxStepSize)
-			: MaxStepSize(maxStepSize)
-		{
+  Second FixedStepTimeManager::GetAccumulatedTime()
+  {
+    if (Accumulator > MaxStepSize) {
+      Accumulator -= MaxStepSize;
 
-		}
+      return MaxStepSize;
+    }
 
-		Second FixedStepTimeManager::Update()
-		{
-			auto timePassed = TimeManager::Update();
+    auto accumulatedTime = Accumulator;
+    Accumulator = 0_s;
 
-			if (timePassed > MaxStepSize)
-			{
-				Accumulator += (timePassed - MaxStepSize);
-				timePassed = MaxStepSize;
-			}
-
-			return timePassed;
-		}
-
-		Second FixedStepTimeManager::GetAccumulatedTime()
-		{
-			if (Accumulator > MaxStepSize)
-			{
-				Accumulator -= MaxStepSize;
-
-				return MaxStepSize;
-			}
-
-			auto accumulatedTime = Accumulator;
-			Accumulator = 0_s;
-
-			return accumulatedTime;
-		}
-	}
-}
+    return accumulatedTime;
+  }
+}// namespace Time
+}// namespace Application

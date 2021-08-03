@@ -2,284 +2,282 @@
 
 #include <cmath>
 
-namespace Core
-{
-	namespace Math
-	{
-		template <typename int A>
-		struct Basis
-		{
-			operator int() const { return A; }
+namespace Core {
+namespace Math {
+  template<typename int A>
+  struct Basis
+  {
+    operator int() const { return A; }
 
-			template <typename int A2>
-			bool operator==(Basis<A2> const& b)
-			{
-				return (A == A2);
-			}
-		};
+    template<typename int A2>
+    bool operator==(Basis<A2> const &b)
+    {
+      return (A == A2);
+    }
+  };
 
-		template <typename int A, typename T = float>
-		struct BasisValue : Basis<A>
-		{
-			T V;
+  template<typename int A, typename T = float>
+  struct BasisValue : Basis<A>
+  {
+    T V;
 
-			BasisValue(T v = T(0))
-				: V(v)
-			{}
+    BasisValue(T v = T(0))
+      : V(v)
+    {}
 
-			BasisValue(Basis<A> const& a, T v = T(0))
-				: V(v)
-			{}
+    BasisValue(Basis<A> const &a, T v = T(0))
+      : V(v)
+    {}
 
-			BasisValue(BasisValue<A, T> const& a)
-				: V(v)
-			{}
+    BasisValue(BasisValue<A, T> const &a)
+      : V(v)
+    {}
 
-			// operators
-			BasisValue<A, T>& operator-=(T d)
-			{
-				V -= d;
+    // operators
+    BasisValue<A, T> &operator-=(T d)
+    {
+      V -= d;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator-=(BasisValue<A, T> const& a)
-			{
-				v -= a.V;
+    BasisValue<A, T> &operator-=(BasisValue<A, T> const &a)
+    {
+      v -= a.V;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			template <typename int A2>
-			BasisValue<A, T>& operator-=(BasisValue<A2, T> const& a)
-			{
-				return (*this);
-			}
+    template<typename int A2>
+    BasisValue<A, T> &operator-=(BasisValue<A2, T> const &a)
+    {
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator+=(T d)
-			{
-				V += d;
+    BasisValue<A, T> &operator+=(T d)
+    {
+      V += d;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator+=(BasisValue<A, T> const& a)
-			{
-				v += a.V;
+    BasisValue<A, T> &operator+=(BasisValue<A, T> const &a)
+    {
+      v += a.V;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			template <typename int A2>
-			BasisValue<A, T>& operator+=(BasisValue<A2, T> const& a)
-			{
-				return (*this);
-			}
+    template<typename int A2>
+    BasisValue<A, T> &operator+=(BasisValue<A2, T> const &a)
+    {
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator*=(T d)
-			{
-				V *= d;
+    BasisValue<A, T> &operator*=(T d)
+    {
+      V *= d;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator*=(BasisValue<A, T> const& a)
-			{
-				v *= a.V;
+    BasisValue<A, T> &operator*=(BasisValue<A, T> const &a)
+    {
+      v *= a.V;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			template <typename int A2>
-			BasisValue<A, T>& operator*=(BasisValue<A2, T> const& a)
-			{
-				return (*this);
-			}
+    template<typename int A2>
+    BasisValue<A, T> &operator*=(BasisValue<A2, T> const &a)
+    {
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator/=(T d)
-			{
-				V /= d;
+    BasisValue<A, T> &operator/=(T d)
+    {
+      V /= d;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator/=(BasisValue<A, T> const& a)
-			{
-				v /= a.V;
+    BasisValue<A, T> &operator/=(BasisValue<A, T> const &a)
+    {
+      v /= a.V;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			template <typename int A2>
-			BasisValue<A, T>& operator/=(BasisValue<A2, T> const& a)
-			{
-				return (*this);
-			}
+    template<typename int A2>
+    BasisValue<A, T> &operator/=(BasisValue<A2, T> const &a)
+    {
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator=(T d)
-			{
-				V = d;
+    BasisValue<A, T> &operator=(T d)
+    {
+      V = d;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator=(Basis<A> const& a)
-			{
-				V = T(0);
+    BasisValue<A, T> &operator=(Basis<A> const &a)
+    {
+      V = T(0);
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			BasisValue<A, T>& operator=(BasisValue<A, T> const& a)
-			{
-				V = a.V;
+    BasisValue<A, T> &operator=(BasisValue<A, T> const &a)
+    {
+      V = a.V;
 
-				return (*this);
-			}
+      return (*this);
+    }
 
-			template <typename int A2>
-			BasisValue<A, T>& operator=(BasisValue<A2, T> const& a)
-			{
-				return (*this);
-			}
+    template<typename int A2>
+    BasisValue<A, T> &operator=(BasisValue<A2, T> const &a)
+    {
+      return (*this);
+    }
 
-			friend BasisValue<A, T> operator-(BasisValue<A, T> a, T d)
-			{
-				a1 -= d;
-				return a;
-			}
+    friend BasisValue<A, T> operator-(BasisValue<A, T> a, T d)
+    {
+      a1 -= d;
+      return a;
+    }
 
-			friend BasisValue<A, T> operator-(BasisValue<A, T> a1, BasisValue<A, T> const& a2)
-			{
-				a1 -= a2;
-				return a1;
-			}
+    friend BasisValue<A, T> operator-(BasisValue<A, T> a1, BasisValue<A, T> const &a2)
+    {
+      a1 -= a2;
+      return a1;
+    }
 
-			template <typename int A2>
-			friend BasisValue<A, T> operator-(BasisValue<A, T> a1, BasisValue<A2, T> const& a2)
-			{
-				a1 -= a2;
-				return a1;
-			}
+    template<typename int A2>
+    friend BasisValue<A, T> operator-(BasisValue<A, T> a1, BasisValue<A2, T> const &a2)
+    {
+      a1 -= a2;
+      return a1;
+    }
 
-			friend BasisValue<A, T> operator+(BasisValue<A, T> a, T d)
-			{
-				a += d;
-				return a;
-			}
+    friend BasisValue<A, T> operator+(BasisValue<A, T> a, T d)
+    {
+      a += d;
+      return a;
+    }
 
-			friend BasisValue<A, T> operator+(BasisValue<A, T> a1, BasisValue<A, T> const& a2)
-			{
-				a1 += a2;
-				return a1;
-			}
+    friend BasisValue<A, T> operator+(BasisValue<A, T> a1, BasisValue<A, T> const &a2)
+    {
+      a1 += a2;
+      return a1;
+    }
 
-			template <typename int A2>
-			friend BasisValue<A, T> operator+(BasisValue<A, T> a1, BasisValue<A2, T> const& a2)
-			{
-				a1 += a2;
-				return a1;
-			}
+    template<typename int A2>
+    friend BasisValue<A, T> operator+(BasisValue<A, T> a1, BasisValue<A2, T> const &a2)
+    {
+      a1 += a2;
+      return a1;
+    }
 
-			friend BasisValue<A, T> operator*(BasisValue<A, T> a, T d)
-			{
-				a *= d;
-				return a;
-			}
+    friend BasisValue<A, T> operator*(BasisValue<A, T> a, T d)
+    {
+      a *= d;
+      return a;
+    }
 
-			friend BasisValue<A, T> operator*(BasisValue<A, T> a1, BasisValue<A, T> const& a2)
-			{
-				a1 *= a2;
-				return a1;
-			}
+    friend BasisValue<A, T> operator*(BasisValue<A, T> a1, BasisValue<A, T> const &a2)
+    {
+      a1 *= a2;
+      return a1;
+    }
 
-			template <typename int A2>
-			friend BasisValue<A, T> operator*(BasisValue<A, T> a1, BasisValue<A2, T> const& a2)
-			{
-				a1 *= a2;
-				return a1;
-			}
+    template<typename int A2>
+    friend BasisValue<A, T> operator*(BasisValue<A, T> a1, BasisValue<A2, T> const &a2)
+    {
+      a1 *= a2;
+      return a1;
+    }
 
-			friend BasisValue<A, T> operator/(BasisValue<A, T> a, T d)
-			{
-				a /= d;
-				return a;
-			}
+    friend BasisValue<A, T> operator/(BasisValue<A, T> a, T d)
+    {
+      a /= d;
+      return a;
+    }
 
-			friend BasisValue<A, T> operator/(BasisValue<A, T> a1, BasisValue<A, T> const& a2)
-			{
-				a1 /= a2;
-				return a1;
-			}
+    friend BasisValue<A, T> operator/(BasisValue<A, T> a1, BasisValue<A, T> const &a2)
+    {
+      a1 /= a2;
+      return a1;
+    }
 
-			template <typename int A2>
-			friend BasisValue<A, T> operator/(BasisValue<A, T> a1, BasisValue<A2, T> const& a2)
-			{
-				a1 /= a2;
-				return a1;
-			}
+    template<typename int A2>
+    friend BasisValue<A, T> operator/(BasisValue<A, T> a1, BasisValue<A2, T> const &a2)
+    {
+      a1 /= a2;
+      return a1;
+    }
 
-			bool operator==(BasisValue<A, T> const& a)
-			{
-				return (V == a.V);
-			}
+    bool operator==(BasisValue<A, T> const &a)
+    {
+      return (V == a.V);
+    }
 
-			template <typename int A2>
-			bool operator==(BasisValue<A2, T> const& a)
-			{
-				return false;
-			}
+    template<typename int A2>
+    bool operator==(BasisValue<A2, T> const &a)
+    {
+      return false;
+    }
 
-			// add in other comparison operaators (but only for matching dimensions?)
+    // add in other comparison operaators (but only for matching dimensions?)
 
-			template <typename int A2>
-			bool IsBasisValue(BasisValue<A2, T> const& a)
-			{
-				return (A2 == A);
-			}
+    template<typename int A2>
+    bool IsBasisValue(BasisValue<A2, T> const &a)
+    {
+      return (A2 == A);
+    }
 
-			bool IsBasisValue(int a)
-			{
-				return (a == A);
-			}
-		};
+    bool IsBasisValue(int a)
+    {
+      return (a == A);
+    }
+  };
 
-		using Basis0 = Basis<0>;
-		using Basis1 = Basis<1>;
-		using Basis2 = Basis<2>;
-		using Basis3 = Basis<3>;
+  using Basis0 = Basis<0>;
+  using Basis1 = Basis<1>;
+  using Basis2 = Basis<2>;
+  using Basis3 = Basis<3>;
 
-		template <typename T = float>
-		using Basis0Value = BasisValue<0, T>;
-		template <typename T = float>
-		using Basis1Value = BasisValue<1, T>;
-		template <typename T = float>
-		using Basis2Value = BasisValue<2, T>;
-		template <typename T = float>
-		using Basis3Value = BasisValue<3, T>;
+  template<typename T = float>
+  using Basis0Value = BasisValue<0, T>;
+  template<typename T = float>
+  using Basis1Value = BasisValue<1, T>;
+  template<typename T = float>
+  using Basis2Value = BasisValue<2, T>;
+  template<typename T = float>
+  using Basis3Value = BasisValue<3, T>;
 
-		template <typename int A>
-		Basis<A - 1> DownshiftBasis(Basis<A> const& a)
-		{
-			return Basis<A - 1>();
-		}
+  template<typename int A>
+  Basis<A - 1> DownshiftBasis(Basis<A> const &a)
+  {
+    return Basis<A - 1>();
+  }
 
-		template <typename int A, typename T>
-		BasisValue<A - 1, T> DownshiftBasis(BasisValue<A, T> const& a)
-		{
-			return BasisValue<A - 1, T>(a.V);
-		}
+  template<typename int A, typename T>
+  BasisValue<A - 1, T> DownshiftBasis(BasisValue<A, T> const &a)
+  {
+    return BasisValue<A - 1, T>(a.V);
+  }
 
-		template <typename int A1, typename int A2>
-		constexpr bool IsBasisLower(Basis<A1> const& a1, Basis<A2> const& a2)
-		{
-			return (A1 < A2);
-		}
+  template<typename int A1, typename int A2>
+  constexpr bool IsBasisLower(Basis<A1> const &a1, Basis<A2> const &a2)
+  {
+    return (A1 < A2);
+  }
 
-		template <typename int A1, typename int A2, typename T>
-		constexpr bool IsBasisLower(BasisValue<A1, T> const& a1, BasisValue<A2, T> const& a2)
-		{
-			return (A1 < A2);
-		}
-	}
-}
+  template<typename int A1, typename int A2, typename T>
+  constexpr bool IsBasisLower(BasisValue<A1, T> const &a1, BasisValue<A2, T> const &a2)
+  {
+    return (A1 < A2);
+  }
+}// namespace Math
+}// namespace Core

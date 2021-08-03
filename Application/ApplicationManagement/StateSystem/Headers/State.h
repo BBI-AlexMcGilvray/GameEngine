@@ -9,26 +9,25 @@
 
 using namespace Core;
 
-namespace Application
+namespace Application {
+struct State
 {
-	struct State
-	{
-		Event<> StateDeleted;
+  Event<> StateDeleted;
 
-		State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem);
-		// State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetName<State> state);
-		// State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetData<State> state);
+  State(Rendering::RenderManager &renderSystem, Input::InputManager &inputSystem);
+  // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetName<State> state);
+  // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetData<State> state);
 
-		void Initialize();
-		void Start();
-		void Update(Second dt);
-		void End();
-		void CleanUp();
+  void Initialize();
+  void Start();
+  void Update(Second dt);
+  void End();
+  void CleanUp();
 
-		//Ptr<Transform> CreateNewNode(String name);
+  //Ptr<Transform> CreateNewNode(String name);
 
-	private:
-		Core::UniquePtr<Geometric::World> Hierarchy;
-		GameSystem::GameSystemManager GameSystem;
-	};
-}
+private:
+  Core::UniquePtr<Geometric::World> Hierarchy;
+  GameSystem::GameSystemManager GameSystem;
+};
+}// namespace Application

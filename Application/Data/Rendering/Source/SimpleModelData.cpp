@@ -1,50 +1,40 @@
 #include "Data/Rendering/Headers/SimpleModelData.h"
 
-#include "Core/IO/Headers/IOUtils.h"
-
 #include "Core/Debugging/Headers/Macros.h"
+#include "Core/IO/Headers/IOUtils.h"
 
 using namespace Core;
 using namespace Core::IO;
 using namespace Core::Math;
 
-namespace Data
-{
-	namespace Rendering
-	{
-		SimpleModelData::SimpleModelData(AssetName<SimpleModelData> asset)
-		{
-			File modelFile = OpenFileI(asset.GetFilePath());
+namespace Data {
+namespace Rendering {
+  SimpleModelData::SimpleModelData(AssetName<SimpleModelData> asset)
+  {
+    File modelFile = OpenFileI(asset.GetFilePath());
 
-			MESSAGE(modelFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
+    MESSAGE(modelFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
 
-			try
-			{
-				while (true)
-				{
-					String line = modelFile.GetLine();
+    try {
+      while (true) {
+        String line = modelFile.GetLine();
 
-					IOSStreamChar lineStream(line);
+        IOSStreamChar lineStream(line);
 
-					String word;
-					lineStream >> word;
+        String word;
+        lineStream >> word;
 
-					if (word == "mesh")
-					{
-						lineStream >> Mesh.Name.H;
-					}
-					else if (word == "material")
-					{
-						lineStream >> Material.Name.H;
-					}
-				}
-			}
-			catch (EOFException& e)
-			{
-				std::cout << e.GetError() << std::endl;
-			}
+        if (word == "mesh") {
+          lineStream >> Mesh.Name.H;
+        } else if (word == "material") {
+          lineStream >> Material.Name.H;
+        }
+      }
+    } catch (EOFException &e) {
+      std::cout << e.GetError() << std::endl;
+    }
 
-			modelFile.Close();
-		}
-	}
-}
+    modelFile.Close();
+  }
+}// namespace Rendering
+}// namespace Data

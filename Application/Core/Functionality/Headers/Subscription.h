@@ -3,12 +3,10 @@
 #include "Core/Headers/ListDefs.h"
 #include "Core/Headers/PtrDefs.h"
 
-namespace Core
-{
-	namespace Functionality
-	{
-		// base set up for (essentially) entity-component system
-		/*
+namespace Core {
+namespace Functionality {
+  // base set up for (essentially) entity-component system
+  /*
 		template <typename T>
 		struct Subscription;
 
@@ -74,5 +72,5 @@ namespace Core
 		struct SelfSubscriber : Subscriber<T>, Subscription<T>
 		{};
 		*/
-	}
-}
+}// namespace Functionality
+}// namespace Core

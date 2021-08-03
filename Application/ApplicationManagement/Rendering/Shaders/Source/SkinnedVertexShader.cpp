@@ -2,16 +2,14 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
-#include <string>  
+#include <string>
 
 using namespace std::string_literals;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		// try the below, but with the 'facingCamera' variable set as the actual camera's facing
-		Ptr<const char> SkinnedVertexShader::Shader = R"(
+namespace Application {
+namespace Rendering {
+  // try the below, but with the 'facingCamera' variable set as the actual camera's facing
+  Ptr<const char> SkinnedVertexShader::Shader = R"(
 			#version 450 core
 			
 			// values per vertex
@@ -54,39 +52,39 @@ namespace Application
 			}
 		)";
 
-		Ptr<const char> SkinnedVertexShader::GetShader() const
-		{
-			return Shader;
-		}
+  Ptr<const char> SkinnedVertexShader::GetShader() const
+  {
+    return Shader;
+  }
 
 
-		void SkinnedVertexShader::SetSkinningInformation(const List<Float4x4> boneList)
-		{
-			BoneList = boneList;
-		}
+  void SkinnedVertexShader::SetSkinningInformation(const List<Float4x4> boneList)
+  {
+    BoneList = boneList;
+  }
 
-		void SkinnedVertexShader::Prepare(GLuint program, const Float4x4& mvp, const Color& color) const
-		{
-			// Should this be using it's own Object field value instead of the passed in program value?
-			// Why is modColor returning a value of -1? because it is not currently being used
+  void SkinnedVertexShader::Prepare(GLuint program, const Float4x4 &mvp, const Color &color) const
+  {
+    // Should this be using it's own Object field value instead of the passed in program value?
+    // Why is modColor returning a value of -1? because it is not currently being used
 
-			// set the required information that needs to be used in the shader
-			GLint MVP = glGetUniformLocation(program, "MVP");
-			glUniformMatrix4fv(MVP, 1, GL_FALSE, (GLfloat*)&(mvp.E1.X));
+    // set the required information that needs to be used in the shader
+    GLint MVP = glGetUniformLocation(program, "MVP");
+    glUniformMatrix4fv(MVP, 1, GL_FALSE, (GLfloat *)&(mvp.E1.X));
 
-			// assign color to shader
-			GLint modColor = glGetUniformLocation(program, "modColor");
-			glUniform4fv(modColor, 1, color.Values);
+    // assign color to shader
+    GLint modColor = glGetUniformLocation(program, "modColor");
+    glUniform4fv(modColor, 1, color.Values);
 
-			// assign bones to shader
-			VERIFY(BoneList.size() <= 50);
-			GLint boneMatrices = glGetUniformLocation(program, "boneMatrices");
-			glUniformMatrix4fv(boneMatrices, static_cast<GLsizei>(BoneList.size()), GL_FALSE, (GLfloat*)&(BoneList[0].E1.X));
-		}
+    // assign bones to shader
+    VERIFY(BoneList.size() <= 50);
+    GLint boneMatrices = glGetUniformLocation(program, "boneMatrices");
+    glUniformMatrix4fv(boneMatrices, static_cast<GLsizei>(BoneList.size()), GL_FALSE, (GLfloat *)&(BoneList[0].E1.X));
+  }
 
-		void SkinnedVertexShader::CleanUp() const
-		{
-			// this may not need to be used
-		}
-	}
-}
+  void SkinnedVertexShader::CleanUp() const
+  {
+    // this may not need to be used
+  }
+}// namespace Rendering
+}// namespace Application

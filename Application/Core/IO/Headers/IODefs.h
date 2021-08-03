@@ -1,69 +1,64 @@
 #pragma once
 
 #include "Core/Headers/CoreDefs.h"
-
 #include "Core/IO/Headers/Exception.h"
-
+#include <fstream>
 #include <ios>
 #include <sstream>
-#include <fstream>
 
 using namespace std;
 
-namespace Core
-{
-	namespace IO
-	{
-		// files
-		template <typename charT>
-		using IFStream = basic_ifstream<charT>;
-		template <typename charT>
-		using OFStream = basic_ofstream<charT>;
-		template <typename charT>
-		using FStream = basic_fstream<charT>;
+namespace Core {
+namespace IO {
+  // files
+  template<typename charT>
+  using IFStream = basic_ifstream<charT>;
+  template<typename charT>
+  using OFStream = basic_ofstream<charT>;
+  template<typename charT>
+  using FStream = basic_fstream<charT>;
 
-		// strings
-		template <typename charT>
-		using ISStream = basic_ostringstream<charT>;
-		template <typename charT>
-		using OSStream = basic_istringstream<charT>;
-		template <typename charT>
-		using SStream = basic_stringstream<charT>;
+  // strings
+  template<typename charT>
+  using ISStream = basic_ostringstream<charT>;
+  template<typename charT>
+  using OSStream = basic_istringstream<charT>;
+  template<typename charT>
+  using SStream = basic_stringstream<charT>;
 
-		// specializations
-		using IFStreamChar = IFStream<char>;
-		using OFStreamChar = OFStream<char>;
-		using IOFStreamChar = FStream<char>;
+  // specializations
+  using IFStreamChar = IFStream<char>;
+  using OFStreamChar = OFStream<char>;
+  using IOFStreamChar = FStream<char>;
 
-		using ISStreamChar = ISStream<char>;
-		using OSStreamChar = OSStream<char>;
-		using IOSStreamChar = SStream<char>;
+  using ISStreamChar = ISStream<char>;
+  using OSStreamChar = OSStream<char>;
+  using IOSStreamChar = SStream<char>;
 
-		// misc
-		using StreamPos = std::streampos;
+  // misc
+  using StreamPos = std::streampos;
 
-		using OpenMode = ios::openmode;
+  using OpenMode = ios::openmode;
 
-		enum class Endian
-		{
-			Big,
-			Little
-		};
+  enum class Endian {
+    Big,
+    Little
+  };
 
-		struct FilePath
-		{
-			String Path;
-			String File;
+  struct FilePath
+  {
+    String Path;
+    String File;
 
-			String GetFullPath() const
-			{
-				return (Path + File);
-			}
-		};
+    String GetFullPath() const
+    {
+      return (Path + File);
+    }
+  };
 
-		inline constexpr bool HasPermission(OpenMode userPermissions, OpenMode permission)
-		{
-			return ((userPermissions & permission) > 0);
-		}
-	}
-}
+  inline constexpr bool HasPermission(OpenMode userPermissions, OpenMode permission)
+  {
+    return ((userPermissions & permission) > 0);
+  }
+}// namespace IO
+}// namespace Core

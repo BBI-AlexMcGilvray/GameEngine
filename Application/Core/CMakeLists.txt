@@ -1,4 +1,4 @@
-message("Configurating Core")
+message("Configuring Core")
 
 set(SOURCE_FILES #
 Functionality/Source/Scheduler.cpp #

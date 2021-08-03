@@ -16,36 +16,34 @@
 
 using namespace Core;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		// holds the information about the mesh of a 3D object
-		class SimpleMeshBase : public RenderObjectBase
-		{
-		public:
-			Data::AssetData<Data::Rendering::SimpleMeshData> Data;
+namespace Application {
+namespace Rendering {
+  // holds the information about the mesh of a 3D object
+  class SimpleMeshBase : public RenderObjectBase
+  {
+  public:
+    Data::AssetData<Data::Rendering::SimpleMeshData> Data;
 
-			SimpleMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleMeshData> asset);
-			~SimpleMeshBase();
+    SimpleMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleMeshData> asset);
+    ~SimpleMeshBase();
 
-			Core::size GetVertexCount() const override;
+    Core::size GetVertexCount() const override;
 
-			void SetMaterialComponent(ComponentPtr<MaterialComponent> materialComponent);
-			void ClearMaterialComponent();
+    void SetMaterialComponent(ComponentPtr<MaterialComponent> materialComponent);
+    void ClearMaterialComponent();
 
-			virtual void Initialize();
+    virtual void Initialize();
 
-		protected:
-			void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const override;
-			void CleanUp() const override;
+  protected:
+    void Prepare(const Core::Math::Float4x4 &mvp, const Core::Math::Color &color) const override;
+    void CleanUp() const override;
 
-		private:
-			GLArrayBuffer Vao;
-			List<GLBuffer> Vbos;
+  private:
+    GLArrayBuffer Vao;
+    List<GLBuffer> Vbos;
 
-			Core::Functionality::Delegate<> _onMaterialDeleted;
-			ComponentPtr<MaterialComponent> _materialComponent;
-		};
-	}
-}
+    Core::Functionality::Delegate<> _onMaterialDeleted;
+    ComponentPtr<MaterialComponent> _materialComponent;
+  };
+}// namespace Rendering
+}// namespace Application

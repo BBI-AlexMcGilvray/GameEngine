@@ -1,20 +1,18 @@
 #pragma once
 
 #include "Core/Headers/CoreDefs.h"
-
 #include <exception>
 
-namespace Core
+namespace Core {
+struct Exception : std::exception
 {
-	struct Exception : std::exception
-	{
-		Exception();
-		Exception(const String& error);
-		Exception(const Exception& exception);
+  Exception();
+  Exception(const String &error);
+  Exception(const Exception &exception);
 
-		String GetError() const;
+  String GetError() const;
 
-	private:
-		const String Error;
-	};
-}
+private:
+  const String Error;
+};
+}// namespace Core

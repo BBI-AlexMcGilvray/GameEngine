@@ -12,197 +12,181 @@
 #include "Resources/Assets.h"
 #endif
 
-namespace Application
-{
-	namespace Geometric
-	{
-		Node::Node(Ptr<State> parentState, Core::String name)
-			:Node(parentState, nullptr, name, Float3(0.0f))
-		{}
+namespace Application {
+namespace Geometric {
+  Node::Node(Ptr<State> parentState, Core::String name)
+    : Node(parentState, nullptr, name, Float3(0.0f))
+  {}
 
-		Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name)
-			: Node(parentState, parentNode, name, Float3(0.0f))
-		{}
+  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name)
+    : Node(parentState, parentNode, name, Float3(0.0f))
+  {}
 
-		Node::Node(Ptr<State> parentState, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
-			: Node(parentState, DEFAULT_NODE_NAME, position, rotation, scale, settingLocal)
-		{}
+  Node::Node(Ptr<State> parentState, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+    : Node(parentState, DEFAULT_NODE_NAME, position, rotation, scale, settingLocal)
+  {}
 
-		Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
-			: Node(parentState, parentNode, DEFAULT_NODE_NAME, position, rotation, scale, settingLocal)
-		{}
+  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+    : Node(parentState, parentNode, DEFAULT_NODE_NAME, position, rotation, scale, settingLocal)
+  {}
 
-		Node::Node(Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
-			: Node(parentState, nullptr, name, position, rotation, scale, settingLocal)
-		{}
+  Node::Node(Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+    : Node(parentState, nullptr, name, position, rotation, scale, settingLocal)
+  {}
 
-		Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
-			: Name(name)
-			, Transformation((parentNode == nullptr ? nullptr : &(parentNode->Transformation)), position, rotation, scale, settingLocal)
-		{
-			SetParentState(parentState);
-		}
+  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+    : Name(name), Transformation((parentNode == nullptr ? nullptr : &(parentNode->Transformation)), position, rotation, scale, settingLocal)
+  {
+    SetParentState(parentState);
+  }
 
-		Node::~Node()
-		{
-			Deleted();
-		}
+  Node::~Node()
+  {
+    Deleted();
+  }
 
-		void Node::Initialize()
-		{
-			ContainerBase::Initialize();
+  void Node::Initialize()
+  {
+    ContainerBase::Initialize();
 
-			for (auto& child : Children)
-			{
-				child->Initialize();
-			}
-		}
+    for (auto &child : Children) {
+      child->Initialize();
+    }
+  }
 
-		void Node::Start()
-		{
-			ContainerBase::Start();
+  void Node::Start()
+  {
+    ContainerBase::Start();
 
-			for (auto& child : Children)
-			{
-				child->Start();
-			}
+    for (auto &child : Children) {
+      child->Start();
+    }
 
 #if _DEBUG
-			Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>(ParentState));
+    Ptr<ContentBase> debugContent = AddContent(MakeUnique<ContentBase>(ParentState));
 
-			ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
-			ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
+    ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
+    ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 
-			renderComponent->SetRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 0.5f);
+    renderComponent->SetRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLUE, 0.5f);
 #endif
-		}
+  }
 
-		void Node::Update(Second dt)
-		{
-			ContainerBase::Update(dt);
-			
-			for (auto& child : Children)
-			{
-				child->Update(dt);
-			}
-		}
+  void Node::Update(Second dt)
+  {
+    ContainerBase::Update(dt);
 
-		void Node::End()
-		{
-			ContainerBase::End();
+    for (auto &child : Children) {
+      child->Update(dt);
+    }
+  }
 
-			for (auto& child : Children)
-			{
-				child->End();
-			}
-		}
+  void Node::End()
+  {
+    ContainerBase::End();
 
-		void Node::CleanUp()
-		{
-			ContainerBase::CleanUp();
+    for (auto &child : Children) {
+      child->End();
+    }
+  }
 
-			for (auto& child : Children)
-			{
-				child->CleanUp();
-			}
-		}
+  void Node::CleanUp()
+  {
+    ContainerBase::CleanUp();
 
-		Ptr<ContentBase> Node::AddContent(UniquePtr<ContentBase> newContent)
-		{
-			Ptr<ContentBase> addedContent = ContainerBase::AddContent(move(newContent));
+    for (auto &child : Children) {
+      child->CleanUp();
+    }
+  }
 
-			addedContent->AddComponent<Hierarchy>(this);
+  Ptr<ContentBase> Node::AddContent(UniquePtr<ContentBase> newContent)
+  {
+    Ptr<ContentBase> addedContent = ContainerBase::AddContent(move(newContent));
 
-			return addedContent;
-		}
+    addedContent->AddComponent<Hierarchy>(this);
 
-		Ptr<Node> Node::AddChild(UniquePtr<Node> newChild)
-		{
-			newChild->Transformation.SetParent(&Transformation);
-			// should not be called here, unless called through templated version since that guarantees creation
-			newChild->Initialize();
-			// need to think about if we want Start to be called like this - likely should NOT be
-			auto& test = ApplicationManager::AppStateManager();
-			if (ApplicationManager::AppStateManager().GetActiveState() == ParentState)
-			{
-				newChild->Start();
-			}
+    return addedContent;
+  }
 
-			Push(Children, move(newChild));
+  Ptr<Node> Node::AddChild(UniquePtr<Node> newChild)
+  {
+    newChild->Transformation.SetParent(&Transformation);
+    // should not be called here, unless called through templated version since that guarantees creation
+    newChild->Initialize();
+    // need to think about if we want Start to be called like this - likely should NOT be
+    auto &test = ApplicationManager::AppStateManager();
+    if (ApplicationManager::AppStateManager().GetActiveState() == ParentState) {
+      newChild->Start();
+    }
 
-			return Children[Children.size() - 1].get();
-		}
+    Push(Children, move(newChild));
 
-		Ptr<Node> Node::GetChild(Core::String name)
-		{
-			for (Core::size i = 0; i < Children.size(); i++)
-			{
-				if (Children[i]->Name == name)
-				{
-					return Children[i].get();
-				}
+    return Children[Children.size() - 1].get();
+  }
 
-				Ptr<Node> childInChildren = Children[i]->GetChild(name);
-				if (childInChildren != nullptr)
-				{
-					return childInChildren;
-				}
-			}
+  Ptr<Node> Node::GetChild(Core::String name)
+  {
+    for (Core::size i = 0; i < Children.size(); i++) {
+      if (Children[i]->Name == name) {
+        return Children[i].get();
+      }
 
-			return nullptr;
-		}
+      Ptr<Node> childInChildren = Children[i]->GetChild(name);
+      if (childInChildren != nullptr) {
+        return childInChildren;
+      }
+    }
 
-		List<Ptr<Node>> Node::GetChildren()
-		{
-			List<Ptr<Node>> children(Children.size());
+    return nullptr;
+  }
 
-			for (int i = 0; i < Children.size(); i++)
-			{
-				children[i] = Children[i].get();
-			}
+  List<Ptr<Node>> Node::GetChildren()
+  {
+    List<Ptr<Node>> children(Children.size());
 
-			return children;
-		}
+    for (int i = 0; i < Children.size(); i++) {
+      children[i] = Children[i].get();
+    }
 
-		UniquePtr<Node> Node::RemoveChild(Ptr<Node> oldChild)
-		{
-			oldChild->Transformation.SetParent(nullptr);
+    return children;
+  }
 
-			UniquePtr<Node> formerChild = nullptr;
+  UniquePtr<Node> Node::RemoveChild(Ptr<Node> oldChild)
+  {
+    oldChild->Transformation.SetParent(nullptr);
 
-			for (Core::size i = 0; i < Children.size(); i++)
-			{
-				if (Children[i].get() == oldChild)
-				{
-					formerChild = move(Children[i]);
-					RemoveIndex(Children, i);
-					break;
-				}
-			}
+    UniquePtr<Node> formerChild = nullptr;
 
-			return formerChild;
-		}
+    for (Core::size i = 0; i < Children.size(); i++) {
+      if (Children[i].get() == oldChild) {
+        formerChild = move(Children[i]);
+        RemoveIndex(Children, i);
+        break;
+      }
+    }
 
-		Core::Ptr<State> Node::GetParentState() const
-		{
-			return ParentState;
-		}
+    return formerChild;
+  }
 
-		void Node::SetParentState(Core::Ptr<State> parentState)
-		{
-			ParentState = parentState;
-		}
+  Core::Ptr<State> Node::GetParentState() const
+  {
+    return ParentState;
+  }
 
-		int Node::GetSubNodeCount() const
-		{
-			int count = 0;
-			for (int i = 0; i < Children.size(); i++)
-			{
-				count++;
-				count += Children[i]->GetSubNodeCount();
-			}
+  void Node::SetParentState(Core::Ptr<State> parentState)
+  {
+    ParentState = parentState;
+  }
 
-			return count;
-		}
-	}
-}
+  int Node::GetSubNodeCount() const
+  {
+    int count = 0;
+    for (int i = 0; i < Children.size(); i++) {
+      count++;
+      count += Children[i]->GetSubNodeCount();
+    }
+
+    return count;
+  }
+}// namespace Geometric
+}// namespace Application

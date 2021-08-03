@@ -1,6 +1,6 @@
 # dependencies on Core library
 
-message("Configurating Application")
+message("Configuring Application")
 
 set(SOURCE_FILES #
 Animation/FieldAnimation/Source/FloatAnimationTrack.cpp #
@@ -173,7 +173,6 @@ Rendering/Headers/RenderObjectManager.h #
 Rendering/Headers/SingleCameraManager.h #
 Rendering/OpenGL/Headers/GLArrayBuffer.h #
 Rendering/OpenGL/Headers/GLBuffer.h #
-Rendering/OpenGL/Headers/GLDefs.h #
 Rendering/OpenGL/Headers/GLMappedBuffer.h #
 Rendering/OpenGL/Headers/GLObject.h #
 Rendering/OpenGL/Headers/GLShader.h #

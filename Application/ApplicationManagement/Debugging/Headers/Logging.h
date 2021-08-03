@@ -10,10 +10,9 @@
 #include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Debugging/Headers/Macros.h"
 
-namespace Application
-{
-	const char* logFileName = "";
+namespace Application {
+const char *logFileName = "";
 
-	void Log(const char* output);
-	const char* ReadLog(int numCharacters = 0);
-}
+void Log(const char *output);
+const char *ReadLog(int numCharacters = 0);
+}// namespace Application

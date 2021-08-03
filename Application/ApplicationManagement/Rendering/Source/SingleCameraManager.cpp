@@ -2,60 +2,53 @@
 
 using namespace Core;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		SingleCameraManager::SingleCameraManager(Core::Ptr<RenderManager> manager)
-			: CameraManager(manager)
-		{}
+namespace Application {
+namespace Rendering {
+  SingleCameraManager::SingleCameraManager(Core::Ptr<RenderManager> manager)
+    : CameraManager(manager)
+  {}
 
-		void SingleCameraManager::Initialize()
-		{
+  void SingleCameraManager::Initialize()
+  {
+  }
 
-		}
+  void SingleCameraManager::Start()
+  {
+  }
 
-		void SingleCameraManager::Start()
-		{
+  void SingleCameraManager::Update(Core::Second dt)
+  {
+  }
 
-		}
+  Core::Ptr<Camera> SingleCameraManager::GetCamera() const
+  {
+    return _camera.get();
+  }
 
-		void SingleCameraManager::Update(Core::Second dt)
-		{
+  void SingleCameraManager::End()
+  {
+  }
 
-		}
-		
-		Core::Ptr<Camera> SingleCameraManager::GetCamera() const
-		{
-			return _camera.get();
-		}
+  void SingleCameraManager::CleanUp()
+  {
+  }
 
-		void SingleCameraManager::End()
-		{
-
-		}
-
-		void SingleCameraManager::CleanUp()
-		{
-
-		}
-
-		Core::Ptr<Camera> SingleCameraManager::AddCamera(Core::UniquePtr<Camera> camera)
-		{
+  Core::Ptr<Camera> SingleCameraManager::AddCamera(Core::UniquePtr<Camera> camera)
+  {
 #if _DEBUG
-			// this assert should be here
-			// ASSERT(_camera == nullptr);
+    // this assert should be here
+    // ASSERT(_camera == nullptr);
 #endif
-			_camera = move(camera);
-			return _camera.get();
-		}
+    _camera = move(camera);
+    return _camera.get();
+  }
 
-		void SingleCameraManager::RemoveCamera(Core::Ptr<Camera> camera)
-		{
+  void SingleCameraManager::RemoveCamera(Core::Ptr<Camera> camera)
+  {
 #if _DEBUG
-			ASSERT(_camera.get() == camera);
+    ASSERT(_camera.get() == camera);
 #endif
-			_camera = nullptr;
-		}
-	}
-}
+    _camera = nullptr;
+  }
+}// namespace Rendering
+}// namespace Application

@@ -1,18 +1,16 @@
 #include "ILogger.h"
-
 #include <mutex>
 
-namespace Logging
+namespace Logging {
+class ConsoleLogger : public ILogger
 {
-	class ConsoleLogger : public ILogger
-	{
-	public:
-		void Log(std::string tag, std::string message) override;
-		void LogWarning(std::string tag, std::string message) override;
-		void LogError(std::string tag, std::string message) override;
-		void ThrowException(std::string tag, std::string message) override;
+public:
+  void Log(std::string tag, std::string message) override;
+  void LogWarning(std::string tag, std::string message) override;
+  void LogError(std::string tag, std::string message) override;
+  void ThrowException(std::string tag, std::string message) override;
 
-	private:
-		std::mutex _coutMutex;
-	};
-}
+private:
+  std::mutex _coutMutex;
+};
+}// namespace Logging

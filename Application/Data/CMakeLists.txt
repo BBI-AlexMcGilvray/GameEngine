@@ -1,6 +1,6 @@
 # dependencies on Core library
 
-message("Configurating Data")
+message("Configuring Data")
 
 set(SOURCE_FILES #
 Rendering/Source/AnimatedMeshData.cpp #

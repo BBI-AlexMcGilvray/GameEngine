@@ -13,28 +13,26 @@
 using namespace Core;
 using namespace Core::Math;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		// holds shader information in terms of how it is affected by light, shadows, ...
-		// maybe should contain the data, not BE the data?
-		struct Material
-		{
-			Data::Rendering::MaterialData Data;
-			Core::Ptr<ObjectShaderBase> Shader;
+namespace Application {
+namespace Rendering {
+  // holds shader information in terms of how it is affected by light, shadows, ...
+  // maybe should contain the data, not BE the data?
+  struct Material
+  {
+    Data::Rendering::MaterialData Data;
+    Core::Ptr<ObjectShaderBase> Shader;
 
-			Material();
-			Material(Data::AssetName<Data::Rendering::MaterialData> asset);
+    Material();
+    Material(Data::AssetName<Data::Rendering::MaterialData> asset);
 
-			void SetShader(Core::Ptr<ObjectShaderBase> shader);
+    void SetShader(Core::Ptr<ObjectShaderBase> shader);
 
-			void Update(Core::Second dt);
+    void Update(Core::Second dt);
 
-			void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;
-			void CleanUp() const;
+    void Prepare(const Core::Math::Float4x4 &mvp, const Core::Math::Color &color) const;
+    void CleanUp() const;
 
-			// NOT Initialize or Destroy, those are called by the ShaderManager
-		};
-	}
-}
+    // NOT Initialize or Destroy, those are called by the ShaderManager
+  };
+}// namespace Rendering
+}// namespace Application

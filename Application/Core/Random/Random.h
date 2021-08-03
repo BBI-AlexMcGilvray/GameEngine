@@ -1,59 +1,58 @@
 #pragma once
 #include "Core/Random/RandomGenerator.h"
 
-namespace Core
+namespace Core {
+class Random
 {
-    class Random
-    {
-    public:
-        Random()
-        {}
-        
-        Random(uint32_t seed)
-        : _generator(seed)
-        {}
+public:
+  Random()
+  {}
 
-        template <typename T>
-        T Next()
-        {
-            return Next(T(0));
-        }
+  Random(uint32_t seed)
+    : _generator(seed)
+  {}
 
-    private:
-        RandomGenerator _generator;
+  template<typename T>
+  T Next()
+  {
+    return Next(T(0));
+  }
 
-        uint32_t Next(uint32_t)
-        {
-            return _generator.Next();
-        }
+private:
+  RandomGenerator _generator;
 
-        // will always be greater than 0 because uints are always greater than 0, and the max uint generated in INT32_MAX
-        int Next(int)
-        {
-            return int(Next<uint32_t>());
-        }
+  uint32_t Next(uint32_t)
+  {
+    return _generator.Next();
+  }
 
-        // double and float are between 0 and 1 because
-        // a: our max value in RandomGenerator is INT32_MAX so we will never overflow into negative values
-        // b: mod will not work
-        // c: floating point errors will render larger values essentially useless
-        //      - at best we could do max int / X (where X is MAX_UINT = X * MAX_FLOAT), but that is how we would get (worse) floating point errors
+  // will always be greater than 0 because uints are always greater than 0, and the max uint generated in INT32_MAX
+  int Next(int)
+  {
+    return int(Next<uint32_t>());
+  }
 
-        // between 0 and 1
-        double Next(double)
-        {
-            return double(Next<int>()) * (1.0 / double(INT32_MAX));
-        }
+  // double and float are between 0 and 1 because
+  // a: our max value in RandomGenerator is INT32_MAX so we will never overflow into negative values
+  // b: mod will not work
+  // c: floating point errors will render larger values essentially useless
+  //      - at best we could do max int / X (where X is MAX_UINT = X * MAX_FLOAT), but that is how we would get (worse) floating point errors
 
-        // between 0 and 1
-        float Next(float)
-        {
-            return float(Next<double>());
-        }
+  // between 0 and 1
+  double Next(double)
+  {
+    return double(Next<int>()) * (1.0 / double(INT32_MAX));
+  }
 
-        bool Next(bool)
-        {
-            return (Next<uint32_t>() % 2 == 0);
-        }
-    };
-}
+  // between 0 and 1
+  float Next(float)
+  {
+    return float(Next<double>());
+  }
+
+  bool Next(bool)
+  {
+    return (Next<uint32_t>() % 2 == 0);
+  }
+};
+}// namespace Core

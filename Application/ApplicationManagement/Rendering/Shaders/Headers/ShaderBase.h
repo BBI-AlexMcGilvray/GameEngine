@@ -6,23 +6,21 @@
 
 using namespace Core;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		// holds onto vertex shader information
-		struct ShaderBase : GLShader
-		{
-			const Ptr<const char> ShaderName;
+namespace Application {
+namespace Rendering {
+  // holds onto vertex shader information
+  struct ShaderBase : GLShader
+  {
+    const Ptr<const char> ShaderName;
 
-			ShaderBase(Ptr<const char> shaderName);
-			ShaderBase(Ptr<const char> shaderName, GLenum shaderType);
+    ShaderBase(Ptr<const char> shaderName);
+    ShaderBase(Ptr<const char> shaderName, GLenum shaderType);
 
-			virtual ~ShaderBase() = default;
+    virtual ~ShaderBase() = default;
 
-			virtual Ptr<const char> GetShader() const = 0;
+    virtual Ptr<const char> GetShader() const = 0;
 
-			void SetShaderProgram(GLuint program);
-		};
-	}
-}
+    void SetShaderProgram(GLuint program);
+  };
+}// namespace Rendering
+}// namespace Application

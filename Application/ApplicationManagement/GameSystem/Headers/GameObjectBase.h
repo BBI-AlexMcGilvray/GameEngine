@@ -8,11 +8,9 @@
 using namespace Core;
 using namespace Core::Geometric;
 
-namespace Application
-{
-	namespace GameSystem
-	{
-		/*
+namespace Application {
+namespace GameSystem {
+  /*
 		NOTE: We are no longer 'subscribing' to the game object manager (or any relevant manager for related systems), but rather will _need_ to be constructed from the system, where it will
 		be added automatically. ALSO - deletion will have to also occur within the system
 
@@ -32,17 +30,17 @@ namespace Application
 
 		Also, collision objects should have events that the game object/parent object can subscribe to for when it gets hit
 		*/
-		struct GameObjectBase
-		{
-			GameObjectBase();
-			GameObjectBase(SharedPtr<Transform> transform);
+  struct GameObjectBase
+  {
+    GameObjectBase();
+    GameObjectBase(SharedPtr<Transform> transform);
 
-			virtual ~GameObjectBase();
+    virtual ~GameObjectBase();
 
-			virtual void Update(Second dt);
+    virtual void Update(Second dt);
 
-		protected:
-			SharedPtr<Transform> ObjectTransform;
-		};
-	}
-}
+  protected:
+    SharedPtr<Transform> ObjectTransform;
+  };
+}// namespace GameSystem
+}// namespace Application

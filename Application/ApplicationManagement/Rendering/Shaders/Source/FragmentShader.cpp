@@ -1,14 +1,12 @@
 #include "ApplicationManagement/Rendering/Shaders/Headers/FragmentShader.h"
 
-#include <string>  
+#include <string>
 
 using namespace std::string_literals;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		Ptr<const char> FragmentShader::Shader = R"(
+namespace Application {
+namespace Rendering {
+  Ptr<const char> FragmentShader::Shader = R"(
 			#version 450 core
 			
 			layout(location = 0) out vec4 fColor;
@@ -35,19 +33,19 @@ namespace Application
 			}
 		)";
 
-		Ptr<const char> FragmentShader::GetShader() const
-		{
-			return Shader;
-		}
+  Ptr<const char> FragmentShader::GetShader() const
+  {
+    return Shader;
+  }
 
-		void FragmentShader::Prepare() const
-		{
-			// set the required information that needs to be used in the shader
-		}
+  void FragmentShader::Prepare() const
+  {
+    // set the required information that needs to be used in the shader
+  }
 
-		void FragmentShader::CleanUp() const
-		{
-			// this may not need to be used
-		}
-	}
-}
+  void FragmentShader::CleanUp() const
+  {
+    // this may not need to be used
+  }
+}// namespace Rendering
+}// namespace Application

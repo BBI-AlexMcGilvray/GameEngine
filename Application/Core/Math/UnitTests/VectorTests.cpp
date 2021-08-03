@@ -1,9 +1,7 @@
 #include "Core/Math/UnitTests/VectorTests.h"
 
 #include "Core/Debugging/Headers/Macros.h"
-
 #include "Core/Math/Headers/MathDefs.h"
-
 #include "Core/Math/Headers/Vector.h"
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/Vector3.h"
@@ -11,58 +9,56 @@
 
 #define GLOBAL_EXPLICIT 1
 
-namespace Core
-{
-	namespace Math
-	{
-		bool RunVectorTests()
-		{
-			std::cout << "Starting vector tests..." << std::endl;
+namespace Core {
+namespace Math {
+  bool RunVectorTests()
+  {
+    std::cout << "Starting vector tests..." << std::endl;
 
-			std::cout << "Starting SIMPLE tests..." << std::endl;
-			bool simple = VERIFY(SimpleVectorTests());
+    std::cout << "Starting SIMPLE tests..." << std::endl;
+    bool simple = VERIFY(SimpleVectorTests());
 
-			std::cout << "Starting STANDARD tests..." << std::endl;
-			bool standard = VERIFY(StandardVectorTests());
+    std::cout << "Starting STANDARD tests..." << std::endl;
+    bool standard = VERIFY(StandardVectorTests());
 
-			std::cout << "Starting DIFFICULT tests..." << std::endl;
-			bool difficult = VERIFY(DifficultVectorTests());
+    std::cout << "Starting DIFFICULT tests..." << std::endl;
+    bool difficult = VERIFY(DifficultVectorTests());
 
-			return VERIFY(simple && standard && difficult);
-		}
+    return VERIFY(simple && standard && difficult);
+  }
 
-		bool SimpleVectorTests()
-		{
-			auto float2_single = Float2(1.0f);
-			auto float2_double = Float2(1.0f, 2.0f);
-			auto float2_float2(float2_double);
-			auto float2_copy = float2_float2;
+  bool SimpleVectorTests()
+  {
+    auto float2_single = Float2(1.0f);
+    auto float2_double = Float2(1.0f, 2.0f);
+    auto float2_float2(float2_double);
+    auto float2_copy = float2_float2;
 
-			return true;
-		}
+    return true;
+  }
 
-		bool StandardVectorTests()
-		{
-			auto float3_double = Float3(1.0f, 2.0f, 3.0f);
+  bool StandardVectorTests()
+  {
+    auto float3_double = Float3(1.0f, 2.0f, 3.0f);
 
-			auto xEqual = VERIFY(float3_double.X == 1.0f);
-			auto yEqual = VERIFY(float3_double.Y == 2.0f);
-			auto zEqual = VERIFY(float3_double.Z == 3.0f);
+    auto xEqual = VERIFY(float3_double.X == 1.0f);
+    auto yEqual = VERIFY(float3_double.Y == 2.0f);
+    auto zEqual = VERIFY(float3_double.Z == 3.0f);
 
-			auto axisX = float3_double[XAxis()];
-			auto i0 = float3_double[0];
-			auto accessorsEqual = VERIFY(axisX == i0);
+    auto axisX = float3_double[XAxis()];
+    auto i0 = float3_double[0];
+    auto accessorsEqual = VERIFY(axisX == i0);
 
-			auto float2_fromfloat3 = float3_double.XY;
+    auto float2_fromfloat3 = float3_double.XY;
 
-			auto equalityTest = VERIFY(float2_fromfloat3 == float3_double.XY);
+    auto equalityTest = VERIFY(float2_fromfloat3 == float3_double.XY);
 
-			return true;
-		}
+    return true;
+  }
 
-		bool DifficultVectorTests()
-		{
-			return true;
-		}
-	}
-}
+  bool DifficultVectorTests()
+  {
+    return true;
+  }
+}// namespace Math
+}// namespace Core

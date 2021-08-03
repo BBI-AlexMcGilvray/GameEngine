@@ -1,23 +1,21 @@
 #pragma once
 
-#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
+#include "Dependencies/Includes/glew.h"
 
-namespace Application
-{
-	namespace Rendering
-	{
-		struct GLObject
-		{
-			GLuint Object;
-			GLenum Type;
+namespace Application {
+namespace Rendering {
+  struct GLObject
+  {
+    GLuint Object;
+    GLenum Type;
 
-			GLObject();
-			GLObject(GLuint object, GLenum type);
+    GLObject();
+    GLObject(GLuint object, GLenum type);
 
-			virtual ~GLObject() = default;
+    virtual ~GLObject() = default;
 
-			virtual void SetObject(GLuint object);
-			virtual void SetType(GLenum type);
-		};
-	}
-}
+    virtual void SetObject(GLuint object);
+    virtual void SetType(GLenum type);
+  };
+}// namespace Rendering
+}// namespace Application

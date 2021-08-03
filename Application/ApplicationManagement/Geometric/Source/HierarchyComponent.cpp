@@ -2,50 +2,43 @@
 
 using namespace Core;
 
-namespace Application
-{
-	namespace Geometric
-	{
-		Hierarchy::Hierarchy(Ptr<EntityBase> entity)
-			: Hierarchy(entity, nullptr)
-		{}
+namespace Application {
+namespace Geometric {
+  Hierarchy::Hierarchy(Ptr<EntityBase> entity)
+    : Hierarchy(entity, nullptr)
+  {}
 
-		Hierarchy::Hierarchy(Ptr<EntityBase> entity, Ptr<Node> hierarchyNode)
-			: Component<Hierarchy>(entity, this)
-			, OnNodeDeleted([this]()
-		{
-			DeleteComponent();
+  Hierarchy::Hierarchy(Ptr<EntityBase> entity, Ptr<Node> hierarchyNode)
+    : Component<Hierarchy>(entity, this), OnNodeDeleted([this]() {
+        DeleteComponent();
 
-			return false;
-		})
-			, HierarchyNode(hierarchyNode)
-		{
-			SetHierarchyNode(hierarchyNode);
-		}
+        return false;
+      }),
+      HierarchyNode(hierarchyNode)
+  {
+    SetHierarchyNode(hierarchyNode);
+  }
 
-		void Hierarchy::SetHierarchyNode(Core::Ptr<Node> hierarchyNode)
-		{
-			if (hierarchyNode == nullptr)
-			{
-				return;
-			}
+  void Hierarchy::SetHierarchyNode(Core::Ptr<Node> hierarchyNode)
+  {
+    if (hierarchyNode == nullptr) {
+      return;
+    }
 
-			if (HierarchyNode != nullptr)
-			{
-				HierarchyNode->Deleted -= OnNodeDeleted;
-			}
+    if (HierarchyNode != nullptr) {
+      HierarchyNode->Deleted -= OnNodeDeleted;
+    }
 
-			HierarchyNode = hierarchyNode;
+    HierarchyNode = hierarchyNode;
 
-			if (HierarchyNode != nullptr)
-			{
-				HierarchyNode->Deleted += OnNodeDeleted;
-			}
-		}
+    if (HierarchyNode != nullptr) {
+      HierarchyNode->Deleted += OnNodeDeleted;
+    }
+  }
 
-		Core::Ptr<Node> Hierarchy::GetHeirarchyNode() const
-		{
-			return HierarchyNode;
-		}
-	}
-}
+  Core::Ptr<Node> Hierarchy::GetHeirarchyNode() const
+  {
+    return HierarchyNode;
+  }
+}// namespace Geometric
+}// namespace Application

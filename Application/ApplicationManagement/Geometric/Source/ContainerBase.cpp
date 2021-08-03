@@ -2,89 +2,77 @@
 
 #include "ApplicationManagement/Geometric/Headers/ContentBase.h"
 
-namespace Application
-{
-	namespace Geometric
-	{
-		ContainerBase::ContainerBase()
-		{
+namespace Application {
+namespace Geometric {
+  ContainerBase::ContainerBase()
+  {
+  }
 
-		}
+  ContainerBase::~ContainerBase()
+  {
+    ContainerDeleted();
+  }
 
-		ContainerBase::~ContainerBase()
-		{
-			ContainerDeleted();
-		}
+  void ContainerBase::Initialize()
+  {
+    for (int i = 0; i < Content.size(); i++) {
+      Content[i]->Initialize();
+    }
+  }
 
-		void ContainerBase::Initialize()
-		{
-			for (int i = 0; i < Content.size(); i++)
-			{
-				Content[i]->Initialize();
-			}
-		}
+  void ContainerBase::Start()
+  {
+    for (int i = 0; i < Content.size(); i++) {
+      Content[i]->Start();
+    }
+  }
 
-		void ContainerBase::Start()
-		{
-			for (int i = 0; i < Content.size(); i++)
-			{
-				Content[i]->Start();
-			}
-		}
+  void ContainerBase::Update(Second dt)
+  {
+    for (int i = 0; i < Content.size(); i++) {
+      Content[i]->Update(dt);
+    }
+  }
 
-		void ContainerBase::Update(Second dt)
-		{
-			for (int i = 0; i < Content.size(); i++)
-			{
-				Content[i]->Update(dt);
-			}
-		}
+  void ContainerBase::End()
+  {
+    for (int i = 0; i < Content.size(); i++) {
+      Content[i]->End();
+    }
+  }
 
-		void ContainerBase::End()
-		{
-			for (int i = 0; i < Content.size(); i++)
-			{
-				Content[i]->End();
-			}
-		}
+  void ContainerBase::CleanUp()
+  {
+    for (int i = 0; i < Content.size(); i++) {
+      Content[i]->CleanUp();
+    }
+  }
 
-		void ContainerBase::CleanUp()
-		{
-			for (int i = 0; i < Content.size(); i++)
-			{
-				Content[i]->CleanUp();
-			}
-		}
+  Ptr<ContentBase> ContainerBase::AddContent(UniquePtr<ContentBase> newContent)
+  {
+    Push(Content, move(newContent));
 
-		Ptr<ContentBase> ContainerBase::AddContent(UniquePtr<ContentBase> newContent)
-		{
-			Push(Content, move(newContent));
+    return Content[Content.size() - 1].get();
+  }
 
-			return Content[Content.size() - 1].get();
-		}
+  void ContainerBase::RemoveContent(Ptr<ContentBase> content)
+  {
+    for (int i = 0; i < Content.size(); i++) {
+      if (Content[i].get() == content) {
+        RemoveIndex(Content, i);
+      }
+    }
+  }
 
-		void ContainerBase::RemoveContent(Ptr<ContentBase> content)
-		{
-			for (int i = 0; i < Content.size(); i++)
-			{
-				if (Content[i].get() == content)
-				{
-					RemoveIndex(Content, i);
-				}
-			}
-		}
+  bool ContainerBase::HasContent(Ptr<ContentBase> content)
+  {
+    for (int i = 0; i < Content.size(); i++) {
+      if (Content[i].get() == content) {
+        return true;
+      }
+    }
 
-		bool ContainerBase::HasContent(Ptr<ContentBase> content)
-		{
-			for (int i = 0; i < Content.size(); i++)
-			{
-				if (Content[i].get() == content)
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-	}
-}
+    return false;
+  }
+}// namespace Geometric
+}// namespace Application

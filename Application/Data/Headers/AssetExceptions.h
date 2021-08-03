@@ -4,15 +4,14 @@
 
 using namespace Core;
 
-namespace Data
+namespace Data {
+struct AssetException : Exception
 {
-	struct AssetException : Exception
-	{
-		using Exception::Exception;
-	};
+  using Exception::Exception;
+};
 
-	struct InvalidAsset : AssetException
-	{
-		using AssetException::AssetException;
-	};
-}
+struct InvalidAsset : AssetException
+{
+  using AssetException::AssetException;
+};
+}// namespace Data

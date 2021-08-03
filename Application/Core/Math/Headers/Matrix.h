@@ -2,26 +2,23 @@
 
 // #include "Core/Math/Headers/Vector.h"
 
-namespace Core
-{
-	namespace Math
-	{
-		/*
+namespace Core {
+namespace Math {
+  /*
 			Our matrices are column - major, NOT row - major.
 		*/
-		namespace Details
-		{
-			template<int A, int B, int C, int R>
-			struct IsSmallerMatrix
-			{
-				static bool const smaller = (C <= A && R <= B);
-			};
-		};
+  namespace Details {
+    template<int A, int B, int C, int R>
+    struct IsSmallerMatrix
+    {
+      static bool const smaller = (C <= A && R <= B);
+    };
+  };// namespace Details
 
-		template <typename T, typename int A, typename int B>
-		struct MatrixAxB
-		{
-			/*
+  template<typename T, typename int A, typename int B>
+  struct MatrixAxB
+  {
+    /*
 			template <bool EqualDimensions = EnableIf<IsSame<A, B>>>
 			T Determinant()
 			{
@@ -63,14 +60,14 @@ namespace Core
 			}
 			*/
 
-			// Invert
-			/*
+    // Invert
+    /*
 			MatrixAxB<T, vT, V> Invert()
 			{
 				// does not seem to exist a simple inversion algorithm that works for all matrices - if needed, may need to be on a dimension basis
 				// or we can put in the super heavy generic algorithm here and have specific dimensions override it
 			}
 			*/
-		};
-	}
-}
+  };
+}// namespace Math
+}// namespace Core

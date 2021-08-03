@@ -1,107 +1,107 @@
 #include <cstdint>
 
-namespace Core
+namespace Core {
+namespace {
+  constexpr uint32_t INVALID_ID = 0;
+  static uint32_t next_id = 1;
+}// namespace
+
+template<typename T>
+struct runtimeId;
+
+struct runtimeId_t
 {
-    namespace
-    {
-        constexpr uint32_t INVALID_ID = 0;
-        static uint32_t next_id = 1;
-    }
+  template<typename T>
+  friend struct runtimeId;
 
-    template <typename T>
-    struct runtimeId;
+  constexpr runtimeId_t()
+    : _id(INVALID_ID)
+  {}
 
-    struct runtimeId_t
-    {
-        template <typename T>
-        friend struct runtimeId;
+  constexpr runtimeId_t(const runtimeId_t &rhs)
+    : _id(rhs._id)
+  {}
 
-        constexpr runtimeId_t()
-        : _id(INVALID_ID)
-        {}
+  constexpr runtimeId_t &operator=(const runtimeId_t &other)
+  {
+    _id = other._id;
+    return *this;
+  }
 
-        constexpr runtimeId_t(const runtimeId_t& rhs)
-        : _id(rhs._id)
-        {}
+  constexpr bool operator==(const runtimeId_t &other)
+  {
+    return _id == other._id;
+  }
 
-        constexpr runtimeId_t& operator=(const runtimeId_t& other)
-        {
-            _id = other._id;
-            return *this;
-        }
+  constexpr bool operator!=(const runtimeId_t &other)
+  {
+    return _id == other._id;
+  }
 
-        constexpr bool operator==(const runtimeId_t& other)
-        {
-            return _id == other._id;
-        }
+  constexpr operator uint32_t()
+  {
+    return _id;
+  }
 
-        constexpr bool operator!=(const runtimeId_t& other)
-        {
-            return _id == other._id;
-        }
+protected:
+  runtimeId_t(uint32_t id)
+    : _id(id)
+  {}
 
-        constexpr operator uint32_t()
-        {
-            return _id;
-        }
+private:
+  uint32_t _id;
+};
 
-        protected:
-            runtimeId_t(uint32_t id)
-            : _id(id)
-            {}
+template<typename T>
+struct runtimeId
+{
+  template<typename T2>
+  friend runtimeId_t GetTypeId();
 
-        private:
-            uint32_t _id;
-    };
+  constexpr runtimeId() = default;
 
-    template <typename T>
-    struct runtimeId
-    {
-        template <typename T2>
-        friend runtimeId_t GetTypeId();
+  constexpr runtimeId(const runtimeId &rhs)
+    : _t(rhs._t)
+  {}
 
-        constexpr runtimeId() = default;
+  constexpr runtimeId &operator=(const runtimeId &rhs)
+  {
+    _t = rhs._t;
+    return *this;
+  }
 
-        constexpr runtimeId(const runtimeId& rhs)
-        : _t(rhs._t)
-        {}
+  constexpr bool operator==(const runtimeId &other)
+  {
+    return _t == other._t;
+  }
 
-        constexpr runtimeId& operator=(const runtimeId& rhs)
-        {
-            _t = rhs._t;
-            return *this;
-        }
+  constexpr bool operator!=(const runtimeId &other)
+  {
+    return _t == other._t;
+  }
 
-        constexpr bool operator==(const runtimeId& other)
-        {
-            return _t == other._t;
-        }
+  constexpr operator runtimeId_t()
+  {
+    return _t;
+  }
 
-        constexpr bool operator!=(const runtimeId& other)
-        {
-            return _t == other._t;
-        }
+protected:
+  enum Constructor {
+    NEW
+  };
 
-        constexpr operator runtimeId_t()
-        {
-            return _t;
-        }
+  runtimeId(Constructor)
+    : _t(next_id++)
+  {}
 
-        protected:
-            enum Constructor { NEW };
+private:
+  runtimeId_t _t;
+};
 
-            runtimeId(Constructor)
-            : _t(next_id++)
-            {}
-
-        private:
-            runtimeId_t _t;
-    };
-
-    template <typename T>
-    runtimeId_t GetTypeId()
-    {
-        static runtimeId<T> id(runtimeId<T>::Constructor::NEW);
-        return id;
-    }
+template<typename T>
+runtimeId_t GetTypeId()
+{
+  static runtimeId<T> id(runtimeId<T>::Constructor::NEW);
+  return id;
 }
+}// namespace Core

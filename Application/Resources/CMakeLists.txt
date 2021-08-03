@@ -1,6 +1,6 @@
 # dependencies on Data library
 
-message("Configurating Resources")
+message("Configuring Resources")
 
 # set(SOURCE_FILES )
 

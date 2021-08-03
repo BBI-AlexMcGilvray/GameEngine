@@ -6,33 +6,31 @@
 
 using namespace Core;
 
-namespace Application
-{
-	namespace GameSystem
-	{
-		struct GameObjectBase;
+namespace Application {
+namespace GameSystem {
+  struct GameObjectBase;
 
-		struct GameObjectManager
-		{
-			virtual void Initialize();
-			virtual void Update(Second dt);
-			virtual void CleanUp();
+  struct GameObjectManager
+  {
+    virtual void Initialize();
+    virtual void Update(Second dt);
+    virtual void CleanUp();
 
-			template <typename T, typename ...Ts>
-			SharedPtr<T> AddGameObject(Ts&& ...args)
-			{
-				T newGameObject = MakeShared<T>(Forward<Ts>(args)...);
+    template<typename T, typename... Ts>
+    SharedPtr<T> AddGameObject(Ts &&...args)
+    {
+      T newGameObject = MakeShared<T>(Forward<Ts>(args)...);
 
-				AddGameObject(newGameObject);
+      AddGameObject(newGameObject);
 
-				return newGameObject;
-			}
+      return newGameObject;
+    }
 
-			virtual void AddGameObject(SharedPtr<GameObjectBase> gameObject);
-			virtual void RemoveGameObject(SharedPtr<GameObjectBase> gameObject);
+    virtual void AddGameObject(SharedPtr<GameObjectBase> gameObject);
+    virtual void RemoveGameObject(SharedPtr<GameObjectBase> gameObject);
 
-		private:
-			List<SharedPtr<GameObjectBase>> GameObjects;
-		};
-	}
-}
+  private:
+    List<SharedPtr<GameObjectBase>> GameObjects;
+  };
+}// namespace GameSystem
+}// namespace Application

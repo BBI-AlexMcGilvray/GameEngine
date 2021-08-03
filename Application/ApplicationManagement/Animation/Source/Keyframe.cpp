@@ -1,79 +1,77 @@
 #include "ApplicationManagement/Animation/Headers/Keyframe.h"
 
-namespace Application
-{
-	namespace Animation
-	{
-		Keyframe::Keyframe()
-			: Keyframe(Core::Second(0), float(0), 0.5f, 0.0f, 0.5f, 0.0f)
-		{}
+namespace Application {
+namespace Animation {
+  Keyframe::Keyframe()
+    : Keyframe(Core::Second(0), float(0), 0.5f, 0.0f, 0.5f, 0.0f)
+  {}
 
-		Keyframe::Keyframe(Core::Second time, float value)
-			: Keyframe(time, value, 0.5f, 0.0f, 0.5f, 0.0f)
-		{}
+  Keyframe::Keyframe(Core::Second time, float value)
+    : Keyframe(time, value, 0.5f, 0.0f, 0.5f, 0.0f)
+  {}
 
-		Keyframe::Keyframe(Core::Second time, float value, float inWeight, float inTangent, float outWeight, float outTangent)
-			: _time(time), _value(value), _inWeight(inWeight), _inTangent(inTangent), _outWeight(outWeight), _outTangent(outTangent)
-		{}
+  Keyframe::Keyframe(Core::Second time, float value, float inWeight, float inTangent, float outWeight, float outTangent)
+    : _time(time), _value(value), _inWeight(inWeight), _inTangent(inTangent), _outWeight(outWeight), _outTangent(outTangent)
+  {}
 
-		void Keyframe::SetTime(Core::Second time)
-		{
-			_time = time;
-		}
+  void Keyframe::SetTime(Core::Second time)
+  {
+    _time = time;
+  }
 
-		Core::Second Keyframe::GetTime()
-		{
-			return _time;
-		}
+  Core::Second Keyframe::GetTime()
+  {
+    return _time;
+  }
 
-		void Keyframe::SetValue(float value)
-		{
-			_value = value;
-		}
+  void Keyframe::SetValue(float value)
+  {
+    _value = value;
+  }
 
-		float Keyframe::GetValue()
-		{
-			return _value;
-		}
+  float Keyframe::GetValue()
+  {
+    return _value;
+  }
 
-		void Keyframe::SetInWeight(float weight)
-		{
-			_inWeight = weight;
-		}
+  void Keyframe::SetInWeight(float weight)
+  {
+    _inWeight = weight;
+  }
 
-		float Keyframe::GetInWeight()
-		{
-			return _inWeight;
-		}
+  float Keyframe::GetInWeight()
+  {
+    return _inWeight;
+  }
 
-		void Keyframe::SetInTangent(float tangent)
-		{
-			_inTangent = tangent;
-		}
+  void Keyframe::SetInTangent(float tangent)
+  {
+    _inTangent = tangent;
+  }
 
-		float Keyframe::GetInTangent()
-		{
-			return _inTangent;
-		}
+  float Keyframe::GetInTangent()
+  {
+    return _inTangent;
+  }
 
-		void Keyframe::SetOutWeight(float weight)
-		{
-			_outWeight = weight;
-		}
+  void Keyframe::SetOutWeight(float weight)
+  {
+    _outWeight = weight;
+  }
 
-		float Keyframe::GetOutWeight()
-		{
-			return _outWeight;
-		}
+  float Keyframe::GetOutWeight()
+  {
+    return _outWeight;
+  }
 
-		void Keyframe::SetOutTangent(float tangent)
-		{
-			_outTangent = tangent;
-		}
+  void Keyframe::SetOutTangent(float tangent)
+  {
+    _outTangent = tangent;
+  }
 
-		float Keyframe::GetOutTangent()
-		{
-			return _outTangent;
-		}
-	}
-}
+  float Keyframe::GetOutTangent()
+  {
+    return _outTangent;
+  }
+}// namespace Animation
+}// namespace Application

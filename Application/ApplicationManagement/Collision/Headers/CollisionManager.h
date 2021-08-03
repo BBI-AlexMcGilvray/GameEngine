@@ -5,27 +5,24 @@
 
 #include "Core/Headers/ListDefs.h"
 
-namespace Application
-{
-	namespace GameSystem
-	{
-		namespace Collision
-		{
-			struct CollisionManager
-			{
-				CollisionManager();
+namespace Application {
+namespace GameSystem {
+  namespace Collision {
+    struct CollisionManager
+    {
+      CollisionManager();
 
-				void Initialize();
-				void Start();
+      void Initialize();
+      void Start();
 
-				void Update(Second dt);
+      void Update(Second dt);
 
-				void End();
-				void CleanUp();
+      void End();
+      void CleanUp();
 
-			private:
-				List<ColliderBase> Colliders;
-			};
-		}
-	}
-}
+    private:
+      List<ColliderBase> Colliders;
+    };
+  }// namespace Collision
+}// namespace GameSystem
+}// namespace Application

@@ -1,50 +1,48 @@
 #include "Core/Headers/Hash.h"
 
-namespace Core
+namespace Core {
+Hash HashValue(uint u)
 {
-	Hash HashValue(uint u)
-	{
-		Hash newHash;
+  Hash newHash;
 
-		newHash.H = u;
+  newHash.H = u;
 
-		return newHash;
-	}
+  return newHash;
+}
 
-	void HashValue(uint u, Hash& existingHash)
-	{
-		existingHash.H += u;
-	}
+void HashValue(uint u, Hash &existingHash)
+{
+  existingHash.H += u;
+}
 
-	Hash HashValue(String s)
-	{
-		Hash newHash;
+Hash HashValue(String s)
+{
+  Hash newHash;
 
-		HashValue(s, newHash);
+  HashValue(s, newHash);
 
-		return newHash;
-	}
+  return newHash;
+}
 
-	void HashValue(String s, Hash& existingHash)
-	{
-		for (uint i = 0; i < s.length(); i++)
-		{
-			HashValue(s.c_str()[i], existingHash);
-		}
-	}
+void HashValue(String s, Hash &existingHash)
+{
+  for (uint i = 0; i < s.length(); i++) {
+    HashValue(s.c_str()[i], existingHash);
+  }
+}
 
-	Hash HashValue(char b)
-	{
-		Hash newHash;
+Hash HashValue(char b)
+{
+  Hash newHash;
 
-		HashValue(b, newHash);
+  HashValue(b, newHash);
 
-		return newHash;
-	}
+  return newHash;
+}
 
-	void HashValue(char b, Hash& existingHash)
-	{
-		/*
+void HashValue(char b, Hash &existingHash)
+{
+  /*
 			Shift value notes:
 			            (58 000)          (500 000)
 			shift | string collisions | int collisions
@@ -77,26 +75,26 @@ namespace Core
 
 			 For benchmarks for other algorithms: https://softwareengineering.stackexchange.com/questions/49550/which-hashing-algorithm-is-best-for-uniqueness-and-speed
 		*/
-		int shift = 13; // shift value should be within range [1, 31] (i.e. - do not lose information, and apply some form of shift)
-		int nonShift = (32 - shift); // the rest of the bits are those that are not lost due to shifting
+  int shift = 13;// shift value should be within range [1, 31] (i.e. - do not lose information, and apply some form of shift)
+  int nonShift = (32 - shift);// the rest of the bits are those that are not lost due to shifting
 
-		int salt = 13; // can be any number, should be odd, ideally prime and not so large to lose much information
-		int pepper = 27; // can be any number, should be odd, ideally prime
+  int salt = 13;// can be any number, should be odd, ideally prime and not so large to lose much information
+  int pepper = 27;// can be any number, should be odd, ideally prime
 
-		uint saltedB = (b * salt);
-		existingHash.H ^= (saltedB); // salt the byte, then modify hash with it
+  uint saltedB = (b * salt);
+  existingHash.H ^= (saltedB);// salt the byte, then modify hash with it
 
-		existingHash.H += pepper; // salt the resulting hash (+ instead of * since * would cause overflow and lose data more often (this may not even be needed)
+  existingHash.H += pepper;// salt the resulting hash (+ instead of * since * would cause overflow and lose data more often (this may not even be needed)
 
-		uint lostBits = (existingHash.H << nonShift); // get the bits that would be lost by the shift
+  uint lostBits = (existingHash.H << nonShift);// get the bits that would be lost by the shift
 
-		existingHash.H >>= shift; // shift bits
+  existingHash.H >>= shift;// shift bits
 
-		existingHash.H += lostBits; // add the missing bits back
-	}
+  existingHash.H += lostBits;// add the missing bits back
+}
 
-	// SEE HEADER
-	/*
+// SEE HEADER
+/*
 	char UnHashValue(Hash& currentHash, Hash& previousHash)
 	{
 		int shift = 7;
@@ -119,4 +117,4 @@ namespace Core
 		return b;
 	}
 	*/
-}
+}// namespace Core

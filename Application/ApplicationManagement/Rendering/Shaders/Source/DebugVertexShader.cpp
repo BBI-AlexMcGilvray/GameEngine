@@ -1,14 +1,12 @@
 #include "ApplicationManagement/Rendering/Shaders/Headers/DebugVertexShader.h"
 
-#include <string>  
+#include <string>
 
 using namespace std::string_literals;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		Ptr<const char> DebugVertexShader::Shader = R"(
+namespace Application {
+namespace Rendering {
+  Ptr<const char> DebugVertexShader::Shader = R"(
 			#version 450 core
 			
 			// values per vertex
@@ -30,21 +28,21 @@ namespace Application
 			}
 		)";
 
-		Ptr<const char> DebugVertexShader::GetShader() const
-		{
-			return Shader;
-		}
+  Ptr<const char> DebugVertexShader::GetShader() const
+  {
+    return Shader;
+  }
 
-		void DebugVertexShader::Prepare(GLuint program, const Color& color) const
-		{
-			// assign color to shader
-			GLint modColor = glGetUniformLocation(program, "modColor");
-			glUniform4fv(modColor, 1, &(color.R));
-		}
+  void DebugVertexShader::Prepare(GLuint program, const Color &color) const
+  {
+    // assign color to shader
+    GLint modColor = glGetUniformLocation(program, "modColor");
+    glUniform4fv(modColor, 1, &(color.R));
+  }
 
-		void DebugVertexShader::CleanUp() const
-		{
-			// this may not need to be used
-		}
-	}
-}
+  void DebugVertexShader::CleanUp() const
+  {
+    // this may not need to be used
+  }
+}// namespace Rendering
+}// namespace Application

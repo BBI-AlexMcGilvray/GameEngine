@@ -2,36 +2,31 @@
 
 #include "ApplicationManagement/Geometric/Headers/ContainerBase.h"
 
-namespace Application
-{
-	namespace Geometric
-	{
-		ContentBase::ContentBase(const Ptr<State> owningState)
-			: EntityBase(owningState)
-			, OnContainerDeleted([this]
-		{
-			Container = nullptr;
-			return false;
-		})
-		{
+namespace Application {
+namespace Geometric {
+  ContentBase::ContentBase(const Ptr<State> owningState)
+    : EntityBase(owningState), OnContainerDeleted([this] {
+        Container = nullptr;
+        return false;
+      })
+  {
+  }
 
-		}
+  ContentBase::~ContentBase()
+  {
+    ContentDeleted();
+  }
 
-		ContentBase::~ContentBase()
-		{
-			ContentDeleted();
-		}
+  void ContentBase::SetContainer(Ptr<ContainerBase> parentContainer)
+  {
+    Container = parentContainer;
 
-		void ContentBase::SetContainer(Ptr<ContainerBase> parentContainer)
-		{
-			Container = parentContainer;
+    Container->ContainerDeleted += OnContainerDeleted;
+  }
 
-			Container->ContainerDeleted += OnContainerDeleted;
-		}
-
-		Ptr<ContainerBase> ContentBase::GetContainer() const
-		{
-			return Container;
-		}
-	}
-}
+  Ptr<ContainerBase> ContentBase::GetContainer() const
+  {
+    return Container;
+  }
+}// namespace Geometric
+}// namespace Application

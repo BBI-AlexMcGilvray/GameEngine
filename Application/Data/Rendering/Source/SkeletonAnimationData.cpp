@@ -1,8 +1,7 @@
 #include "Data/Rendering/Headers/SkeletonAnimationData.h"
 
-#include "Core/IO/Headers/IOUtils.h"
-
 #include "Core/Debugging/Headers/Macros.h"
+#include "Core/IO/Headers/IOUtils.h"
 
 using namespace std;
 
@@ -10,215 +9,180 @@ using namespace Core;
 using namespace Core::IO;
 using namespace Core::Math;
 
-namespace Data
-{
-	namespace Rendering
-	{
-		PositionFrameData::PositionFrameData(Float3 position, Second time)
-			: Position(position)
-			, Time(time)
-		{
+namespace Data {
+namespace Rendering {
+  PositionFrameData::PositionFrameData(Float3 position, Second time)
+    : Position(position), Time(time)
+  {
+  }
 
-		}
+  RotationFrameData::RotationFrameData(FQuaternion rotation, Second time)
+    : Rotation(rotation), Time(time)
+  {
+  }
 
-		RotationFrameData::RotationFrameData(FQuaternion rotation, Second time)
-			: Rotation(rotation)
-			, Time(time)
-		{
+  ScaleFrameData::ScaleFrameData(Float3 scale, Second time)
+    : Scale(scale), Time(time)
+  {
+  }
 
-		}
+  BoneAnimationData::BoneAnimationData(String name)
+    : Name(name)
+  {
+  }
 
-		ScaleFrameData::ScaleFrameData(Float3 scale, Second time)
-			: Scale(scale)
-			, Time(time)
-		{
+  void BoneAnimationData::ReadAnimationData(String name, File &animationFile)
+  {
+    bool doneReading = false;
 
-		}
+    String word;
+    int frames;
+    while (!doneReading) {
+      String line = animationFile.GetLine();
 
-		BoneAnimationData::BoneAnimationData(String name)
-			: Name(name)
-		{
+      IOSStreamChar lineStream(line);
 
-		}
+      lineStream >> word;
 
-		void BoneAnimationData::ReadAnimationData(String name, File& animationFile)
-		{
-			bool doneReading = false;
+      if (word == "preState") {
+        lineStream >> word;
+        PreBehaviour = GetBehaviourFromString(word);
+      } else if (word == "postState") {
+        lineStream >> word;
+        PostBehaviour = GetBehaviourFromString(word);
+      } else if (word == "position") {
+        lineStream >> frames;
 
-			String word;
-			int frames;
-			while (!doneReading)
-			{
-				String line = animationFile.GetLine();
+        for (int i = 0; i < frames; i++) {
+          String line = animationFile.GetLine();
 
-				IOSStreamChar lineStream(line);
+          IOSStreamChar lineStream(line);
 
-				lineStream >> word;
+          Float3 position;
+          Second time;
 
-				if (word == "preState")
-				{
-					lineStream >> word;
-					PreBehaviour = GetBehaviourFromString(word);
-				}
-				else if (word == "postState")
-				{
-					lineStream >> word;
-					PostBehaviour = GetBehaviourFromString(word);
-				}
-				else if (word == "position")
-				{
-					lineStream >> frames;
+          lineStream >> position.X;
+          lineStream >> position.Y;
+          lineStream >> position.Z;
 
-					for (int i = 0; i < frames; i++)
-					{
-						String line = animationFile.GetLine();
+          float dataTime;
+          lineStream >> dataTime;
+          time = Second(dataTime);
 
-						IOSStreamChar lineStream(line);
+          AddPositionFrame(position, time);
+        }
+        continue;
+      } else if (word == "rotation") {
+        for (int i = 0; i < frames; i++) {
+          String line = animationFile.GetLine();
 
-						Float3 position;
-						Second time;
+          IOSStreamChar lineStream(line);
 
-						lineStream >> position.X;
-						lineStream >> position.Y;
-						lineStream >> position.Z;
+          FQuaternion rotation;
+          Second time;
 
-						float dataTime;
-						lineStream >> dataTime;
-						time = Second(dataTime);
+          lineStream >> rotation.X;
+          lineStream >> rotation.Y;
+          lineStream >> rotation.Z;
+          lineStream >> rotation.W;
 
-						AddPositionFrame(position, time);
-					}
-					continue;
-				}
-				else if (word == "rotation")
-				{
-					for (int i = 0; i < frames; i++)
-					{
-						String line = animationFile.GetLine();
+          float dataTime;
+          lineStream >> dataTime;
+          time = Second(dataTime);
 
-						IOSStreamChar lineStream(line);
+          AddRotationFrame(rotation, time);
+        }
+        continue;
+      } else if (word == "scale") {
+        for (int i = 0; i < frames; i++) {
+          String line = animationFile.GetLine();
 
-						FQuaternion rotation;
-						Second time;
+          IOSStreamChar lineStream(line);
 
-						lineStream >> rotation.X;
-						lineStream >> rotation.Y;
-						lineStream >> rotation.Z;
-						lineStream >> rotation.W;
+          Float3 scale;
+          Second time;
 
-						float dataTime;
-						lineStream >> dataTime;
-						time = Second(dataTime);
+          lineStream >> scale.X;
+          lineStream >> scale.Y;
+          lineStream >> scale.Z;
 
-						AddRotationFrame(rotation, time);
-					}
-					continue;
-				}
-				else if (word == "scale")
-				{
-					for (int i = 0; i < frames; i++)
-					{
-						String line = animationFile.GetLine();
+          float dataTime;
+          lineStream >> dataTime;
+          time = Second(dataTime);
 
-						IOSStreamChar lineStream(line);
+          AddScaleFrame(scale, time);
+        }
+        continue;
+      }
 
-						Float3 scale;
-						Second time;
+      doneReading = true;
+    }
+  }
 
-						lineStream >> scale.X;
-						lineStream >> scale.Y;
-						lineStream >> scale.Z;
+  BoneAnimationData::AnimationBehaviour BoneAnimationData::GetBehaviourFromString(String string)
+  {
+    if (string == "default") {
+      return AnimationBehaviour::Default;
+    } else if (string == "constant") {
+      return AnimationBehaviour::Constant;
+    } else if (string == "linear") {
+      return AnimationBehaviour::Linear;
+    } else if (string == "repeat") {
+      return AnimationBehaviour::Repeat;
+    } else {
+      return AnimationBehaviour::Unknown;
+    }
+  }
 
-						float dataTime;
-						lineStream >> dataTime;
-						time = Second(dataTime);
+  void BoneAnimationData::AddPositionFrame(Float3 position, Second time)
+  {
+    Push(PositionChannel, PositionFrameData(position, time));
+  }
 
-						AddScaleFrame(scale, time);
-					}
-					continue;
-				}
+  void BoneAnimationData::AddRotationFrame(FQuaternion rotation, Second time)
+  {
+    Push(RotationChannel, RotationFrameData(rotation, time));
+  }
 
-				doneReading = true;
-			}
-		}
+  void BoneAnimationData::AddScaleFrame(Float3 scale, Second time)
+  {
+    Push(ScaleChannel, ScaleFrameData(scale, time));
+  }
 
-		BoneAnimationData::AnimationBehaviour BoneAnimationData::GetBehaviourFromString(String string)
-		{
-			if (string == "default")
-			{
-				return AnimationBehaviour::Default;
-			}
-			else if (string == "constant")
-			{
-				return AnimationBehaviour::Constant;
-			}
-			else if (string == "linear")
-			{
-				return AnimationBehaviour::Linear;
-			}
-			else if (string == "repeat")
-			{
-				return AnimationBehaviour::Repeat;
-			}
-			else
-			{
-				return AnimationBehaviour::Unknown;
-			}
-		}
+  SkeletonAnimationData::SkeletonAnimationData(AssetName<SkeletonAnimationData> asset)
+  {
+    File animationFile = OpenFileI(asset.GetFilePath());
 
-		void BoneAnimationData::AddPositionFrame(Float3 position, Second time)
-		{
-			Push(PositionChannel, PositionFrameData(position, time));
-		}
+    MESSAGE(animationFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
 
-		void BoneAnimationData::AddRotationFrame(FQuaternion rotation, Second time)
-		{
-			Push(RotationChannel, RotationFrameData(rotation, time));
-		}
+    try {
+      String line = animationFile.GetLine();
 
-		void BoneAnimationData::AddScaleFrame(Float3 scale, Second time)
-		{
-			Push(ScaleChannel, ScaleFrameData(scale, time));
-		}
+      IOSStreamChar lineStream(line);
 
-		SkeletonAnimationData::SkeletonAnimationData(AssetName<SkeletonAnimationData> asset)
-		{
-			File animationFile = OpenFileI(asset.GetFilePath());
+      int boneCount;
 
-			MESSAGE(animationFile.FileStream.is_open(), "FAILED TO READ FILE <<" + asset.GetFilePath().GetFullPath() + ">>");
+      lineStream >> Name;
+      lineStream >> boneCount;
 
-			try
-			{
-				String line = animationFile.GetLine();
+      float time;
+      lineStream >> time;
+      Duration = Second(time);
 
-				IOSStreamChar lineStream(line);
+      String animationName;
+      for (int i = 0; i < boneCount; i++) {
+        lineStream >> animationName;
 
-				int boneCount;
+        BoneAnimationData newBoneAnimation = BoneAnimationData("UnNamed");
+        newBoneAnimation.ReadAnimationData(animationName, animationFile);
 
-				lineStream >> Name;
-				lineStream >> boneCount;
+        Push(BoneAnimations, newBoneAnimation);
+      }
+    } catch (EOFException &e) {
+      std::cout << e.GetError() << std::endl;
+    }
 
-				float time;
-				lineStream >> time;
-				Duration = Second(time);
-
-				String animationName;
-				for (int i = 0; i < boneCount; i++)
-				{
-					lineStream >> animationName;
-
-					BoneAnimationData newBoneAnimation = BoneAnimationData("UnNamed");
-					newBoneAnimation.ReadAnimationData(animationName, animationFile);
-
-					Push(BoneAnimations, newBoneAnimation);
-				}
-			}
-			catch (EOFException& e)
-			{
-				std::cout << e.GetError() << std::endl;
-			}
-
-			animationFile.Close();
-		}
-	}
-}
+    animationFile.Close();
+  }
+}// namespace Rendering
+}// namespace Data

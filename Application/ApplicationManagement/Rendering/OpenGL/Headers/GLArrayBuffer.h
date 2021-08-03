@@ -2,24 +2,22 @@
 
 #include "GLObject.h"
 
-namespace Application
-{
-	namespace Rendering
-	{
-		struct GLArrayBuffer : GLObject
-		{
-			GLArrayBuffer();
-			GLArrayBuffer(GLuint object, GLenum type = GL_ARRAY_BUFFER);
+namespace Application {
+namespace Rendering {
+  struct GLArrayBuffer : GLObject
+  {
+    GLArrayBuffer();
+    GLArrayBuffer(GLuint object, GLenum type = GL_ARRAY_BUFFER);
 
-			~GLArrayBuffer();
+    ~GLArrayBuffer();
 
-			void Generate();
+    void Generate();
 
-			void Bind() const;
+    void Bind() const;
 
-			void Unbind() const;
+    void Unbind() const;
 
-			void Delete();
-		};
-	}
-}
+    void Delete();
+  };
+}// namespace Rendering
+}// namespace Application

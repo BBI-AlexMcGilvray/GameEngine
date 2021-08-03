@@ -13,34 +13,32 @@
 // testing
 #include "Core/Math/Headers/Color.h"
 
-namespace Application
-{
-	namespace Rendering
-	{
-		struct Skeleton : Geometric::Node
-		{
-			// animation system and how we want to plug it in is TBD - presumably a more generic system than wiring it specific to bones and such
-			//Core::List<BoneAnimation> Animations;
+namespace Application {
+namespace Rendering {
+  struct Skeleton : Geometric::Node
+  {
+    // animation system and how we want to plug it in is TBD - presumably a more generic system than wiring it specific to bones and such
+    //Core::List<BoneAnimation> Animations;
 
-			// we will need the parent node in constructor to know where our bones are rooted to
-			Skeleton(Core::Ptr<State> parentState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset);
+    // we will need the parent node in constructor to know where our bones are rooted to
+    Skeleton(Core::Ptr<State> parentState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset);
 
-			int GetBoneCount() const;
-			Core::Ptr<Bone> GetSkeletonHierarchy() const;
+    int GetBoneCount() const;
+    Core::Ptr<Bone> GetSkeletonHierarchy() const;
 
-			int GetIndexOf(const String& nodeName) const;
-			List<Float4x4> GetBoneMatrices() const;
+    int GetIndexOf(const String &nodeName) const;
+    List<Float4x4> GetBoneMatrices() const;
 
-		private:
-			Data::AssetData<Data::Rendering::SkeletonData> Data;
-			// unsure if we need the below two pieces of data
-			Core::Functionality::Delegate<> OnRootDeleted;
-			Core::Ptr<Bone> Root = nullptr;
+  private:
+    Data::AssetData<Data::Rendering::SkeletonData> Data;
+    // unsure if we need the below two pieces of data
+    Core::Functionality::Delegate<> OnRootDeleted;
+    Core::Ptr<Bone> Root = nullptr;
 
-			// hold list of all bones - in order - to be able to calculate the matrices to pass to shader in the same order
-			Core::List<Core::Ptr<Bone>> BoneList;
+    // hold list of all bones - in order - to be able to calculate the matrices to pass to shader in the same order
+    Core::List<Core::Ptr<Bone>> BoneList;
 
-			Core::Ptr<Bone> CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, Core::Ptr<Bone> rootBone = nullptr);
-		};
-	}
-}
+    Core::Ptr<Bone> CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, Core::Ptr<Bone> rootBone = nullptr);
+  };
+}// namespace Rendering
+}// namespace Application

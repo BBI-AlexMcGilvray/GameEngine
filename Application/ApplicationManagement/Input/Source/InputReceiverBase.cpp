@@ -2,81 +2,70 @@
 
 #include "ApplicationManagement/Input/Headers/InputReceiverBase.h"
 
-namespace Application
-{
-	namespace Input
-	{
-		InputReceiverBase::InputReceiverBase()
-		{
+namespace Application {
+namespace Input {
+  InputReceiverBase::InputReceiverBase()
+  {
+  }
 
-		}
+  InputReceiverBase::~InputReceiverBase()
+  {
+    EndSubscriptionToParent();
 
-		InputReceiverBase::~InputReceiverBase()
-		{
-			EndSubscriptionToParent();
+    for (auto receiver : ChildReceivers) {
+      receiver->EndSubscriptionToParent();
+    }
+  }
 
-			for (auto receiver : ChildReceivers)
-			{
-				receiver->EndSubscriptionToParent();
-			}
-		}
+  void InputReceiverBase::Initialize()
+  {
+  }
 
-		void InputReceiverBase::Initialize()
-		{
+  void InputReceiverBase::CleanUp()
+  {
+  }
 
-		}
+  void InputReceiverBase::SubscribeTo(Ptr<InputReceiverBase> parent)
+  {
+    EndSubscriptionToParent();
 
-		void InputReceiverBase::CleanUp()
-		{
+    ParentReceiver = parent;
+    if (ParentReceiver != nullptr) {
+      ParentReceiver->AddSubscriber(this);
+    }
+  }
 
-		}
+  void InputReceiverBase::EndSubscriptionToParent()
+  {
+    if (ParentReceiver != nullptr) {
+      ParentReceiver->RemoveSubscriber(this);
+      ParentReceiver = nullptr;
+    }
+  }
 
-		void InputReceiverBase::SubscribeTo(Ptr<InputReceiverBase> parent)
-		{
-			EndSubscriptionToParent();
+  void InputReceiverBase::AddSubscriber(Ptr<InputReceiverBase> receiver)
+  {
+    Push(ChildReceivers, receiver);
+  }
 
-			ParentReceiver = parent;
-			if (ParentReceiver != nullptr)
-			{
-				ParentReceiver->AddSubscriber(this);
-			}
-		}
+  void InputReceiverBase::RemoveSubscriber(Ptr<InputReceiverBase> receiver)
+  {
+    Remove(ChildReceivers, receiver);
+  }
 
-		void InputReceiverBase::EndSubscriptionToParent()
-		{
-			if (ParentReceiver != nullptr)
-			{
-				ParentReceiver->RemoveSubscriber(this);
-				ParentReceiver = nullptr;
-			}
-		}
+  Ptr<const InputReceiverBase> InputReceiverBase::HandleInput(Ptr<InputEventBase const> event) const
+  {
+    if (HandlesInput(event)) {
+      return this;
+    }
 
-		void InputReceiverBase::AddSubscriber(Ptr<InputReceiverBase> receiver)
-		{
-			Push(ChildReceivers, receiver);
-		}
+    for (auto receiver : ChildReceivers) {
+      if (auto focus = receiver->HandleInput(event)) {
+        return focus;
+      }
+    }
 
-		void InputReceiverBase::RemoveSubscriber(Ptr<InputReceiverBase> receiver)
-		{
-			Remove(ChildReceivers, receiver);
-		}
-
-		Ptr<const InputReceiverBase> InputReceiverBase::HandleInput(Ptr<InputEventBase const> event) const
-		{
-			if (HandlesInput(event))
-			{
-				return this;
-			}
-
-			for (auto receiver : ChildReceivers)
-			{
-				if (auto focus = receiver->HandleInput(event))
-				{
-					return focus;
-				}
-			}
-
-			return nullptr;
-		}
-	}
-}
+    return nullptr;
+  }
+}// namespace Input
+}// namespace Application

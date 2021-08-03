@@ -9,34 +9,32 @@
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
-#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
+#include "Dependencies/Includes/glew.h"
 
 using namespace Core;
 using namespace Core::Math;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		// holds onto vertex shader information
-		struct SkinnedVertexShader : ShaderBase
-		{
-			SkinnedVertexShader()
-				: ShaderBase("SkinnedVertexShader", GL_VERTEX_SHADER)
-			{}
+namespace Application {
+namespace Rendering {
+  // holds onto vertex shader information
+  struct SkinnedVertexShader : ShaderBase
+  {
+    SkinnedVertexShader()
+      : ShaderBase("SkinnedVertexShader", GL_VERTEX_SHADER)
+    {}
 
-			Ptr<const char> GetShader() const override;
+    Ptr<const char> GetShader() const override;
 
-			void SetSkinningInformation(const List<Float4x4> boneList);
+    void SetSkinningInformation(const List<Float4x4> boneList);
 
-			virtual void Prepare(GLuint program, const Float4x4& mvp, const Color& color) const;
-			virtual void CleanUp() const;
+    virtual void Prepare(GLuint program, const Float4x4 &mvp, const Color &color) const;
+    virtual void CleanUp() const;
 
-		protected:
-			static Ptr<const char> Shader;
+  protected:
+    static Ptr<const char> Shader;
 
-			// skinning information
-			List<Float4x4> BoneList;
-		};
-	}
-}
+    // skinning information
+    List<Float4x4> BoneList;
+  };
+}// namespace Rendering
+}// namespace Application

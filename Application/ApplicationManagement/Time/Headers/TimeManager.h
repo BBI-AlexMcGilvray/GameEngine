@@ -6,11 +6,9 @@
 
 using namespace Core;
 
-namespace Application
-{
-	namespace Time
-	{
-		/*
+namespace Application {
+namespace Time {
+  /*
 			NOTE:
 
 			PreviousTick = CurrentTick;
@@ -21,45 +19,45 @@ namespace Application
 			every 20 ticks, dt is double the standard value. WHY?
 		*/
 
-		struct TimeManager
-		{
-			TimePoint InitialTime;
-			TimePoint PreviousTick;
-			TimePoint CurrentTick;
+  struct TimeManager
+  {
+    TimePoint InitialTime;
+    TimePoint PreviousTick;
+    TimePoint CurrentTick;
 
-			TimeManager();
+    TimeManager();
 
-			void Initialize();
-			void Start();
+    void Initialize();
+    void Start();
 
-			virtual Second Update();
+    virtual Second Update();
 
-			void End();
-			void CleanUp();
+    void End();
+    void CleanUp();
 
-			Second GetDeltaTime();
-			Second GetTimeSpan();
+    Second GetDeltaTime();
+    Second GetTimeSpan();
 
-		private:
-			SteadyClock Clock;
-		};
+  private:
+    SteadyClock Clock;
+  };
 
-		/*
+  /*
 			Fixed time step time manager based on: https://gafferongames.com/post/fix_your_timestep/
 		*/
 
-		struct FixedStepTimeManager : TimeManager
-		{
-			Second MaxStepSize;
+  struct FixedStepTimeManager : TimeManager
+  {
+    Second MaxStepSize;
 
-			FixedStepTimeManager(Second maxStepSize = Second(167.0f)); // 0.0167 is 1 frame if we do 60 frames per second (or 167 milliseconds)
+    FixedStepTimeManager(Second maxStepSize = Second(167.0f));// 0.0167 is 1 frame if we do 60 frames per second (or 167 milliseconds)
 
-			Second Update() override;
+    Second Update() override;
 
-			Second GetAccumulatedTime();
+    Second GetAccumulatedTime();
 
-		private:
-			Second Accumulator = 0_s;
-		};
-	}
-}
+  private:
+    Second Accumulator = 0_s;
+  };
+}// namespace Time
+}// namespace Application

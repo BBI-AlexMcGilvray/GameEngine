@@ -4,28 +4,26 @@
 
 #include "Core/Headers/PtrDefs.h"
 
-#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
+#include "Dependencies/Includes/glew.h"
 
 using namespace Core;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		// holds onto fragment shader information
-		struct FragmentShader : ShaderBase
-		{
-			FragmentShader()
-				: ShaderBase("FragmentShader", GL_FRAGMENT_SHADER)
-			{}
+namespace Application {
+namespace Rendering {
+  // holds onto fragment shader information
+  struct FragmentShader : ShaderBase
+  {
+    FragmentShader()
+      : ShaderBase("FragmentShader", GL_FRAGMENT_SHADER)
+    {}
 
-			Ptr<const char> GetShader() const override;
+    Ptr<const char> GetShader() const override;
 
-			virtual void Prepare() const;
-			virtual void CleanUp() const;
+    virtual void Prepare() const;
+    virtual void CleanUp() const;
 
-		protected:
-			static Ptr<const char> Shader;
-		};
-	}
-}
+  protected:
+    static Ptr<const char> Shader;
+  };
+}// namespace Rendering
+}// namespace Application

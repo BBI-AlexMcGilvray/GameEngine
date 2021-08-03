@@ -2,24 +2,22 @@
 
 #include "GLObject.h"
 
-namespace Application
-{
-	namespace Rendering
-	{
-		struct GLBuffer : GLObject
-		{
-			GLBuffer();
-			GLBuffer(GLuint object, GLenum type = GL_BUFFER);
+namespace Application {
+namespace Rendering {
+  struct GLBuffer : GLObject
+  {
+    GLBuffer();
+    GLBuffer(GLuint object, GLenum type = GL_BUFFER);
 
-			~GLBuffer();
+    ~GLBuffer();
 
-			void Generate();
+    void Generate();
 
-			void Bind() const;
+    void Bind() const;
 
-			void Unbind() const;
+    void Unbind() const;
 
-			void Delete();
-		};
-	}
-}
+    void Delete();
+  };
+}// namespace Rendering
+}// namespace Application

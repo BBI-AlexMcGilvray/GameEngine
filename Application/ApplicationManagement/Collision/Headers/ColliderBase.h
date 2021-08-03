@@ -10,24 +10,20 @@ using namespace Core;
 using namespace Core::Functionality;
 using namespace Core::Geometric;
 
-namespace Application
-{
-	namespace GameSystem
-	{
-		namespace Collision
-		{
-			struct CollisionBase;
+namespace Application {
+namespace GameSystem {
+  namespace Collision {
+    struct CollisionBase;
 
-			enum class ColliderType
-			{
-				Base,
-				Box,
-				Sphere
-			};
+    enum class ColliderType {
+      Base,
+      Box,
+      Sphere
+    };
 
-			struct ColliderBase
-			{
-				/*
+    struct ColliderBase
+    {
+      /*
 				This is an INTERFACE to be used by any object that needs collision.
 
 				This template will handle holding onto collision information, subscribing to the collision manager to be rendered, and updating
@@ -39,28 +35,28 @@ namespace Application
 				So, for example, a game object with no collision information, we make a custom object that implements both GameObjectBase and RenderObjectBase (or children of) but NOT ColliderObjectBase
 				*/
 
-				// other collider that was hit, and where collision occured
-				// NOTE: should pass collision, not each value
-				Event<SharedPtr<const CollisionBase>> Collision;
-				Event<SharedPtr<const CollisionBase>> Trigger;
+      // other collider that was hit, and where collision occured
+      // NOTE: should pass collision, not each value
+      Event<SharedPtr<const CollisionBase>> Collision;
+      Event<SharedPtr<const CollisionBase>> Trigger;
 
-				bool IsTrigger = false;
+      bool IsTrigger = false;
 
-				virtual ColliderType GetColliderType() const
-				{
-					return ColliderType::Base;
-				}
+      virtual ColliderType GetColliderType() const
+      {
+        return ColliderType::Base;
+      }
 
-				const SharedPtr<const Transform> CollisionTransform;
+      const SharedPtr<const Transform> CollisionTransform;
 
-				ColliderBase(SharedPtr<const Transform> collisionTransform);
-				virtual ~ColliderBase();
+      ColliderBase(SharedPtr<const Transform> collisionTransform);
+      virtual ~ColliderBase();
 
-				virtual void Update(Second dt);
-				virtual void OnCollision(SharedPtr<const CollisionBase> collision);
+      virtual void Update(Second dt);
+      virtual void OnCollision(SharedPtr<const CollisionBase> collision);
 
-				virtual float GetBoundingRadius() const = 0;
-			};
-		}
-	}
-}
+      virtual float GetBoundingRadius() const = 0;
+    };
+  }// namespace Collision
+}// namespace GameSystem
+}// namespace Application

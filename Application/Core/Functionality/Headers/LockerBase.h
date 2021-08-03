@@ -2,32 +2,30 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
-namespace Core
-{
-	namespace Functionality
-	{
-		struct LockerBase
-		{
-			void Lock()
-			{
-				LockCount++;
-			}
+namespace Core {
+namespace Functionality {
+  struct LockerBase
+  {
+    void Lock()
+    {
+      LockCount++;
+    }
 
-			bool Unlock()
-			{
-				LockCount--;
+    bool Unlock()
+    {
+      LockCount--;
 
-				return IsLocked();
-			}
+      return IsLocked();
+    }
 
-			bool IsLocked()
-			{
-				MESSAGE(LockCount > 0, "LOCK COUNT DROPPING BELOW 0");
-				return (LockCount > 0);
-			}
+    bool IsLocked()
+    {
+      MESSAGE(LockCount > 0, "LOCK COUNT DROPPING BELOW 0");
+      return (LockCount > 0);
+    }
 
-		private:
-			int LockCount = 0;
-		};
-	}
-}
+  private:
+    int LockCount = 0;
+  };
+}// namespace Functionality
+}// namespace Core

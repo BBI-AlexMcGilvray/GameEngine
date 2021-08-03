@@ -1,26 +1,24 @@
 #pragma once
 
 #include "Data/Headers/AssetType.h"
-
 #include "Data/Rendering/Headers/MaterialData.h"
 
-namespace Data
+namespace Data {
+struct AssetType<Rendering::MaterialData>
 {
-	struct AssetType<Rendering::MaterialData>
-	{
-		Hash ClassHash() const
-		{
-			return Core::HashValue("MaterialAsset");
-		}
+  Hash ClassHash() const
+  {
+    return Core::HashValue("MaterialAsset");
+  }
 
-		String GetPath() const
-		{
-			return "Materials/";
-		}
+  String GetPath() const
+  {
+    return "Materials/";
+  }
 
-		String GetFileType() const
-		{
-			return ".mat";
-		}
-	};
-}
+  String GetFileType() const
+  {
+    return ".mat";
+  }
+};
+}// namespace Data

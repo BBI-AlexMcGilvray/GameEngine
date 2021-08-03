@@ -8,39 +8,37 @@
 using namespace Core;
 using namespace Core::Functionality;
 
-namespace Application
-{
-	namespace Geometric
-	{
-		struct ContentBase;
+namespace Application {
+namespace Geometric {
+  struct ContentBase;
 
-		// generic class that can be inherited from for anything that needs to be stored inside a node
-		struct ContainerBase
-		{
-			Event<> ContainerDeleted;
+  // generic class that can be inherited from for anything that needs to be stored inside a node
+  struct ContainerBase
+  {
+    Event<> ContainerDeleted;
 
-			ContainerBase();
+    ContainerBase();
 
-			virtual ~ContainerBase();
+    virtual ~ContainerBase();
 
-			virtual void Initialize();
-			virtual void Start();
-			virtual void Update(Second dt);
-			virtual void End();
-			virtual void CleanUp();
+    virtual void Initialize();
+    virtual void Start();
+    virtual void Update(Second dt);
+    virtual void End();
+    virtual void CleanUp();
 
-			template <typename T, typename ...Ts>
-			Ptr<ContentBase> AddContent(Ts&& ...args)
-			{
-				return AddContent(MakeUnique<T>(Forward<Ts>(args)...));
-			}
+    template<typename T, typename... Ts>
+    Ptr<ContentBase> AddContent(Ts &&...args)
+    {
+      return AddContent(MakeUnique<T>(Forward<Ts>(args)...));
+    }
 
-			virtual Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent);
-			void RemoveContent(Ptr<ContentBase> content);
-			bool HasContent(Ptr<ContentBase> content);
+    virtual Ptr<ContentBase> AddContent(UniquePtr<ContentBase> newContent);
+    void RemoveContent(Ptr<ContentBase> content);
+    bool HasContent(Ptr<ContentBase> content);
 
-		protected:
-			List<UniquePtr<ContentBase>> Content;
-		};
-	}
-}
+  protected:
+    List<UniquePtr<ContentBase>> Content;
+  };
+}// namespace Geometric
+}// namespace Application

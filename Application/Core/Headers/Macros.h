@@ -1,11 +1,11 @@
 // Reference: https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression
 // Core Elements
-#define VA_NUM_ARGS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, N, ...)    N
+#define VA_NUM_ARGS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, N, ...) N
 #define VA_NUM_ARGS(...) VA_NUM_ARGS_HELPER(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 
 // allow for obfuscation of ## operator
 #define CAT(a, ...) PRIMITIVE_CAT(a, __VA_ARGS__)
-#define PRIMITIVE_CAT(a, ...) a ## __VA_ARGS__
+#define PRIMITIVE_CAT(a, ...) a##__VA_ARGS__
 
 #define IIF(c) PRIMITIVE_CAT(IIF_, c)
 #define IIF_0(t, ...) __VA_ARGS__
@@ -44,7 +44,7 @@
 #define DEC_9 8
 
 #define CHECK_N(x, n, ...) n
-#define CHECK(...) CHECK_N(__VA_ARGS__, 0,)
+#define CHECK(...) CHECK_N(__VA_ARGS__, 0, )
 #define PROBE(x) x, 1,
 
 #define IS_PAREN(x) CHECK(IS_PAREN_PROBE x)
@@ -59,13 +59,15 @@
 
 #define EAT(...)
 #define EXPAND(...) __VA_ARGS__
-#define WHEN(c) IF(c)(EXPAND, EAT)
+#define WHEN(c) \
+  IF(c)         \
+  (EXPAND, EAT)
 
 #define EMPTY()
 #define DEFER(id) id EMPTY()
 #define OBSTRUCT(...) __VA_ARGS__ DEFER(EMPTY)()
 
-#define EVAL(...)  EVAL1(EVAL1(EVAL1(__VA_ARGS__)))
+#define EVAL(...) EVAL1(EVAL1(EVAL1(__VA_ARGS__)))
 #define EVAL1(...) EVAL2(EVAL2(EVAL2(__VA_ARGS__)))
 #define EVAL2(...) EVAL3(EVAL3(EVAL3(__VA_ARGS__)))
 #define EVAL3(...) EVAL4(EVAL4(EVAL4(__VA_ARGS__)))
@@ -74,54 +76,48 @@
 #define EVAL6(...) EVAL7(EVAL7(EVAL7(__VA_ARGS__)))
 #define EVAL7(...) __VA_ARGS__
 
-#define PRIMITIVE_COMPARE(x, y) IS_PAREN \
-( \
-    COMPARE_ ## x ( COMPARE_ ## y) (())  \
-)
-#define IS_COMPARABLE(x) IS_PAREN( CAT(COMPARE_, x) (()) )
-#define NOT_EQUAL(x, y) \
-IIF(BITAND(IS_COMPARABLE(x))(IS_COMPARABLE(y)) ) \
-( \
-   PRIMITIVE_COMPARE, \
-   1 EAT \
-)(x, y)
+#define PRIMITIVE_COMPARE(x, y) IS_PAREN( \
+  COMPARE_##x(COMPARE_##y)(()))
+#define IS_COMPARABLE(x) IS_PAREN(CAT(COMPARE_, x)(()))
+#define NOT_EQUAL(x, y)                           \
+  IIF(BITAND(IS_COMPARABLE(x))(IS_COMPARABLE(y))) \
+  (                                               \
+    PRIMITIVE_COMPARE,                            \
+    1 EAT)(x, y)
 #define EQUAL(x, y) COMPL(NOT_EQUAL(x, y))
 // Comparison of tokens requires macros for both tokens of the form
 // COMPARE_<token>(x) x
 
 #define REPEAT(count, macro, ...) \
-    WHEN(count) \
-    ( \
-        OBSTRUCT(REPEAT_INDIRECT) () \
-        ( \
-            DEC(count), macro, __VA_ARGS__ \
-        ) \
-        OBSTRUCT(macro) \
-        ( \
-            DEC(count), __VA_ARGS__ \
-        ) \
-    )
+  WHEN(count)                     \
+  (                               \
+    OBSTRUCT(REPEAT_INDIRECT)()(  \
+      DEC(count),                 \
+      macro,                      \
+      __VA_ARGS__)                \
+      OBSTRUCT(macro)(            \
+        DEC(count),               \
+        __VA_ARGS__))
 #define REPEAT_INDIRECT() REPEAT
 
-#define WHILE(pred, op, ...) \
-    IF(pred(__VA_ARGS__)) \
-    ( \
-        OBSTRUCT(WHILE_INDIRECT) () \
-        ( \
-            pred, op, op(__VA_ARGS__) \
-        ), \
-        __VA_ARGS__ \
-    )
+#define WHILE(pred, op, ...)    \
+  IF(pred(__VA_ARGS__))         \
+  (                             \
+    OBSTRUCT(WHILE_INDIRECT)()( \
+      pred,                     \
+      op,                       \
+      op(__VA_ARGS__)),         \
+    __VA_ARGS__)
 #define WHILE_INDIRECT() WHILE
 // \Core Elements
 
-#define STRIP(X) EAT X // turns 'STRIP((int) x)' into 'EAT(int) x' into 'x'
-#define PAIR(X) EXPAND X // turns 'PAIR((int) x)' into 'EXPAND(int) x' into 'int x'
+#define STRIP(X) EAT X// turns 'STRIP((int) x)' into 'EAT(int) x' into 'x'
+#define PAIR(X) EXPAND X// turns 'PAIR((int) x)' into 'EXPAND(int) x' into 'int x'
 
-#define TYPEOF(X) DETAIL_TYPEOF(DETAIL_TYPEOF_PROBE X,) // turns 'TYPEOF((int) x)' into 'DETAIL_TYPEOF(DETAIL_TYPEOF_PROBE(int) x,)'
-#define DETAIL_TYPEOF(...) DETAIL_TYPEOF_HEAD(__VA_ARGS__) // turns 'DETAIL_TYPEOF((int) x)' into 'DETAIL_TYPEOF_HEAD((int) x)'
-#define DETAIL_TYPEOF_HEAD(X, ...) EXPAND X // turns 'DETAIL_TYPEOF_HEAD((int), x)' into 'int'
-#define DETAIL_TYPEOF_PROBE(...) (__VA_ARGS__), // turns 'DETAIL_TYPEOF_PROBE(X)' into '(X),'
+#define TYPEOF(X) DETAIL_TYPEOF(DETAIL_TYPEOF_PROBE X, )// turns 'TYPEOF((int) x)' into 'DETAIL_TYPEOF(DETAIL_TYPEOF_PROBE(int) x,)'
+#define DETAIL_TYPEOF(...) DETAIL_TYPEOF_HEAD(__VA_ARGS__)// turns 'DETAIL_TYPEOF((int) x)' into 'DETAIL_TYPEOF_HEAD((int) x)'
+#define DETAIL_TYPEOF_HEAD(X, ...) EXPAND X// turns 'DETAIL_TYPEOF_HEAD((int), x)' into 'int'
+#define DETAIL_TYPEOF_PROBE(...) (__VA_ARGS__),// turns 'DETAIL_TYPEOF_PROBE(X)' into '(X),'
 // sample:
 // TYPEOF((int) x)
 // DETAIL_TYPEOF(DETAIL_TYPEOF_PROBE (int) x,)
@@ -132,7 +128,9 @@ IIF(BITAND(IS_COMPARABLE(x))(IS_COMPARABLE(y)) ) \
 
 #define FOR_EACH(macro, ...) EVAL(REPEAT(VA_NUM_ARGS(__VA_ARGS__), macro, __VA_ARGS__))
 
-#define ARG_I(i, ...) PRIMITIVE_CAT(ARG_, i)(__VA_ARGS__)
+#define ARG_I(i, ...)    \
+  PRIMITIVE_CAT(ARG_, i) \
+  (__VA_ARGS__)
 #define ARG_0(X, ...) X
 #define ARG_1(X, ...) ARG_0(__VA_ARGS__)
 #define ARG_2(X, ...) ARG_1(__VA_ARGS__)

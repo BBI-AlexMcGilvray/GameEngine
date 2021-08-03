@@ -1,27 +1,22 @@
 #include "ApplicationManagement/GameSystem/Headers/GameObjectBase.h"
 
-namespace Application
-{
-	namespace GameSystem
-	{
-		GameObjectBase::GameObjectBase()
-			: GameObjectBase(MakeShared<Transform>())
-		{}
+namespace Application {
+namespace GameSystem {
+  GameObjectBase::GameObjectBase()
+    : GameObjectBase(MakeShared<Transform>())
+  {}
 
-		GameObjectBase::GameObjectBase(SharedPtr<Transform> transform)
-			: ObjectTransform(move(transform))
-		{
+  GameObjectBase::GameObjectBase(SharedPtr<Transform> transform)
+    : ObjectTransform(move(transform))
+  {
+  }
 
-		}
+  GameObjectBase::~GameObjectBase()
+  {
+  }
 
-		GameObjectBase::~GameObjectBase()
-		{
-
-		}
-
-		void GameObjectBase::Update(Second dt)
-		{
-
-		}
-	}
-}
+  void GameObjectBase::Update(Second dt)
+  {
+  }
+}// namespace GameSystem
+}// namespace Application

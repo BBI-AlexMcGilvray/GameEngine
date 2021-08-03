@@ -3,27 +3,26 @@
 #include "WindowManager.h"
 #include "GLContextManager.h"
 
-namespace Application
+namespace Application {
+struct SDL2Manager
 {
-	struct SDL2Manager
-	{
-		SDL2Manager() = default;
+  SDL2Manager() = default;
 
-		bool Initialize();
-		void Start();
+  bool Initialize();
+  void Start();
 
-		int Poll(SDL_Event& event) const;
+  int Poll(SDL_Event &event) const;
 
-		void End();
-		void CleanUp();
+  void End();
+  void CleanUp();
 
-		WindowManager& GetWindowManager();
-		GLContextManager& GetContextManager();
+  WindowManager &GetWindowManager();
+  GLContextManager &GetContextManager();
 
-	private:
-		WindowManager MainWindow;
-		GLContextManager MainContext;
+private:
+  WindowManager MainWindow;
+  GLContextManager MainContext;
 
-		void CheckSDLError(int line);
-	};
-}
+  void CheckSDLError(int line);
+};
+}// namespace Application

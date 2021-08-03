@@ -10,30 +10,28 @@
 //#include <sys/socket.h>
 //#endif
 
-namespace Core
-{
-	namespace Networking
-	{
-		class NetworkConnection
-		{
-		private:
-			Core::UniquePtr<NetworkProtocol> _protocol;
+namespace Core {
+namespace Networking {
+  class NetworkConnection
+  {
+  private:
+    Core::UniquePtr<NetworkProtocol> _protocol;
 
-			String _ipAddress;
-			//#ifdef __WIN32__
-			SOCKET _socket;
-			//#else
-				// struct sockaddr_in ipOfServer
-			//#endif
+    String _ipAddress;
+    //#ifdef __WIN32__
+    SOCKET _socket;
+    //#else
+    // struct sockaddr_in ipOfServer
+    //#endif
 
-			bool _connectionActive;
+    bool _connectionActive;
 
-		public:
-			void Connect();
-			void Validate();
-			void Send();
-			void Receive();
-			void Disconnect();
-		};
-	}
-}
+  public:
+    void Connect();
+    void Validate();
+    void Send();
+    void Receive();
+    void Disconnect();
+  };
+}// namespace Networking
+}// namespace Core

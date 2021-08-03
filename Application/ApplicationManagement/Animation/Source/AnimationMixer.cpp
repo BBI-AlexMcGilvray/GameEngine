@@ -3,21 +3,19 @@
 #include "ApplicationManagement/Animation/Headers/Animatable.h"
 #include "ApplicationManagement/Animation/Headers/Animation.h"
 
-namespace Application
-{
-	namespace Animation
-	{
-		AnimationMixer::AnimationMixer(Core::Ptr<Animatable> target)
-		{
-			_target = target;
-		}
+namespace Application {
+namespace Animation {
+  AnimationMixer::AnimationMixer(Core::Ptr<Animatable> target)
+  {
+    _target = target;
+  }
 
-		Core::Ptr<Animatable>& AnimationMixer::GetTarget()
-		{
-			return _target;
-		}
+  Core::Ptr<Animatable> &AnimationMixer::GetTarget()
+  {
+    return _target;
+  }
 
-		/*
+  /*
 		void AnimationMixer::MixValue(float weight, T value)
 		{
 			Core::Push(_valuesToMix, Core::Pair<float, T>(weight, value));
@@ -36,5 +34,5 @@ namespace Application
 			(*_target) = newValue;
 		}
 		*/
-	}
-}
+}// namespace Animation
+}// namespace Application

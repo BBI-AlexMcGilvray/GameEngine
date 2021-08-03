@@ -7,22 +7,20 @@
 
 #include <tuple>
 
-namespace Application
-{
-	namespace Animation
-	{
-		struct AnimationCurve
-		{
-		public:
-			AnimationCurve();
-			AnimationCurve(Core::List<Keyframe> keyframes);
+namespace Application {
+namespace Animation {
+  struct AnimationCurve
+  {
+  public:
+    AnimationCurve();
+    AnimationCurve(Core::List<Keyframe> keyframes);
 
-			float Evaluate(Core::Second time);
+    float Evaluate(Core::Second time);
 
-		private:
-			Core::List<Keyframe> _keyframes;
+  private:
+    Core::List<Keyframe> _keyframes;
 
-			std::tuple<Keyframe, Keyframe> GetClosestKeyframes(Core::Second time);
-		};
-	}
-}
+    std::tuple<Keyframe, Keyframe> GetClosestKeyframes(Core::Second time);
+  };
+}// namespace Animation
+}// namespace Application

@@ -8,11 +8,9 @@
 #include "Declarations.h"
 #include "Core/Debugging/Headers/Macros.h"
 
-namespace Application
-{
+namespace Application {
 #if DEBUG
 
 
-
 #endif
-}
+}// namespace Application

@@ -2,47 +2,43 @@
 
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/ListDefs.h"
-
 #include "Data/Headers/AssetName.h"
-
 #include "Data/Rendering/Headers/MaterialData.h"
 #include "Data/Rendering/Headers/StaticMeshData.h"
 #include "Data/Rendering/Headers/TextureData.h"
 
 using namespace Core;
 
-namespace Data
+namespace Data {
+namespace Rendering {
+  // holds the information about the mesh of a 3D object
+  struct StaticModelData
+  {
+    AssetName<MaterialData> Material;
+    AssetName<StaticMeshData> Mesh;
+    AssetName<TextureData> Texture;
+
+    StaticModelData() = default;
+    StaticModelData(AssetName<StaticModelData> asset);
+  };
+}// namespace Rendering
+
+template<>
+struct AssetType<Rendering::StaticModelData>
 {
-	namespace Rendering
-	{
-		// holds the information about the mesh of a 3D object
-		struct StaticModelData
-		{
-			AssetName<MaterialData> Material;
-			AssetName<StaticMeshData> Mesh;
-			AssetName<TextureData> Texture;
+  static Hash ClassHash()
+  {
+    return HashValue("StaticModelData");
+  }
 
-			StaticModelData() = default;
-			StaticModelData(AssetName<StaticModelData> asset);
-		};
-	}
+  static String GetPath()
+  {
+    return "Resources/Models/";
+  }
 
-	template <>
-	struct AssetType<Rendering::StaticModelData>
-	{
-		static Hash ClassHash()
-		{
-			return HashValue("StaticModelData");
-		}
-
-		static String GetPath()
-		{
-			return "Resources/Models/";
-		}
-
-		static String GetFileType()
-		{
-			return ".mdl";
-		}
-	};
-}
+  static String GetFileType()
+  {
+    return ".mdl";
+  }
+};
+}// namespace Data

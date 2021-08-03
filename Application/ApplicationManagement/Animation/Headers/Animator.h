@@ -12,73 +12,71 @@
 #include "ApplicationManagement/Animation/Headers/AnimationMixer.h"
 #include "ApplicationManagement/Animation/Headers/Animation.h"
 
-namespace Application
-{
-	namespace Animation
-	{
-		class Animator
-		{
-		public:
-			Animator(Core::Ptr<Animatable> animatable);
+namespace Application {
+namespace Animation {
+  class Animator
+  {
+  public:
+    Animator(Core::Ptr<Animatable> animatable);
 
-			void SetAnimatable(Core::Ptr<Animatable> animatable);
-			Core::Ptr<Animatable> GetAnimatable();
+    void SetAnimatable(Core::Ptr<Animatable> animatable);
+    Core::Ptr<Animatable> GetAnimatable();
 
-			// we probably want what animations are held to be driven through data?
-			// how do we handle different animation types through a similar system?
-			void AddAnimation(Core::Hash name, Core::SharedPtr<Animation> data);
-			void RemoveAnimation(Core::Hash name);
+    // we probably want what animations are held to be driven through data?
+    // how do we handle different animation types through a similar system?
+    void AddAnimation(Core::Hash name, Core::SharedPtr<Animation> data);
+    void RemoveAnimation(Core::Hash name);
 
-			void PlayAnimation(Core::Hash name, Core::Second transitionTime);
+    void PlayAnimation(Core::Hash name, Core::Second transitionTime);
 
-			void StopAnimation(Core::Hash name, Core::Second stopTime);
+    void StopAnimation(Core::Hash name, Core::Second stopTime);
 
-			void Update(Core::Second dt); // continues current animations
+    void Update(Core::Second dt);// continues current animations
 
-		private:
-			// the below two structs should be removed in favour of behaviuor trees in the future
-			struct AnimationState
-			{
-				AnimationState() = default;
+  private:
+    // the below two structs should be removed in favour of behaviuor trees in the future
+    struct AnimationState
+    {
+      AnimationState() = default;
 
-				AnimationState(Core::Hash name, float weight = 1.0f)
-				{
-					animationTime = Core::Second(0);
-					name = name;
-					weight = weight;
-				}
+      AnimationState(Core::Hash name, float weight = 1.0f)
+      {
+        animationTime = Core::Second(0);
+        name = name;
+        weight = weight;
+      }
 
-				Core::Second animationTime;
-				Core::Hash name;
-				float weight;
-			};
-			
-			struct TransitionData
-			{
-				TransitionData() = default;
+      Core::Second animationTime;
+      Core::Hash name;
+      float weight;
+    };
 
-				TransitionData(AnimationState state, Core::Second transitionTime)
-				{
-					state = state;
-					transitionTimeLeft = transitionTime;
-					transitioning = transitionTime != Core::Second(0);
-				}
+    struct TransitionData
+    {
+      TransitionData() = default;
 
-				bool transitioning;
-				AnimationState state;
-				Core::Second transitionTimeLeft;
-			};
+      TransitionData(AnimationState state, Core::Second transitionTime)
+      {
+        state = state;
+        transitionTimeLeft = transitionTime;
+        transitioning = transitionTime != Core::Second(0);
+      }
 
-			bool _animating = false; // this is just the control of the current animation, it can be false and still be transitioning
-			AnimationState _currentAnimation;
+      bool transitioning;
+      AnimationState state;
+      Core::Second transitionTimeLeft;
+    };
 
-			Core::Ptr<Animatable> _animatable = nullptr;
-			Core::Map<Core::Hash, Core::SharedPtr<Animation>> _animations;
-			
-			// until we have more complex logic, we will just use simple transition data to manage it - as such, we can only blend two animations at the moment
-			TransitionData _transition;
-			// in the future, we shoud have behaviour trees that dictate the flow from one animation to another based on state and such for smoother transitions
-			// BehaviourTree _behaviourTree;
-		};
-	}
-}
+    bool _animating = false;// this is just the control of the current animation, it can be false and still be transitioning
+    AnimationState _currentAnimation;
+
+    Core::Ptr<Animatable> _animatable = nullptr;
+    Core::Map<Core::Hash, Core::SharedPtr<Animation>> _animations;
+
+    // until we have more complex logic, we will just use simple transition data to manage it - as such, we can only blend two animations at the moment
+    TransitionData _transition;
+    // in the future, we shoud have behaviour trees that dictate the flow from one animation to another based on state and such for smoother transitions
+    // BehaviourTree _behaviourTree;
+  };
+}// namespace Animation
+}// namespace Application

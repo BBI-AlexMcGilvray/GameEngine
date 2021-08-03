@@ -18,43 +18,41 @@
 
 using namespace Core;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		// holds the information about the mesh of a 3D object
-		struct SkinnedMeshBase : public RenderObjectBase
-		{
-			Data::AssetData<Data::Rendering::AnimatedMeshData> Data;
-			List<AnimatedVertexRenderDataBase> RenderData;
+namespace Application {
+namespace Rendering {
+  // holds the information about the mesh of a 3D object
+  struct SkinnedMeshBase : public RenderObjectBase
+  {
+    Data::AssetData<Data::Rendering::AnimatedMeshData> Data;
+    List<AnimatedVertexRenderDataBase> RenderData;
 
-			SkinnedMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::AnimatedMeshData> asset);
-			~SkinnedMeshBase();
+    SkinnedMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::AnimatedMeshData> asset);
+    ~SkinnedMeshBase();
 
-			Core::size GetVertexCount() const override;
+    Core::size GetVertexCount() const override;
 
-			// should these be a part of render object base?
-			void SetMaterialComponent(ComponentPtr<MaterialComponent> materialComponent);
-			void ClearMaterialComponent();
+    // should these be a part of render object base?
+    void SetMaterialComponent(ComponentPtr<MaterialComponent> materialComponent);
+    void ClearMaterialComponent();
 
-			virtual void Initialize();
+    virtual void Initialize();
 
-			void Skin(const Ptr<Skeleton> skeleton);
+    void Skin(const Ptr<Skeleton> skeleton);
 
-		protected:
-			virtual void Prepare(const Core::Math::Float4x4& mvp, const Core::Math::Color& color) const;
-			virtual void CleanUp() const;
+  protected:
+    virtual void Prepare(const Core::Math::Float4x4 &mvp, const Core::Math::Color &color) const;
+    virtual void CleanUp() const;
 
-		private:
-			GLArrayBuffer Vao;
-			List<GLBuffer> Vbos;
-			GLMappedBuffer MappedMesh;
+  private:
+    GLArrayBuffer Vao;
+    List<GLBuffer> Vbos;
+    GLMappedBuffer MappedMesh;
 
-			Core::Functionality::Delegate<> _onMaterialDeleted;
-			ComponentPtr<MaterialComponent> _materialComponent;
-			Core::Ptr<Skeleton> _skeleton; // should be a skeleton component in the future
+    Core::Functionality::Delegate<> _onMaterialDeleted;
+    ComponentPtr<MaterialComponent> _materialComponent;
+    Core::Ptr<Skeleton> _skeleton;// should be a skeleton component in the future
 
-			void CreateRenderData();
-		};
-	}
-}
+    void CreateRenderData();
+  };
+}// namespace Rendering
+}// namespace Application

@@ -8,18 +8,16 @@
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/ListDefs.h"
 
-#include "ApplicationManagement/Rendering/OpenGL/Headers/GLDefs.h"
+#include "Dependencies/Includes/glew.h"
 
 using namespace Core;
 
-namespace Application
-{
-	namespace Rendering
-	{
-		// holds onto name (for reflection) and a pixel/vertex shader combination
-		struct DebugObjectShader : ObjectShaderBase
-		{
-			/*
+namespace Application {
+namespace Rendering {
+  // holds onto name (for reflection) and a pixel/vertex shader combination
+  struct DebugObjectShader : ObjectShaderBase
+  {
+    /*
 			perhaps I can use the R() function to build up the shaders out or parts. each actual shader would have a
 			reference to a static fragment/vertex shader and would load in the various parts to create the full code out of each bit and piece
 
@@ -29,24 +27,24 @@ namespace Application
 			Then, we will need to create a base shader to do all the 'must have' declarations and such and insert the subelements when building the shader
 			*/
 
-			DebugObjectShader() = default;
+    DebugObjectShader() = default;
 
-			Ptr<const char> GetName() override;
+    Ptr<const char> GetName() override;
 
-			Ptr<ShaderBase> GetVertexShader() override;
-			Ptr<ShaderBase> GetFragmentxShader() override;
+    Ptr<ShaderBase> GetVertexShader() override;
+    Ptr<ShaderBase> GetFragmentxShader() override;
 
-			virtual void Prepare(const Math::Float4x4& mvp, const Math::Color& color) const;
-			void CleanUp() const override;
+    virtual void Prepare(const Math::Float4x4 &mvp, const Math::Color &color) const;
+    void CleanUp() const override;
 
-			void Initialize() override;
-			void Destroy() override;
+    void Initialize() override;
+    void Destroy() override;
 
-		private:
-			static Ptr<const char> Name;
+  private:
+    static Ptr<const char> Name;
 
-			FragmentShader FShader;
-			DebugVertexShader VShader;
-		};
-	}
-}
+    FragmentShader FShader;
+    DebugVertexShader VShader;
+  };
+}// namespace Rendering
+}// namespace Application

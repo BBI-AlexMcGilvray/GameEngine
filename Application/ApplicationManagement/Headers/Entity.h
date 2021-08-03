@@ -31,113 +31,106 @@ namespace Templates
 }
 */
 
-namespace Application
+namespace Application {
+struct State;
+
+struct EntityBase
 {
-	struct State;
+  Core::Functionality::Event<> OnDestroyed;
 
-	struct EntityBase
-	{
-		Core::Functionality::Event<> OnDestroyed;
+  EntityBase(const Core::Ptr<State> owningState);
+  virtual ~EntityBase();
 
-		EntityBase(const Core::Ptr<State> owningState);
-		virtual ~EntityBase();
+  template<typename T, typename... Ts>//, Templates::is_component<T>>
+  ComponentPtr<T> AddComponent(Ts &&...args)
+  {
+    return AddComponent<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
+  }
 
-		template <typename T, typename ...Ts>//, Templates::is_component<T>>
-		ComponentPtr<T> AddComponent(Ts&& ...args)
-		{
- 			return AddComponent<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
-		}
+  template<typename T>//, Templates::is_component<T>>
+  ComponentPtr<T> AddComponent(Core::UniquePtr<T> component)
+  {
+    ComponentPtr<T> existingComponent = GetComponent<T>();
+    if (existingComponent) {
+      ALERT("Can't have two of the same component!");
+      return existingComponent;
+    }
 
-		template <typename T>//, Templates::is_component<T>>
-		ComponentPtr<T> AddComponent(Core::UniquePtr<T> component)
-		{
-			ComponentPtr<T> existingComponent = GetComponent<T>();
-			if (existingComponent)
-			{
-				ALERT("Can't have two of the same component!");
-				return existingComponent;
-			}
+    Core::Insert<Core::Hash, Core::UniquePtr<ComponentBase>>(Components, Core::MakePair(T::ClassHash(), move(component)));
+    return GetComponent<T>();
+  }
 
-			Core::Insert<Core::Hash, Core::UniquePtr<ComponentBase>>(Components, Core::MakePair(T::ClassHash(), move(component)));
-			return GetComponent<T>();
-		}
+  template<typename T, typename... Ts>//, Templates::is_component<T>>
+  ComponentPtr<T> AddComponentAndInitialize(Ts &&...args)
+  {
+    return AddComponentAndInitialize<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
+  }
 
-		template <typename T, typename ...Ts>//, Templates::is_component<T>>
-		ComponentPtr<T> AddComponentAndInitialize(Ts&& ...args)
-		{
-			return AddComponentAndInitialize<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
-		}
+  template<typename T>//, Templates::is_component<T>>
+  ComponentPtr<T> AddComponentAndInitialize(Core::UniquePtr<T> component)
+  {
+    ComponentPtr<T> existingComponent = GetComponent<T>();
+    if (existingComponent) {
+      ALERT("Can't have two of the same component!");
+      return existingComponent;
+    } else {
+      // this means a new component is created, so initialize it
+      component->Initialize();
+    }
 
-		template <typename T>//, Templates::is_component<T>>
-		ComponentPtr<T> AddComponentAndInitialize(Core::UniquePtr<T> component)
-		{
-			ComponentPtr<T> existingComponent = GetComponent<T>();
-			if (existingComponent)
-			{
-				ALERT("Can't have two of the same component!");
-				return existingComponent;
-			}
-			else
-			{
-				// this means a new component is created, so initialize it
-				component->Initialize();
-			}
+    Core::Insert<Core::Hash, Core::UniquePtr<ComponentBase>>(Components, Core::MakePair(T::ClassHash(), move(component)));
+    return GetComponent<T>();
+  }
 
-			Core::Insert<Core::Hash, Core::UniquePtr<ComponentBase>>(Components, Core::MakePair(T::ClassHash(), move(component)));
-			return GetComponent<T>();
-		}
+  template<typename T>//, Templates::is_component<T>>
+  void RemoveComponent()
+  {
+    Core::Erase(Components, T::ClashHash());
+  }
 
-		template <typename T>//, Templates::is_component<T>>
-		void RemoveComponent()
-		{
-			Core::Erase(Components, T::ClashHash());
-		}
+  template<typename T>//, Templates::is_component<T>>
+  bool HasComponent()
+  {
+    return Core::In(Components, T::ClassHash());
+  }
 
-		template <typename T>//, Templates::is_component<T>>
-		bool HasComponent()
-		{
-			return Core::In(Components, T::ClassHash());
-		}
+  // Change this to return ComponentPtr<T>
+  template<typename T>//, Templates::is_component<T>>
+  ComponentPtr<T> GetComponent()
+  {
+    if (!HasComponent<T>()) {
+      return ComponentPtr<T>(nullptr);
+    }
 
-		// Change this to return ComponentPtr<T>
-		template <typename T>//, Templates::is_component<T>>
-		ComponentPtr<T> GetComponent()
-		{
-			if (!HasComponent<T>())
-			{
-				return ComponentPtr<T>(nullptr);
-			}
+    return ComponentPtr<T>(static_cast<Core::Ptr<Component<T>>>(Components[T::ClassHash()].get()));
+  }
 
-			return ComponentPtr<T>(static_cast<Core::Ptr<Component<T>>>(Components[T::ClassHash()].get()));
-		}
+  template<typename T>//, Templates::is_component<T>>
+  void ClaimComponentFrom(Core::Ptr<EntityBase> entity)
+  {
+    entity->GiveComponentTo<T>(this);
+  }
 
-		template <typename T>//, Templates::is_component<T>>
-		void ClaimComponentFrom(Core::Ptr<EntityBase> entity)
-		{
-			entity->GiveComponentTo<T>(this);
-		}
+  template<typename T>//, Templates::is_component<T>>
+  void GiveComponentTo(Core::Ptr<EntityBase> entity)
+  {
+    if (!HasComponent<T>()) {
+      return;
+    }
 
-		template <typename T>//, Templates::is_component<T>>
-		void GiveComponentTo(Core::Ptr<EntityBase> entity)
-		{
-			if (!HasComponent<T>())
-			{
-				return;
-			}
+    entity->AddComponent<T>(Components[T::ClashHash()]);
+  }
 
-			entity->AddComponent<T>(Components[T::ClashHash()]);
-		}
+  virtual void Initialize();
+  virtual void Start();
+  virtual void Update(Core::Second dt);
+  virtual void End();
+  virtual void CleanUp();
 
-		virtual void Initialize();
-		virtual void Start();
-		virtual void Update(Core::Second dt);
-		virtual void End();
-		virtual void CleanUp();
+protected:
+  const Core::Ptr<State> _onwningState;
 
-	protected:
-		const Core::Ptr<State> _onwningState;
-
-	private:
-		Core::Map<Core::Hash, Core::UniquePtr<ComponentBase>> Components;
-	};
-}
+private:
+  Core::Map<Core::Hash, Core::UniquePtr<ComponentBase>> Components;
+};
+}// namespace Application
