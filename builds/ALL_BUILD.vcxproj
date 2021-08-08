@@ -170,37 +170,91 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\ApplicationManagement\ApplicationManagement.vcxproj">
-      <Project>{30051DBA-3CD5-3F9C-BFE2-485D725CE589}</Project>
-      <Name>ApplicationManagement</Name>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Core\Core_Lib.vcxproj">
+      <Project>{0970390E-AAB6-3B76-A5EF-D6CBC0D798ED}</Project>
+      <Name>Core_Lib</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\Core\Core.vcxproj">
-      <Project>{D7541FD3-6F82-3F31-8EA2-B494F6E55E4A}</Project>
-      <Name>Core</Name>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Data\Data_Lib.vcxproj">
+      <Project>{5C08DD83-AF7E-34C8-BF27-63524202B659}</Project>
+      <Name>Data_Lib</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\Data\Data.vcxproj">
-      <Project>{C74746A9-70FE-3187-9F55-90650F7AB44B}</Project>
-      <Name>Data</Name>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory.vcxproj">
+      <Project>{A0C1B546-4627-3A7B-8413-2DFD19E361F7}</Project>
+      <Name>Factory</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\Dependencies\SDL2-2.0.14\SDL2-static.vcxproj">
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Factory_Lib.vcxproj">
+      <Project>{2732429F-DF03-3A14-B057-96E3142A58E8}</Project>
+      <Name>Factory_Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\irrXML\IrrXML.vcxproj">
+      <Project>{987A11D5-009A-3C4C-97B1-B434565DB856}</Project>
+      <Name>IrrXML</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Pipeline.vcxproj">
+      <Project>{D15B5F68-7D38-30CF-B509-B6843E86521F}</Project>
+      <Name>Pipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Pipeline\Pipeline_Lib.vcxproj">
+      <Project>{AF608650-4D79-3697-9754-5F027A549C6A}</Project>
+      <Name>Pipeline_Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Product.vcxproj">
+      <Project>{21162D5B-8BF3-30E4-8D6F-FD4351A9BE25}</Project>
+      <Name>Product</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Product\Product_Lib.vcxproj">
+      <Project>{0BCAADCC-D959-3B94-99B0-F52ABF7E9073}</Project>
+      <Name>Product_Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Dependencies\SDL2-2.0.14\SDL2-static.vcxproj">
       <Project>{AB3DA3D6-B279-35A2-B72D-4E3C214AE9A3}</Project>
       <Name>SDL2-static</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\Dependencies\SDL2-2.0.14\SDL2main.vcxproj">
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Dependencies\SDL2-2.0.14\SDL2main.vcxproj">
       <Project>{1AD4E25E-DE64-361D-9798-692B2055FD67}</Project>
       <Name>SDL2main</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\default_application.vcxproj">
-      <Project>{C7CA995C-8524-3325-86B5-4FC4626998BE}</Project>
-      <Name>default_application</Name>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\SQLiteCpp.vcxproj">
+      <Project>{71800C4E-D6ED-3C63-9633-B65D0AFF6B91}</Project>
+      <Name>SQLiteCpp</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\Dependencies\GLEW-2.2.0\libglew_shared.vcxproj">
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\SQLiteCpp_cpplint.vcxproj">
+      <Project>{F9AB04CC-C913-3767-95CF-B7BCE14321E3}</Project>
+      <Name>SQLiteCpp_cpplint</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\assimp.vcxproj">
+      <Project>{202D408E-D930-332E-8E27-DDE176D231EE}</Project>
+      <Name>assimp</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\tools\assimp_cmd\assimp_cmd.vcxproj">
+      <Project>{7AF3B122-2D3D-3FAD-8FE3-A328C8C309FE}</Project>
+      <Name>assimp_cmd</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Dependencies\GLEW-2.2.0\libglew_shared.vcxproj">
       <Project>{A6BABECD-D559-39DA-86DD-78A8508FEC4A}</Project>
       <Name>libglew_shared</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\Application\Dependencies\GLEW-2.2.0\libglew_static.vcxproj">
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Dependencies\GLEW-2.2.0\libglew_static.vcxproj">
       <Project>{41B95C2E-EBF1-3930-9968-13A44CCCDF0A}</Project>
       <Name>libglew_static</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3\sqlite3.vcxproj">
+      <Project>{113721F3-8A26-3336-B63F-BD4B186F6178}</Project>
+      <Name>sqlite3</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\test\unit.vcxproj">
+      <Project>{7D8CFB9F-0A4D-368E-BF40-75EAFB43F39F}</Project>
+      <Name>unit</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib\zlib.vcxproj">
+      <Project>{4B362ABA-2477-35CB-A81A-1AC66D417B52}</Project>
+      <Name>zlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{4F267AE5-6211-3642-ADDE-6A7E74A1A5D8}</Project>
+      <Name>zlibstatic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

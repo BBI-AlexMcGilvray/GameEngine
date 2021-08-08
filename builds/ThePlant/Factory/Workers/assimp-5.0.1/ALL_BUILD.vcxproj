@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{91EBFA07-6B2F-3104-8DF9-56D1084C19D6}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\CMakeLists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Coding/VisualStudios/Application -BD:/Coding/VisualStudios/Application/builds --check-stamp-file D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/Workers/assimp-5.0.1/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp-config-version.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp-config.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp.pc.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets-debug.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets-release.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindDirectX.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindPkgMacros.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindZLIB.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\PrecompiledHeader.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake\HunterGate.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include\assimp\config.h.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\revision.h.in;D:\Coding\VisualStudios\Application\builds\CMakeFiles\3.20.3\CMakeCCompiler.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Coding/VisualStudios/Application -BD:/Coding/VisualStudios/Application/builds --check-stamp-file D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/Workers/assimp-5.0.1/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp-config-version.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp-config.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp.pc.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets-debug.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets-release.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindDirectX.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindPkgMacros.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindZLIB.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\PrecompiledHeader.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake\HunterGate.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include\assimp\config.h.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\revision.h.in;D:\Coding\VisualStudios\Application\builds\CMakeFiles\3.20.3\CMakeCCompiler.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Coding/VisualStudios/Application -BD:/Coding/VisualStudios/Application/builds --check-stamp-file D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/Workers/assimp-5.0.1/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp-config-version.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp-config.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp.pc.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets-debug.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets-release.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindDirectX.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindPkgMacros.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindZLIB.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\PrecompiledHeader.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake\HunterGate.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include\assimp\config.h.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\revision.h.in;D:\Coding\VisualStudios\Application\builds\CMakeFiles\3.20.3\CMakeCCompiler.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Coding/VisualStudios/Application -BD:/Coding/VisualStudios/Application/builds --check-stamp-file D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/Workers/assimp-5.0.1/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckFunctionExists.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\CheckTypeSize.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\FindPkgConfig.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.20\Modules\Platform\Windows-MSVC.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp-config-version.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp-config.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimp.pc.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets-debug.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets-release.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\assimpTargets.cmake.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindDirectX.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindPkgMacros.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\FindZLIB.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake-modules\PrecompiledHeader.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\cmake\HunterGate.cmake;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include\assimp\config.h.in;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\revision.h.in;D:\Coding\VisualStudios\Application\builds\CMakeFiles\3.20.3\CMakeCCompiler.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ZERO_CHECK.vcxproj">
+      <Project>{1BE8D40B-F15F-3F3C-87B7-6DF47CC0E549}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\irrXML\IrrXML.vcxproj">
+      <Project>{987A11D5-009A-3C4C-97B1-B434565DB856}</Project>
+      <Name>IrrXML</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\assimp.vcxproj">
+      <Project>{202D408E-D930-332E-8E27-DDE176D231EE}</Project>
+      <Name>assimp</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\tools\assimp_cmd\assimp_cmd.vcxproj">
+      <Project>{7AF3B122-2D3D-3FAD-8FE3-A328C8C309FE}</Project>
+      <Name>assimp_cmd</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\test\unit.vcxproj">
+      <Project>{7D8CFB9F-0A4D-368E-BF40-75EAFB43F39F}</Project>
+      <Name>unit</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib\zlib.vcxproj">
+      <Project>{4B362ABA-2477-35CB-A81A-1AC66D417B52}</Project>
+      <Name>zlib</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{4F267AE5-6211-3642-ADDE-6A7E74A1A5D8}</Project>
+      <Name>zlibstatic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

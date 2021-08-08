@@ -1,0 +1,125 @@
+# Install script for directory: D:/Coding/VisualStudios/Application/ThePlant/Materials/Core
+
+# Set the install prefix
+if(NOT DEFINED CMAKE_INSTALL_PREFIX)
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/the_plant")
+endif()
+string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+
+# Set the install configuration name.
+if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
+  if(BUILD_TYPE)
+    string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
+           CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
+  else()
+    set(CMAKE_INSTALL_CONFIG_NAME "Release")
+  endif()
+  message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
+endif()
+
+# Set the component getting installed.
+if(NOT CMAKE_INSTALL_COMPONENT)
+  if(COMPONENT)
+    message(STATUS "Install component: \"${COMPONENT}\"")
+    set(CMAKE_INSTALL_COMPONENT "${COMPONENT}")
+  else()
+    set(CMAKE_INSTALL_COMPONENT)
+  endif()
+endif()
+
+# Is this installation the result of a crosscompile?
+if(NOT DEFINED CMAKE_CROSSCOMPILING)
+  set(CMAKE_CROSSCOMPILING "FALSE")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/Core_Lib" TYPE FILE FILES
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Containers/CircularBuffer.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Debugging/Headers/Declarations.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Debugging/Headers/Macros.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Functionality/Headers/Event.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Functionality/Headers/Function.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Functionality/Headers/LockerBase.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Functionality/Headers/Scheduler.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Functionality/Headers/Subscription.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/2D/Headers/Box.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/2D/Headers/Circle.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/2D/Headers/Geometry.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/2D/Headers/GeometryFunctions.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/2D/Headers/Line.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/2D/Headers/Point.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/2D/Headers/Polygon.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/Headers/GeometryDefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/Headers/Transform.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/AllCore.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/CoreDefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/Exception.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/FlagEnum.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/Hash.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/ListDefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/Macros.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/MapDefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/Property.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/PtrDefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/TemplateDefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/TimeDefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/IO/Headers/Exception.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/IO/Headers/File.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/IO/Headers/Folder.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/IO/Headers/IODefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/IO/Headers/IOUtils.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Logging/ConsoleLogger.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Logging/ILogger.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Logging/Logger.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Axis.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Basis.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Color.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/MathDefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/MathUtils.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Matrix.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Matrix2x2.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Matrix3x3.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Matrix4x4.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/MatrixFunctions.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Quaternion.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/QuaternionFunctions.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/UtilityFunctions.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Vector.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Vector2.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Vector3.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Vector4.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/VectorFunctions.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/UnitTests/MathUnitTests.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/UnitTests/MatrixTests.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/UnitTests/VectorTests.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Networking/Headers/Macros.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Networking/Headers/NetworkConnection.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Networking/Headers/NetworkData.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Networking/Headers/NetworkMap.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Networking/Headers/NetworkProtocol.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Networking/Headers/NetworkReceiver.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Networking/Headers/NetworkSender.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Networking/Headers/Utils.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Random/Functions.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Random/Random.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Random/RandomGenerator.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Reflection/Enums.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Reflection/Reflectable.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Reflection/ReflectableClasses.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Reflection/type_traits.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/Formats/Binary/Binary.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/Formats/JSON/JSON.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/Serialization.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/SerializationDefs.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/type_traits.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/TypeId/TypeId.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/TypeId/UUID.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/TypeSafety/NotNullPtr.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/TypeSafety/SafeVoidPtr.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Versioning/SemanticVerion.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Versioning/SimpleVersion.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Versioning/Version.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/UnitTests/HashTesting.h"
+    )
+endif()
+

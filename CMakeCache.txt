@@ -91,7 +91,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=application
+CMAKE_PROJECT_NAME:STATIC=the_plant
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=1.0.0
@@ -188,6 +188,12 @@ application_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application
 
 //Value Computed by CMake
 application_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application
+
+//Value Computed by CMake
+the_plant_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application
+
+//Value Computed by CMake
+the_plant_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application
 
 
 ########################

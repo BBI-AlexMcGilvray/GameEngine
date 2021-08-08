@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\builds\CMakeFiles\7791921e1e8e837e1094ea4f60bbbddd\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Dependencies\SDL2-2.0.14\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{A1FC3C70-2520-3BE6-834E-D29E8530229F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

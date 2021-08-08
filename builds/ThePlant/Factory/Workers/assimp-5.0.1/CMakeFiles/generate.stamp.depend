@@ -1,0 +1,31 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CMakeParseArguments.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CheckFunctionExists.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CheckIncludeFileCXX.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CheckTypeSize.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Compiler/MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/FindPkgConfig.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Platform/Windows-MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/Platform/Windows-MSVC.cmake
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/CMakeLists.txt
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/assimp-config-version.cmake.in
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/assimp-config.cmake.in
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/assimp.pc.in
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/assimpTargets-debug.cmake.in
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/assimpTargets-release.cmake.in
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/assimpTargets.cmake.in
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/cmake-modules/FindDirectX.cmake
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/cmake-modules/FindPkgMacros.cmake
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/cmake-modules/FindZLIB.cmake
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/cmake-modules/PrecompiledHeader.cmake
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/cmake/HunterGate.cmake
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/include/assimp/config.h.in
+D:/Coding/VisualStudios/Application/ThePlant/Factory/Workers/assimp-5.0.1/revision.h.in
+D:/Coding/VisualStudios/Application/builds/CMakeFiles/3.20.3/CMakeCCompiler.cmake

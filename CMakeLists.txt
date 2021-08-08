@@ -1,24 +1,24 @@
 cmake_minimum_required(VERSION 3.12.2)
 set(CMAKE_GENERATOR "Visual Studio 16 2019")
 
-# Set the project name to application
-project(application VERSION 1.0.0 LANGUAGES CXX)
+# Set the project name to the_plant
+project(the_plant VERSION 1.0.0 LANGUAGES CXX)
 include(cmake/ProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
 
 # Link this 'library' to set the c++ standard / compile-time options requested
-add_library(application_options INTERFACE)
-target_compile_features(application_options INTERFACE cxx_std_17)
+add_library(build_options INTERFACE)
+target_compile_features(build_options INTERFACE cxx_std_17)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
   if(ENABLE_BUILD_WITH_TIME_TRACE)
-    target_compile_options(project_options INTERFACE -ftime-trace)
+    target_compile_options(build_options INTERFACE -ftime-trace)
   endif()
 endif() 
 
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
-add_library(application_warnings INTERFACE)
+add_library(build_warnings INTERFACE)
 
 # enable cache system
 include(cmake/Cache.cmake)
@@ -26,12 +26,12 @@ include(cmake/Cache.cmake)
 # TURN ON ONCE CODE IS CLEANED UP
 # standard compiler warnings
 #include(cmake/CompilerWarnings.cmake)
-#set_project_warnings(project_warnings)
+#set_project_warnings(build_warnings)
 
 # TURN ON ONCE CODE IS CLEANED UP
 # sanitizer options if supported by compiler
 #include(cmake/Sanitizers.cmake)
-#enable_sanitizers(project_options)
+#enable_sanitizers(build_options)
 
 # TURN ON ONCE CODE IS CLEANED UP
 # allow for static analysis options
@@ -47,7 +47,7 @@ if(ENABLE_PCH)
   #
   # consider breaking this out per project as necessary
   target_precompile_headers(
-    project_options
+    build_options
     INTERFACE
     <vector>
     <string>
@@ -61,7 +61,7 @@ if(ENABLE_TESTING)
   add_subdirectory(test)
 endif()
 
-add_subdirectory(Application)
+add_subdirectory(ThePlant)
 
 option(ENABLE_UNITY "Enable Unity builds of projects" OFF)
 if(ENABLE_UNITY)

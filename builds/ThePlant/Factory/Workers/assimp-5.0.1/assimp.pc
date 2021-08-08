@@ -1,0 +1,11 @@
+prefix=C:/Program Files (x86)/the_plant
+exec_prefix=C:/Program Files (x86)/the_plant/
+libdir=C:/Program Files (x86)/the_plant/lib
+includedir=C:/Program Files (x86)/the_plant/../include/include
+
+Name: the_plant
+Description: Import various well-known 3D model formats in an uniform manner.
+Version: 5.0.0
+Libs: -L${libdir} -lassimp
+Libs.private:  
+Cflags: -I${includedir}

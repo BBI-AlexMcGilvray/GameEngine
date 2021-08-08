@@ -1,0 +1,4 @@
+- assimp-5.0.1: https://github.com/assimp/assimp/releases/tag/v5.0.1
+- SQLiteCpp-2.1.1: https://github.com/SRombauts/SQLiteCpp/releases/tag/3.1.1
+
+- Includes/ exists to allow for inclusion without worrying about clang-format -ing breaking include order

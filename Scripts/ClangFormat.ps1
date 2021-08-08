@@ -14,14 +14,14 @@ Function clangFormatDir
 Function clangFormatApplication
 {
     $thisDir = $script:MyInvocation.MyCommand.Path
-    $applicationDir = $thisDir + "/../../Application/"
+    $applicationDir = $thisDir + "/../../ThePlant/"
     ls $applicationDir
 
-    clangFormatDir $applicationDir/ApplicationManagement
-    clangFormatDir $applicationDir/Core
-    clangFormatDir $applicationDir/Data
+    clangFormatDir $applicationDir/Factory
+    clangFormatDir $applicationDir/Materials
+    clangFormatDir $applicationDir/Pipeline
+    clangFormatDir $applicationDir/Product
     clangFormatDir $applicationDir/Resources
-    clangFormatDir $applicationDir/TestGame
 }
 
 clangFormatApplication
