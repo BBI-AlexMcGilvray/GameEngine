@@ -4,8 +4,6 @@
 #include "Core/Headers/ListDefs.h"
 #include "Core/IO/Headers/File.h"
 
-using namespace std;
-
 struct aiScene;
 struct aiMesh;
 struct aiMaterial;

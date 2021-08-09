@@ -1,41 +1,22 @@
 #pragma once
 
-#include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
-#include "Data/Headers/AssetName.h"
-#include "Data/Rendering/Headers/VertexBaseData.h"
+#include <vector>
 
-using namespace Core;
+#include "Data/Headers/AssetMacros.h"
+#include "Data/Rendering/Headers/VertexBaseData.h"
 
 namespace Data {
 namespace Rendering {
   // holds the information about the mesh of a 3D object
-  struct AnimatedMeshData
-  {
-    List<AnimatedVertexDataBase> Vertices;
-    uint VertexCount = 0;
-
-    AnimatedMeshData() = default;
-    AnimatedMeshData(AssetName<AnimatedMeshData> asset);
-  };
+  ASSET(AnimatedMeshData,
+    (std::vector<AnimatedVertexDataBase>) vertices,
+    (uint) vertexCount
+  );
+  /*
+  Currently, by storing the data as an array of AnimatedVertexDataBase's we inflate the size of the data when stored (due to duplicates).
+  Leaving it as-is for now to get things working, but will need to update at a later date (maybe a custom deserializer)
+  */
 }// namespace Rendering
 
-template<>
-struct AssetType<Rendering::AnimatedMeshData>
-{
-  static Hash ClassHash()
-  {
-    return HashValue("AnimatedMeshData");
-  }
-
-  static String GetPath()
-  {
-    return "Resources/Meshes/";
-  }
-
-  static String GetFileType()
-  {
-    return ".msh";
-  }
-};
+  ASSET_TYPE(Rendering::AnimatedMeshData, "Resources/Meshes/", ".msh");
 }// namespace Data

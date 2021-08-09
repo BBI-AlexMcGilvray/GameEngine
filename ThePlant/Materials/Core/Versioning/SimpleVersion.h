@@ -1,3 +1,5 @@
+#pragma once
+
 #include "core/Versioning/Version.h"
 #include <stdint.h>
 

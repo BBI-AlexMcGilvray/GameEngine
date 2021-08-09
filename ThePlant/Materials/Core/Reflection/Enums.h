@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Core/Headers/Macros.h"
 #include <exception>
 

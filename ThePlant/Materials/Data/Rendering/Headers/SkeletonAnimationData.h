@@ -1,102 +1,54 @@
 #pragma once
 
-#include "Core/Headers/ListDefs.h"
-#include "Core/Headers/PtrDefs.h"
+#include <string>
+#include <vector>
+
 #include "Core/Headers/TimeDefs.h"
-#include "Core/IO/Headers/File.h"
 #include "Core/Math/Headers/Quaternion.h"
 #include "Core/Math/Headers/Vector3.h"
-#include "Data/Headers/AssetName.h"
+
+#include "Data/Headers/AssetMacros.h"
 
 namespace Data {
 namespace Rendering {
-  struct PositionFrameData
-  {
-    Core::Math::Float3 Position;
-    Core::Second Time;
+  ASSET(PositionFrameData,
+    (Core::Math::Float3) position,
+    (Core::Second) time
+  );
 
-    PositionFrameData() = delete;
-    PositionFrameData(Core::Math::Float3 position, Core::Second time);
+  ASSET(RotationFrameData,
+    (Core::Math::FQuaternion) rotation,
+    (Core::Second) time
+  );
+
+  ASSET(ScaleFrameData,
+    (Core::Math::Float3) scale,
+    (Core::Second) time
+  );
+
+  enum class AnimationBehaviour {
+    Default,
+    Constant,
+    Linear,
+    Repeat,
+    Unknown
   };
 
-  struct RotationFrameData
-  {
-    Core::Math::FQuaternion Rotation;
-    Core::Second Time;
+  ASSET(BoneAnimationData,
+    (std::string) name,
+    (AnimationBehaviour) preBehaviour,
+    (AnimationBehaviour) postBehaviour,
+    (std::vector<PositionFrameData>) positionChannel,
+    (std::vector<RotationFrameData>) rotationChannel,
+    (std::vector<ScaleFrameData>) scaleChannel
+  );
 
-    RotationFrameData() = delete;
-    RotationFrameData(Core::Math::FQuaternion rotation, Core::Second time);
-  };
-
-  struct ScaleFrameData
-  {
-    Core::Math::Float3 Scale;
-    Core::Second Time;
-
-    ScaleFrameData() = delete;
-    ScaleFrameData(Core::Math::Float3 scale, Core::Second time);
-  };
-
-  struct BoneAnimationData
-  {
-    enum class AnimationBehaviour {
-      Default,
-      Constant,
-      Linear,
-      Repeat,
-      Unknown
-    };
-
-    Core::String Name;
-
-    AnimationBehaviour PreBehaviour;
-    AnimationBehaviour PostBehaviour;
-
-    Core::List<PositionFrameData> PositionChannel;
-    Core::List<RotationFrameData> RotationChannel;
-    Core::List<ScaleFrameData> ScaleChannel;
-
-    BoneAnimationData() = delete;
-    BoneAnimationData(Core::String name);
-
-    void ReadAnimationData(Core::String name, Core::IO::File &animationFile);
-
-  private:
-    AnimationBehaviour GetBehaviourFromString(String string);
-    void AddPositionFrame(Core::Math::Float3 position, Core::Second time);
-    void AddRotationFrame(Core::Math::FQuaternion rotation, Core::Second time);
-    void AddScaleFrame(Core::Math::Float3 scale, Core::Second time);
-  };
-
-  struct SkeletonAnimationData
-  {
-    Core::String Name;
-
-    Core::List<BoneAnimationData> BoneAnimations;
-
-    Core::Second Duration;
-
-    SkeletonAnimationData() = default;
-    SkeletonAnimationData(AssetName<SkeletonAnimationData> asset);
-  };
+  ASSET(SkeletonAnimationData,
+    (std::string) name,
+    (std::vector<BoneAnimationData>) boneAnimations,
+    (Core::Second) duration
+  );
 }// namespace Rendering
 
-template<>
-struct AssetType<Rendering::SkeletonAnimationData>
-{
-  static Hash ClassHash()
-  {
-    return HashValue("SkeletonAnimationData");
-  }
-
-  static String GetPath()
-  {
-    return "Resources/SkeletonAnimations/";
-  }
-
-  static String GetFileType()
-  {
-    return ".sanim";
-  }
-};
+ASSET_TYPE(Rendering::SkeletonAnimationData, "Resources/SkeletonAnimations/", ".sanim");
 }// namespace Data

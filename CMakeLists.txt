@@ -10,6 +10,11 @@ include(cmake/PreventInSourceBuilds.cmake)
 add_library(build_options INTERFACE)
 target_compile_features(build_options INTERFACE cxx_std_17)
 
+# Visual Studio's compiler needs to be told to 'act correctly' (act according to the standard)
+add_compile_options(/std:c++17)
+add_compile_options(/std:c17)
+add_compile_options(/Zc:preprocessor)
+
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
   if(ENABLE_BUILD_WITH_TIME_TRACE)

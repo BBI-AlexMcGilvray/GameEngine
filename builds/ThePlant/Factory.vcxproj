@@ -87,12 +87,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Factory\..;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\..;D:\Coding\VisualStudios\Application\ThePlant\Materials;D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\..;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\Includes;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\glew-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\GLEW-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\Includes;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:preprocessor</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -147,10 +149,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Factory\..;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\..;D:\Coding\VisualStudios\Application\ThePlant\Materials;D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\..;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\Includes;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\glew-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\GLEW-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\Includes;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:preprocessor</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -207,10 +211,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Factory\..;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\..;D:\Coding\VisualStudios\Application\ThePlant\Materials;D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\..;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\Includes;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\glew-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\GLEW-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\Includes;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:preprocessor</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <Optimization>MinSpace</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -267,11 +273,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Factory\..;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\..;D:\Coding\VisualStudios\Application\ThePlant\Materials;D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\..;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\Includes;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\glew-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\GLEW-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\Includes;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:preprocessor</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

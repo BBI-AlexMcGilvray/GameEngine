@@ -1,3 +1,5 @@
+#pragma once
+
 // Reference: https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression
 // Core Elements
 #define VA_NUM_ARGS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, N, ...) N
@@ -72,9 +74,7 @@
 #define EVAL2(...) EVAL3(EVAL3(EVAL3(__VA_ARGS__)))
 #define EVAL3(...) EVAL4(EVAL4(EVAL4(__VA_ARGS__)))
 #define EVAL4(...) EVAL5(EVAL5(EVAL5(__VA_ARGS__)))
-#define EVAL5(...) EVAL6(EVAL6(EVAL6(__VA_ARGS__)))
-#define EVAL6(...) EVAL7(EVAL7(EVAL7(__VA_ARGS__)))
-#define EVAL7(...) __VA_ARGS__
+#define EVAL5(...) __VA_ARGS__
 
 #define PRIMITIVE_COMPARE(x, y) IS_PAREN( \
   COMPARE_##x(COMPARE_##y)(()))

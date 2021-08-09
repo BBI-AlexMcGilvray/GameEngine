@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Core/Random/Random.h"
 #include <array>
 #include <bitset>

@@ -1,43 +1,20 @@
 #pragma once
 
-#include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
-#include "Data/Headers/AssetName.h"
-#include "Data/Rendering/Headers/MaterialData.h"
-#include "Data/Rendering/Headers/SimpleMeshData.h"
-#include "Data/Rendering/Headers/TextureData.h"
-
-using namespace Core;
+#include "Data/Headers/AssetMacros.h"
 
 namespace Data {
 namespace Rendering {
-  // holds the information about the mesh of a 3D object
-  struct SimpleModelData
-  {
-    AssetName<MaterialData> Material;
-    AssetName<SimpleMeshData> Mesh;
+  struct MaterialData;
+  struct SimpleMeshData;
+  struct TextureData;
 
-    SimpleModelData() = default;
-    SimpleModelData(AssetName<SimpleModelData> asset);
-  };
+  // holds the information about the mesh of a 3D object
+  ASSET(SimpleModelData,
+    (AssetName<MaterialData>) material,
+    (AssetName<SimpleMeshData>) mesh,
+    (AssetName<TextureData>) texture
+  );
 }// namespace Rendering
 
-template<>
-struct AssetType<Rendering::SimpleModelData>
-{
-  static Hash ClassHash()
-  {
-    return HashValue("SimpleModelData");
-  }
-
-  static String GetPath()
-  {
-    return "Resources/Models/";
-  }
-
-  static String GetFileType()
-  {
-    return ".mdl";
-  }
-};
+ASSET_TYPE(Rendering::SimpleModelData, "Resource/Models/", ".mdl");
 }// namespace Data

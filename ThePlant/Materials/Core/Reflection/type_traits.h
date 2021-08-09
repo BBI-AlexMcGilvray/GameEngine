@@ -15,12 +15,6 @@ struct raw_type
 template<typename T>
 using raw_type_t = typename raw_type<T>::type;
 
-template<typename T>
-struct add_const
-{
-  typedef const T type;
-};
-
 template<typename M, typename T>
 struct make_const
 {
@@ -30,7 +24,7 @@ struct make_const
 template<typename M, typename T>
 struct make_const<const M, T>
 {
-  typedef typename add_const<T>::type type;
+  typedef typename std::add_const<T>::type type;
 };
 
 template<typename... Args>
@@ -62,7 +56,7 @@ template<typename T, int N>
 using visitable_t = typename visitable<T, N>::type;
 
 namespace details {
-template<typename T, typename = void>
+template<typename T>
 struct fields_count_internal
 {
   template<typename T2, typename = void>

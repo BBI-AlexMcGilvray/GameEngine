@@ -38,11 +38,11 @@
     {                                                 \
       return self.STRIP(x);                           \
     }                                                 \
-    typename add_const<TYPEOF(x)>::type &get() const  \
+    typename std::add_const<TYPEOF(x)>::type &get() const  \
     {                                                 \
       return self.STRIP(x);                           \
     }                                                 \
-    void set(add_const<TYPEOF(x)>::type &val)         \
+    void set(std::add_const<TYPEOF(x)>::type &val)         \
     {                                                 \
       self.STRIP(x) = val;                            \
     }                                                 \

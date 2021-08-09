@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Core/Reflection/Reflectable.h"
 
 // Plain Old Data
@@ -5,7 +7,7 @@
   struct type_name           \
   {                          \
     REFLECTABLE(__VA_ARGS__) \
-  };
+  }
 
 // Plain Old Data Extension
 // this will not work since the reflector class will try to do type_name::FOO, but it would need to be parent_type::FOO for the base class's fields

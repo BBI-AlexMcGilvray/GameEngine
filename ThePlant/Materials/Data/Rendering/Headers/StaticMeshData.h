@@ -1,41 +1,24 @@
 #pragma once
 
-#include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
-#include "Data/Headers/AssetName.h"
-#include "Data/Rendering/Headers/VertexBaseData.h"
+#include <vector>
 
-using namespace Core;
+#include "Core/Headers/CoreDefs.h"
+
+#include "Data/Headers/AssetMacros.h"
+#include "Data/Rendering/Headers/VertexBaseData.h"
 
 namespace Data {
 namespace Rendering {
   // holds the information about the mesh of a 3D object
-  struct StaticMeshData
-  {
-    List<VertexDataBase> Vertices;
-    uint VertexCount = 0;
-
-    StaticMeshData() = default;
-    StaticMeshData(AssetName<StaticMeshData> asset);
-  };
+  ASSET(StaticMeshData,
+    (std::vector<VertexDataBase>) vertices,
+    (uint) vertexCount
+  );
+  /*
+  Currently, by storing the data as an array of SimpleVertexDataBase's we inflate the size of the data when stored (due to duplicates).
+  Leaving it as-is for now to get things working, but will need to update at a later date (maybe a custom deserializer)
+  */
 }// namespace Rendering
 
-template<>
-struct AssetType<Rendering::StaticMeshData>
-{
-  static Hash ClassHash()
-  {
-    return HashValue("StaticMeshData");
-  }
-
-  static String GetPath()
-  {
-    return "Resources/Meshes/";
-  }
-
-  static String GetFileType()
-  {
-    return ".msh";
-  }
-};
+ASSET_TYPE(Rendering::StaticMeshData, "Resources/Meshes/", ".msh");
 }// namespace Data

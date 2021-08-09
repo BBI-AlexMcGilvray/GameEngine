@@ -79,11 +79,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\rapidjson\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\unzip;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\irrXML;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\openddlparser\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:preprocessor /bigobj</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -113,10 +115,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\rapidjson\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\unzip;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\irrXML;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\openddlparser\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:preprocessor /bigobj</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -149,10 +153,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\rapidjson\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\unzip;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\irrXML;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\openddlparser\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:preprocessor /bigobj</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>MinSpace</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -185,11 +191,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\rapidjson\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\unzip;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\irrXML;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\contrib\openddlparser\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /Zc:preprocessor /bigobj</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

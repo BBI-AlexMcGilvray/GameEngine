@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Core/Reflection/Reflectable.h"
 #include "Core/Serialization/Serialization.h"
 #include "JSON.h"

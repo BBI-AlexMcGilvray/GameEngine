@@ -14,7 +14,8 @@ namespace Data {
 template<typename T>
 struct AssetName
 {
-  static const AssetName<T> VOID = Hash::VOID;
+  static const AssetName<T> VOID;
+  friend struct AssetName<void>;
 
   AssetName() = delete;
 
@@ -68,6 +69,8 @@ struct AssetName
   private:
     Hash _name;
 };
+template <typename T>
+const AssetName<T> AssetName<T>::VOID = Hash::VOID;
 
 template<>
 struct AssetName<void>

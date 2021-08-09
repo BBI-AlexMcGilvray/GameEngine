@@ -16,7 +16,6 @@
 #include "ASSIMP/postprocess.h"
 #include "ASSIMP/material.h"
 
-using namespace std;
 using namespace Core;
 using namespace Core::IO;
 

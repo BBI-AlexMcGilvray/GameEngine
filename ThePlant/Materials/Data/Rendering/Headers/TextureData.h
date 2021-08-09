@@ -1,41 +1,18 @@
 #pragma once
 
-#include "Core/Headers/CoreDefs.h"
-#include "Core/Math/Headers/Vector2.h"
-#include "Data/Headers/AssetName.h"
+#include <string>
 
-using namespace Core;
-using namespace Core::Math;
+#include "Core/Math/Headers/Vector2.h"
+
+#include "Data/Headers/AssetMacros.h"
 
 namespace Data {
 namespace Rendering {
-  struct TextureData
-  {
-    Float2 Size;
-    String ImageFile;
-
-    TextureData() = delete;
-
-    TextureData(AssetName<TextureData> asset);
-  };
+  ASSET(TextureData,
+    (Core::Math::Float2) size,
+    (std::string) imageFile
+  );
 }// namespace Rendering
 
-template<>
-struct AssetType<Rendering::TextureData>
-{
-  static Hash ClassHash()
-  {
-    return HashValue("TextureData");
-  }
-
-  static String GetPath()
-  {
-    return "Resources/Textures/";
-  }
-
-  static String GetFileType()
-  {
-    return ".txt";
-  }
-};
+ASSET_TYPE(Rendering::TextureData, "Resources/Textures/", ".txt");
 }// namespace Data

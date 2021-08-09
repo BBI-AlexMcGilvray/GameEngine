@@ -1,66 +1,33 @@
 #pragma once
 
-#include "Core/Debugging/Headers/Macros.h"
+#include <string>
+#include <vector>
+
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Vector4.h"
 
-using namespace Core::Math;
+#include "Data/Headers/AssetMacros.h"
 
 namespace Data {
 namespace Rendering {
-  struct SimpleVertexDataBase
-  {
-    Float3 Position;// standard vertex attribute
-    Float3 Normal;// vertex normal
+  ASSET(SimpleVertexDataBase,
+    (Core::Math::Float3) position,
+    (Core::Math::Float3) normal
+  );
 
-    SimpleVertexDataBase()
-    {}
+  ASSET(VertexDataBase,
+    (Core::Math::Float3) position,
+    (Core::Math::Float3) normal,
+    (Core::Math::Float2) uvs
+  );
 
-    SimpleVertexDataBase(const Float3 &pos, const Float3 &normal)
-    {
-      Position = pos;
-      Normal = normal;
-    }
-  };
-
-  struct VertexDataBase
-  {
-    Float3 Position;// standard vertex attribute
-    Float3 Normal;// vertex normal
-    Float2 UVs;// vertex uvs
-
-    VertexDataBase()
-    {}
-
-    VertexDataBase(const Float3 &pos, const Float3 &normal, const Float2 &uvs)
-    {
-      Position = pos;
-      Normal = normal;
-      UVs = uvs;
-    }
-  };
-
-  struct AnimatedVertexDataBase
-  {
-    Float3 Position;// standard vertex attribute
-    Float3 Normal;// vertex normal
-    Float2 UVs;// vertex uvs
-    List<String> BoneName;
-    Float4 BoneWeight;
-
-    AnimatedVertexDataBase()
-    {}
-
-    AnimatedVertexDataBase(const Float3 &pos, const Float3 &normal, const Float2 &uvs, const List<String> &boneName, const Float4 &boneWeight)
-    {
-      ASSERT(boneName.size() == 4);
-      Position = pos;
-      Normal = normal;
-      UVs = uvs;
-      BoneName = boneName;
-      BoneWeight = boneWeight;
-    }
-  };
+  ASSET(AnimatedVertexDataBase,
+    (Core::Math::Float3) position,
+    (Core::Math::Float3) normal,
+    (Core::Math::Float2) uvs,
+    (std::vector<std::string>) boneName,
+    (Core::Math::Float4) boneWeight
+  );
 }// namespace Rendering
 }// namespace Data
