@@ -2,6 +2,16 @@
 
 namespace Data
 {
+    AssetManager& AssetManager::getInstance()
+    {
+        if (_instance == nullptr)
+        {
+            _instance = MakeUnique<AssetManager>();
+        }
+
+        return *_instance;
+    }
+
     AssetManager::~AssetManager()
     {
         cleanAssets();

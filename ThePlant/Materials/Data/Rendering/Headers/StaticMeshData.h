@@ -11,12 +11,16 @@ namespace Data {
 namespace Rendering {
   // holds the information about the mesh of a 3D object
   ASSET(StaticMeshData,
-    (std::vector<VertexDataBase>) vertices,
+    (std::vector<Core::Math::Float3>) positions,
+    (std::vector<Core::Math::Float3>) normals,
+    (std::vector<Core::Math::Float2>) uvs,
+    (std::vector<Core::Math::Uint3>) indices,
     (uint) vertexCount
   );
   /*
-  Currently, by storing the data as an array of SimpleVertexDataBase's we inflate the size of the data when stored (due to duplicates).
-  Leaving it as-is for now to get things working, but will need to update at a later date (maybe a custom deserializer)
+  The runtime version of this data will need a 
+  std::vector<VertexDataBase> vertices
+  that is made from all of the above (iterating over indices for iE[0, vertexCount) and making a VertexDataBase from the position, normal, and uv)
   */
 }// namespace Rendering
 

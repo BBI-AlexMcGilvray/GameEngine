@@ -2,6 +2,8 @@
 
 #include "SDL2Manager.h"
 
+#include "Data/Headers/AssetManager.h"
+
 #include "Pipeline/Animation/Headers/AnimationManager.h"
 #include "Pipeline/StateSystem/Headers/StateManager.h"
 #include "Pipeline/Input/Headers/InputManager.h"
@@ -28,6 +30,8 @@ struct ApplicationManager
   static RenderManager &AppRenderManager();
   static InputManager &AppInputManager();
   static StateManager &AppStateManager();
+  // could potentially break this up into longterm and shorterm asset managers for consistent behaviour
+  static Data::AssetManager& AppAssetManager();
 
 private:
   // to make sure that constructor can't be called except through static Application() method to get instance
@@ -44,6 +48,7 @@ public:
 private:
   // Note: the below are in an order such that they should only _possibly_ know about what is above them (as it would need to be for constructors...)
   SDL2Manager SDL;
+  Data::AssetManager _assetManager;
   FixedStepTimeManager Time;
   AnimationManager AnimationSystem;
   RenderManager RenderSystem;

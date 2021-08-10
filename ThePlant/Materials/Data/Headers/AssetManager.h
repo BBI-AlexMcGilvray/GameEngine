@@ -11,6 +11,9 @@
 #include "Core/Logging/Logger.h"
 
 namespace Data {
+// Should be made/held by whatever is using it (Pipeline -> ApplicationManager) where it can THEN be a singleton
+// this way we have consistent behaviour for the base class, but we could have multiple instances
+// (such as a longterm and a shortterm asset manager) that get managed based on use-case
 class AssetManager
 {
 private:
@@ -28,7 +31,7 @@ public:
         if (_hasAssetLocked(asset))
         {
             // do NOT double-lock assets
-            DEBUG_THROW(InvalidAssetOperation, TAG, "Trying to lock asset multiple times");
+            DEBUG_THROW_EXCEPTION(InvalidAssetOperation, TAG, "Trying to lock asset multiple times");
             return;
         }
 
@@ -46,7 +49,7 @@ public:
 
         if (data == nullptr)
         {
-            DEBUG_THROW(FailureToLoad, TAG, "Failed to load the requested asset");
+            DEBUG_THROW_EXCEPTION(FailureToLoad, TAG, "Failed to load the requested asset");
         }
 
         return AssetData<T>(asset, data);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 #include "Core/Functionality/Headers/Function.h"
 #include "Core/Headers/PtrDefs.h"
 
@@ -60,7 +60,7 @@ namespace Functionality {
       if (Next != nullptr) {
 #if _DEBUG
         if (Previous == nullptr) {
-          LOG("Removing an event where all delegates were not removed!");
+          CORE_LOG("EVENT", "Removing an event where all delegates were not removed!");
         } else
 #endif
         {

@@ -6,25 +6,23 @@
 #include <ios>
 #include <sstream>
 
-using namespace std;
-
 namespace Core {
 namespace IO {
   // files
   template<typename charT>
-  using IFStream = basic_ifstream<charT>;
+  using IFStream = std::basic_ifstream<charT>;
   template<typename charT>
-  using OFStream = basic_ofstream<charT>;
+  using OFStream = std::basic_ofstream<charT>;
   template<typename charT>
-  using FStream = basic_fstream<charT>;
+  using FStream = std::basic_fstream<charT>;
 
   // strings
   template<typename charT>
-  using ISStream = basic_ostringstream<charT>;
+  using ISStream = std::basic_ostringstream<charT>;
   template<typename charT>
-  using OSStream = basic_istringstream<charT>;
+  using OSStream = std::basic_istringstream<charT>;
   template<typename charT>
-  using SStream = basic_stringstream<charT>;
+  using SStream = std::basic_stringstream<charT>;
 
   // specializations
   using IFStreamChar = IFStream<char>;
@@ -38,7 +36,7 @@ namespace IO {
   // misc
   using StreamPos = std::streampos;
 
-  using OpenMode = ios::openmode;
+  using OpenMode = std::ios::openmode;
 
   enum class Endian {
     Big,

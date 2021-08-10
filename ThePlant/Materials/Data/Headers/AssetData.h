@@ -9,11 +9,6 @@ namespace Data {
 template<typename T>
 struct AssetData
 {
-  // AssetData()
-  // {
-  // once this is more of a 'Ptr' class, this will set things to the nullptr
-  // }
-
   AssetData(const AssetData<T>& other)
     : _data(assetData.data)
     , _asset(assetData.asset)

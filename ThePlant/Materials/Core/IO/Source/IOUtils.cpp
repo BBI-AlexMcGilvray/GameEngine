@@ -1,32 +1,34 @@
 #include "Core/IO/Headers/IOUtils.h"
 
-#include "Core/Debugging/Headers/Macros.h"
 #include <Windows.h>
 #include <direct.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stringapiset.h>
 
+#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
+
 namespace Core {
 namespace IO {
   File OpenFileI(FilePath file)
   {
-    File openedFile(file, ios::in);
+    File openedFile(file, std::ios::in);
 
     openedFile.Open();
 
-    MESSAGE(openedFile.FileStream.is_open(), "File <<" + file.GetFullPath() + ">> failed to open");
+    VERIFY(openedFile.FileStream.is_open(), "File <<" + file.GetFullPath() + ">> failed to open");
 
     return openedFile;
   }
 
   File OpenFileO(FilePath file)
   {
-    File openedFile(file, ios::out);
+    File openedFile(file, std::ios::out);
 
     openedFile.Open();
 
-    MESSAGE(openedFile.FileStream.is_open(), "File <<" + file.GetFullPath() + ">> failed to open");
+    VERIFY(openedFile.FileStream.is_open(), "File <<" + file.GetFullPath() + ">> failed to open");
 
     return openedFile;
   }
@@ -39,7 +41,7 @@ namespace IO {
 
     // Get the current working directory:
     if ((buffer = _getcwd(NULL, 0)) == NULL) {
-      std::cout << "Failed to get CWD" << std::endl;
+      CORE_WARNING("IOUtils", "Failed to get CWD");
     } else {
       success = true;
     }
@@ -50,7 +52,7 @@ namespace IO {
       free(buffer);
     }
 
-    std::cout << "CWD: " << cwd << std::endl;
+    CORE_WARNING("IOUTILS", "CWD: " + cwd);
 
     return cwd;
   }

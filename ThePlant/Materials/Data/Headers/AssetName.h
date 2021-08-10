@@ -17,7 +17,9 @@ struct AssetName
   static const AssetName<T> VOID;
   friend struct AssetName<void>;
 
-  AssetName() = delete;
+  AssetName()
+  : _name(Hash::VOID)
+  {}
 
   AssetName(const AssetName<T>& other)
     : _name(other._name)
@@ -69,15 +71,16 @@ struct AssetName
   private:
     Hash _name;
 };
-template <typename T>
-const AssetName<T> AssetName<T>::VOID = Hash::VOID;
 
 template<>
 struct AssetName<void>
 {
   static const AssetName<void> VOID;
 
-  AssetName() = delete;
+  AssetName()
+  : _name(Hash::VOID)
+  , _type(runtimeId_t())
+  {}
 
   AssetName(const AssetName<void>& other)
   : _name(other._name)
@@ -152,5 +155,4 @@ struct AssetName<void>
       return (_type == GetTypeId<T>());
     }
 };
-const AssetName<void> AssetName<void>::VOID = AssetName<int>::VOID; // any type would do, just need a void value
 }// namespace Data

@@ -20,7 +20,7 @@ namespace Functionality {
 
     bool IsLocked()
     {
-      MESSAGE(LockCount > 0, "LOCK COUNT DROPPING BELOW 0");
+      DEBUG_ASSERT(LockCount > 0, "LOCK COUNT DROPPING BELOW 0");
       return (LockCount > 0);
     }
 

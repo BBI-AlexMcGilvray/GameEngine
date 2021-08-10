@@ -6,6 +6,8 @@ namespace Core {
 namespace IO {
   struct File
   {
+    inline static const char* TAG = "File";
+
     FilePath Path;
 
     OpenMode FilePermissions;
@@ -66,7 +68,7 @@ namespace IO {
     bool Read(T &&target, Ts &&...args)
     {
       if (Read(target)) {
-        return Read(forward<Ts>(args)...);
+        return Read(std::forward<Ts>(args)...);
       }
 
       return false;
@@ -86,7 +88,7 @@ namespace IO {
     bool Write(T &&source, Ts &&...args)
     {
       if (Write(source) && Write(String(" "))) {
-        return Write(forward<Ts>(args)...);
+        return Write(std::forward<Ts>(args)...);
       }
       return false;
     }

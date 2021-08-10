@@ -1,64 +1,59 @@
 #pragma once
 
-#include "Core/Debugging/Headers/Declarations.h"
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
-#include <string>
+#include <string> 
+
+#include "Core/Headers/Macros.h"
+#include "Core/Debugging/Headers/Declarations.h"
+#include "Core/Logging/Logger.h"
 
 namespace Core {
-inline void Message(std::string message, std::string callInfo)
-{
-  std::cout << callInfo << message << std::endl;
-}
-
 inline bool VerifyCondition(bool condition, std::string conditionString, std::string callInfo)
 {
   bool result = condition;
 
   if (GLOBAL_EXPLICIT && !result && conditionString != "") {
-    Message(conditionString, callInfo);
+    Logging::Log("VERIFYING", conditionString + "; " + callInfo);
   }
 
   return result;
 }
 
-inline bool VerifyMessage(bool condition, std::string message, std::string callInfo)
-{
-  return VerifyCondition(condition, message, callInfo);
-}
-
-// need Core:: to be used in non-Core namespaces (gives C3861 identifier not found error)
 #if DEBUG
-#define VERIFY(X) Core::VerifyCondition(X, #X, std::string(__FILE__) + " (" + std::to_string(__LINE__) + "): ")
-#else
-#define VERIFY(X)// do nothing if not debugging
-#endif
 
-#if DEBUG
-#define ASSERT(X)   \
-  if (!VERIFY(X)) { \
-    assert(X);      \
+#define VERIFY_1(X) Core::VerifyCondition(X, TO_STRING(X), std::string(__FILE__) + " (Line: " + std::to_string(__LINE__) + "): ")
+#define VERIFY_2(X, T) Core::VerifyCondition(X, T, std::string(__FILE__) + " (Line: " + std::to_string(__LINE__) + "): ")
+#define VERIFY(...) VERIFY_X(VA_NUM_ARGS(__VA_ARGS__), __VA_ARGS__)
+#define VERIFY_X(ARG_COUNT, ...) PRIMITIVE_CAT(VERIFY_, ARG_COUNT)(__VA_ARGS__)
+
+#define DEBUG_ASSERT_1(X)\
+  if (!Core::VerifyCondition(X, TO_STRING(X), std::string(__FILE__) + " (Line: " + std::to_string(__LINE__) + "): ")) {\
+    assert(X);\
   }
-#else
-#define ASSERT(X)// do nothing if not debugging
+#define DEBUG_ASSERT_2(X, T)\
+  if (!Core::VerifyCondition(X, T, std::string(__FILE__) + " (Line: " + std::to_string(__LINE__) + "): ")) {\
+    assert(X);\
+  }
+#define DEBUG_ASSERT(...) DEBUG_ASSERT_X(VA_NUM_ARGS(__VA_ARGS__), __VA_ARGS__)
+#define DEBUG_ASSERT_X(ARG_COUNT, ...) PRIMITIVE_CAT(DEBUG_ASSERT_, ARG_COUNT)(__VA_ARGS__)
+
+#else // !DEBUG
+
+#define DEBUG_ASSERT(...)
+
 #endif
 
-#if DEBUG
-#define MESSAGE(X, M) Core::VerifyMessage(X, M, std::string(__FILE__) + " (" + std::to_string(__LINE__) + "): ")
-#else
-#define MESSAGE(X, M)// do nothing
-#endif
+#define ASSERT_1(X)\
+  if (!Core::VerifyCondition(X, TO_STRING(X), std::string(__FILE__) + " (Line: " + std::to_string(__LINE__) + "): ")) {\
+    assert(X);\
+  }
+#define ASSERT_2(X, T)\
+  if (!Core::VerifyCondition(X, T, std::string(__FILE__) + " (Line: " + std::to_string(__LINE__) + "): ")) {\
+    assert(X);\
+  }
+#define ASSERT(...) ASSERT_X(VA_NUM_ARGS(__VA_ARGS__), __VA_ARGS__)
+#define ASSERT_X(ARG_COUNT, ...) PRIMITIVE_CAT(ASSERT_, ARG_COUNT)(__VA_ARGS__)
 
-#if DEBUG
-#define ALERT(M) Core::Message(M, std::string(__FILE__) + " (" + std::to_string(__LINE__) + "): ")
-#else
-#define MESSAGE(M)// do nothing
-#endif
-
-#if DEBUG
-#define LOG(L) Core::Message(L, std::string(__FILE__) + " (" + std::to_string(__LINE__) + "): ")
-#else
-#define LOG(L)// do nothing
-#endif
 }// namespace Core

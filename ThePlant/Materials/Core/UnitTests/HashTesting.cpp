@@ -16,10 +16,10 @@ void TestHashes()
   String filePath = GetCWD() + "/DataManagement/Headers/";
 
   {
-    File AllWords(FilePath{ filePath, "EnglishWords.txt" }, ios::in);
+    File AllWords(FilePath{ filePath, "EnglishWords.txt" }, std::ios::in);
     AllWords.Open();
 
-    File HashedWords(FilePath{ filePath, "HashedEnglishWords.txt" }, ios::out);
+    File HashedWords(FilePath{ filePath, "HashedEnglishWords.txt" }, std::ios::out);
     HashedWords.Open();
     HashedWords.Clear();
 
@@ -48,7 +48,7 @@ void TestHashes()
       wordCount++;
     }
     std::cout << "Done hashing words" << std::endl;
-    HashedWords.SetPermissions(ios::in);
+    HashedWords.SetPermissions(std::ios::in);
     HashedWords.GoToPosition(0);
 
     double wordAverageTime = 0;
@@ -96,7 +96,7 @@ void TestHashes()
 
   {
     // do the same with all numbers in uint
-    File HashedUints(FilePath{ filePath, "HashedUints.txt" }, ios::out);
+    File HashedUints(FilePath{ filePath, "HashedUints.txt" }, std::ios::out);
     HashedUints.Open();
     HashedUints.Clear();
 
@@ -116,7 +116,7 @@ void TestHashes()
       HashedUints.CreateNewLine();
     }
     std::cout << "Done hashing ints" << std::endl;
-    HashedUints.SetPermissions(ios::in);
+    HashedUints.SetPermissions(std::ios::in);
     HashedUints.GoToPosition(0);
 
     double uintAverageTime = 0;

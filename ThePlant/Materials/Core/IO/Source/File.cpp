@@ -25,7 +25,7 @@ namespace IO {
 
   void File::Open()
   {
-    cout << "Opening file <<" << GetFullPath() << ">>" << endl;
+    DEBUG_LOG(TAG, "Opening file <<" + GetFullPath() + ">>");
 
     FileStream.open(GetFullPath(), FilePermissions);
 
@@ -36,14 +36,14 @@ namespace IO {
 
   void File::Close()
   {
-    cout << "Closing file <<" << GetFullPath() << ">>" << endl;
+    DEBUG_LOG(TAG, "Closing file <<" + GetFullPath() + ">>");
 
     FileStream.close();
   }
 
   bool File::Create()
   {
-    FileStream.open(GetFullPath(), ios::out);
+    FileStream.open(GetFullPath(), std::ios::out);
 
     bool created = FileStream.is_open();
 
@@ -61,7 +61,7 @@ namespace IO {
   {
     Close();
 
-    FileStream.open(GetFullPath(), ios::trunc);// reopen and clear
+    FileStream.open(GetFullPath(), std::ios::trunc);// reopen and clear
     FileStream.close();
 
     Open();
@@ -79,12 +79,12 @@ namespace IO {
 
   bool File::CanRead()
   {
-    return HasPermission(FilePermissions, ios::in);
+    return HasPermission(FilePermissions, std::ios::in);
   }
 
   bool File::CanWrite()
   {
-    return HasPermission(FilePermissions, ios::out);
+    return HasPermission(FilePermissions, std::ios::out);
   }
 
   StreamPos File::GetLength()
@@ -101,7 +101,7 @@ namespace IO {
 
   void File::GoToPosition(StreamPos position, bool start)
   {
-    auto origin = start ? ios::beg : ios::end;
+    auto origin = start ? std::ios::beg : std::ios::end;
     if (CanRead()) {
       FileStream.seekg(position, origin);
     } else if (CanWrite()) {
@@ -109,7 +109,7 @@ namespace IO {
     }
 
     if (position != GetPosition()) {
-      throw IOException("Failed to jump to desired position");
+      DEBUG_THROW_EXCEPTION(IOException, TAG, "Failed to jump to desired position");
     }
   }
 
@@ -121,7 +121,7 @@ namespace IO {
       return FileStream.tellp();
     }
 
-    throw IOException("Trying to get position from <" + GetFullPath() + "> when file is closed");
+    DEBUG_THROW_EXCEPTION(IOException, TAG, "Trying to get position from <" + GetFullPath() + "> when file is closed");
   }
 
   bool File::MoveToNextLine()
@@ -160,13 +160,13 @@ namespace IO {
     if (CanRead()) {
       String Line;
       if (!std::getline(FileStream, Line)) {
-        throw EOFException("can't get line for this file - likely EOF");
+        DEBUG_THROW_EXCEPTION(EOFException, TAG, "can't get line for this file - likely EOF");
       }
 
       return Line;
     }
 
-    throw IOException("Can't get line for this file - incorrect permissions");
+    DEBUG_THROW_EXCEPTION(IOException, TAG, "Can't get line for this file - incorrect permissions");
   }
 }// namespace IO
 }// namespace Core

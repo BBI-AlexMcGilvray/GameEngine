@@ -100,8 +100,6 @@ private:
   uint _hash;
 };
 
-const Hash Hash::VOID = 0u;
-
 template<typename T>
 Hash HashValue(T &&type)
 {
