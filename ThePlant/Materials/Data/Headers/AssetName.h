@@ -11,11 +11,25 @@ using namespace Core;
 using namespace Core::IO;
 
 namespace Data {
+
+template <typename T>
+struct AssetName;
+
+template <typename T>
+std::string ToString(const AssetName<T>& asset);
+
+template <typename T>
+struct AssetNameHasher;
+
 template<typename T>
 struct AssetName
 {
-  static const AssetName<T> VOID;
   friend struct AssetName<void>;
+  template <typename T>
+  friend std::string ToString(const AssetName<T>& asset);
+  friend struct AssetNameHasher<T>;
+
+  static const AssetName<T> VOID;
 
   AssetName()
   : _name(Hash::VOID)
@@ -44,26 +58,26 @@ struct AssetName
     return (*this);
   }
   
-  bool isValid() { return (*this == VOID); }
+  bool isValid() const { return (*this == VOID); }
 
-  bool operator==(const AssetName<T>& other)
+  bool operator==(const AssetName<T>& other) const
   {
     return (_name == other._name);
   }
 
   template <typename OT>
-  bool operator==(const AssetName<OT>& other)
+  bool operator==(const AssetName<OT>& other) const
   {
     return false;
   }
 
-  bool operator!=(const AssetName<T>& other)
+  bool operator!=(const AssetName<T>& other) const
   {
     return !(*this == other);
   }
 
   template <typename OT>
-  bool operator!=(const AssetName<OT>& other)
+  bool operator!=(const AssetName<OT>& other) const
   {
     return !(*this == other);
   }
@@ -75,6 +89,10 @@ struct AssetName
 template<>
 struct AssetName<void>
 {
+  template<typename T>
+  friend std::string ToString(const AssetName<T>& asset);
+  friend struct AssetNameHasher<void>;
+
   static const AssetName<void> VOID;
 
   AssetName()
@@ -110,10 +128,10 @@ struct AssetName<void>
     return (*this);
   }
 
-  bool isValid() { return (*this == VOID); }
+  bool isValid() const { return (*this == VOID); }
 
   template <typename T>
-  operator AssetName<T>()
+  operator AssetName<T>() const
   {
     if (!_sameType<T>())
     {
@@ -123,24 +141,24 @@ struct AssetName<void>
     return AssetName<T>(_name);
   }
 
-  bool operator==(const AssetName<void>& other)
+  bool operator==(const AssetName<void>& other) const
   {
     return (_type == other._type && _name == other._name);
   }
 
   template <typename T>
-  bool operator==(const AssetName<T>& other)
+  bool operator==(const AssetName<T>& other) const
   {
     return (_sameType<T>() && _name == other._name);
   }
 
-  bool operator!=(const AssetName<void>& other)
+  bool operator!=(const AssetName<void>& other) const
   {
     return !(*this == other);
   }
 
   template <typename T>
-  bool operator!=(const AssetName<T>& other)
+  bool operator!=(const AssetName<T>& other) const
   {
     return !(*this == other);
   }
@@ -150,9 +168,27 @@ struct AssetName<void>
     runtimeId_t _type;
 
     template <typename T>
-    bool _sameType()
+    bool _sameType() const
     {
       return (_type == GetTypeId<T>());
     }
 };
+
+// Used to assist with AssetName<T> being a key in maps
+template <typename T>
+struct AssetNameHasher
+{
+  AssetNameHasher() = default;
+
+  std::size_t operator()(const AssetName<T>& asset) const
+  {
+    return asset._name;
+  }
+};
+
+template <typename T>
+std::string ToString(const AssetName<T>& asset)
+{
+  return ToString(asset._name);
+}
 }// namespace Data

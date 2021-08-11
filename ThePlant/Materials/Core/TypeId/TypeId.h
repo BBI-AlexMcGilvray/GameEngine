@@ -30,17 +30,17 @@ struct runtimeId_t
     return *this;
   }
 
-  constexpr bool operator==(const runtimeId_t &other)
+  constexpr bool operator==(const runtimeId_t &other) const
   {
     return _id == other._id;
   }
 
-  constexpr bool operator!=(const runtimeId_t &other)
+  constexpr bool operator!=(const runtimeId_t &other) const
   {
-    return _id == other._id;
+    return !(*this == other);
   }
 
-  constexpr operator uint32_t()
+  constexpr operator uint32_t() const
   {
     return _id;
   }
@@ -72,17 +72,17 @@ struct runtimeId
     return *this;
   }
 
-  constexpr bool operator==(const runtimeId &other)
+  constexpr bool operator==(const runtimeId &other) const
   {
     return _t == other._t;
   }
 
-  constexpr bool operator!=(const runtimeId &other)
+  constexpr bool operator!=(const runtimeId &other) const
   {
-    return _t == other._t;
+    return !(*this == other);
   }
 
-  constexpr operator runtimeId_t()
+  constexpr operator runtimeId_t() const
   {
     return _t;
   }

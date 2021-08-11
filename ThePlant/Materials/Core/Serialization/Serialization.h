@@ -15,6 +15,7 @@ namespace Serialization {
   template<typename Format, typename Object, typename... Args>
   void InternalDeserialize(Object &target, Format &data, Args... args)
   {
+    // assets don't allow for copy/assignment creation, so how do we want do this? ideally in-place...
     target = data.template Read<Object>(args...);
   }
 }// namespace Serialization

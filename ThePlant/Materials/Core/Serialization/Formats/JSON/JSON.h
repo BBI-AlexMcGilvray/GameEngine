@@ -205,7 +205,7 @@ private:
 
 struct JSONObject : public JSONNode
 {
-  uint32_t Count() const
+  size_t Count() const
   {
     return _elements.size();
   }
@@ -263,7 +263,7 @@ private:
 
 struct JSONArray : public JSONNode
 {
-  uint32_t Count() const
+  size_t Count() const
   {
     return _elements.size();
   }
@@ -452,10 +452,22 @@ struct JSON
     _data->AddElement(key, object_writer_visitor<Object>().Write(obj));
   }
 
+  template <typename Object>
+  void Write(const Object& obj)
+  {
+    data = object_writer_visitor<Object>().Write(obj);
+  }
+
   template<typename Object>
   Object Read(const std::string &key) const
   {
     return object_reader_visitor<Object>().Read(_data->GetElement(key));
+  }
+
+  template <typename Object>
+  Object Read() const
+  {
+    return object_reader_visitor<Object>().Read(_data);
   }
 
   std::string ToString(Style style) const

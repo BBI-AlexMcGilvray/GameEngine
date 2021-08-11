@@ -14,9 +14,9 @@ struct AssetData
     , _asset(assetData.asset)
   {}
 
-  AssetData(const AssetName<T>& other, const SharedPtr<const T>& data)
+  AssetData(const AssetName<T>& asset, const SharedPtr<const T>& data)
     : _data(data)
-    , _asset(assetName)
+    , _asset(asset)
   {}
 
   AssetData& operator=(const AssetData<T>& other)
@@ -27,17 +27,37 @@ struct AssetData
     return *this;
   }
 
-  Ptr<const T> operator->()
+  Ptr<const T> operator->() const
   {
     return _data.get();
   }
 
-  const T& operator*()
+  const T& operator*() const
   {
     return &_data;
   }
 
-  operator AssetName<T>()
+  bool operator==(const AssetName<T>& asset) const
+  {
+    return _asset == asset;
+  }
+
+  bool operator==(const AssetData<T>& other) const
+  {
+    return (_data == other._data && _asset == other._asset);
+  }
+
+  bool operator!=(const AssetName<T>& asset) const
+  {
+    return !(*this == asset);
+  }
+
+  bool operator!=(const AssetData<T>& other) const
+  {
+    return !(*this == other);
+  }
+
+  operator AssetName<T>() const
   {
     return _asset;
   }

@@ -27,6 +27,11 @@ Hash HashValue(T &&type);
 template<typename T>
 void HashValue(T &&type, Hash &existingHash);
 
+std::string ToString(const Hash& hash);
+
+/*
+We will want a way to store the initial value used for the hash to be used for debugging purposes
+*/
 struct Hash
 {
   static const Hash VOID;
@@ -44,6 +49,8 @@ struct Hash
   friend Hash HashValue(T &&type);
   template<typename T>
   friend void HashValue(T &&type, Hash &existingHash);
+
+  friend std::string ToString(const Hash& hash);
 
   constexpr Hash()
     : _hash(StartHashValue)
@@ -90,8 +97,23 @@ struct Hash
     return (*this);
   }
 
+  bool operator==(const Hash& other) const
+  {
+    return _hash == other._hash;
+  }
+
+  bool operator!=(const Hash& other) const
+  {
+    return !(*this == other);
+  }
+
 // if _DEBUG? should maintain type-safety otherwise
   constexpr operator uint() const
+  {
+    return _hash;
+  }
+
+  constexpr operator size_t() const
   {
     return _hash;
   }
@@ -99,6 +121,11 @@ struct Hash
 private:
   uint _hash;
 };
+
+std::string ToString(const Hash& hash)
+{
+  return ToString(hash._hash);
+}
 
 template<typename T>
 Hash HashValue(T &&type)

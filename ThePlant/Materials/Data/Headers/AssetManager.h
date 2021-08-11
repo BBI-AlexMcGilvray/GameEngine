@@ -1,8 +1,10 @@
 #pragma once
 
-#include <map>
+#include <unordered_map>
 
 #include "Core/IO/Headers/IOUtils.h"
+#include "Core/Serialization/Formats/JSON/JSON.h"
+#include "Core/Serialization/Serialization.h"
 
 #include "Data/Headers/AssetName.h"
 #include "Data/Headers/AssetData.h"
@@ -17,7 +19,7 @@ namespace Data {
 class AssetManager
 {
 private:
-    static constexpr char* TAG = "AssetManager";
+    static constexpr const char* TAG = "AssetManager";
 
 public:
     AssetManager() = default;
@@ -45,7 +47,7 @@ public:
     AssetData<T> getAssetData(const AssetName<T>& asset)
     {
         // static_cast type safety guaranteed by the type check in AssetName
-        SharedPtr<const T> data = _hasAsset(asset) ? static_cast<WeakPtr<const T>>(_assets[asset]).lock() : _loadAsset(asset);
+        SharedPtr<const T> data = _hasAsset(asset) ? std::static_pointer_cast<const T>(_assets[asset].lock()) : _loadAsset(asset);
 
         if (data == nullptr)
         {
@@ -56,8 +58,8 @@ public:
     }
 
 private:
-    std::map<AssetName<void>, WeakPtr<void>> _assets;
-    std::map<AssetName<void>, SharedPtr<void>> _lockedAssets;
+    std::unordered_map<AssetName<void>, WeakPtr<const void>, AssetNameHasher<void>> _assets;
+    std::unordered_map<AssetName<void>, SharedPtr<const void>, AssetNameHasher<void>> _lockedAssets;
 
     bool _hasAsset(const AssetName<void>& asset);
     bool _hasAssetLocked(const AssetName<void>& asset);
@@ -69,14 +71,16 @@ private:
 
         String assetData = assetFile.GetFullText();
 
-        T instance;
-        // read into file using visitor
-        // add asset data into map
-        
-        SharedPtr<const T> loadedData = MakeShared<const T>(instance);
-        _assets[asset] = WeakPtr<const T>(loadedData);
+        SharedPtr<const T> loadedData = MakeShared<const T>();
 
-        return MakeShared<const T>(instance);
+        Serialization::Format::JSON parsedAssetData;
+        parsedAssetData.Parse(assetData);
+
+        DeserializeTo(*loadedData, parsedAssetData);
+        
+        _assets[asset] = loadedData;
+
+        return loadedData;
     }
 
     template <typename T>
