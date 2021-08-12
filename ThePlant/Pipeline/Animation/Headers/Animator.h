@@ -1,12 +1,13 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "Core/Debugging/Headers/Macros.h"
 
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
-#include "Core/Headers/MapDefs.h"
 
 #include "Pipeline/Animation/Headers/Animatable.h"
 #include "Pipeline/Animation/Headers/AnimationMixer.h"
@@ -71,7 +72,7 @@ namespace Animation {
     AnimationState _currentAnimation;
 
     Core::Ptr<Animatable> _animatable = nullptr;
-    Core::Map<Core::Hash, Core::SharedPtr<Animation>> _animations;
+    std::unordered_map<Core::Hash, Core::SharedPtr<Animation>> _animations;
 
     // until we have more complex logic, we will just use simple transition data to manage it - as such, we can only blend two animations at the moment
     TransitionData _transition;

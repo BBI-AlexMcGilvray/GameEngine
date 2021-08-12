@@ -1,6 +1,6 @@
 #include "Pipeline/Animation/TransformAnimation/Headers/TransformAnimationTrack.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 namespace Application {
 namespace Animation {
@@ -10,10 +10,10 @@ namespace Animation {
     Core::List<Keyframe> posX;
     Core::List<Keyframe> posY;
     Core::List<Keyframe> posZ;
-    for (Data::Rendering::PositionFrameData positionData : data.PositionChannel) {
-      Push(posX, Keyframe(positionData.Time, positionData.Position.X));
-      Push(posY, Keyframe(positionData.Time, positionData.Position.Y));
-      Push(posZ, Keyframe(positionData.Time, positionData.Position.Z));
+    for (const Data::Rendering::PositionFrameData& positionData : data.positionChannel) {
+      Push(posX, Keyframe(positionData.time, positionData.position.X));
+      Push(posY, Keyframe(positionData.time, positionData.position.Y));
+      Push(posZ, Keyframe(positionData.time, positionData.position.Z));
     }
     SetTrack(TransformTarget::P_X, FloatAnimationTrack(AnimationCurve(posX)));
     SetTrack(TransformTarget::P_Y, FloatAnimationTrack(AnimationCurve(posY)));
@@ -24,11 +24,11 @@ namespace Animation {
     Core::List<Keyframe> rotY;
     Core::List<Keyframe> rotZ;
     Core::List<Keyframe> rotW;
-    for (Data::Rendering::RotationFrameData rotationData : data.RotationChannel) {
-      Push(posX, Keyframe(rotationData.Time, rotationData.Rotation.X));
-      Push(posY, Keyframe(rotationData.Time, rotationData.Rotation.Y));
-      Push(posZ, Keyframe(rotationData.Time, rotationData.Rotation.Z));
-      Push(posZ, Keyframe(rotationData.Time, rotationData.Rotation.W));
+    for (const Data::Rendering::RotationFrameData& rotationData : data.rotationChannel) {
+      Push(posX, Keyframe(rotationData.time, rotationData.rotation.X));
+      Push(posY, Keyframe(rotationData.time, rotationData.rotation.Y));
+      Push(posZ, Keyframe(rotationData.time, rotationData.rotation.Z));
+      Push(posZ, Keyframe(rotationData.time, rotationData.rotation.W));
     }
     SetTrack(TransformTarget::R_X, FloatAnimationTrack(AnimationCurve(rotX)));
     SetTrack(TransformTarget::R_Y, FloatAnimationTrack(AnimationCurve(rotY)));
@@ -39,10 +39,10 @@ namespace Animation {
     Core::List<Keyframe> scaleX;
     Core::List<Keyframe> scaleY;
     Core::List<Keyframe> scaleZ;
-    for (Data::Rendering::ScaleFrameData scaleData : data.ScaleChannel) {
-      Push(scaleX, Keyframe(scaleData.Time, scaleData.Scale.X));
-      Push(scaleY, Keyframe(scaleData.Time, scaleData.Scale.Y));
-      Push(scaleZ, Keyframe(scaleData.Time, scaleData.Scale.Z));
+    for (const Data::Rendering::ScaleFrameData& scaleData : data.scaleChannel) {
+      Push(scaleX, Keyframe(scaleData.time, scaleData.scale.X));
+      Push(scaleY, Keyframe(scaleData.time, scaleData.scale.Y));
+      Push(scaleZ, Keyframe(scaleData.time, scaleData.scale.Z));
     }
     SetTrack(TransformTarget::S_X, FloatAnimationTrack(AnimationCurve(scaleX)));
     SetTrack(TransformTarget::S_Y, FloatAnimationTrack(AnimationCurve(scaleY)));
@@ -55,7 +55,7 @@ namespace Animation {
       _tracks[target] = animationTrack;
     }
 
-    ALERT("target " + std::to_string(int(target)) + " already being affected by an animationtrack");
+    DEBUG_THROW("TransformAnimationTrack", "target " + std::to_string(int(target)) + " already being affected by an animationtrack");
   }
 
   void TransformAnimationTrack::SetStartState(const Core::Geometric::Transform &transform)

@@ -1,11 +1,12 @@
 #pragma once
 
+#include <unordered_map>
+
 #include "Pipeline/Headers/Component.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 #include "Core/Headers/Hash.h"
-#include "Core/Headers/MapDefs.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
@@ -52,11 +53,11 @@ struct EntityBase
   {
     ComponentPtr<T> existingComponent = GetComponent<T>();
     if (existingComponent) {
-      ALERT("Can't have two of the same component!");
+      DEBUG_ERROR("Entity", "Can't have two of the same component!");
       return existingComponent;
     }
 
-    Core::Insert<Core::Hash, Core::UniquePtr<ComponentBase>>(Components, Core::MakePair(T::ClassHash(), move(component)));
+    Components.insert(Core::MakePair(T::ClassHash(), move(component)));
     return GetComponent<T>();
   }
 
@@ -71,27 +72,27 @@ struct EntityBase
   {
     ComponentPtr<T> existingComponent = GetComponent<T>();
     if (existingComponent) {
-      ALERT("Can't have two of the same component!");
+      DEBUG_ERROR("Entity", "Can't have two of the same component!");
       return existingComponent;
     } else {
       // this means a new component is created, so initialize it
       component->Initialize();
     }
 
-    Core::Insert<Core::Hash, Core::UniquePtr<ComponentBase>>(Components, Core::MakePair(T::ClassHash(), move(component)));
+    Components.insert(Core::MakePair(T::ClassHash(), move(component)));
     return GetComponent<T>();
   }
 
   template<typename T>//, Templates::is_component<T>>
   void RemoveComponent()
   {
-    Core::Erase(Components, T::ClashHash());
+    Components.erase(T::ClashHash());
   }
 
   template<typename T>//, Templates::is_component<T>>
   bool HasComponent()
   {
-    return Core::In(Components, T::ClassHash());
+    return (Components.find(T::ClassHash()) != Components.end());
   }
 
   // Change this to return ComponentPtr<T>
@@ -131,6 +132,6 @@ protected:
   const Core::Ptr<State> _onwningState;
 
 private:
-  Core::Map<Core::Hash, Core::UniquePtr<ComponentBase>> Components;
+  std::unordered_map<Core::Hash, Core::UniquePtr<ComponentBase>> Components;
 };
 }// namespace Application

@@ -18,8 +18,8 @@ namespace Rendering {
   struct CircleRenderObject : RenderObjectBase
   {
     GLArrayBuffer Vao;
-    Core::List<GLBuffer> Vbos;
-    Core::List<Data::Rendering::SimpleVertexDataBase> Vertices;
+    std::vector<GLBuffer> Vbos;
+    std::vector<Data::Rendering::SimpleVertexDataBase> Vertices;
 
     CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
     CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float radius);

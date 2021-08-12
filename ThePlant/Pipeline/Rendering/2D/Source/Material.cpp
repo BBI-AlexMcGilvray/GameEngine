@@ -1,12 +1,14 @@
 #include "Pipeline/Rendering/2D/Headers/Material.h"
 
+#include "Pipeline/Headers/ApplicationManager.h"
+
 namespace Application {
 namespace Rendering {
   Material::Material()
   {}
 
   Material::Material(Data::AssetName<Data::Rendering::MaterialData> asset)
-    : Data(asset)
+    : Data(ApplicationManager::AppAssetManager().getAssetData(asset))
   {
     // shader should be part of material data in the future so that it can be saved
   }

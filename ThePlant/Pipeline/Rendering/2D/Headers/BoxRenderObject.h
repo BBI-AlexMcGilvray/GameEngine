@@ -18,8 +18,8 @@ namespace Rendering {
   struct BoxRenderObject : RenderObjectBase
   {
     GLArrayBuffer Vao;
-    Core::List<GLBuffer> Vbos;
-    Core::List<Data::Rendering::SimpleVertexDataBase> Vertices;
+    std::vector<GLBuffer> Vbos;
+    std::vector<Data::Rendering::SimpleVertexDataBase> Vertices;
 
     BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
     BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float width, float height);

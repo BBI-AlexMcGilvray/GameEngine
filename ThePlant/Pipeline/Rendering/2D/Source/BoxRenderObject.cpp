@@ -34,13 +34,13 @@ namespace Rendering {
   {
     Float3 center = 0.0f;// want box to be centered on transform
 
-    Push(Vertices, { Float3{ center.X - Scale.X, center.Y - Scale.Y, 0.0f }, Float3{ 0.0f } });
-    Push(Vertices, { Float3{ center.X - Scale.X, center.Y + Scale.Y, 0.0f }, Float3{ 0.0f } });
-    Push(Vertices, { Float3{ center.X + Scale.X, center.Y + Scale.Y, 0.0f }, Float3{ 0.0f } });
+    Vertices.push_back({ Float3{ center.X - Scale.X, center.Y - Scale.Y, 0.0f }, Float3{ 0.0f } });
+    Vertices.push_back({ Float3{ center.X - Scale.X, center.Y + Scale.Y, 0.0f }, Float3{ 0.0f } });
+    Vertices.push_back({ Float3{ center.X + Scale.X, center.Y + Scale.Y, 0.0f }, Float3{ 0.0f } });
 
-    Push(Vertices, { Float3{ center.X + Scale.X, center.Y + Scale.Y, 0.0f }, Float3{ 0.0f } });
-    Push(Vertices, { Float3{ center.X + Scale.X, center.Y - Scale.Y, 0.0f }, Float3{ 0.0f } });
-    Push(Vertices, { Float3{ center.X - Scale.X, center.Y - Scale.Y, 0.0f }, Float3{ 0.0f } });
+    Vertices.push_back({ Float3{ center.X + Scale.X, center.Y + Scale.Y, 0.0f }, Float3{ 0.0f } });
+    Vertices.push_back({ Float3{ center.X + Scale.X, center.Y - Scale.Y, 0.0f }, Float3{ 0.0f } });
+    Vertices.push_back({ Float3{ center.X - Scale.X, center.Y - Scale.Y, 0.0f }, Float3{ 0.0f } });
 
     Vao.Generate();
     Vao.Bind();
@@ -58,13 +58,13 @@ namespace Rendering {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::SimpleVertexDataBase), (void *)(0));
     // normal
     glEnableVertexAttribArray(1);// this matches with object shader construction
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::SimpleVertexDataBase), (void *)(offsetof(Data::Rendering::SimpleVertexDataBase, Data::Rendering::SimpleVertexDataBase::Position)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::SimpleVertexDataBase), (void *)(offsetof(Data::Rendering::SimpleVertexDataBase, Data::Rendering::SimpleVertexDataBase::position)));
 
     Vao.Unbind();// must be done first, as it stores the states of the binded vbos
     newBuffer.Unbind();
     glDisableVertexAttribArray(0);
 
-    Push(Vbos, newBuffer);
+    Vbos.push_back(newBuffer);
   }
 
   void BoxRenderObject::Prepare(const Float4x4 &mvp, const Color &color) const

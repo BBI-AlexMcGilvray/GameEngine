@@ -15,7 +15,7 @@ namespace Rendering {
     {}
 
     SimpleVertexRenderDataBase(const Data::Rendering::SimpleVertexDataBase &data)
-      : SimpleVertexRenderDataBase(data.Position, data.Normal)
+      : SimpleVertexRenderDataBase(data.position, data.normal)
     {}
 
     SimpleVertexRenderDataBase(const Float3 &pos, const Float3 &normal)
@@ -35,7 +35,7 @@ namespace Rendering {
     {}
 
     VertexRenderDataBase(const Data::Rendering::VertexDataBase &data)
-      : VertexRenderDataBase(data.Position, data.Normal, data.UVs)
+      : VertexRenderDataBase(data.position, data.normal, data.uvs)
     {}
 
     VertexRenderDataBase(const Float3 &pos, const Float3 &normal, const Float2 &uvs)
@@ -59,7 +59,7 @@ namespace Rendering {
     {}
 
     AnimatedVertexRenderDataBase(const Data::Rendering::AnimatedVertexDataBase &data)
-      : AnimatedVertexRenderDataBase(data.Position, data.Normal, data.UVs, Int4(0), data.BoneWeight)
+      : AnimatedVertexRenderDataBase(data.position, data.normal, data.uvs, Int4(0), data.boneWeight)
     {}
 
     AnimatedVertexRenderDataBase(const Float3 &pos, const Float3 &normal, const Float2 &uvs, const Int4 &boneIndices, const Float4 &boneWeight)

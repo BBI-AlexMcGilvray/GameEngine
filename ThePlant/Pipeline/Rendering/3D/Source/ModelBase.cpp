@@ -15,7 +15,7 @@ namespace Application {
 namespace Rendering {
   ModelBase::ModelBase(const Core::Ptr<State> owningState, Ptr<Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
     //: RenderObjectBase(manager, renderTransform)
-    : ContentBase(owningState), Data(asset), _transform(renderTransform)
+    : ContentBase(owningState), Data(ApplicationManager::AppAssetManager().getAssetData(asset)), _transform(renderTransform)
   //, Mesh(Data.Data.Mesh)
   //, Shader(manager->ObjectShaderManager.DefaultShader)
   {
@@ -45,9 +45,9 @@ namespace Rendering {
   void ModelBase::Initialize()
   {
     // create components
-    _materialComponent->SetMaterial<Material>(Data.Data.Material);
+    _materialComponent->SetMaterial<Material>(Data->material);
 
-    _renderComponent->SetRenderObject<SimpleMeshBase>(_transform, Data.Data.Mesh)->SetMaterialComponent(_materialComponent);
+    _renderComponent->SetRenderObject<SimpleMeshBase>(_transform, Data->mesh)->SetMaterialComponent(_materialComponent);
   }
 
   void ModelBase::Start()

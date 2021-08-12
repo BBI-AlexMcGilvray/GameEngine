@@ -16,7 +16,7 @@ using namespace Core;
 namespace Application {
 namespace Rendering {
   AnimatedModel::AnimatedModel(const Core::Ptr<State> owningState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset)
-    : ContentBase(owningState), Data(asset)
+    : ContentBase(owningState), Data(ApplicationManager::AppAssetManager().getAssetData(asset))
   {
     _skeletonComponent = AddComponent<SkeletonComponent>();
     _renderComponent = AddComponent<Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(_onwningState));
@@ -56,13 +56,13 @@ namespace Rendering {
   {
     // create components
     ComponentPtr<Geometric::Hierarchy> hierarchyComponent = GetComponent<Geometric::Hierarchy>();
-    _skeletonComponent->SetSkeleton<Skeleton>(_onwningState, hierarchyComponent->GetHeirarchyNode(), Data.Data.Skeleton);
+    _skeletonComponent->SetSkeleton<Skeleton>(_onwningState, hierarchyComponent->GetHeirarchyNode(), Data->skeleton);
 
-    _materialComponent->SetMaterial<Material>(Data.Data.Material);
+    _materialComponent->SetMaterial<Material>(Data->material);
     // this should be in the material data, but is here for now
     _materialComponent->GetMaterial()->SetShader(&(ApplicationManager::AppRenderManager().ObjectShaderManager.DefaultSkinnedShader));
 
-    Ptr<SkinnedMeshBase> mesh = _renderComponent->SetRenderObject<SkinnedMeshBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data.Data.Mesh);
+    Ptr<SkinnedMeshBase> mesh = _renderComponent->SetRenderObject<SkinnedMeshBase>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), Data->mesh);
     mesh->SetMaterialComponent(_materialComponent);
 
     SkinToSkeleton(_skeletonComponent->GetSkeleton());

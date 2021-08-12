@@ -10,7 +10,7 @@ using namespace Core;
 namespace Application {
 namespace Rendering {
   SkinnedMeshBase::SkinnedMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::AnimatedMeshData> asset)
-    : RenderObjectBase(manager, renderTransform), Data(asset), _onMaterialDeleted([this] {
+    : RenderObjectBase(manager, renderTransform), Data(ApplicationManager::AppAssetManager().getAssetData(asset)), _onMaterialDeleted([this] {
         ClearMaterialComponent();
 
         return false;
@@ -32,7 +32,7 @@ namespace Rendering {
 
   Core::size SkinnedMeshBase::GetVertexCount() const
   {
-    return Data.Data.VertexCount;
+    return Data->vertexCount;
   }
 
   void SkinnedMeshBase::SetMaterialComponent(ComponentPtr<MaterialComponent> materialComponent)
@@ -104,15 +104,15 @@ namespace Rendering {
   void SkinnedMeshBase::Skin(const Ptr<Skeleton> skeleton)
   {
     _skeleton = skeleton;
-    for (int i = 0; i < Data.Data.Vertices.size(); i++) {
-      Data::Rendering::AnimatedVertexDataBase vertexData = Data.Data.Vertices[i];
+    for (int i = 0; i < Data->vertices.size(); i++) {
+      const Data::Rendering::AnimatedVertexDataBase& vertexData = Data->vertices[i];
       Application::Rendering::AnimatedVertexRenderDataBase vertexRenderData = RenderData[i];
 
       int bonesPerVert = 4;
       for (int j = 0; j < bonesPerVert; j++) {
-        if (j < vertexData.BoneName.size() && vertexData.BoneName[j] != "") {
+        if (j < vertexData.boneName.size() && vertexData.boneName[j] != "") {
           // BoneIndices needs to be a float because of GPU issues when it was an int (didn't read correctly)
-          vertexRenderData.BoneIndices[j] = static_cast<float>(skeleton->GetIndexOf(vertexData.BoneName[j]));
+          vertexRenderData.BoneIndices[j] = static_cast<float>(skeleton->GetIndexOf(vertexData.boneName[j]));
         } else {
           // unused bone indices should be zeroed out by the weight
           vertexRenderData.BoneIndices[j] = 0.0f;
@@ -130,8 +130,8 @@ namespace Rendering {
 
   void SkinnedMeshBase::CreateRenderData()
   {
-    for (int i = 0; i < Data.Data.Vertices.size(); i++) {
-      Push(RenderData, AnimatedVertexRenderDataBase(Data.Data.Vertices[i]));
+    for (int i = 0; i < Data->vertices.size(); i++) {
+      Push(RenderData, AnimatedVertexRenderDataBase(Data->vertices[i]));
     }
   }
 }// namespace Rendering

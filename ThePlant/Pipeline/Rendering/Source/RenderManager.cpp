@@ -1,5 +1,7 @@
 #include "Pipeline\Rendering\Headers\RenderManager.h"
 
+#include "Core/Logging/Logger.h"
+
 using namespace Core;
 using namespace Core::Math;
 using namespace Core::Functionality;
@@ -67,7 +69,7 @@ namespace Rendering {
   void RenderManager::SetActiveState(Ptr<State> state)
   {
     if (state == nullptr) {
-      LOG("RenderManager active state can't be null!");
+      DEBUG_LOG("RenderManager", "Active state can't be null!");
       return;
     }
 
@@ -112,7 +114,7 @@ namespace Rendering {
     }
 #if _DEBUG// check in debug to find errors, no errors should exist in live
     if (RenderCamera == nullptr) {
-      LOG("NO RENDER CAMERA IN RENDER MANAGER!");
+      DEBUG_ERROR("RenderManager", "NO RENDER CAMERA IN RENDER MANAGER!");
       return;
     }
 #endif

@@ -81,11 +81,11 @@ private:
 
 #if DEBUG
 
-#define DEBUG_LOG(tag, message) Logging::Log(tag, message)
-#define DEBUG_WARNING(tag, message) Logging::LogWarning(tag, message)
-#define DEBUG_ERROR(tag, message) Logging::LogError(tag, message)
-#define DEBUG_THROW(tag, message) Logging::ThrowException(tag, message)
-#define DEBUG_THROW_EXCEPTION(type, ...) Logging::ThrowException<type>(__VA_ARGS__)
+#define DEBUG_LOG(tag, message) Core::Logging::Log(tag, message)
+#define DEBUG_WARNING(tag, message) Core::Logging::LogWarning(tag, message)
+#define DEBUG_ERROR(tag, message) Core::Logging::LogError(tag, message)
+#define DEBUG_THROW(tag, message) Core::Logging::ThrowException(tag, message)
+#define DEBUG_THROW_EXCEPTION(type, ...) Core::Logging::ThrowException<type>(__VA_ARGS__)
 
 #else // !DEBUG
 
@@ -97,8 +97,8 @@ private:
 
 #endif
 
-#define CORE_LOG(tag, message) Logging::Log(tag, message)
-#define CORE_WARNING(tag, message) Logging::LogWarning(tag, message)
-#define CORE_ERROR(tag, message) Logging::LogError(tag, message)
-#define CORE_THROW(tag, message) Logging::ThrowException(tag, message)
-#define CORE_THROW_EXCEPTION(type, ...) Logging::ThrowException<type>(__VA_ARGS__)
+#define CORE_LOG(tag, message) Core::Logging::Log(tag, message)
+#define CORE_WARNING(tag, message) Core::Logging::LogWarning(tag, message)
+#define CORE_ERROR(tag, message) Core::Logging::LogError(tag, message)
+#define CORE_THROW(tag, message) Core::Logging::ThrowException(tag, message)
+#define CORE_THROW_EXCEPTION(type, ...) Core::Logging::ThrowException<type>(__VA_ARGS__)

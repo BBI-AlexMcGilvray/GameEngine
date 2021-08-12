@@ -48,13 +48,13 @@ namespace Rendering {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::SimpleVertexDataBase), (void *)(0));
     // normal
     glEnableVertexAttribArray(1);// this matches with object shader construction
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::SimpleVertexDataBase), (void *)(offsetof(Data::Rendering::SimpleVertexDataBase, Data::Rendering::SimpleVertexDataBase::Position)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::SimpleVertexDataBase), (void *)(offsetof(Data::Rendering::SimpleVertexDataBase, Data::Rendering::SimpleVertexDataBase::position)));
 
     Vao.Unbind();// must be done first, as it stores the states of the binded vbos
     newBuffer.Unbind();
     glDisableVertexAttribArray(0);
 
-    Push(Vbos, newBuffer);
+    Vbos.push_back(newBuffer);
   }
 
   void SphereRenderObject::Prepare(const Float4x4 &mvp, const Color &color) const
@@ -95,73 +95,73 @@ namespace Rendering {
       vertices[i] = rScale * Float3(i & 1 ? -t : t, 0.0f, i & 2 ? -1.0f : 1.0f);
 
     Float3 normal = Float3(0.0f);
-    Push(Vertices, { vertices[0], normal });
-    Push(Vertices, { vertices[2], normal });
-    Push(Vertices, { vertices[8], normal });
-    Push(Vertices, { vertices[0], normal });
-    Push(Vertices, { vertices[8], normal });
-    Push(Vertices, { vertices[4], normal });
-    Push(Vertices, { vertices[0], normal });
-    Push(Vertices, { vertices[4], normal });
-    Push(Vertices, { vertices[6], normal });
-    Push(Vertices, { vertices[0], normal });
-    Push(Vertices, { vertices[6], normal });
-    Push(Vertices, { vertices[9], normal });
-    Push(Vertices, { vertices[0], normal });
-    Push(Vertices, { vertices[9], normal });
-    Push(Vertices, { vertices[2], normal });
+    Vertices.push_back({ vertices[0], normal });
+    Vertices.push_back({ vertices[2], normal });
+    Vertices.push_back({ vertices[8], normal });
+    Vertices.push_back({ vertices[0], normal });
+    Vertices.push_back({ vertices[8], normal });
+    Vertices.push_back({ vertices[4], normal });
+    Vertices.push_back({ vertices[0], normal });
+    Vertices.push_back({ vertices[4], normal });
+    Vertices.push_back({ vertices[6], normal });
+    Vertices.push_back({ vertices[0], normal });
+    Vertices.push_back({ vertices[6], normal });
+    Vertices.push_back({ vertices[9], normal });
+    Vertices.push_back({ vertices[0], normal });
+    Vertices.push_back({ vertices[9], normal });
+    Vertices.push_back({ vertices[2], normal });
 
-    Push(Vertices, { vertices[2], normal });
-    Push(Vertices, { vertices[7], normal });
-    Push(Vertices, { vertices[5], normal });
-    Push(Vertices, { vertices[2], normal });
-    Push(Vertices, { vertices[5], normal });
-    Push(Vertices, { vertices[8], normal });
-    Push(Vertices, { vertices[2], normal });
-    Push(Vertices, { vertices[9], normal });
-    Push(Vertices, { vertices[7], normal });
+    Vertices.push_back({ vertices[2], normal });
+    Vertices.push_back({ vertices[7], normal });
+    Vertices.push_back({ vertices[5], normal });
+    Vertices.push_back({ vertices[2], normal });
+    Vertices.push_back({ vertices[5], normal });
+    Vertices.push_back({ vertices[8], normal });
+    Vertices.push_back({ vertices[2], normal });
+    Vertices.push_back({ vertices[9], normal });
+    Vertices.push_back({ vertices[7], normal });
 
-    Push(Vertices, { vertices[8], normal });
-    Push(Vertices, { vertices[5], normal });
-    Push(Vertices, { vertices[10], normal });
-    Push(Vertices, { vertices[8], normal });
-    Push(Vertices, { vertices[10], normal });
-    Push(Vertices, { vertices[4], normal });
+    Vertices.push_back({ vertices[8], normal });
+    Vertices.push_back({ vertices[5], normal });
+    Vertices.push_back({ vertices[10], normal });
+    Vertices.push_back({ vertices[8], normal });
+    Vertices.push_back({ vertices[10], normal });
+    Vertices.push_back({ vertices[4], normal });
 
-    Push(Vertices, { vertices[10], normal });
-    Push(Vertices, { vertices[5], normal });
-    Push(Vertices, { vertices[3], normal });
-    Push(Vertices, { vertices[10], normal });
-    Push(Vertices, { vertices[3], normal });
-    Push(Vertices, { vertices[1], normal });
-    Push(Vertices, { vertices[10], normal });
-    Push(Vertices, { vertices[1], normal });
-    Push(Vertices, { vertices[4], normal });
+    Vertices.push_back({ vertices[10], normal });
+    Vertices.push_back({ vertices[5], normal });
+    Vertices.push_back({ vertices[3], normal });
+    Vertices.push_back({ vertices[10], normal });
+    Vertices.push_back({ vertices[3], normal });
+    Vertices.push_back({ vertices[1], normal });
+    Vertices.push_back({ vertices[10], normal });
+    Vertices.push_back({ vertices[1], normal });
+    Vertices.push_back({ vertices[4], normal });
 
-    Push(Vertices, { vertices[1], normal });
-    Push(Vertices, { vertices[6], normal });
-    Push(Vertices, { vertices[4], normal });
-    Push(Vertices, { vertices[1], normal });
-    Push(Vertices, { vertices[3], normal });
-    Push(Vertices, { vertices[11], normal });
-    Push(Vertices, { vertices[1], normal });
-    Push(Vertices, { vertices[11], normal });
-    Push(Vertices, { vertices[6], normal });
+    Vertices.push_back({ vertices[1], normal });
+    Vertices.push_back({ vertices[6], normal });
+    Vertices.push_back({ vertices[4], normal });
+    Vertices.push_back({ vertices[1], normal });
+    Vertices.push_back({ vertices[3], normal });
+    Vertices.push_back({ vertices[11], normal });
+    Vertices.push_back({ vertices[1], normal });
+    Vertices.push_back({ vertices[11], normal });
+    Vertices.push_back({ vertices[6], normal });
 
-    Push(Vertices, { vertices[6], normal });
-    Push(Vertices, { vertices[11], normal });
-    Push(Vertices, { vertices[9], normal });
+    Vertices.push_back({ vertices[6], normal });
+    Vertices.push_back({ vertices[11], normal });
+    Vertices.push_back({ vertices[9], normal });
 
-    Push(Vertices, { vertices[11], normal });
-    Push(Vertices, { vertices[3], normal });
-    Push(Vertices, { vertices[7], normal });
-    Push(Vertices, { vertices[11], normal });
-    Push(Vertices, { vertices[7], normal });
-    Push(Vertices, { vertices[9], normal });
+    Vertices.push_back({ vertices[11], normal });
+    Vertices.push_back({ vertices[3], normal });
+    Vertices.push_back({ vertices[7], normal });
+    Vertices.push_back({ vertices[11], normal });
+    Vertices.push_back({ vertices[7], normal });
+    Vertices.push_back({ vertices[9], normal });
 
-    Push(Vertices, { vertices[3], normal });
-    Push(Vertices, { vertices[5], normal });
-    Push(Vertices, { vertices[7], normal });
+    Vertices.push_back({ vertices[3], normal });
+    Vertices.push_back({ vertices[5], normal });
+    Vertices.push_back({ vertices[7], normal });
   }
 }// namespace Rendering
 }// namespace Application

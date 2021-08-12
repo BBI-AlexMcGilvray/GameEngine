@@ -1,6 +1,6 @@
 #include "Pipeline/Animation/Headers/Animator.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 namespace Application {
 namespace Animation {
@@ -21,19 +21,19 @@ namespace Animation {
 
   void Animator::AddAnimation(Core::Hash name, Core::SharedPtr<Animation> data)
   {
-    if (!Core::In(_animations, name)) {
+    if (_animations.find(name) != _animations.end()) {
       _animations[name] = data;
     } else {
-      ALERT("Animation with given name already exists!");
+      DEBUG_THROW("Animator", "Animation with given name already exists!");
     }
   }
 
   void Animator::RemoveAnimation(Core::Hash name)
   {
-    if (Core::In(_animations, name)) {
-      Core::Erase(_animations, name);
+    if (_animations.find(name) != _animations.end()) {
+      _animations.erase(name);
     } else {
-      ALERT("Trying to remove animation that does not exist");
+      DEBUG_THROW("Animator", "Trying to remove animation that does not exist");
     }
   }
 

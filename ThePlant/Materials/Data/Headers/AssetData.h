@@ -9,6 +9,11 @@ namespace Data {
 template<typename T>
 struct AssetData
 {
+  AssetData()
+  : _data(nullptr)
+  , _asset(AssetName<T>::VOID)
+  {}
+
   AssetData(const AssetData<T>& other)
     : _data(assetData.data)
     , _asset(assetData.asset)

@@ -1,8 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Pipeline/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLBuffer.h"
@@ -18,8 +19,8 @@ namespace Rendering {
   struct SphereRenderObject : RenderObjectBase
   {
     GLArrayBuffer Vao;
-    Core::List<GLBuffer> Vbos;
-    Core::List<Data::Rendering::SimpleVertexDataBase> Vertices;
+    std::vector<GLBuffer> Vbos;
+    std::vector<Data::Rendering::SimpleVertexDataBase> Vertices;
 
     SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
     SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float radius);

@@ -1,6 +1,7 @@
 #include "Pipeline/Animation/SkeletonAnimation/Headers/SkeletonAnimationTrack.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
+#include "Data/Headers/AssetExceptions.h"
 
 #include "Pipeline/Geometric/Headers/Node.h"
 #include "Pipeline/Rendering/3D/Headers/Bone.h"
@@ -10,9 +11,10 @@ namespace Animation {
   SkeletonAnimationTrack::SkeletonAnimationTrack(const Data::AssetData<Data::Rendering::SkeletonAnimationData> &data)
   {
     int index = 0;
-    for (Data::Rendering::BoneAnimationData boneAnimationData : data.Data.BoneAnimations) {
+    for (const Data::Rendering::BoneAnimationData& boneAnimationData : data->boneAnimations)
+    {
       // the data is not stored in correct order, so we can't do it this way - we need to get the skeleton get the index right
-      SetTrack(boneAnimationData.Name, TransformAnimationTrack(boneAnimationData));
+      SetTrack(boneAnimationData.name, TransformAnimationTrack(boneAnimationData));
       index++;
     }
   }
@@ -23,7 +25,7 @@ namespace Animation {
       _tracks[boneName] = animationTrack;
     }
 
-    ALERT("Bone index " + boneName + " already being affected by an animationtrack");
+    DEBUG_THROW_EXCEPTION(Data::InvalidAsset, "SkeletonAnimationTrack", "Bone index " + boneName + " already being affected by an animationtrack");
   }
 
   void SkeletonAnimationTrack::SetStartState(const Rendering::Skeleton &skeleton)

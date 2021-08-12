@@ -5,7 +5,7 @@
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
-#include "Data/Headers/AssetName.h"
+#include "Data/Headers/AssetData.h"
 #include "Data/Rendering/Headers/MaterialData.h"
 
 #include "Pipeline/Rendering/Shaders/Headers/ObjectShaderBase.h"
@@ -19,7 +19,7 @@ namespace Rendering {
   // maybe should contain the data, not BE the data?
   struct Material
   {
-    Data::Rendering::MaterialData Data;
+    Data::AssetData<Data::Rendering::MaterialData> Data;
     Core::Ptr<ObjectShaderBase> Shader;
 
     Material();
