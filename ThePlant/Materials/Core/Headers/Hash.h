@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TemplateDefs.h"
@@ -27,6 +29,8 @@ Hash HashValue(T &&type);
 template<typename T>
 void HashValue(T &&type, Hash &existingHash);
 
+template <>
+struct std::hash<Hash>;
 std::string ToString(const Hash& hash);
 
 /*
@@ -50,6 +54,7 @@ struct Hash
   template<typename T>
   friend void HashValue(T &&type, Hash &existingHash);
 
+  friend struct std::hash<Hash>;
   friend std::string ToString(const Hash& hash);
 
   constexpr Hash()
@@ -190,3 +195,12 @@ void HashValue(T &&type, Hash &existingHash)
 	}
 	*/
 }// namespace Core
+
+template <>
+struct std::hash<Core::Hash>
+{
+  std::size_t operator()(const Core::Hash& hash) const
+  {
+    return hash._hash;
+  }
+};

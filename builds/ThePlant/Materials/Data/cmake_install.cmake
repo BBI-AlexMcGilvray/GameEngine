@@ -36,8 +36,11 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/Data_Lib" TYPE FILE FILES
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetExceptions.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetMacros.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetName.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetType.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/SerializationUtils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/AnimatedMeshData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/AnimatedModelData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/MaterialData.h"

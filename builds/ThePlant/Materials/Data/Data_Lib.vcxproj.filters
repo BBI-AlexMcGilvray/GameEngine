@@ -31,6 +31,12 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Rendering\Source\TextureData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Source\AssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Source\SerializationUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\CMakeLists.txt" />

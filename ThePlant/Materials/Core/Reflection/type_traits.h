@@ -15,6 +15,9 @@ struct raw_type
 template<typename T>
 using raw_type_t = typename raw_type<T>::type;
 
+/*
+* make_const ensures that the given type T has the same const-ness as the type M
+*/
 template<typename M, typename T>
 struct make_const
 {

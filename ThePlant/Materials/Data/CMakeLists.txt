@@ -12,13 +12,18 @@ Rendering/Source/SkeletonAnimationData.cpp #
 Rendering/Source/SkeletonData.cpp #
 Rendering/Source/StaticMeshData.cpp #
 Rendering/Source/StaticModelData.cpp #
-Rendering/Source/TextureData.cpp)
+Rendering/Source/TextureData.cpp #
+Source/AssetManager.cpp #
+Source/SerializationUtils.cpp)
 
 set(HEADER_FILES #
 Headers/AssetData.h #
 Headers/AssetExceptions.h #
+Headers/AssetMacros.h #
+Headers/AssetManager.h #
 Headers/AssetName.h #
 Headers/AssetType.h #
+Headers/SerializationUtils.h #
 Rendering/Headers/AnimatedMeshData.h #
 Rendering/Headers/AnimatedModelData.h #
 Rendering/Headers/MaterialData.h #

@@ -4,6 +4,16 @@
 #include "Data/Headers/AssetName.h"
 #include "Data/Headers/AssetType.h"
 
+// work around to maintain having deleted copy/assignment constructor for 'true'-assets
+#define NESTED_ASSET(type_name, ...)\
+struct type_name\
+{\
+    REFLECTABLE(__VA_ARGS__)\
+    type_name() = default;\
+    type_name(const type_name& other) = default;\
+    type_name& operator=(const type_name& other) = default;\
+}
+
 #define ASSET(type_name, ...)\
 struct type_name\
 {\

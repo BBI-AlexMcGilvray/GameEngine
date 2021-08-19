@@ -42,6 +42,7 @@ public:
 
     // unlocks the asset if it was locked (does not necessarily clean the asset)
     void unlockAsset(const AssetName<void>& asset);
+    void unlockAllAssets();
 
     template <typename T>
     AssetData<T> getAssetData(const AssetName<T>& asset)
@@ -71,15 +72,17 @@ private:
 
         String assetData = assetFile.GetFullText();
 
-        SharedPtr<const T> loadedData = MakeShared<const T>();
+        // non-const to start for deserialization
+        SharedPtr<T> loadedData = MakeShared<T>();
 
         Serialization::Format::JSON parsedAssetData;
         parsedAssetData.Parse(assetData);
 
         DeserializeTo(*loadedData, parsedAssetData);
         
+        // is now implicitly cast to const in storage
         _assets[asset] = loadedData;
-
+        // return implicitly-cast const version
         return loadedData;
     }
 

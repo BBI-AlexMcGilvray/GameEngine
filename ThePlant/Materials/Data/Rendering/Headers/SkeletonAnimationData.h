@@ -8,20 +8,21 @@
 #include "Core/Math/Headers/Vector3.h"
 
 #include "Data/Headers/AssetMacros.h"
+#include "Data/Headers/SerializationUtils.h"
 
 namespace Data {
 namespace Rendering {
-  ASSET(PositionFrameData,
+  NESTED_ASSET(PositionFrameData,
     (Core::Math::Float3) position,
     (Core::Second) time
   );
 
-  ASSET(RotationFrameData,
+  NESTED_ASSET(RotationFrameData,
     (Core::Math::FQuaternion) rotation,
     (Core::Second) time
   );
 
-  ASSET(ScaleFrameData,
+  NESTED_ASSET(ScaleFrameData,
     (Core::Math::Float3) scale,
     (Core::Second) time
   );
@@ -34,7 +35,7 @@ namespace Rendering {
     Unknown
   };
 
-  ASSET(BoneAnimationData,
+  NESTED_ASSET(BoneAnimationData,
     (std::string) name,
     (AnimationBehaviour) preBehaviour,
     (AnimationBehaviour) postBehaviour,

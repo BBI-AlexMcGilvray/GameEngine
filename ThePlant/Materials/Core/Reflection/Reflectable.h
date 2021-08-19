@@ -33,7 +33,7 @@
   {                                                   \
     Self &self;                                       \
     field_data(Self &self) : self(self) {}            \
-                                                      \
+    /* this will return a const reference if Self is const */  \
     typename make_const<Self, TYPEOF(x)>::type &get() \
     {                                                 \
       return self.STRIP(x);                           \

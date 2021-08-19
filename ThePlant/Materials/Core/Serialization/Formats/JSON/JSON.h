@@ -380,13 +380,32 @@ struct JSON
   template<typename Object, typename = void>
   struct object_reader_visitor
   {
-    Object Read(std::shared_ptr<JSONNode> node)
+    void Read(Object& target, std::shared_ptr<JSONNode> node)
     {
       JSONData<Object> *data = dynamic_cast<JSONData<Object> *>(node.get());
       if (data == nullptr) {
         throw;
       }
-      return data->GetData();
+      target = data->GetData();
+    }
+  };
+
+  // custom type writer
+  // template <typename Object> // WHY IS THIS NOT WORKING?
+  // struct object_reader_visitor<Object, std::void_t<decltype(&Object::deserialize)>> // class has deserialize method
+  // {
+  //   void Read(Object& target, std::shared_ptr<JSONNode> node)
+  //   {
+  //     target.deserialize(node);
+  //   }
+  // };
+  
+  template <typename Object>
+  struct object_reader_visitor<Object, std::void_t<decltype(deserialize(std::declval<Object&>(), std::declval<std::shared_ptr<JSONNode>>()))>> // if there is a deserialize method that takes class reference
+  {
+    void Read(Object& target, std::shared_ptr<JSONNode> node)
+    {
+      deserialize(target, node);
     }
   };
 
@@ -396,33 +415,28 @@ struct JSON
   {
     struct field_reader
     {
-      field_reader(JSONObject *json, Object &target)
-        : _json(json), _target(target)
+      field_reader(JSONObject *json)
+        : _json(json)
       {}
 
       template<typename FieldData>
       void operator()(FieldData f)
       {
-        f.set(object_reader_visitor<raw_type_t<decltype(f.get())>>().Read(_json->GetElement(f.name())));
+        object_reader_visitor<raw_type_t<decltype(f.get())>>().Read(f.get(), _json->GetElement(f.name()));
       }
 
     private:
       JSONObject *_json;
-      Object &_target;
     };
 
-    Object Read(std::shared_ptr<JSONNode> node)
+    void Read(Object& target, std::shared_ptr<JSONNode> node)
     {
       JSONObject *obj = dynamic_cast<JSONObject *>(node.get());
       if (obj == nullptr) {
         throw;
       }
 
-      Object instance;
-
-      reflector::visit_all(instance, field_reader(obj, instance));
-
-      return instance;
+      reflector::visit_all(target, field_reader(obj));
     }
   };
 
@@ -431,18 +445,21 @@ struct JSON
   struct object_reader_visitor<Object, std::void_t<typename std::enable_if<is_iterable<Object>::value && !(std::is_same<raw_type_t<Object>, std::string>::value)>::type>>
   {// better way to verify we can iterate over object: http://www.shital.com/p/writing-generic-container-function-in-c11/
     // may also want to reference https://en.cppreference.com/w/cpp/named_req/SequenceContainer
-    Object Read(std::shared_ptr<JSONNode> node)
+    void Read(Object& target, std::shared_ptr<JSONNode> node)
     {
       JSONArray *arr = dynamic_cast<JSONArray *>(node.get());
       if (arr == nullptr) {
         throw;
       }
 
-      Object instance(arr->Count());
+      target.clear();
+      target.reserve(arr->Count());
+
+      typedef raw_type_t<decltype(std::declval<Object>()[0])> index_type;
       for (int i = 0; i < arr->Count(); i++) {
-        instance[i] = object_reader_visitor<raw_type_t<decltype(std::declval<Object>()[0])>>().Read(arr->GetElement(i));
+        target.push_back(index_type());
+        object_reader_visitor<index_type>().Read(target[i], arr->GetElement(i));
       }
-      return instance;
     }
   };
 
@@ -459,15 +476,15 @@ struct JSON
   }
 
   template<typename Object>
-  Object Read(const std::string &key) const
+  void Read(Object& target, const std::string &key) const
   {
-    return object_reader_visitor<Object>().Read(_data->GetElement(key));
+    return object_reader_visitor<Object>().Read(target, _data->GetElement(key));
   }
 
   template <typename Object>
-  Object Read() const
+  void Read(Object& target) const
   {
-    return object_reader_visitor<Object>().Read(_data);
+    return object_reader_visitor<Object>().Read(target, _data);
   }
 
   std::string ToString(Style style) const

@@ -287,6 +287,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Rendering\Source\StaticMeshData.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Rendering\Source\StaticModelData.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Rendering\Source\TextureData.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Source\AssetManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Source\SerializationUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ZERO_CHECK.vcxproj">
