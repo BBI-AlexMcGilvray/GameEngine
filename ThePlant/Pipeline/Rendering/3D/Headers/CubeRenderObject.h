@@ -11,7 +11,7 @@
 #include "Pipeline/Rendering/Shaders/Headers/ObjectShader.h"
 
 #include "Pipeline/Rendering/Headers/RenderObjectBase.h"
-#include "Data/Rendering/Headers/VertexBaseData.h"
+#include "Pipeline/Rendering/3D/Headers/VertexData.h"
 
 namespace Application {
 namespace Rendering {
@@ -20,7 +20,6 @@ namespace Rendering {
   {
     GLArrayBuffer Vao;
     std::vector<GLBuffer> Vbos;
-    std::vector<Data::Rendering::SimpleVertexDataBase> Vertices;
 
     CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
     CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float width, float height, float depth);
@@ -35,12 +34,13 @@ namespace Rendering {
 
     Core::size GetVertexCount() const override
     {
-      return Vertices.size();
+      return _vertices.size();
     }
 
   protected:
     ObjectShader &Shader;
 
+    std::vector<SimpleVertexData> _vertices;
     Float3 Scale;
 
     void CreateMesh();

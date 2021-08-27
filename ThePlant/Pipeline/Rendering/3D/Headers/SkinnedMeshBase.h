@@ -24,7 +24,6 @@ namespace Rendering {
   struct SkinnedMeshBase : public RenderObjectBase
   {
     Data::AssetData<Data::Rendering::AnimatedMeshData> Data;
-    List<AnimatedVertexRenderDataBase> RenderData;
 
     SkinnedMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::AnimatedMeshData> asset);
     ~SkinnedMeshBase();
@@ -44,6 +43,10 @@ namespace Rendering {
     virtual void CleanUp() const;
 
   private:
+    // this should be optional so that it is only stored if desired (for reading the data that was passed to the GPU)
+    // it could just be cleared after being used
+    std::vector<AnimatedVertexData> _runtimeData;
+    std::vector<AnimatedVertexRenderDataBase> _renderData;
     GLArrayBuffer Vao;
     List<GLBuffer> Vbos;
     GLMappedBuffer MappedMesh;

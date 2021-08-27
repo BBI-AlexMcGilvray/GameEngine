@@ -2,8 +2,11 @@
 
 #include <vector>
 
+#include "Core/Math/Headers/Vector2.h"
+#include "Core/Math/Headers/Vector3.h"
+#include "Core/Math/Headers/Vector4.h"
+
 #include "Data/Headers/AssetMacros.h"
-#include "Data/Rendering/Headers/VertexBaseData.h"
 
 namespace Data {
 namespace Rendering {
@@ -14,11 +17,6 @@ namespace Rendering {
     (std::vector<Core::Math::Uint3>) indices,
     (uint) vertexCount
   );
-  /*
-  The runtime version of this data will need a 
-  std::vector<SimpleVertexDataBase> vertices
-  that is made from all of the above (iterating over indices for iE[0, vertexCount) and making a SimpleVertexDataBase from the position, and normal)
-  */
 }// namespace Rendering
 
 ASSET_TYPE(Rendering::SimpleMeshData, "Resources/Meshes/", ".msh");

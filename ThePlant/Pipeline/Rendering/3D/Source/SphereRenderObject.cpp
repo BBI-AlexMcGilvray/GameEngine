@@ -40,15 +40,15 @@ namespace Rendering {
     newBuffer.Bind();
 
     // glBufferData( < type >, < size of data >, < start of data >, < draw type >);
-    glBufferData(newBuffer.Type, Vertices.size() * sizeof(Data::Rendering::SimpleVertexDataBase), &Vertices[0], GL_STATIC_DRAW);
+    glBufferData(newBuffer.Type, _vertices.size() * sizeof(SimpleVertexData), &_vertices[0], GL_STATIC_DRAW);
 
     // glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
     // position
     glEnableVertexAttribArray(0);// this matches with object shader construction
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::SimpleVertexDataBase), (void *)(0));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(SimpleVertexData), (void *)(0));
     // normal
     glEnableVertexAttribArray(1);// this matches with object shader construction
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Data::Rendering::SimpleVertexDataBase), (void *)(offsetof(Data::Rendering::SimpleVertexDataBase, Data::Rendering::SimpleVertexDataBase::position)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(SimpleVertexData), (void *)(offsetof(SimpleVertexData, SimpleVertexData::position)));
 
     Vao.Unbind();// must be done first, as it stores the states of the binded vbos
     newBuffer.Unbind();
@@ -95,73 +95,73 @@ namespace Rendering {
       vertices[i] = rScale * Float3(i & 1 ? -t : t, 0.0f, i & 2 ? -1.0f : 1.0f);
 
     Float3 normal = Float3(0.0f);
-    Vertices.push_back({ vertices[0], normal });
-    Vertices.push_back({ vertices[2], normal });
-    Vertices.push_back({ vertices[8], normal });
-    Vertices.push_back({ vertices[0], normal });
-    Vertices.push_back({ vertices[8], normal });
-    Vertices.push_back({ vertices[4], normal });
-    Vertices.push_back({ vertices[0], normal });
-    Vertices.push_back({ vertices[4], normal });
-    Vertices.push_back({ vertices[6], normal });
-    Vertices.push_back({ vertices[0], normal });
-    Vertices.push_back({ vertices[6], normal });
-    Vertices.push_back({ vertices[9], normal });
-    Vertices.push_back({ vertices[0], normal });
-    Vertices.push_back({ vertices[9], normal });
-    Vertices.push_back({ vertices[2], normal });
+    _vertices.push_back({ vertices[0], normal });
+    _vertices.push_back({ vertices[2], normal });
+    _vertices.push_back({ vertices[8], normal });
+    _vertices.push_back({ vertices[0], normal });
+    _vertices.push_back({ vertices[8], normal });
+    _vertices.push_back({ vertices[4], normal });
+    _vertices.push_back({ vertices[0], normal });
+    _vertices.push_back({ vertices[4], normal });
+    _vertices.push_back({ vertices[6], normal });
+    _vertices.push_back({ vertices[0], normal });
+    _vertices.push_back({ vertices[6], normal });
+    _vertices.push_back({ vertices[9], normal });
+    _vertices.push_back({ vertices[0], normal });
+    _vertices.push_back({ vertices[9], normal });
+    _vertices.push_back({ vertices[2], normal });
 
-    Vertices.push_back({ vertices[2], normal });
-    Vertices.push_back({ vertices[7], normal });
-    Vertices.push_back({ vertices[5], normal });
-    Vertices.push_back({ vertices[2], normal });
-    Vertices.push_back({ vertices[5], normal });
-    Vertices.push_back({ vertices[8], normal });
-    Vertices.push_back({ vertices[2], normal });
-    Vertices.push_back({ vertices[9], normal });
-    Vertices.push_back({ vertices[7], normal });
+    _vertices.push_back({ vertices[2], normal });
+    _vertices.push_back({ vertices[7], normal });
+    _vertices.push_back({ vertices[5], normal });
+    _vertices.push_back({ vertices[2], normal });
+    _vertices.push_back({ vertices[5], normal });
+    _vertices.push_back({ vertices[8], normal });
+    _vertices.push_back({ vertices[2], normal });
+    _vertices.push_back({ vertices[9], normal });
+    _vertices.push_back({ vertices[7], normal });
 
-    Vertices.push_back({ vertices[8], normal });
-    Vertices.push_back({ vertices[5], normal });
-    Vertices.push_back({ vertices[10], normal });
-    Vertices.push_back({ vertices[8], normal });
-    Vertices.push_back({ vertices[10], normal });
-    Vertices.push_back({ vertices[4], normal });
+    _vertices.push_back({ vertices[8], normal });
+    _vertices.push_back({ vertices[5], normal });
+    _vertices.push_back({ vertices[10], normal });
+    _vertices.push_back({ vertices[8], normal });
+    _vertices.push_back({ vertices[10], normal });
+    _vertices.push_back({ vertices[4], normal });
 
-    Vertices.push_back({ vertices[10], normal });
-    Vertices.push_back({ vertices[5], normal });
-    Vertices.push_back({ vertices[3], normal });
-    Vertices.push_back({ vertices[10], normal });
-    Vertices.push_back({ vertices[3], normal });
-    Vertices.push_back({ vertices[1], normal });
-    Vertices.push_back({ vertices[10], normal });
-    Vertices.push_back({ vertices[1], normal });
-    Vertices.push_back({ vertices[4], normal });
+    _vertices.push_back({ vertices[10], normal });
+    _vertices.push_back({ vertices[5], normal });
+    _vertices.push_back({ vertices[3], normal });
+    _vertices.push_back({ vertices[10], normal });
+    _vertices.push_back({ vertices[3], normal });
+    _vertices.push_back({ vertices[1], normal });
+    _vertices.push_back({ vertices[10], normal });
+    _vertices.push_back({ vertices[1], normal });
+    _vertices.push_back({ vertices[4], normal });
 
-    Vertices.push_back({ vertices[1], normal });
-    Vertices.push_back({ vertices[6], normal });
-    Vertices.push_back({ vertices[4], normal });
-    Vertices.push_back({ vertices[1], normal });
-    Vertices.push_back({ vertices[3], normal });
-    Vertices.push_back({ vertices[11], normal });
-    Vertices.push_back({ vertices[1], normal });
-    Vertices.push_back({ vertices[11], normal });
-    Vertices.push_back({ vertices[6], normal });
+    _vertices.push_back({ vertices[1], normal });
+    _vertices.push_back({ vertices[6], normal });
+    _vertices.push_back({ vertices[4], normal });
+    _vertices.push_back({ vertices[1], normal });
+    _vertices.push_back({ vertices[3], normal });
+    _vertices.push_back({ vertices[11], normal });
+    _vertices.push_back({ vertices[1], normal });
+    _vertices.push_back({ vertices[11], normal });
+    _vertices.push_back({ vertices[6], normal });
 
-    Vertices.push_back({ vertices[6], normal });
-    Vertices.push_back({ vertices[11], normal });
-    Vertices.push_back({ vertices[9], normal });
+    _vertices.push_back({ vertices[6], normal });
+    _vertices.push_back({ vertices[11], normal });
+    _vertices.push_back({ vertices[9], normal });
 
-    Vertices.push_back({ vertices[11], normal });
-    Vertices.push_back({ vertices[3], normal });
-    Vertices.push_back({ vertices[7], normal });
-    Vertices.push_back({ vertices[11], normal });
-    Vertices.push_back({ vertices[7], normal });
-    Vertices.push_back({ vertices[9], normal });
+    _vertices.push_back({ vertices[11], normal });
+    _vertices.push_back({ vertices[3], normal });
+    _vertices.push_back({ vertices[7], normal });
+    _vertices.push_back({ vertices[11], normal });
+    _vertices.push_back({ vertices[7], normal });
+    _vertices.push_back({ vertices[9], normal });
 
-    Vertices.push_back({ vertices[3], normal });
-    Vertices.push_back({ vertices[5], normal });
-    Vertices.push_back({ vertices[7], normal });
+    _vertices.push_back({ vertices[3], normal });
+    _vertices.push_back({ vertices[5], normal });
+    _vertices.push_back({ vertices[7], normal });
   }
 }// namespace Rendering
 }// namespace Application

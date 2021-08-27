@@ -1,9 +1,13 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
+#include "Core/Math/Headers/Vector2.h"
+#include "Core/Math/Headers/Vector3.h"
+#include "Core/Math/Headers/Vector4.h"
+
 #include "Data/Headers/AssetMacros.h"
-#include "Data/Rendering/Headers/VertexBaseData.h"
 
 namespace Data {
 namespace Rendering {

@@ -39,6 +39,9 @@ namespace Rendering {
     void CleanUp() const override;
 
   private:
+    // this should be optional so that it is only stored if desired (for reading the data that was passed to the GPU)
+    // it could just be cleared after being used
+    std::vector<SimpleVertexData> _runtimeData;
     GLArrayBuffer Vao;
     List<GLBuffer> Vbos;
 

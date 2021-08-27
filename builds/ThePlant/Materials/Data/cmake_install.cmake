@@ -51,7 +51,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/StaticMeshData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/StaticModelData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/TextureData.h"
-    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/VertexBaseData.h"
     )
 endif()
 

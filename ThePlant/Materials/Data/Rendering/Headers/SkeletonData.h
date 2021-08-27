@@ -11,7 +11,7 @@
 
 namespace Data {
 namespace Rendering {
-  ASSET(SkeletonBoneData,
+  NESTED_ASSET(SkeletonBoneData,
     (std::string) name,
     (Core::Math::Float3) position,
     (Core::Math::FQuaternion) rotation,

@@ -11,7 +11,7 @@
 #include "Pipeline/Rendering/Shaders/Headers/ObjectShader.h"
 
 #include "Pipeline/Rendering/Headers/RenderObjectBase.h"
-#include "Data/Rendering/Headers/VertexBaseData.h"
+#include "Pipeline/Rendering/3D/Headers/VertexData.h"
 
 namespace Application {
 namespace Rendering {
@@ -20,7 +20,6 @@ namespace Rendering {
   {
     GLArrayBuffer Vao;
     std::vector<GLBuffer> Vbos;
-    std::vector<Data::Rendering::SimpleVertexDataBase> Vertices;
 
     SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
     SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float radius);
@@ -40,6 +39,7 @@ namespace Rendering {
   protected:
     ObjectShader &Shader;
 
+    std::vector<SimpleVertexData> _vertices;
     float Radius;
 
     void CreateMesh();

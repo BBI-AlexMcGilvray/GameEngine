@@ -11,13 +11,4 @@ namespace Core::Serialization::Format
       Core::Second::rep timeCount = data->GetData();
       time = Core::Second(timeCount);
     }
-
-    void deserialize(std::string& string, std::shared_ptr<JSONNode> json)
-    {
-      JSONData<std::string> *data = dynamic_cast<JSONData<std::string> *>(json.get());
-      if (data == nullptr) {
-        throw;
-      }
-      string = data->GetData();
-    }
 }

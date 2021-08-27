@@ -3,70 +3,68 @@
 #include "Core/Headers/Macros.h"
 #include <exception>
 
-template<typename ENUM, ENUM... VALUES>
-struct enum_meta;
-
-template<typename ENUM>
-struct enum_meta<ENUM>
+namespace meta
 {
-  template<typename T>
-  static bool constexpr is_value(T)
+  template<typename ENUM, ENUM... VALUES>
+  struct enum_meta;
+
+  template<typename ENUM>
+  struct enum_meta<ENUM>
   {
-    return false;
-  }
-
-  static ENUM constexpr at_index(int index)
-  {
-    throw std::out_of_range("index is bigger than the size of enum");
-  }
-
-  static int constexpr get_index(ENUM val)
-  {
-    throw std::bad_cast();
-  }
-
-  static int constexpr count() { return 0; }
-};
-
-template<typename ENUM, ENUM FIRST, ENUM... REST>
-struct enum_meta<ENUM, FIRST, REST...> : private enum_meta<ENUM, REST...>
-{
-  using super = enum_meta<ENUM, REST...>;
-
-  template<typename T>
-  static bool constexpr is_value(T t)
-  {
-    return (FIRST == static_cast<ENUM>(t) || super::is_value(t));
-  }
-
-  static ENUM constexpr at_index(int index)
-  {
-    if (index == 0) {
-      return FIRST;
+    template<typename T>
+    static bool constexpr is_value(T)
+    {
+      return false;
     }
 
-    return super::at_index(index - 1);
-  }
-
-  static int constexpr get_index(ENUM val)
-  {
-    if (val == FIRST) {
-      return 0;
+    static ENUM constexpr at_index(int index)
+    {
+      throw std::out_of_range("index is bigger than the size of enum");
     }
 
-    return 1 + super::get_index(val);
-  }
+    static int constexpr get_index(ENUM val)
+    {
+      throw std::bad_cast();
+    }
 
-  static int constexpr count()
+    static int constexpr count() { return 0; }
+  };
+
+  template<typename ENUM, ENUM FIRST, ENUM... REST>
+  struct enum_meta<ENUM, FIRST, REST...> : private enum_meta<ENUM, REST...>
   {
-    return (1 + super::count());
-  }
-};
+    using super = enum_meta<ENUM, REST...>;
 
-template<typename T>
-struct meta
-{
-};
+    template<typename T>
+    static bool constexpr is_value(T t)
+    {
+      return (FIRST == static_cast<ENUM>(t) || super::is_value(t));
+    }
+
+    static ENUM constexpr at_index(int index)
+    {
+      if (index == 0) {
+        return FIRST;
+      }
+
+      return super::at_index(index - 1);
+    }
+
+    static int constexpr get_index(ENUM val)
+    {
+      if (val == FIRST) {
+        return 0;
+      }
+
+      return 1 + super::get_index(val);
+    }
+
+    static int constexpr count()
+    {
+      return (1 + super::count());
+    }
+  };
+}
 
 #define SPLIT(X) (X),
 #define COMMA(...) ,
@@ -86,24 +84,27 @@ ENUM(MyEnum, int,
 (A)(= 1),
 (B)(<< 1));
 // what is in the bracket is what would be used to set the value
+
+// Notes:
+Ideally 'meta_TYPE' is more well defined via some template, or having it pass into/specialize a containing templated struct.
+This would allow a common interface to use namespaced types without users needing to _know_ that 'meta_TYPE' is a defined type
 */
 #define ENUM(TYPE, BASE, ...)                                                                                          \
   enum class TYPE : BASE {                                                                                             \
     FOR_EACH(ENUM_VALUE_INDIRECT, __VA_ARGS__)                                                                         \
   };                                                                                                                   \
-  template<>                                                                                                           \
-  struct meta<TYPE>                                                                                                    \
+  struct meta_TYPE                                                                                                     \
   {                                                                                                                    \
-    using data = enum_meta<TYPE, EVAL(REPEAT(VA_NUM_ARGS(__VA_ARGS__), ENUM_META_VALUE_INDIRECT, TYPE, __VA_ARGS__))>; \
+    using meta_data = meta::enum_meta<TYPE, EVAL(REPEAT(VA_NUM_ARGS(__VA_ARGS__), ENUM_META_VALUE_INDIRECT, TYPE, __VA_ARGS__))>; \
                                                                                                                        \
     template<typename T>                                                                                               \
     static bool constexpr is_value(T t)                                                                                \
     {                                                                                                                  \
-      return data::is_value<T>(t);                                                                                     \
+      return meta_data::is_value<T>(t);                                                                                     \
     }                                                                                                                  \
-    static TYPE constexpr at_index(int index) { return data::at_index(index); }                                        \
-    static int constexpr get_index(TYPE val) { return data::get_index(val); }                                          \
-    static int constexpr count() { return data::count(); }                                                             \
+    static TYPE constexpr at_index(int index) { return meta_data::at_index(index); }                                        \
+    static int constexpr get_index(TYPE val) { return meta_data::get_index(val); }                                          \
+    static int constexpr count() { return meta_data::count(); }                                                             \
   };
 
 #define ENUM_VALUE_INDIRECT(i, ...) \
@@ -133,7 +134,12 @@ ENUM(MyEnum, int,
     default:                                                                                \
       return "INVALID";                                                                     \
     }                                                                                       \
-  }// to_string can be constexpr in std20+
+  }/* to_string can be constexpr in std20+*/                                                \
+  TYPE from_string(const std::string& str)                                                  \
+  {                                                                                         \
+    EVAL(REPEAT(VA_NUM_ARGS(__VA_ARGS__), ENUM_FROM_STRING_INDIRECT, TYPE, __VA_ARGS__))    \
+    throw; /* invalid string value - make this nicer */                                     \
+  }
 
 #define ENUM_STRING_VALUE_INDIRECT(i, TYPE, ...) \
   OBSTRUCT(ENUM_STRING_VALUE)                    \
@@ -142,4 +148,14 @@ ENUM(MyEnum, int,
 #define ENUM_STRING_VALUE(i, TYPE, VALUE)          \
   case TYPE::NAME(VALUE): {                        \
     return OBSTRUCT(TO_STRING)(TYPE::NAME(VALUE)); \
+  }
+
+#define ENUM_FROM_STRING_INDIRECT(i, TYPE, ...)    \
+  OBSTRUCT(ENUM_FROM_STRING)                       \
+  (i, TYPE, ARG_I(i, __VA_ARGS__))                 
+
+#define ENUM_FROM_STRING(i, TYPE, VALUE)           \
+  if (OBSTRUCT(TO_STRING)(TYPE::NAME(VALUE)))      \
+  {                                                \
+    return TYPE::NAME(VALUE);                      \
   }

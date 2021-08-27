@@ -33,8 +33,7 @@ Rendering/Headers/SkeletonAnimationData.h #
 Rendering/Headers/SkeletonData.h #
 Rendering/Headers/StaticMeshData.h #
 Rendering/Headers/StaticModelData.h #
-Rendering/Headers/TextureData.h #
-Rendering/Headers/VertexBaseData.h)
+Rendering/Headers/TextureData.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Data_Lib)
 

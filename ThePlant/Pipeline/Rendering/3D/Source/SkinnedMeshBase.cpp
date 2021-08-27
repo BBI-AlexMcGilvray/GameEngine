@@ -1,5 +1,9 @@
 #include "Pipeline/Rendering/3D/Headers/SkinnedMeshBase.h"
+
+#include "Pipeline/Headers/ApplicationManager.h"
+
 #include "Pipeline/Rendering/Shaders/Headers/SkinnedObjectShader.h"
+#include "Pipeline/Rendering/3D/Headers/VertexData.h"
 
 // testing
 #include "Core/Math/Headers/VectorFunctions.h"
@@ -32,7 +36,7 @@ namespace Rendering {
 
   Core::size SkinnedMeshBase::GetVertexCount() const
   {
-    return Data->vertexCount;
+    return _runtimeData.size();
   }
 
   void SkinnedMeshBase::SetMaterialComponent(ComponentPtr<MaterialComponent> materialComponent)
@@ -54,8 +58,11 @@ namespace Rendering {
     newBuffer.Generate();
     newBuffer.Bind();
 
+    // if we want to allow for modifying the vertex (or just reading the data), this should be stored in the instance
+    _runtimeData = createRuntimeData(*Data);
+
     // glBufferData( < type >, < size of data >, < start of data >, < draw type >); // GL_DYNAMIC_DRAW because Skin(...) could be called multiple times, changing indices
-    glBufferData(newBuffer.Type, RenderData.size() * sizeof(Application::Rendering::AnimatedVertexRenderDataBase), &(RenderData[0]), GL_DYNAMIC_DRAW);
+    glBufferData(newBuffer.Type, _renderData.size() * sizeof(Application::Rendering::AnimatedVertexRenderDataBase), &(_renderData[0]), GL_DYNAMIC_DRAW);
 
     // glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
     // position
@@ -104,9 +111,9 @@ namespace Rendering {
   void SkinnedMeshBase::Skin(const Ptr<Skeleton> skeleton)
   {
     _skeleton = skeleton;
-    for (int i = 0; i < Data->vertices.size(); i++) {
-      const Data::Rendering::AnimatedVertexDataBase& vertexData = Data->vertices[i];
-      Application::Rendering::AnimatedVertexRenderDataBase vertexRenderData = RenderData[i];
+    for (int i = 0; i < _runtimeData.size(); i++) {
+      const AnimatedVertexData& vertexData = _runtimeData[i];
+      Application::Rendering::AnimatedVertexRenderDataBase vertexRenderData = _renderData[i];
 
       int bonesPerVert = 4;
       for (int j = 0; j < bonesPerVert; j++) {
@@ -119,19 +126,19 @@ namespace Rendering {
         }
       }
 
-      RenderData[i] = vertexRenderData;
+      _renderData[i] = vertexRenderData;
     }
 
     // Update the data in the opengl buffer
     MappedMesh.Map(GL_WRITE_ONLY);
-    MappedMesh.Assign(&(RenderData[0]), RenderData.size() * sizeof(Application::Rendering::AnimatedVertexRenderDataBase));
+    MappedMesh.Assign(&(_renderData[0]), _renderData.size() * sizeof(Application::Rendering::AnimatedVertexRenderDataBase));
     MappedMesh.Unmap();
   }
 
   void SkinnedMeshBase::CreateRenderData()
   {
-    for (int i = 0; i < Data->vertices.size(); i++) {
-      Push(RenderData, AnimatedVertexRenderDataBase(Data->vertices[i]));
+    for (int i = 0; i < _runtimeData.size(); i++) {
+      _renderData.push_back(AnimatedVertexRenderDataBase(_runtimeData[i]));
     }
   }
 }// namespace Rendering
