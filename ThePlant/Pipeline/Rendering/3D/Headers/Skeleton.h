@@ -36,9 +36,9 @@ namespace Rendering {
     Core::Ptr<Bone> Root = nullptr;
 
     // hold list of all bones - in order - to be able to calculate the matrices to pass to shader in the same order
-    Core::List<Core::Ptr<Bone>> BoneList;
+    std::vector<Core::Ptr<Bone>> BoneList;
 
-    Core::Ptr<Bone> CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, Core::Ptr<Data::Rendering::SkeletonBoneData> boneData, Core::Ptr<Bone> rootBone = nullptr);
+    Core::Ptr<Bone> CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, size_t boneIndex, Core::Ptr<Bone> rootBone = nullptr);
   };
 }// namespace Rendering
 }// namespace Application

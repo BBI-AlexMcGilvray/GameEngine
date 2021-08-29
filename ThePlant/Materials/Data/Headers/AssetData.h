@@ -39,7 +39,7 @@ struct AssetData
 
   const T& operator*() const
   {
-    return &(_data.get());
+    return *(_data.get());
   }
 
   bool operator==(const AssetName<T>& asset) const

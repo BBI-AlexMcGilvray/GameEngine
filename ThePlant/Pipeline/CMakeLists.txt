@@ -152,7 +152,6 @@ Rendering/3D/Headers/AnimatedModel.h #
 Rendering/3D/Headers/Bone.h #
 Rendering/3D/Headers/CubeRenderObject.h #
 Rendering/3D/Headers/ModelBase.h #
-Rendering/3D/Headers/RenderVertexBaseData.h #
 Rendering/3D/Headers/SimpleMeshBase.h #
 Rendering/3D/Headers/Skeleton.h #
 Rendering/3D/Headers/SkeletonComponent.h #

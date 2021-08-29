@@ -33,7 +33,7 @@ namespace Rendering {
 
     Core::size GetVertexCount() const override
     {
-      return Vertices.size();
+      return _vertices.size();
     }
 
   protected:

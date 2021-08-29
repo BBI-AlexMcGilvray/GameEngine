@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <string>
 #include <vector>
 
@@ -32,8 +33,31 @@ namespace Rendering {
     Core::Math::Float3 position;
     Core::Math::Float3 normal;
     Core::Math::Float2 uvs;
-    std::vector<std::string> boneName;
+    std::array<std::string, 4> boneName;
     Core::Math::Float4 boneWeight;
+  };
+
+  // use this once the AnimatedVertexData can map the boneName values to indices of a given skeleton
+  struct SkinnedVertexData
+  {
+    Core::Math::Float3 position;
+    Core::Math::Float3 normal;
+    Core::Math::Float2 uvs;
+    Core::Math::Float4 boneIndices; // float because shader had issues reading as ints
+    Core::Math::Float4 boneWeight;
+
+    SkinnedVertexData() = default;
+    SkinnedVertexData(const SkinnedVertexData& other) = default;
+    ~SkinnedVertexData() = default;
+
+    SkinnedVertexData(const AnimatedVertexData& other)
+    {
+      position = other.position;
+      normal = other.normal;
+      uvs = other.uvs;
+      boneIndices = Core::Math::Float4(0.0f);
+      boneWeight = other.boneWeight;
+    }
   };
   
   std::vector<SimpleVertexData> createRuntimeData(const Data::Rendering::SimpleMeshData& meshData);

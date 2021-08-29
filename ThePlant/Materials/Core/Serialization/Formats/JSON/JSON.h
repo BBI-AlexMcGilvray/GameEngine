@@ -1,11 +1,13 @@
 #pragma once
 
-#include "Core/Reflection/type_traits.h"
-#include "Core/Serialization/type_traits.h"
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include "Core/Logging/Logger.h"
+#include "Core/Reflection/type_traits.h"
+#include "Core/Serialization/type_traits.h"
 
 namespace Core::Serialization::Format {
 // references:
@@ -445,6 +447,16 @@ struct JSON
   struct object_reader_visitor<Object, std::void_t<typename std::enable_if<is_iterable<Object>::value && !(std::is_same<raw_type_t<Object>, std::string>::value)>::type>>
   {// better way to verify we can iterate over object: http://www.shital.com/p/writing-generic-container-function-in-c11/
     // may also want to reference https://en.cppreference.com/w/cpp/named_req/SequenceContainer
+
+  private:
+    template <typename RESIZEABLE>
+    void resize(RESIZEABLE& resizeable, size_t newSize) { resizeable.resize(newSize); }
+
+    // std::arrays can't be resized
+    template <typename T, size_t SIZE>
+    void resize(std::array<T, SIZE>& nonresizeable, size_t newSize) { assert(SIZE == newSize); /*, "expected size and actual size must match");*/ } // need a DEBUG_ASSERT (and others) macro
+
+  public:
     void Read(Object& target, std::shared_ptr<JSONNode> node)
     {
       JSONArray *arr = dynamic_cast<JSONArray *>(node.get());
@@ -452,12 +464,10 @@ struct JSON
         throw;
       }
 
-      target.clear();
-      target.reserve(arr->Count());
+      resize(target, arr->Count());
 
       typedef raw_type_t<decltype(std::declval<Object>()[0])> index_type;
       for (int i = 0; i < arr->Count(); i++) {
-        target.push_back(index_type());
         object_reader_visitor<index_type>().Read(target[i], arr->GetElement(i));
       }
     }

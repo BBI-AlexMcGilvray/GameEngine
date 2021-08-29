@@ -14,7 +14,7 @@ namespace Core::Serialization::Format
     template <typename T>
     void deserialize(Core::Math::Vector2<T>& vector, std::shared_ptr<JSONNode> json)
     {
-      JSONObject *data = dynamic_cast<JSONObject>(json.get());
+      JSONObject* data = dynamic_cast<JSONObject*>(json.get());
       if (data == nullptr) {
         throw;
       }
@@ -26,7 +26,7 @@ namespace Core::Serialization::Format
     template <typename T>
     void deserialize(Core::Math::Vector3<T>& vector, std::shared_ptr<JSONNode> json)
     {
-      JSONObject *data = dynamic_cast<JSONObject>(json.get());
+      JSONObject* data = dynamic_cast<JSONObject*>(json.get());
       if (data == nullptr) {
         throw;
       }
@@ -39,7 +39,7 @@ namespace Core::Serialization::Format
     template <typename T>
     void deserialize(Core::Math::Vector4<T>& vector, std::shared_ptr<JSONNode> json)
     {
-      JSONObject *data = dynamic_cast<JSONObject>(json.get());
+      JSONObject* data = dynamic_cast<JSONObject*>(json.get());
       if (data == nullptr) {
         throw;
       }

@@ -62,21 +62,21 @@ namespace Rendering {
     _runtimeData = createRuntimeData(*Data);
 
     // glBufferData( < type >, < size of data >, < start of data >, < draw type >); // GL_DYNAMIC_DRAW because Skin(...) could be called multiple times, changing indices
-    glBufferData(newBuffer.Type, _renderData.size() * sizeof(Application::Rendering::AnimatedVertexRenderDataBase), &(_renderData[0]), GL_DYNAMIC_DRAW);
+    glBufferData(newBuffer.Type, _renderData.size() * sizeof(Application::Rendering::SkinnedVertexData), &(_renderData[0]), GL_DYNAMIC_DRAW);
 
     // glVertexAttribPointer(< vertex attrib array >, < number of ... >, < ... type of element >, < normalized? >, < new vertex every sizeof(<>) >, < offset of attribute >);
     // position
     glEnableVertexAttribArray(0);// this matches with object shader construction
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::AnimatedVertexRenderDataBase), (void *)(offsetof(Application::Rendering::AnimatedVertexRenderDataBase, Application::Rendering::AnimatedVertexRenderDataBase::Position)));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::position)));
     // normal
     glEnableVertexAttribArray(1);// this matches with object shader construction
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::AnimatedVertexRenderDataBase), (void *)(offsetof(Application::Rendering::AnimatedVertexRenderDataBase, Application::Rendering::AnimatedVertexRenderDataBase::Normal)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::normal)));
     // bone weight
     glEnableVertexAttribArray(2);// this matches with object shader construction
-    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::AnimatedVertexRenderDataBase), (void *)(offsetof(Application::Rendering::AnimatedVertexRenderDataBase, Application::Rendering::AnimatedVertexRenderDataBase::BoneWeight)));
+    glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::boneWeight)));
     // bone indices
     glEnableVertexAttribArray(3);// this matches with object shader construction
-    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::AnimatedVertexRenderDataBase), (void *)(offsetof(Application::Rendering::AnimatedVertexRenderDataBase, Application::Rendering::AnimatedVertexRenderDataBase::BoneIndices)));
+    glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::boneIndices)));
 
     Vao.Unbind();// must be done first, as it stores the states of the binded vbos
     newBuffer.Unbind();
@@ -113,16 +113,16 @@ namespace Rendering {
     _skeleton = skeleton;
     for (int i = 0; i < _runtimeData.size(); i++) {
       const AnimatedVertexData& vertexData = _runtimeData[i];
-      Application::Rendering::AnimatedVertexRenderDataBase vertexRenderData = _renderData[i];
+      Application::Rendering::SkinnedVertexData vertexRenderData = _renderData[i];
 
       int bonesPerVert = 4;
       for (int j = 0; j < bonesPerVert; j++) {
         if (j < vertexData.boneName.size() && vertexData.boneName[j] != "") {
-          // BoneIndices needs to be a float because of GPU issues when it was an int (didn't read correctly)
-          vertexRenderData.BoneIndices[j] = static_cast<float>(skeleton->GetIndexOf(vertexData.boneName[j]));
+          // boneIndices needs to be a float because of GPU issues when it was an int (didn't read correctly)
+          vertexRenderData.boneIndices[j] = static_cast<float>(skeleton->GetIndexOf(vertexData.boneName[j]));
         } else {
           // unused bone indices should be zeroed out by the weight
-          vertexRenderData.BoneIndices[j] = 0.0f;
+          vertexRenderData.boneIndices[j] = 0.0f;
         }
       }
 
@@ -131,14 +131,14 @@ namespace Rendering {
 
     // Update the data in the opengl buffer
     MappedMesh.Map(GL_WRITE_ONLY);
-    MappedMesh.Assign(&(_renderData[0]), _renderData.size() * sizeof(Application::Rendering::AnimatedVertexRenderDataBase));
+    MappedMesh.Assign(&(_renderData[0]), _renderData.size() * sizeof(Application::Rendering::SkinnedVertexData));
     MappedMesh.Unmap();
   }
 
   void SkinnedMeshBase::CreateRenderData()
   {
     for (int i = 0; i < _runtimeData.size(); i++) {
-      _renderData.push_back(AnimatedVertexRenderDataBase(_runtimeData[i]));
+      _renderData.push_back(SkinnedVertexData(_runtimeData[i]));
     }
   }
 }// namespace Rendering

@@ -8,6 +8,8 @@
 
 #include "Pipeline/Rendering/Headers/RenderObjectBase.h"
 
+#include "Pipeline/Rendering/3D/Headers/VertexData.h"
+
 #include "Pipeline/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLBuffer.h"
 

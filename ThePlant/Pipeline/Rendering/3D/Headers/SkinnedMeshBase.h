@@ -9,7 +9,7 @@
 #include "Pipeline/Rendering/Headers/RenderObjectBase.h"
 
 #include "Pipeline/Rendering/3D/Headers/Skeleton.h"
-#include "Pipeline/Rendering/3D/Headers/RenderVertexBaseData.h"
+#include "Pipeline/Rendering/3D/Headers/VertexData.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLBuffer.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLMappedBuffer.h"
@@ -46,7 +46,7 @@ namespace Rendering {
     // this should be optional so that it is only stored if desired (for reading the data that was passed to the GPU)
     // it could just be cleared after being used
     std::vector<AnimatedVertexData> _runtimeData;
-    std::vector<AnimatedVertexRenderDataBase> _renderData;
+    std::vector<SkinnedVertexData> _renderData;
     GLArrayBuffer Vao;
     List<GLBuffer> Vbos;
     GLMappedBuffer MappedMesh;
