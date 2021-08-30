@@ -6,7 +6,7 @@
 
 #include "Core/Headers/Hash.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 #include "Core/IO/Headers/File.h"
 #include "Core/IO/Headers/Folder.h"
@@ -27,11 +27,16 @@ namespace Data
 {
 	namespace DataExport
 	{
+		namespace
+		{
+			const std::string SKELETON_ANIMATION_EXPORT = "Skeleton Animation Export";
+		}
+
 		void CreateFileForSkeletonAnimation(Core::Ptr<Core::IO::File> directAssets, Core::Ptr<aiAnimation> animation, Ptr<const aiNode> rootNode, Ptr<const aiMesh> mesh, uint meshIndex, String name)
 		{
 			if (animation == nullptr)
 			{
-				LOG("Given skeleton <<" + name + ">> does not exist");
+				CORE_LOG(SKELETON_ANIMATION_EXPORT, "Given skeleton <<" + name + ">> does not exist");
 				return;
 			}
 
@@ -40,12 +45,12 @@ namespace Data
 
 			// store values in file
 			FilePath skeletonAnimationFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/SkeletonAnimations/", ToString(HashValue(name + String(animation->mName.C_Str()))) + ".sanim" };
-			File skeletonAnimationFile = File(skeletonAnimationFilePath, ios::out);
+			File skeletonAnimationFile = File(skeletonAnimationFilePath, std::ios::out);
 			skeletonAnimationFile.Open();
 
 			if (!skeletonAnimationFile.FileStream.is_open())
 			{
-				LOG("Could not open file <<" + skeletonAnimationFile.GetFullPath() + ">>");
+				CORE_LOG(SKELETON_ANIMATION_EXPORT, "Could not open file <<" + skeletonAnimationFile.GetFullPath() + ">>");
 				return;
 			}
 

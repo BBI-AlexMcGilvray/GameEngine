@@ -1,6 +1,6 @@
 #include "Factory/CustomData/Headers/DataCreation.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 #include "Core/Headers/Hash.h"
 #include "Core/IO/Headers/IOUtils.h"
@@ -15,11 +15,16 @@ namespace Data
 {
 	namespace DataExport
 	{
+		namespace 
+		{
+			const std::string CUSTOM_DATA = "Custom Data";
+		}
+
 		void ExportCustomData(Ptr<SQLInstance> db, Ptr<File> directAssets)
 		{
-			LOG("Starting to export custom data");
+			CORE_LOG(CUSTOM_DATA, "Starting to export custom data");
 
-			File customAssets(FilePath{ GetCWD() + "Resources/ExportedAssets/", "CustomAssets.h" }, ios::out);
+			File customAssets(FilePath{ GetCWD() + "Resources/ExportedAssets/", "CustomAssets.h" }, std::ios::out);
 			customAssets.Open();
 			InitializeCustomAssetFile(&customAssets);
 
@@ -42,12 +47,12 @@ namespace Data
 
 			FinalizeCustomAssetFile(&customAssets);
 
-			LOG("Finished exporting custom data");
+			CORE_LOG(CUSTOM_DATA, "Finished exporting custom data");
 		}
 
 		void ExportDataTypeInformation(Ptr<SQLInstance> db, String type, Ptr<File> customAssets, Ptr<File> directAssets)
 		{
-			LOG("Starting to export data type: " + type);
+			CORE_LOG(CUSTOM_DATA, "Starting to export data type: " + type);
 
 			Function<bool, Ptr<void>, List<String>, List<String>> formatConstruction = [db, type, customAssets, directAssets](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
 			{
@@ -64,12 +69,12 @@ namespace Data
 				throw CustomExportException("Query to get format failed");
 			}
 
-			LOG("Finished exporting data type: " + type);
+			CORE_LOG(CUSTOM_DATA, "Finished exporting data type: " + type);
 		}
 
 		UniquePtr<DataType> ExportDataType(String sql, Ptr<File> customAssets)
 		{
-			LOG("Starting to export data type: " + sql);
+			CORE_LOG(CUSTOM_DATA, "Starting to export data type: " + sql);
 
 			auto dataType = CreateType(sql);
 
@@ -83,12 +88,12 @@ namespace Data
 
 			return dataType;
 
-			LOG("Finished exporting data type: " + sql);
+			CORE_LOG(CUSTOM_DATA, "Finished exporting data type: " + sql);
 		}
 
 		void ExportDataForType(Ptr<SQLInstance> db, UniquePtr<DataType> type, Ptr<File> directAssets)
 		{
-			LOG("Starting to export data with type: " + type->Name);
+			CORE_LOG(CUSTOM_DATA, "Starting to export data with type: " + type->Name);
 
 			FilePath exportTo = { GetCWD() + "Resources/ExportedAssets/CustomData/", "" };
 
@@ -113,7 +118,7 @@ namespace Data
 				{
 					if (variableName == "ExportDirectly")
 					{
-						LOG("Variable is 'ExportDirectly' - so is ignored");
+						CORE_LOG(CUSTOM_DATA, "Variable is 'ExportDirectly' - so is ignored");
 						return false;
 					}
 
@@ -167,7 +172,7 @@ namespace Data
 			}
 			ExportDirectReference_Close(type->Name, directAssets);
 
-			LOG("Finished exporting data with type: " + type->Name);
+			CORE_LOG(CUSTOM_DATA, "Finished exporting data with type: " + type->Name);
 		}
 
 		void ExportDirectReference_Open(String name, Ptr<File> directAssets)
@@ -190,15 +195,15 @@ namespace Data
 
 		void ExportDataItemForType(MetaAssetData asset, FilePath exportTo, Ptr<File> directAssets)
 		{
-			exportTo.File = ToString(HashValue(asset.assetName).H) + "." + asset.typeAcronym;
-			LOG(exportTo.GetFullPath());
-			File assetFile = File(exportTo, ios::out);
+			exportTo.File = ToString(HashValue(asset.assetName)) + "." + asset.typeAcronym;
+			CORE_LOG(CUSTOM_DATA, exportTo.GetFullPath());
+			File assetFile = File(exportTo, std::ios::out);
 			assetFile.Open();
 			assetFile.Clear();
 
 			for (auto& variable : asset.variables)
 			{
-				auto value = (variable.IsReference ? ToString(HashValue(variable.variableValue).H) : variable.variableValue);
+				auto value = (variable.IsReference ? ToString(HashValue(variable.variableValue)) : variable.variableValue);
 				assetFile.Write(variable.variableName + " " + value);
 				assetFile.CreateNewLine();
 			}
@@ -206,7 +211,7 @@ namespace Data
 			if (asset.directExport)
 			{
 				String assetName = "AssetName<" + asset.typeName + ">";
-				directAssets->Write("\t\t\tconst " + assetName + " " + asset.assetName + " = " + assetName + "(" + ToString(HashValue(asset.assetName).H) + ");");
+				directAssets->Write("\t\t\tconst " + assetName + " " + asset.assetName + " = " + assetName + "(" + ToString(HashValue(asset.assetName)) + ");");
 				directAssets->CreateNewLine();
 			}
 

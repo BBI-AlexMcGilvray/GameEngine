@@ -5,7 +5,7 @@
 #include "Core/Headers/ListDefs.h"
 #include "Core/Headers/Hash.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 #include "Core/IO/Headers/File.h"
 #include "Core/IO/Headers/Folder.h"
@@ -23,6 +23,11 @@ namespace Data
 {
 	namespace DataExport
 	{
+		namespace
+		{
+			const std::string MATERIAL_EXPORT = "Material Export";
+		}
+
 		void CreateFileForMaterial(Core::Ptr<Core::IO::File> directAssets, const aiMaterial* material, String name)
 		{
 			// material values
@@ -31,7 +36,7 @@ namespace Data
 			aiColor4D ambientColor;
 			float shininess;
 
-			LOG("Getting material information from assimp...");
+			CORE_LOG(MATERIAL_EXPORT, "Getting material information from assimp...");
 			// get values from assimp material
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &specularColor);
 			aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuseColor);
@@ -40,12 +45,12 @@ namespace Data
 
 			// store values in file
 			FilePath materialFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/Materials/", ToString(HashValue(name)) + ".mat" };
-			File materialFile = File(materialFilePath, ios::out);
+			File materialFile = File(materialFilePath, std::ios::out);
 			materialFile.Open();
 
 			if (!materialFile.FileStream.is_open())
 			{
-				LOG("Could not open file <<" + materialFilePath.GetFullPath() + ">>");
+				CORE_LOG(MATERIAL_EXPORT, "Could not open file <<" + materialFilePath.GetFullPath() + ">>");
 				return;
 			}
 

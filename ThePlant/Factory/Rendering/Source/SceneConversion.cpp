@@ -11,7 +11,7 @@
 #include "Core/Headers/ListDefs.h"
 #include "Core/Headers/Hash.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 #include "Core/IO/Headers/Folder.h"
 #include "Core/IO/Headers/IOUtils.h"
@@ -28,6 +28,11 @@ namespace Data
 {
 	namespace DataExport
 	{
+		namespace
+		{
+			const std::string SCENE_CONVERSION = "Scene Conversion";
+		}
+
 		void ConvertModelsInFolder(Ptr<File> directAssets, String folder)
 		{
 			List<Pair<ModelType, String>> models;
@@ -38,7 +43,7 @@ namespace Data
 
 			// in the future, this should likely also reference a database that is used to get specific file locations
 			FilePath listPath = FilePath{ folder, "UsedModels.txt" };
-			File listFile = File(listPath, ios::in);
+			File listFile = File(listPath, std::ios::in);
 			listFile.Open();
 
 			try
@@ -66,7 +71,7 @@ namespace Data
 					lineStream >> file;
 
 					FilePath assetPath = FilePath{ folder + path, file };
-					File assetFile = File(assetPath, ios::in);
+					File assetFile = File(assetPath, std::ios::in);
 					ConvertFilesForScene(directAssets, &assetFile, name, models, meshes, materials, skeletons, skeletonAnimations);
 
 					assetsExported++;
@@ -88,7 +93,7 @@ namespace Data
 
 		void ConvertFilesForScene(Ptr<File> directAssets, Ptr<File> sceneFile, String sceneName, List<Pair<ModelType, String>>& models, List<Pair<ModelType, String>>& meshes, List<String>& materials, List<String>& skeletons, List<String>& skeletonAnimations)
 		{
-			LOG("Converting files for <<" + sceneFile->GetFullPath() + ">>");
+			CORE_LOG(SCENE_CONVERSION, "Converting files for <<" + sceneFile->GetFullPath() + ">>");
 			// this process preset also INCLUDES the flag to make all faces based on triangles
 			String fullPathCopy = sceneFile->GetFullPath();
 			Ptr<const char> c_Path = fullPathCopy.c_str();
@@ -96,8 +101,8 @@ namespace Data
 
 			if (!loadedScene)
 			{
-				LOG("Could not load file <<" + sceneFile->GetFullPath() + ">>");
-				LOG("ASSIMP ERROR: " + String(aiGetErrorString()));
+				CORE_LOG(SCENE_CONVERSION, "Could not load file <<" + sceneFile->GetFullPath() + ">>");
+				CORE_LOG(SCENE_CONVERSION, "ASSIMP ERROR: " + String(aiGetErrorString()));
 				return;
 			}
 
@@ -109,10 +114,10 @@ namespace Data
 			{
 				String fileName = sceneName + "_" + ToString(meshIndex);
 
-				LOG("Creating file to hold model information for <<" + fileName + ">>");
+				CORE_LOG(SCENE_CONVERSION, "Creating file to hold model information for <<" + fileName + ">>");
 				CreateFileForModel(directAssets, loadedScene, meshIndex, fileName);
 
-				LOG("Creating file to hold mesh information for <<" + fileName + ">>");
+				CORE_LOG(SCENE_CONVERSION, "Creating file to hold mesh information for <<" + fileName + ">>");
 				CreateFileForMesh(directAssets, loadedScene->mMeshes[meshIndex], fileName);
 
 				if (!loadedScene->mMeshes[meshIndex]->HasBones())
@@ -129,19 +134,19 @@ namespace Data
 					Push(meshes, Pair<ModelType, String>(ModelType::Animated, fileName));
 				}
 
-				LOG("Creating file to hold material information for <<" + fileName + ">>");
+				CORE_LOG(SCENE_CONVERSION, "Creating file to hold material information for <<" + fileName + ">>");
 				CreateFileForMaterial(directAssets, loadedScene->mMaterials[loadedScene->mMeshes[meshIndex]->mMaterialIndex], fileName);
 				Push(materials, fileName);
 
 				if (loadedScene->mMeshes[meshIndex]->HasBones())
 				{
-					LOG("Creating file to hold skeleton information for <<" + fileName + ">>");
+					CORE_LOG(SCENE_CONVERSION, "Creating file to hold skeleton information for <<" + fileName + ">>");
 					CreateFileForSkeleton(directAssets, loadedScene, meshIndex, fileName);
 					Push(skeletons, fileName);
 
 					for (uint animationIndex = 0; animationIndex < loadedScene->mNumAnimations; animationIndex++)
 					{
-						LOG("Creating file to hold skeleton animation information for <<" + fileName + ">>");
+						CORE_LOG(SCENE_CONVERSION, "Creating file to hold skeleton animation information for <<" + fileName + ">>");
 						// do this before the skeleton so the skeleton knows (and saves) its animations?
 						CreateFileForSkeletonAnimation(directAssets, loadedScene->mAnimations[animationIndex], loadedScene->mRootNode, loadedScene->mMeshes[meshIndex], meshIndex, fileName);
 						Push(skeletonAnimations, fileName + "_" + FixAnimationName(String(loadedScene->mAnimations[animationIndex]->mName.C_Str())));
@@ -149,11 +154,11 @@ namespace Data
 				}
 				else
 				{
-					LOG("<<" + sceneName + ">> does not have any skeletal information");
+					CORE_LOG(SCENE_CONVERSION, "<<" + sceneName + ">> does not have any skeletal information");
 				}
 			}
 
-			LOG("Releasing memory for loading scene <<" + sceneFile->GetFullPath() + ">>");
+			CORE_LOG(SCENE_CONVERSION, "Releasing memory for loading scene <<" + sceneFile->GetFullPath() + ">>");
 			// needs to be done since assimp holds all of the memeory management for loading
 			aiReleaseImport(loadedScene);
 		}

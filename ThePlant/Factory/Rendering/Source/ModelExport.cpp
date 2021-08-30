@@ -5,8 +5,6 @@
 #include "Core/Headers/ListDefs.h"
 #include "Core/Headers/Hash.h"
 
-#include "Core/Debugging/Headers/Macros.h"
-
 #include "Core/IO/Headers/File.h"
 #include "Core/IO/Headers/Folder.h"
 #include "Core/IO/Headers/IOUtils.h"
@@ -32,18 +30,18 @@ namespace Data
 		void CreateFileForModel(Ptr<File> directAssets, Ptr<const aiScene> scene, uint meshIndex, String name)
 		{
 			FilePath meshFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/Models/", ToString(HashValue(name)) + ".mdl" };
-			File meshFile = File(meshFilePath, ios::out);
+			File meshFile = File(meshFilePath, std::ios::out);
 			meshFile.Open();
 
-			meshFile.Write("mesh", ToString(HashValue(name).H));
+			meshFile.Write("mesh", ToString(HashValue(name)));
 			meshFile.CreateNewLine();
 
-			meshFile.Write("material", ToString(HashValue(name).H));
+			meshFile.Write("material", ToString(HashValue(name)));
 
 			if (scene->mMeshes[meshIndex]->HasBones())
 			{
 				meshFile.CreateNewLine();
-				meshFile.Write("skeleton", ToString(HashValue(name).H));
+				meshFile.Write("skeleton", ToString(HashValue(name)));
 			}
 
 			meshFile.Close();

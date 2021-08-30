@@ -24,7 +24,6 @@ set(HEADER_FILES #
 CustomData/Headers/DataCreation.h #
 CustomData/Headers/DataExportDefs.h #
 CustomData/Headers/DataExportUtils.h #
-Headers/AssetExportDefs.h #
 Headers/ExportData.h #
 Headers/ExportException.h #
 Rendering/Headers/AssimpExtensions.h #

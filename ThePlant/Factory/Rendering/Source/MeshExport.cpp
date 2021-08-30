@@ -5,7 +5,7 @@
 #include "Core/Headers/ListDefs.h"
 #include "Core/Headers/Hash.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 #include "Core/IO/Headers/File.h"
 #include "Core/IO/Headers/Folder.h"
@@ -29,6 +29,11 @@ namespace Data
 {
 	namespace DataExport
 	{
+		namespace
+		{
+			const std::string MESH_EXPORT = "Material Export";
+		}
+
 		void CreateFileForMesh(Ptr<IO::File> directAssets, const aiMesh* mesh, String name)
 		{
 			List<Float3> positions;
@@ -44,7 +49,7 @@ namespace Data
 				uvs.reserve(mesh->mNumVertices);
 			}
 
-			LOG("Reading positions and normals from ASSIMP mesh data...");
+			CORE_LOG(MESH_EXPORT, "Reading positions and normals from ASSIMP mesh data...");
 			Float3 currentPosition;
 			Float3 currentNormal;
 			Float2 currentUV;
@@ -94,7 +99,7 @@ namespace Data
 			List<uint> faces;
 			faces.reserve(mesh->mNumFaces * 3u); // 3 indices per triangle
 
-			LOG("Reading [position/normal] indices used by each face...");
+			CORE_LOG(MESH_EXPORT, "Reading [position/normal] indices used by each face...");
 			for (uint32_t faceIndex = 0u; faceIndex < mesh->mNumFaces; faceIndex++)
 			{
 				// 3 indices for each face of the triangle
@@ -109,11 +114,11 @@ namespace Data
 
 			if (!meshFile.FileStream.is_open())
 			{
-				LOG("Could not open file <<" + meshFilePath.GetFullPath() + ">>");
+				CORE_LOG(MESH_EXPORT, "Could not open file <<" + meshFilePath.GetFullPath() + ">>");
 				return;
 			}
 
-			LOG("Writing to <<" + meshFilePath.GetFullPath() + ">>");
+			CORE_LOG(MESH_EXPORT, "Writing to <<" + meshFilePath.GetFullPath() + ">>");
 
 			meshFile.Write("positions", mesh->mNumVertices);
 			meshFile.CreateNewLine();

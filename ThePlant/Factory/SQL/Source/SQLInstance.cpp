@@ -2,12 +2,17 @@
 
 #include "Factory/SQL/Headers/SQLInstance.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 namespace Data
 {
 	namespace SQL
 	{
+		namespace 
+		{
+			const std::string SQL_INSTANCE = "SQL Instance";
+		}
+
 		SQLInstance::SQLInstance()
 		{}
 
@@ -27,11 +32,11 @@ namespace Data
 			auto fullPath = DBPath.GetFullPath();
 			Ptr<const char> path = fullPath.c_str();
 			int rc = sqlite3_open(path, &DB);
-			LOG("Opening <" + DBPath.GetFullPath() + ">");
+			CORE_LOG(SQL_INSTANCE, "Opening <" + DBPath.GetFullPath() + ">");
 
 			if (rc != SQLITE_OK)
 			{
-				LOG("Failed to open DB <" + DBPath.GetFullPath() + "> - error code: " + ToString(rc));
+				CORE_LOG(SQL_INSTANCE, "Failed to open DB <" + DBPath.GetFullPath() + "> - error code: " + ToString(rc));
 				LatestError = "Unable to open DB <" + DBPath.GetFullPath() + "> - error code: " + ToString(rc);
 				State = DBState::Errored;
 				return false;
@@ -44,14 +49,14 @@ namespace Data
 		void SQLInstance::Close()
 		{
 			sqlite3_close(DB);
-			LOG("Closing <" + DBPath.GetFullPath() + ">");
+			CORE_LOG(SQL_INSTANCE, "Closing <" + DBPath.GetFullPath() + ">");
 
 			State = DBState::Closed;
 		}
 
 		bool SQLInstance::Query(String sqlCall, Function<bool, Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo)
 		{
-			LOG("Querying <" + DBPath.GetFullPath() + ">");
+			CORE_LOG(SQL_INSTANCE, "Querying <" + DBPath.GetFullPath() + ">");
 
 			if (State != DBState::Open)
 			{

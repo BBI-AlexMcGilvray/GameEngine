@@ -6,7 +6,7 @@
 
 #include "Core/Headers/Hash.h"
 
-#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/Logger.h"
 
 #include "Core/IO/Headers/File.h"
 #include "Core/IO/Headers/Folder.h"
@@ -28,6 +28,11 @@ namespace Data
 {
 	namespace DataExport
 	{
+		namespace
+		{
+			const std::string SKELETON_EXPORT = "Skeleton Export";
+		}
+
 		void CreateFileForSkeleton(Core::Ptr<Core::IO::File> directAssets, Ptr<const aiScene> scene, uint meshIndex, String name)
 		{
 			Core::Ptr<const aiNode> rootNode = scene->mRootNode;
@@ -35,7 +40,7 @@ namespace Data
 
 			if (!mesh->HasBones())
 			{
-				LOG("Given skeleton <<" + name + ">> does not exist");
+				CORE_LOG(SKELETON_EXPORT, "Given skeleton <<" + name + ">> does not exist");
 				return;
 			}
 
@@ -49,7 +54,7 @@ namespace Data
 
 			if (!skeletonFile.FileStream.is_open())
 			{
-				LOG("Could not open file <<" + skeletonFilePath.GetFullPath() + ">>");
+				CORE_LOG(SKELETON_EXPORT, "Could not open file <<" + skeletonFilePath.GetFullPath() + ">>");
 				return;
 			}
 
@@ -57,7 +62,7 @@ namespace Data
 			skeletonFile.CreateNewLine();
 			for (uint animationIndex = 0; animationIndex < scene->mNumAnimations; animationIndex++)
 			{
-				skeletonFile.Write(ToString(HashValue(String(scene->mAnimations[animationIndex]->mName.C_Str())).H));
+				skeletonFile.Write(ToString(HashValue(String(scene->mAnimations[animationIndex]->mName.C_Str()))));
 				skeletonFile.CreateNewLine();
 			}
 
