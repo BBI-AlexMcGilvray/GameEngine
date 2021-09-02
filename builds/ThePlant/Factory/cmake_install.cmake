@@ -37,6 +37,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/CustomData/Headers/DataCreation.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/CustomData/Headers/DataExportDefs.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/CustomData/Headers/DataExportUtils.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Factory/Headers/Config.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/Headers/ExportData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/Headers/ExportException.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/Rendering/Headers/AssimpExtensions.h"

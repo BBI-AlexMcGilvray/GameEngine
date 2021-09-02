@@ -29,19 +29,19 @@ namespace Data
 	{
 		void CreateFileForModel(Ptr<File> directAssets, Ptr<const aiScene> scene, uint meshIndex, String name)
 		{
-			FilePath meshFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/Models/", ToString(HashValue(name)) + ".mdl" };
+			FilePath meshFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/Models/", to_string(HashValue(name)) + ".mdl" };
 			File meshFile = File(meshFilePath, std::ios::out);
 			meshFile.Open();
 
-			meshFile.Write("mesh", ToString(HashValue(name)));
+			meshFile.Write("mesh", to_string(HashValue(name)));
 			meshFile.CreateNewLine();
 
-			meshFile.Write("material", ToString(HashValue(name)));
+			meshFile.Write("material", to_string(HashValue(name)));
 
 			if (scene->mMeshes[meshIndex]->HasBones())
 			{
 				meshFile.CreateNewLine();
-				meshFile.Write("skeleton", ToString(HashValue(name)));
+				meshFile.Write("skeleton", to_string(HashValue(name)));
 			}
 
 			meshFile.Close();

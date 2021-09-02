@@ -55,7 +55,7 @@ struct Hash
   friend void HashValue(T &&type, Hash &existingHash);
 
   friend struct std::hash<Hash>;
-  friend std::string ToString(const Hash& hash);
+  friend std::string to_string(const Hash& hash);
 
   constexpr Hash()
     : _hash(StartHashValue)
@@ -127,9 +127,11 @@ private:
   uint _hash;
 };
 
-std::string ToString(const Hash& hash)
+// either mark with inline or put definition in .cpp file (prob better to do)
+// should mark other files as inline though?
+inline std::string to_string(const Hash& hash)
 {
-  return ToString(hash._hash);
+  return std::to_string(hash._hash);
 }
 
 template<typename T>

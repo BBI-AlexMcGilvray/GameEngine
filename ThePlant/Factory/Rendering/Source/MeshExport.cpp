@@ -108,7 +108,7 @@ namespace Data
 				faces.push_back(mesh->mFaces[faceIndex].mIndices[2u]);
 			}
 
-			FilePath meshFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/Meshes/", ToString(HashValue(name)) + ".msh" };
+			FilePath meshFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/Meshes/", to_string(HashValue(name)) + ".msh" };
 			File meshFile = File(meshFilePath, ios::out);
 			meshFile.Open();
 

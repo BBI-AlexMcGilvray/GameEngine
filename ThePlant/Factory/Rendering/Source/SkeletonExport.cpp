@@ -48,7 +48,7 @@ namespace Data
 			Core::UniquePtr<ExportNode> exportSkeleton = AllNodesForMesh(rootNode, mesh, meshIndex);
 
 			// store values in file
-			Core::IO::FilePath skeletonFilePath = Core::IO::FilePath{ GetCWD() + "/Resources/ExportedAssets/Skeletons/", ToString(HashValue(name)) + ".skl" };
+			Core::IO::FilePath skeletonFilePath = Core::IO::FilePath{ GetCWD() + "/Resources/ExportedAssets/Skeletons/", to_string(HashValue(name)) + ".skl" };
 			Core::IO::File skeletonFile = File(skeletonFilePath, ios::out);
 			skeletonFile.Open();
 
@@ -62,7 +62,7 @@ namespace Data
 			skeletonFile.CreateNewLine();
 			for (uint animationIndex = 0; animationIndex < scene->mNumAnimations; animationIndex++)
 			{
-				skeletonFile.Write(ToString(HashValue(String(scene->mAnimations[animationIndex]->mName.C_Str()))));
+				skeletonFile.Write(to_string(HashValue(String(scene->mAnimations[animationIndex]->mName.C_Str()))));
 				skeletonFile.CreateNewLine();
 			}
 

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "sqlite3.h"
+// #include "sqlite3.h"
+#include "Factory/Workers/SQLiteCpp-3.1.1/sqlite3/sqlite3.h"
 
 #include "Core/Headers/CoreDefs.h"
 

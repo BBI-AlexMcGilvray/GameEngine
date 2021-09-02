@@ -7,12 +7,6 @@
 namespace Core {
 using String = std::string;
 
-template<typename T>
-String ToString(T &&v)
-{
-  return std::to_string(Forward<T>(v));
-}
-
 template<typename T1, typename T2 = T1>
 using Pair = std::pair<T1, T2>;
 

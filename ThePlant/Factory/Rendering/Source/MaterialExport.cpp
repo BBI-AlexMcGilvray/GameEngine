@@ -44,7 +44,7 @@ namespace Data
 			aiGetMaterialFloat(material, AI_MATKEY_SHININESS, &shininess);
 
 			// store values in file
-			FilePath materialFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/Materials/", ToString(HashValue(name)) + ".mat" };
+			FilePath materialFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/Materials/", to_string(HashValue(name)) + ".mat" };
 			File materialFile = File(materialFilePath, std::ios::out);
 			materialFile.Open();
 

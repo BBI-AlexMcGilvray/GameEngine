@@ -18,7 +18,6 @@ target_link_libraries(Workers_Lib
 # this allows us to control how they are affected by clang-format 
 target_include_directories(Workers_Lib
     INTERFACE
-        Includes
         assimp-5.0.1/include
         SQLiteCpp-3.1.1/include 
         SQLiteCpp-3.1.1/sqlite3   

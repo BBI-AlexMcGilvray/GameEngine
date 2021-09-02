@@ -37,6 +37,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Rendering\Source\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Source\Config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Source\ExportData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

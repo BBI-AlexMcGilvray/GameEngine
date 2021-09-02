@@ -1,0 +1,16 @@
+codeGenerationPath : Product/Supplies/
+directAssetsFile : Assets.h
+
+exportPath : Resources/Exported/
+customDataPath : CustomData/
+materialsPath : Materials/
+meshedPath : Meshes/
+modelsPath : Models/
+skeletonAnimationsPath : SkeletonAnimations/
+skeletonsPath : Skeletons/
+
+importPath : Resources/Imported
+customDataPath : CustomData/
+dataDB : Data.db
+modelsPath : Models/
+modelsFile : UsedModels.txt

@@ -17,6 +17,7 @@ Rendering/Source/SkeletonAnimationExport.cpp #
 Rendering/Source/SkeletonExport.cpp #
 Rendering/Source/TextureExport.cpp #
 Rendering/Source/Utils.cpp #
+Source/Config.cpp #
 Source/ExportData.cpp #
 SQL/Source/SQLInstance.cpp)
 
@@ -24,6 +25,7 @@ set(HEADER_FILES #
 CustomData/Headers/DataCreation.h #
 CustomData/Headers/DataExportDefs.h #
 CustomData/Headers/DataExportUtils.h #
+Headers/Config.h #
 Headers/ExportData.h #
 Headers/ExportException.h #
 Rendering/Headers/AssimpExtensions.h #

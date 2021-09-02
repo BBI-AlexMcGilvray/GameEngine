@@ -7,6 +7,7 @@
 #include "Core/IO/Headers/IOUtils.h"
 #include "Core/IO/Headers/Folder.h"
 
+#include "Factory/Headers/Config.h"
 #include "Factory/CustomData/Headers/DataCreation.h"
 
 #include "Factory/Rendering/Headers/SceneConversion.h"
@@ -22,8 +23,15 @@ namespace Data
 
 		void ExportData()
 		{
+			// this CWD is wrong outside of debugging - need to update launch.json to match the 'real' CWD
+			FilePath configPath = FilePath{ GetCWD() + "Factory/Configs/", "FactoryConfig.txt" };
+			CORE_LOG(EXPORTING, "config path: " + configPath.GetFullPath());
+			File configFile = File(configPath, std::ios::in | std::ios::out);
+			configFile.Open();
+			Config factoryConfig = Config(configFile);
+
 			CORE_LOG(EXPORTING, "Starting to export data");
-			auto directPath = FilePath{ GetCWD() + "Resources/ExportedAssets/", String("Assets.h") };
+			auto directPath = FilePath{ GetCWD() + factoryConfig.getValue("exportPath"), factoryConfig.getValue("directAssetsFile") };
 			auto directAssets = File(directPath, ios::out);
 			directAssets.Open();
 			directAssets.Clear();

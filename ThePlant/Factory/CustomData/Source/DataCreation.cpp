@@ -195,7 +195,7 @@ namespace Data
 
 		void ExportDataItemForType(MetaAssetData asset, FilePath exportTo, Ptr<File> directAssets)
 		{
-			exportTo.File = ToString(HashValue(asset.assetName)) + "." + asset.typeAcronym;
+			exportTo.File = to_string(HashValue(asset.assetName)) + "." + asset.typeAcronym;
 			CORE_LOG(CUSTOM_DATA, exportTo.GetFullPath());
 			File assetFile = File(exportTo, std::ios::out);
 			assetFile.Open();
@@ -203,7 +203,7 @@ namespace Data
 
 			for (auto& variable : asset.variables)
 			{
-				auto value = (variable.IsReference ? ToString(HashValue(variable.variableValue)) : variable.variableValue);
+				auto value = (variable.IsReference ? to_string(HashValue(variable.variableValue)) : variable.variableValue);
 				assetFile.Write(variable.variableName + " " + value);
 				assetFile.CreateNewLine();
 			}
@@ -211,7 +211,7 @@ namespace Data
 			if (asset.directExport)
 			{
 				String assetName = "AssetName<" + asset.typeName + ">";
-				directAssets->Write("\t\t\tconst " + assetName + " " + asset.assetName + " = " + assetName + "(" + ToString(HashValue(asset.assetName)) + ");");
+				directAssets->Write("\t\t\tconst " + assetName + " " + asset.assetName + " = " + assetName + "(" + to_string(HashValue(asset.assetName)) + ");");
 				directAssets->CreateNewLine();
 			}
 

@@ -72,17 +72,17 @@ namespace IO {
     FileStream.clear();
   }
 
-  bool File::AtEndOfFile()
+  bool File::AtEndOfFile() const
   {
     return FileStream.eof();
   }
 
-  bool File::CanRead()
+  bool File::CanRead() const
   {
     return HasPermission(FilePermissions, std::ios::in);
   }
 
-  bool File::CanWrite()
+  bool File::CanWrite() const
   {
     return HasPermission(FilePermissions, std::ios::out);
   }

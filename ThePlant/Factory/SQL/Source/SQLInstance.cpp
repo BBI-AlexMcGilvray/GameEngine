@@ -36,8 +36,8 @@ namespace Data
 
 			if (rc != SQLITE_OK)
 			{
-				CORE_LOG(SQL_INSTANCE, "Failed to open DB <" + DBPath.GetFullPath() + "> - error code: " + ToString(rc));
-				LatestError = "Unable to open DB <" + DBPath.GetFullPath() + "> - error code: " + ToString(rc);
+				CORE_LOG(SQL_INSTANCE, "Failed to open DB <" + DBPath.GetFullPath() + "> - error code: " + std::to_string(rc));
+				LatestError = "Unable to open DB <" + DBPath.GetFullPath() + "> - error code: " + std::to_string(rc);
 				State = DBState::Errored;
 				return false;
 			}

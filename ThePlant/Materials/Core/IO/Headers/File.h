@@ -34,10 +34,10 @@ namespace IO {
 
     void Reset();
 
-    bool AtEndOfFile();
+    bool AtEndOfFile() const;
 
-    bool CanRead();
-    bool CanWrite();
+    bool CanRead() const;
+    bool CanWrite() const;
 
     StreamPos GetLength();
 

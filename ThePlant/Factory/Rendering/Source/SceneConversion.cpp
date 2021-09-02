@@ -112,7 +112,7 @@ namespace Data
 			// Create a file for each mesh in the parent mesh
 			for (uint32_t meshIndex = 0u; meshIndex < numberOfMeshes; meshIndex++)
 			{
-				String fileName = sceneName + "_" + ToString(meshIndex);
+				String fileName = sceneName + "_" + std::to_string(meshIndex);
 
 				CORE_LOG(SCENE_CONVERSION, "Creating file to hold model information for <<" + fileName + ">>");
 				CreateFileForModel(directAssets, loadedScene, meshIndex, fileName);
@@ -172,7 +172,7 @@ namespace Data
 			{
 				if (model.first == ModelType::Simple)
 				{
-					directAssets->Write("\t\t\tconst AssetName<Rendering::SimpleModelData> " + model.second + " = AssetName<Rendering::SimpleModelData>(Hash(" + ToString(HashValue(model.second)) + "));");
+					directAssets->Write("\t\t\tconst AssetName<Rendering::SimpleModelData> " + model.second + " = AssetName<Rendering::SimpleModelData>(Hash(" + to_string(HashValue(model.second)) + "));");
 					directAssets->CreateNewLine();
 				}
 			}
@@ -187,7 +187,7 @@ namespace Data
 			{
 				if (model.first == ModelType::Static)
 				{
-					directAssets->Write("\t\t\tconst AssetName<Rendering::StaticModelData> " + model.second + " = AssetName<Rendering::StaticModelData>(Hash(" + ToString(HashValue(model.second)) + "));");
+					directAssets->Write("\t\t\tconst AssetName<Rendering::StaticModelData> " + model.second + " = AssetName<Rendering::StaticModelData>(Hash(" + to_string(HashValue(model.second)) + "));");
 					directAssets->CreateNewLine();
 				}
 			}
@@ -202,7 +202,7 @@ namespace Data
 			{
 				if (model.first == ModelType::Animated)
 				{
-					directAssets->Write("\t\t\tconst AssetName<Rendering::AnimatedModelData> " + model.second + " = AssetName<Rendering::AnimatedModelData>(Hash(" + ToString(HashValue(model.second)) + "));");
+					directAssets->Write("\t\t\tconst AssetName<Rendering::AnimatedModelData> " + model.second + " = AssetName<Rendering::AnimatedModelData>(Hash(" + to_string(HashValue(model.second)) + "));");
 					directAssets->CreateNewLine();
 				}
 			}
@@ -219,7 +219,7 @@ namespace Data
 			{
 				if (mesh.first == ModelType::Simple)
 				{
-					directAssets->Write("\t\t\tconst AssetName<Rendering::SimpleMeshData> " + mesh.second + " = AssetName<Rendering::SimpleMeshData>(Hash(" + ToString(HashValue(mesh.second)) + "));");
+					directAssets->Write("\t\t\tconst AssetName<Rendering::SimpleMeshData> " + mesh.second + " = AssetName<Rendering::SimpleMeshData>(Hash(" + to_string(HashValue(mesh.second)) + "));");
 					directAssets->CreateNewLine();
 				}
 			}
@@ -234,7 +234,7 @@ namespace Data
 			{
 				if (mesh.first == ModelType::Static)
 				{
-					directAssets->Write("\t\t\tconst AssetName<Rendering::StaticMeshData> " + mesh.second + " = AssetName<Rendering::StaticMeshData>(Hash(" + ToString(HashValue(mesh.second)) + "));");
+					directAssets->Write("\t\t\tconst AssetName<Rendering::StaticMeshData> " + mesh.second + " = AssetName<Rendering::StaticMeshData>(Hash(" + to_string(HashValue(mesh.second)) + "));");
 					directAssets->CreateNewLine();
 				}
 			}
@@ -249,7 +249,7 @@ namespace Data
 			{
 				if (mesh.first == ModelType::Animated)
 				{
-					directAssets->Write("\t\t\tconst AssetName<Rendering::AnimatedMeshData> " + mesh.second + " = AssetName<Rendering::AnimatedMeshData>(Hash(" + ToString(HashValue(mesh.second)) + "));");
+					directAssets->Write("\t\t\tconst AssetName<Rendering::AnimatedMeshData> " + mesh.second + " = AssetName<Rendering::AnimatedMeshData>(Hash(" + to_string(HashValue(mesh.second)) + "));");
 					directAssets->CreateNewLine();
 				}
 			}
@@ -263,7 +263,7 @@ namespace Data
 
 			for (auto& material : materials)
 			{
-				directAssets->Write("\t\t\tconst AssetName<Rendering::MaterialData> " + material + " = AssetName<Rendering::MaterialData>(Hash(" + ToString(HashValue(material)) + "));");
+				directAssets->Write("\t\t\tconst AssetName<Rendering::MaterialData> " + material + " = AssetName<Rendering::MaterialData>(Hash(" + to_string(HashValue(material)) + "));");
 				directAssets->CreateNewLine();
 			}
 
@@ -276,7 +276,7 @@ namespace Data
 
 			for (auto& skeleton : skeletons)
 			{
-				directAssets->Write("\t\t\tconst AssetName<Rendering::SkeletonData> " + skeleton + " = AssetName<Rendering::SkeletonData>(Hash(" + ToString(HashValue(skeleton)) + "));");
+				directAssets->Write("\t\t\tconst AssetName<Rendering::SkeletonData> " + skeleton + " = AssetName<Rendering::SkeletonData>(Hash(" + to_string(HashValue(skeleton)) + "));");
 				directAssets->CreateNewLine();
 			}
 
@@ -289,7 +289,7 @@ namespace Data
 
 			for (auto& skeletonAnimation : skeletonAnimations)
 			{
-				directAssets->Write("\t\t\tconst AssetName<Rendering::SkeletonAnimationData> " + skeletonAnimation + " = AssetName<Rendering::SkeletonAnimationData>(Hash(" + ToString(HashValue(skeletonAnimation)) + "));");
+				directAssets->Write("\t\t\tconst AssetName<Rendering::SkeletonAnimationData> " + skeletonAnimation + " = AssetName<Rendering::SkeletonAnimationData>(Hash(" + to_string(HashValue(skeletonAnimation)) + "));");
 				directAssets->CreateNewLine();
 			}
 
