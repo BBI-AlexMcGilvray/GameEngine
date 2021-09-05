@@ -4,6 +4,8 @@
 #include "Core/Headers/ListDefs.h"
 #include "Core/IO/Headers/File.h"
 
+#include "Factory/Headers/Config.h"
+
 struct aiScene;
 struct aiMesh;
 struct aiMaterial;
@@ -20,9 +22,9 @@ namespace Data
 			Unknown
 		};
 
-		void ConvertModelsInFolder(Core::Ptr<Core::IO::File> directAssets, Core::String folder);
+		void ConvertModelsInFolder(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::String folder);
 
-		void ConvertFilesForScene(Core::Ptr<Core::IO::File> directAssets, Core::Ptr<Core::IO::File> sceneFile, Core::String sceneName, Core::List<Core::Pair<ModelType, Core::String>>& models, Core::List<Core::Pair<ModelType, Core::String>>& meshes, Core::List<Core::String>& materials, Core::List<Core::String>& skeletons, Core::List<Core::String>& skeletonAnimations);
+		void ConvertFilesForScene(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<Core::IO::File> sceneFile, Core::String sceneName, Core::List<Core::Pair<ModelType, Core::String>>& models, Core::List<Core::Pair<ModelType, Core::String>>& meshes, Core::List<Core::String>& materials, Core::List<Core::String>& skeletons, Core::List<Core::String>& skeletonAnimations);
 
 		void DirectModels(Core::Ptr<Core::IO::File> directAssets, Core::List<Core::Pair<ModelType, Core::String>>& models);
 		void DirectMeshes(Core::Ptr<Core::IO::File> directAssets, Core::List<Core::Pair<ModelType, Core::String>>& meshes);

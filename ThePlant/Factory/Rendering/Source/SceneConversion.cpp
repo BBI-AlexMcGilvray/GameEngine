@@ -33,7 +33,7 @@ namespace Data
 			const std::string SCENE_CONVERSION = "Scene Conversion";
 		}
 
-		void ConvertModelsInFolder(Ptr<File> directAssets, String folder)
+		void ConvertModelsInFolder(Config& config, Ptr<File> directAssets, String folder)
 		{
 			List<Pair<ModelType, String>> models;
 			List<Pair<ModelType, String>> meshes;
@@ -42,7 +42,7 @@ namespace Data
 			List<String> skeletonAnimations;
 
 			// in the future, this should likely also reference a database that is used to get specific file locations
-			FilePath listPath = FilePath{ folder, "UsedModels.txt" };
+			FilePath listPath = FilePath{ folder, config.getValue("modelsFile") };
 			File listFile = File(listPath, std::ios::in);
 			listFile.Open();
 
@@ -72,7 +72,7 @@ namespace Data
 
 					FilePath assetPath = FilePath{ folder + path, file };
 					File assetFile = File(assetPath, std::ios::in);
-					ConvertFilesForScene(directAssets, &assetFile, name, models, meshes, materials, skeletons, skeletonAnimations);
+					ConvertFilesForScene(config, directAssets, &assetFile, name, models, meshes, materials, skeletons, skeletonAnimations);
 
 					assetsExported++;
 				}
@@ -91,7 +91,7 @@ namespace Data
 			DirectSkeletonAnimations(directAssets, skeletonAnimations);
 		}
 
-		void ConvertFilesForScene(Ptr<File> directAssets, Ptr<File> sceneFile, String sceneName, List<Pair<ModelType, String>>& models, List<Pair<ModelType, String>>& meshes, List<String>& materials, List<String>& skeletons, List<String>& skeletonAnimations)
+		void ConvertFilesForScene(Config& config, Ptr<File> directAssets, Ptr<File> sceneFile, String sceneName, List<Pair<ModelType, String>>& models, List<Pair<ModelType, String>>& meshes, List<String>& materials, List<String>& skeletons, List<String>& skeletonAnimations)
 		{
 			CORE_LOG(SCENE_CONVERSION, "Converting files for <<" + sceneFile->GetFullPath() + ">>");
 			// this process preset also INCLUDES the flag to make all faces based on triangles
@@ -115,7 +115,7 @@ namespace Data
 				String fileName = sceneName + "_" + std::to_string(meshIndex);
 
 				CORE_LOG(SCENE_CONVERSION, "Creating file to hold model information for <<" + fileName + ">>");
-				CreateFileForModel(directAssets, loadedScene, meshIndex, fileName);
+				CreateFileForModel(config, directAssets, loadedScene, meshIndex, fileName);
 
 				CORE_LOG(SCENE_CONVERSION, "Creating file to hold mesh information for <<" + fileName + ">>");
 				CreateFileForMesh(directAssets, loadedScene->mMeshes[meshIndex], fileName);

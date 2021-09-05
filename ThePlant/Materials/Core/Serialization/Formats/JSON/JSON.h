@@ -329,6 +329,25 @@ struct JSON
     }
   };
 
+  // custom type writer
+  // template <typename Object> // WHY IS THIS NOT WORKING?
+  // struct object_writer_visitor<Object, std::void_t<decltype(&Object::serialize)>> // class has deserialize method
+  // {
+  //   std::shared_ptr<JSONNode> Write(const Object& target)
+  //   {
+  //     return target.serialize(node);
+  //   }
+  // };
+  
+  template <typename Object>
+  struct object_writer_visitor<Object, std::void_t<decltype(serialize(std::declval<const Object&>()))>> // if there is a deserialize method that takes class reference
+  {
+    std::shared_ptr<JSONNode> Write(const Object& target)
+    {
+      return serialize(target);
+    }
+  };
+
   // object type writer
   template<typename Object>
   struct object_writer_visitor<Object, std::void_t<std::enable_if_t<is_visitable<Object>::value>>>
@@ -482,7 +501,12 @@ struct JSON
   template <typename Object>
   void Write(const Object& obj)
   {
-    data = object_writer_visitor<Object>().Write(obj);
+    if (std::shared_ptr<JSONObject> asObject = std::dynamic_pointer_cast<JSONObject>(object_writer_visitor<Object>().Write(obj)))
+    {
+      _data = asObject;
+      return;
+    }
+    throw; // this should only ever get called if it will result in a JSONObject, otherwise a key must be provided
   }
 
   template<typename Object>

@@ -7,7 +7,6 @@
 #include "Core/IO/Headers/IOUtils.h"
 #include "Core/IO/Headers/Folder.h"
 
-#include "Factory/Headers/Config.h"
 #include "Factory/CustomData/Headers/DataCreation.h"
 
 #include "Factory/Rendering/Headers/SceneConversion.h"
@@ -25,7 +24,6 @@ namespace Data
 		{
 			// this CWD is wrong outside of debugging - need to update launch.json to match the 'real' CWD
 			FilePath configPath = FilePath{ GetCWD() + "Factory/Configs/", "FactoryConfig.txt" };
-			CORE_LOG(EXPORTING, "config path: " + configPath.GetFullPath());
 			File configFile = File(configPath, std::ios::in | std::ios::out);
 			configFile.Open();
 			Config factoryConfig = Config(configFile);
@@ -40,7 +38,7 @@ namespace Data
 
 			// Not exporting custom data since it is not needed atm
 			//ExportCustomData(&directAssets);
-			ExportRenderingData(&directAssets);
+			ExportRenderingData(&directAssets, factoryConfig);
 
 			FinalizeAssetsFile(&directAssets);
 
@@ -63,20 +61,20 @@ namespace Data
 			CORE_LOG(EXPORTING, "Finished exporting custom data");
 		}
 
-		void ExportRenderingData(Ptr<File> directAssets)
+		void ExportRenderingData(Ptr<File> directAssets, Config& config)
 		{
 			CORE_LOG(EXPORTING, "Starting to export rendering data");
 
 			// maybe this should be it's own function?
-			CreateFolder(GetCWD() + "Resources/ExportedAssets/Models");
-			CreateFolder(GetCWD() + "Resources/ExportedAssets/Materials");
-			CreateFolder(GetCWD() + "Resources/ExportedAssets/Meshes");
-			CreateFolder(GetCWD() + "Resources/ExportedAssets/Skeletons");
-			CreateFolder(GetCWD() + "Resources/ExportedAssets/SkeletonAnimations");
-			CreateFolder(GetCWD() + "Resources/ExportedAssets/Textures");
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("modelsPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("materialsPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("meshesPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("skeletonsPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("texturesPath"));
 
 			// in the future, this should likely also reference a database that is used to get specific file locations
-			ConvertModelsInFolder(directAssets, GetCWD() + "Resources/ImportedAssets/Models/");
+			ConvertModelsInFolder(config, directAssets, GetCWD() + config.getValue("importPath") + config.getValue("modelsPath"));
 
 			CORE_LOG(EXPORTING, "Finished exporting rendering data");
 		}

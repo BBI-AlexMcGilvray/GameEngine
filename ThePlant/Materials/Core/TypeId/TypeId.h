@@ -16,6 +16,8 @@ struct runtimeId_t
   template<typename T>
   friend struct runtimeId;
 
+  friend runtimeId_t MakeTypeId(uint32_t);
+
   constexpr runtimeId_t()
     : _id(INVALID_ID)
   {}
@@ -101,9 +103,14 @@ private:
 };
 
 template<typename T>
-runtimeId_t GetTypeId()
+inline runtimeId_t GetTypeId()
 {
   static runtimeId<T> id(runtimeId<T>::Constructor::NEW);
   return id;
+}
+
+inline runtimeId_t MakeTypeId(uint32_t id)
+{
+  return runtimeId_t(id);
 }
 }// namespace Core

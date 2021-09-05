@@ -3,6 +3,8 @@
 #include "Core/IO/Headers/File.h"
 #include "Core/Headers/PtrDefs.h"
 
+#include "Factory/Headers/Config.h"
+
 using namespace Core;
 using namespace Core::IO;
 
@@ -13,7 +15,7 @@ namespace Data
 		void ExportData();
 
 		void ExportCustomData(Ptr<File> directAssets);
-		void ExportRenderingData(Ptr<File> directAssets);
+		void ExportRenderingData(Ptr<File> directAssets, Config& config);
 
 		void InitializeAssetsFile(Ptr<File> directAssets);
 		void FinalizeAssetsFile(Ptr<File> directAssets);

@@ -82,6 +82,11 @@ struct AssetName
     return !(*this == other);
   }
 
+  constexpr operator Hash() const
+  {
+    return _name;
+  }
+
   private:
     Hash _name;
 };
@@ -109,6 +114,11 @@ struct AssetName<void>
   AssetName(const AssetName<T>& other)
     : _name(other._name)
     , _type(GetTypeId<T>())
+  {}
+
+  AssetName(const Hash& name, const runtimeId_t& type)
+  : _name(name)
+  , _type(type)
   {}
 
   AssetName<void>& operator=(const AssetName<void>& other)
@@ -161,6 +171,16 @@ struct AssetName<void>
   bool operator!=(const AssetName<T>& other) const
   {
     return !(*this == other);
+  }
+
+  const Hash& getName() const
+  {
+    return _name;
+  }
+
+  const runtimeId_t& getType() const
+  {
+    return _type;
   }
 
   private:

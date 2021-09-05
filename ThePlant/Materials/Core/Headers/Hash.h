@@ -126,6 +126,7 @@ struct Hash
 private:
   uint _hash;
 };
+inline const Hash Hash::VOID = Hash(0);
 
 // either mark with inline or put definition in .cpp file (prob better to do)
 // should mark other files as inline though?
