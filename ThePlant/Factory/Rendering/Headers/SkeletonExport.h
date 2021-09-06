@@ -5,6 +5,8 @@
 
 #include "Core/IO/Headers/File.h"
 
+#include "Factory/Headers/Config.h"
+
 #include "ASSIMP/matrix4x4.h"
 
 struct aiScene;
@@ -18,7 +20,7 @@ namespace Data
 	{
 		struct ExportNode;
 
-		void CreateFileForSkeleton(Core::Ptr<Core::IO::File> directAssets, Core::Ptr<const aiScene> scene, Core::uint meshIndex, Core::String name);
+		void CreateFileForSkeleton(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<const aiScene> scene, Core::uint meshIndex, Core::String name);
 
 		void AddSkeletonToFile(Core::Ptr<Core::IO::File> skeletonFile, Core::UniquePtr<ExportNode> exportSkeleton, Core::Ptr<const aiMesh> mesh);
 		void AddBoneToFile(Core::Ptr<Core::IO::File> skeletonFile, Core::Ptr<const ExportNode> exportSkeleton, Core::Ptr<const aiMesh> mesh);

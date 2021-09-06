@@ -16,7 +16,7 @@
 #include "Core/Serialization/Formats/JSON/JSON.h"
 #include "Core/Serialization/Serialization.h"
 
-#include "Data/Headers/SerializationUtils.h" // not working, how can we make sure the methods are accessible by the serializer?
+#include "Data/Headers/SerializationUtils.h"
 #include "Data/Rendering/Headers/SimpleModelData.h"
 #include "Data/Rendering/Headers/AnimatedModelData.h"
 

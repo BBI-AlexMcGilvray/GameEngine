@@ -32,7 +32,7 @@ namespace Data
 			const std::string SKELETON_ANIMATION_EXPORT = "Skeleton Animation Export";
 		}
 
-		void CreateFileForSkeletonAnimation(Core::Ptr<Core::IO::File> directAssets, Core::Ptr<aiAnimation> animation, Ptr<const aiNode> rootNode, Ptr<const aiMesh> mesh, uint meshIndex, String name)
+		void CreateFileForSkeletonAnimation(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<aiAnimation> animation, Ptr<const aiNode> rootNode, Ptr<const aiMesh> mesh, uint meshIndex, String name)
 		{
 			if (animation == nullptr)
 			{

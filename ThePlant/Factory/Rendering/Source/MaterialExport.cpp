@@ -28,7 +28,7 @@ namespace Data
 			const std::string MATERIAL_EXPORT = "Material Export";
 		}
 
-		void CreateFileForMaterial(Core::Ptr<Core::IO::File> directAssets, const aiMaterial* material, String name)
+		void CreateFileForMaterial(Config& config, Core::Ptr<Core::IO::File> directAssets, const aiMaterial* material, String name)
 		{
 			// material values
 			aiColor4D specularColor;

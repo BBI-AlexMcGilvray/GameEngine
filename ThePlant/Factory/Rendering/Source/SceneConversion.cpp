@@ -118,7 +118,7 @@ namespace Data
 				CreateFileForModel(config, directAssets, loadedScene, meshIndex, fileName);
 
 				CORE_LOG(SCENE_CONVERSION, "Creating file to hold mesh information for <<" + fileName + ">>");
-				CreateFileForMesh(directAssets, loadedScene->mMeshes[meshIndex], fileName);
+				CreateFileForMesh(config, directAssets, loadedScene->mMeshes[meshIndex], fileName);
 
 				if (!loadedScene->mMeshes[meshIndex]->HasBones())
 				{
@@ -135,20 +135,20 @@ namespace Data
 				}
 
 				CORE_LOG(SCENE_CONVERSION, "Creating file to hold material information for <<" + fileName + ">>");
-				CreateFileForMaterial(directAssets, loadedScene->mMaterials[loadedScene->mMeshes[meshIndex]->mMaterialIndex], fileName);
+				CreateFileForMaterial(config, directAssets, loadedScene->mMaterials[loadedScene->mMeshes[meshIndex]->mMaterialIndex], fileName);
 				Push(materials, fileName);
 
 				if (loadedScene->mMeshes[meshIndex]->HasBones())
 				{
 					CORE_LOG(SCENE_CONVERSION, "Creating file to hold skeleton information for <<" + fileName + ">>");
-					CreateFileForSkeleton(directAssets, loadedScene, meshIndex, fileName);
+					CreateFileForSkeleton(config, directAssets, loadedScene, meshIndex, fileName);
 					Push(skeletons, fileName);
 
 					for (uint animationIndex = 0; animationIndex < loadedScene->mNumAnimations; animationIndex++)
 					{
 						CORE_LOG(SCENE_CONVERSION, "Creating file to hold skeleton animation information for <<" + fileName + ">>");
 						// do this before the skeleton so the skeleton knows (and saves) its animations?
-						CreateFileForSkeletonAnimation(directAssets, loadedScene->mAnimations[animationIndex], loadedScene->mRootNode, loadedScene->mMeshes[meshIndex], meshIndex, fileName);
+						CreateFileForSkeletonAnimation(config, directAssets, loadedScene->mAnimations[animationIndex], loadedScene->mRootNode, loadedScene->mMeshes[meshIndex], meshIndex, fileName);
 						Push(skeletonAnimations, fileName + "_" + FixAnimationName(String(loadedScene->mAnimations[animationIndex]->mName.C_Str())));
 					}
 				}

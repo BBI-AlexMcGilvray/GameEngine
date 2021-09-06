@@ -33,7 +33,7 @@ namespace Data
 			const std::string SKELETON_EXPORT = "Skeleton Export";
 		}
 
-		void CreateFileForSkeleton(Core::Ptr<Core::IO::File> directAssets, Ptr<const aiScene> scene, uint meshIndex, String name)
+		void CreateFileForSkeleton(Config& config, Core::Ptr<Core::IO::File> directAssets, Ptr<const aiScene> scene, uint meshIndex, String name)
 		{
 			Core::Ptr<const aiNode> rootNode = scene->mRootNode;
 			Core::Ptr<const aiMesh> mesh = scene->mMeshes[meshIndex];

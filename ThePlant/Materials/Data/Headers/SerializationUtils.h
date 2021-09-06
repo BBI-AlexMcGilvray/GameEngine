@@ -81,6 +81,17 @@ namespace Core::Serialization::Format
     }
 
     template <typename T>
+    std::shared_ptr<JSONNode> serialize(const Core::Math::Vector2<T>& vector)
+    {
+      std::shared_ptr<JSONObject> json = std::make_shared<JSONObject>();
+
+      json->AddElement("x", vector.X);
+      json->AddElement("y", vector.Y);
+
+      return json;
+    }
+
+    template <typename T>
     void deserialize(Core::Math::Vector3<T>& vector, std::shared_ptr<JSONNode> json)
     {
       JSONObject* data = dynamic_cast<JSONObject*>(json.get());
@@ -91,6 +102,18 @@ namespace Core::Serialization::Format
       vector.X = dynamic_cast<JSONData<T>*>(data->GetElement("x").get())->GetData();
       vector.Y = dynamic_cast<JSONData<T>*>(data->GetElement("y").get())->GetData();
       vector.Z = dynamic_cast<JSONData<T>*>(data->GetElement("z").get())->GetData();
+    }
+
+    template <typename T>
+    std::shared_ptr<JSONNode> serialize(const Core::Math::Vector3<T>& vector)
+    {
+      std::shared_ptr<JSONObject> json = std::make_shared<JSONObject>();
+
+      json->AddElement("x", vector.X);
+      json->AddElement("y", vector.Y);
+      json->AddElement("z", vector.Z);
+
+      return json;
     }
 
     template <typename T>
@@ -105,6 +128,19 @@ namespace Core::Serialization::Format
       vector.Y = dynamic_cast<JSONData<T>*>(data->GetElement("y").get())->GetData();
       vector.Z = dynamic_cast<JSONData<T>*>(data->GetElement("z").get())->GetData();
       vector.W = dynamic_cast<JSONData<T>*>(data->GetElement("w").get())->GetData();
+    }
+
+    template <typename T>
+    std::shared_ptr<JSONNode> serialize(const Core::Math::Vector4<T>& vector)
+    {
+      std::shared_ptr<JSONObject> json = std::make_shared<JSONObject>();
+
+      json->AddElement("x", vector.X);
+      json->AddElement("y", vector.Y);
+      json->AddElement("z", vector.Z);
+      json->AddElement("w", vector.W);
+
+      return json;
     }
     // need matrix, and quaternion methods
     // also the serialization equivalents for all of the above
