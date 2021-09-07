@@ -15,6 +15,12 @@
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Quaternion.h"
 
+#include "Core/Serialization/Formats/JSON/JSON.h"
+#include "Core/Serialization/Serialization.h"
+
+#include "Data/Headers/SerializationUtils.h"
+#include "Data/Rendering/Headers/SkeletonData.h"
+
 #include "ASSIMP/cimport.h"
 #include "ASSIMP/scene.h"
 #include "ASSIMP/postprocess.h"
@@ -33,6 +39,20 @@ namespace Data
 			const std::string SKELETON_EXPORT = "Skeleton Export";
 		}
 
+		Data::Rendering::SkeletonBoneData CreateSkeletonBoneData(Core::Ptr<const aiBone> aiBone)
+		{
+			Data::Rendering::SkeletonBoneData skeletonBoneData;
+
+			return skeletonBoneData;
+		}
+
+		Core::Serialization::Format::JSON SerializeSkeleton(Ptr<const aiScene> scene, uint meshIndex, String name)
+		{
+			Data::Rendering::SkeletonData skeletonData;
+
+			return Core::Serialize<Core::Serialization::Format::JSON>(skeletonData);
+		}
+
 		void CreateFileForSkeleton(Config& config, Core::Ptr<Core::IO::File> directAssets, Ptr<const aiScene> scene, uint meshIndex, String name)
 		{
 			Core::Ptr<const aiNode> rootNode = scene->mRootNode;
@@ -48,7 +68,7 @@ namespace Data
 			Core::UniquePtr<ExportNode> exportSkeleton = AllNodesForMesh(rootNode, mesh, meshIndex);
 
 			// store values in file
-			Core::IO::FilePath skeletonFilePath = Core::IO::FilePath{ GetCWD() + "/Resources/ExportedAssets/Skeletons/", to_string(HashValue(name)) + ".skl" };
+			Core::IO::FilePath skeletonFilePath = Core::IO::FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonsPath"), to_string(HashValue(name)) + ".skl" };
 			Core::IO::File skeletonFile = File(skeletonFilePath, ios::out);
 			skeletonFile.Open();
 

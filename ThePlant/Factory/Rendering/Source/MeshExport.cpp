@@ -219,7 +219,7 @@ namespace Data
 				meshAsJSON = SerializeSimpleMesh(name, mesh);
 			}
 
-			FilePath meshFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/Meshes/", to_string(HashValue(name)) + ".msh" };
+			FilePath meshFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("meshesPath"), to_string(HashValue(name)) + ".msh" };
 			File meshFile = File(meshFilePath, ios::out);
 			meshFile.Open();
 

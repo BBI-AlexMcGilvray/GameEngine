@@ -212,12 +212,6 @@ struct JSONObject : public JSONNode
     return _elements.size();
   }
 
-  template<typename T, typename... Args>
-  void AddElement(const std::string &key, Args... args)
-  {
-    AddElement(key, std::make_unique<T>(args...));
-  }
-
   void AddElement(const std::string &key, std::shared_ptr<JSONNode> element)
   {
     _elements[key] = move(element);
@@ -268,12 +262,6 @@ struct JSONArray : public JSONNode
   size_t Count() const
   {
     return _elements.size();
-  }
-
-  template<typename T, typename... Args>
-  void AddElement(Args... args)
-  {
-    AddElement(std::make_unique<T>(args...));
   }
 
   void AddElement(std::shared_ptr<JSONNode> element)
@@ -688,6 +676,12 @@ struct JSON
     if (_data.get() == nullptr) {
       throw;// json parsed was not wrapped in an object, not acceptable
     }
+  }
+
+  // to allow for adding elements through the serialization API
+  operator std::shared_ptr<JSONObject>()
+  {
+    return _data;
   }
 
 private:

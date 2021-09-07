@@ -15,6 +15,12 @@
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Quaternion.h"
 
+#include "Core/Serialization/Formats/JSON/JSON.h"
+#include "Core/Serialization/Serialization.h"
+
+#include "Data/Headers/SerializationUtils.h"
+#include "Data/Rendering/Headers/SkeletonAnimationData.h"
+
 #include "ASSIMP/cimport.h"
 #include "ASSIMP/scene.h"
 #include "ASSIMP/postprocess.h"
@@ -32,6 +38,13 @@ namespace Data
 			const std::string SKELETON_ANIMATION_EXPORT = "Skeleton Animation Export";
 		}
 
+		Core::Serialization::Format::JSON SerializeSkeletonAnimation(Core::Ptr<const aiAnimation> animation)
+		{
+			Data::Rendering::SkeletonAnimationData skeletonAnimationData;
+
+			return Core::Serialize<Core::Serialization::Format::JSON>(skeletonAnimationData);
+		}
+
 		void CreateFileForSkeletonAnimation(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<aiAnimation> animation, Ptr<const aiNode> rootNode, Ptr<const aiMesh> mesh, uint meshIndex, String name)
 		{
 			if (animation == nullptr)
@@ -44,7 +57,7 @@ namespace Data
 			Core::UniquePtr<ExportNode> exportSkeleton = AllNodesForMesh(rootNode, mesh, meshIndex);
 
 			// store values in file
-			FilePath skeletonAnimationFilePath = FilePath{ GetCWD() + "/Resources/ExportedAssets/SkeletonAnimations/", to_string(HashValue(name + String(animation->mName.C_Str()))) + ".sanim" };
+			FilePath skeletonAnimationFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsPath"), to_string(HashValue(name + String(animation->mName.C_Str()))) + ".sanim" };
 			File skeletonAnimationFile = File(skeletonAnimationFilePath, std::ios::out);
 			skeletonAnimationFile.Open();
 
