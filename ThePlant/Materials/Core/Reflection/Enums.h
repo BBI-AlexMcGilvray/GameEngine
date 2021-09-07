@@ -127,7 +127,7 @@ This would allow a common interface to use namespaced types without users needin
 
 #define STRING_CAST_ENUM(TYPE, BASE, ...)                                                   \
   ENUM(TYPE, BASE, __VA_ARGS__)                                                             \
-  std::string to_string(TYPE type)                                                          \
+  inline std::string to_string(TYPE type)                                                   \
   {                                                                                         \
     switch (type) {                                                                         \
       EVAL(REPEAT(VA_NUM_ARGS(__VA_ARGS__), ENUM_STRING_VALUE_INDIRECT, TYPE, __VA_ARGS__)) \
@@ -135,7 +135,7 @@ This would allow a common interface to use namespaced types without users needin
       return "INVALID";                                                                     \
     }                                                                                       \
   }/* to_string can be constexpr in std20+*/                                                \
-  TYPE from_string(const std::string& str)                                                  \
+  inline TYPE from_string(const std::string& str)                                           \
   {                                                                                         \
     EVAL(REPEAT(VA_NUM_ARGS(__VA_ARGS__), ENUM_FROM_STRING_INDIRECT, TYPE, __VA_ARGS__))    \
     throw; /* invalid string value - make this nicer */                                     \

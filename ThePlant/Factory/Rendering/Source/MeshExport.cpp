@@ -82,25 +82,24 @@ namespace Data
 		
 		void FillUVData(std::vector<Core::Math::Float2>& uvs, const aiMesh* mesh)
 		{
+			// this should be changed to handle multiple textures, and the saving of each one's data
+			if (!mesh->HasTextureCoords(0))
+			{
+				CORE_ERROR(MESH_EXPORT, "Do we support animated meshes without UVs? I guess so, but should they have their own case?");
+				return; //throw; // why fill in UV data if there is none?
+			}
 			uvs.reserve(mesh->mNumVertices);
 			
 			Core::Math::Float2 currentUV;
 			for (uint vertexIndex = 0u; vertexIndex < mesh->mNumVertices; vertexIndex++)
 			{
 				// this should be changed to handle multiple textures, and the saving of each one's data
-				if (mesh->HasTextureCoords(0))
-				{
-					aiVector3D meshUV = mesh->mTextureCoords[0][vertexIndex];
+				aiVector3D meshUV = mesh->mTextureCoords[0][vertexIndex];
 
-					currentUV.X = meshUV.x;
-					currentUV.Y = meshUV.y;
+				currentUV.X = meshUV.x;
+				currentUV.Y = meshUV.y;
 
-					uvs.push_back(currentUV);
-				}
-				else
-				{
-					throw; // why fill in UV data if there is none?
-				}
+				uvs.push_back(currentUV);
 			}
 		}
 		
@@ -123,14 +122,16 @@ namespace Data
 						
 						uint vertex = boneWeight.mVertexId;
 
-						if (vertex > 4)
+						uint& vertexBoneIndex = vertexIndex[vertex];
+
+						if (vertexBoneIndex > 4)
 						{
 							throw; // we only allow for 4 bones per vertex
 						}
 
-						boneNames[vertex][vertexIndex[vertex]] = bone->mName.C_Str();
-						boneWeights[vertex][vertexIndex[vertex]] = boneWeight.mWeight;
-						vertexIndex[vertex] += 1;
+						boneNames[vertex][vertexBoneIndex] = bone->mName.C_Str();
+						boneWeights[vertex][vertexBoneIndex] = boneNames[vertex][vertexBoneIndex].empty() ? 0.0f : boneWeight.mWeight;
+						vertexBoneIndex += 1;
 					}
 				}
 			}
@@ -205,7 +206,8 @@ namespace Data
 			{
 				if (!hasUVs)
 				{
-					throw; // only support animated models with uvs
+					CORE_ERROR(MESH_EXPORT, "Do we support animated meshes without UVs? I guess so, but should they have their own case?");
+					//throw; // only support animated models with uvs
 				}
 
 				meshAsJSON = SerializeAnimatedMesh(name, mesh);

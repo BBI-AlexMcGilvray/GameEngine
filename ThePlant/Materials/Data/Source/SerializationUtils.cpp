@@ -58,4 +58,29 @@ namespace Core::Serialization::Format
 
       return json;
     }
+
+    void deserialize(Core::Math::Color& color, std::shared_ptr<JSONNode> json)
+    {
+      JSONObject *data = dynamic_cast<JSONObject*>(json.get());
+      if (data == nullptr) {
+        throw;
+      }
+
+      color.R = dynamic_cast<JSONData<float>*>(data->GetElement("r").get())->GetData();
+      color.G = dynamic_cast<JSONData<float>*>(data->GetElement("g").get())->GetData();
+      color.B = dynamic_cast<JSONData<float>*>(data->GetElement("b").get())->GetData();
+      color.A = dynamic_cast<JSONData<float>*>(data->GetElement("a").get())->GetData();
+    }
+
+    std::shared_ptr<JSONNode> serialize(const Core::Math::Color& color)
+    {
+      Core::Serialization::Format::JSON json;
+
+      SerializeTo(json, color.R, "r");
+      SerializeTo(json, color.G, "g");
+      SerializeTo(json, color.B, "b");
+      SerializeTo(json, color.A, "a");
+
+      return static_cast<std::shared_ptr<JSONObject>>(json);
+    }
 }

@@ -29,17 +29,17 @@ namespace Rendering {
 
   NESTED_ASSET(PositionFrameData,
     (Core::Math::Float3) position,
-    (Core::Second) time
+    (uint) tick
   );
 
   NESTED_ASSET(RotationFrameData,
     (Core::Math::FQuaternion) rotation,
-    (Core::Second) time
+    (uint) tick
   );
 
   NESTED_ASSET(ScaleFrameData,
     (Core::Math::Float3) scale,
-    (Core::Second) time
+    (uint) tick
   );
 
   NESTED_ASSET(BoneAnimationData,
@@ -54,7 +54,8 @@ namespace Rendering {
   ASSET(SkeletonAnimationData,
     (std::string) name,
     (std::vector<BoneAnimationData>) boneAnimations,
-    (Core::Second) duration
+    (uint) ticks,
+    (Core::Second) ticksPerSecond
   );
 }// namespace Rendering
 

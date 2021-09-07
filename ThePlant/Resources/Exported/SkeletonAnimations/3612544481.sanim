@@ -1,4 +1,31 @@
 idle2 19 0.75
+Bone
+preState default
+postState default
+position 1
+0 -0.366507 0.0148335 1.76468
+scale 1
+0 1 1 1
+rotation 1
+0 0.611635 0.354827 -0.354827 0.611635
+Bone.001
+preState default
+postState default
+position 1
+0 -3.07012e-09 2.03896 7.29135e-10
+scale 1
+0 1 1 1
+rotation 1
+0 0.215195 -0.673566 0.215195 0.673566
+Bone.002
+preState default
+postState default
+position 1
+0 -1.85086e-10 1.7628 3.92045e-08
+scale 1
+0 1 1 1
+rotation 1
+0 -0.221435 -1.52399e-07 3.74194e-08 0.975175
 Bone.003
 preState default
 postState default
@@ -8,6 +35,15 @@ scale 1
 0 1 1 1
 rotation 1
 0 -0.408138 -0.408138 0.577428 0.577428
+Bone.004
+preState default
+postState default
+position 1
+0 1.26006e-10 1.45316 -8.39836e-09
+scale 1
+0 1 1 1
+rotation 1
+0 0.401687 0.412695 -0.547528 0.607078
 Bone.005
 preState default
 postState default
@@ -35,6 +71,24 @@ scale 1
 0 1 1 1
 rotation 1
 0 0.0460283 3.65986e-07 2.85633e-08 0.99894
+Bone.008
+preState default
+postState default
+position 1
+0 3.34985e-08 0.759578 1.39698e-08
+scale 1
+0 1 1 1
+rotation 1
+0 -0.360091 0.419569 -0.594859 0.583471
+Bone.009
+preState default
+postState default
+position 1
+0 2.54813e-08 0.653189 -1.7899e-09
+scale 1
+0 1 1 1
+rotation 1
+0 -0.0101614 -2.46561e-07 4.3527e-08 0.999948
 Bone.010
 preState default
 postState default
@@ -71,6 +125,42 @@ scale 1
 0 1 1 1
 rotation 1
 0 0.0243261 -0.659351 0.75144 -0.00167607
+Bone.014
+preState default
+postState default
+position 1
+0 4.27637e-08 1.13807 4.57437e-08
+scale 1
+0 1 1 1
+rotation 1
+0 0.510899 0.239251 -0.230069 0.792975
+Bone.015
+preState default
+postState default
+position 1
+0 4.27637e-08 1.13807 4.57437e-08
+scale 1
+0 1 1 1
+rotation 1
+0 0.331602 -0.607473 -0.370079 0.619725
+Bone.016
+preState default
+postState default
+position 1
+0 4.27637e-08 1.13807 4.57437e-08
+scale 1
+0 1 1 1
+rotation 1
+0 0.487351 -0.28467 0.216483 0.79661
+Bone.017
+preState default
+postState default
+position 1
+0 4.27637e-08 1.13807 4.57437e-08
+scale 1
+0 1 1 1
+rotation 1
+0 0.00759893 -0.665421 0.746419 -0.00395863
 Esqueleto
 preState default
 postState default

@@ -4,9 +4,12 @@
 
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/TimeDefs.h"
+#include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Vector4.h"
+#include "Core/Math/Headers/Quaternion.h"
+#include "Core/Serialization/Serialization.h"
 
 #include "Data/Headers/AssetName.h"
 
@@ -20,6 +23,9 @@ namespace Core::Serialization::Format
 
     void deserialize(Core::runtimeId_t& runtimeId, std::shared_ptr<JSONNode> json);
     std::shared_ptr<JSONNode> serialize(const Core::runtimeId_t& runtimeId);
+
+    void deserialize(Core::Math::Color& color, std::shared_ptr<JSONNode> json);
+    std::shared_ptr<JSONNode> serialize(const Core::Math::Color& color);
 
     template <typename T>
     inline void deserialize(Data::AssetName<T>& asset, std::shared_ptr<JSONNode> json)
@@ -139,6 +145,33 @@ namespace Core::Serialization::Format
       SerializeTo(json, vector.Y, "y");
       SerializeTo(json, vector.Z, "z");
       SerializeTo(json, vector.W, "w");
+
+      return static_cast<std::shared_ptr<JSONObject>>(json);
+    }
+
+    template <typename T>
+    void deserialize(Core::Math::Quaternion<T>& quaternion, std::shared_ptr<JSONNode> json)
+    {
+      JSONObject* data = dynamic_cast<JSONObject*>(json.get());
+      if (data == nullptr) {
+        throw;
+      }
+      
+      quaternion.X = dynamic_cast<JSONData<T>*>(data->GetElement("x").get())->GetData();
+      quaternion.Y = dynamic_cast<JSONData<T>*>(data->GetElement("y").get())->GetData();
+      quaternion.Z = dynamic_cast<JSONData<T>*>(data->GetElement("z").get())->GetData();
+      quaternion.W = dynamic_cast<JSONData<T>*>(data->GetElement("w").get())->GetData();
+    }
+
+    template <typename T>
+    std::shared_ptr<JSONNode> serialize(const Core::Math::Quaternion<T>& quaternion)
+    {
+      Core::Serialization::Format::JSON json;
+
+      SerializeTo(json, quaternion.X, "x");
+      SerializeTo(json, quaternion.Y, "y");
+      SerializeTo(json, quaternion.Z, "z");
+      SerializeTo(json, quaternion.W, "w");
 
       return static_cast<std::shared_ptr<JSONObject>>(json);
     }

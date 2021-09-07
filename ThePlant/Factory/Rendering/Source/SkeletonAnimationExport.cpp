@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Factory/Rendering/Headers/SkeletonAnimationExport.h"
 #include "Factory/Rendering/Headers/Utils.h"
 #include "Factory/Rendering/Headers/AssimpExtensions.h"
@@ -38,9 +36,105 @@ namespace Data
 			const std::string SKELETON_ANIMATION_EXPORT = "Skeleton Animation Export";
 		}
 
-		Core::Serialization::Format::JSON SerializeSkeletonAnimation(Core::Ptr<const aiAnimation> animation)
+		Data::Rendering::AnimationBehaviour aiToCustomAnimationBehaviour(aiAnimBehaviour aiBehaviour)
+		{
+			switch (behaviour)
+			{
+				case aiAnimBehaviour_CONSTANT:
+				{
+					return Data::Rendering::AnimationBehaviour::Constant;
+				}
+				case aiAnimBehaviour_DEFAULT:
+				{
+					return Data::Rendering::AnimationBehaviour::Default;
+				}
+				case aiAnimBehaviour_LINEAR:
+				{
+					return Data::Rendering::AnimationBehaviour::Linear;
+				}
+				case aiAnimBehaviour_REPEAT:
+				{
+					return Data::Rendering::AnimationBehaviour::Repeat;
+				}
+				default:
+				{
+					return Data::Rendering::AnimationBehaviour::Unknown;
+				}
+			}
+		}
+
+		void FillInScaleFrameData(std::vector<Data::Rendering::ScaleFrameData>& scaleFrameData, const aiVectorKey& scaleKey)
+		{
+			Data::Rendering::ScaleFrameData scaleFrameData;
+
+			scaleFrameData.tick = scaleKey.mTime;
+			scaleFrameData.scale = Core::Math::Float3(key.mValue.x, key.mValue.y, key.mValue.z);
+
+			scaleFrameData.push_back(scaleFrameData);
+		}
+
+		void FillInRotationFrameData(std::vector<Data::Rendering::RotationFrameData>& rotationFrameData, const aiQuatKey& rotationKey)
+		{
+			Data::Rendering::RotationFrameData rotationFrameData;
+
+			rotationFrameData.tick = scaleKey.mTime;
+			rotationFrameData.rotation = Core::Math::FQuaternion(key.mValue.x, key.mValue.y, key.mValue.z, key.mValue.w);
+
+			rotationFrameData.push_back(rotationFrameData);
+		}
+
+		void FillInPositionFrameData(std::vector<Data::Rendering::PositionFrameData>& positionFrameData, const aiVectorKey& positionKey)
+		{
+			Data::Rendering::PositionFrameData positionFrameData;
+
+			positionFrameData.tick = scaleKey.mTime;
+			positionFrameData.scale = Core::Math::Float3(key.mValue.x, key.mValue.y, key.mValue.z);
+
+			positionFrameData.push_back(positionFrameData);
+		}
+
+		void FillInBoneAnimationData(std::vector<Data::Rendering::BoneAnimationData>& boneAnimations, Core::Ptr<const aiNodeAnim> channel)
+		{
+			Data::Rendering::BoneAnimationData boneAnimationData;
+
+			boneAnimationData.name = std::string(channel->mNodeName.C_Str());
+			boneAnimationData.preBehaviour = aiToCustomAnimationBehaviour(channel->mPostState);
+			boneAnimationData.postBehaviour = aiToCustomAnimationBehaviour(channel->mPreState);
+
+			for (uint i = 0; i < channel->mNumPositionKeys; i++)
+			{
+				const aiVectorKey& key = channel->mPositionKeys[i];
+				FillInPositionFrameData(boneAnimationData.positionChannel, key);
+			}
+			
+			for (uint i = 0; i < channel->mNumScalingKeys; i++)
+			{
+				const aiVectorKey& key = channel->mScalingKeys[i];
+				FillInScaleFrameData(boneAnimationData.scaleChannel, key);
+			}
+			
+			for (uint i = 0; i < channel->mNumRotationKeys; i++)
+			{
+				const aiQuatKey& key = channel->mRotationKeys[i];
+				FillInRotationFrameData(boneAnimationData.rotationChannel, key);
+			}
+		}
+
+		Core::Serialization::Format::JSON SerializeSkeletonAnimation(Core::Ptr<const aiAnimation> animation, std::unique_ptr<ExportNode> exportSkeleton)
 		{
 			Data::Rendering::SkeletonAnimationData skeletonAnimationData;
+
+			skeletonAnimationData.name = std::string(animation->mName.C_Str());
+			skeletonAnimationData.ticks = animation->mDuration;
+			skeletonAnimationData.ticksPerSecond = animation->mTicksPerSecond;
+
+			for (uint i = 0; i < animation->mNumChannels; i++)
+			{
+				if (exportSkeleton->FindNode(animation->mChannels[i]->mNodeName.C_Str()) != nullptr)
+				{
+					FillInBoneAnimationData(skeletonAnimationData.boneAnimations, animation->mChannels[i]);
+				}
+			}
 
 			return Core::Serialize<Core::Serialization::Format::JSON>(skeletonAnimationData);
 		}

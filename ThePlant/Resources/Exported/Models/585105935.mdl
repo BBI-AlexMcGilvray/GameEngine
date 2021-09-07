@@ -1,3 +1,7 @@
-mesh 585105935
-material 585105935
-skeleton 585105935
+
+{
+	"material" : 585105935,
+	"mesh" : 585105935,
+	"skeleton" : 585105935,
+	"texture" : 0
+}
