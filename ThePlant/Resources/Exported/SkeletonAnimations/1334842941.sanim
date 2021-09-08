@@ -1,1 +1,9 @@
-Eagle|Idle 1 1.66667
+
+{
+	"boneAnimations" : 
+		[
+
+		],
+	"duration" : 1.666667,
+	"name" : "Eagle|Idle"
+}

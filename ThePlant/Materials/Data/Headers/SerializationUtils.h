@@ -12,6 +12,7 @@
 #include "Core/Serialization/Serialization.h"
 
 #include "Data/Headers/AssetName.h"
+#include "Data/Rendering/Headers/SkeletonAnimationData.h"
 
 namespace Core::Serialization::Format
 {
@@ -26,6 +27,27 @@ namespace Core::Serialization::Format
 
     void deserialize(Core::Math::Color& color, std::shared_ptr<JSONNode> json);
     std::shared_ptr<JSONNode> serialize(const Core::Math::Color& color);
+
+    // Ideally we find a way to make this generic for all enums that could be handled by it
+    inline void deserialize(::Data::Rendering::AnimationBehaviour& animationBehaviour, std::shared_ptr<JSONNode> json)
+    {
+      JSONData<std::string>* data = dynamic_cast<JSONData<std::string>*>(json.get());
+      if (data == nullptr) {
+        throw;
+      }
+
+      animationBehaviour = ::Data::Rendering::from_string(data->GetData());
+    }
+
+    inline std::shared_ptr<JSONNode> serialize(const ::Data::Rendering::AnimationBehaviour& animationBehaviour)
+    {
+      std::shared_ptr<JSONData<std::string>> json = std::make_shared<JSONData<std::string>>();
+
+      json->SetData(::Data::Rendering::to_string(animationBehaviour));
+
+      return json;
+    }
+    // \Ideally we find a way to make this generic for all enums that could be handled by it
 
     template <typename T>
     inline void deserialize(Data::AssetName<T>& asset, std::shared_ptr<JSONNode> json)

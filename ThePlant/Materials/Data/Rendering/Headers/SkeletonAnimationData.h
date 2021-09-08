@@ -9,7 +9,6 @@
 #include "Core/Reflection/Enums.h"
 
 #include "Data/Headers/AssetMacros.h"
-#include "Data/Headers/SerializationUtils.h"
 
 namespace Data {
 namespace Rendering {
@@ -29,17 +28,17 @@ namespace Rendering {
 
   NESTED_ASSET(PositionFrameData,
     (Core::Math::Float3) position,
-    (uint) tick
+    (Core::Second) time
   );
 
   NESTED_ASSET(RotationFrameData,
     (Core::Math::FQuaternion) rotation,
-    (uint) tick
+    (Core::Second) time
   );
 
   NESTED_ASSET(ScaleFrameData,
     (Core::Math::Float3) scale,
-    (uint) tick
+    (Core::Second) time
   );
 
   NESTED_ASSET(BoneAnimationData,
@@ -54,8 +53,7 @@ namespace Rendering {
   ASSET(SkeletonAnimationData,
     (std::string) name,
     (std::vector<BoneAnimationData>) boneAnimations,
-    (uint) ticks,
-    (Core::Second) ticksPerSecond
+    (Core::Second) duration
   );
 }// namespace Rendering
 
