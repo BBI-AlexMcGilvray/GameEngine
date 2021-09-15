@@ -20,7 +20,6 @@ namespace Rendering {
         return false;
       })
   {
-    CreateRenderData();
     Initialize();
   }
 
@@ -60,6 +59,7 @@ namespace Rendering {
 
     // if we want to allow for modifying the vertex (or just reading the data), this should be stored in the instance
     _runtimeData = createRuntimeData(*Data);
+    CreateRenderData();
 
     // glBufferData( < type >, < size of data >, < start of data >, < draw type >); // GL_DYNAMIC_DRAW because Skin(...) could be called multiple times, changing indices
     glBufferData(newBuffer.Type, _renderData.size() * sizeof(Application::Rendering::SkinnedVertexData), &(_renderData[0]), GL_DYNAMIC_DRAW);

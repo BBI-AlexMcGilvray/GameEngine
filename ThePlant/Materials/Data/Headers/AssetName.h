@@ -16,7 +16,7 @@ template <typename T>
 struct AssetName;
 
 template <typename T>
-std::string ToString(const AssetName<T>& asset);
+std::string to_string(const AssetName<T>& asset);
 
 template <typename T>
 struct AssetNameHasher;
@@ -26,7 +26,7 @@ struct AssetName
 {
   friend struct AssetName<void>;
   template <typename T>
-  friend std::string ToString(const AssetName<T>& asset);
+  friend std::string to_string(const AssetName<T>& asset);
   friend struct AssetNameHasher<T>;
 
   static const AssetName<T> VOID;
@@ -90,12 +90,14 @@ struct AssetName
   private:
     Hash _name;
 };
+template <typename T>
+inline const AssetName<T> AssetName<T>::VOID = AssetName<T>();
 
 template<>
 struct AssetName<void>
 {
   template<typename T>
-  friend std::string ToString(const AssetName<T>& asset);
+  friend std::string to_string(const AssetName<T>& asset);
   friend struct AssetNameHasher<void>;
 
   static const AssetName<void> VOID;
@@ -193,6 +195,7 @@ struct AssetName<void>
       return (_type == GetTypeId<T>());
     }
 };
+inline const AssetName<void> AssetName<void>::VOID = AssetName<void>();
 
 // Used to assist with AssetName<T> being a key in maps
 template <typename T>
@@ -207,8 +210,8 @@ struct AssetNameHasher
 };
 
 template <typename T>
-std::string ToString(const AssetName<T>& asset)
+std::string to_string(const AssetName<T>& asset)
 {
-  return ToString(asset._name);
+  return Core::to_string(asset._name);
 }
 }// namespace Data

@@ -205,6 +205,35 @@ private:
   T _data;
 };
 
+// use these instead of custom JSONData's
+// reason being: we can only deserialize into specific types based on knowledge when deserializing (if float or int)
+// this way we default to large values to hopefully not lose data
+using JSONDecimal = JSONData<long double>;
+using JSONNumber = JSONData<long long>;
+using JSONString = JSONData<std::string>;
+
+template <typename T, typename = void>
+struct json_type
+{};
+
+template <typename T>
+struct json_type<T, std::void_t<std::enable_if_t<std::is_arithmetic_v<T> && !std::is_floating_point_v<T>>>>
+{
+  using type = JSONNumber;
+};
+
+template <typename T>
+struct json_type<T, std::void_t<std::enable_if_t<std::is_arithmetic_v<T> && std::is_floating_point_v<T>>>>
+{
+  using type = JSONDecimal;
+};
+
+template <typename T>
+struct json_type<T, std::void_t<std::enable_if_t<std::is_same<raw_type_t<T>, std::string>::value>>>
+{
+  using type = JSONString;
+};
+
 struct JSONObject : public JSONNode
 {
   size_t Count() const
@@ -309,9 +338,11 @@ struct JSON
   template<typename Object, typename = void>
   struct object_writer_visitor
   {
+    using object_json_type = typename json_type<Object>::type;
+
     std::shared_ptr<JSONNode> Write(const Object &obj)
-    {
-      std::shared_ptr<JSONData<raw_type_t<Object>>> writtenObj = std::make_shared<JSONData<raw_type_t<Object>>>();
+    { // may need to make this only use the 'approved' json data types (JSONNumber, JSONDecimal, JSONString) - but can be handled later
+      std::shared_ptr<object_json_type> writtenObj = std::make_shared<object_json_type>();
       writtenObj->SetData(obj);
       return writtenObj;
     }
@@ -389,13 +420,15 @@ struct JSON
   template<typename Object, typename = void>
   struct object_reader_visitor
   {
+    using object_json_type = typename json_type<Object>::type;
+
     void Read(Object& target, std::shared_ptr<JSONNode> node)
-    {
-      JSONData<Object> *data = dynamic_cast<JSONData<Object> *>(node.get());
+    { // issue reading since we only parse data into JSONNumber and JSONDecimal for numbers now...
+      object_json_type *data = dynamic_cast<object_json_type *>(node.get());
       if (data == nullptr) {
         throw;
       }
-      target = data->GetData();
+      target = static_cast<raw_type_t<Object>>(data->GetData());
     }
   };
 
@@ -461,7 +494,7 @@ struct JSON
 
     // std::arrays can't be resized
     template <typename T, size_t SIZE>
-    void resize(std::array<T, SIZE>& nonresizeable, size_t newSize) { assert(SIZE == newSize); /*, "expected size and actual size must match");*/ } // need a DEBUG_ASSERT (and others) macro
+    void resize(std::array<T, SIZE>& nonresizeable, size_t newSize) { assert(SIZE >= newSize); /*, "expected size and actual size must match");*/ } // need a DEBUG_ASSERT (and others) macro
 
   public:
     void Read(Object& target, std::shared_ptr<JSONNode> node)
@@ -722,42 +755,49 @@ private:
     size_t readCharCount = 0;
 
     try {
+      /*
+      Note: The commented out types have been commented out in favour of only using JSONNumber and JSONDecimal
+      See the comment where those types are defined for more information
+
+      At the end of the day, we can't tell if '1' should be parsed to int, uint, long, ... - so we have to make more general assumptions to avoid losing data
+      */
+
       // start at the most restrictive, end at the least since conversion safety will always be mainntained this way
       // ints are most restrictive, as they don't allow decimals (so they fail)
       // should we have unsigned ints first?
-      int asInt = stoi(token, &readCharCount);
-      if (readCharCount == token.size()) {
-        return std::make_shared<JSONData<int>>(asInt);
-      }
+      // int asInt = stoi(token, &readCharCount);
+      // if (readCharCount == token.size()) {
+      //   return std::make_shared<JSONData<int>>(asInt);
+      // }
 
-      long asLong = stol(token, &readCharCount);
-      if (readCharCount == token.size()) {
-        return std::make_shared<JSONData<long>>(asLong);
-      }
+      // long asLong = stol(token, &readCharCount);
+      // if (readCharCount == token.size()) {
+      //   return std::make_shared<JSONData<long>>(asLong);
+      // }
 
       long long asLongLong = stoll(token, &readCharCount);
       if (readCharCount == token.size()) {
-        return std::make_shared<JSONData<long long>>(asLongLong);
+        return std::make_shared<JSONNumber>(asLongLong);
       }
 
-      float asFloat = stof(token, &readCharCount);
-      if (readCharCount == token.size()) {
-        return std::make_shared<JSONData<float>>(asFloat);
-      }
+      // float asFloat = stof(token, &readCharCount);
+      // if (readCharCount == token.size()) {
+      //   return std::make_shared<JSONData<float>>(asFloat);
+      // }
 
-      double asDouble = stod(token, &readCharCount);
-      if (readCharCount == token.size()) {
-        return std::make_shared<JSONData<double>>(asDouble);
-      }
+      // double asDouble = stod(token, &readCharCount);
+      // if (readCharCount == token.size()) {
+      //   return std::make_shared<JSONData<double>>(asDouble);
+      // }
 
       long double asLongDouble = stof(token, &readCharCount);
       if (readCharCount == token.size()) {
-        return std::make_shared<JSONData<long double>>(asLongDouble);
+        return std::make_shared<JSONDecimal>(asLongDouble);
       }
     } catch (...) {
     }
 
-    return std::make_shared<JSONData<std::string>>(token);
+    return std::make_shared<JSONString>(token);
   }
 };
 }// namespace Core::Serialization::Format

@@ -31,7 +31,8 @@ void HashValue(T &&type, Hash &existingHash);
 
 template <>
 struct std::hash<Hash>;
-std::string ToString(const Hash& hash);
+
+std::string to_string(const Hash& hash);
 
 /*
 We will want a way to store the initial value used for the hash to be used for debugging purposes
@@ -55,6 +56,7 @@ struct Hash
   friend void HashValue(T &&type, Hash &existingHash);
 
   friend struct std::hash<Hash>;
+
   friend std::string to_string(const Hash& hash);
 
   constexpr Hash()
@@ -128,13 +130,6 @@ private:
 };
 inline const Hash Hash::VOID = Hash(0);
 
-// either mark with inline or put definition in .cpp file (prob better to do)
-// should mark other files as inline though?
-inline std::string to_string(const Hash& hash)
-{
-  return std::to_string(hash._hash);
-}
-
 template<typename T>
 Hash HashValue(T &&type)
 {
@@ -197,6 +192,11 @@ void HashValue(T &&type, Hash &existingHash)
 		return t;
 	}
 	*/
+
+  inline std::string to_string(const Core::Hash& hash)
+  {
+    return std::to_string(hash._hash);
+  }
 }// namespace Core
 
 template <>

@@ -43,7 +43,7 @@ namespace Application
             std::vector<AnimatedVertexData> runtimeData;
 
             // do we need the field vertexCount? could we not just use indices.size()?
-            for(uint i = 0; i < meshData.vertexCount; i++)
+            for(uint i = 0; i < meshData.indices.size(); i++)
             {
                 Core::Math::Uint3 indices = meshData.indices[i];
 

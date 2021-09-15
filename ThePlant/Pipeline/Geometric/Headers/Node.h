@@ -34,6 +34,7 @@ namespace Geometric {
 				- Multiple changes will result in multiple calculations and over-transforming
 		// *********************************/
 
+// NOTE: We should remove the use of 'string' in here, should hash the names instead?
 // a recursive struct to hold elements in a scene
 #define DEFAULT_NODE_NAME "Unnamed"
   struct Node : ContainerBase

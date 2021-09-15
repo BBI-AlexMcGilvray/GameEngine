@@ -9,6 +9,7 @@
 #include "Data/Headers/AssetName.h"
 #include "Data/Headers/AssetData.h"
 #include "Data/Headers/AssetExceptions.h"
+#include "Data/Headers/SerializationUtils.h"
 
 #include "Core/Logging/Logger.h"
 
@@ -47,8 +48,11 @@ public:
     template <typename T>
     AssetData<T> getAssetData(const AssetName<T>& asset)
     {
+        cleanAssets(); // make sure we don't try to get non-held asset
+
         // static_cast type safety guaranteed by the type check in AssetName
-        SharedPtr<const T> data = _hasAsset(asset) ? std::static_pointer_cast<const T>(_assets[asset].lock()) : _loadAsset(asset);
+        // it SHOULD be, but it isn't yet due to the fact that names can be shared across asset types
+        SharedPtr<const T> data = _hasAsset(asset) ? std::static_pointer_cast<const T>(_assets[asset].lock()) : _loadAsset(asset); // can't do std::dynamic_pointer_cast since we are storing as SharedPtr<void>
 
         if (data == nullptr)
         {
@@ -81,7 +85,7 @@ private:
         DeserializeTo(*loadedData, parsedAssetData);
         
         // is now implicitly cast to const in storage
-        _assets[asset] = loadedData;
+        _assets[asset] = loadedData; // need to store asset by AssetName AND AssetType (runtimeId_t)
         // return implicitly-cast const version
         return loadedData;
     }
@@ -89,7 +93,7 @@ private:
     template <typename T>
     FilePath _getFilePath(const AssetName<T>& asset)
     {
-        return FilePath{ GetCWD() + AssetType<T>::GetPath(), ToString(asset) + AssetType<T>::GetFileType() };
+        return FilePath{ GetCWD() + AssetType<T>::GetPath(), to_string(asset) + AssetType<T>::GetFileType() };
     }
 };
 } // namespace Data

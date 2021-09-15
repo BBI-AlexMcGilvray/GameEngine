@@ -40,6 +40,7 @@ namespace Data
 
     void AssetManager::cleanAssets()
     {
+        // go in reverse order!!
         for (const Pair<AssetName<void>, WeakPtr<const void>>& pair : _assets)
         {
             if (pair.second.expired())

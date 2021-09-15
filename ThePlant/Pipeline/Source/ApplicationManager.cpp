@@ -39,12 +39,17 @@ StateManager &ApplicationManager::AppStateManager()
   return Application()->StateSystem;
 }
 
+Data::AssetManager& ApplicationManager::AppAssetManager()
+{
+  return Application()->_assetManager;
+}
+
 ApplicationManager::ApplicationManager(ConstructorTag tag)
   : InputSystem(SDL), StateSystem(RenderSystem, InputSystem), OnQuit([this]() {
       Quit = true;
       return false;
-    },
-                                                                InputSystem.Quit)
+    }
+  , InputSystem.Quit)
 {
 }
 

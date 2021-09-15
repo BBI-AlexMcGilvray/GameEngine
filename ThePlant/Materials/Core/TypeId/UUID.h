@@ -66,7 +66,7 @@ public:
     return *this;
   }
 
-  std::string ToString()
+  std::string to_string()
   {
     std::stringstream ss;
     ss << std::hex;

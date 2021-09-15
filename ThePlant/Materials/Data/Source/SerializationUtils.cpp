@@ -4,17 +4,17 @@ namespace Core::Serialization::Format
 {
     void deserialize(Core::Second& time, std::shared_ptr<JSONNode> json)
     {
-      JSONData<Core::Second::rep> *data = dynamic_cast<JSONData<Core::Second::rep> *>(json.get());
+      JSONDecimal *data = dynamic_cast<JSONDecimal *>(json.get());
       if (data == nullptr) {
         throw;
       }
-      Core::Second::rep timeCount = data->GetData();
+      Core::Second::rep timeCount = static_cast<float>(data->GetData());
       time = Core::Second(timeCount);
     }
 
     std::shared_ptr<JSONNode> serialize(const Core::Second& time)
     {
-      std::shared_ptr<JSONData<Core::Second::rep>> json = std::make_shared<JSONData<Core::Second::rep>>();
+      std::shared_ptr<JSONDecimal> json = std::make_shared<JSONDecimal>();
 
       json->SetData(time.count());
 
@@ -23,36 +23,36 @@ namespace Core::Serialization::Format
 
     void deserialize(Core::Hash& hash, std::shared_ptr<JSONNode> json)
     {
-      JSONData<uint> *data = dynamic_cast<JSONData<uint> *>(json.get());
+      JSONNumber *data = dynamic_cast<JSONNumber *>(json.get());
       if (data == nullptr) {
         throw;
       }
 
-      hash = data->GetData();
+      hash = static_cast<uint>(data->GetData());
     }
 
     std::shared_ptr<JSONNode> serialize(const Core::Hash& hash)
     {
-      std::shared_ptr<JSONData<uint>> json = std::make_shared<JSONData<uint>>();
+      std::shared_ptr<JSONNumber> json = std::make_shared<JSONNumber>();
 
-      json->SetData(hash);
+      json->SetData(static_cast<long long>(static_cast<uint>(hash)));
 
       return json;
     }
 
     void deserialize(Core::runtimeId_t& runtimeId, std::shared_ptr<JSONNode> json)
     {
-      JSONData<uint> *data = dynamic_cast<JSONData<uint> *>(json.get());
+      JSONNumber *data = dynamic_cast<JSONNumber *>(json.get());
       if (data == nullptr) {
         throw;
       }
 
-      runtimeId = MakeTypeId(data->GetData());
+      runtimeId = MakeTypeId(static_cast<uint32_t>(data->GetData()));
     }
 
     std::shared_ptr<JSONNode> serialize(const Core::runtimeId_t& runtimeId)
     {
-      std::shared_ptr<JSONData<uint>> json = std::make_shared<JSONData<uint>>();
+      std::shared_ptr<JSONNumber> json = std::make_shared<JSONNumber>();
 
       json->SetData(runtimeId);
 
@@ -66,10 +66,10 @@ namespace Core::Serialization::Format
         throw;
       }
 
-      color.R = dynamic_cast<JSONData<float>*>(data->GetElement("r").get())->GetData();
-      color.G = dynamic_cast<JSONData<float>*>(data->GetElement("g").get())->GetData();
-      color.B = dynamic_cast<JSONData<float>*>(data->GetElement("b").get())->GetData();
-      color.A = dynamic_cast<JSONData<float>*>(data->GetElement("a").get())->GetData();
+      color.R = static_cast<float>(dynamic_cast<JSONDecimal*>(data->GetElement("r").get())->GetData());
+      color.G = static_cast<float>(dynamic_cast<JSONDecimal*>(data->GetElement("g").get())->GetData());
+      color.B = static_cast<float>(dynamic_cast<JSONDecimal*>(data->GetElement("b").get())->GetData());
+      color.A = static_cast<float>(dynamic_cast<JSONDecimal*>(data->GetElement("a").get())->GetData());
     }
 
     std::shared_ptr<JSONNode> serialize(const Core::Math::Color& color)

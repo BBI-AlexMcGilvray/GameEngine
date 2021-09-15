@@ -61,7 +61,7 @@ namespace Data
 		{
 			skeletonData.push_back(CreateSkeletonBoneData(skeletonNode));
 
-			for (int i = 0; i < skeletonNode->mNumChildren; i++)
+			for (uint i = 0; i < skeletonNode->mNumChildren; i++)
 			{
 				FillInSkeletonData(skeletonData, static_cast<Core::Ptr<ExportNode>>(skeletonNode->mChildren[i]));
 			}

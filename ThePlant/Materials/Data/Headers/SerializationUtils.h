@@ -31,7 +31,7 @@ namespace Core::Serialization::Format
     // Ideally we find a way to make this generic for all enums that could be handled by it
     inline void deserialize(::Data::Rendering::AnimationBehaviour& animationBehaviour, std::shared_ptr<JSONNode> json)
     {
-      JSONData<std::string>* data = dynamic_cast<JSONData<std::string>*>(json.get());
+      JSONString* data = dynamic_cast<JSONString*>(json.get());
       if (data == nullptr) {
         throw;
       }
@@ -41,7 +41,7 @@ namespace Core::Serialization::Format
 
     inline std::shared_ptr<JSONNode> serialize(const ::Data::Rendering::AnimationBehaviour& animationBehaviour)
     {
-      std::shared_ptr<JSONData<std::string>> json = std::make_shared<JSONData<std::string>>();
+      std::shared_ptr<JSONString> json = std::make_shared<JSONString>();
 
       json->SetData(::Data::Rendering::to_string(animationBehaviour));
 
@@ -52,20 +52,20 @@ namespace Core::Serialization::Format
     template <typename T>
     inline void deserialize(Data::AssetName<T>& asset, std::shared_ptr<JSONNode> json)
     {
-      JSONData<uint>* data = dynamic_cast<JSONData<uint>*>(json.get());
+      JSONNumber* data = dynamic_cast<JSONNumber*>(json.get());
       if (data == nullptr) {
         throw;
       }
 
-      asset = data->GetData();
+      asset = static_cast<uint>(data->GetData());
     }
 
     template <typename T>
     inline std::shared_ptr<JSONNode> serialize(const Data::AssetName<T>& asset)
     {
-      std::shared_ptr<JSONData<uint>> json = std::make_shared<JSONData<uint>>();
+      std::shared_ptr<JSONNumber> json = std::make_shared<JSONNumber>();
 
-      json->SetData(uint((Core::Hash(asset))));
+      json->SetData(static_cast<long long>(static_cast<uint>(Core::Hash(asset))));
 
       return json;
     }
@@ -96,6 +96,8 @@ namespace Core::Serialization::Format
       return json;
     }
 
+    // We should probably differentiate between JSONDecimal and JSONNumber based on the type of 'T'
+    // that would make it less likely to lose data due to conversions, but we can leave as-is for now
     template <typename T>
     void deserialize(Core::Math::Vector2<T>& vector, std::shared_ptr<JSONNode> json)
     {
@@ -104,8 +106,10 @@ namespace Core::Serialization::Format
         throw;
       }
       
-      vector.X = dynamic_cast<JSONData<T>*>(data->GetElement("x").get())->GetData();
-      vector.Y = dynamic_cast<JSONData<T>*>(data->GetElement("y").get())->GetData();
+      using object_json_type = typename Core::Serialization::Format::json_type<T>::type;
+
+      vector.X = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("x").get())->GetData());
+      vector.Y = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("y").get())->GetData());
     }
 
     template <typename T>
@@ -127,9 +131,11 @@ namespace Core::Serialization::Format
         throw;
       }
       
-      vector.X = dynamic_cast<JSONData<T>*>(data->GetElement("x").get())->GetData();
-      vector.Y = dynamic_cast<JSONData<T>*>(data->GetElement("y").get())->GetData();
-      vector.Z = dynamic_cast<JSONData<T>*>(data->GetElement("z").get())->GetData();
+      using object_json_type = typename Core::Serialization::Format::json_type<T>::type;
+
+      vector.X = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("x").get())->GetData());
+      vector.Y = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("y").get())->GetData());
+      vector.Z = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("z").get())->GetData());
     }
 
     template <typename T>
@@ -152,10 +158,12 @@ namespace Core::Serialization::Format
         throw;
       }
       
-      vector.X = dynamic_cast<JSONData<T>*>(data->GetElement("x").get())->GetData();
-      vector.Y = dynamic_cast<JSONData<T>*>(data->GetElement("y").get())->GetData();
-      vector.Z = dynamic_cast<JSONData<T>*>(data->GetElement("z").get())->GetData();
-      vector.W = dynamic_cast<JSONData<T>*>(data->GetElement("w").get())->GetData();
+      using object_json_type = typename Core::Serialization::Format::json_type<T>::type;
+
+      vector.X = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("x").get())->GetData());
+      vector.Y = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("y").get())->GetData());
+      vector.Z = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("z").get())->GetData());
+      vector.W = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("w").get())->GetData());
     }
 
     template <typename T>
@@ -178,11 +186,13 @@ namespace Core::Serialization::Format
       if (data == nullptr) {
         throw;
       }
+
+      using object_json_type = typename Core::Serialization::Format::json_type<T>::type;
       
-      quaternion.X = dynamic_cast<JSONData<T>*>(data->GetElement("x").get())->GetData();
-      quaternion.Y = dynamic_cast<JSONData<T>*>(data->GetElement("y").get())->GetData();
-      quaternion.Z = dynamic_cast<JSONData<T>*>(data->GetElement("z").get())->GetData();
-      quaternion.W = dynamic_cast<JSONData<T>*>(data->GetElement("w").get())->GetData();
+      quaternion.X = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("x").get())->GetData());
+      quaternion.Y = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("y").get())->GetData());
+      quaternion.Z = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("z").get())->GetData());
+      quaternion.W = static_cast<T>(dynamic_cast<object_json_type*>(data->GetElement("w").get())->GetData());
     }
 
     template <typename T>

@@ -21,6 +21,7 @@ Networking/Source/NetworkProtocol.cpp #
 Networking/Source/Utils.cpp #
 Source/Exception.cpp #
 Source/Hash.cpp #
+TypeId/TypeId.cpp #
 UnitTests/HashTesting.cpp #
 CoreUnitTests.cpp)
 
