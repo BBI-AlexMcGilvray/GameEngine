@@ -40,12 +40,15 @@ namespace Data
 
     void AssetManager::cleanAssets()
     {
-        // go in reverse order!!
-        for (const Pair<AssetName<void>, WeakPtr<const void>>& pair : _assets)
-        {
-            if (pair.second.expired())
+        // not having the iterator incrementor higher up seems weird, look into cleaning up this code
+        for (auto iter = _assets.begin(); iter != _assets.end();/* incrementation handled implicity if erased, or explicitly otherwise */) {
+            if (iter->second.expired())
             {
-                _assets.erase(pair.first);
+                iter = _assets.erase(iter);
+            }
+            else
+            {
+                ++iter;
             }
         }
     }

@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "Core/Headers/UtilityMacros.h"
 #include "Core/Logging/Logger.h"
 #include "Core/Reflection/type_traits.h"
 #include "Core/Serialization/type_traits.h"
@@ -754,47 +755,28 @@ private:
   {
     size_t readCharCount = 0;
 
-    try {
-      /*
-      Note: The commented out types have been commented out in favour of only using JSONNumber and JSONDecimal
-      See the comment where those types are defined for more information
-
-      At the end of the day, we can't tell if '1' should be parsed to int, uint, long, ... - so we have to make more general assumptions to avoid losing data
-      */
-
-      // start at the most restrictive, end at the least since conversion safety will always be mainntained this way
-      // ints are most restrictive, as they don't allow decimals (so they fail)
-      // should we have unsigned ints first?
-      // int asInt = stoi(token, &readCharCount);
-      // if (readCharCount == token.size()) {
-      //   return std::make_shared<JSONData<int>>(asInt);
-      // }
-
-      // long asLong = stol(token, &readCharCount);
-      // if (readCharCount == token.size()) {
-      //   return std::make_shared<JSONData<long>>(asLong);
-      // }
-
+    try
+    {
       long long asLongLong = stoll(token, &readCharCount);
       if (readCharCount == token.size()) {
         return std::make_shared<JSONNumber>(asLongLong);
       }
+    }
+    catch(const std::invalid_argument& e)
+    {
+      UNUSED(e);
+    }
 
-      // float asFloat = stof(token, &readCharCount);
-      // if (readCharCount == token.size()) {
-      //   return std::make_shared<JSONData<float>>(asFloat);
-      // }
-
-      // double asDouble = stod(token, &readCharCount);
-      // if (readCharCount == token.size()) {
-      //   return std::make_shared<JSONData<double>>(asDouble);
-      // }
-
-      long double asLongDouble = stof(token, &readCharCount);
+    try
+    {
+      long double asLongDouble = stold(token, &readCharCount);
       if (readCharCount == token.size()) {
         return std::make_shared<JSONDecimal>(asLongDouble);
       }
-    } catch (...) {
+    }
+    catch(const std::invalid_argument& e)
+    {
+      UNUSED(e);
     }
 
     return std::make_shared<JSONString>(token);

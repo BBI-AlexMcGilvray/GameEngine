@@ -55,6 +55,7 @@ Headers/Property.h #
 Headers/PtrDefs.h #
 Headers/TemplateDefs.h #
 Headers/TimeDefs.h #
+Headers/UtilityMacros.h #
 IO/Headers/Exception.h #
 IO/Headers/File.h #
 IO/Headers/Folder.h #

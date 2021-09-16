@@ -113,7 +113,7 @@ namespace Rendering {
     _skeleton = skeleton;
     for (int i = 0; i < _runtimeData.size(); i++) {
       const AnimatedVertexData& vertexData = _runtimeData[i];
-      Application::Rendering::SkinnedVertexData vertexRenderData = _renderData[i];
+      Application::Rendering::SkinnedVertexData& vertexRenderData = _renderData[i];
 
       int bonesPerVert = 4;
       for (int j = 0; j < bonesPerVert; j++) {
@@ -125,8 +125,6 @@ namespace Rendering {
           vertexRenderData.boneIndices[j] = 0.0f;
         }
       }
-
-      _renderData[i] = vertexRenderData;
     }
 
     // Update the data in the opengl buffer

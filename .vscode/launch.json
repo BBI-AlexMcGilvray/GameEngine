@@ -26,5 +26,12 @@
             "environment": [],
             "console": "externalTerminal"
         }
+    ],
+    "setupCommands": [
+        {
+            "description": "Enable all-exceptions",
+            "text": "-exec \"catch throw\"",
+            "ignoreFailures": true
+        }
     ]
 }
