@@ -17,7 +17,8 @@ namespace Rendering {
         return true;
       } }
   {
-    Root = CreateBoneHeirarchy(parentNode, 0);
+    size_t startIndex = 0;
+    Root = CreateBoneHeirarchy(parentNode, startIndex);
 
     // fit root to node
     Root->Transformation.AdjustPosition(-1 * Root->Transformation.GetPosition());
@@ -52,10 +53,10 @@ namespace Rendering {
     return ((Ptr<Bone>)Root)->GetBoneIndex(nodeName);
   }
 
-  Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, size_t index, Ptr<Bone> rootBone)
+  Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, size_t& boneIndex, Ptr<Bone> rootBone)
   {
-    DEBUG_LOG("Skeleton", "Setting bone to have scale of 1.0f instead of " + VectorString(boneData->scale));
-    const Data::Rendering::SkeletonBoneData& boneData = Data->bones[index];
+    CORE_LOG("Skeleton", "Setting bone to have scale of 1.0f instead of " + VectorString(boneData->scale));
+    const Data::Rendering::SkeletonBoneData& boneData = Data->bones[boneIndex];
 
     Ptr<Bone> newBone = parentNode->AddChild<Bone>(rootBone, boneData.name, boneData.position, boneData.rotation, 1.0f);// boneData->Scale);
 
@@ -66,7 +67,7 @@ namespace Rendering {
     Push(BoneList, newBone);
 
     for (uint i = 0; i < boneData.children; i++) {
-      CreateBoneHeirarchy(newBone, ++index, rootBone);
+      CreateBoneHeirarchy(newBone, ++boneIndex, rootBone);
     }
 
     return newBone;

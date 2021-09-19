@@ -63,6 +63,11 @@ namespace Rendering {
     bool indexFound = false;
     int index = GetBoneIndex(name, indexFound);
 
+    if (!indexFound)
+    {
+      CORE_ERROR("Bone", "Unable to find bone <" + name + ">");
+    }
+
     return (indexFound ? index : -1);
   }
 

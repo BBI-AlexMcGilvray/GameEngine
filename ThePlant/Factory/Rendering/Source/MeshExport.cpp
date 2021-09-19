@@ -107,6 +107,14 @@ namespace Data
 		{
 			boneNames.resize(mesh->mNumVertices);
 			boneWeights.resize(mesh->mNumVertices);
+			for (size_t i = 0; i < mesh->mNumVertices; ++i)
+			{
+				for (int j = 0; j < 4; ++j)
+				{
+					boneNames[i][j] = "";
+					boneWeights[i][j] = 0.0f;
+				}
+			}
 
 			// since our vertices only have 4 bones that they can relate to, this is how we keep track which of the 4 bones is being references
 			std::vector<uint> vertexIndex(mesh->mNumVertices);
