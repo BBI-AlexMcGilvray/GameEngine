@@ -55,8 +55,8 @@ namespace Rendering {
 
   Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, size_t& boneIndex, Ptr<Bone> rootBone)
   {
-    CORE_LOG("Skeleton", "Setting bone to have scale of 1.0f instead of " + VectorString(boneData->scale));
     const Data::Rendering::SkeletonBoneData& boneData = Data->bones[boneIndex];
+    CORE_LOG("Skeleton", "Setting bone to have scale of 1.0f instead of " + VectorString(boneData.scale));
 
     Ptr<Bone> newBone = parentNode->AddChild<Bone>(rootBone, boneData.name, boneData.position, boneData.rotation, 1.0f);// boneData->Scale);
 

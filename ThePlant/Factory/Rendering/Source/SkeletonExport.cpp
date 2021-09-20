@@ -37,11 +37,20 @@ namespace Data
 			const std::string SKELETON_EXPORT = "Skeleton Export";
 		}
 
-		Data::Rendering::SkeletonBoneData CreateSkeletonBoneData(Core::Ptr<ExportNode> skeletonNode)
+		Data::Rendering::SkeletonBoneData CreateSkeletonBoneData(Core::Ptr<ExportNode> skeletonNode, Core::Ptr<const aiMesh> mesh)
 		{
 			Data::Rendering::SkeletonBoneData skeletonBoneData;
 
 			aiMatrix4x4 nodeMatrix = skeletonNode->mTransformation;
+
+			Core::Ptr<const aiBone> skeletonBone = GetBoneForNode(mesh, skeletonNode);
+			if (skeletonBone != nullptr)
+			{
+				aiMatrix4x4 inverseBindMatrix = skeletonBone->mOffsetMatrix;
+				aiMatrix4x4 bindMatrix = inverseBindMatrix.Inverse();
+
+				nodeMatrix = bindMatrix;
+			}
 
 			aiVector3D scaling;
 			aiQuaterniont<float> rotation;
@@ -50,20 +59,20 @@ namespace Data
 
 			skeletonBoneData.name = std::string(skeletonNode->mName.C_Str());
 			skeletonBoneData.position = Core::Math::Float3(position.x, position.y, position.z);
-			skeletonBoneData.rotation = Core::Math::FQuaternion(rotation.x, rotation.y, rotation.z, rotation.w);
+			skeletonBoneData.rotation = Core::Math::FQuaternion(rotation.w, rotation.x, rotation.y, rotation.z);
 			skeletonBoneData.scale = Core::Math::Float3(scaling.x, scaling.y, scaling.z);
 			skeletonBoneData.children = skeletonNode->mNumChildren;
 
 			return skeletonBoneData;
 		}
 
-		void FillInSkeletonData(std::vector<Data::Rendering::SkeletonBoneData>& skeletonData, Core::Ptr<ExportNode> skeletonNode)
+		void FillInSkeletonData(std::vector<Data::Rendering::SkeletonBoneData>& skeletonData, Core::Ptr<const aiMesh> mesh, Core::Ptr<ExportNode> skeletonNode)
 		{
-			skeletonData.push_back(CreateSkeletonBoneData(skeletonNode));
+			skeletonData.push_back(CreateSkeletonBoneData(skeletonNode, mesh));
 
 			for (uint i = 0; i < skeletonNode->mNumChildren; i++)
 			{
-				FillInSkeletonData(skeletonData, static_cast<Core::Ptr<ExportNode>>(skeletonNode->mChildren[i]));
+				FillInSkeletonData(skeletonData, mesh, static_cast<Core::Ptr<ExportNode>>(skeletonNode->mChildren[i]));
 			}
 		}
 
@@ -74,7 +83,7 @@ namespace Data
 			Core::Ptr<const aiNode> rootNode = scene->mRootNode;
 			Core::Ptr<const aiMesh> mesh = scene->mMeshes[meshIndex];
 			Core::UniquePtr<ExportNode> exportSkeleton = AllNodesForMesh(rootNode, mesh, meshIndex);
-			FillInSkeletonData(skeletonData.bones, exportSkeleton.get());
+			FillInSkeletonData(skeletonData.bones, mesh, exportSkeleton.get());
 
 			for (uint animationIndex = 0; animationIndex < scene->mNumAnimations; animationIndex++)
 			{
@@ -175,18 +184,18 @@ namespace Data
 		// 	}
 		// }
 
-		// // not sure why this is needed, it lets us use the bone instead of a node if available, but why do we need to?
-		// Core::Ptr<const aiBone> GetBoneForNode(Core::Ptr<const aiMesh> mesh, Core::Ptr<const ExportNode> node)
-		// {
-		// 	for (int i = 0; i < mesh->mNumBones; i++)
-		// 	{
-		// 		if (mesh->mBones[i]->mName == node->mName)
-		// 		{
-		// 			return mesh->mBones[i];
-		// 		}
-		// 	}
+		// not sure why this is needed, it lets us use the bone instead of a node if available, but why do we need to?
+		Core::Ptr<const aiBone> GetBoneForNode(Core::Ptr<const aiMesh> mesh, Core::Ptr<const ExportNode> node)
+		{
+			for (int i = 0; i < mesh->mNumBones; i++)
+			{
+				if (mesh->mBones[i]->mName == node->mName)
+				{
+					return mesh->mBones[i];
+				}
+			}
 
-		// 	return nullptr;
-		// }
+			return nullptr;
+		}
 	}
 }

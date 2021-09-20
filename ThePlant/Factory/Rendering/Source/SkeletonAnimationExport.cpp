@@ -78,7 +78,7 @@ namespace Data
 			Data::Rendering::RotationFrameData rotationFrame;
 
 			rotationFrame.time = Core::Second(rotationKey.mTime / ticksPerSecond);
-			rotationFrame.rotation = Core::Math::FQuaternion(rotationKey.mValue.x, rotationKey.mValue.y, rotationKey.mValue.z, rotationKey.mValue.w);
+			rotationFrame.rotation = Core::Math::FQuaternion(rotationKey.mValue.w, rotationKey.mValue.x, rotationKey.mValue.y, rotationKey.mValue.z);
 
 			rotationFrameData.push_back(rotationFrame);
 		}

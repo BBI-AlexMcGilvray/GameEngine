@@ -60,6 +60,8 @@ namespace Math {
       : Quaternion(Vector4<T>(0, 0, 0, i))
     {}
 
+    // NOTE: Quaternions are made with W first, not X!
+    // Should this be changed?
     Quaternion(T w, T x, T y, T z)
       : Quaternion(Vector4<T>(x, y, z, w))
     {}
