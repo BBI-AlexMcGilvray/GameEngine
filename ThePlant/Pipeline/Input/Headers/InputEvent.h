@@ -3,6 +3,7 @@
 #include "InputDefs.h"
 
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/TimeDefs.h"
 
 using namespace Core;
 
@@ -10,69 +11,80 @@ namespace Application {
 namespace Input {
   struct EventMetaData
   {
-    uint Timestamp;
-    uint WindowId;
+    Core::TimePoint timestamp;
+    uint windowId;
 
-    inline EventMetaData(uint timestamp, uint windowId)
-      : Timestamp(timestamp), WindowId(windowId)
+    inline EventMetaData(Core::TimePoint timestamp, uint windowId)
+      : timestamp(timestamp)
+      , windowId(windowId)
     {}
   };
 
   // Mouse Event data
   struct MouseMetaData : EventMetaData
   {
-    int MouseX;
-    int MouseY;
+    int mouseX;
+    int mouseY;
 
-    inline MouseMetaData(uint timestamp, uint windowId, int mouseX, int mouseY)
-      : EventMetaData(timestamp, windowId), MouseX(mouseX), MouseY(mouseY)
+    inline MouseMetaData(Core::TimePoint timestamp, uint windowId, int mouseX, int mouseY)
+      : EventMetaData(timestamp, windowId)
+      , mouseX(mouseX)
+      , mouseY(mouseY)
     {}
   };
 
   struct MouseClickedData : MouseMetaData
   {
-    MouseButton Button;
-    ButtonState State;
-    uint Clicks;
+    MouseButton button;
+    ButtonState state;
+    uint clicks;
 
-    inline MouseClickedData(uint timestamp, uint windowId, int mouseX, int mouseY, MouseButton button, ButtonState state, uint clicks)
-      : MouseMetaData(timestamp, windowId, mouseX, mouseY), Button(button), State(state), Clicks(clicks)
+    inline MouseClickedData(Core::TimePoint timestamp, uint windowId, int mouseX, int mouseY, MouseButton button, ButtonState state, uint clicks)
+      : MouseMetaData(timestamp, windowId, mouseX, mouseY)
+      , button(button)
+      , state(state)
+      , clicks(clicks)
     {}
   };
 
   struct MouseMovedData : MouseMetaData
   {
-    int DeltaX;
-    int DeltaY;
+    int deltaX;
+    int deltaY;
 
-    inline MouseMovedData(uint timestamp, uint windowId, int mouseX, int mouseY, int deltaX, int deltaY)
-      : MouseMetaData(timestamp, windowId, mouseX, mouseY), DeltaX(deltaX), DeltaY(deltaY)
+    inline MouseMovedData(Core::TimePoint timestamp, uint windowId, int mouseX, int mouseY, int deltaX, int deltaY)
+      : MouseMetaData(timestamp, windowId, mouseX, mouseY)
+      , deltaX(deltaX)
+      , deltaY(deltaY)
     {}
   };
 
   struct MouseWheeledData : MouseMetaData
   {
-    bool Forward;
+    bool forward;
 
-    inline MouseWheeledData(uint timestamp, uint windowId, int mouseX, int mouseY, bool forward)
-      : MouseMetaData(timestamp, windowId, mouseX, mouseY), Forward(forward)
+    inline MouseWheeledData(Core::TimePoint timestamp, uint windowId, int mouseX, int mouseY, bool forward)
+      : MouseMetaData(timestamp, windowId, mouseX, mouseY)
+      , forward(forward)
     {}
   };
 
   // Keyboard Event Data
   struct KeyboardButtonData : EventMetaData
   {
-    KeyboardButton Button;
-    ButtonState State;
+    KeyboardButton button;
+    ButtonState state;
 
-    inline KeyboardButtonData(uint timestamp, uint windowId, KeyboardButton button, ButtonState state)
-      : EventMetaData(timestamp, windowId), Button(button), State(state)
+    inline KeyboardButtonData(Core::TimePoint timestamp, uint windowId, KeyboardButton button, ButtonState state)
+      : EventMetaData(timestamp, windowId)
+      , button(button)
+      , state(state)
     {}
   };
 
   struct InputEventBase
   {
-    virtual InputEventType GetInputEventType() const
+    virtual InputEventType getInputEventType() const
     {
       return InputEventType::Undetermined;
     }
@@ -81,24 +93,26 @@ namespace Input {
   template<class D>
   struct InputEvent : InputEventBase
   {
-    InputEventType Type;
-    D Data;
+    InputEventType type;
+    D data;
 
     InputEvent(InputEventType type, D &&data)
-      : Type(type), Data(move(data))
+      : type(type)
+      , data(move(data))
     {}
 
     template<class... Ts>
     InputEvent(InputEventType type, Ts &&...args)
-      : Type(type), Data(std::forward<Ts>(args)...)
+      : type(type)
+      , data(std::forward<Ts>(args)...)
     {}
 
-    inline InputEventType GetInputEventType() const
+    inline InputEventType getInputEventType() const
     {
-      return Type;
+      return type;
     }
   };
 
-  UniquePtr<const InputEventBase> CreateInputEvent(const SDL_Event &sdlEvent);
+  UniquePtr<const InputEventBase> createInputEvent(const SDL_Event &sdlEvent);
 }// namespace Input
 }// namespace Application

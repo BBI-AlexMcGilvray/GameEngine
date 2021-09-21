@@ -79,7 +79,7 @@ bool ApplicationManager::Initialize()
   Time.Initialize();
   AnimationSystem.Initialize();
   RenderSystem.Initialize(SDL.GetWindowManager());
-  InputSystem.Initialize();
+  InputSystem.initialize();
   StateSystem.Initialize();
 
   return true;
@@ -91,13 +91,13 @@ void ApplicationManager::Start()
   Time.Start();
   AnimationSystem.Start();
   RenderSystem.Start();
-  InputSystem.Start();
+  InputSystem.start();
   StateSystem.Start();
 }
 
 bool ApplicationManager::Update()
 {
-  InputSystem.Update();// gets input through SDL
+  InputSystem.update();// gets input through SDL
 
   // game manager update (will update game logic, colliders, game object, renderers)
   auto dt = Time.Update();
@@ -119,7 +119,7 @@ bool ApplicationManager::Update()
 void ApplicationManager::End()
 {
   StateSystem.End();
-  InputSystem.End();
+  InputSystem.end();
   AnimationSystem.End();
   RenderSystem.End();
   Time.End();
@@ -130,7 +130,7 @@ void ApplicationManager::CleanUp()
 {
   // possible we want to thread this to make it faster (since saving could be done)
   StateSystem.CleanUp();
-  InputSystem.CleanUp();
+  InputSystem.cleanUp();
   RenderSystem.CleanUp();
   AnimationSystem.CleanUp();
   Time.CleanUp();

@@ -7,30 +7,34 @@
 
 namespace Application {
 namespace Input {
+  class IInputReceiver
+  {
+  public:
+    IInputReceiver() = default;
+    virtual ~IInputReceiver() = default;
+
+    virtual void initialize() {}
+    virtual void cleanUp() {}
+
+    virtual bool handleInput(Ptr<const InputEventBase> event) const = 0;
+  };
+
   /*
 		These should take in some action and make a response - which will either consume, or pass along the input).
 		*/
-  struct InputReceiverBase
+  class ParentInputReceiver : public IInputReceiver
   {
-    InputReceiverBase();
-    ~InputReceiverBase();
+  public:
+    ParentInputReceiver() = default;
+    ~ParentInputReceiver();
 
-    void Initialize();
-    void CleanUp();
+    void addChild(Ptr<IInputReceiver> receiver);
+    void removeChild(Ptr<IInputReceiver> receiver);
 
-    void SubscribeTo(Ptr<InputReceiverBase> parent);
-    void EndSubscriptionToParent();
-
-    void AddSubscriber(Ptr<InputReceiverBase> receiver);
-    void RemoveSubscriber(Ptr<InputReceiverBase> receiver);
-
-    Ptr<const InputReceiverBase> HandleInput(Ptr<const InputEventBase> event) const;
+    bool handleInput(Ptr<const InputEventBase> event) const override;
 
   private:
-    Ptr<InputReceiverBase> ParentReceiver = nullptr;
-    List<Ptr<InputReceiverBase>> ChildReceivers;
-
-    virtual bool HandlesInput(Ptr<const InputEventBase> event) const = 0;
+    std::vector<Ptr<IInputReceiver>> _children;
   };
 }// namespace Input
 }// namespace Application

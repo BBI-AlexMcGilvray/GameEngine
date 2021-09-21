@@ -2,7 +2,7 @@
 
 namespace Application {
 namespace Input {
-  ButtonState GetButtonState(uint sdlState)
+  ButtonState getButtonState(uint sdlState)
   {
     switch (sdlState) {
     case SDL_KEYUP: {
@@ -17,7 +17,7 @@ namespace Input {
     }
   }
 
-  MouseButton GetMouseButton(uint sdlMouseButton)
+  MouseButton getMouseButton(uint sdlMouseButton)
   {
     switch (sdlMouseButton) {
     case SDL_BUTTON_LEFT: {
@@ -41,7 +41,7 @@ namespace Input {
     }
   }
 
-  KeyboardButton GetKeyboardButton(SDL_Keycode sdlKeyCode)
+  KeyboardButton getKeyboardButton(SDL_Keycode sdlKeyCode)
   {
     switch (sdlKeyCode) {
     case SDLK_0: {

@@ -8,4 +8,12 @@ Options:
 - Create state with default name that will be opened
     - then follows data
 - No default application manager, instead just one that handles creating the default state
+
+Notes:
+- Work on this now
+- Remove the debug work in Pipeline to test functionality and have it be in this test project
+- Register InputController
+- Register testing InputReceiver
+    - Have this move the camera (for now) to test
+- Side note: Get the 'DEBUG' config to actually define DEBUG (or _DEBUG, or whatever we are using)
 */

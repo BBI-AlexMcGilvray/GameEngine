@@ -3,52 +3,62 @@
 namespace Application {
 namespace Input {
   InputManager::InputManager(const SDL2Manager &sdl)
-    : SDL(sdl)
+    : _SDL(sdl)
+    , _controller(nullptr)
   {
   }
 
-  void InputManager::Initialize()
+  void InputManager::initialize()
   {
     // create controller logic mapping
     // have controller logic mapping initialize
   }
 
-  void InputManager::Start()
+  void InputManager::start()
   {
   }
 
-  void InputManager::Update()
+  void InputManager::setInputController(UniquePtr<IInputController> controller)
   {
-    PollSDL();
+    _controller = std::move(controller);
   }
 
-  void InputManager::End()
+  void InputManager::update()
+  {
+    _pollSDL();
+  }
+
+  void InputManager::end()
   {
   }
 
-  void InputManager::CleanUp()
+  void InputManager::cleanUp()
   {
     // have controller mapping save any changes made during gameplay (?)
   }
 
-  void InputManager::PollSDL()
+  void InputManager::_pollSDL()
   {
     // this loop should probably be in the InputManager
     SDL_Event event;
-    while (SDL.Poll(event)) {
+    while (_SDL.Poll(event)) {
       switch (event.type) {
       case SDL_QUIT: {
-        // send an quit event
+        // send a quit event
         Quit();
         break;
       }
       case SDL_WINDOWEVENT: {
-        // pass event to SDL.WindowManager to handle resizing
+        // pass event to SDLWindowManager to handle resizing
         break;
       }
       default: {
-        if (Controller != nullptr) {
-          Controller->HandleInput(CreateInputEvent(event));
+        if (_controller != nullptr) {
+          _controller->handleInput(createInputEvent(event));
+        }
+        else
+        {
+          DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered");
         }
         break;
       }

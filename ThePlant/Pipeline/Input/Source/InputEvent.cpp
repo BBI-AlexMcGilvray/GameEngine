@@ -1,24 +1,53 @@
 #include "Pipeline/Input/Headers/InputEvent.h"
 
+#include "Core/Logging/Logger.h"
+
 namespace Application {
 namespace Input {
-  UniquePtr<const InputEventBase> CreateInputEvent(const SDL_Event &sdlEvent)
+  UniquePtr<const InputEventBase> createInputEvent(const SDL_Event &sdlEvent)
   {
+    /*
+    Should we be using 'now', or should we be using sdlEvent.key.timestamp?
+    */
     switch (sdlEvent.type) {
     case SDL_KEYDOWN: {
-      return MakeUnique<InputEvent<KeyboardButtonData>>(InputEventType::KeyboardEvent, sdlEvent.key.timestamp, sdlEvent.key.windowID, GetKeyboardButton(sdlEvent.key.keysym.sym), GetButtonState(sdlEvent.key.type));
+      return MakeUnique<InputEvent<KeyboardButtonData>>(InputEventType::KeyboardEvent,
+          Core::TimePoint(Core::SteadyClock::now()),
+          sdlEvent.key.windowID,
+          getKeyboardButton(sdlEvent.key.keysym.sym),
+          getButtonState(sdlEvent.key.type));
     }
     case SDL_MOUSEMOTION: {
-      return MakeUnique<InputEvent<MouseMovedData>>(InputEventType::MouseMovedEvent, sdlEvent.key.timestamp, sdlEvent.key.windowID, sdlEvent.motion.x, sdlEvent.motion.y, sdlEvent.motion.xrel, sdlEvent.motion.yrel);
+      return MakeUnique<InputEvent<MouseMovedData>>(InputEventType::MouseMovedEvent,
+          Core::TimePoint(Core::SteadyClock::now()),
+          sdlEvent.key.windowID,
+          sdlEvent.motion.x,
+          sdlEvent.motion.y,
+          sdlEvent.motion.xrel,
+          sdlEvent.motion.yrel);
     }
     case SDL_MOUSEBUTTONDOWN:
     case SDL_MOUSEBUTTONUP: {
-      return MakeUnique<InputEvent<MouseClickedData>>(InputEventType::MouseClickedEvent, sdlEvent.key.timestamp, sdlEvent.key.windowID, sdlEvent.motion.x, sdlEvent.motion.y, GetMouseButton(sdlEvent.button.button), GetButtonState(sdlEvent.button.state), sdlEvent.button.clicks);
+      return MakeUnique<InputEvent<MouseClickedData>>(InputEventType::MouseClickedEvent,
+          Core::TimePoint(Core::SteadyClock::now()),
+          sdlEvent.key.windowID,
+          sdlEvent.motion.x,
+          sdlEvent.motion.y,
+          getMouseButton(sdlEvent.button.button),
+          getButtonState(sdlEvent.button.state),
+          sdlEvent.button.clicks);
     }
     case SDL_MOUSEWHEEL: {
-      return MakeUnique<InputEvent<MouseWheeledData>>(InputEventType::MouseWheelEvent, sdlEvent.key.timestamp, sdlEvent.key.windowID, sdlEvent.motion.x, sdlEvent.motion.y, sdlEvent.wheel.direction > 0);
+      return MakeUnique<InputEvent<MouseWheeledData>>(InputEventType::MouseWheelEvent,
+          Core::TimePoint(Core::SteadyClock::now()),
+          sdlEvent.key.windowID,
+          sdlEvent.motion.x,
+          sdlEvent.motion.y,
+          sdlEvent.wheel.direction > 0);
     }
     default: {
+      // eventually handle other type
+      CORE_THROW("InputEvent", "This event type is not handled! SDL: " + std::to_string(sdlEvent.type));
       return nullptr;
     }
     }

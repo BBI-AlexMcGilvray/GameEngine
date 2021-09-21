@@ -8,6 +8,10 @@ using namespace Core;
 
 namespace Application {
 namespace Input {
+  /*
+  Need controller equivalents for these
+  */
+
   enum class InputEventType {
     Undetermined,
     MouseClickedEvent,
@@ -22,7 +26,7 @@ namespace Input {
     Down
   };
 
-  ButtonState GetButtonState(uint sdlState);
+  ButtonState getButtonState(uint sdlState);
 
   enum class MouseButton {
     Undetermined,
@@ -33,7 +37,7 @@ namespace Input {
     SideTwo
   };
 
-  MouseButton GetMouseButton(uint sdlMouseButton);
+  MouseButton getMouseButton(uint sdlMouseButton);
 
   enum class KeyboardButton {
     Undetermined,
@@ -141,6 +145,6 @@ namespace Input {
     Button_Tab
   };
 
-  KeyboardButton GetKeyboardButton(SDL_Keycode sdlKeyCode);
+  KeyboardButton getKeyboardButton(SDL_Keycode sdlKeyCode);
 }// namespace Input
 }// namespace Application

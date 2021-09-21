@@ -19,19 +19,25 @@ namespace Input {
 
     InputManager(const SDL2Manager &sdl);
 
-    void Initialize();
-    void Start();
+    void initialize();
+    void start();
 
-    void Update();
+    template <typename T, typename ...Args>
+    void setInputController(Args... args)
+    {
+      setInputController(std::make_unique<T>(std::forward<Args>(args)...));
+    }
+    void setInputController(UniquePtr<IInputController> controller);
+    void update();
 
-    void End();
-    void CleanUp();
+    void end();
+    void cleanUp();
 
   private:
-    const SDL2Manager &SDL;
-    UniquePtr<InputController> Controller;
+    const SDL2Manager &_SDL;
+    UniquePtr<IInputController> _controller;
 
-    virtual void PollSDL();
+    virtual void _pollSDL();
   };
 }// namespace Input
 }// namespace Application

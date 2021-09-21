@@ -13,23 +13,27 @@ namespace Input {
 
 		Then, that action is passed down to the receivers (starting with the focus, and moving on if it does not consume the input).
 		*/
-  struct InputController
+  class IInputController
   {
-    InputController() = default;
+  public:
+    IInputController() = default;
+    virtual ~IInputController() = default;
 
-    void Initialize();
-    void CleanUp();
+    virtual void initialize() {}
+    virtual void cleanUp() {}
 
-    void SetParentReceiver(Ptr<const InputReceiverBase> parentReceiver);
-    void ClearFocus();
+    virtual void handleInput(UniquePtr<const InputEventBase> inputEvent) const = 0;
+  };
 
-    void HandleInput(UniquePtr<const InputEventBase> inputEvent);
+  class DefaultInputController : public IInputController
+  {
+  public:
+    void handleInput(UniquePtr<const InputEventBase> inputEvent) const override;
+
+    ParentInputReceiver& getReceiver();
 
   private:
-    Ptr<const InputReceiverBase> FocusedReceiver = nullptr;
-    Ptr<const InputReceiverBase> Receiver = nullptr;
-
-    void SetFocus(Ptr<const InputReceiverBase> focus);
+    ParentInputReceiver _receiver;
   };
 }// namespace Input
 }// namespace Application

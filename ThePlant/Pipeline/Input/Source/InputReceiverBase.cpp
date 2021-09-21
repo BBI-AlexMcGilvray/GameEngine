@@ -4,68 +4,35 @@
 
 namespace Application {
 namespace Input {
-  InputReceiverBase::InputReceiverBase()
+  ParentInputReceiver::~ParentInputReceiver()
   {
+    _children.clear();
   }
 
-  InputReceiverBase::~InputReceiverBase()
+  void ParentInputReceiver::addChild(Ptr<IInputReceiver> receiver)
   {
-    EndSubscriptionToParent();
+    _children.push_back(receiver);
+  }
 
-    for (auto receiver : ChildReceivers) {
-      receiver->EndSubscriptionToParent();
+  void ParentInputReceiver::removeChild(Ptr<IInputReceiver> receiver)
+  {
+    if (auto location = std::find(_children.begin(), _children.end(), receiver); location != _children.end())
+    {
+      _children.erase(location);      
     }
   }
 
-  void InputReceiverBase::Initialize()
+  bool ParentInputReceiver::handleInput(Ptr<InputEventBase const> event) const
   {
-  }
-
-  void InputReceiverBase::CleanUp()
-  {
-  }
-
-  void InputReceiverBase::SubscribeTo(Ptr<InputReceiverBase> parent)
-  {
-    EndSubscriptionToParent();
-
-    ParentReceiver = parent;
-    if (ParentReceiver != nullptr) {
-      ParentReceiver->AddSubscriber(this);
-    }
-  }
-
-  void InputReceiverBase::EndSubscriptionToParent()
-  {
-    if (ParentReceiver != nullptr) {
-      ParentReceiver->RemoveSubscriber(this);
-      ParentReceiver = nullptr;
-    }
-  }
-
-  void InputReceiverBase::AddSubscriber(Ptr<InputReceiverBase> receiver)
-  {
-    Push(ChildReceivers, receiver);
-  }
-
-  void InputReceiverBase::RemoveSubscriber(Ptr<InputReceiverBase> receiver)
-  {
-    Remove(ChildReceivers, receiver);
-  }
-
-  Ptr<const InputReceiverBase> InputReceiverBase::HandleInput(Ptr<InputEventBase const> event) const
-  {
-    if (HandlesInput(event)) {
-      return this;
-    }
-
-    for (auto receiver : ChildReceivers) {
-      if (auto focus = receiver->HandleInput(event)) {
-        return focus;
+    for (auto& child : _children)
+    {
+      if (child->handleInput(event))
+      {
+        return true;
       }
     }
 
-    return nullptr;
+    return false;
   }
 }// namespace Input
 }// namespace Application

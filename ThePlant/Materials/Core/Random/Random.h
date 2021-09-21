@@ -18,6 +18,11 @@ public:
     return Next(T(0));
   }
 
+  Random Fork()
+  {
+    return Random(Next<uint32_t>());
+  }
+
 private:
   RandomGenerator _generator;
 
