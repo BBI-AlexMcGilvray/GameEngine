@@ -32,7 +32,6 @@ namespace Math {
     union {
       struct
       {
-        T W;
         union {
           struct
           {
@@ -48,6 +47,7 @@ namespace Math {
           };
           T XYZ[3];
         };
+        T W;
       };
       T quat[4];
     };
@@ -62,7 +62,7 @@ namespace Math {
 
     // NOTE: Quaternions are made with W first, not X!
     // Should this be changed?
-    Quaternion(T w, T x, T y, T z)
+    Quaternion(T x, T y, T z, T w)
       : Quaternion(Vector4<T>(x, y, z, w))
     {}
 
@@ -74,14 +74,14 @@ namespace Math {
     {
       auto vNormalize = (v == Vector4<T>(0)) ? Vector4<T>(0) : Normalize(v);
 
-      W = vNormalize.W;
       X = vNormalize.X;
       Y = vNormalize.Y;
       Z = vNormalize.Z;
+      W = vNormalize.W;
     }
 
     Quaternion(Quaternion const &q)
-      : W(q.W), X(q.X), Y(q.Y), Z(q.Z)
+      : X(q.X), Y(q.Y), Z(q.Z), W(q.W)
     {}
 
     // from euler angles
@@ -115,14 +115,14 @@ namespace Math {
 
     Quaternion<T> Inverse() const
     {
-      T qMagnitudeSqr = (W * W) + (X * X) + (Y * Y) + (Z * Z);
+      T qMagnitudeSqr = (X * X) + (Y * Y) + (Z * Z) + (W * W);
 
       return Conjugate() / qMagnitudeSqr;
     }
 
     Quaternion<T> Conjugate() const
     {
-      return Quaternion<T>(W, -X, -Y, -Z);
+      return Quaternion<T>(-X, -Y, -Z, W);
     }
 
     // operators
@@ -147,20 +147,20 @@ namespace Math {
       T newY = (W * q.Y) - (X * q.Z) + (Y * q.W) + (Z * q.X);
       T newZ = (W * q.Z) + (X * q.Y) - (Y * q.X) + (Z * q.W);
 
-      W = newW;
       X = newX;
       Y = newY;
       Z = newZ;
+      W = newW;
 
       return (*this);
     }
 
     Quaternion<T> &operator/=(T d)
     {
-      W /= d;
       X /= d;
       Y /= d;
       Z /= d;
+      W /= d;
       return (*this);
     }
 
@@ -169,20 +169,20 @@ namespace Math {
       Quaternion<T> qInverse = q.Inverse();
       qInverse *= (*this);
 
-      W = qInverse.W;
       X = qInverse.X;
       Y = qInverse.Y;
       Z = qInverse.Z;
+      W = qInverse.W;
 
       return (*this);
     }
 
     Quaternion<T> &operator=(Quaternion<T> const &q)
     {
-      W = q.W;
       X = q.X;
       Y = q.Y;
       Z = q.Z;
+      W = q.W;
 
       return *this;
     }
@@ -226,7 +226,7 @@ namespace Math {
 
     bool operator==(Quaternion<T> const &q)
     {
-      return (W == q.W && == q.X && Y == q.Y && Z == q.Z);
+      return (X == q.X && Y == q.Y && Z == q.Z && W == q.W);
     }
 
     // other comparison operators have no meaning

@@ -48,7 +48,7 @@ namespace Geometric {
 
     holderNode = AddChild<Node>("Holder");
 
-    Ptr<Node> animatedMeshNode = holderNode->AddChild<Node>("AnimatedMesh", Float3(0.0f, 0.0f, 0.0f), FQuaternion(0.707f, 0.0f, 0.707f, 0.0f) * FQuaternion(0.707f, -0.707f, 0.0f, 0.0f));
+    Ptr<Node> animatedMeshNode = holderNode->AddChild<Node>("AnimatedMesh", Float3(0.0f, 0.0f, 0.0f), FQuaternion(0.0f, 0.707f, 0.0f, 0.707f) * FQuaternion(-0.707f, 0.0f, 0.0f, 0.707f));
     //animatedMeshNode->Transformation.SetRotation()
 
     Ptr<ContentBase> animatedMeshContent = animatedMeshNode->AddContent<AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
@@ -80,11 +80,11 @@ namespace Geometric {
   {
     // just for testing currently
     FQuaternion currentRotation = holderNode->Transformation.GetRotation();
-    FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.9f, 0.0f, 0.1f, 0.0f) * currentRotation, Duration(dt));
+    FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * currentRotation, Duration(dt));
     //holderNode->Transformation.SetRotation(newRot);
 
     FQuaternion rotationModification = neckBone->Transformation.GetRotation();
-    neckBone->Transformation.AdjustRotation(FQuaternion(0.99f, 0.0f, 0.0f, 0.01f));
+    neckBone->Transformation.AdjustRotation(FQuaternion(0.0f, 0.0f, 0.01f, 0.99f));
     //end of testing
   }
 }// namespace Geometric

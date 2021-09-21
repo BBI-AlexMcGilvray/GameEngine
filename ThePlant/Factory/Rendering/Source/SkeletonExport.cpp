@@ -59,7 +59,7 @@ namespace Data
 
 			skeletonBoneData.name = std::string(skeletonNode->mName.C_Str());
 			skeletonBoneData.position = Core::Math::Float3(position.x, position.y, position.z);
-			skeletonBoneData.rotation = Core::Math::FQuaternion(rotation.w, rotation.x, rotation.y, rotation.z);
+			skeletonBoneData.rotation = Core::Math::FQuaternion(rotation.x, rotation.y, rotation.z, rotation.w);
 			skeletonBoneData.scale = Core::Math::Float3(scaling.x, scaling.y, scaling.z);
 			skeletonBoneData.children = skeletonNode->mNumChildren;
 
