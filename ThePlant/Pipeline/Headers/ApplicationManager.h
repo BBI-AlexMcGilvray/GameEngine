@@ -25,7 +25,6 @@ struct ApplicationManager
 {
   static Core::Ptr<ApplicationManager> Application();
 
-  static FixedStepTimeManager &AppTimeManager();
   static AnimationManager &AppAnimationManager();
   static RenderManager &AppRenderManager();
   static InputManager &AppInputManager();
@@ -43,13 +42,32 @@ private:
 public:
   ApplicationManager(ConstructorTag tag);
 
+  // This should only be called in the Pipeline project
+  // Otherwise, the lifetime methods should be called explicitly
   void Run();
+
+  bool quit()
+  {
+    return Quit;
+  }
+
+  bool Initialize();
+  void Start();
+
+  // update things that do not need time
+  // should only be called once a frame
+  void Update();
+  // update things that do need time
+  // can be called multiple times per frame (but total dt should not pass the frame dt)
+  void Update(Core::Second dt);
+
+  void End();
+  void CleanUp();
 
 private:
   // Note: the below are in an order such that they should only _possibly_ know about what is above them (as it would need to be for constructors...)
   SDL2Manager SDL;
   Data::AssetManager _assetManager;
-  FixedStepTimeManager Time;
   AnimationManager AnimationSystem;
   RenderManager RenderSystem;
   InputManager InputSystem;
@@ -59,11 +77,5 @@ private:
   bool Quit = false;
 
   static Core::UniquePtr<ApplicationManager> Instance;
-
-  bool Initialize();
-  void Start();
-  bool Update();
-  void End();
-  void CleanUp();
 };
 }// namespace Application

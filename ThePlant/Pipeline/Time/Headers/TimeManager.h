@@ -46,7 +46,7 @@ namespace Time {
 			Fixed time step time manager based on: https://gafferongames.com/post/fix_your_timestep/
 		*/
 
-  struct FixedStepTimeManager : TimeManager
+  struct FixedStepTimeManager : public TimeManager
   {
     Second MaxStepSize;
 

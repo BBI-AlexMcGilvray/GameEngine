@@ -50,3 +50,4 @@ D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/Workers/SQLiteCpp-3.
 D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/Workers/SQLiteCpp-3.1.1/sqlite3/CMakeFiles/INSTALL.dir
 D:/Coding/VisualStudios/Application/builds/ThePlant/Product/CMakeFiles/INSTALL.dir
 D:/Coding/VisualStudios/Application/builds/ThePlant/Product/CMakeFiles/Product_Lib.dir
+D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Supplies/CMakeFiles/INSTALL.dir

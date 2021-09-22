@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Core/Headers/PtrDefs.h"
+
+#include "Pipeline/Headers/ApplicationManager.h"
+
 // will be what sets up the initial state of the world
 
 /*
@@ -17,3 +21,22 @@ Notes:
     - Have this move the camera (for now) to test
 - Side note: Get the 'DEBUG' config to actually define DEBUG (or _DEBUG, or whatever we are using)
 */
+
+namespace Product
+{
+    class ProductManager
+    {
+    public:
+        void run();
+
+    private:
+        Core::Ptr<Application::ApplicationManager> _pipeline;
+        FixedStepTimeManager _time;
+
+        bool _initialize();
+        void _start();
+        void _update();
+        void _end();
+        void _cleanUp();
+    };
+}

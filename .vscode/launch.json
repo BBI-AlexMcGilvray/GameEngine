@@ -25,6 +25,17 @@
             "cwd": "${workspaceFolder}/builds/ThePlant/Debug/Pipeline/",
             "environment": [],
             "console": "externalTerminal"
+        },
+        {
+            "name": "Product",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/builds/ThePlant/Debug/Product/Product.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/builds/ThePlant/Debug/Product/",
+            "environment": [],
+            "console": "externalTerminal"
         }
     ],
     "setupCommands": [

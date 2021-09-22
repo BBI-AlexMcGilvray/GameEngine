@@ -14,11 +14,6 @@ Core::Ptr<ApplicationManager> ApplicationManager::Application()
   return Instance.get();
 }
 
-FixedStepTimeManager &ApplicationManager::AppTimeManager()
-{
-  return Application()->Time;
-}
-
 AnimationManager &ApplicationManager::AppAnimationManager()
 {
   return Application()->AnimationSystem;
@@ -55,14 +50,26 @@ ApplicationManager::ApplicationManager(ConstructorTag tag)
 
 void ApplicationManager::Run()
 {
+  FixedStepTimeManager time;
   if (!Initialize()) {
     std::cout << "Failed to initialize application" << std::endl;
     return;
   }
+  time.Initialize();
 
   Start();
+  time.Start();
 
-  while (!Quit && Update()) {}
+  while (!Quit)
+  {
+    Update();
+
+    Core::Second dt = time.Update();
+    while (dt > 0_s) {
+      Update(dt);
+      dt = time.GetAccumulatedTime();
+    }
+  }
 
   End();
   CleanUp();
@@ -76,7 +83,6 @@ bool ApplicationManager::Initialize()
     return false;
   }
 
-  Time.Initialize();
   AnimationSystem.Initialize();
   RenderSystem.Initialize(SDL.GetWindowManager());
   InputSystem.initialize();
@@ -88,32 +94,24 @@ bool ApplicationManager::Initialize()
 void ApplicationManager::Start()
 {
   SDL.Start();
-  Time.Start();
   AnimationSystem.Start();
   RenderSystem.Start();
   InputSystem.start();
   StateSystem.Start();
 }
 
-bool ApplicationManager::Update()
+void ApplicationManager::Update()
 {
-  InputSystem.update();// gets input through SDL
+  InputSystem.update();
+}
 
-  // game manager update (will update game logic, colliders, game object, renderers)
-  auto dt = Time.Update();
-
+void ApplicationManager::Update(Core::Second dt)
+{
   // update everything
-  while (dt > 0_s) {
-    // update everything
-    StateSystem.Update(dt);
+  StateSystem.Update(dt);
 
-    AnimationSystem.Update(dt);
-    RenderSystem.Update(dt);
-
-    dt = Time.GetAccumulatedTime();
-  }
-
-  return true;
+  AnimationSystem.Update(dt);
+  RenderSystem.Update(dt);
 }
 
 void ApplicationManager::End()
@@ -122,7 +120,6 @@ void ApplicationManager::End()
   InputSystem.end();
   AnimationSystem.End();
   RenderSystem.End();
-  Time.End();
   SDL.End();
 }
 
@@ -133,7 +130,6 @@ void ApplicationManager::CleanUp()
   InputSystem.cleanUp();
   RenderSystem.CleanUp();
   AnimationSystem.CleanUp();
-  Time.CleanUp();
   SDL.CleanUp();
 }
 }// namespace Application
