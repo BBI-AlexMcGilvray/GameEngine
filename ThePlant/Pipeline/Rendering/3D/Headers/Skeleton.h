@@ -10,9 +10,6 @@
 #include "Data/Headers/AssetData.h"
 #include "Data/Rendering/Headers/SkeletonData.h"
 
-// testing
-#include "Core/Math/Headers/Color.h"
-
 namespace Application {
 namespace Rendering {
   struct Skeleton : Geometric::Node

@@ -68,7 +68,7 @@ struct StateManager
   void RemoveState(Ptr<State> state);
 
   SystemState CurrentSystemState() const;
-  Ptr<State> GetActiveState() const;
+  State& GetActiveState() const;
 
 private:
   void ChangeToState(Ptr<State> state);

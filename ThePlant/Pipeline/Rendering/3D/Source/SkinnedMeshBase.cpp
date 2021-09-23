@@ -5,11 +5,6 @@
 #include "Pipeline/Rendering/Shaders/Headers/SkinnedObjectShader.h"
 #include "Pipeline/Rendering/3D/Headers/VertexData.h"
 
-// testing
-#include "Core/Math/Headers/VectorFunctions.h"
-#include "Core/Debugging/Headers/Macros.h"
-#include "Core/Logging/Logger.h"
-
 using namespace Core;
 
 namespace Application {
@@ -125,10 +120,6 @@ namespace Rendering {
           // unused bone indices should be zeroed out by the weight
           vertexRenderData.boneIndices[j] = 0.0f;
         }
-        if (vertexRenderData.boneIndices[j] < 0.0f || vertexRenderData.boneWeight[j] < 0.0f)
-        {
-          CORE_LOG("SkinnedMeshBase", "Vertex " + std::to_string(i) + ", index " + std::to_string(j) + " is not set up right");
-        }
       }
     }
 
@@ -142,13 +133,6 @@ namespace Rendering {
   {
     for (int i = 0; i < _runtimeData.size(); i++) {
       _renderData.push_back(SkinnedVertexData(_runtimeData[i]));
-      for (int j = 0; j < 4; ++j)
-      {
-        if (_renderData[i].boneWeight[j] < 0.0f)
-        {
-          CORE_LOG("SkinnedMeshBase", "Vertex " + std::to_string(i) + ", index " + std::to_string(j) + " is not set up right");
-        }
-      }
     }
   }
 }// namespace Rendering

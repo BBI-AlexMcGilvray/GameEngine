@@ -3,9 +3,11 @@
 message("Configuring Product")
 
 set(SOURCE_FILES #
+Source/MyProduct.cpp #
 Source/ProductManager.cpp)
 
 set(HEADER_FILES #
+Headers/MyProduct.h #
 Headers/ProductManager.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Product_Lib)

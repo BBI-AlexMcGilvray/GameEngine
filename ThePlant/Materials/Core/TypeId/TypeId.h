@@ -2,10 +2,6 @@
 
 #include <cstdint>
 
-// TESTING
-#include "Core/Logging/Logger.h"
-// \TESTING
-
 namespace Core {
   namespace TypeId_Helper {
     constexpr inline uint32_t INVALID_ID = 0;
@@ -100,12 +96,7 @@ protected:
 
   runtimeId(Constructor)
     : _t(TypeId_Helper::next_id++) // post so that id '1' gets used
-  {
-    // TESTING
-    // next_id is not carrying forward for other runtimeId types
-    CORE_LOG("runtimeId", "creating new runtimeId, _t = " + std::to_string(_t._id) + " / " + std::to_string(TypeId_Helper::next_id));
-    // \TESTING
-  }
+  {}
 
 private:
   runtimeId_t _t;

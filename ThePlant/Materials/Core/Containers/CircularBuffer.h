@@ -4,9 +4,6 @@
 #include <iterator>
 #include <stdexcept>
 
-// testing
-#include <iostream>
-
 // reference https://accu.org/journals/overload/10/50/goodliffe_389/
 //      part 2: https://accu.org/journals/overload/10/51/goodliffe_383/
 // and https://github.com/vinitjames/circularbuffer/blob/master/circular_buffer.h
@@ -242,7 +239,6 @@ public:
   void PushBack(const value_type &item) noexcept
   {
     _buffer[_tail] = item;
-    std::cout << "_buffer[" << _tail << "] = " << _buffer[_tail] << '\n';
     if (_contentsSize == SIZE) {
       _IncrementHead();
     }

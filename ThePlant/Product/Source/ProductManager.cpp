@@ -19,10 +19,13 @@ namespace Product
 
     bool ProductManager::_initialize()
     {
+        // the creation of the Application should include the application name, default window size, ...
+        // maybe window info should just be a struct (camera?) - tbd
         _pipeline = Application::ApplicationManager::Application();
 
         bool pipelineInitialized = _pipeline->Initialize();
         _time.Initialize();
+        _myProduct.initialize();
 
         return pipelineInitialized;
     }
@@ -31,6 +34,7 @@ namespace Product
     {
         _pipeline->Start();
         _time.Start();
+        _myProduct.start();
 
         // for now, this is where we can put in test code
     }
@@ -43,6 +47,7 @@ namespace Product
 
             Core::Second dt = _time.Update();
             while (dt > 0_s) {
+                _myProduct.update(dt);
                 _pipeline->Update(dt);
                 dt = _time.GetAccumulatedTime();
             }
@@ -51,13 +56,15 @@ namespace Product
 
     void ProductManager::_end()
     {
-        _pipeline->End();
+        _myProduct.end();
         _time.End();
+        _pipeline->End();   
     }
 
     void ProductManager::_cleanUp()
     {
-        _pipeline->CleanUp();
+        _myProduct.cleanUp();
         _time.CleanUp();
+        _pipeline->CleanUp();
     }
 }

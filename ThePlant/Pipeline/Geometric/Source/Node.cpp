@@ -113,7 +113,8 @@ namespace Geometric {
     newChild->Initialize();
     // need to think about if we want Start to be called like this - likely should NOT be
     auto &test = ApplicationManager::AppStateManager();
-    if (ApplicationManager::AppStateManager().GetActiveState() == ParentState) {
+    if (&(ApplicationManager::AppStateManager().GetActiveState()) == ParentState) // ParentState should be a REFERENCE, since it MUST exist and we will need a comparison operator
+    {
       newChild->Start();
     }
 

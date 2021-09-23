@@ -7,6 +7,11 @@ State::State(Rendering::RenderManager &renderSystem, Input::InputManager &inputS
 {
 }
 
+Geometric::World& State::getHierarchy()
+{
+  return *Hierarchy;
+}
+
 void State::Initialize()
 {
   Hierarchy->Initialize();

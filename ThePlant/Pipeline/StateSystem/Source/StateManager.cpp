@@ -32,7 +32,7 @@ void StateManager::Update(Second dt)
     // Transition(dt);
   }
 
-  GetActiveState()->Update(dt);
+  GetActiveState().Update(dt);
 }
 
 void StateManager::End()
@@ -128,9 +128,9 @@ StateManager::SystemState StateManager::CurrentSystemState() const
   return CurrentState;
 }
 
-Ptr<State> StateManager::GetActiveState() const
+State& StateManager::GetActiveState() const
 {
-  return ActiveState;
+  return *ActiveState;
 }
 
 void StateManager::ChangeToState(Ptr<State> state)

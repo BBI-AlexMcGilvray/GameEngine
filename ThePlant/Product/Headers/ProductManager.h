@@ -4,6 +4,8 @@
 
 #include "Pipeline/Headers/ApplicationManager.h"
 
+#include "Product/Headers/MyProduct.h"
+
 // will be what sets up the initial state of the world
 
 /*
@@ -32,6 +34,7 @@ namespace Product
     private:
         Core::Ptr<Application::ApplicationManager> _pipeline;
         FixedStepTimeManager _time;
+        MyProduct _myProduct;
 
         bool _initialize();
         void _start();

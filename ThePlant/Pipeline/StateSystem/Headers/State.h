@@ -18,13 +18,13 @@ struct State
   // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetName<State> state);
   // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetData<State> state);
 
+  Geometric::World& getHierarchy();
+
   void Initialize();
   void Start();
   void Update(Second dt);
   void End();
   void CleanUp();
-
-  //Ptr<Transform> CreateNewNode(String name);
 
 private:
   Core::UniquePtr<Geometric::World> Hierarchy;
