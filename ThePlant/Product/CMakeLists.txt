@@ -3,10 +3,12 @@
 message("Configuring Product")
 
 set(SOURCE_FILES #
+Source/CameraController.cpp #
 Source/MyProduct.cpp #
 Source/ProductManager.cpp)
 
 set(HEADER_FILES #
+Source/CameraController.h #
 Headers/MyProduct.h #
 Headers/ProductManager.h)
 

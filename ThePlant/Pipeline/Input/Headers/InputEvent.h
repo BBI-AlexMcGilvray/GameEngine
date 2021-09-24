@@ -59,13 +59,11 @@ namespace Input {
     {}
   };
 
-  struct MouseWheeledData : MouseMetaData
+  // for MouseWheelData, mouseX and mouseY become the mouse wheel directions
+  struct MouseWheelData : MouseMetaData
   {
-    bool forward;
-
-    inline MouseWheeledData(Core::TimePoint timestamp, uint windowId, int mouseX, int mouseY, bool forward)
-      : MouseMetaData(timestamp, windowId, mouseX, mouseY)
-      , forward(forward)
+    inline MouseWheelData(Core::TimePoint timestamp, uint windowId, int wheelX, int wheelY)
+      : MouseMetaData(timestamp, windowId, wheelX, wheelY)
     {}
   };
 
@@ -91,7 +89,7 @@ namespace Input {
   };
 
   template<class D>
-  struct InputEvent : InputEventBase
+  struct InputEvent : public InputEventBase
   {
     InputEventType type;
     D data;

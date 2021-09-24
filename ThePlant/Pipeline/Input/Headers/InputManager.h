@@ -19,13 +19,15 @@ namespace Input {
 
     InputManager(const SDL2Manager &sdl);
 
+    Ptr<IInputController> operator->();
+
     void initialize();
     void start();
 
     template <typename T, typename ...Args>
     void setInputController(Args... args)
     {
-      setInputController(std::make_unique<T>(std::forward<Args>(args)...));
+      setInputController(MakeUnique<T>(std::forward<Args>(args)...));
     }
     void setInputController(UniquePtr<IInputController> controller);
     void update();

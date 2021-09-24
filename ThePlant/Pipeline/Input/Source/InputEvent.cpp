@@ -38,16 +38,15 @@ namespace Input {
           sdlEvent.button.clicks);
     }
     case SDL_MOUSEWHEEL: {
-      return MakeUnique<InputEvent<MouseWheeledData>>(InputEventType::MouseWheelEvent,
+      return MakeUnique<InputEvent<MouseWheelData>>(InputEventType::MouseWheelEvent,
           Core::TimePoint(Core::SteadyClock::now()),
           sdlEvent.key.windowID,
           sdlEvent.motion.x,
-          sdlEvent.motion.y,
-          sdlEvent.wheel.direction > 0);
+          sdlEvent.motion.y);
     }
     default: {
       // eventually handle other type
-      CORE_THROW("InputEvent", "This event type is not handled! SDL: " + std::to_string(sdlEvent.type));
+      CORE_ERROR("InputEvent", "This event type is not handled! SDL: " + std::to_string(sdlEvent.type));
       return nullptr;
     }
     }

@@ -23,14 +23,22 @@ namespace Input {
     virtual void cleanUp() {}
 
     virtual void handleInput(UniquePtr<const InputEventBase> inputEvent) const = 0;
+
+    // all controllers should be able to add/remove receivers
+    // the receivers live elsewhere though, should be non_null_ptrs
+    virtual void addReceiver(Ptr<IInputReceiver> receiver) = 0;
+    virtual void removeReceiver(Ptr<IInputReceiver> receiver) = 0;
   };
 
   class DefaultInputController : public IInputController
   {
   public:
-    void handleInput(UniquePtr<const InputEventBase> inputEvent) const override;
-
     ParentInputReceiver& getReceiver();
+
+    void handleInput(UniquePtr<const InputEventBase> inputEvent) const override;
+    
+    void addReceiver(Ptr<IInputReceiver> receiver) override;
+    void removeReceiver(Ptr<IInputReceiver> receiver) override;
 
   private:
     ParentInputReceiver _receiver;

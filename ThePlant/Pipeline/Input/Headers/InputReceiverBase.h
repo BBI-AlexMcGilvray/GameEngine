@@ -21,7 +21,13 @@ namespace Input {
 
   /*
 		These should take in some action and make a response - which will either consume, or pass along the input).
-		*/
+
+    Should receivers be higher level and be the point at which 'game actions' are used to translate the input events?
+    Or should that be at the controller level?
+      Probably the receiver level so that one controller exists per game to support multiple receivers
+        Ex: Controller holds receiver for gameplay and UI
+            Gameplay and UI then translate the lower-level events to different 'actions' (gameplay and ui would translate those differently)
+	*/
   class ParentInputReceiver : public IInputReceiver
   {
   public:

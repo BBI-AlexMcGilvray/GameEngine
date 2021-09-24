@@ -4,14 +4,24 @@
 
 namespace Application {
 namespace Input {
+    ParentInputReceiver& DefaultInputController::getReceiver()
+    {
+      return _receiver;
+    }
+
     void DefaultInputController::handleInput(UniquePtr<const InputEventBase> inputEvent) const
     {
       _receiver.handleInput(inputEvent.get());
     }
 
-    ParentInputReceiver& DefaultInputController::getReceiver()
+    void DefaultInputController::addReceiver(Ptr<IInputReceiver> receiver)
     {
-      return _receiver;
+      _receiver.addChild(receiver);
+    }
+
+    void DefaultInputController::removeReceiver(Ptr<IInputReceiver> receiver)
+    {
+      _receiver.removeChild(receiver);
     }
 }// namespace Input
 }// namespace Application

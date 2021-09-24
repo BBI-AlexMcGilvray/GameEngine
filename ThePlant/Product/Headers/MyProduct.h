@@ -3,6 +3,8 @@
 #include "Materials/Core/Headers/PtrDefs.h"
 #include "Materials/Core/Headers/TimeDefs.h"
 
+#include "Product/Headers/CameraController.h"
+
 /*
 Notes:
 - Work on this now
@@ -16,6 +18,8 @@ Notes:
 namespace Application::Geometric
 {
     struct Node;
+    struct World;
+    struct CameraNode;
 }
 
 namespace Product
@@ -30,7 +34,11 @@ namespace Product
         void cleanUp();
 
     private:
-        Core::Ptr<Application::Geometric::Node> holderNode;
-        Core::Ptr<Application::Geometric::Node> neckBone;
+        Core::Ptr<Application::Geometric::World> _currentWorld;
+        Core::Ptr<Application::Geometric::CameraNode> _cameraNode;
+        Core::Ptr<Application::Geometric::Node> _holderNode;
+        Core::Ptr<Application::Geometric::Node> _neckBone;
+
+        CameraController _cameraController;
     };
 }

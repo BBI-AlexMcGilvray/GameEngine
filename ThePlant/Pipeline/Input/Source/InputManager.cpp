@@ -8,6 +8,11 @@ namespace Input {
   {
   }
 
+  Ptr<IInputController> InputManager::operator->()
+  {
+    return _controller.get();
+  }
+
   void InputManager::initialize()
   {
     // create controller logic mapping
@@ -54,7 +59,11 @@ namespace Input {
       }
       default: {
         if (_controller != nullptr) {
-          _controller->handleInput(createInputEvent(event));
+          auto createdEvent = createInputEvent(event); // creating it here so we can do the below check and avoid calling based on null (unhandled) event types
+          if (createdEvent != nullptr)
+          {
+            _controller->handleInput(std::move(createdEvent));
+          }
         }
         else
         {
