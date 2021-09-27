@@ -27,6 +27,10 @@ namespace Product
         _time.Initialize();
         _myProduct.initialize();
 
+        auto sdlManager = _pipeline->AppSDLManager();
+        _debugUI = Core::MakeUnique<Application::UI::IMGUIManager>(sdlManager.GetWindowManager(), sdlManager.GetContextManager());
+        _debugUI->initialize();
+
         return pipelineInitialized;
     }
 
@@ -35,6 +39,7 @@ namespace Product
         _pipeline->Start();
         _time.Start();
         _myProduct.start();
+        _debugUI->start();
 
         // for now, this is where we can put in test code
     }
@@ -51,11 +56,17 @@ namespace Product
                 _pipeline->Update(dt);
                 dt = _time.GetAccumulatedTime();
             }
+            // problem is this needs to be called in the middle of rendering (UI should be a second pass after rendering world data)
+            //      - this is because of when buffers are cleared and when buffers are switched
+            // take a look at Unity's order of execution and work on cleaning that up
+            //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
+            _debugUI->update();
         }
     }
 
     void ProductManager::_end()
     {
+        _debugUI->end();
         _myProduct.end();
         _time.End();
         _pipeline->End();   
@@ -63,6 +74,7 @@ namespace Product
 
     void ProductManager::_cleanUp()
     {
+        _debugUI->cleanUp();
         _myProduct.cleanUp();
         _time.CleanUp();
         _pipeline->CleanUp();

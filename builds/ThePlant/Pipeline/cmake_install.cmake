@@ -129,6 +129,13 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/StateSystem/Headers/State.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/StateSystem/Headers/StateManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Time/Headers/TimeManager.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/IMGUIManager.h"
     )
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for each subdirectory.
+  include("D:/Coding/VisualStudios/Application/builds/ThePlant/Pipeline/Dependencies/cmake_install.cmake")
+
 endif()
 

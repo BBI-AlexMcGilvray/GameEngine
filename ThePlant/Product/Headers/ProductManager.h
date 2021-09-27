@@ -3,6 +3,7 @@
 #include "Core/Headers/PtrDefs.h"
 
 #include "Pipeline/Headers/ApplicationManager.h"
+#include "Pipeline/UI/IMGUI/IMGUIManager.h"
 
 #include "Product/Headers/MyProduct.h"
 
@@ -32,14 +33,15 @@ namespace Product
         void run();
 
     private:
-        Core::Ptr<Application::ApplicationManager> _pipeline;
-        FixedStepTimeManager _time;
-        MyProduct _myProduct;
-
         bool _initialize();
         void _start();
         void _update();
         void _end();
         void _cleanUp();
+
+        Core::Ptr<Application::ApplicationManager> _pipeline;
+        FixedStepTimeManager _time;
+        MyProduct _myProduct;
+        Core::UniquePtr<Application::UI::IMGUIManager> _debugUI;
     };
 }

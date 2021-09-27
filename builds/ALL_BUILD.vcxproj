@@ -186,6 +186,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{2732429F-DF03-3A14-B057-96E3142A58E8}</Project>
       <Name>Factory_Lib</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Pipeline\Dependencies\IMGUI\IMGUI_Lib.vcxproj">
+      <Project>{EBE1EE41-16D9-3C0B-8F3B-76EABC58DADF}</Project>
+      <Name>IMGUI_Lib</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\irrXML\IrrXML.vcxproj">
       <Project>{987A11D5-009A-3C4C-97B1-B434565DB856}</Project>
       <Name>IrrXML</Name>

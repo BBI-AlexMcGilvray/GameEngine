@@ -23,6 +23,6 @@ struct WindowManager
   void CleanUp();
 
 private:
-  Ptr<SDL_Window> Window;
+  Ptr<SDL_Window> _window;
 };
 }// namespace Application

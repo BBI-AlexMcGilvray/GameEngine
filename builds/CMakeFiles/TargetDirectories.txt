@@ -22,6 +22,9 @@ D:/Coding/VisualStudios/Application/builds/ThePlant/Materials/Dependencies/SDL2-
 D:/Coding/VisualStudios/Application/builds/ThePlant/Materials/Dependencies/SDL2-2.0.14/CMakeFiles/ALL_BUILD.dir
 D:/Coding/VisualStudios/Application/builds/ThePlant/Pipeline/CMakeFiles/Pipeline_Lib.dir
 D:/Coding/VisualStudios/Application/builds/ThePlant/Pipeline/CMakeFiles/INSTALL.dir
+D:/Coding/VisualStudios/Application/builds/ThePlant/Pipeline/Dependencies/CMakeFiles/INSTALL.dir
+D:/Coding/VisualStudios/Application/builds/ThePlant/Pipeline/Dependencies/IMGUI/CMakeFiles/IMGUI_Lib.dir
+D:/Coding/VisualStudios/Application/builds/ThePlant/Pipeline/Dependencies/IMGUI/CMakeFiles/INSTALL.dir
 D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/CMakeFiles/Factory_Lib.dir
 D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/CMakeFiles/INSTALL.dir
 D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/Workers/CMakeFiles/INSTALL.dir

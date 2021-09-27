@@ -2,6 +2,8 @@
 
 message("Configuring Pipeline")
 
+add_subdirectory(Dependencies)
+
 set(SOURCE_FILES #
 Animation/FieldAnimation/Source/FloatAnimationTrack.cpp #
 Animation/SkeletonAnimation/Source/SkeletonAnimatable.cpp #
@@ -94,7 +96,8 @@ Source/SDL2Manager.cpp #
 Source/WindowManager.cpp #
 StateSystem/Source/State.cpp #
 StateSystem/Source/StateManager.cpp #
-Time/Source/TimeManager.cpp)
+Time/Source/TimeManager.cpp #
+UI/IMGUI/IMGUIManager.cpp)
 
 set(HEADER_FILES #
 Animation/FieldAnimation/Headers/FloatAnimationTrack.h #
@@ -191,12 +194,13 @@ Rendering/Shaders/Headers/SkinnedVertexShader.h #
 Rendering/Shaders/Headers/VertexShader.h #
 StateSystem/Headers/State.h #
 StateSystem/Headers/StateManager.h #
-Time/Headers/TimeManager.h)
+Time/Headers/TimeManager.h #
+UI/IMGUI/IMGUIManager.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Pipeline_Lib)
 
 add_library(Pipeline_Lib STATIC ${SOURCE_FILES})
-target_link_libraries(Pipeline_Lib Materials_Lib)
+target_link_libraries(Pipeline_Lib Materials_Lib Pipeline_Dependencies_Lib)
 target_include_directories(Pipeline_Lib
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/..

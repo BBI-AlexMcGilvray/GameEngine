@@ -25,6 +25,9 @@ struct ApplicationManager
 {
   static Core::Ptr<ApplicationManager> Application();
 
+  // should this be here? Currently exists for IMGUI, but maybe we want a UI manager or something and go through that for debug vs other ui?
+  static SDL2Manager& AppSDLManager();
+
   static AnimationManager &AppAnimationManager();
   static RenderManager &AppRenderManager();
   static InputManager &AppInputManager();

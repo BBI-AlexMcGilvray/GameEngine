@@ -8,20 +8,20 @@ WindowManager::WindowManager(String name, int width, int height)
 
 Ptr<SDL_Window> WindowManager::GetWindow() const
 {
-  return Window;
+  return _window;
 }
 
 bool WindowManager::Initialize()
 {
-  Window = SDL_CreateWindow(Name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Width, Height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+  _window = SDL_CreateWindow(Name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, Width, Height, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
   return true;
 }
 
 void WindowManager::CleanUp()
 {
-  if (Window) {
-    SDL_DestroyWindow(Window);
+  if (_window) {
+    SDL_DestroyWindow(_window);
   }
 }
 }// namespace Application

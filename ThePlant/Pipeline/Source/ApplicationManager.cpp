@@ -14,6 +14,11 @@ Core::Ptr<ApplicationManager> ApplicationManager::Application()
   return Instance.get();
 }
 
+SDL2Manager& ApplicationManager::AppSDLManager()
+{
+  return Application()->SDL;
+}
+
 AnimationManager &ApplicationManager::AppAnimationManager()
 {
   return Application()->AnimationSystem;
