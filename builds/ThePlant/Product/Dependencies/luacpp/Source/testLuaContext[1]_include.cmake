@@ -1,0 +1,5 @@
+if(EXISTS "D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Dependencies/luacpp/Source/testLuaContext[1]_tests.cmake")
+  include("D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Dependencies/luacpp/Source/testLuaContext[1]_tests.cmake")
+else()
+  add_test(testLuaContext_NOT_BUILT testLuaContext_NOT_BUILT)
+endif()

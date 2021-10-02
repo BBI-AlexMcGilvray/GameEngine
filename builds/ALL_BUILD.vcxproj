@@ -244,6 +244,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{41B95C2E-EBF1-3930-9968-13A44CCCDF0A}</Project>
       <Name>libglew_static</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Product\Dependencies\lua\liblua.vcxproj">
+      <Project>{BCE8EEB1-B603-32A8-A768-AE2F0314D5BA}</Project>
+      <Name>liblua</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3\sqlite3.vcxproj">
       <Project>{113721F3-8A26-3336-B63F-BD4B186F6178}</Project>
       <Name>sqlite3</Name>

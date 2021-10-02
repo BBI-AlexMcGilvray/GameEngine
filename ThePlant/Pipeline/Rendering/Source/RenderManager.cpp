@@ -207,7 +207,7 @@ namespace Rendering {
   }
 
   void RenderManager::RenderEnd()
-  {
+  {    
     SDL_GL_SwapWindow(Window->GetWindow());
   }
 }// namespace Rendering

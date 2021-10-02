@@ -123,13 +123,19 @@ Assimp_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application/ThePlant/Factory/Wo
 //number to use for magic backgrounding signal or 'OFF'
 BACKGROUNDING_SIGNAL:STRING=OFF
 
+//Build documentation
+BUILD_DOC:BOOL=OFF
+
 //Build documentation using Doxygen.
 BUILD_DOCS:BOOL=OFF
 
 //Build package as Mac OS X Framework bundle.
 BUILD_FRAMEWORK:BOOL=OFF
 
-//Build package with shared libraries.
+//Build Lua as a DLL
+BUILD_LUA_AS_DLL:BOOL=ON
+
+//Build shared libraries
 BUILD_SHARED_LIBS:BOOL=OFF
 
 //Path to a program.
@@ -147,6 +153,8 @@ CMAKE_AR:FILEPATH=C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/
 //For backwards compatibility, what version of CMake commands and
 // syntax should this version of CMake try to support.
 CMAKE_BACKWARDS_COMPATIBILITY:STRING=2.4
+
+CMAKE_BUILD_WITH_INSTALL_RPATH:STRING=FALSE
 
 //Semicolon separated list of supported configuration types, only
 // supports Debug, Release, MinSizeRel, and RelWithDebInfo, anything
@@ -240,11 +248,17 @@ CMAKE_INSTALL_LOCALSTATEDIR:PATH=var
 //Man documentation (DATAROOTDIR/man)
 CMAKE_INSTALL_MANDIR:PATH=
 
+CMAKE_INSTALL_NAME_DIR:STRING=@executable_path/../lib
+
 //C header files for non-gcc (/usr/include)
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
 
 //Install path prefix, prepended onto install directories.
 CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/the_plant
+
+CMAKE_INSTALL_RPATH:STRING=$ORIGIN/../lib
+
+CMAKE_INSTALL_RPATH_USE_LINK_PATH:STRING=TRUE
 
 //Run-time variable data (LOCALSTATEDIR/run)
 CMAKE_INSTALL_RUNSTATEDIR:PATH=
@@ -346,6 +360,8 @@ CMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=/INCREMENTAL:NO
 // during RELWITHDEBINFO builds.
 CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL
 
+CMAKE_SKIP_BUILD_RPATH:STRING=FALSE
+
 //If set, runtime paths are not added when installing shared libraries,
 // but are added when building.
 CMAKE_SKIP_INSTALL_RPATH:BOOL=NO
@@ -379,14 +395,38 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Enable to build 7-Zip source packages
+CPACK_SOURCE_7Z:BOOL=ON
+
+//Enable to build ZIP source packages
+CPACK_SOURCE_ZIP:BOOL=ON
+
 //Path to a program.
 CPPCHECK_EXECUTABLE:FILEPATH=CPPCHECK_EXECUTABLE-NOTFOUND
+
+//Path to a library.
+CURSES_CURSES_LIBRARY:FILEPATH=CURSES_CURSES_LIBRARY-NOTFOUND
+
+//Path to a library.
+CURSES_FORM_LIBRARY:FILEPATH=CURSES_FORM_LIBRARY-NOTFOUND
+
+//Path to a file.
+CURSES_INCLUDE_PATH:PATH=CURSES_INCLUDE_PATH-NOTFOUND
+
+//Path to a library.
+CURSES_NCURSES_LIBRARY:FILEPATH=CURSES_NCURSES_LIBRARY-NOTFOUND
 
 //Use DirectX for Windows audio/video
 DIRECTX:BOOL=ON
 
 //Support the disk writer audio driver
 DISKAUDIO:BOOL=ON
+
+//Dot tool for use with Doxygen
+DOXYGEN_DOT_EXECUTABLE:FILEPATH=DOXYGEN_DOT_EXECUTABLE-NOTFOUND
+
+//Doxygen documentation generation tool (http://www.doxygen.org)
+DOXYGEN_EXECUTABLE:FILEPATH=DOXYGEN_EXECUTABLE-NOTFOUND
 
 //Support the dummy audio driver
 DUMMYAUDIO:BOOL=ON
@@ -449,6 +489,9 @@ FUSIONSOUND:BOOL=OFF
 //Use gcc builtin atomics
 GCC_ATOMICS:BOOL=OFF
 
+//Git command line client
+GIT_EXECUTABLE:FILEPATH=C:/Program Files/Git/cmd/git.exe
+
 //Use HIDAPI for low level joystick drivers
 HIDAPI:BOOL=ON
 
@@ -470,6 +513,40 @@ IGNORE_GIT_HASH:BOOL=OFF
 //Inject debug postfix in .a/.so/.dll lib names
 INJECT_DEBUG_POSTFIX:BOOL=ON
 
+//Where to install binaries to.
+INSTALL_BIN:PATH=bin
+
+//Directory the package can store documentation, tests or other
+// data in.
+INSTALL_DATA:PATH=share/lua
+
+//Recommended directory to install documentation into.
+INSTALL_DOC:PATH=share/lua/doc
+
+//Where to store configuration files
+INSTALL_ETC:PATH=etc
+
+//Recommended directory to install examples into.
+INSTALL_EXAMPLE:PATH=share/lua/example
+
+//Where to install additional files
+INSTALL_FOO:PATH=share/lua/etc
+
+//Where to install headers to.
+INSTALL_INC:PATH=include
+
+//Where to install libraries to.
+INSTALL_LIB:PATH=lib
+
+//Directory for shared data.
+INSTALL_SHARE:PATH=share
+
+//Recommended directory to install tests into.
+INSTALL_TEST:PATH=share/lua/test
+
+//Install runtime libraries and executables with version information.
+INSTALL_VERSION:BOOL=OFF
+
 //Support the JACK audio API
 JACK:BOOL=OFF
 
@@ -487,6 +564,49 @@ LIBRARY_SUFFIX:STRING=-vc142-mt
 
 //Use libsamplerate for audio rate conversion
 LIBSAMPLERATE:BOOL=OFF
+
+//Use only ansi features.
+LUA_ANSI:BOOL=OFF
+
+//Build Lua library as Dll.
+LUA_BUILD_AS_DLL:BOOL=OFF
+
+//Build wLua interpretter without console output.
+LUA_BUILD_WLUA:BOOL=ON
+
+//Enable backwards compatibility options.
+LUA_COMPAT_ALL:BOOL=ON
+
+//Environment variable to use as package.cpath.
+LUA_CPATH:STRING=LUA_CPATH
+
+//gives the maximum size for the description of the source.
+LUA_IDSIZE:STRING=60
+
+//Path to a file.
+LUA_INCLUDE_DIR:PATH=LUA_INCLUDE_DIR-NOTFOUND
+
+//Environment variable for initial script.
+LUA_INIT:STRING=LUA_INIT
+
+//Path to a library.
+LUA_LIBRARY:FILEPATH=LUA_LIBRARY-NOTFOUND
+
+//Environment variable to use as package.path.
+LUA_PATH:STRING=LUA_PATH
+
+//Use modified loadlib.c with support for relative paths on posix
+// systems.
+LUA_USE_RELATIVE_LOADLIB:BOOL=ON
+
+//Windows specific build.
+LUA_WIN:BOOL=ON
+
+//Value Computed by CMake
+LuaCpp_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Dependencies/luacpp/Source
+
+//Value Computed by CMake
+LuaCpp_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application/ThePlant/Product/Dependencies/luacpp/Source
 
 //Use MMX assembly routines
 MMX:BOOL=ON
@@ -526,6 +646,12 @@ PULSEAUDIO:BOOL=OFF
 
 //Path to a program.
 PYTHON_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python37_64/python.exe
+
+//Path to a file.
+READLINE_INCLUDE_DIR:PATH=READLINE_INCLUDE_DIR-NOTFOUND
+
+//Path to a library.
+READLINE_LIBRARY:FILEPATH=READLINE_LIBRARY-NOTFOUND
 
 //Enable the Direct3D render driver
 RENDER_D3D:BOOL=ON
@@ -621,6 +747,41 @@ SNDIO:BOOL=OFF
 //Dynamically load the sndio audio API
 SNDIO_SHARED:BOOL=OFF
 
+//Always build Lua, do not search for it in the system
+SOL2_BUILD_LUA:BOOL=TRUE
+
+//Whether or not we are in continguous integration mode
+SOL2_CI:BOOL=OFF
+
+//Enable build of documentation
+SOL2_DOCS:BOOL=OFF
+
+//Enable build of interop examples
+SOL2_DYNAMIC_LOADING_EXAMPLES:BOOL=OFF
+
+//Enable build of examples
+SOL2_EXAMPLES:BOOL=OFF
+
+//Enable generation and build of single header files
+SOL2_GENERATE_SINGLE:BOOL=OFF
+
+//Enable build of interop examples
+SOL2_INTEROP_EXAMPLES:BOOL=OFF
+
+//The version of Lua needed. Can be 5.1, 5.2, 5.3, 5.4, LuaJIT,
+// or a more specific 3-part version number for a specifc Lua (e.g.,
+// 5.3.4 or luajit-2.0.5)
+SOL2_LUA_VERSION:STRING=5.3.5
+
+//Target platform to compile for when building binaries (x86, x64)
+SOL2_PLATFORM:STRING=x64
+
+//Enable use of prepackaged single header files
+SOL2_SINGLE:BOOL=OFF
+
+//Enable build of tests
+SOL2_TESTS:BOOL=OFF
+
 //Build examples.
 SQLITECPP_BUILD_EXAMPLES:BOOL=OFF
 
@@ -686,6 +847,9 @@ SYSTEM_IRRXML:BOOL=OFF
 
 //Use GLU
 USE_GLU:BOOL=OFF
+
+//Use relative linking.
+USE_RPATH:BOOL=ON
 
 //Use Cocoa video driver
 VIDEO_COCOA:BOOL=OFF
@@ -757,10 +921,25 @@ glew_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application/builds/ThePlant/Mater
 glew_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application/ThePlant/Materials/Dependencies/GLEW-2.2.0
 
 //Value Computed by CMake
+lua_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Dependencies/lua
+
+//Value Computed by CMake
+lua_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application/ThePlant/Product/Dependencies/lua
+
+//Value Computed by CMake
+sol2_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Dependencies/sol2-3.2.3
+
+//Value Computed by CMake
+sol2_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application/ThePlant/Product/Dependencies/sol2-3.2.3
+
+//Value Computed by CMake
 the_plant_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application/builds
 
 //Value Computed by CMake
 the_plant_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application
+
+//Path to a program.
+valgrind:FILEPATH=valgrind-NOTFOUND
 
 //Value Computed by CMake
 zlib_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/Workers/assimp-5.0.1/contrib/zlib
@@ -895,7 +1074,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=25
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=28
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib
@@ -941,6 +1120,22 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_7Z
+CPACK_SOURCE_7Z-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CPACK_SOURCE_ZIP
+CPACK_SOURCE_ZIP-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CURSES_CURSES_LIBRARY
+CURSES_CURSES_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CURSES_FORM_LIBRARY
+CURSES_FORM_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CURSES_INCLUDE_PATH
+CURSES_INCLUDE_PATH-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CURSES_NCURSES_LIBRARY
+CURSES_NCURSES_LIBRARY-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DOXYGEN_DOT_EXECUTABLE
+DOXYGEN_DOT_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: DOXYGEN_EXECUTABLE
+DOXYGEN_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DirectX_D3DCOMPILER_LIBRARY
 DirectX_D3DCOMPILER_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DirectX_D3DX9_LIBRARY
@@ -961,6 +1156,8 @@ DirectX_PREFIX_PATH_INT_CHECK:INTERNAL=C:/apps_x86/Microsoft DirectX SDK*;C:/Pro
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[opengl32][c ][v()]
 //Details about finding PythonInterp
 FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python37_64/python.exe][v3.7.8()]
+//ADVANCED property for variable: GIT_EXECUTABLE
+GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have include audioclient.h
 HAVE_AUDIOCLIENT_H:INTERNAL=1
 //Have include d3d11_1.h
@@ -1007,6 +1204,27 @@ OFF64_T:INTERNAL=
 OPENGL_gl_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENGL_glu_LIBRARY
 OPENGL_glu_LIBRARY-ADVANCED:INTERNAL=1
+PC_READLINE_CFLAGS:INTERNAL=
+PC_READLINE_CFLAGS_I:INTERNAL=
+PC_READLINE_CFLAGS_OTHER:INTERNAL=
+PC_READLINE_FOUND:INTERNAL=
+PC_READLINE_INCLUDEDIR:INTERNAL=
+PC_READLINE_LIBDIR:INTERNAL=
+PC_READLINE_LIBS:INTERNAL=
+PC_READLINE_LIBS_L:INTERNAL=
+PC_READLINE_LIBS_OTHER:INTERNAL=
+PC_READLINE_LIBS_PATHS:INTERNAL=
+PC_READLINE_MODULE_NAME:INTERNAL=
+PC_READLINE_PREFIX:INTERNAL=
+PC_READLINE_STATIC_CFLAGS:INTERNAL=
+PC_READLINE_STATIC_CFLAGS_I:INTERNAL=
+PC_READLINE_STATIC_CFLAGS_OTHER:INTERNAL=
+PC_READLINE_STATIC_LIBDIR:INTERNAL=
+PC_READLINE_STATIC_LIBS:INTERNAL=
+PC_READLINE_STATIC_LIBS_L:INTERNAL=
+PC_READLINE_STATIC_LIBS_OTHER:INTERNAL=
+PC_READLINE_STATIC_LIBS_PATHS:INTERNAL=
+PC_READLINE_VERSION:INTERNAL=
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PYTHON_EXECUTABLE
@@ -1027,4 +1245,5 @@ ZLIB_PREFIX_PATH_INT_CHECK:INTERNAL=
 Z_HAVE_UNISTD_H:INTERNAL=
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/the_plant
+__pkg_config_checked_PC_READLINE:INTERNAL=1
 

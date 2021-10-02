@@ -40,10 +40,14 @@ namespace Product
         Application::Input::InputManager& inputManager = Application::ApplicationManager::AppInputManager();
         inputManager.setInputController<Application::Input::DefaultInputController>();
         inputManager->addReceiver(&_cameraController);
+
+        _luaManager.initialize();
     }
 
     void MyProduct::start()
     {
+        _luaManager.start();
+
         //Ptr<Node> staticMeshNode = AddChild<Node>("StaticMesh", Float3(-10.0f, 0.0f, 0.0f));
         //Ptr<ContentBase> staticMeshContent = staticMeshNode->AddContent(MakeUnique<ContentBase>());
         //ComponentPtr<Hierarchy> staticHierarchyComponent = staticMeshContent->GetComponent<Hierarchy>();
@@ -64,6 +68,8 @@ namespace Product
 
     void MyProduct::update(Core::Second dt)
     {
+        _luaManager.update(dt);
+
         // just for testing currently
         FQuaternion currentRotation = _holderNode->Transformation.GetRotation();
         FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * currentRotation, Duration(dt));
@@ -76,11 +82,11 @@ namespace Product
 
     void MyProduct::end()
     {
-
+        _luaManager.end();
     }
 
     void MyProduct::cleanUp()
     {
-
+        _luaManager.cleanUp();
     }
 }

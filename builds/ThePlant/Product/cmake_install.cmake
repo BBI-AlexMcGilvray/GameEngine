@@ -34,7 +34,8 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/Product_Lib" TYPE FILE FILES
-    "D:/Coding/VisualStudios/Application/ThePlant/Product/Source/CameraController.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Product/Scripting/LuaManager.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/CameraController.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/MyProduct.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/ProductManager.h"
     )
@@ -42,6 +43,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
+  include("D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Dependencies/cmake_install.cmake")
   include("D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Supplies/cmake_install.cmake")
 
 endif()

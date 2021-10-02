@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Dependencies/luacpp/Source/CMakeFiles/googletest"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/0998a5f32bd0a24226d0dcdcf3f61c82/googletest.rule"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/5c365d52cf90760a0569be1b235cfc4b/googletest-complete.rule"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/ad2ce928fdb0fca28c7f71ff2a2e5990/googletest-build.rule"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/ad2ce928fdb0fca28c7f71ff2a2e5990/googletest-configure.rule"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/ad2ce928fdb0fca28c7f71ff2a2e5990/googletest-download.rule"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/ad2ce928fdb0fca28c7f71ff2a2e5990/googletest-install.rule"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/ad2ce928fdb0fca28c7f71ff2a2e5990/googletest-mkdir.rule"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/ad2ce928fdb0fca28c7f71ff2a2e5990/googletest-patch.rule"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/ad2ce928fdb0fca28c7f71ff2a2e5990/googletest-test.rule"
+		},
+		{
+			"file" : "D:/Coding/VisualStudios/Application/builds/CMakeFiles/ad2ce928fdb0fca28c7f71ff2a2e5990/googletest-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest"
+		],
+		"name" : "googletest"
+	}
+}

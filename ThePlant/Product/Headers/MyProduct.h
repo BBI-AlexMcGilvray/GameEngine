@@ -4,6 +4,7 @@
 #include "Materials/Core/Headers/TimeDefs.h"
 
 #include "Product/Headers/CameraController.h"
+#include "Product/Scripting/LuaManager.h"
 
 /*
 Notes:
@@ -40,5 +41,6 @@ namespace Product
         Core::Ptr<Application::Geometric::Node> _neckBone;
 
         CameraController _cameraController;
+        LuaManager _luaManager;
     };
 }
