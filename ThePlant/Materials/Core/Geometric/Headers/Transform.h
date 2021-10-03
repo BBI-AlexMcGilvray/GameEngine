@@ -8,9 +8,12 @@ using namespace Core::Math;
 
 namespace Core {
 namespace Geometric {
-  struct Transform : ITranslatable3D
-    , IRotatable3D
-    , IScalable3D
+  // should we just get rid of the interfaces? what else would really use them? probably best to remove for now - seems like an overengineered solution
+  // Transform should only ever refer to 'world' relative data, and should not allow for 'local' variants. Extra methods should be removed, keep this class bare-bones
+  //    - Perhaps include one function to set 'relative to' another transform (that would need to be included in the function)
+  struct Transform : public ITranslatable3D
+    , public IRotatable3D
+    , public IScalable3D
   {
     Functionality::Event<> Dirtied;
 
