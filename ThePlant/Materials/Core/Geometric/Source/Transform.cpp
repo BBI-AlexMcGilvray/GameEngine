@@ -10,310 +10,153 @@ using namespace Core::Math;
 namespace Core {
 namespace Geometric {
   Transform::Transform()
-    : Transform(nullptr)
+  : Transform(Float3(II{}))
+  {}
+  
+  Transform::Transform(FQuaternion rotation, Float3 scale)
+  : Transform(Float3(II{}), rotation, scale))
   {}
 
-  Transform::Transform(Ptr<Transform> parent)
-    : Transform(parent, Float3(0.0f), FQuaternion(II{}), Float3(II{}))
-  {}
-
-  Transform::Transform(Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
-    : Transform(nullptr, position, rotation, scale, settingLocal)
-  {}
-
-  Transform::Transform(Ptr<Transform> parent, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
-    : ParentDirtied([this] {
-        Dirty();
-        return false;
-      })
+  Transform::Transform(Float3 position, FQuaternion rotation, Float3 scale)
   {
-    SetParent(parent);
-
-    if (settingLocal) {
-      SetPosition(position);
-      SetRotation(rotation);
-      SetScale(scale);
-    } else {
-      SetWorldPosition(position);
-      SetWorldRotation(rotation);
-      SetWorldScale(scale);
-    }
+    SetPosition(position);
+    SetRotation(rotation);
+    SetScale(scale);
   }
 
   Transform::Transform(const Transform &other)
   {
-    // if this is separated into a base class, this should be copying world information, not local
-    SetPosition(other.Position);
-    SetRotation(other.Rotation);
-    SetScale(other.Scale);
+    SetPosition(other.GetPosition());
+    SetRotation(other.GetRotation());
+    SetScale(other.GetScale());
   }
 
   Transform &Transform::operator=(const Transform &other)
   {
-    // if this is separated into a base class, this should be copying world information, not local
-    SetPosition(other.Position);
-    SetRotation(other.Rotation);
-    SetScale(other.Scale);
+    SetPosition(other.GetPosition());
+    SetRotation(other.GetRotation());
+    SetScale(other.GetScale());
 
     return *this;
   }
 
-  Float4x4 Transform::GetLocalTransformationMatrix()
+  Float4x4 Transform::GetTransformationMatrix()
   {
-    RecalculateLocalTransformationMatrix();
+    _RecalculateTransformationMatrix();
 
-    return LocalTransformationMatrix;
+    return _transformationMatrix;
   }
 
-  Float4x4 Transform::GetInverseLocalTransformationMatrix()
+  Float4x4 Transform::GetInverseTransformationMatrix()
   {
-    return Math::Inverse(GetLocalTransformationMatrix());
-  }
-
-  Float4x4 Transform::GetWorldTransformationMatrix()
-  {
-    RecalculateWorldTransformationMatrix();
-
-    return WorldTransformationMatrix;
-  }
-
-  Float4x4 Transform::GetWorldInverseTransformationMatrix()
-  {
-    return Math::Inverse(GetWorldTransformationMatrix());
+    return Math::Inverse(GetTransformationMatrix());
   }
 
   void Transform::SetPosition(const Float3 &position)
   {
-    Position = position;
-    Dirty();
+    _position = position;
+    _Dirty();
   }
 
   void Transform::AdjustPosition(const Float3 &movement)
   {
-    SetPosition(Position + movement);
+    SetPosition(_position + movement);
   }
 
   Float3 Transform::GetPosition() const
   {
-    return Position;
+    return _position;
   }
-
-  void Transform::SetWorldPosition(const Float3 &position)
-  {
-    if (Parent == nullptr) {
-      SetPosition(position);
-    } else {
-      Float3 finalPosition = (Parent->GetWorldInverseTransformationMatrix() * Float4(position, 1.0f)).XYZ;
-      SetPosition(finalPosition);
-    }
-  }
-
-  void Transform::AdjustWorldPosition(const Float3 &movement)
-  {
-    // adjusting world is the same as adjusting local
-    AdjustPosition(movement);
-  }
-
-  Float3 Transform::GetWorldPosition()
-  {
-    RecalculateWorldInformation();
-
-    return WorldPosition;
-  }
-
   void Transform::SetRotation(const FQuaternion &rotation)
   {
-    Rotation = rotation;
-    Dirty(true);
+    _rotation = rotation;
+    _Dirty(true);
   }
 
   void Transform::AdjustRotation(const FQuaternion &rotation)
   {
-    SetRotation(rotation * Rotation);
+    SetRotation(rotation * _rotation);
   }
 
   FQuaternion Transform::GetRotation() const
   {
-    return Rotation;
-  }
-
-  void Transform::SetWorldRotation(const FQuaternion &rotation)
-  {
-    FQuaternion ParentRotation = (Parent != nullptr) ? Parent->GetWorldRotation() : FQuaternion();
-    FQuaternion finalRotation = rotation / ParentRotation;
-
-    SetRotation(finalRotation);
-  }
-
-  void Transform::AdjustWorldRotation(const FQuaternion &rotation)
-  {
-    // adjusting world is the same as adjusting local
-    AdjustRotation(rotation);
-  }
-
-  FQuaternion Transform::GetWorldRotation()
-  {
-    RecalculateWorldInformation();
-
-    return WorldRotation;
+    return _rotation;
   }
 
   void Transform::SetScale(const float &scale)
   {
-    Scale = scale;
-    Dirty();
+    _scale = scale;
+    _Dirty();
   }
 
   void Transform::SetScale(const Float3 &scale)
   {
-    Scale = scale;
-    Dirty();
+    _scale = scale;
+    _Dirty();
   }
 
   void Transform::AdjustScale(const float &scale)
   {
-    SetScale(Scale * scale);
+    SetScale(_scale * scale);
   }
 
   void Transform::AdjustScale(const Float3 &scale)
   {
-    SetScale(Scale * scale);
+    SetScale(_scale * scale);
   }
 
   Float3 Transform::GetScale() const
   {
-    return Scale;
+    return _scale;
   }
 
-  void Transform::SetWorldScale(const float &scale)
+  bool Transform::IsDirty() const { return (_dirty || _rotationDirty); }
+
+  void Transform::_Dirty(bool rotation)
   {
-    SetWorldScale(Float3(scale));
+    _dirty = true;
+    _rotationDirty |= rotation;
   }
 
-  void Transform::SetWorldScale(const Float3 &scale)
+  Float3x3 Transform::_GetRotationMatrix()
   {
-    Float3 ParentScale = (Parent != nullptr) ? Parent->GetWorldScale() : Float3(1.0f);
+    _RecalculateRotationMatrix();
 
-    SetScale(scale / ParentScale);
+    return _rotationMatrix;
   }
 
-  void Transform::AdjustWorldScale(const float &scale)
+  void Transform::_RecalculateRotationMatrix()
   {
-    AdjustWorldScale(Float3(scale));
-  }
-
-  void Transform::AdjustWorldScale(const Float3 &scale)
-  {
-    // adjusting world is the same as adjusting local
-    AdjustScale(scale);
-  }
-
-  Float3 Transform::GetWorldScale()
-  {
-    RecalculateWorldInformation();
-
-    return WorldScale;
-  }
-
-  void Transform::SetParent(Ptr<Transform> parent)
-  {
-    if (Parent == parent) {
+    if (!_rotationDirty) {
       return;
     }
 
-    Float3 oldWorldPosition = GetWorldPosition();
-    FQuaternion oldWorldRotation = GetWorldRotation();
-    Float3 oldWorldScale = GetWorldScale();
-
-    if (Parent != nullptr) {
-      Parent->Dirtied -= ParentDirtied;
-    }
-
-    Parent = parent;
-
-    if (Parent != nullptr) {
-      Parent->Dirtied += ParentDirtied;
-    }
-
-    Dirty();
-
-    SetWorldPosition(oldWorldPosition);
-    SetWorldRotation(oldWorldRotation);
-    SetWorldScale(oldWorldScale);
+    _rotationMatrix = CalculateRotationMatrix(_rotation);
+    _rotationDirty = false;
   }
 
-  Ptr<Transform> Transform::GetParent() const
-  {
-    return Parent;
-  }
-
-  void Transform::Dirty(bool rotation)
-  {
-    RotationMatrixDirty |= rotation;
-    WorldTransformationMatrixDirty = true;
-    LocalTransformationMatrixDirty = true;
-    WorldInformationDirty = true;
-
-    Dirtied();
-  }
-
-  bool Transform::IsDirty() const
-  {
-    return WorldInformationDirty || WorldTransformationMatrixDirty || LocalTransformationMatrixDirty || RotationMatrixDirty;
-  }
-
-  Float3x3 Transform::GetRotationMatrix()
-  {
-    RecalculateLocalRotationMatrix();
-
-    return LocalRotationMatrix;
-  }
-
-  void Transform::RecalculateLocalRotationMatrix()
-  {
-    if (!RotationMatrixDirty) {
-      return;
-    }
-
-    LocalRotationMatrix = CalculateRotationMatrix(Rotation);
-    RotationMatrixDirty = false;
-  }
-
-  void Transform::RecalculateLocalTransformationMatrix()
+  void Transform::_RecalculateTransformationMatrix()
   {
     if (!IsDirty()) {
       return;
     }
 
-    LocalTransformationMatrix = Float4x4(II{});
+    _transformationMatrix = Float4x4(II{});
 
     // scale
-    LocalTransformationMatrix.E1.X = Scale.X;
-    LocalTransformationMatrix.E2.Y = Scale.Y;
-    LocalTransformationMatrix.E3.Z = Scale.Z;
+    _transformationMatrix.E1.X = _scale.X;
+    _transformationMatrix.E2.Y = _scale.Y;
+    _transformationMatrix.E3.Z = _scale.Z;
 
     // rotation
-    LocalTransformationMatrix = Float4x4(GetRotationMatrix(), Float4(0.0f, 0.0f, 0.0f, 1.0f)) * LocalTransformationMatrix;
+    _transformationMatrix = Float4x4(_GetRotationMatrix(), Float4(0.0f, 0.0f, 0.0f, 1.0f)) * _transformationMatrix;
 
     // position
-    LocalTransformationMatrix.E4.X = Position.X;
-    LocalTransformationMatrix.E4.Y = Position.Y;
-    LocalTransformationMatrix.E4.Z = Position.Z;
+    _transformationMatrix.E4.X = _position.X;
+    _transformationMatrix.E4.Y = _position.Y;
+    _transformationMatrix.E4.Z = _position.Z;
 
-    LocalTransformationMatrixDirty = false;
-  }
-
-  void Transform::RecalculateWorldTransformationMatrix()
-  {
-    if (!IsDirty()) {
-      return;
-    }
-
-    Float4x4 parentTransformationMatrix = (Parent == nullptr) ? Float4x4(II{}) : Parent->GetWorldTransformationMatrix();
-
-    WorldTransformationMatrix = parentTransformationMatrix * GetLocalTransformationMatrix();
-
-    WorldTransformationMatrixDirty = false;
+    _dirty = false;
   }
 
   void Transform::RecalculateWorldInformation()

@@ -15,95 +15,63 @@ namespace Geometric {
     , public IRotatable3D
     , public IScalable3D
   {
-    Functionality::Event<> Dirtied;
-
+    // create constructor for each variation of data (position, rotation, scale)
     Transform();
-    Transform(Ptr<Transform> parent);
-
-    Transform(Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f), bool settingLocal = false);
-    Transform(Ptr<Transform> parent, Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f), bool settingLocal = false);
+    Transform(FQuaternion rotation, Float3 scale = Float3(1.0f));
+    Transform(Float3 position, FQuaternion rotation = FQuaternion(II{}), Float3 scale = Float3(1.0f));
 
     Transform(const Transform &other);
     Transform &operator=(const Transform &other);
 
-    // parent-relative
-    Float4x4 GetLocalTransformationMatrix();
-    Float4x4 GetInverseLocalTransformationMatrix();
     // world-relative
-    Float4x4 GetWorldTransformationMatrix();
-    Float4x4 GetWorldInverseTransformationMatrix();
+    Float4x4 GetTransformationMatrix();
+    Float4x4 GetInverseTransformationMatrix();
 
-    // parent-relative
-    void SetPosition(const Float3 &position) override;
-    void AdjustPosition(const Float3 &movement) override;
-    Float3 GetPosition() const override;
     // world-relative
-    void SetWorldPosition(const Float3 &position);
-    void AdjustWorldPosition(const Float3 &movement);
-    Float3 GetWorldPosition();
+    void SetPositionRelativeTo(const Transform& other, const Float3& relativePosition); // needed?
+    void SetPosition(const Float3 &position);
+    void AdjustPosition(const Float3 &movement);
+    Float3 GetPosition() const;
 
-    // parent-relative
-    void SetRotation(const FQuaternion &rotation) override;
-    void AdjustRotation(const FQuaternion &rotation) override;
-    FQuaternion GetRotation() const override;
     // world-relative
-    void SetWorldRotation(const FQuaternion &rotation);
-    void AdjustWorldRotation(const FQuaternion &rotation);
-    FQuaternion GetWorldRotation();
+    void SetRotationRelativeTo(const Transform& other, const FQuaternion& relativeRotation); // needed?
+    void SetRotation(const FQuaternion &rotation);
+    void AdjustRotation(const FQuaternion &rotation);
+    FQuaternion GetRotation() const;
 
-    // parent-relative
-    void SetScale(const float &scale) override;
-    void SetScale(const Float3 &scale) override;
-    void AdjustScale(const float &scale) override;
-    void AdjustScale(const Float3 &scale) override;
-    Float3 GetScale() const override;
     // world-relative
-    void SetWorldScale(const float &scale);
-    void SetWorldScale(const Float3 &scale);
-    void AdjustWorldScale(const float &scale);
-    void AdjustWorldScale(const Float3 &scale);
-    Float3 GetWorldScale();
+    void SetScaleRelativeTo(const Transform& other, const Float3& relativeScale); // needed?
+    void SetScale(const float &scale);
+    void SetScale(const Float3 &scale);
+    void AdjustScale(const float &scale);
+    void AdjustScale(const Float3 &scale);
+    Float3 GetScale() const;
 
-    void SetParent(Ptr<Transform> parent);
-    Ptr<Transform> GetParent() const;
+    // needed? meant to automatically adjust everything to a new 'origin'
+    // should probably be a static method and return a Transform
+    void MakeRelativeTo(const Transform& other);
+    // need a variation of the below to match the various constructors
+    static Transform MakeRelativeTransform(const Transform& base, const Float3& relativePosition);
 
-    void Dirty(bool rotation = false);
     bool IsDirty() const;
 
   protected:
-    // the event side of things should be moved into a decorator class used by the geometric system and such that does not allow copy constructor or assignment operator
-    // since they would not be copied anyways
-    // perhaps some other elements (like local position and such - not world since world would be the default) can also be moved to that
-    Ptr<Transform> Parent = nullptr;
-    Functionality::Delegate<> ParentDirtied;
-
-    bool RotationMatrixDirty = false;
-    bool LocalTransformationMatrixDirty = false;
-    bool WorldTransformationMatrixDirty = false;
-    bool WorldInformationDirty = false;
-
-    // parent-relative
-    Float3 Position;
-    FQuaternion Rotation;
-    Float3 Scale;
+    bool _dirty;
+    bool _rotationDirty;
 
     // world-relative
-    Float3 WorldPosition;
-    FQuaternion WorldRotation;
-    Float3 WorldScale;
+    Float3 _position;
+    FQuaternion _rotation;
+    Float3 _scale;
 
-    Float3x3 LocalRotationMatrix;
+    Float3x3 _rotationMatrix;
+    Float4x4 _transformationMatrix;
 
-    Float4x4 LocalTransformationMatrix;
-    Float4x4 WorldTransformationMatrix;
+    void _Dirty(bool rotation = false);
 
-    Float3x3 GetRotationMatrix();
-
-    void RecalculateLocalRotationMatrix();
-    void RecalculateLocalTransformationMatrix();
-    void RecalculateWorldTransformationMatrix();
-
-    void RecalculateWorldInformation();
+    Float3x3 _GetRotationMatrix();
+    void _RecalculateRotationMatrix();
+    void _RecalculateTransformationMatrix();
   };
 }// namespace Geometric
 }// namespace Core

@@ -36,7 +36,7 @@ namespace Geometric {
         // world-relative
         void SetWorldPosition(const Core::Math::Float3 &position);
         void AdjustWorldPosition(const Core::Math::Float3 &movement);
-        Core::Math::Float3 GetWorldPosition();
+        Core::Math::Float3 GetWorldPosition() const;
 
         // parent-relative
         void SetLocalRotation(const Core::Math::FQuaternion &rotation);
@@ -45,7 +45,7 @@ namespace Geometric {
         // world-relative
         void SetWorldRotation(const Core::Math::FQuaternion &rotation);
         void AdjustWorldRotation(const Core::Math::FQuaternion &rotation);
-        Core::Math::FQuaternion GetWorldRotation();
+        Core::Math::FQuaternion GetWorldRotation() const;
 
         // parent-relative
         void SetLocalScale(const float &scale);
@@ -58,20 +58,34 @@ namespace Geometric {
         void SetWorldScale(const Core::Math::Float3 &scale);
         void AdjustWorldScale(const float &scale);
         void AdjustWorldScale(const Core::Math::Float3 &scale);
-        Core::Math::Float3 GetWorldScale();
+        Core::Math::Float3 GetWorldScale() const;
 
         void SetParent(Core::Ptr<HierarchyTransform> parent);
         Core::Ptr<HierarchyTransform> GetParent() const;
 
-        void Dirty(bool rotation = false);
         bool IsDirty() const;
 
     private:
         Core::Ptr<HierarchyTransform> _parent = nullptr;
         Core::Functionality::Delegate<> _parentDirtied;
-        // everything should redirect to affecting the transform, which should be a much simpler class with no concept of a parent
-        Core::Geometric::Transform _transform;
+
+        // doing it this way should make it much easier for getting data
+        // but we need to make sure the data is synced
+        // alternative is to only store one and constantly translate (which would be slower)
+        //      - if that is done probably easier for that to be the local, but when we did this before we ended up caching anyways
+        Core::Geometric::Transform _localTransform; // NEED BOTH. If we just have world, then recalculating with parents becomes much more difficult. If we just have local then the recalculation for getting world data will be too expensive so we need the world to act as a cache
+        Core::Geometric::Transform _worldTransform;
+
+        // cached for efficiency
+        Float3x3 _localRotationMatrix; // can use the one from _transform?
+        Float4x4 _localTransformationMatrix;
+        Float4x4 _worldTransformationMatrix; // can use the one from _transform?
+
+        // may not need?
         bool _dirty;
+
+        void _Dirty();
+        bool _HasParent() const;
     };
 }
 }
