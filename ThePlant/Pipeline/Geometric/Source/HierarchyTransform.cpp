@@ -40,8 +40,11 @@ namespace Geometric {
     const Core::Geometric::Transform& HierarchyTransform::GetLocalTransform() const { return _localTransform; }
     Core::Geometric::Transform HierarchyTransform::GetLocalTransform() { return _localTransform; }
     // world-relative
-    const Core::Geometric::Transform& HierarchyTransform::GetWorldTransform() const { return _worldTransform; }
-    Core::Geometric::Transform& HierarchyTransform::GetWorldTransform() { return _worldTransform; }
+    const Core::Geometric::Transform& HierarchyTransform::GetWorldTransform()
+    {
+        _UpdateWorldInformation();
+        return _worldTransform;
+    }
     
     // parent-relative
     Core::Math::Float4x4 HierarchyTransform::GetLocalTransformationMatrix()
@@ -90,7 +93,7 @@ namespace Geometric {
     // world-relative
     void HierarchyTransform::SetWorldPosition(const Core::Math::Float3 &position)
     {
-        Core::Math::Float3 localPosition = _HasParent() ? position - _parent->GetWorldPosition() : position;
+        Core::Math::Float3 localPosition = _HasParent() ? _parent->GetWorldInverseTransformationMatrix() * Core::Math::Float4(position, 1.0f) : position;
         SetLocalPosition(localPosition);
         // dirtied in SetLocalPosition(...)
     }
@@ -248,7 +251,7 @@ namespace Geometric {
         dirtied();
     }
 
-    bool HierarchyTransform::IsDirty() const { return (_dirty || _localTransform.IsDirty() || _worldTransform.IsDirty()); }
+    bool HierarchyTransform::IsDirty() const { return (_dirty || _localTransform.IsDirty()); } // don't need to care if _worldTransform is dirty, since it handles its own state
     bool HierarchyTransform::_HasParent() const { return (_parent != nullptr); }
     
 

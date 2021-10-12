@@ -26,8 +26,7 @@ namespace Geometric {
         const Core::Geometric::Transform& GetLocalTransform() const;
         Core::Geometric::Transform GetLocalTransform();
         // world-relative
-        const Core::Geometric::Transform& GetWorldTransform() const;
-        Core::Geometric::Transform& GetWorldTransform();
+        const Core::Geometric::Transform& GetWorldTransform();
         
         // parent-relative
         Core::Math::Float4x4 GetLocalTransformationMatrix();
@@ -82,11 +81,6 @@ namespace Geometric {
         //      - if that is done probably easier for that to be the local, but when we did this before we ended up caching anyways
         Core::Geometric::Transform _localTransform; // NEED BOTH. If we just have world, then recalculating with parents becomes much more difficult. If we just have local then the recalculation for getting world data will be too expensive so we need the world to act as a cache
         Core::Geometric::Transform _worldTransform;
-
-        // cached for efficiency
-        Float3x3 _localRotationMatrix; // can use the one from _transform?
-        Float4x4 _localTransformationMatrix;
-        Float4x4 _worldTransformationMatrix; // can use the one from _transform?
 
         // may not need?
         bool _dirty;

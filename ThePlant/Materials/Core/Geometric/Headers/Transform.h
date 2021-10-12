@@ -61,6 +61,8 @@ namespace Geometric {
 
     void _Dirty(bool rotation = false);
 
+    void _SetFromTransformationMatrix(const Core::Math::Float4x4& transformationMatrix);
+
     Core::Math::Float3x3 _GetRotationMatrix();
     void _RecalculateRotationMatrix();
     void _RecalculateTransformationMatrix();

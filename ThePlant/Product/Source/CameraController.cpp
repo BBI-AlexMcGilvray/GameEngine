@@ -24,7 +24,8 @@ namespace Product
             }
             default:
             {
-                CORE_WARNING("CameraController", "We do not handle this type of input event type");
+                // can put back in later, just spam at the moment
+                //CORE_WARNING("CameraController", "We do not handle this type of input event type");
             }
         }
 

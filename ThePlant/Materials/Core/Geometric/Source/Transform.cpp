@@ -10,11 +10,11 @@ using namespace Core::Math;
 namespace Core {
 namespace Geometric {
   Transform::Transform()
-  : Transform(Float3(II{}))
+  : Transform(Float3(0.0f))
   {}
   
   Transform::Transform(FQuaternion rotation, Float3 scale)
-  : Transform(Float3(II{}), rotation, scale)
+  : Transform(Float3(0.0f), rotation, scale)
   {}
 
   Transform::Transform(Float3 position, FQuaternion rotation, Float3 scale)
@@ -26,7 +26,7 @@ namespace Geometric {
 
   Transform::Transform(const Float4x4& transformationMatrix)
   {
-    TransformationMatrixDecomposition(transformationMatrix, _position, _scale, _rotation);
+    _SetFromTransformationMatrix(transformationMatrix);
   }
 
   Transform::Transform(const Transform &other)
@@ -47,7 +47,7 @@ namespace Geometric {
 
   Transform& Transform::operator=(const Float4x4& transformationMatrix)
   {
-    TransformationMatrixDecomposition(transformationMatrix, _position, _scale, _rotation);
+    _SetFromTransformationMatrix(transformationMatrix);
     
     return *this;
   }
@@ -129,6 +129,19 @@ namespace Geometric {
   {
     _dirty = true;
     _rotationDirty |= rotation;
+  }
+
+  void Transform::_SetFromTransformationMatrix(const Core::Math::Float4x4& transformationMatrix)
+  {
+    Float3 position;
+    Float3 scale;
+    FQuaternion rotation;
+
+    TransformationMatrixDecomposition(transformationMatrix, position, scale, rotation);
+    
+    SetPosition(position);
+    SetScale(scale);
+    SetRotation(rotation);
   }
 
   Float3x3 Transform::_GetRotationMatrix()

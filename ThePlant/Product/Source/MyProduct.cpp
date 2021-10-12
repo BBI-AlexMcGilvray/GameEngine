@@ -33,7 +33,7 @@ namespace Product
         // this will be data driven from the future
         _cameraNode = _currentWorld->AddChild<Application::Geometric::CameraNode>(Application::ApplicationManager::AppRenderManager(), 1280.0f / 1080.0f);
         // camera position not acting correctly in final transformation matrix (from camera)
-        _cameraNode->Transformation.SetWorldPosition(Float3(0.0f, 0.0f, 20.0f));
+        _cameraNode->Transformation.SetLocalPosition(Float3(0.0f, 0.0f, 20.0f));
         _cameraNode->CameraComponent->GetCamera()->LookAt(Float3(0.0f, 0.0f, 0.0f));
 
         _cameraController = CameraController(_cameraNode);
@@ -63,7 +63,7 @@ namespace Product
         animatedMeshContent->Initialize();
         //ComponentPtr<Rendering::Render> animatedRenderComponent = animatedMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
         //Ptr<Rendering::AnimatedModel> animatedModel = animatedRenderComponent->SetRenderObject<Rendering::AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
-        _neckBone = animatedMeshNode->GetChild("LeftShoulder");// Targetting the "RootNode" works... maybe an issue with how the values are uploaded?
+        _shoulderBone = animatedMeshNode->GetChild("LeftShoulder");// Targetting the "RootNode" works... maybe an issue with how the values are uploaded?
     }
 
     void MyProduct::update(Core::Second dt)
@@ -75,8 +75,8 @@ namespace Product
         FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * currentRotation, Duration(dt));
         _holderNode->Transformation.SetLocalRotation(newRot);
 
-        FQuaternion rotationModification = _neckBone->Transformation.GetLocalRotation();
-        _neckBone->Transformation.AdjustLocalRotation(FQuaternion(0.0f, 0.0f, 0.01f, 0.99f));
+        FQuaternion rotationModification = _shoulderBone->Transformation.GetLocalRotation();
+        _shoulderBone->Transformation.AdjustLocalRotation(FQuaternion(0.0f, 0.0f, 0.01f, 0.99f));
         //end of testing
     }
 
