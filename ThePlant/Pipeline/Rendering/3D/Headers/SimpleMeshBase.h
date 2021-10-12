@@ -26,7 +26,7 @@ namespace Rendering {
   public:
     Data::AssetData<Data::Rendering::SimpleMeshData> Data;
 
-    SimpleMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleMeshData> asset);
+    SimpleMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Data::AssetName<Data::Rendering::SimpleMeshData> asset);
     ~SimpleMeshBase();
 
     Core::size GetVertexCount() const override;

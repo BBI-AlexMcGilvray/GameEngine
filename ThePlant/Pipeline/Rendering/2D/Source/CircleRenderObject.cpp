@@ -6,15 +6,16 @@
 
 using namespace Core;
 using namespace Core::Math;
-using namespace Core::Geometric;
+
+using namespace Application::Geometric;
 
 namespace Application {
 namespace Rendering {
-  CircleRenderObject::CircleRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color)
+  CircleRenderObject::CircleRenderObject(Core::Ptr<RenderManager> manager, Ptr<HierarchyTransform> renderTransform, Color color)
     : CircleRenderObject(manager, renderTransform, color, 1.0f)
   {}
 
-  CircleRenderObject::CircleRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color, float radius)
+  CircleRenderObject::CircleRenderObject(Core::Ptr<RenderManager> manager, Ptr<HierarchyTransform> renderTransform, Color color, float radius)
     : RenderObjectBase(manager, renderTransform, color), Radius(radius), Shader(manager->ObjectShaderManager.DefaultShader)
   {
     Initialize();

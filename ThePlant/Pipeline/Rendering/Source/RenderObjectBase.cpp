@@ -6,12 +6,13 @@
 
 using namespace Core;
 using namespace Core::Math;
-using namespace Core::Geometric;
 using namespace Core::Functionality;
+
+using namespace Application::Geometric;
 
 namespace Application {
 namespace Rendering {
-  RenderObjectBase::RenderObjectBase(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color)
+  RenderObjectBase::RenderObjectBase(Core::Ptr<RenderManager> manager, Ptr<HierarchyTransform> renderTransform, Color color)
     : ObjectColor(color), Manager(manager), RenderTransform(renderTransform)
   {
   }

@@ -21,6 +21,13 @@ namespace Geometric {
         HierarchyTransform(HierarchyTransform&& other) = delete;
         HierarchyTransform& operator=(const HierarchyTransform& other) = delete;
         HierarchyTransform& operator=(HierarchyTransform&& other) = delete;
+
+        // parent-relative
+        const Core::Geometric::Transform& GetLocalTransform() const;
+        Core::Geometric::Transform GetLocalTransform();
+        // world-relative
+        const Core::Geometric::Transform& GetWorldTransform() const;
+        Core::Geometric::Transform& GetWorldTransform();
         
         // parent-relative
         Core::Math::Float4x4 GetLocalTransformationMatrix();
@@ -36,7 +43,7 @@ namespace Geometric {
         // world-relative
         void SetWorldPosition(const Core::Math::Float3 &position);
         void AdjustWorldPosition(const Core::Math::Float3 &movement);
-        Core::Math::Float3 GetWorldPosition() const;
+        Core::Math::Float3 GetWorldPosition();
 
         // parent-relative
         void SetLocalRotation(const Core::Math::FQuaternion &rotation);
@@ -45,7 +52,7 @@ namespace Geometric {
         // world-relative
         void SetWorldRotation(const Core::Math::FQuaternion &rotation);
         void AdjustWorldRotation(const Core::Math::FQuaternion &rotation);
-        Core::Math::FQuaternion GetWorldRotation() const;
+        Core::Math::FQuaternion GetWorldRotation();
 
         // parent-relative
         void SetLocalScale(const float &scale);
@@ -58,7 +65,7 @@ namespace Geometric {
         void SetWorldScale(const Core::Math::Float3 &scale);
         void AdjustWorldScale(const float &scale);
         void AdjustWorldScale(const Core::Math::Float3 &scale);
-        Core::Math::Float3 GetWorldScale() const;
+        Core::Math::Float3 GetWorldScale();
 
         void SetParent(Core::Ptr<HierarchyTransform> parent);
         Core::Ptr<HierarchyTransform> GetParent() const;
@@ -86,6 +93,8 @@ namespace Geometric {
 
         void _Dirty();
         bool _HasParent() const;
+
+        void _UpdateWorldInformation();
     };
 }
 }

@@ -20,8 +20,8 @@ namespace Rendering {
     GLArrayBuffer Vao;
     std::vector<GLBuffer> Vbos;
 
-    CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
-    CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float radius);
+    CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color);
+    CircleRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color, float radius);
 
     ~CircleRenderObject();
 

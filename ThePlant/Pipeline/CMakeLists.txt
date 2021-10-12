@@ -32,6 +32,7 @@ Geometric/Source/CameraNode.cpp #
 Geometric/Source/ContainerBase.cpp #
 Geometric/Source/ContentBase.cpp #
 Geometric/Source/HierarchyComponent.cpp #
+Geometric/Source/HierarchyTransform.cpp #
 Geometric/Source/Node.cpp #
 Geometric/Source/Scene.cpp #
 Geometric/Source/World.cpp #
@@ -130,6 +131,7 @@ Geometric/Headers/CameraNode.h #
 Geometric/Headers/ContainerBase.h #
 Geometric/Headers/ContentBase.h #
 Geometric/Headers/HierarchyComponent.h #
+Geometric/Headers/HierarchyTransform.h #
 Geometric/Headers/Node.h #
 Geometric/Headers/Scene.h #
 Geometric/Headers/World.h #

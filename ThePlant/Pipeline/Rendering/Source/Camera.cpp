@@ -9,26 +9,23 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
+using namespace Application::Geometric;
+
 namespace Application {
 namespace Rendering {
   const Float3 Camera::DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
 
-  Camera::Camera(const float &aspectRatio, Transform &transform, const Float3 &direction)
+  Camera::Camera(const float &aspectRatio, HierarchyTransform &transform, const Float3 &direction)
     : CameraTransform(transform)
   {
-    LookAt(CameraTransform.GetPosition() + direction);
+    LookAt(CameraTransform.GetWorldPosition() + direction);
 
     SetProjectionVariables(FOVY, aspectRatio, NearPlane, FarPlane);
   }
 
-  Transform &Camera::GetCameraTransform()
+  HierarchyTransform &Camera::GetCameraTransform()
   {
     return CameraTransform;
-  }
-
-  void Camera::SetCameraTransform(Transform &transform)
-  {
-    CameraTransform = transform;
   }
 
   Float4x4 Camera::GetTransformationMatrix() const
@@ -39,9 +36,9 @@ namespace Rendering {
 
   void Camera::LookAt(Float3 position)
   {
-    Direction = Normalize(position - CameraTransform.GetPosition());
+    Direction = Normalize(position - CameraTransform.GetWorldPosition());
 
-    CameraTransform.SetRotation(RotationBetweenVectors(DefaultDirection, Direction));
+    CameraTransform.SetWorldRotation(RotationBetweenVectors(DefaultDirection, Direction));
   }
 
   void Camera::SetFOVY(Rad fovy)

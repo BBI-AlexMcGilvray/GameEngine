@@ -8,12 +8,13 @@
 #include "Pipeline/Rendering/3D/Headers/SimpleMeshBase.h"
 
 using namespace Core;
-using namespace Core::Geometric;
 using namespace Core::Math;
+
+using namespace Application::Geometric;
 
 namespace Application {
 namespace Rendering {
-  ModelBase::ModelBase(const Core::Ptr<State> owningState, Ptr<Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
+  ModelBase::ModelBase(const Core::Ptr<State> owningState, Ptr<HierarchyTransform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
     //: RenderObjectBase(manager, renderTransform)
     : ContentBase(owningState), Data(ApplicationManager::AppAssetManager().getAssetData(asset)), _transform(renderTransform)
   //, Mesh(Data.Data.Mesh)

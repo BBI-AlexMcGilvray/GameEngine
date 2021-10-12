@@ -15,10 +15,10 @@ namespace Animation {
     void SetTrack(string boneName, TransformAnimationTrack animationTrack);
 
     void SetStartState(const Rendering::Skeleton &skeleton);
-    Core::Map<string, Transform> Evaluate(Core::Second time);
+    Core::Map<string, Core::Geometric::Transform> Evaluate(Core::Second time);
 
   private:
-    Core::List<Transform> _startState;
+    Core::List<Core::Geometric::Transform> _startState;
 
     // <bone name, animation track>
     Core::Map<string, TransformAnimationTrack> _tracks;

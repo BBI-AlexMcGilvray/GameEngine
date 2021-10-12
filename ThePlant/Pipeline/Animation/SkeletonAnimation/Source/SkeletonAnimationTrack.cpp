@@ -34,9 +34,9 @@ namespace Animation {
     CreateStartState(hierarchy, 0);
   }
 
-  Core::Map<string, Transform> SkeletonAnimationTrack::Evaluate(Core::Second time)
+  Core::Map<string, Core::Geometric::Transform> SkeletonAnimationTrack::Evaluate(Core::Second time)
   {
-    Core::Map<string, Transform> skeleton;
+    Core::Map<string, Core::Geometric::Transform> skeleton;
 
     for (Core::Pair<const string, TransformAnimationTrack> &pair : _tracks) {
       skeleton[pair.first] = pair.second.Evaluate(time);
@@ -47,7 +47,7 @@ namespace Animation {
 
   int SkeletonAnimationTrack::CreateStartState(Core::Ptr<Geometric::Node> rootBone, int index)
   {
-    _startState[index] = rootBone->Transformation;
+    _startState[index] = rootBone->Transformation.GetLocalTransform();
 
     int offset = 0;
     for (Core::Ptr<Geometric::Node> child : rootBone->GetChildren()) {

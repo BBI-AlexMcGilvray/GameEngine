@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Core/Geometric/Headers/Transform.h"
-
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/Vector3.h"
 
@@ -10,8 +8,9 @@
 #include "Core/Math/Headers/Matrix3x3.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
+#include "Pipeline/Geometric/Headers/HierarchyTransform.h"
+
 using namespace Core;
-using namespace Core::Geometric;
 using namespace Core::Math;
 
 namespace Application {
@@ -21,10 +20,9 @@ namespace Rendering {
   {
     static const Float3 DefaultDirection;
 
-    Camera(const float &aspectRatio, Transform &transform, const Float3 &direction = DefaultDirection);
+    Camera(const float &aspectRatio, Geometric::HierarchyTransform &transform, const Float3 &direction = DefaultDirection);
 
-    Transform &GetCameraTransform();
-    void SetCameraTransform(Transform &transform);
+    Geometric::HierarchyTransform &GetCameraTransform();
 
     Float4x4 GetTransformationMatrix() const;
 
@@ -44,7 +42,7 @@ namespace Rendering {
     void SetProjectionVariables(const Rad &fovy, const float &AspectRatio, const float &nearPlane, const float &farPlane);
 
   protected:
-    Transform &CameraTransform;
+    Geometric::HierarchyTransform& CameraTransform;
 
     Float3 Direction;// direction the camera is looking
 

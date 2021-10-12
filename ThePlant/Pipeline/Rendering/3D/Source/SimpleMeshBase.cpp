@@ -6,7 +6,7 @@
 
 namespace Application {
 namespace Rendering {
-  SimpleMeshBase::SimpleMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleMeshData> asset)
+  SimpleMeshBase::SimpleMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Data::AssetName<Data::Rendering::SimpleMeshData> asset)
     : RenderObjectBase(manager, renderTransform), Data(ApplicationManager::AppAssetManager().getAssetData(asset)), _onMaterialDeleted([this] {
         ClearMaterialComponent();
 

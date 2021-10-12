@@ -52,12 +52,12 @@ namespace Math {
     }
 
     // conversions
-    operator MatrixAxB<T, 3, 3>()
+    operator MatrixAxB<T, 3, 3>() const
     {
       return MatrixAxB<T, 3, 3>(E1, E2, T(0));
     }
 
-    operator MatrixAxB<T, 4, 4>()
+    operator MatrixAxB<T, 4, 4>() const
     {
       return MatrixAxB<T, 4, 4>(E1, E2, T(0), T(0));
     }

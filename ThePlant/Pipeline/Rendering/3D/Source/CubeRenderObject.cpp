@@ -4,19 +4,20 @@
 
 using namespace Core;
 using namespace Core::Math;
-using namespace Core::Geometric;
+
+using namespace Application::Geometric;
 
 namespace Application {
 namespace Rendering {
-  CubeRenderObject::CubeRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color)
+  CubeRenderObject::CubeRenderObject(Core::Ptr<RenderManager> manager, Ptr<HierarchyTransform> renderTransform, Color color)
     : CubeRenderObject(manager, renderTransform, color, Float3(1.0f))
   {}
 
-  CubeRenderObject::CubeRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color, float width, float height, float depth)
+  CubeRenderObject::CubeRenderObject(Core::Ptr<RenderManager> manager, Ptr<HierarchyTransform> renderTransform, Color color, float width, float height, float depth)
     : CubeRenderObject(manager, renderTransform, color, Float3(width, height, depth))
   {}
 
-  CubeRenderObject::CubeRenderObject(Core::Ptr<RenderManager> manager, Ptr<Transform> renderTransform, Color color, Float3 scale)
+  CubeRenderObject::CubeRenderObject(Core::Ptr<RenderManager> manager, Ptr<HierarchyTransform> renderTransform, Color color, Float3 scale)
     : RenderObjectBase(manager, renderTransform, color), Scale(scale), Shader(manager->ObjectShaderManager.DefaultShader)
   {
     Initialize();

@@ -33,7 +33,7 @@ namespace Product
         // this will be data driven from the future
         _cameraNode = _currentWorld->AddChild<Application::Geometric::CameraNode>(Application::ApplicationManager::AppRenderManager(), 1280.0f / 1080.0f);
         // camera position not acting correctly in final transformation matrix (from camera)
-        _cameraNode->Transformation.SetPosition(Float3(0.0f, 0.0f, 20.0f));
+        _cameraNode->Transformation.SetWorldPosition(Float3(0.0f, 0.0f, 20.0f));
         _cameraNode->CameraComponent->GetCamera()->LookAt(Float3(0.0f, 0.0f, 0.0f));
 
         _cameraController = CameraController(_cameraNode);
@@ -71,12 +71,12 @@ namespace Product
         _luaManager.update(dt);
 
         // just for testing currently
-        FQuaternion currentRotation = _holderNode->Transformation.GetRotation();
+        FQuaternion currentRotation = _holderNode->Transformation.GetLocalRotation();
         FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * currentRotation, Duration(dt));
-        _holderNode->Transformation.SetRotation(newRot);
+        _holderNode->Transformation.SetLocalRotation(newRot);
 
-        FQuaternion rotationModification = _neckBone->Transformation.GetRotation();
-        _neckBone->Transformation.AdjustRotation(FQuaternion(0.0f, 0.0f, 0.01f, 0.99f));
+        FQuaternion rotationModification = _neckBone->Transformation.GetLocalRotation();
+        _neckBone->Transformation.AdjustLocalRotation(FQuaternion(0.0f, 0.0f, 0.01f, 0.99f));
         //end of testing
     }
 

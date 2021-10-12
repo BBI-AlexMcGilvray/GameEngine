@@ -62,12 +62,12 @@ namespace Math {
     }
 
     // conversions
-    operator VectorA<T, 2>()
+    operator VectorA<T, 2>() const
     {
       return XY;
     }
 
-    operator VectorA<T, 3>()
+    operator VectorA<T, 3>() const
     {
       return XYZ;
     }

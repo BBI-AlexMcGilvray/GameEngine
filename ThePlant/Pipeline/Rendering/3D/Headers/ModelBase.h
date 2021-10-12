@@ -22,7 +22,7 @@ namespace Rendering {
     //SimpleMeshBase Mesh;
 
     // this should be loading up the model data instead of the mesh data
-    ModelBase(const Core::Ptr<State> owningState, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset);
+    ModelBase(const Core::Ptr<State> owningState, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset);
 
     //Core::size GetVertexCount() const override;
 
@@ -40,7 +40,7 @@ namespace Rendering {
 
   private:
     // do we need this?
-    Core::Ptr<Core::Geometric::Transform> _transform;
+    Core::Ptr<Geometric::HierarchyTransform> _transform;
 
     ComponentPtr<MaterialComponent> _materialComponent;
     ComponentPtr<Render> _renderComponent;

@@ -33,7 +33,7 @@ namespace Geometric {
   {}
 
   Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
-    : Name(name), Transformation((parentNode == nullptr ? nullptr : &(parentNode->Transformation)), position, rotation, scale, settingLocal)
+    : Name(name), Transformation(position, rotation, scale, (parentNode == nullptr ? nullptr : &(parentNode->Transformation)), settingLocal)
   {
     SetParentState(parentState);
   }

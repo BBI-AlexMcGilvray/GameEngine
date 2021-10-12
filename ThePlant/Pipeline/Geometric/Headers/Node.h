@@ -1,11 +1,9 @@
 #pragma once
 
-#include "Core/Geometric/Headers/Transform.h"
 #include "Core/Functionality/Headers/Event.h"
 
 #include "Pipeline/Geometric/Headers/ContainerBase.h"
-
-using namespace Core::Geometric;
+#include "Pipeline/Geometric/Headers/HierarchyTransform.h"
 
 namespace Application {
 struct State;
@@ -42,7 +40,7 @@ namespace Geometric {
     Event<> Deleted;
 
     Core::String Name;
-    Transform Transformation;
+    Geometric::HierarchyTransform Transformation;
 
     Node(Core::Ptr<State> parentState, Core::String name = DEFAULT_NODE_NAME);
     Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name = DEFAULT_NODE_NAME);

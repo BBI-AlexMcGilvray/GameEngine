@@ -32,12 +32,12 @@ namespace Math {
     {}
 
     // conversions
-    operator VectorA<T, 3>()
+    operator VectorA<T, 3>() const
     {
       return VectorA<T, 3>(X, Y, T(0));
     }
 
-    operator VectorA<T, 4>()
+    operator VectorA<T, 4>() const
     {
       return VectorA<T, 3>(X, Y, T(0), T(0));
     }

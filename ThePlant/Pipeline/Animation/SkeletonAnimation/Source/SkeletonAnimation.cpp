@@ -15,7 +15,7 @@ namespace Animation {
     _evaluationResults = _track.Evaluate(time);
   }
 
-  Map<string, Transform> SkeletonAnimation::GetAnimationResults()
+  Map<string, Core::Geometric::Transform> SkeletonAnimation::GetAnimationResults()
   {
     return _evaluationResults;
   }

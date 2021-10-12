@@ -25,7 +25,7 @@ namespace Rendering {
   {
     Data::AssetData<Data::Rendering::AnimatedMeshData> Data;
 
-    SkinnedMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Data::AssetName<Data::Rendering::AnimatedMeshData> asset);
+    SkinnedMeshBase(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Data::AssetName<Data::Rendering::AnimatedMeshData> asset);
     ~SkinnedMeshBase();
 
     Core::size GetVertexCount() const override;

@@ -77,12 +77,12 @@ namespace Math {
     }
 
     // conversions
-    operator MatrixAxB<T, 2, 2>()
+    operator MatrixAxB<T, 2, 2>() const
     {
       return MatrixAxB<T, 2, 2>(E1, E2);
     }
 
-    operator MatrixAxB<T, 3, 3>()
+    operator MatrixAxB<T, 3, 3>() const
     {
       return MatrixAxB<T, 3, 3>(VectorA<T, 3>(E1), VectorA<T, 3>(E2), VectorA<T, 3>(E3));
     }

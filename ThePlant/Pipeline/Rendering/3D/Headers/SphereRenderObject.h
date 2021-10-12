@@ -21,8 +21,8 @@ namespace Rendering {
     GLArrayBuffer Vao;
     std::vector<GLBuffer> Vbos;
 
-    SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
-    SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float radius);
+    SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color);
+    SphereRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color, float radius);
 
     ~SphereRenderObject();
 

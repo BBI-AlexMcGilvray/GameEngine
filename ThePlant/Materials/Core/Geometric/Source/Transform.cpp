@@ -14,7 +14,7 @@ namespace Geometric {
   {}
   
   Transform::Transform(FQuaternion rotation, Float3 scale)
-  : Transform(Float3(II{}), rotation, scale))
+  : Transform(Float3(II{}), rotation, scale)
   {}
 
   Transform::Transform(Float3 position, FQuaternion rotation, Float3 scale)
@@ -22,6 +22,11 @@ namespace Geometric {
     SetPosition(position);
     SetRotation(rotation);
     SetScale(scale);
+  }
+
+  Transform::Transform(const Float4x4& transformationMatrix)
+  {
+    TransformationMatrixDecomposition(transformationMatrix, _position, _scale, _rotation);
   }
 
   Transform::Transform(const Transform &other)
@@ -37,6 +42,13 @@ namespace Geometric {
     SetRotation(other.GetRotation());
     SetScale(other.GetScale());
 
+    return *this;
+  }
+
+  Transform& Transform::operator=(const Float4x4& transformationMatrix)
+  {
+    TransformationMatrixDecomposition(transformationMatrix, _position, _scale, _rotation);
+    
     return *this;
   }
 
@@ -67,6 +79,7 @@ namespace Geometric {
   {
     return _position;
   }
+
   void Transform::SetRotation(const FQuaternion &rotation)
   {
     _rotation = rotation;
@@ -157,17 +170,6 @@ namespace Geometric {
     _transformationMatrix.E4.Z = _position.Z;
 
     _dirty = false;
-  }
-
-  void Transform::RecalculateWorldInformation()
-  {
-    if (!IsDirty()) {
-      return;
-    }
-
-    TransformationMatrixDecomposition(GetWorldTransformationMatrix(), WorldPosition, WorldScale, WorldRotation);
-
-    WorldInformationDirty = false;
   }
 }// namespace Geometric
 }// namespace Core

@@ -20,9 +20,9 @@ namespace Rendering {
     GLArrayBuffer Vao;
     std::vector<GLBuffer> Vbos;
 
-    BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
-    BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float width, float height);
-    BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, Core::Math::Float2 scale);
+    BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color);
+    BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color, float width, float height);
+    BoxRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color, Core::Math::Float2 scale);
 
     ~BoxRenderObject();
 

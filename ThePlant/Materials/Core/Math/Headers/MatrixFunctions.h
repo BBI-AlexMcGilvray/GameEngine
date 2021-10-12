@@ -287,7 +287,7 @@ namespace Math {
   // Taken from Ogre3D (https://bitbucket.org/sinbad/ogre/src/67a17b4dc55037f9d816df3fdfc80f6b1365f7ae/OgreMain/src/OgreMatrix4.cpp?at=default&fileviewer=file-view-default)
   // with some changes since they are row-major and we are column-major
   template<typename T>
-  void TransformationMatrixDecomposition(Matrix4x4<T> &m, Vector3<T> &position, Vector3<T> &scale, Quaternion<T> &rotation)
+  void TransformationMatrixDecomposition(const Matrix4x4<T> &m, Vector3<T> &position, Vector3<T> &scale, Quaternion<T> &rotation)
   {
     Matrix3x3<T> matQ;
     Vector3<T> vecU;

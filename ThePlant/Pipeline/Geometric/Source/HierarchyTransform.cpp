@@ -1,5 +1,8 @@
 #include "Pipeline/Geometric/Headers/HierarchyTransform.h"
 
+#include "Core/Math/Headers/MatrixFunctions.h"
+#include "Core/Math/Headers/QuaternionFunctions.h"
+
 namespace Application {
 namespace Geometric {
     HierarchyTransform::HierarchyTransform(Core::Ptr<HierarchyTransform> parent)
@@ -27,165 +30,181 @@ namespace Geometric {
         }
         else
         {
-            _transform = transform;
+            SetWorldPosition(transform.GetPosition());
+            SetWorldRotation(transform.GetRotation());
+            SetWorldScale(transform.GetScale());
         }
     }
+
+    // parent-relative
+    const Core::Geometric::Transform& HierarchyTransform::GetLocalTransform() const { return _localTransform; }
+    Core::Geometric::Transform HierarchyTransform::GetLocalTransform() { return _localTransform; }
+    // world-relative
+    const Core::Geometric::Transform& HierarchyTransform::GetWorldTransform() const { return _worldTransform; }
+    Core::Geometric::Transform& HierarchyTransform::GetWorldTransform() { return _worldTransform; }
     
     // parent-relative
     Core::Math::Float4x4 HierarchyTransform::GetLocalTransformationMatrix()
     {
-        // possible to just do parent->GetInverseWorld * GetWorld ?
+        return _localTransform.GetTransformationMatrix();
     }
 
     Core::Math::Float4x4 HierarchyTransform::GetInverseLocalTransformationMatrix()
     {
-
+        return _localTransform.GetInverseTransformationMatrix();
     }
 
     // world-relative
     Core::Math::Float4x4 HierarchyTransform::GetWorldTransformationMatrix()
     {
-        return _transform.GetTransformationMatrix();
+        _UpdateWorldInformation();
+
+        return _worldTransform.GetTransformationMatrix();
     }
 
     Core::Math::Float4x4 HierarchyTransform::GetWorldInverseTransformationMatrix()
     {
-        return _transform.GetInverseTransformationMatrix();
+        _UpdateWorldInformation();
+
+        return _worldTransform.GetInverseTransformationMatrix();
     }
 
     // parent-relative
     void HierarchyTransform::SetLocalPosition(const Core::Math::Float3 &position)
     {
-        Core::Math::Float3 worldPosition = _HasParent() ? _parent->GetWorldPosition() + position : position;
-        SetWorldPosition(worldPosition);
-        // dirtied in SetWorldPosition
+        _localTransform.SetPosition(position);
+        _Dirty();
     }
 
     void HierarchyTransform::AdjustLocalPosition(const Core::Math::Float3 &movement)
     {
-        AdjustWorldPosition(movement);
-        // dirtied in AdjustWorldPosition
+        _localTransform.AdjustPosition(movement);
+        _Dirty();
     }
 
     Core::Math::Float3 HierarchyTransform::GetLocalPosition() const
     {
-        return _HasParent() ? GetWorldPosition()- _parent->GetWorldPosition() : GetWorldPosition();
+        return _localTransform.GetPosition();
     }
 
     // world-relative
     void HierarchyTransform::SetWorldPosition(const Core::Math::Float3 &position)
     {
-        _transform.SetPosition(position);
-        _Dirty();
+        Core::Math::Float3 localPosition = _HasParent() ? position - _parent->GetWorldPosition() : position;
+        SetLocalPosition(localPosition);
+        // dirtied in SetLocalPosition(...)
     }
 
     void HierarchyTransform::AdjustWorldPosition(const Core::Math::Float3 &movement)
     {
-        _transform.AdjustPosition(movement);
-        _Dirty();
+        AdjustLocalPosition(movement);
+        // dirtied in AdjustLocalPosition(...)
     }
 
-    Core::Math::Float3 HierarchyTransform::GetWorldPosition() const
+    Core::Math::Float3 HierarchyTransform::GetWorldPosition()
     {
-        return _transform.GetPosition();
+        _UpdateWorldInformation();
+        return _worldTransform.GetPosition();
     }
 
     // parent-relative
     void HierarchyTransform::SetLocalRotation(const Core::Math::FQuaternion &rotation)
     {
-        // VERIFY MATH IS RIGHT
-        Core::Math::FQuaternion worldRotation = _HasParent() ? rotation * _parent->GetWorldRotation() : rotation;
-        SetWorldRotation(worldRotation);
-        // dirtied in SetWorldRotation
+        _localTransform.SetRotation(rotation);
+        _Dirty();
     }
 
     void HierarchyTransform::AdjustLocalRotation(const Core::Math::FQuaternion &rotation)
     {
-        AdjustWorldRotation(rotation);
-        // dirtied in AdjustWorldRotation
+        _localTransform.AdjustRotation(rotation);
+        _Dirty();
     }
 
     // NOT SURE IF MATH IS RIGHT, TEST
     Core::Math::FQuaternion HierarchyTransform::GetLocalRotation() const
     {
-        return _HasParent() ? GetWorldRotation() / _parent->GetWorldRotation() : GetWorldRotation();
+        return _localTransform.GetRotation();
     }
 
     // world-relative
     void HierarchyTransform::SetWorldRotation(const Core::Math::FQuaternion &rotation)
     {
-        _transform.SetRotation(rotation);
-        _Dirty();
+        // VERIFY MATH IS RIGHT
+        Core::Math::FQuaternion localRotation = _HasParent() ? rotation / _parent->GetWorldRotation() : rotation;
+        SetLocalRotation(localRotation);
+        // dirtied in SetWorldRotation
     }
 
     void HierarchyTransform::AdjustWorldRotation(const Core::Math::FQuaternion &rotation)
     {
-        _transform.AdjustRotation(rotation);
-        _Dirty();
+        AdjustLocalRotation(rotation);
+        // dirtied in AdjustLocalRotation(...)
     }
     
-    Core::Math::FQuaternion HierarchyTransform::GetWorldRotation() const
+    Core::Math::FQuaternion HierarchyTransform::GetWorldRotation()
     {
-        return _transform.GetRotation();
+        _UpdateWorldInformation();
+        return _worldTransform.GetRotation();
     }
 
     // parent-relative
     void HierarchyTransform::SetLocalScale(const float &scale)
     {
-        SetLocalScale(Core::Math::Float3(scale));
+        _localTransform.SetScale(scale);
+        _Dirty();
     }
     
     void HierarchyTransform::SetLocalScale(const Core::Math::Float3 &scale)
     {
-        Core::Math::Float3 worldScale = _HasParent() ? _parent->GetWorldScale() * scale : scale;
-        SetWorldScale(worldScale);
-        // dirtied in SetWorldScale
+        _localTransform.SetScale(scale);
+        _Dirty();
     }
     
     void HierarchyTransform::AdjustLocalScale(const float &scale)
     {
-        AdjustLocalScale(Core::Math::Float3(scale));
+        _localTransform.AdjustScale(scale);
+        _Dirty();
     }
     
     void HierarchyTransform::AdjustLocalScale(const Core::Math::Float3 &scale)
     {
-        AdjustWorldScale(scale);
-        // dirtied in AdjustWorldScale
+        _localTransform.AdjustScale(scale);
+        _Dirty();
     }
     
     Core::Math::Float3 HierarchyTransform::GetLocalScale() const
     {
-        return _HasParent() ? GetWorldScale() / _parent->GetWorldScale() : GetWorldScale();
+        return _localTransform.GetScale();
     }
     
     // world-relative
     void HierarchyTransform::SetWorldScale(const float &scale)
     {
-        _transform.SetScale(scale);
-        _Dirty();
+        SetWorldScale(Core::Math::Float3(scale));
     }
     
     void HierarchyTransform::SetWorldScale(const Core::Math::Float3 &scale)
     {
-        _transform.SetScale(scale);
-        _Dirty();
+        Core::Math::Float3 localScale = _HasParent() ? scale / _parent->GetWorldScale() : scale;
+        SetLocalScale(localScale);
+        // dirtied in SetLocalScale(...)
     }
     
     void HierarchyTransform::AdjustWorldScale(const float &scale)
     {
-        _transform.AdjustScale(scale);
-        _Dirty();
+        AdjustWorldScale(Core::Math::Float3(scale));
     }
     
     void HierarchyTransform::AdjustWorldScale(const Core::Math::Float3 &scale)
     {
-        _transform.AdjustScale(scale);
-        _Dirty();
+        AdjustLocalScale(scale);
+        // dirtied in AdjustLocalScale(...)
     }
 
-    Core::Math::Float3 HierarchyTransform::GetWorldScale() const
+    Core::Math::Float3 HierarchyTransform::GetWorldScale()
     {
-        return _transform.GetScale();
+        _UpdateWorldInformation();
+        return _worldTransform.GetScale();
     }
 
     void HierarchyTransform::SetParent(Core::Ptr<HierarchyTransform> parent)
@@ -229,7 +248,23 @@ namespace Geometric {
         dirtied();
     }
 
-    bool HierarchyTransform::IsDirty() const { return _dirty || _transform.IsDirty(); }
+    bool HierarchyTransform::IsDirty() const { return (_dirty || _localTransform.IsDirty() || _worldTransform.IsDirty()); }
     bool HierarchyTransform::_HasParent() const { return (_parent != nullptr); }
+    
+
+    void HierarchyTransform::_UpdateWorldInformation()
+    {
+        if (!IsDirty()) {
+            return;
+        }
+        
+        if (!_HasParent())
+        {
+            _worldTransform = _localTransform;
+            return;
+        }
+
+        _worldTransform = _parent->GetWorldTransformationMatrix() * GetLocalTransformationMatrix();
+    }
 }
 }

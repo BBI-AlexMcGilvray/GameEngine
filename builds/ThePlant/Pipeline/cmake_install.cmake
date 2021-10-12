@@ -64,6 +64,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Geometric/Headers/ContainerBase.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Geometric/Headers/ContentBase.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Geometric/Headers/HierarchyComponent.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Geometric/Headers/HierarchyTransform.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Geometric/Headers/Node.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Geometric/Headers/Scene.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Geometric/Headers/World.h"

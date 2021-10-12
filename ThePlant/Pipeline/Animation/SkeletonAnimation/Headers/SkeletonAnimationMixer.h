@@ -23,9 +23,9 @@ namespace Animation {
     struct MixData
     {
       float weight;
-      Core::Map<string, Transform> transforms;
+      Core::Map<string, Core::Geometric::Transform> transforms;
 
-      MixData(float weight, Map<string, Transform> transform)
+      MixData(float weight, Map<string, Core::Geometric::Transform> transform)
         : weight(weight), transforms(transform)
       {}
     };

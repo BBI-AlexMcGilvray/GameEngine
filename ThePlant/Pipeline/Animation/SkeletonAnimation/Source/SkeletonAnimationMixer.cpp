@@ -17,15 +17,15 @@ namespace Animation {
 
   void SkeletonAnimationMixer::Apply()
   {
-    Map<string, Transform> mixedTransforms;
+    Map<string, Core::Geometric::Transform> mixedTransforms;
 
     for (MixData mix : _animationsToMix) {
-      for (Pair<const string, Transform> &transform : mix.transforms) {
+      for (Pair<const string, Core::Geometric::Transform> &transform : mix.transforms) {
         if (!In(mixedTransforms, transform.first)) {
-          mixedTransforms[transform.first] = Transform();
+          mixedTransforms[transform.first] = Core::Geometric::Transform();
         }
 
-        Transform &combinedTransform = mixedTransforms[transform.first];
+        Core::Geometric::Transform &combinedTransform = mixedTransforms[transform.first];
 
         combinedTransform.AdjustPosition(transform.second.GetPosition() * mix.weight);
         combinedTransform.AdjustRotation(transform.second.GetRotation() * mix.weight);
@@ -33,10 +33,10 @@ namespace Animation {
       }
     }
 
-    for (Pair<const string, Transform> &transform : mixedTransforms) {
-      _target.GetTarget().GetSkeletonHierarchy()->GetChild(transform.first)->Transformation.SetPosition(transform.second.GetPosition());
-      _target.GetTarget().GetSkeletonHierarchy()->GetChild(transform.first)->Transformation.SetRotation(transform.second.GetRotation());
-      _target.GetTarget().GetSkeletonHierarchy()->GetChild(transform.first)->Transformation.SetScale(transform.second.GetScale());
+    for (Pair<const string, Core::Geometric::Transform> &transform : mixedTransforms) {
+      _target.GetTarget().GetSkeletonHierarchy()->GetChild(transform.first)->Transformation.SetLocalPosition(transform.second.GetPosition());
+      _target.GetTarget().GetSkeletonHierarchy()->GetChild(transform.first)->Transformation.SetLocalRotation(transform.second.GetRotation());
+      _target.GetTarget().GetSkeletonHierarchy()->GetChild(transform.first)->Transformation.SetLocalScale(transform.second.GetScale());
     }
   }
 }// namespace Animation

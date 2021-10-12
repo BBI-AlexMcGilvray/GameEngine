@@ -50,12 +50,12 @@ namespace Math {
     }
 
     // conversions
-    operator VectorA<T, 2>()
+    operator VectorA<T, 2>() const
     {
       return XY;
     }
 
-    operator VectorA<T, 4>()
+    operator VectorA<T, 4>() const
     {
       return VectorA<T, 4>(X, Y, Z, T(0));
     }

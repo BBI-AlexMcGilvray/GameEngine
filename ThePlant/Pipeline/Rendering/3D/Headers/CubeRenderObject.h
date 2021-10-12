@@ -21,9 +21,9 @@ namespace Rendering {
     GLArrayBuffer Vao;
     std::vector<GLBuffer> Vbos;
 
-    CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color);
-    CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, float width, float height, float depth);
-    CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Core::Geometric::Transform> renderTransform, Core::Math::Color color, Core::Math::Float3 scale);
+    CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color);
+    CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color, float width, float height, float depth);
+    CubeRenderObject(Core::Ptr<RenderManager> manager, Core::Ptr<Geometric::HierarchyTransform> renderTransform, Core::Math::Color color, Core::Math::Float3 scale);
 
     ~CubeRenderObject();
 

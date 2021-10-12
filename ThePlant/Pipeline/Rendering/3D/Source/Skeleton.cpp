@@ -21,8 +21,8 @@ namespace Rendering {
     Root = CreateBoneHeirarchy(parentNode, startIndex);
 
     // fit root to node
-    Root->Transformation.AdjustPosition(-1 * Root->Transformation.GetPosition());
-    Root->Transformation.AdjustRotation(Root->Transformation.GetRotation().Inverse());
+    Root->Transformation.AdjustLocalPosition(-1 * Root->Transformation.GetLocalPosition());
+    Root->Transformation.AdjustLocalRotation(Root->Transformation.GetLocalRotation().Inverse());
 
     Root->Deleted += OnRootDeleted;
   }

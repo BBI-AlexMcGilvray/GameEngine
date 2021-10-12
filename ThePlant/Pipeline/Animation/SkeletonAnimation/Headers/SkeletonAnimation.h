@@ -12,12 +12,12 @@ namespace Animation {
     SkeletonAnimation(Data::AssetName<Data::Rendering::SkeletonAnimationData> data);
 
     void Evaluate(Core::Second time) override;
-    Map<string, Transform> GetAnimationResults();
+    Map<string, Core::Geometric::Transform> GetAnimationResults();
 
   private:
     Data::AssetData<Data::Rendering::SkeletonAnimationData> _data;
     SkeletonAnimationTrack _track;
-    Map<string, Transform> _evaluationResults;
+    Map<string, Core::Geometric::Transform> _evaluationResults;
   };
 }// namespace Animation
 }// namespace Application
