@@ -25,6 +25,8 @@ Collision/Source/CollisionCheck.cpp #
 Collision/Source/CollisionManager.cpp #
 Collision/Source/SphericalCollider.cpp #
 Debugging/Source/Logging.cpp #
+ECS/ObjectOriented/Source/Component.cpp #
+ECS/ObjectOriented/Source/Entity.cpp #
 GameSystem/Source/GameObjectBase.cpp #
 GameSystem/Source/GameObjectManager.cpp #
 GameSystem/Source/GameSystemManager.cpp #
@@ -90,8 +92,6 @@ Rendering/Source/RenderObjectBase.cpp #
 Rendering/Source/RenderObjectManager.cpp #
 Rendering/Source/SingleCameraManager.cpp #
 Source/ApplicationManager.cpp #
-Source/Component.cpp #
-Source/Entity.cpp #
 Source/GLContextManager.cpp #
 Source/SDL2Manager.cpp #
 Source/WindowManager.cpp #
@@ -124,6 +124,9 @@ Collision/Headers/SphericalCollider.h #
 Debugging/Headers/Declarations.h #
 Debugging/Headers/Logging.h #
 Debugging/Headers/Macros.h #
+ECS/ObjectOriented/Headers/Component.h #
+ECS/ObjectOriented/Headers/ComponentPtr.h #
+ECS/ObjectOriented/Headers/Entity.h #
 GameSystem/Headers/GameObjectBase.h #
 GameSystem/Headers/GameObjectManager.h #
 GameSystem/Headers/GameSystemManager.h #
@@ -136,8 +139,6 @@ Geometric/Headers/Node.h #
 Geometric/Headers/Scene.h #
 Geometric/Headers/World.h #
 Headers/ApplicationManager.h #
-Headers/Component.h #
-Headers/Entity.h #
 Headers/GLContextManager.h #
 Headers/SDL2Manager.h #
 Headers/WindowManager.h #

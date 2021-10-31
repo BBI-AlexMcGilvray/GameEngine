@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Pipeline/Headers/Component.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 
 #include "Pipeline/Geometric/Headers/Node.h"
 
@@ -16,7 +16,7 @@ namespace Rendering {
       return Core::HashValue("SkeletonComponent");
     }
 
-    SkeletonComponent(Core::Ptr<EntityBase> entity);
+    SkeletonComponent(EntityBase& entity);
 
     const Core::Ptr<Skeleton> GetSkeleton();
 

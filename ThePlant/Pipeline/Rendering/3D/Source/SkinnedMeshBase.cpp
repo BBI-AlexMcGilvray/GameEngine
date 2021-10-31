@@ -88,7 +88,7 @@ namespace Rendering {
   {
     Vao.Bind();
 
-    if ((bool)_materialComponent) {
+    if (_materialComponent.IsValid()) {
       // need a better way to do this that doesn't involve static casting (or casting it here at least)
       static_cast<Ptr<SkinnedObjectShader>>(_materialComponent->GetMaterial()->Shader)->SetSkinningInformation(_skeleton->GetBoneMatrices());
       _materialComponent->GetMaterial()->Prepare(mvp, color);

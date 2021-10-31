@@ -299,6 +299,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Collision\Source\CollisionManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Collision\Source\SphericalCollider.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Debugging\Source\Logging.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\ObjectOriented\Source\Component.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\ObjectOriented\Source\Entity.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\GameSystem\Source\GameObjectBase.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\GameSystem\Source\GameObjectManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\GameSystem\Source\GameSystemManager.cpp" />
@@ -366,8 +368,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\RenderObjectManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\SingleCameraManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\ApplicationManager.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\Component.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\Entity.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\GLContextManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\SDL2Manager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\WindowManager.cpp" />

@@ -4,7 +4,7 @@ using namespace Core;
 
 namespace Application {
 namespace Rendering {
-  Render::Render(Core::Ptr<EntityBase> entity, Ptr<RenderObjectManager> renderManager)
+  Render::Render(EntityBase& entity, Ptr<RenderObjectManager> renderManager)
     : Component<Render>(entity, this), RObjectManager(renderManager)
   {
   }

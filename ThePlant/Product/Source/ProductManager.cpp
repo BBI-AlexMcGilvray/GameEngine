@@ -60,7 +60,7 @@ namespace Product
             //      - this is because of when buffers are cleared and when buffers are switched
             // take a look at Unity's order of execution and work on cleaning that up
             //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
-            _debugUI->update();
+            // _debugUI->update(); // THIS IS WHAT CAUSES RENDERING ISSUES (unsure why exactly)
         }
     }
 

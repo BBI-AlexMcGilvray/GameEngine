@@ -1,34 +1,71 @@
 #include "Core/Functionality/Headers/Scheduler.h"
 
+#include <algorithm>
+
 namespace Core {
 namespace Functionality {
   void SchedulerBase::Update(Second dt)
   {
-    List<int> calledIndices;
+    _Sort();
 
-    int currentIndex = 0;
-    for (auto &scheduledCall : ScheduledFunctions) {
+    size_t callsExecuted = 0;
+    for (auto &scheduledCall : _scheduledFunctions) {
       scheduledCall.first -= dt;
 
-      if (!IsLocked() && scheduledCall.first <= 0_s) {
+      if (!isLocked() && scheduledCall.first <= 0_s) {
         // something wrong with the templates to get incorrect type matchup here
-        Execute(scheduledCall.second, dt);
-        Push(calledIndices, currentIndex);
+        _Execute(scheduledCall.second, dt);
+        callsExecuted++;
       }
-      currentIndex++;
     }
 
-    RemoveIndex(ScheduledFunctions, calledIndices);
+    _Prune(callsExecuted);
   }
 
   void SchedulerBase::Add(VoidFunction<Second> func, Second key)
   {
-    Push<Pair<Second, VoidFunction<Second>>>(ScheduledFunctions, Pair<Second, VoidFunction<Second>>(key, move(func)));
+    _scheduledFunctions.emplace_back(key, func);
+    _Dirty();
   }
 
-  void SchedulerBase::Execute(VoidFunction<Second> &func, Second dt)
+  bool SchedulerBase::IsDirty() const
+  {
+    return _dirty;
+  }
+
+  void SchedulerBase::_Dirty()
+  {
+    _dirty = true;
+  }
+
+  void SchedulerBase::_Sort()
+  {
+    if (!IsDirty())
+    {
+      return;
+    }
+
+    std::sort(_scheduledFunctions.begin(), _scheduledFunctions.end(), [](std::pair<Second, VoidFunction<Second>> a, std::pair<Second, VoidFunction<Second>> b)
+    {
+      return a.first < b.first;
+    });
+
+    _dirty = false;
+  }
+
+  void SchedulerBase::_Execute(VoidFunction<Second> &func, Second dt)
   {
     func(dt);
+  }
+
+  void SchedulerBase::_Prune(size_t callsExecuted)
+  {
+    if (callsExecuted == 0)
+    {
+      return;
+    }
+    
+    _scheduledFunctions.erase(_scheduledFunctions.begin(), _scheduledFunctions.begin() + callsExecuted);
   }
 }// namespace Functionality
 }// namespace Core

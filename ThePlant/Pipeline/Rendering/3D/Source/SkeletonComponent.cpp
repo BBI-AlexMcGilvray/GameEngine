@@ -4,7 +4,7 @@
 
 namespace Application {
 namespace Rendering {
-  SkeletonComponent::SkeletonComponent(Core::Ptr<EntityBase> entity)
+  SkeletonComponent::SkeletonComponent(EntityBase& entity)
     : Component<SkeletonComponent>(entity, this)
   {
   }

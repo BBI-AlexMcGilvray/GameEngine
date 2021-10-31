@@ -61,6 +61,12 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Debugging\Source\Logging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\ObjectOriented\Source\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\ObjectOriented\Source\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\GameSystem\Source\GameObjectBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -254,12 +260,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\ApplicationManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\Component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\GLContextManager.cpp">

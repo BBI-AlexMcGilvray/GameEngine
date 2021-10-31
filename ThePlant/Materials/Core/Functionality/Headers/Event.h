@@ -7,85 +7,70 @@
 namespace Core {
 namespace Functionality {
   template<typename... Ts>
-  struct DelegateNode
-  {
-    Ptr<DelegateNode<Ts...>> Previous = nullptr;
-    Ptr<DelegateNode<Ts...>> Next = nullptr;
+  struct EventDelegate
+  {    
+    EventDelegate(EventDelegate&&) = delete;
+    EventDelegate& operator=(const EventDelegate&) = delete;
+    EventDelegate& operator=(EventDelegate&&) = delete;
 
-    DelegateNode(Ptr<DelegateNode<Ts...>> previous = nullptr)
-    {
-      if (previous != nullptr) {
-        previous->Add(this);
-      }
-    }
-
-    DelegateNode(DelegateNode<Ts...> &previous)
-      : DelegateNode(&previous)
-    {}
-
-    virtual ~DelegateNode()
+    virtual ~EventDelegate()
     {
       Remove();
     }
 
-    virtual void Add(DelegateNode<Ts...> &node)
-    {
-      return Add(&node);
-    }
-
-    virtual void Add(Ptr<DelegateNode<Ts...>> node)
+    virtual void Add(Ptr<EventDelegate<Ts...>> node)
     {
       if (node == nullptr) {
         return;
       }
 
-      // can only be in on DelegateNode linked list at a time
+      // can only be in on EventDelegate linked list at a time
       node->Remove();
 
-      if (Next != nullptr) {
-        Next->Previous = node;
+      if (_next != nullptr) {
+        _next->_previous = node;
       }
 
-      node->Previous = this;
-      node->Next = Next;
+      node->_previous = this;
+      node->_next = _next;
 
-      Next = node;
+      _next = node;
     }
 
     virtual void Remove()
     {
-      if (Previous != nullptr) {
-        Previous->Next = Next;
+      if (_previous != nullptr) {
+        _previous->_next = _next;
       }
-      if (Next != nullptr) {
+      if (_next != nullptr) {
 #if _DEBUG
-        if (Previous == nullptr) {
+        if (_previous == nullptr) {
           CORE_LOG("EVENT", "Removing an event where all delegates were not removed!");
         } else
 #endif
         {
-          Next->Previous = Previous;
+          _next->_previous = _previous;
         }
       }
-      Next = nullptr;
-      Previous = nullptr;
+      _next = nullptr;
+      _previous = nullptr;
     }
 
-    virtual void RemoveNode(DelegateNode<Ts...> &node)
+    virtual void RemoveNode(EventDelegate<Ts...> &node)
     {
       return RemoveNode(&node);
     }
 
-    virtual void RemoveNode(Ptr<DelegateNode<Ts...>> node)
+    virtual void RemoveNode(Ptr<EventDelegate<Ts...>> node)
     {
-      Ptr<DelegateNode<Ts...>> currentNode = Next;
+      Ptr<EventDelegate<Ts...>> currentNode = _next;
 
       while (currentNode != node) {
         if (currentNode == nullptr) {
           return;
         }
 
-        currentNode = currentNode->Next;
+        currentNode = currentNode->_next;
       }
 
       currentNode->Remove();
@@ -93,126 +78,148 @@ namespace Functionality {
 
     void operator()(Ts &&...args)
     {
-      CallFunction(Forward<Ts>(args)...);
+      _CallFunction(Forward<Ts>(args)...);
     }
 
-    void operator+=(DelegateNode<Ts...> &node)
+    void operator+=(EventDelegate<Ts...> &node)
+    {
+      Add(&node);
+    }
+
+    void operator+=(Ptr<EventDelegate<Ts...>> node)
     {
       Add(node);
     }
 
-    void operator+=(Ptr<DelegateNode<Ts...>> node)
-    {
-      Add(node);
-    }
-
-    void operator-=(DelegateNode<Ts...> &node)
+    void operator-=(EventDelegate<Ts...> &node)
     {
       RemoveNode(node);
     }
 
-    void operator-=(Ptr<DelegateNode<Ts...>> node)
+    void operator-=(Ptr<EventDelegate<Ts...>> node)
     {
       RemoveNode(node);
     }
 
-    friend void operator+(DelegateNode<Ts...> &cNode, Ptr<DelegateNode<Ts...>> node)
+    friend void operator+(EventDelegate<Ts...> &cNode, Ptr<EventDelegate<Ts...>> node)
     {
       return (cNode += node);
     }
 
-    friend void operator-(DelegateNode<Ts...> &cNode, Ptr<DelegateNode<Ts...>> node)
+    friend void operator-(EventDelegate<Ts...> &cNode, Ptr<EventDelegate<Ts...>> node)
     {
       return (cNode -= node);
     }
 
+    Ptr<EventDelegate<Ts...>> GetNext() { return _next; } // to fix the fact that EventDelegate can't just directly reference the 'next' member variable for some reason
+
+  protected:
+    Ptr<EventDelegate<Ts...>> _previous = nullptr;
+    Ptr<EventDelegate<Ts...>> _next = nullptr;
+
+    EventDelegate(EventDelegate<Ts...>& previous)
+    : EventDelegate(&previous)
+    {}
+
+    EventDelegate(Ptr<EventDelegate<Ts...>> previous = nullptr)
+    {
+      if (previous != nullptr) {
+        previous->Add(this);
+      }
+    }
+
   private:
-    virtual void CallFunction(Ts &&...args) = 0;
+    virtual void _CallFunction(Ts &&...args) = 0;
   };
 
   // EVENT
   template<typename... Ts>
-  struct EventNode : DelegateNode<Ts...>
+  struct Event : public EventDelegate<Ts...>
   {
-    EventNode() = default;
+    Event(const Event&) = delete;
+    Event(Event&&) = delete;
+    Event& operator=(const Event&) = delete;
+    Event& operator=(Event&&) = delete;
 
-    ~EventNode()
+    Event() = default;
+
+    ~Event()
     {
-      while (Next != nullptr) {
-        Next->Remove();
+      while (_next != nullptr) {
+        _next->Remove();
       }
     }
 
     operator bool()
     {
-      return (Next != nullptr);
+      return (_next != nullptr);
     }
 
   private:
-    void CallFunction(Ts &&...args) override
+    void _CallFunction(Ts &&...args) override
     {
-      auto next = Next;
+      Ptr<EventDelegate<Ts...>> next = _next;
       while (next != nullptr) {
-        auto currentNode = next;
-        next = currentNode->Next;
-
-        (*currentNode)(Forward<Ts>(args)...);
+        (*next)(Forward<Ts>(args)...);
+        next = next->GetNext();
       }
     }
   };
 
   // DELEGATE
   template<typename... Ts>
-  struct Delegate : DelegateNode<Ts...>
+  struct Delegate : public EventDelegate<Ts...>
   {
+    Delegate(const Delegate&) = delete;
+    Delegate(Delegate&&) = delete;
+    Delegate& operator=(const Delegate&) = delete;
+    Delegate& operator=(Delegate&&) = delete;
+
     Delegate()
-      : DelegateNode(nullptr)
+      : EventDelegate(nullptr)
     {}
 
     template<typename O>
-    Delegate(O object, DelegateNode<Ts...> &parentEvent)
-      : Delegate(Function<bool, Ts...>(object), parentEvent)
+    Delegate(O object, Event<Ts...> &event)
+      : Delegate(BoolFunction<Ts...>(object), event)
     {}
 
     template<typename O>
     Delegate(O object)
-      : Delegate(Function<bool, Ts...>(object))
+      : Delegate(BoolFunction<Ts...>(object))
     {}
 
-    Delegate(Function<bool, Ts...> &&function, DelegateNode<Ts...> &parentEvent)
-      : DelegateNode<Ts...>(&parentEvent), DelegateFunction(function)
+    Delegate(BoolFunction<Ts...> &&function, Event<Ts...> &event)
+      : EventDelegate<Ts...>(&event), _function(function)
     {}
 
-    Delegate(Function<bool, Ts...> &&function)
-      : DelegateFunction(function)
+    Delegate(BoolFunction<Ts...> &&function)
+      : _function(function)
     {}
 
-    Delegate &operator=(Function<bool, Ts...> &function)
+    Delegate &operator=(BoolFunction<Ts...> &function)
     {
-      DelegateFunction = function;
+      _function = function;
 
       return (*this);
     }
 
-    Delegate &operator=(Function<bool, Ts...> &&function)
+    Delegate &operator=(BoolFunction<Ts...> &&function)
     {
-      DelegateFunction = function;
+      _function = function;
 
       return (*this);
-    }
-
-    void CallFunction(Ts &&...args) override
-    {
-      if (!DelegateFunction || DelegateFunction(Forward<Ts>(args)...)) {
-        Remove();
-      }
     }
 
   private:
-    Function<bool, Ts...> DelegateFunction;
-  };
+    BoolFunction<Ts...> _function;
 
-  template<typename... Ts>
-  using Event = EventNode<Ts...>;
+    void _CallFunction(Ts &&...args) override
+    {
+      if (!_function || _function(Forward<Ts>(args)...)) {
+        Remove();
+      }
+    }
+  };
 }// namespace Functionality
 }// namespace Core

@@ -6,26 +6,26 @@ namespace Core {
 namespace Functionality {
   struct LockerBase
   {
-    void Lock()
+    void lock()
     {
-      LockCount++;
+      _lockCount++;
     }
 
-    bool Unlock()
+    bool unlock()
     {
-      LockCount--;
+      _lockCount--;
 
-      return IsLocked();
+      return isLocked();
     }
 
-    bool IsLocked()
+    bool isLocked()
     {
-      DEBUG_ASSERT(LockCount > 0, "LOCK COUNT DROPPING BELOW 0");
-      return (LockCount > 0);
+      DEBUG_ASSERT(_lockCount > 0, "LOCK COUNT DROPPING BELOW 0");
+      return (_lockCount > 0);
     }
 
   private:
-    int LockCount = 0;
+    int _lockCount = 0;
   };
 }// namespace Functionality
 }// namespace Core

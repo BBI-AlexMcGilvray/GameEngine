@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Pipeline/Headers/Component.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 
 #include "Pipeline/Rendering/Headers/RenderObjectManager.h"
 
@@ -17,7 +17,7 @@ namespace Rendering {
       return Core::HashValue("Render");
     }
 
-    Render(Core::Ptr<EntityBase> entity, Core::Ptr<RenderObjectManager> renderManager);
+    Render(EntityBase& entity, Core::Ptr<RenderObjectManager> renderManager);
 
     template<typename T, typename... Ts>
     Core::Ptr<T> SetRenderObject(Ts &&...args)

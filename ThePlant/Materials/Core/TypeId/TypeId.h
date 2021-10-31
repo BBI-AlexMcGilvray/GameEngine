@@ -105,6 +105,7 @@ private:
 template<typename T>
 inline runtimeId_t GetTypeId()
 {
+  // must make sure this strips T down to the absolute base type
   static runtimeId<T> id(runtimeId<T>::Constructor::NEW);
   return id;
 }

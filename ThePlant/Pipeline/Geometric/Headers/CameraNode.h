@@ -2,6 +2,7 @@
 
 #include "Pipeline/Geometric/Headers/Node.h"
 
+#include "Pipeline/ECS/ObjectOriented/Headers/ComponentPtr.h"
 #include "Pipeline/Rendering/Headers/CameraComponent.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 

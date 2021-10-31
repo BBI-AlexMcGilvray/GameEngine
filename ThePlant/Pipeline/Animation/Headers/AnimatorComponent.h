@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Pipeline/Headers/Component.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 #include "Pipeline/Animation/Headers/AnimationManager.h"
 
 namespace Application {
@@ -15,7 +15,7 @@ namespace Animation {
       return Core::HashValue("AnimatorComponent");
     }
 
-    AnimatorComponent(Core::Ptr<EntityBase> entity, Core::Ptr<AnimationManager> animationManager);
+    AnimatorComponent(EntityBase& entity, Core::Ptr<AnimationManager> animationManager);
 
     template<typename T, typename... Ts>
     Core::Ptr<T> SetAnimator(Ts &&...args)

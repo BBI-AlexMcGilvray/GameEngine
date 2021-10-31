@@ -6,6 +6,7 @@
 #include "Data/Headers/AssetData.h"
 #include "Data/Rendering/Headers/AnimatedMeshData.h"
 
+#include "Pipeline/ECS/ObjectOriented/Headers/ComponentPtr.h"
 #include "Pipeline/Rendering/Headers/RenderObjectBase.h"
 
 #include "Pipeline/Rendering/3D/Headers/Skeleton.h"

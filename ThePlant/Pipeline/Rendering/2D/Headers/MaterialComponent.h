@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Pipeline/Headers/Component.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 
 #include "Pipeline/Rendering/2D/Headers/Material.h"
 
@@ -16,7 +16,7 @@ namespace Rendering {
       return Core::HashValue("MaterialComponent");
     }
 
-    MaterialComponent(Core::Ptr<EntityBase> entity, Core::Ptr<MaterialManager> materialManager);
+    MaterialComponent(EntityBase& entity, Core::Ptr<MaterialManager> materialManager);
 
     template<typename T, typename... Ts>
     Core::Ptr<T> SetMaterial(Ts &&...args)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Pipeline/Headers/Entity.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Entity.h"
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"

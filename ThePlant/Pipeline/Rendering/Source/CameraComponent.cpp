@@ -1,6 +1,6 @@
 #include "Pipeline/Rendering/Headers/CameraComponent.h"
 
-#include "Pipeline/Headers/Entity.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Entity.h"
 
 #include "Core/Debugging/Headers/Macros.h"
 
@@ -8,7 +8,7 @@ using namespace Core;
 
 namespace Application {
 namespace Rendering {
-  CameraComponent::CameraComponent(Core::Ptr<EntityBase> entity, Core::Ptr<CameraManager> cameraManager, const float &aspectRatio)
+  CameraComponent::CameraComponent(EntityBase& entity, Core::Ptr<CameraManager> cameraManager, const float &aspectRatio)
     : Component<CameraComponent>(entity, this), _cameraManager(cameraManager), _aspectRatio(aspectRatio)
   {}
 

@@ -2,7 +2,8 @@
 
 #include <unordered_map>
 
-#include "Pipeline/Headers/Component.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/ComponentPtr.h"
 
 #include "Core/Logging/Logger.h"
 
@@ -11,26 +12,6 @@
 #include "Core/Headers/TimeDefs.h"
 
 #include "Core/Functionality/Headers/Event.h"
-
-/*
-// Find out what is wrong with this before using it
-namespace Templates
-{
-	template <typename T>
-	struct is_component
-	{
-	private:
-		template <typename T>
-		static auto is_component_test() -> decltype(T::ClassHash(), IsBaseOf<Application::Component, T>, std::true_type);
-		
-		template <typename T>
-		static auto is_component_test() -> decltype(std::false_type);
-
-	public:
-		static constexpr bool value = IsSame<std::true_type, decltype(is_component_test<T>())>::value;
-	};
-}
-*/
 
 namespace Application {
 struct State;
@@ -45,7 +26,7 @@ struct EntityBase
   template<typename T, typename... Ts>//, Templates::is_component<T>>
   ComponentPtr<T> AddComponent(Ts &&...args)
   {
-    return AddComponent<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
+    return AddComponent<T>(Core::MakeUnique<T>(*this, Forward<Ts>(args)...));
   }
 
   template<typename T>//, Templates::is_component<T>>
@@ -64,7 +45,7 @@ struct EntityBase
   template<typename T, typename... Ts>//, Templates::is_component<T>>
   ComponentPtr<T> AddComponentAndInitialize(Ts &&...args)
   {
-    return AddComponentAndInitialize<T>(Core::MakeUnique<T>(this, Forward<Ts>(args)...));
+    return AddComponentAndInitialize<T>(Core::MakeUnique<T>(*this, Forward<Ts>(args)...));
   }
 
   template<typename T>//, Templates::is_component<T>>
@@ -132,6 +113,6 @@ protected:
   const Core::Ptr<State> _onwningState;
 
 private:
-  std::unordered_map<Core::Hash, Core::UniquePtr<ComponentBase>> Components;
+  std::unordered_map<Core::Hash, Core::UniquePtr<IComponent>> Components;
 };
 }// namespace Application

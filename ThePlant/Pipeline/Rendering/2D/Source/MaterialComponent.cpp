@@ -4,7 +4,7 @@
 
 namespace Application {
 namespace Rendering {
-  MaterialComponent::MaterialComponent(Core::Ptr<EntityBase> entity, Core::Ptr<MaterialManager> materialManager)
+  MaterialComponent::MaterialComponent(EntityBase& entity, Core::Ptr<MaterialManager> materialManager)
     : Component<MaterialComponent>(entity, this), _materialManager(materialManager)
   {
   }

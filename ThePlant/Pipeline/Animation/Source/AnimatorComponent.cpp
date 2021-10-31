@@ -2,7 +2,7 @@
 
 namespace Application {
 namespace Animation {
-  AnimatorComponent::AnimatorComponent(Core::Ptr<EntityBase> entity, Core::Ptr<AnimationManager> animationManager)
+  AnimatorComponent::AnimatorComponent(EntityBase& entity, Core::Ptr<AnimationManager> animationManager)
     : Component<AnimatorComponent>(entity, this), _animationManager(animationManager)
   {
   }

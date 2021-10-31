@@ -3,7 +3,7 @@
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/Hash.h"
 
-#include "Pipeline/Headers/Component.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 
 #include "Pipeline/Geometric/Headers/HierarchyComponent.h"
 
@@ -20,7 +20,7 @@ namespace Rendering {
       return Core::HashValue("Camera");
     }
 
-    CameraComponent(Core::Ptr<EntityBase> entity, Core::Ptr<CameraManager> cameraManager, const float &aspectRatio = (1024.0f / 800.0f));
+    CameraComponent(EntityBase& entity, Core::Ptr<CameraManager> cameraManager, const float &aspectRatio = (1024.0f / 800.0f));
 
     // should havea setter method
     Core::Ptr<Camera> GetCamera();

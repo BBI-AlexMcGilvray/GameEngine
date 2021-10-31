@@ -1,4 +1,4 @@
-#include "Pipeline/Headers/Entity.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Entity.h"
 
 #include "Core/Debugging/Headers/Macros.h"
 #include "Pipeline/Headers/ApplicationManager.h"

@@ -4,7 +4,7 @@
 #include "Core/Headers/Hash.h"
 
 #include "Pipeline/Geometric/Headers/Node.h"
-#include "Pipeline/Headers/Component.h"
+#include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 
 namespace Application {
 namespace Geometric {
@@ -16,8 +16,8 @@ namespace Geometric {
       return Core::HashValue("Hierarchy");
     }
 
-    Hierarchy(Core::Ptr<EntityBase> entity);
-    Hierarchy(Core::Ptr<EntityBase> entity, Core::Ptr<Node> hierarchyNode);
+    Hierarchy(EntityBase& entity);
+    Hierarchy(EntityBase& entity, Core::Ptr<Node> hierarchyNode);
 
     void SetHierarchyNode(Core::Ptr<Node> hierarchyNode);
     Core::Ptr<Node> GetHeirarchyNode() const;
