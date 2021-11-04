@@ -7,7 +7,7 @@ namespace Core
 {
 	namespace Geometric
 	{
-		struct Polygon2D : Geometry2D
+		struct Polygon2D
 		{
 			Polygon2D(List<Float2> vertices);
 			Polygon2D(Float2 origin, List<Float2> vertices);
@@ -25,13 +25,6 @@ namespace Core
 			void AdjustScale(const float& adjustment) override;
 			void AdjustScale(const Float2& adjustment) override;
 			Float2 GetScale() const override;
-
-			Ptr<const Geometry2D> Intersection(Ptr<const Geometry2D> geometry) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Point2D> point) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Line2D> line) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Box2D> box) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Circle2D> circle) const override;
-			Ptr<const Geometry2D> Intersection(Ptr<const Polygon2D> polygon) const override;
 
 		private:
 			Float2 Origin;

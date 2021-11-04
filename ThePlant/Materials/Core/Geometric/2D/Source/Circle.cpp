@@ -1,108 +1,63 @@
 #include "Core/Geometric/2D/Headers/Circle.h"
 
-#include "Core/Geometric/2D/Headers/Box.h"
-#include "Core/Geometric/2D/Headers/GeometryFunctions.h"
-#include "Core/Geometric/2D/Headers/Line.h"
-#include "Core/Geometric/2D/Headers/Point.h"
-#include "Core/Geometric/2D/Headers/Polygon.h"
-
 namespace Core {
 namespace Geometric {
   Circle2D::Circle2D()
-    : Circle2D(Float2(0.0f), 1.0f)
+    : Circle2D(Transform(), 1.0f)
   {}
 
-  Circle2D::Circle2D(const Float2 &origin)
+  Circle2D::Circle2D(const Transform &origin)
     : Circle2D(origin, 1.0f)
   {}
 
-  Circle2D::Circle2D(const Float2 &origin, const float &radius)
-    : Origin(origin), Radius(radius)
+  Circle2D::Circle2D(const Transform &origin, const float &radius)
+    : _origin(origin), _radius(radius)
   {}
 
-  void Circle2D::SetPosition(const Float2 &origin)
+  void Circle2D::SetRadius(const float& radius)
   {
-    Origin = origin;
+    _radius = radius;
   }
 
-  void Circle2D::AdjustPosition(const Float2 &adjustment)
+  float Circle2D::GetRadius() const
   {
-    SetPosition(Origin + adjustment);
+    return _radius * GetScale(); // it is a circle, so x/y scales should be the same anyway
   }
 
-  Float2 Circle2D::GetPosition() const
+  void Circle2D::SetPosition(const Math::Float2 &origin)
   {
-    return Origin;
+    _origin.SetPosition(Math::Float3(origin));
   }
 
-  void Circle2D::SetRotation(const FQuaternion &rotation)
+  void Circle2D::AdjustPosition(const Math::Float2 &adjustment)
   {
-    /* does nothing */
+    _origin.AdjustPosition(Math::Float3(adjustment));
   }
 
-  void Circle2D::AdjustRotation(const FQuaternion &adjustment)
+  Math::Float2 Circle2D::GetPosition() const
   {
-    /* does nothing */
-  }
-
-  FQuaternion Circle2D::GetRotation() const
-  {
-    return FQuaternion();
+    return _origin.GetPosition();
   }
 
   void Circle2D::SetScale(const float &scale)
   {
-    Radius = scale;
-  }
-
-  void Circle2D::SetScale(const Float2 &scale)
-  {
-    /* does nothing */
+    _origin.SetScale(scale);
   }
 
   void Circle2D::AdjustScale(const float &adjustment)
   {
-    SetScale(Radius + adjustment);
+    _origin.AdjustScale(adjustment);
   }
 
-  void Circle2D::AdjustScale(const Float2 &adjustment)
+  float Circle2D::GetScale() const
   {
-    /* does nothing */
+    // Scale is always set to the same value, doesn't matter which i get
+    return _origin.GetScale().X;
   }
 
-  Float2 Circle2D::GetScale() const
+  float Circle2D::_GetEffectiveRadius() const
   {
-    return Radius;
+    return GetScale() * _radius;
   }
-
-  bool Circle2D::PointInCircle(const Point2D &point) const
-  {
-    return (MagnitudeSqr(point - Origin) <= Sqr(Radius));
-  }
-
-  bool Circle2D::Intersect(Ptr<const Geometry2D> geometry) const
-  {
-    return geometry->Intersect(this);
-  }
-  bool Circle2D::Intersect(Ptr<const Point2D> point) const
-  {
-    return GeometryFunctions2D::Intersect(this, point);
-  }
-  bool Circle2D::Intersect(Ptr<const Line2D> line) const
-  {
-    return GeometryFunctions2D::Intersect(this, line);
-  }
-  bool Circle2D::Intersect(Ptr<const Box2D> Box2D) const
-  {
-    return GeometryFunctions2D::Intersect(this, Box2D);
-  }
-  bool Circle2D::Intersect(Ptr<const Circle2D> circle) const
-  {
-    return GeometryFunctions2D::Intersect(this, circle);
-  }
-  // Ptr<const Geometry2D> Circle2D::Intersection(Ptr<const Polygon2D> polygon) const
-  // {
-  // 	return GeometryFunctions2D::Intersection(this, polygon);
-  // }
 }// namespace Geometric
 }// namespace Core

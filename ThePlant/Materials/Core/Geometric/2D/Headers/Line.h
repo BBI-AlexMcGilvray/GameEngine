@@ -1,48 +1,36 @@
 #pragma once
 
-#include "Core/Geometric/2D/Headers/Geometry.h"
+#include "Core/Math/Headers/Vector2.h"
+#include "Core/Math/Headers/Quaternion.h"
 
 namespace Core {
 namespace Geometric {
-  struct Line2D : Geometry2D
+  struct Line2D
   {
     Line2D();
-    Line2D(const Float2 &origin, const Float2 &end);
-    Line2D(const Float2 &origin, const Float2 &direction, const float &length);
+    Line2D(const Math::Float2 &origin, const Math::Float2 &endPoint, const bool& infinite = false); // a line using endpoint as either direction or enpoint depending on if it is infinite
+    Line2D(const Math::Float2 &origin, const Math::Float2 &direction, const float& length); // gives an set-length line in the given direction
 
-    void SetPosition(const Float2 &position) override;
-    void AdjustPosition(const Float2 &adjustment) override;
-    Float2 GetPosition() const override;
+    void SetOrigin(const Math::Float2 &origin);
+    void AdjustOrigin(const Math::Float2 &adjustment);
+    Math::Float2 GetOrigin() const;
 
-    void SetRotation(const FQuaternion &rotation) override;
-    void AdjustRotation(const FQuaternion &adjustment) override;
-    FQuaternion GetRotation() const override;
+    void SetEndpoint(const Math::Float2& endPoint);
+    void AdjustEndpoint(const Math::Float2& adjustment);
+    Math::Float2 GetEndpoint() const;
 
-    void SetScale(const float &scale) override;
-    void SetScale(const Float2 &scale) override;
-    void AdjustScale(const float &adjustment) override;
-    void AdjustScale(const Float2 &adjustment) override;
-    Float2 GetScale() const override;
+    void SetInfinite(const bool& infinite);
+    bool IsInfinite() const;
 
-    bool PointOnLine(const Point2D &point) const;
-    Point2D PointAtScale(float scale) const;
-    Point2D ClosestPointToPoint(const Point2D &point) const;
-    float DistanceToPoint(const Point2D &point) const;
-    float DistanceToPointSqr(const Point2D &point) const;
+    void RotateLine(const Math::FQuaternion &rotation);
 
-    float GetSlope() const;
-    float GetIntercept() const;
-
-    bool Intersect(Ptr<const Geometry2D> geometry) const override;
-    bool Intersect(Ptr<const Point2D> point) const override;
-    bool Intersect(Ptr<const Line2D> line) const override;
-    bool Intersect(Ptr<const Box2D> box) const override;
-    bool Intersect(Ptr<const Circle2D> circle) const override;
-    // Ptr<const Geometry2D> Intersection(Ptr<const Polygon2D> polygon) const override;
+    Math::Float2 GetDirection() const;
+    Math::Float2 GetNormal() const;
 
   private:
-    Float2 Origin;
-    Float2 MaxAddition;// this is as far in the given direction the line can go, so the 'scale' of the line can go from 0.0 to 1.0
+    Math::Float2 _origin;
+    Math::Float2 _endPoint;
+    bool _infinite;
   };
 }// namespace Geometric
 }// namespace Core

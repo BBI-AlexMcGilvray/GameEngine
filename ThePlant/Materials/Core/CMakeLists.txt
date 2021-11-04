@@ -2,11 +2,10 @@ message("Configuring Core")
 
 set(SOURCE_FILES #
 Functionality/Source/Scheduler.cpp #
-Geometric/2D/Source/Box.cpp #
+Geometric/2D/Source/AABB.cpp #
 Geometric/2D/Source/Circle.cpp #
 Geometric/2D/Source/GeometryFunctions.cpp #
 Geometric/2D/Source/Line.cpp #
-Geometric/2D/Source/Point.cpp #
 Geometric/2D/Source/Polygon.cpp #
 Geometric/Source/Transform.cpp #
 IO/Source/File.cpp #
@@ -34,12 +33,11 @@ Functionality/Headers/Function.h #
 Functionality/Headers/LockerBase.h #
 Functionality/Headers/Scheduler.h #
 Functionality/Headers/Subscription.h #
-Geometric/2D/Headers/Box.h #
+Geometric/2D/Headers/AABB.h #
 Geometric/2D/Headers/Circle.h #
 Geometric/2D/Headers/Geometry.h #
 Geometric/2D/Headers/GeometryFunctions.h #
 Geometric/2D/Headers/Line.h #
-Geometric/2D/Headers/Point.h #
 Geometric/2D/Headers/Polygon.h #
 Geometric/Headers/GeometryDefs.h #
 Geometric/Headers/Transform.h #

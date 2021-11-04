@@ -4,7 +4,7 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Functionality\Source\Scheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\Box.cpp">
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\AABB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\Circle.cpp">
@@ -14,9 +14,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\Line.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\Point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\Polygon.cpp">

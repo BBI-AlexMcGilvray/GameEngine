@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core/Functionality/Headers/Event.h"
-#include "Core/Geometric/Headers/GeometryDefs.h"
+#include "Core/Math/Headers/Quaternion.h"
+#include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Matrix3x3.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
@@ -10,15 +10,13 @@ namespace Geometric {
   // should we just get rid of the interfaces? what else would really use them? probably best to remove for now - seems like an overengineered solution
   // Transform should only ever refer to 'world' relative data, and should not allow for 'local' variants. Extra methods should be removed, keep this class bare-bones
   //    - Perhaps include static functions to set 'relative to' another transform (that would need to be included in the function)
-  struct Transform : public ITranslatable3D
-    , public IRotatable3D
-    , public IScalable3D
+  struct Transform
   {
     // create constructor for each variation of data (position, rotation, scale)
     Transform();
     Transform(Core::Math::FQuaternion rotation, Core::Math::Float3 scale = Core::Math::Float3(1.0f));
-    Transform(Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(II{}), Core::Math::Float3 scale = Core::Math::Float3(1.0f));
-    Transform::Transform(const Float4x4& transformationMatrix);
+    Transform(Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(Core::Math::II{}), Core::Math::Float3 scale = Core::Math::Float3(1.0f));
+    Transform::Transform(const Core::Math::Float4x4& transformationMatrix);
 
     Transform(const Transform &other);
     Transform &operator=(const Transform &other);

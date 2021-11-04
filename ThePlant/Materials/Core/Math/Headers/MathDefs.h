@@ -39,8 +39,9 @@ namespace Math {
   struct II
   {
     const int i = 1;
-    constexpr operator int() const { return i; }
-    constexpr operator float() const { return float(i); }
+
+    template <typename T>
+    constexpr operator T() const { return static_cast<T>(i); }
   };
 
   struct Rad;

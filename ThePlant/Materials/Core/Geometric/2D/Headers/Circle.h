@@ -1,41 +1,34 @@
 #pragma once
 
-#include "Core/Geometric/2D/Headers/Geometry.h"
+#include "Core/Geometric/Headers/Transform.h"
 
 namespace Core {
 namespace Geometric {
-  struct Circle2D : Geometry2D
+  struct Circle2D
   {
     Circle2D();
-    Circle2D(const Float2 &origin);
-    Circle2D(const Float2 &origin, const float &radius);
+    Circle2D(const Transform &origin);
+    Circle2D(const Transform &origin, const float &radius);
 
-    void SetPosition(const Float2 &position) override;
-    void AdjustPosition(const Float2 &adjustment) override;
-    Float2 GetPosition() const override;
+    void SetRadius(const float& radius);
+    float GetRadius() const;
 
-    void SetRotation(const FQuaternion &rotation) override;
-    void AdjustRotation(const FQuaternion &adjustment) override;
-    FQuaternion GetRotation() const override;
+    void SetPosition(const Math::Float2 &position);
+    void AdjustPosition(const Math::Float2 &adjustment);
+    Math::Float2 GetPosition() const;
 
-    void SetScale(const float &scale) override;
-    void SetScale(const Float2 &scale) override;
-    void AdjustScale(const float &adjustment) override;
-    void AdjustScale(const Float2 &adjustment) override;
-    Float2 GetScale() const override;
+    // circles can't be rotated
 
-    bool PointInCircle(const Point2D &point) const;
-
-    bool Intersect(Ptr<const Geometry2D> geometry) const override;
-    bool Intersect(Ptr<const Point2D> point) const override;
-    bool Intersect(Ptr<const Line2D> line) const override;
-    bool Intersect(Ptr<const Box2D> box) const override;
-    bool Intersect(Ptr<const Circle2D> circle) const override;
-    // Ptr<const Geometry2D> Intersection(Ptr<const Polygon2D> polygon) const override;
+    // scale must be equivalent between X and Y so handling Float2s do not make sense
+    void SetScale(const float &scale);
+    void AdjustScale(const float &adjustment);
+    float GetScale() const;
 
   private:
-    Float2 Origin;
-    float Radius;
+    Transform _origin;
+    float _radius;
+
+    float _GetEffectiveRadius() const;
   };
 }// namespace Geometric
 }// namespace Core
