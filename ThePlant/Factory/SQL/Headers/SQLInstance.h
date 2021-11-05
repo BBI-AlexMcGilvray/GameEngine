@@ -42,8 +42,8 @@ namespace Data
 
 			// Callback function definition: bool rowOperation(void* forwardedInfo, int columnCount, List<String> columnValues, List<String> columnNames);
 			// rowOperation return value is if the query should stop
-			bool Query(String sqlCall, Function<bool, Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo);
-			bool Query(List<String> sqlCalls, Function<bool, Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo);
+			bool Query(String sqlCall, BoolFunction<Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo);
+			bool Query(List<String> sqlCalls, BoolFunction<Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo);
 
 			String GetError();
 

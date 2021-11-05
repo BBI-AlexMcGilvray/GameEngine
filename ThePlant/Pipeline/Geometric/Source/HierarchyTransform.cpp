@@ -219,9 +219,9 @@ namespace Geometric {
         }
 
         // want to persist world-position when changing parent
-        Float3 oldWorldPosition = GetWorldPosition();
-        FQuaternion oldWorldRotation = GetWorldRotation();
-        Float3 oldWorldScale = GetWorldScale();
+        Core::Math::Float3 oldWorldPosition = GetWorldPosition();
+        Core::Math::FQuaternion oldWorldRotation = GetWorldRotation();
+        Core::Math::Float3 oldWorldScale = GetWorldScale();
 
         if (_HasParent()) {
             _parent->dirtied -= _parentDirtied;

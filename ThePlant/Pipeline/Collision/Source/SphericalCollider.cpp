@@ -3,7 +3,7 @@
 namespace Application {
 namespace GameSystem {
   namespace Collision {
-    SphericalCollider::SphericalCollider(SharedPtr<const Transform> collisionTransform, float radius, Float3 coefficients)
+    SphericalCollider::SphericalCollider(SharedPtr<const Transform> collisionTransform, float radius, Core::Math::Float3 coefficients)
       : ColliderBase(collisionTransform), Radius(radius), Coefficients(coefficients)
     {}
 
@@ -12,7 +12,7 @@ namespace GameSystem {
       return Radius;
     }
 
-    void SphericalCollider::SetCoefficients(Float3 coefficients)
+    void SphericalCollider::SetCoefficients(Core::Math::Float3 coefficients)
     {
       Coefficients = coefficients;
     }

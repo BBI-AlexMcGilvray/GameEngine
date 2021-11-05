@@ -9,9 +9,9 @@ namespace GameSystem {
     {
       SharedPtr<const ColliderBase> C1;
       SharedPtr<const ColliderBase> C2;
-      Float3 Location;
+      Core::Math::Float3 Location;
 
-      CollisionBase(SharedPtr<const ColliderBase> c1, SharedPtr<const ColliderBase> c2, Float3 location);
+      CollisionBase(SharedPtr<const ColliderBase> c1, SharedPtr<const ColliderBase> c2, Core::Math::Float3 location);
     };
   }// namespace Collision
 }// namespace GameSystem

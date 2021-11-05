@@ -54,7 +54,7 @@ namespace Data
 			State = DBState::Closed;
 		}
 
-		bool SQLInstance::Query(String sqlCall, Function<bool, Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo)
+		bool SQLInstance::Query(String sqlCall, BoolFunction<Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo)
 		{
 			CORE_LOG(SQL_INSTANCE, "Querying <" + DBPath.GetFullPath() + ">");
 
@@ -69,10 +69,10 @@ namespace Data
 			struct WrappedInfo
 			{
 				Ptr<void> ForwardedInfo;
-				Function<bool, Ptr<void>, List<String>, List<String>>& RowOperation;
+				BoolFunction<Ptr<void>, List<String>, List<String>>& RowOperation;
 
 				// need this constructor as MakeUnique does NOT work on initializer lists
-				WrappedInfo(Ptr<void> forwardedInfo, Function<bool, Ptr<void>, List<String>, List<String>>& rowOperation)
+				WrappedInfo(Ptr<void> forwardedInfo, BoolFunction<Ptr<void>, List<String>, List<String>>& rowOperation)
 					: ForwardedInfo(forwardedInfo), RowOperation(rowOperation)
 				{}
 			};
@@ -107,7 +107,7 @@ namespace Data
 			return true;
 		}
 
-		bool SQLInstance::Query(List<String> sqlCalls, Function<bool, Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo)
+		bool SQLInstance::Query(List<String> sqlCalls, BoolFunction<Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo)
 		{
 			for (auto& sqlCall : sqlCalls)
 			{

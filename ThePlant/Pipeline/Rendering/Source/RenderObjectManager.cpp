@@ -24,7 +24,7 @@ namespace Rendering {
     }
   }
 
-  void RenderObjectManager::Render(const Float4x4 &mvp, const Color &color)
+  void RenderObjectManager::Render(const Core::Math::Float4x4 &mvp, const Core::Math::Color &color)
   {
     // as noted in AddRenderObject, we will need to update this to having multiple lists and render them accordingly
     for (auto &renderObject : RenderObjects) {

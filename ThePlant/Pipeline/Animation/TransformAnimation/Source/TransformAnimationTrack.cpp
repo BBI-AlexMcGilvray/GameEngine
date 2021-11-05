@@ -65,9 +65,9 @@ namespace Animation {
 
   Core::Geometric::Transform TransformAnimationTrack::Evaluate(Core::Second time)
   {
-    Float3 position = _startState.GetPosition();
-    FQuaternion rotation = _startState.GetRotation();
-    Float3 scale = _startState.GetScale();
+    Core::Math::Float3 position = _startState.GetPosition();
+    Core::Math::FQuaternion rotation = _startState.GetRotation();
+    Core::Math::Float3 scale = _startState.GetScale();
 
     for (Core::Pair<const TransformTarget, FloatAnimationTrack> &pair : _tracks) {
       switch (pair.first) {

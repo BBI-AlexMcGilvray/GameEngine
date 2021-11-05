@@ -12,16 +12,16 @@ namespace GameSystem {
         return ColliderType::Box;
       }
 
-      Float3 Minimum;
-      Float3 Maximum;
+      Core::Math::Float3 Minimum;
+      Core::Math::Float3 Maximum;
 
-      BoxCollider(SharedPtr<const Transform> collisionTransform, Float3 dimensions = 1.0f);
-      BoxCollider(SharedPtr<const Transform> collisionTransform, Float3 minimum = -0.5f, Float3 maximum = 0.5f);
+      BoxCollider(SharedPtr<const Transform> collisionTransform, Core::Math::Float3 dimensions = 1.0f);
+      BoxCollider(SharedPtr<const Transform> collisionTransform, Core::Math::Float3 minimum = -0.5f, Core::Math::Float3 maximum = 0.5f);
 
       float GetBoundingRadius() const override;
-      Float3 GetDimensions();
+      Core::Math::Float3 GetDimensions();
 
-      void SetDimensions(Float3 dimensions);
+      void SetDimensions(Core::Math::Float3 dimensions);
     };
   }// namespace Collision
 }// namespace GameSystem

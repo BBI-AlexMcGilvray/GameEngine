@@ -39,11 +39,11 @@ namespace Rendering {
     return Root;
   }
 
-  List<Float4x4> Skeleton::GetBoneMatrices() const
+  List<Core::Math::Float4x4> Skeleton::GetBoneMatrices() const
   {
     VERIFY(Root != nullptr);
     int initialOffset = 0;
-    List<Float4x4> boneMatrices = List<Float4x4>(GetBoneCount());
+    List<Core::Math::Float4x4> boneMatrices = List<Core::Math::Float4x4>(GetBoneCount());
     Root->GetBoneMatrices(boneMatrices, initialOffset);
     return boneMatrices;
   }

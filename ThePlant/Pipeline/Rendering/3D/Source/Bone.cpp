@@ -14,15 +14,15 @@
 
 namespace Application {
 namespace Rendering {
-  Bone::Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Ptr<Bone> rootBone, Core::String name, Float3 position, FQuaternion rotation, Float3 scale)
+  Bone::Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Ptr<Bone> rootBone, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale)
     : Node(parentState, parentNode, name, position, rotation, scale, false), RootBone(rootBone)
   {
     // initial position is the bind position
     if (rootBone == nullptr) {
       // InverseBindMatrix is the initial binding offset between the root node and the current node. For the root node, this is always 0
-      InverseBindMatrix = Float4x4(II{});
+      InverseBindMatrix = Core::Math::Float4x4(II{});
     } else {
-      InverseBindMatrix = Inverse(rootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix());
+      InverseBindMatrix = Core::Math::Inverse(rootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix());
     }
 
 #if _DEBUG
@@ -46,7 +46,7 @@ namespace Rendering {
 #endif
   }
 
-  Float4x4 Bone::GetBindOffset()
+  Core::Math::Float4x4 Bone::GetBindOffset()
   {
     if (RootBone != nullptr) {
       return RootBone->Transformation.GetWorldInverseTransformationMatrix() * Transformation.GetWorldTransformationMatrix() * InverseBindMatrix;
@@ -71,7 +71,7 @@ namespace Rendering {
     return (indexFound ? index : -1);
   }
 
-  void Bone::GetBoneMatrices(List<Float4x4> &boneMatrices, int &offset)
+  void Bone::GetBoneMatrices(List<Core::Math::Float4x4> &boneMatrices, int &offset)
   {
     boneMatrices[offset] = GetBindOffset();
     for (int i = 0; i < Children.size(); i++) {

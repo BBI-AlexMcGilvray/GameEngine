@@ -28,7 +28,7 @@ namespace Data
 			customAssets.Open();
 			InitializeCustomAssetFile(&customAssets);
 
-			Function<bool, Ptr<void>, List<String>, List<String>> forEachType = [db, &customAssets, directAssets](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
+			BoolFunction<Ptr<void>, List<String>, List<String>> forEachType = [db, &customAssets, directAssets](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
 			{
 				// due to query, there will only ever be one column value (the table name)
 				ExportDataTypeInformation(db, columnValues[0], &customAssets, directAssets);
@@ -54,7 +54,7 @@ namespace Data
 		{
 			CORE_LOG(CUSTOM_DATA, "Starting to export data type: " + type);
 
-			Function<bool, Ptr<void>, List<String>, List<String>> formatConstruction = [db, type, customAssets, directAssets](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
+			BoolFunction<Ptr<void>, List<String>, List<String>> formatConstruction = [db, type, customAssets, directAssets](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
 			{
 				// due to query, there will only even be one column value (the sql statement)
 				auto type = ExportDataType(columnValues[0], customAssets);
@@ -97,7 +97,7 @@ namespace Data
 
 			FilePath exportTo = { GetCWD() + "Resources/ExportedAssets/CustomData/", "" };
 
-			Function<bool, Ptr<void>, List<String>, List<String>> exportData = [dataType = type.get(), directAssets, exportTo](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
+			BoolFunction<Ptr<void>, List<String>, List<String>> exportData = [dataType = type.get(), directAssets, exportTo](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
 			{
 				MetaAssetData assetData;
 				assetData.typeName = dataType->Name;

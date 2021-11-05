@@ -44,10 +44,10 @@ namespace Geometric {
 
     Node(Core::Ptr<State> parentState, Core::String name = DEFAULT_NODE_NAME);
     Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name = DEFAULT_NODE_NAME);
-    Node(Core::Ptr<State> parentState, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
-    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
-    Node(Core::Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
-    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation = FQuaternion(), Float3 scale = Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
 
     virtual ~Node();
 

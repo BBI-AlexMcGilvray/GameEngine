@@ -24,7 +24,7 @@ namespace Rendering {
     Core::Ptr<Bone> GetSkeletonHierarchy() const;
 
     int GetIndexOf(const String &nodeName) const;
-    List<Float4x4> GetBoneMatrices() const;
+    List<Core::Math::Float4x4> GetBoneMatrices() const;
 
   private:
     Data::AssetData<Data::Rendering::SkeletonData> Data;

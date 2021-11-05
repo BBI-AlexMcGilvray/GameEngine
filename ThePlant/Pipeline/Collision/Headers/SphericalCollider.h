@@ -13,13 +13,13 @@ namespace GameSystem {
       }
 
       float Radius;
-      Float3 Coefficients;
+      Core::Math::Float3 Coefficients;
 
-      SphericalCollider(SharedPtr<const Transform> collisionTransform, float radius = 1.0f, Float3 coefficients = 1.0f);
+      SphericalCollider(SharedPtr<const Transform> collisionTransform, float radius = 1.0f, Core::Math::Float3 coefficients = 1.0f);
 
       float GetBoundingRadius() const override;
 
-      void SetCoefficients(Float3 coefficients);
+      void SetCoefficients(Core::Math::Float3 coefficients);
     };
   }// namespace Collision
 }// namespace GameSystem

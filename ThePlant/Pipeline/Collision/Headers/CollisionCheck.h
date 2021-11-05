@@ -27,9 +27,9 @@ namespace GameSystem {
     bool CheckCollision(SharedPtr<const SphericalCollider> sphere1, SharedPtr<const SphericalCollider> sphere2);
 
     // get collision locations
-    Float3 GetCollisionLocation(SharedPtr<const BoxCollider> box1, SharedPtr<const BoxCollider> box2);
-    Float3 GetCollisionLocation(SharedPtr<const BoxCollider> box, SharedPtr<const SphericalCollider> sphere);
-    Float3 GetCollisionLocation(SharedPtr<const SphericalCollider> sphere1, SharedPtr<const SphericalCollider> sphere2);
+    Core::Math::Float3 GetCollisionLocation(SharedPtr<const BoxCollider> box1, SharedPtr<const BoxCollider> box2);
+    Core::Math::Float3 GetCollisionLocation(SharedPtr<const BoxCollider> box, SharedPtr<const SphericalCollider> sphere);
+    Core::Math::Float3 GetCollisionLocation(SharedPtr<const SphericalCollider> sphere1, SharedPtr<const SphericalCollider> sphere2);
   }// namespace Collision
 }// namespace GameSystem
 }// namespace Application

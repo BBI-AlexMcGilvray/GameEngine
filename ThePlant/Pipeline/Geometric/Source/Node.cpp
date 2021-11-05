@@ -13,26 +13,26 @@
 namespace Application {
 namespace Geometric {
   Node::Node(Ptr<State> parentState, Core::String name)
-    : Node(parentState, nullptr, name, Float3(0.0f))
+    : Node(parentState, nullptr, name, Core::Math::Float3(0.0f))
   {}
 
   Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name)
-    : Node(parentState, parentNode, name, Float3(0.0f))
+    : Node(parentState, parentNode, name, Core::Math::Float3(0.0f))
   {}
 
-  Node::Node(Ptr<State> parentState, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+  Node::Node(Ptr<State> parentState, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale, bool settingLocal)
     : Node(parentState, DEFAULT_NODE_NAME, position, rotation, scale, settingLocal)
   {}
 
-  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale, bool settingLocal)
     : Node(parentState, parentNode, DEFAULT_NODE_NAME, position, rotation, scale, settingLocal)
   {}
 
-  Node::Node(Ptr<State> parentState, Core::String name, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+  Node::Node(Ptr<State> parentState, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale, bool settingLocal)
     : Node(parentState, nullptr, name, position, rotation, scale, settingLocal)
   {}
 
-  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Float3 position, FQuaternion rotation, Float3 scale, bool settingLocal)
+  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale, bool settingLocal)
     : Name(name), Transformation(position, rotation, scale, (parentNode == nullptr ? nullptr : &(parentNode->Transformation)), settingLocal)
   {
     SetParentState(parentState);

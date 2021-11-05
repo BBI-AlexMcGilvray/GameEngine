@@ -139,10 +139,10 @@ namespace GameSystem {
     }
 
     // get collision locations
-    Float3 GetCollisionLocation(SharedPtr<const BoxCollider> box1, SharedPtr<const BoxCollider> box2)
+    Core::Math::Float3 GetCollisionLocation(SharedPtr<const BoxCollider> box1, SharedPtr<const BoxCollider> box2)
     {
       // not done yet, need to have box colliders build from planes first
-      return Float3(0.0f);
+      return Core::Math::Float3(0.0f);
 
       // once planes are implemented... (including rotation)
       /*
@@ -158,10 +158,10 @@ namespace GameSystem {
 				*/
     }
 
-    Float3 GetCollisionLocation(SharedPtr<const BoxCollider> box, SharedPtr<const SphericalCollider> sphere)
+    Core::Math::Float3 GetCollisionLocation(SharedPtr<const BoxCollider> box, SharedPtr<const SphericalCollider> sphere)
     {
       // not done yet, need to have box colliders build from planes first
-      return Float3(0.0f);
+      return Core::Math::Float3(0.0f);
 
       // once planes are implemented... (including rotation)
       /*
@@ -173,10 +173,10 @@ namespace GameSystem {
 				*/
     }
 
-    Float3 GetCollisionLocation(SharedPtr<const SphericalCollider> sphere1, SharedPtr<const SphericalCollider> sphere2)
+    Core::Math::Float3 GetCollisionLocation(SharedPtr<const SphericalCollider> sphere1, SharedPtr<const SphericalCollider> sphere2)
     {
-      Float3 direction = (sphere1->CollisionTransform->GetPosition() - sphere2->CollisionTransform->GetPosition());
-      Float3 middlePoint = sphere1->CollisionTransform->GetPosition() + (direction / 2.0f);
+      Core::Math::Float3 direction = (sphere1->CollisionTransform->GetPosition() - sphere2->CollisionTransform->GetPosition());
+      Core::Math::Float3 middlePoint = sphere1->CollisionTransform->GetPosition() + (direction / 2.0f);
 
       return (middlePoint);
     }

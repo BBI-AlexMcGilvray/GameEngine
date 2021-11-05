@@ -15,20 +15,20 @@ namespace Rendering {
     // this constructor should take in the inverse bind matrix and the local transfromation matrix (the latter to set up it's world/local position)
     // Also, nodes should be able to be set to local or world for their transformations
     // Local nodes should be required to have a parent node to build their final transformation matrix
-    Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Ptr<Bone> rootBone, Core::String name, Float3 position, FQuaternion rotation, Float3 scale);
+    Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Ptr<Bone> rootBone, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale);
 
     // child bones are handled through the Node inheritance
 
     void Start() override;
 
-    Float4x4 GetBindOffset();
+    Core::Math::Float4x4 GetBindOffset();
 
     int GetBoneIndex(Core::String name);
-    void GetBoneMatrices(List<Float4x4> &boneMatrices, int &offset);
+    void GetBoneMatrices(List<Core::Math::Float4x4> &boneMatrices, int &offset);
 
   private:
     Ptr<Bone> RootBone;
-    Float4x4 InverseBindMatrix;
+    Core::Math::Float4x4 InverseBindMatrix;
 
     int GetBoneIndex(Core::String name, bool &indexFound);
   };

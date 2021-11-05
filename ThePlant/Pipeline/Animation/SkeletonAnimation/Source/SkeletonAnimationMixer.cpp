@@ -28,7 +28,7 @@ namespace Animation {
         Core::Geometric::Transform &combinedTransform = mixedTransforms[transform.first];
 
         combinedTransform.AdjustPosition(transform.second.GetPosition() * mix.weight);
-        combinedTransform.AdjustRotation(transform.second.GetRotation() * mix.weight);
+        // combinedTransform.AdjustRotation(transform.second.GetRotation() * mix.weight); // broken, need to fix quaternion first
         combinedTransform.AdjustScale(transform.second.GetScale() * mix.weight);
       }
     }

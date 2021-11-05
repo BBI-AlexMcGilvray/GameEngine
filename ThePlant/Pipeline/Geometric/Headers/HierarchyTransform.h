@@ -12,7 +12,7 @@ namespace Geometric {
         Core::Functionality::Event<> dirtied;
 
         HierarchyTransform(Core::Ptr<HierarchyTransform> parent = nullptr);
-        HierarchyTransform(Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(II{}), Core::Math::Float3 scale = Core::Math::Float3(1.0f), Core::Ptr<HierarchyTransform> parent = nullptr, bool settingLocal = false);
+        HierarchyTransform(Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(Core::Math::II{}), Core::Math::Float3 scale = Core::Math::Float3(1.0f), Core::Ptr<HierarchyTransform> parent = nullptr, bool settingLocal = false);
         
         HierarchyTransform(const Core::Geometric::Transform& transform, Core::Ptr<HierarchyTransform> parent = nullptr, bool settingLocal = false);
 
