@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <string>
+#include <utility>
 
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/PtrDefs.h"
@@ -15,20 +16,18 @@ static const uint StartHashValue = 1431655765;// Bits: 0101010101010101010101010
 
 struct Hash;
 
-// these may not be needed anymore since hashing function was improved with different shift value
-Hash HashValue(uint u);
-void HashValue(uint u, Hash &existingHash);
+Hash AsHash(const uint& u);
 
-Hash HashValue(std::string s);
-void HashValue(std::string s, Hash &existingHash);
+Hash HashValue(const std::string& s);
+void HashValue(const std::string& s, Hash &existingHash);
 
-Hash HashValue(char b);
-void HashValue(char b, Hash &existingHash);
+Hash HashValue(const char& b);
+void HashValue(const char& b, Hash &existingHash);
 
 template<typename T>
-Hash HashValue(T &&type);
+Hash HashValue(const T& type);
 template<typename T>
-void HashValue(T &&type, Hash &existingHash);
+void HashValue(const T& type, Hash &existingHash);
 
 template <>
 struct std::hash<Hash>;
@@ -40,45 +39,37 @@ We will want a way to store the initial value used for the hash to be used for d
 */
 struct Hash
 {
+  static constexpr uint INITIAL_HASH_VALUE = 1431655765;// Bits: 01010101010101010101010101010101
+
   static const Hash VOID;
 
-  friend Hash HashValue(uint u);
-  friend void HashValue(uint u, Hash &existingHash);
+  friend Hash AsHash(const uint& u);
 
-  friend Hash HashValue(std::string s);
-  friend void HashValue(std::string s, Hash &existingHash);
+  friend Hash HashValue(const uint& u);
+  friend void HashValue(const uint& u, Hash &existingHash);
 
-  friend Hash HashValue(char b);
-  friend void HashValue(char b, Hash &existingHash);
+  friend Hash HashValue(const std::string& s);
+  friend void HashValue(const std::string& s, Hash &existingHash);
+
+  friend Hash HashValue(const char& b);
+  friend void HashValue(const char& b, Hash &existingHash);
 
   template<typename T>
-  friend Hash HashValue(T &&type);
+  friend Hash HashValue(const T& type);
   template<typename T>
-  friend void HashValue(T &&type, Hash &existingHash);
+  friend void HashValue(const T& type, Hash &existingHash);
 
   friend struct std::hash<Hash>;
 
   friend std::string to_string(const Hash& hash);
 
   constexpr Hash()
-    : _hash(StartHashValue)
-  {}
-
-// remove constructors from uint? should always create from hash or explicit hashing function
-  constexpr Hash(const uint &u)
-    : _hash(u)
+    : _hash(INITIAL_HASH_VALUE)
   {}
 
   constexpr Hash(const Hash &h)
     : _hash(h._hash)
   {}
-
-  Hash &operator=(const uint &u)
-  {
-    _hash = u;
-
-    return (*this);
-  }
 
   Hash &operator=(const Hash &h)
   {
@@ -88,24 +79,30 @@ struct Hash
   }
 
   template<typename T>
-  Hash &operator=(T &&t)
+  Hash &operator=(const T& t)
   {
-    _hash = HashValue(Forward<T>(t));
+    _hash = HashValue(t)._hash;
 
     return (*this);
   }
 
-  Hash &operator+(const Hash &h) = delete;
-
+  Hash operator+(const Hash &h) = delete;
   template<typename T>
-  Hash &operator+(T &&t)
+  Hash operator+(const T& t)
   {
-    HashValue(t, (*this));
-
-    return (*this);
+    return HashValue(t, Hash(*this));
   }
 
-  bool operator==(const Hash& other) const
+  Hash& operator+=(const Hash& h) = delete;
+  template <typename T>
+  Hash& operator+=(const T& t)
+  {
+      HashValue(t, *this);
+
+      return *this;
+  }
+
+  constexpr bool operator==(const Hash& other) const
   {
     return _hash == other._hash;
   }
@@ -121,18 +118,13 @@ struct Hash
     return _hash;
   }
 
-  constexpr operator size_t() const
-  {
-    return _hash;
-  }
-
 private:
   uint _hash;
 };
-inline const Hash Hash::VOID = Hash(0);
+inline const Hash Hash::VOID = Hash();
 
 template<typename T>
-Hash HashValue(T &&type)
+Hash HashValue(const T& type)
 {
   Hash newHash;
 
@@ -142,7 +134,7 @@ Hash HashValue(T &&type)
 }
 
 template<typename T>
-void HashValue(T &&type, Hash &existingHash)
+void HashValue(const T& type, Hash &existingHash)
 {
   size numBytes = sizeof(type);
 

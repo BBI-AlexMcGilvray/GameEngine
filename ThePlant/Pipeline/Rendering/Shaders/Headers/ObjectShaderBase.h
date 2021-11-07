@@ -3,7 +3,6 @@
 #include "ShaderBase.h"
 
 #include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 

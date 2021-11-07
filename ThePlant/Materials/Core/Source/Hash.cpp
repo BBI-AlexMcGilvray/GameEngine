@@ -1,7 +1,16 @@
 #include "Core/Headers/Hash.h"
 
 namespace Core {
-Hash HashValue(uint u)
+Hash AsHash(const uint& u)
+{
+  Hash newHash;
+  
+  newHash._hash = u;
+
+  return newHash;
+}
+
+Hash HashValue(const uint& u)
 {
   Hash newHash;
 
@@ -10,12 +19,12 @@ Hash HashValue(uint u)
   return newHash;
 }
 
-void HashValue(uint u, Hash &existingHash)
+void HashValue(const uint& u, Hash &existingHash)
 {
   existingHash._hash += u;
 }
 
-Hash HashValue(std::string s)
+Hash HashValue(const std::string& s)
 {
   Hash newHash;
 
@@ -24,14 +33,14 @@ Hash HashValue(std::string s)
   return newHash;
 }
 
-void HashValue(std::string s, Hash &existingHash)
+void HashValue(const std::string& s, Hash &existingHash)
 {
   for (uint i = 0; i < s.length(); i++) {
     HashValue(s.c_str()[i], existingHash);
   }
 }
 
-Hash HashValue(char b)
+Hash HashValue(const char& b)
 {
   Hash newHash;
 
@@ -40,7 +49,7 @@ Hash HashValue(char b)
   return newHash;
 }
 
-void HashValue(char b, Hash &existingHash)
+void HashValue(const char& b, Hash &existingHash)
 {
   /*
 			Shift value notes:

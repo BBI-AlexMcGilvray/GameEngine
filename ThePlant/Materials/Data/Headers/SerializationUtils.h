@@ -57,7 +57,7 @@ namespace Core::Serialization::Format
         throw;
       }
 
-      asset = static_cast<uint>(data->GetData());
+      asset = AsHash(static_cast<uint>(data->GetData()));
     }
 
     template <typename T>

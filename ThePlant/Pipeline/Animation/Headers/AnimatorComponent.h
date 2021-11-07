@@ -20,7 +20,7 @@ namespace Animation {
     template<typename T, typename... Ts>
     Core::Ptr<T> SetAnimator(Ts &&...args)
     {
-      return static_cast<Ptr<T>>(SetAnimator(Core::MakeUnique<T>(Forward<Ts>(args)...)));
+      return static_cast<Ptr<T>>(SetAnimator(Core::MakeUnique<T>(std::forward<Ts>(args)...)));
     }
 
     Core::Ptr<Animator> SetAnimator(Core::UniquePtr<Animator> animator);

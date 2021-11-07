@@ -2,7 +2,8 @@
 
 #include "Factory/Rendering/Headers/ModelExport.h"
 
-#include "Core/Headers/ListDefs.h"
+#include <vector>
+
 #include "Core/Headers/Hash.h"
 
 #include "Core/IO/Headers/File.h"

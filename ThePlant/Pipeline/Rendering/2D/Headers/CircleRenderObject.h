@@ -1,8 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Pipeline/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLBuffer.h"

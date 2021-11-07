@@ -3,7 +3,6 @@
 #include "Pipeline/Geometric/Headers/Node.h"
 
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 namespace Application {
 namespace Geometric {

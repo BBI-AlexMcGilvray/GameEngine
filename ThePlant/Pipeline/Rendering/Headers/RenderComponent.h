@@ -23,7 +23,7 @@ namespace Rendering {
     Core::Ptr<T> SetRenderObject(Ts &&...args)
     {
       // have this automatically get a transform component and add it?
-      return static_cast<Ptr<T>>(SetRenderObject(RObjectManager->AddRenderObject<T>(Forward<Ts>(args)...)));
+      return static_cast<Ptr<T>>(SetRenderObject(RObjectManager->AddRenderObject<T>(std::forward<Ts>(args)...)));
     }
 
     template<typename T>

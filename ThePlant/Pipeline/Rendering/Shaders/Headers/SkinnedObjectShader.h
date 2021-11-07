@@ -9,7 +9,6 @@
 #include "SkinnedVertexShader.h"
 
 #include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Dependencies/Includes/glew.h"
 

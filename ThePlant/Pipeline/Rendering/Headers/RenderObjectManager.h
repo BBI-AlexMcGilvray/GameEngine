@@ -33,7 +33,7 @@ namespace Rendering {
     template<typename T, typename... Ts>
     Core::Ptr<T> AddRenderObject(Ts &&...args)
     {
-      Core::UniquePtr<RenderObjectBase> newRenderObject = Core::MakeUnique<T>(Manager, Forward<Ts>(args)...);
+      Core::UniquePtr<RenderObjectBase> newRenderObject = Core::MakeUnique<T>(Manager, std::forward<Ts>(args)...);
 
       return static_cast<Ptr<T>>(AddRenderObject(move(newRenderObject)));
     }

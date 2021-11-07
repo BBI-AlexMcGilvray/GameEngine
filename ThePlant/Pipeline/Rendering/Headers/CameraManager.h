@@ -28,7 +28,7 @@ namespace Rendering {
     template<typename T, typename... Ts>
     Core::Ptr<T> AddCamera(Ts &&...args)
     {
-      Core::UniquePtr<Camera> newCamera = Core::MakeUnique<T>(Forward<Ts>(args)...);
+      Core::UniquePtr<Camera> newCamera = Core::MakeUnique<T>(std::forward<Ts>(args)...);
 
       return static_cast<Ptr<T>>(AddCamera(move(newCamera)));
     }

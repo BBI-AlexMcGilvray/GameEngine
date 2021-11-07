@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Core/Headers/ListDefs.h"
 #include "Core/Headers/PtrDefs.h"
 
 namespace Core {

@@ -2,7 +2,6 @@
 
 #include <utility>
 
-#include "Core/Headers/ListDefs.h"
 #include "Core/Math/Headers/Matrix.h"
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/VectorFunctions.h"

@@ -58,7 +58,7 @@ namespace Geometric {
     template<typename T, typename... Ts>
     Ptr<T> AddContent(Ts &&...args)
     {
-      UniquePtr<T> newNode = MakeUnique<T>(ParentState, Forward<Ts>(args)...);
+      UniquePtr<T> newNode = MakeUnique<T>(ParentState, std::forward<Ts>(args)...);
 
       return static_cast<Ptr<T>>(AddContent(move(newNode)));
     }
@@ -77,7 +77,7 @@ namespace Geometric {
     template<typename T, typename... Ts>
     Ptr<T> AddChild(Ts &&...args)
     {
-      UniquePtr<T> newNode = MakeUnique<T>(ParentState, this, Forward<Ts>(args)...);
+      UniquePtr<T> newNode = MakeUnique<T>(ParentState, this, std::forward<Ts>(args)...);
 
       Ptr<T> newChild = static_cast<Ptr<T>>(AddChild(move(newNode)));
 

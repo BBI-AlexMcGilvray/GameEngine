@@ -24,7 +24,7 @@ namespace Rendering {
     Core::Ptr<T> SetSkeleton(Core::Ptr<State> parentState, Core::Ptr<Geometric::Node> parentNode, Ts &&...args)
     {
       // need to add it as a node since the hierarchy owns the skeleton
-      Core::Ptr<Skeleton> newSkeleton = parentNode->AddChild<Skeleton>(Forward<Ts>(args)...);
+      Core::Ptr<Skeleton> newSkeleton = parentNode->AddChild<Skeleton>(std::forward<Ts>(args)...);
       return SetSkeleton(newSkeleton);
     }
 

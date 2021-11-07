@@ -21,7 +21,7 @@ namespace Rendering {
     template<typename T, typename... Ts>
     Core::Ptr<T> SetMaterial(Ts &&...args)
     {
-      return static_cast<Ptr<T>>(SetMaterial(MakeUnique<T>(Forward<Ts>(args)...)));
+      return static_cast<Ptr<T>>(SetMaterial(MakeUnique<T>(std::forward<Ts>(args)...)));
     }
 
     const Core::Ptr<Material> GetMaterial() const;
