@@ -6,7 +6,7 @@ namespace Data
 {
 	namespace DataExport
 	{
-		UniquePtr<DataType> CreateType(String sql)
+		UniquePtr<DataType> CreateType(std::string sql)
 		{
 			auto typeName = TableName(sql);
 			UniquePtr<DataType> NewType = MakeUnique<DataType>(typeName, Acronym(typeName));
@@ -20,7 +20,7 @@ namespace Data
 
 				auto sqlCommand = sqlCommands.substr(0, nextCommand);
 
-				Push(NewType->Properties, CreateProperty(sqlCommand));
+				NewType->Properties.push_back(CreateProperty(sqlCommand));
 
 				sqlCommands = ClipLeadingWhitespace(sqlCommands.substr(nextCommand + 1));
 				if (sqlCommands.length() == 0 || noNextCommand)
@@ -32,15 +32,15 @@ namespace Data
 			return NewType;
 		}
 
-		UniquePtr<DataProperty> CreateProperty(String sqlColumn)
+		UniquePtr<DataProperty> CreateProperty(std::string sqlColumn)
 		{
 			if (IsExported(sqlColumn))
 			{
 				return nullptr;
 			}
 
-			String type = TypeName(sqlColumn);
-			String name = FieldName(sqlColumn);
+			std::string type = TypeName(sqlColumn);
+			std::string name = FieldName(sqlColumn);
 
 			UniquePtr<DataProperty> newProperty;
 
@@ -65,9 +65,9 @@ namespace Data
 			return move(newProperty);
 		}
 
-		String TableName(String sql)
+		std::string TableName(std::string sql)
 		{
-			String header = "CREATE TABLE";
+			std::string header = "CREATE TABLE";
 			auto index = sql.find(header);
 
 			auto remaining = sql.substr(index + header.length());
@@ -78,16 +78,16 @@ namespace Data
 			return name;
 		}
 
-		String Acronym(String tableName)
+		std::string Acronym(std::string tableName)
 		{
-			List<char> vowels = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
+			std::vector<char> vowels = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
 
-			String acronym;
+			std::string acronym;
 
 			size index = 0;
 			while (acronym.length() < 3 && index < tableName.length())
 			{
-				if (!InList(vowels, tableName[index]))
+				if (std::find(vowels.begin(), vowels.end(), tableName[index]) != vowels.end())
 				{
 					acronym += tableName[index];
 				}
@@ -98,12 +98,12 @@ namespace Data
 			return acronym;
 		}
 
-		String FieldName(String sqlColumn)
+		std::string FieldName(std::string sqlColumn)
 		{
 			return sqlColumn.substr(0, sqlColumn.find(" "));
 		}
 
-		String TypeName(String sqlColumn)
+		std::string TypeName(std::string sqlColumn)
 		{
 			auto firstSpace = sqlColumn.find(" ") + 1;
 			auto secondSpace = sqlColumn.find(" ", firstSpace);
@@ -131,7 +131,7 @@ namespace Data
 			}
 			else if (sqlType == "STRING" || sqlType == "BLOB" || sqlType == "TEXT" || sqlType == "VARCHAR")
 			{
-				return "String";
+				return "std::string";
 			}
 			else if (sqlType == "BIGINT" || sqlType == "DATE" || sqlType == "DATETIME")
 			{
@@ -141,17 +141,17 @@ namespace Data
 			throw CustomExportException("Uknown sql type field <" + sqlType + ">");
 		}
 
-		bool IsPrimaryKey(String sqlColumn)
+		bool IsPrimaryKey(std::string sqlColumn)
 		{
 			return (sqlColumn.find("PRIMARY KEY") < sqlColumn.length());
 		}
 
-		bool IsForeignKey(String sqlColumn)
+		bool IsForeignKey(std::string sqlColumn)
 		{
 			return (sqlColumn.find("REFERENCES") < sqlColumn.length());
 		}
 
-		String GetForeignKeyType(String sqlColumn)
+		std::string GetForeignKeyType(std::string sqlColumn)
 		{
 			if (IsForeignKey(sqlColumn))
 			{
@@ -164,17 +164,17 @@ namespace Data
 			throw CustomExportException("Foreign key type requested for non foreign key type! <" + sqlColumn + ">");
 		}
 
-		bool IsList(String sqlColumn)
+		bool IsList(std::string sqlColumn)
 		{
 			return ("List" == sqlColumn.substr(0, 4));
 		}
 
-		bool IsExported(String sqlColumn)
+		bool IsExported(std::string sqlColumn)
 		{
 			return ("ExportDirectly" == sqlColumn.substr(0, 14));
 		}
 
-		String ClipLeadingWhitespace(String str)
+		std::string ClipLeadingWhitespace(std::string str)
 		{
 			auto index = str.find(" ");
 

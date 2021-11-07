@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "Core/Functionality/Headers/Event.h"
 
 #include "Pipeline/Geometric/Headers/ContainerBase.h"
@@ -39,15 +42,15 @@ namespace Geometric {
   {
     Event<> Deleted;
 
-    Core::String Name;
+    std::string Name;
     Geometric::HierarchyTransform Transformation;
 
-    Node(Core::Ptr<State> parentState, Core::String name = DEFAULT_NODE_NAME);
-    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name = DEFAULT_NODE_NAME);
+    Node(Core::Ptr<State> parentState, std::string name = DEFAULT_NODE_NAME);
+    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, std::string name = DEFAULT_NODE_NAME);
     Node(Core::Ptr<State> parentState, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
     Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
-    Node(Core::Ptr<State> parentState, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
-    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, std::string name, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
+    Node(Core::Ptr<State> parentState, Ptr<Node> parentNode, std::string name, Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f), bool settingLocal = false);
 
     virtual ~Node();
 
@@ -85,8 +88,8 @@ namespace Geometric {
     }
 
     virtual Ptr<Node> AddChild(UniquePtr<Node> newChild);
-    virtual Ptr<Node> GetChild(Core::String name);
-    List<Ptr<Node>> GetChildren();
+    virtual Ptr<Node> GetChild(std::string name);
+    std::vector<Ptr<Node>> GetChildren();
     virtual UniquePtr<Node> RemoveChild(Ptr<Node> oldChild);
 
     Core::Ptr<State> GetParentState() const;
@@ -95,7 +98,7 @@ namespace Geometric {
     int GetSubNodeCount() const;
 
   protected:
-    List<UniquePtr<Node>> Children;
+    std::vector<UniquePtr<Node>> Children;
     Core::Ptr<State> ParentState = nullptr;
   };
 }// namespace Geometric

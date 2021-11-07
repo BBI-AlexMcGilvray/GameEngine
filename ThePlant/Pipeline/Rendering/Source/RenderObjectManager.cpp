@@ -45,7 +45,7 @@ namespace Rendering {
     // we will need some handling here for render objects to have types (animated, stagnant, alpha, solid) to be able to put them into different lists
     // for efficiency and general handling (ex: only update animated, alpha has to be rendered last IN Z ORDER to ensure correct rendering)
 
-    Push(RenderObjects, move(renderObject));
+    RenderObjects.push_back(move(renderObject));
 
     return RenderObjects[RenderObjects.size() - 1].get();
   }
@@ -54,7 +54,7 @@ namespace Rendering {
   {
     for (Core::size i = 0; i < RenderObjects.size(); i++) {
       if (RenderObjects[i].get() == renderObject) {
-        RemoveIndex(RenderObjects, i);
+        RenderObjects.erase(RenderObjects.begin() + i);
       }
     }
   }

@@ -65,7 +65,7 @@ namespace Data
 			return nullptr;
 		}
 
-		Ptr<const aiNode> FindNodeWithName(Ptr<const aiNode> rootNode, String name)
+		Ptr<const aiNode> FindNodeWithName(Ptr<const aiNode> rootNode, std::string name)
 		{
 			if (rootNode->mName == aiString(name))
 			{
@@ -90,7 +90,7 @@ namespace Data
 
 			for (Core::uint i = 0; i < mesh->mNumBones; i++)
 			{
-				meshSkeleton->IncludeNode(String(mesh->mBones[i]->mName.C_Str()));
+				meshSkeleton->IncludeNode(std::string(mesh->mBones[i]->mName.C_Str()));
 			}
 
 			meshSkeleton->CleanStructure();

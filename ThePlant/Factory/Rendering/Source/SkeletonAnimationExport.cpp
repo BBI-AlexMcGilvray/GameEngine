@@ -140,7 +140,7 @@ namespace Data
 			return Core::Serialize<Core::Serialization::Format::JSON>(skeletonAnimationData);
 		}
 
-		void CreateFileForSkeletonAnimation(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<aiAnimation> animation, Ptr<const aiNode> rootNode, Ptr<const aiMesh> mesh, uint meshIndex, String name)
+		void CreateFileForSkeletonAnimation(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<aiAnimation> animation, Ptr<const aiNode> rootNode, Ptr<const aiMesh> mesh, uint meshIndex, std::string name)
 		{
 			if (animation == nullptr)
 			{
@@ -152,7 +152,7 @@ namespace Data
 			Core::UniquePtr<ExportNode> exportSkeleton = AllNodesForMesh(rootNode, mesh, meshIndex);
 
 			// store values in file
-			FilePath skeletonAnimationFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsPath"), to_string(HashValue(name + String(animation->mName.C_Str()))) + ".sanim" };
+			FilePath skeletonAnimationFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsPath"), to_string(HashValue(name + std::string(animation->mName.C_Str()))) + ".sanim" };
 			File skeletonAnimationFile = File(skeletonAnimationFilePath, std::ios::out);
 			skeletonAnimationFile.Open();
 
@@ -162,7 +162,7 @@ namespace Data
 				return;
 			}
 
-			// skeletonAnimationFile.Write(String(animation->mName.C_Str()), animation->mNumChannels, animation->mDuration / animation->mTicksPerSecond);
+			// skeletonAnimationFile.Write(std::string(animation->mName.C_Str()), animation->mNumChannels, animation->mDuration / animation->mTicksPerSecond);
 
 			// for (uint i = 0; i < animation->mNumChannels; i++)
 			// {
@@ -181,7 +181,7 @@ namespace Data
 		// void AddChannelToFile(Core::Ptr<Core::IO::File> skeletonAnimationFile, Core::Ptr<const aiNodeAnim> channel, double ticksPerSecond)
 		// {
 		// 	skeletonAnimationFile->CreateNewLine();
-		// 	skeletonAnimationFile->Write(String(channel->mNodeName.C_Str()));
+		// 	skeletonAnimationFile->Write(std::string(channel->mNodeName.C_Str()));
 
 		// 	skeletonAnimationFile->CreateNewLine();
 		// 	skeletonAnimationFile->Write("preState", BehaviourToString(channel->mPreState));
@@ -216,7 +216,7 @@ namespace Data
 		// 	}
 		// }
 
-		// Core::String BehaviourToString(aiAnimBehaviour behaviour)
+		// std::string BehaviourToString(aiAnimBehaviour behaviour)
 		// {
 		// 	switch (behaviour)
 		// 	{

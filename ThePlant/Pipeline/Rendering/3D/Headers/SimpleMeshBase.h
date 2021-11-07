@@ -1,7 +1,8 @@
 #pragma once
 
+#include <vector>
+
 #include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Data/Headers/AssetData.h"
 #include "Data/Rendering/Headers/SimpleMeshData.h"
@@ -46,7 +47,7 @@ namespace Rendering {
     // it could just be cleared after being used
     std::vector<SimpleVertexData> _runtimeData;
     GLArrayBuffer Vao;
-    List<GLBuffer> Vbos;
+    std::vector<GLBuffer> Vbos;
 
     Core::Functionality::Delegate<> _onMaterialDeleted;
     ComponentPtr<MaterialComponent> _materialComponent;

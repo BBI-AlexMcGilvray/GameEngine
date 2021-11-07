@@ -1,5 +1,7 @@
 #include "Pipeline/Animation/SkeletonAnimation/Headers/SkeletonAnimationMixer.h"
 
+#include <utility>
+
 #include "Pipeline/Animation/SkeletonAnimation/Headers/SkeletonAnimation.h"
 
 namespace Application {
@@ -12,16 +14,17 @@ namespace Animation {
   void SkeletonAnimationMixer::MixAnimation(float weight, Core::Ptr<Animation> value, Core::Second animationTime)
   {
     value->Evaluate(animationTime);
-    Push(_animationsToMix, MixData(weight, static_cast<SkeletonAnimation *>(value)->GetAnimationResults()));
+    _animationsToMix.push_back(MixData(weight, static_cast<SkeletonAnimation *>(value)->GetAnimationResults()));
   }
 
   void SkeletonAnimationMixer::Apply()
   {
-    Map<string, Core::Geometric::Transform> mixedTransforms;
+    std::map<std::string, Core::Geometric::Transform> mixedTransforms;
 
     for (MixData mix : _animationsToMix) {
-      for (Pair<const string, Core::Geometric::Transform> &transform : mix.transforms) {
-        if (!In(mixedTransforms, transform.first)) {
+      for (std::pair<const std::string, Core::Geometric::Transform> &transform : mix.transforms) {
+        if (mixedTransforms.find(transform.first) != mixedTransforms.end())
+        {
           mixedTransforms[transform.first] = Core::Geometric::Transform();
         }
 
@@ -33,7 +36,7 @@ namespace Animation {
       }
     }
 
-    for (Pair<const string, Core::Geometric::Transform> &transform : mixedTransforms) {
+    for (std::pair<const string, Core::Geometric::Transform> &transform : mixedTransforms) {
       _target.GetTarget().GetSkeletonHierarchy()->GetChild(transform.first)->Transformation.SetLocalPosition(transform.second.GetPosition());
       _target.GetTarget().GetSkeletonHierarchy()->GetChild(transform.first)->Transformation.SetLocalRotation(transform.second.GetRotation());
       _target.GetTarget().GetSkeletonHierarchy()->GetChild(transform.first)->Transformation.SetLocalScale(transform.second.GetScale());

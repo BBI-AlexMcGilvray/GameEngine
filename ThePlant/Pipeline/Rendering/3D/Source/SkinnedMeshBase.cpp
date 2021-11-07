@@ -78,7 +78,7 @@ namespace Rendering {
     newBuffer.Unbind();
     glDisableVertexAttribArray(0);
 
-    Push(Vbos, newBuffer);
+    Vbos.push_back(newBuffer);
 
     // keep track of mesh data to write to
     MappedMesh = GLMappedBuffer(&Vbos[0]);

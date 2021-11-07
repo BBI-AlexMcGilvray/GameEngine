@@ -26,7 +26,7 @@ namespace Data
 
 		struct SQLQuery
 		{
-			List<SQLQueryElement> elements;
+			std::vector<SQLQueryElement> elements;
 
 			String CreateQuery() const;
 		}

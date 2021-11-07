@@ -32,11 +32,11 @@ struct AssetType<type_name>\
   {\
     return HashValue(#type_name);\
   }\
-  static String GetPath()\
+  static std::string GetPath()\
   {\
     return path;\
   }\
-  static String GetFileType()\
+  static std::string GetFileType()\
   {\
     return extension;\
   }\

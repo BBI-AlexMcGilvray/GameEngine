@@ -1,7 +1,9 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Core/IO/Headers/File.h"
 
@@ -20,7 +22,7 @@ namespace Data
 	{
 		struct ExportNode;
 
-		void CreateFileForSkeleton(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<const aiScene> scene, Core::uint meshIndex, Core::String name);
+		void CreateFileForSkeleton(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<const aiScene> scene, Core::uint meshIndex, std::string name);
 
 		void AddSkeletonToFile(Core::Ptr<Core::IO::File> skeletonFile, Core::UniquePtr<ExportNode> exportSkeleton, Core::Ptr<const aiMesh> mesh);
 		void AddBoneToFile(Core::Ptr<Core::IO::File> skeletonFile, Core::Ptr<const ExportNode> exportSkeleton, Core::Ptr<const aiMesh> mesh);

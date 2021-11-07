@@ -1,7 +1,9 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Core/IO/Headers/File.h"
 
@@ -19,9 +21,9 @@ namespace Data
 {
 	namespace DataExport
 	{
-		void CreateFileForSkeletonAnimation(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<aiAnimation> animation, Core::Ptr<const aiNode> rootNode, Core::Ptr<const aiMesh> mesh, Core::uint meshIndex, Core::String name);
+		void CreateFileForSkeletonAnimation(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<aiAnimation> animation, Core::Ptr<const aiNode> rootNode, Core::Ptr<const aiMesh> mesh, Core::uint meshIndex, std::string name);
 
 		void AddChannelToFile(Core::Ptr<Core::IO::File> skeletonAnimationFile, Core::Ptr<const aiNodeAnim> channel, double ticksPerSecond);
-		Core::String BehaviourToString(aiAnimBehaviour behaviour);
+		std::string BehaviourToString(aiAnimBehaviour behaviour);
 	}
 }

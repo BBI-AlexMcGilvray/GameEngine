@@ -67,7 +67,7 @@ namespace Rendering {
     newBuffer.Unbind();
     glDisableVertexAttribArray(0);
 
-    Push(Vbos, newBuffer);
+    Vbos.push_back(newBuffer);
   }
 
   void SimpleMeshBase::Prepare(const Core::Math::Float4x4 &mvp, const Core::Math::Color &color) const

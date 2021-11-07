@@ -15,7 +15,7 @@ void HashValue(uint u, Hash &existingHash)
   existingHash._hash += u;
 }
 
-Hash HashValue(String s)
+Hash HashValue(std::string s)
 {
   Hash newHash;
 
@@ -24,7 +24,7 @@ Hash HashValue(String s)
   return newHash;
 }
 
-void HashValue(String s, Hash &existingHash)
+void HashValue(std::string s, Hash &existingHash)
 {
   for (uint i = 0; i < s.length(); i++) {
     HashValue(s.c_str()[i], existingHash);

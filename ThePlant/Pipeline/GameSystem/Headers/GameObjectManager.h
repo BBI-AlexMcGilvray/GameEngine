@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/Headers/ListDefs.h"
+#include <vector>
+
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
@@ -30,7 +31,7 @@ namespace GameSystem {
     virtual void RemoveGameObject(SharedPtr<GameObjectBase> gameObject);
 
   private:
-    List<SharedPtr<GameObjectBase>> GameObjects;
+    std::vector<SharedPtr<GameObjectBase>> GameObjects;
   };
 }// namespace GameSystem
 }// namespace Application

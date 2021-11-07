@@ -78,7 +78,7 @@ namespace Functionality {
 
     void operator()(Ts &&...args)
     {
-      _CallFunction(Forward<Ts>(args)...);
+      _CallFunction(std::forward<Ts>(args)...);
     }
 
     void operator+=(EventDelegate<Ts...> &node)
@@ -160,7 +160,7 @@ namespace Functionality {
     {
       Ptr<EventDelegate<Ts...>> next = _next;
       while (next != nullptr) {
-        (*next)(Forward<Ts>(args)...);
+        (*next)(std::forward<Ts>(args)...);
         next = next->GetNext();
       }
     }

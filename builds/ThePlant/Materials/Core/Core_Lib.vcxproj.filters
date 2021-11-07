@@ -61,9 +61,6 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\TypeId\TypeId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\UnitTests\HashTesting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\CoreUnitTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

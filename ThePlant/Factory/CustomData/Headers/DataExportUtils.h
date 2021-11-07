@@ -1,7 +1,9 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Factory/CustomData/Headers/DataExportDefs.h"
 
@@ -11,26 +13,26 @@ namespace Data
 {
 	namespace DataExport
 	{
-		UniquePtr<DataType> CreateType(String sql);
-		UniquePtr<DataProperty> CreateProperty(String sqlColumn);
+		UniquePtr<DataType> CreateType(std::string sql);
+		UniquePtr<DataProperty> CreateProperty(std::string sqlColumn);
 
-		String TableName(String sql);
-		String Acronym(String tableName);
+		std::string TableName(std::string sql);
+		std::string Acronym(std::string tableName);
 
-		String FieldName(String sqlColumn);
-		String TypeName(String sqlColumn);
+		std::string FieldName(std::string sqlColumn);
+		std::string TypeName(std::string sqlColumn);
 
 		// this is needed for exporting - so we know what to hash/name it
-		bool IsPrimaryKey(String sqlColumn);
+		bool IsPrimaryKey(std::string sqlColumn);
 
-		bool IsForeignKey(String sqlColumn);
-		String GetForeignKeyType(String sqlColumn);
+		bool IsForeignKey(std::string sqlColumn);
+		std::string GetForeignKeyType(std::string sqlColumn);
 
-		bool IsList(String sqlColumn);
+		bool IsList(std::string sqlColumn);
 
 		// this is needed for exporting - so we know to make it directly referenceable
-		bool IsExported(String sqlColumn);
+		bool IsExported(std::string sqlColumn);
 
-		String ClipLeadingWhitespace(String str);
+		std::string ClipLeadingWhitespace(std::string str);
 	}
 }

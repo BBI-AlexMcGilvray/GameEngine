@@ -21,7 +21,6 @@ Networking/Source/Utils.cpp #
 Source/Exception.cpp #
 Source/Hash.cpp #
 TypeId/TypeId.cpp #
-UnitTests/HashTesting.cpp #
 CoreUnitTests.cpp)
 
 set(HEADER_FILES #
@@ -48,8 +47,6 @@ Headers/FlagEnum.h #
 Headers/Hash.h #
 Headers/ListDefs.h #
 Headers/Macros.h #
-Headers/MapDefs.h #
-Headers/Property.h #
 Headers/PtrDefs.h #
 Headers/TemplateDefs.h #
 Headers/TimeDefs.h #
@@ -109,8 +106,7 @@ TypeSafety/NotNullPtr.h #
 TypeSafety/SafeVoidPtr.h #
 Versioning/SemanticVerion.h #
 Versioning/SimpleVersion.h #
-Versioning/Version.h #
-UnitTests/HashTesting.h)
+Versioning/Version.h)
 
 add_library(Core_Lib STATIC ${SOURCE_FILES})
 install(FILES ${HEADER_FILES} DESTINATION Core_Lib)

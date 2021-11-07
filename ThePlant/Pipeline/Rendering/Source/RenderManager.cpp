@@ -33,32 +33,32 @@ namespace Rendering {
 
   void RenderManager::AttachRenderObjectManager(Ptr<State> state, Ptr<RenderObjectManager> objectManager)
   {
-    Insert(ObjectManagers, move(state), move(objectManager));
+    ObjectManagers.insert(std::make_pair(std::move(state), std::move(objectManager)));
   }
 
   void RenderManager::DettachRenderObjectManager(Ptr<State> state)
   {
-    Erase(ObjectManagers, move(state));
+    ObjectManagers.erase(state);
   }
 
   void RenderManager::AttachMaterialManager(Core::Ptr<State> state, Core::Ptr<MaterialManager> materialManager)
   {
-    Insert(MaterialManagers, move(state), move(materialManager));
+    MaterialManagers.insert(std::make_pair(std::move(state), std::move(materialManager)));
   }
 
   void RenderManager::DettachMaterialManager(Core::Ptr<State> state)
   {
-    Erase(MaterialManagers, move(state));
+    MaterialManagers.erase(state);
   }
 
   void RenderManager::AttachCameraManager(Core::Ptr<State> state, Core::Ptr<CameraManager> cameraManager)
   {
-    Insert(CameraManagers, move(state), move(cameraManager));
+    CameraManagers.insert(std::make_pair(std::move(state), std::move(cameraManager)));
   }
 
   void RenderManager::DettachCameraManager(Core::Ptr<State> state)
   {
-    Erase(CameraManagers, move(state));
+    CameraManagers.erase(state);
   }
 
   Core::Ptr<State> RenderManager::GetActiveState()

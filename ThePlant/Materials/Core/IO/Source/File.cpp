@@ -9,7 +9,7 @@ namespace IO {
   {
   }
 
-  String File::GetFullPath()
+  std::string File::GetFullPath()
   {
     return (Path.GetFullPath());
   }
@@ -140,7 +140,7 @@ namespace IO {
     return Write('\n');
   }
 
-  String File::GetFullText()
+  std::string File::GetFullText()
   {
     if (CanRead())
     {
@@ -155,10 +155,10 @@ namespace IO {
     }
   }
 
-  String File::GetLine()
+  std::string File::GetLine()
   {
     if (CanRead()) {
-      String Line;
+      std::string Line;
       if (!std::getline(FileStream, Line)) {
         DEBUG_THROW_EXCEPTION(EOFException, TAG, "can't get line for this file - likely EOF");
       }

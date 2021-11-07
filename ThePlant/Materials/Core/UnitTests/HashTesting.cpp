@@ -13,7 +13,7 @@ using namespace Core::IO;
 
 void TestHashes()
 {
-  String filePath = GetCWD() + "/DataManagement/Headers/";
+  std::string filePath = GetCWD() + "/DataManagement/Headers/";
 
   {
     File AllWords(FilePath{ filePath, "EnglishWords.txt" }, std::ios::in);
@@ -29,7 +29,7 @@ void TestHashes()
 		NOTE: there is an issue with the below, occasionally prints out doubles, and also has a random single number near the bottom of the file
 		*/
 
-    String word;
+    std::string word;
     while (AllWords.Read(word)) {
       AllWords.MoveToNextLine();
 
@@ -54,12 +54,12 @@ void TestHashes()
     double wordAverageTime = 0;
     uint numWordCollisions = 0;
 
-    String wordThatWasHashed;
+    std::string wordThatWasHashed;
     uint hashedWord;
     double time;
     StreamPos wordPosition = 0;
 
-    Map<uint, List<String>> hashWordMapping;
+    Map<uint, List<std::string>> hashWordMapping;
 
     while (HashedWords.Read(wordThatWasHashed, hashedWord, time)) {
       // use time to keep finding average

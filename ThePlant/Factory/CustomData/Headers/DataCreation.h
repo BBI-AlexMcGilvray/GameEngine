@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Core/IO/Headers/File.h"
 
 #include "Factory/SQL/Headers/SQLInstance.h"
@@ -18,13 +20,13 @@ namespace Data
 	{
 		void ExportCustomData(Ptr<SQLInstance> db, Ptr<File> directAssets);
 
-		void ExportDataTypeInformation(Ptr<SQLInstance> db, String type, Ptr<File> customAssets, Ptr<File> directAssets);
+		void ExportDataTypeInformation(Ptr<SQLInstance> db, std::string type, Ptr<File> customAssets, Ptr<File> directAssets);
 
-		UniquePtr<DataType> ExportDataType(String sql, Ptr<File> customAssets);
+		UniquePtr<DataType> ExportDataType(std::string sql, Ptr<File> customAssets);
 		void ExportDataForType(Ptr<SQLInstance> db, UniquePtr<DataType> type, Ptr<File> directAssets);
 
-		void ExportDirectReference_Open(String name, Ptr<File> directAssets);
-		void ExportDirectReference_Close(String name, Ptr<File> directAssets);
+		void ExportDirectReference_Open(std::string name, Ptr<File> directAssets);
+		void ExportDirectReference_Close(std::string name, Ptr<File> directAssets);
 		void ExportDataItemForType(MetaAssetData asset, FilePath exportTo, Ptr<File> directAssets);
 
 		void InitializeCustomAssetFile(Ptr<File> customAssets);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <utility>
 
 #include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 #include "Pipeline/ECS/ObjectOriented/Headers/ComponentPtr.h"
@@ -38,7 +39,7 @@ struct EntityBase
       return existingComponent;
     }
 
-    Components.insert(Core::MakePair(T::ClassHash(), move(component)));
+    Components.insert(std::make_pair(T::ClassHash(), move(component)));
     return GetComponent<T>();
   }
 
@@ -60,7 +61,7 @@ struct EntityBase
       component->Initialize();
     }
 
-    Components.insert(Core::MakePair(T::ClassHash(), move(component)));
+    Components.insert(std::make_pair(T::ClassHash(), move(component)));
     return GetComponent<T>();
   }
 

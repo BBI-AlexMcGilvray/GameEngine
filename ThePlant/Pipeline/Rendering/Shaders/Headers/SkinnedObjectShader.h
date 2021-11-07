@@ -1,6 +1,8 @@
 #pragma once
 #pragma once
 
+#include <vector>
+
 #include "ObjectShaderBase.h"
 
 #include "FragmentShader.h"
@@ -35,7 +37,7 @@ namespace Rendering {
     Ptr<ShaderBase> GetVertexShader() override;
     Ptr<ShaderBase> GetFragmentxShader() override;
 
-    virtual void SetSkinningInformation(const List<Float4x4> boneList);
+    virtual void SetSkinningInformation(const std::vector<Float4x4> boneList);
 
     void Prepare(const Float4x4 &mvp, const Color &color) const override;
     void CleanUp() const override;

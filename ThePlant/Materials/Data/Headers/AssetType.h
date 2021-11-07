@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Core/Headers/Hash.h"
 #include "Data/Headers/AssetExceptions.h"
 
@@ -14,12 +16,12 @@ struct AssetType
     return HashValue("void");
   }
 
-  static String GetPath()
+  static std::string GetPath()
   {
     return "";
   }
 
-  static String GetFileType()
+  static std::string GetFileType()
   {
     return "";
   }

@@ -1,9 +1,10 @@
 #pragma once
 
+#include <vector>
+
 #include "InputEvent.h"
 
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 namespace Application {
 namespace Input {

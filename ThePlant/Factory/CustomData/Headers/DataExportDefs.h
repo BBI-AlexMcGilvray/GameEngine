@@ -1,7 +1,9 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
 #include "Core/Headers/PtrDefs.h"
 
 using namespace Core;
@@ -14,15 +16,15 @@ namespace Data
 		{
 			bool IsPrimaryKey = false;
 
-			String Type;
-			String Name;
+			std::string Type;
+			std::string Name;
 
-			virtual String GetLine()
+			virtual std::string GetLine()
 			{
 				return (Type + " " + Name + ";");
 			}
 
-			DataProperty(String type, String name)
+			DataProperty(std::string type, std::string name)
 				: Type(type), Name(name)
 			{}
 		};
@@ -31,9 +33,9 @@ namespace Data
 		{
 			using DataProperty::DataProperty;
 
-			String GetLine() override
+			std::string GetLine() override
 			{
-				return ("List<" + Type + "> " + Name + ";");
+				return ("std::vector<" + Type + "> " + Name + ";");
 			}
 		};
 
@@ -41,7 +43,7 @@ namespace Data
 		{
 			using DataProperty::DataProperty;
 
-			String GetLine() override
+			std::string GetLine() override
 			{
 				return ("AssetName<" + Type + "> " + Name + ";");
 			}
@@ -49,36 +51,36 @@ namespace Data
 
 		struct DataType
 		{
-			String Name;
-			String Acronym;
+			std::string Name;
+			std::string Acronym;
 
-			List<UniquePtr<DataProperty>> Properties;
+			std::vector<UniquePtr<DataProperty>> Properties;
 
-			DataType(String name, String acronym)
+			DataType(std::string name, std::string acronym)
 				: Name(name), Acronym(acronym)
 			{}
 
-			String GetDefinition();
-			String GetMetaTypeDefinition();
+			std::string GetDefinition();
+			std::string GetMetaTypeDefinition();
 		};
 
 		struct MetaAssetDataProperty
 		{
-			String variableName;
-			String variableValue;
+			std::string variableName;
+			std::string variableValue;
 			
 			bool IsReference = false;
 		};
 
 		struct MetaAssetData
 		{
-			String typeName;
-			String typeAcronym;
+			std::string typeName;
+			std::string typeAcronym;
 
-			String assetName;
+			std::string assetName;
 			bool directExport;
 
-			List<MetaAssetDataProperty> variables;
+			std::vector<MetaAssetDataProperty> variables;
 		};
 	}
 }

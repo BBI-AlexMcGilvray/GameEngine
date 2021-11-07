@@ -12,11 +12,11 @@
 
 namespace Application {
 namespace Geometric {
-  Node::Node(Ptr<State> parentState, Core::String name)
+  Node::Node(Ptr<State> parentState, std::string name)
     : Node(parentState, nullptr, name, Core::Math::Float3(0.0f))
   {}
 
-  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name)
+  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, std::string name)
     : Node(parentState, parentNode, name, Core::Math::Float3(0.0f))
   {}
 
@@ -28,11 +28,11 @@ namespace Geometric {
     : Node(parentState, parentNode, DEFAULT_NODE_NAME, position, rotation, scale, settingLocal)
   {}
 
-  Node::Node(Ptr<State> parentState, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale, bool settingLocal)
+  Node::Node(Ptr<State> parentState, std::string name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale, bool settingLocal)
     : Node(parentState, nullptr, name, position, rotation, scale, settingLocal)
   {}
 
-  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale, bool settingLocal)
+  Node::Node(Ptr<State> parentState, Ptr<Node> parentNode, std::string name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale, bool settingLocal)
     : Name(name), Transformation(position, rotation, scale, (parentNode == nullptr ? nullptr : &(parentNode->Transformation)), settingLocal)
   {
     SetParentState(parentState);
@@ -118,12 +118,12 @@ namespace Geometric {
       newChild->Start();
     }
 
-    Push(Children, move(newChild));
+    Children.push_back(move(newChild));
 
     return Children[Children.size() - 1].get();
   }
 
-  Ptr<Node> Node::GetChild(Core::String name)
+  Ptr<Node> Node::GetChild(std::string name)
   {
     for (Core::size i = 0; i < Children.size(); i++) {
       if (Children[i]->Name == name) {
@@ -139,9 +139,9 @@ namespace Geometric {
     return nullptr;
   }
 
-  List<Ptr<Node>> Node::GetChildren()
+  std::vector<Ptr<Node>> Node::GetChildren()
   {
-    List<Ptr<Node>> children(Children.size());
+    std::vector<Ptr<Node>> children(Children.size());
 
     for (int i = 0; i < Children.size(); i++) {
       children[i] = Children[i].get();
@@ -159,7 +159,7 @@ namespace Geometric {
     for (Core::size i = 0; i < Children.size(); i++) {
       if (Children[i].get() == oldChild) {
         formerChild = move(Children[i]);
-        RemoveIndex(Children, i);
+        Children.erase(Children.begin() + i);
         break;
       }
     }

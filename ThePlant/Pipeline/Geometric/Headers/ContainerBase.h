@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/Headers/ListDefs.h"
+#include <vector>
+
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Functionality/Headers/Event.h"
@@ -38,7 +39,7 @@ namespace Geometric {
     bool HasContent(Ptr<ContentBase> content);
 
   protected:
-    List<UniquePtr<ContentBase>> Content;
+    std::vector<UniquePtr<ContentBase>> Content;
   };
 }// namespace Geometric
 }// namespace Application

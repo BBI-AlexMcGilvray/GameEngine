@@ -21,12 +21,16 @@ namespace GameSystem {
 
   void GameObjectManager::AddGameObject(SharedPtr<GameObjectBase> gameObject)
   {
-    Push(GameObjects, move(gameObject));
+    GameObjects.push_back(move(gameObject));
   }
 
   void GameObjectManager::RemoveGameObject(SharedPtr<GameObjectBase> gameObject)
   {
-    Remove(GameObjects, move(gameObject));
+    auto objectIter = std::find(GameObjects.begin(), GameObjects.end(), gameObject);
+    if (objectIter != GameObjects.end())
+    {
+      GameObjects.erase(objectIter);
+    }
   }
 }// namespace GameSystem
 }// namespace Application

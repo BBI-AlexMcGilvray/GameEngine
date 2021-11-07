@@ -1,7 +1,8 @@
 #pragma once
 
+#include <vector>
+
 #include "Core/Headers/CoreDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Data/Headers/AssetData.h"
 #include "Data/Rendering/Headers/AnimatedMeshData.h"
@@ -49,7 +50,7 @@ namespace Rendering {
     std::vector<AnimatedVertexData> _runtimeData;
     std::vector<SkinnedVertexData> _renderData;
     GLArrayBuffer Vao;
-    List<GLBuffer> Vbos;
+    std::vector<GLBuffer> Vbos;
     GLMappedBuffer MappedMesh;
 
     Core::Functionality::Delegate<> _onMaterialDeleted;

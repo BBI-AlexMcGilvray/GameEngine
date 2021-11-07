@@ -34,7 +34,7 @@ namespace IO {
   }
 
   // following https://msdn.microsoft.com/en-us/library/sf98bd4y.aspx
-  String GetCWD()
+  std::string GetCWD()
   {
     char *buffer;
     bool success = false;
@@ -46,7 +46,7 @@ namespace IO {
       success = true;
     }
 
-    String cwd = buffer + String("\\");
+    std::string cwd = buffer + std::string("\\");
 
     if (success) {
       free(buffer);

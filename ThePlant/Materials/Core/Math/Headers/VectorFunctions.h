@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Math/Headers/MathUtils.h"
 #include "Core/Math/Headers/Vector.h"
@@ -248,9 +250,9 @@ namespace Math {
 
 #if DEBUG
   template<typename T, typename int A>
-  String VectorString(VectorA<T, A> const &v)
+  std::string VectorString(VectorA<T, A> const &v)
   {
-    String vectorInfo;
+    std::string vectorInfo;
 
     vectorInfo += "(";
     for (auto i = 0; i < v.Dimensions(); i++) {

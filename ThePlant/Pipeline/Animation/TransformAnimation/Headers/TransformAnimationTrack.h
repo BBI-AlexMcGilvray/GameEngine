@@ -1,7 +1,8 @@
 #pragma once
 
+#include <map>
+
 #include "Core/Geometric/Headers/Transform.h"
-#include "Core/Headers/MapDefs.h"
 
 #include "Pipeline/Animation/FieldAnimation/Headers/FloatAnimationTrack.h"
 #include "Data/Rendering/Headers/SkeletonAnimationData.h"
@@ -36,7 +37,7 @@ namespace Animation {
   private:
     Core::Geometric::Transform _startState;
 
-    Core::Map<TransformTarget, FloatAnimationTrack> _tracks;
+    std::map<TransformTarget, FloatAnimationTrack> _tracks;
   };
 }// namespace Animation
 }// namespace Application

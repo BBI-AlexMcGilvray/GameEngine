@@ -1,6 +1,8 @@
 #pragma once
 #pragma once
 
+#include <vector>
+
 #include "ShaderBase.h"
 
 #include "Core/Headers/PtrDefs.h"
@@ -25,7 +27,7 @@ namespace Rendering {
 
     Ptr<const char> GetShader() const override;
 
-    void SetSkinningInformation(const List<Float4x4> boneList);
+    void SetSkinningInformation(const std::vector<Float4x4> boneList);
 
     virtual void Prepare(GLuint program, const Float4x4 &mvp, const Color &color) const;
     virtual void CleanUp() const;
@@ -34,7 +36,7 @@ namespace Rendering {
     static Ptr<const char> Shader;
 
     // skinning information
-    List<Float4x4> BoneList;
+    std::vector<Float4x4> BoneList;
   };
 }// namespace Rendering
 }// namespace Application

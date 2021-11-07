@@ -1,9 +1,11 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "Factory/SQL/Headers/SQLDefs.h"
 
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Core/Functionality/Headers/Function.h"
 
@@ -40,12 +42,12 @@ namespace Data
 			bool Open();
 			void Close();
 
-			// Callback function definition: bool rowOperation(void* forwardedInfo, int columnCount, List<String> columnValues, List<String> columnNames);
+			// Callback function definition: bool rowOperation(void* forwardedInfo, int columnCount, std::vector<std::string> columnValues, std::vector<std::string> columnNames);
 			// rowOperation return value is if the query should stop
-			bool Query(String sqlCall, BoolFunction<Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo);
-			bool Query(List<String> sqlCalls, BoolFunction<Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo);
+			bool Query(std::string sqlCall, BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>> rowOperation, Ptr<void> forwardedInfo);
+			bool Query(std::vector<std::string> sqlCalls, BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>> rowOperation, Ptr<void> forwardedInfo);
 
-			String GetError();
+			std::string GetError();
 
 		private:
 			FilePath DBPath;
@@ -54,7 +56,7 @@ namespace Data
 
 			DBState State = DBState::Closed;
 
-			String LatestError = "";
+			std::string LatestError = "";
 
 			void Free(char* errorHolder);
 		};

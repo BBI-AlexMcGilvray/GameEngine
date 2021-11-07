@@ -1,21 +1,6 @@
 #pragma once
 
-#include "Core/Headers/TemplateDefs.h"
-#include <string>
-#include <utility>
-
 namespace Core {
-using String = std::string;
-
-template<typename T1, typename T2 = T1>
-using Pair = std::pair<T1, T2>;
-
-template<typename T1, typename T2 = T1>
-Pair<T1, T2> MakePair(T1 &&a, T2 &&b)
-{
-  return std::make_pair(Forward<T1>(a), Forward<T2>(b));
-}
-
 template<typename T>
 struct Truth
 {
@@ -37,30 +22,15 @@ struct Truth
   }
 };
 
-template<typename T1, typename T2>
-auto Min(T1 &&a, T2 &&b)
+template<typename T>
+bool Within(const T& value, const T& basis, const T&variance)
 {
-  return ((Forward<T1>(a) < Forward<T2>(b)) ? Forward<T1>(a) : Forward<T2>(b));
+  return ((value >= basis - variance) && (value <= basis + variance));
 }
-template<typename T1, typename T2>
-auto Max(T1 &&a, T2 &&b)
+template<typename T>
+bool InRange(const T& value, const T& min, const T& max)
 {
-  return ((Forward<T1>(a) > Forward<T2>(b)) ? Forward<T1>(a) : Forward<T2>(b));
-}
-template<typename T1, typename T2, typename T3>
-auto Clamp(T1 &&a, T2 &&min, T3 &&max)
-{
-  return (Max(Min(Forward<T1>(a), Forward<T3>(max)), Forward<T2>(min)));
-}
-template<typename T1, typename T2, typename T3>
-bool Within(T1 &&d, T2 &&v, T3 &&var)
-{
-  return ((Forward<T1>(d) >= Forward<T2>(v) - Forward<T3>(var)) && (Forward<T1>(d) <= Forward<T2>(v) + Forward<T3>(var)));
-}
-template<typename T1, typename T2, typename T3>
-bool InRange(T1 &&var, T2 &&min, T3 &&max)
-{
-  return ((Forward<T1>(var) >= Forward<T2>(min)) && (Forward<T1>(var) <= Forward<T3>(max)));
+  return ((value >= min) && (value <= max));
 }
 
 using uint = unsigned int;

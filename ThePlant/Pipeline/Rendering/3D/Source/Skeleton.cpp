@@ -39,16 +39,16 @@ namespace Rendering {
     return Root;
   }
 
-  List<Core::Math::Float4x4> Skeleton::GetBoneMatrices() const
+  std::vector<Core::Math::Float4x4> Skeleton::GetBoneMatrices() const
   {
     VERIFY(Root != nullptr);
     int initialOffset = 0;
-    List<Core::Math::Float4x4> boneMatrices = List<Core::Math::Float4x4>(GetBoneCount());
+    std::vector<Core::Math::Float4x4> boneMatrices = std::vector<Core::Math::Float4x4>(GetBoneCount());
     Root->GetBoneMatrices(boneMatrices, initialOffset);
     return boneMatrices;
   }
 
-  int Skeleton::GetIndexOf(const String &nodeName) const
+  int Skeleton::GetIndexOf(const std::string &nodeName) const
   {
     return ((Ptr<Bone>)Root)->GetBoneIndex(nodeName);
   }
@@ -64,7 +64,7 @@ namespace Rendering {
       rootBone = newBone;
     }
 
-    Push(BoneList, newBone);
+    BoneList.push_back(newBone);
 
     for (uint i = 0; i < boneData.children; i++) {
       CreateBoneHeirarchy(newBone, ++boneIndex, rootBone);

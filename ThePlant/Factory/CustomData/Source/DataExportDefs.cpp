@@ -4,9 +4,9 @@ namespace Data
 {
 	namespace DataExport
 	{
-		String DataType::GetDefinition()
+		std::string DataType::GetDefinition()
 		{
-			String definition = "\tstruct " + Name + "\n";
+			std::string definition = "\tstruct " + Name + "\n";
 			definition += "\t{\n";
 			for (auto& prop : Properties)
 			{
@@ -20,9 +20,9 @@ namespace Data
 			return definition;
 		}
 
-		String DataType::GetMetaTypeDefinition()
+		std::string DataType::GetMetaTypeDefinition()
 		{
-			String definition = "\ttemplate<>\n";
+			std::string definition = "\ttemplate<>\n";
 			definition += "\tstruct AssetType<" + Name + ">\n";
 			definition += "\t{\n";
 			definition += "\t\tHash ClassHash() const\n";
@@ -30,12 +30,12 @@ namespace Data
 			definition += "\t\t\treturn Core::HashValue(\"" + Name + "\");\n";
 			definition += "\t\t}\n";
 			definition += "\n";
-			definition += "\t\tString GetPath() const\n";
+			definition += "\t\tstd::string GetPath() const\n";
 			definition += "\t\t{\n";
 			definition += "\t\t\treturn \"CustomAssets/" + Name + "/\";\n";
 			definition += "\t\t}\n";
 			definition += "\n";
-			definition += "\t\tString GetFileType() const\n";
+			definition += "\t\tstd::string GetFileType() const\n";
 			definition += "\t\t{\n";
 			definition += "\t\t\treturn \"." + Acronym + "\";\n";
 			definition += "\t\t}\n";

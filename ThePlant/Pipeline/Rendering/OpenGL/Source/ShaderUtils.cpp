@@ -1,6 +1,7 @@
 #include "Pipeline/Rendering/OpenGL/Headers/ShaderUtils.h"
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -75,7 +76,7 @@ namespace Rendering {
     if (compileResult != GL_TRUE) {
       int infoLogLength = 0;
       glGetShaderiv(shader->Object, GL_INFO_LOG_LENGTH, &infoLogLength);
-      List<char> shaderLog(infoLogLength);
+      std::vector<char> shaderLog(infoLogLength);
       glGetShaderInfoLog(shader->Object, infoLogLength, nullptr, &shaderLog[0]);
       cout << "ERROR compiling shader: " << shader->ShaderName << endl
            << &shaderLog[0] << endl;

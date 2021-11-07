@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <string>
 
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/PtrDefs.h"
@@ -18,8 +19,8 @@ struct Hash;
 Hash HashValue(uint u);
 void HashValue(uint u, Hash &existingHash);
 
-Hash HashValue(String s);
-void HashValue(String s, Hash &existingHash);
+Hash HashValue(std::string s);
+void HashValue(std::string s, Hash &existingHash);
 
 Hash HashValue(char b);
 void HashValue(char b, Hash &existingHash);
@@ -44,8 +45,8 @@ struct Hash
   friend Hash HashValue(uint u);
   friend void HashValue(uint u, Hash &existingHash);
 
-  friend Hash HashValue(String s);
-  friend void HashValue(String s, Hash &existingHash);
+  friend Hash HashValue(std::string s);
+  friend void HashValue(std::string s, Hash &existingHash);
 
   friend Hash HashValue(char b);
   friend void HashValue(char b, Hash &existingHash);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Dependencies/Includes/sdl.h"
 #include "Dependencies/Includes/glew.h"
 
@@ -11,11 +13,11 @@ using namespace Core;
 namespace Application {
 struct WindowManager
 {
-  String Name;
+  std::string Name;
   int Width;
   int Height;
 
-  WindowManager(String name = "DEFAULT WINDOW", int width = 1024, int height = 800);
+  WindowManager(std::string name = "DEFAULT WINDOW", int width = 1024, int height = 800);
 
   Ptr<SDL_Window> GetWindow() const;
 

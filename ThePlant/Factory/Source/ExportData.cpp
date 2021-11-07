@@ -51,7 +51,7 @@ namespace Data
 			CreateFolder(GetCWD() + "Resources/ExportedAssets/CustomData");
 
 			CORE_LOG(EXPORTING, "Starting to export custom data");
-			auto dbPath = FilePath{ GetCWD() + "Resources/ImportedAssets/CustomData/", String("Data.db") };
+			auto dbPath = FilePath{ GetCWD() + "Resources/ImportedAssets/CustomData/", std::string("Data.db") };
 			SQLInstance db = SQLInstance(dbPath);
 			db.Open();
 
@@ -125,7 +125,7 @@ namespace Data
 
 		// none of the below should be here, but for the sake of getting this running without re-configuring
 		// the whole mesh/mat export data sequence		
-		void ExportDirectReference_Open(String name, String acronym, Ptr<File> directAssets)
+		void ExportDirectReference_Open(std::string name, std::string acronym, Ptr<File> directAssets)
 		{
 			directAssets->Write("\t\tstruct " + name);
 			directAssets->CreateNewLine();
@@ -133,7 +133,7 @@ namespace Data
 			directAssets->CreateNewLine();
 		}
 
-		void ExportDirectReference_Close(String name, String acronym, Ptr<File> directAssets)
+		void ExportDirectReference_Close(std::string name, std::string acronym, Ptr<File> directAssets)
 		{
 			directAssets->Write("\t\t};");
 			directAssets->CreateNewLine();

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Core/Headers/ListDefs.h"
+#include <vector>
+#include <tuple>
+
 #include "Core/Headers/TimeDefs.h"
 
 #include "Pipeline/Animation/Headers/Keyframe.h"
-
-#include <tuple>
 
 namespace Application {
 namespace Animation {
@@ -13,12 +13,12 @@ namespace Animation {
   {
   public:
     AnimationCurve();
-    AnimationCurve(Core::List<Keyframe> keyframes);
+    AnimationCurve(std::vector<Keyframe> keyframes);
 
     float Evaluate(Core::Second time);
 
   private:
-    Core::List<Keyframe> _keyframes;
+    std::vector<Keyframe> _keyframes;
 
     std::tuple<Keyframe, Keyframe> GetClosestKeyframes(Core::Second time);
   };

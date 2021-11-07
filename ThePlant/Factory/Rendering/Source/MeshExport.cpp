@@ -1,10 +1,10 @@
 #pragma once
 
-#include <array>
-
 #include "Factory/Rendering/Headers/MeshExport.h"
 
-#include "Core/Headers/ListDefs.h"
+#include <array>
+#include <vector>
+
 #include "Core/Headers/Hash.h"
 
 #include "Core/Logging/Logger.h"
@@ -205,7 +205,7 @@ namespace Data
 			return Core::Serialize<Core::Serialization::Format::JSON>(meshData);
 		}
 
-		void CreateFileForMesh(Config& config, Ptr<IO::File> directAssets, const aiMesh* mesh, String name)
+		void CreateFileForMesh(Config& config, Ptr<IO::File> directAssets, const aiMesh* mesh, std::string name)
 		{
 			Core::Serialization::Format::JSON meshAsJSON;
 			bool hasUVs = mesh->HasTextureCoords(0);

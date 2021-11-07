@@ -1,7 +1,8 @@
 #pragma once
 
+#include <vector>
+
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Core/Functionality/Headers/Event.h"
 
@@ -15,7 +16,7 @@ namespace Rendering {
   struct Skeleton : Geometric::Node
   {
     // animation system and how we want to plug it in is TBD - presumably a more generic system than wiring it specific to bones and such
-    //Core::List<BoneAnimation> Animations;
+    //std::vector<BoneAnimation> Animations;
 
     // we will need the parent node in constructor to know where our bones are rooted to
     Skeleton(Core::Ptr<State> parentState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset);
@@ -23,8 +24,8 @@ namespace Rendering {
     int GetBoneCount() const;
     Core::Ptr<Bone> GetSkeletonHierarchy() const;
 
-    int GetIndexOf(const String &nodeName) const;
-    List<Core::Math::Float4x4> GetBoneMatrices() const;
+    int GetIndexOf(const std::string &nodeName) const;
+    std::vector<Core::Math::Float4x4> GetBoneMatrices() const;
 
   private:
     Data::AssetData<Data::Rendering::SkeletonData> Data;

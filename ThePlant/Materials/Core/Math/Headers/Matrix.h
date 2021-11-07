@@ -26,7 +26,7 @@ namespace Math {
 				// go down first column
 				for (int i = 0; i < B; i++)
 				{
-					List<T> subMatrixValues;
+					std::vector<T> subMatrixValues;
 
 					// start one column over
 					for (int c = 1; c < A; c++)

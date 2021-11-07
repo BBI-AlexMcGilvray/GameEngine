@@ -1,7 +1,10 @@
 #pragma once
 
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 #include "Core/IO/Headers/File.h"
 
 #include "Factory/Headers/Config.h"
@@ -22,16 +25,16 @@ namespace Data
 			Unknown
 		};
 
-		void ConvertModelsInFolder(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::String folder);
+		void ConvertModelsInFolder(Config& config, Core::Ptr<Core::IO::File> directAssets, std::string folder);
 
-		void ConvertFilesForScene(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<Core::IO::File> sceneFile, Core::String sceneName, Core::List<Core::Pair<ModelType, Core::String>>& models, Core::List<Core::Pair<ModelType, Core::String>>& meshes, Core::List<Core::String>& materials, Core::List<Core::String>& skeletons, Core::List<Core::String>& skeletonAnimations);
+		void ConvertFilesForScene(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<Core::IO::File> sceneFile, std::string sceneName, std::vector<std::pair<ModelType, std::string>>& models, std::vector<std::pair<ModelType, std::string>>& meshes, std::vector<std::string>& materials, std::vector<std::string>& skeletons, std::vector<std::string>& skeletonAnimations);
 
-		void DirectModels(Core::Ptr<Core::IO::File> directAssets, Core::List<Core::Pair<ModelType, Core::String>>& models);
-		void DirectMeshes(Core::Ptr<Core::IO::File> directAssets, Core::List<Core::Pair<ModelType, Core::String>>& meshes);
-		void DirectMaterials(Core::Ptr<Core::IO::File> directAssets, Core::List<Core::String>& materials);
-		void DirectSkeletons(Core::Ptr<Core::IO::File> directAssets, Core::List<Core::String>& skeletons);
-		void DirectSkeletonAnimations(Core::Ptr<Core::IO::File> directAssets, Core::List<Core::String>& skeletonAnimations);
+		void DirectModels(Core::Ptr<Core::IO::File> directAssets, std::vector<std::pair<ModelType, std::string>>& models);
+		void DirectMeshes(Core::Ptr<Core::IO::File> directAssets, std::vector<std::pair<ModelType, std::string>>& meshes);
+		void DirectMaterials(Core::Ptr<Core::IO::File> directAssets, std::vector<std::string>& materials);
+		void DirectSkeletons(Core::Ptr<Core::IO::File> directAssets, std::vector<std::string>& skeletons);
+		void DirectSkeletonAnimations(Core::Ptr<Core::IO::File> directAssets, std::vector<std::string>& skeletonAnimations);
 
-		Core::String FixAnimationName(Core::String name);
+		std::string FixAnimationName(std::string name);
 	}
 }

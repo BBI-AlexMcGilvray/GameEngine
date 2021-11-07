@@ -1,7 +1,9 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/ListDefs.h"
 
 #include "Core/IO/Headers/File.h"
 
@@ -19,7 +21,7 @@ namespace Data
 			ExportNode(Core::Ptr<const aiNode> initialNode);
 
 			// marks node as include if names match
-			void IncludeNode(Core::String name);
+			void IncludeNode(std::string name);
 
 			// marks all nodes with an included child node as export
 			// then removes any nodes not marked as export
@@ -27,7 +29,7 @@ namespace Data
 
 		private:
 			int initialChildCount = 0;
-			bool IncludeIfContainsName(Core::String name);
+			bool IncludeIfContainsName(std::string name);
 
 			void ExportIfChildren();
 			void RemoveNonExportChildren();

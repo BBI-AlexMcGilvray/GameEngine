@@ -9,8 +9,8 @@ namespace Core
 	{
 		struct Polygon2D
 		{
-			Polygon2D(List<Float2> vertices);
-			Polygon2D(Float2 origin, List<Float2> vertices);
+			Polygon2D(std::vector<Float2> vertices);
+			Polygon2D(Float2 origin, std::vector<Float2> vertices);
 
 			void SetPosition(const Float2& position) override;
 			void AdjustPosition(const Float2& adjustment) override;
@@ -31,7 +31,7 @@ namespace Core
 			FQuaternion Rotation;
 			Float2 Scale;
 
-			List<Float2> Vertices;
+			std::vector<Float2> Vertices;
 		};
 	}
 }

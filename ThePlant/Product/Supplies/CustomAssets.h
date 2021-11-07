@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Data/Headers/AssetType.h"
 
 /*
@@ -12,7 +14,7 @@ namespace Data {
 // Test
 struct Test
 {
-  String Name;
+  std::string Name;
 };
 
 template<>
@@ -23,12 +25,12 @@ struct AssetType<Test>
     return Core::HashValue("Test");
   }
 
-  String GetPath() const
+  std::string GetPath() const
   {
     return "CustomAssets/Test/";
   }
 
-  String GetFileType() const
+  std::string GetFileType() const
   {
     return ".Tst";
   }
@@ -37,7 +39,7 @@ struct AssetType<Test>
 // ListTest
 struct ListTest
 {
-  String Name;
+  std::string Name;
   AssetName<int> TestList;
 };
 
@@ -49,12 +51,12 @@ struct AssetType<ListTest>
     return Core::HashValue("ListTest");
   }
 
-  String GetPath() const
+  std::string GetPath() const
   {
     return "CustomAssets/ListTest/";
   }
 
-  String GetFileType() const
+  std::string GetFileType() const
   {
     return ".Lst";
   }
@@ -63,7 +65,7 @@ struct AssetType<ListTest>
 // Test2
 struct Test2
 {
-  String Name;
+  std::string Name;
   AssetName<int> TestReference;
 };
 
@@ -75,12 +77,12 @@ struct AssetType<Test2>
     return Core::HashValue("Test2");
   }
 
-  String GetPath() const
+  std::string GetPath() const
   {
     return "CustomAssets/Test2/";
   }
 
-  String GetFileType() const
+  std::string GetFileType() const
   {
     return ".Tst";
   }

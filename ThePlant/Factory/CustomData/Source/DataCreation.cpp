@@ -28,7 +28,7 @@ namespace Data
 			customAssets.Open();
 			InitializeCustomAssetFile(&customAssets);
 
-			BoolFunction<Ptr<void>, List<String>, List<String>> forEachType = [db, &customAssets, directAssets](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
+			BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>> forEachType = [db, &customAssets, directAssets](void* forwardedInfo, std::vector<std::string> columnValues, std::vector<std::string> columnNames)
 			{
 				// due to query, there will only ever be one column value (the table name)
 				ExportDataTypeInformation(db, columnValues[0], &customAssets, directAssets);
@@ -36,7 +36,7 @@ namespace Data
 				return false;
 			};
 
-			String allTypeQuery = "SELECT name FROM sqlite_master WHERE type='table'";
+			std::string allTypeQuery = "SELECT name FROM sqlite_master WHERE type='table'";
 
 			ExportDirectReference_Open("CustomAssets", directAssets);
 			if (!db->Query(allTypeQuery, forEachType, nullptr))
@@ -50,11 +50,11 @@ namespace Data
 			CORE_LOG(CUSTOM_DATA, "Finished exporting custom data");
 		}
 
-		void ExportDataTypeInformation(Ptr<SQLInstance> db, String type, Ptr<File> customAssets, Ptr<File> directAssets)
+		void ExportDataTypeInformation(Ptr<SQLInstance> db, std::string type, Ptr<File> customAssets, Ptr<File> directAssets)
 		{
 			CORE_LOG(CUSTOM_DATA, "Starting to export data type: " + type);
 
-			BoolFunction<Ptr<void>, List<String>, List<String>> formatConstruction = [db, type, customAssets, directAssets](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
+			BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>> formatConstruction = [db, type, customAssets, directAssets](void* forwardedInfo, std::vector<std::string> columnValues, std::vector<std::string> columnNames)
 			{
 				// due to query, there will only even be one column value (the sql statement)
 				auto type = ExportDataType(columnValues[0], customAssets);
@@ -63,7 +63,7 @@ namespace Data
 				return false;
 			};
 
-			String typeFormatQuery = "Select sql from sqlite_master WHERE name = '" + type + "'";
+			std::string typeFormatQuery = "Select sql from sqlite_master WHERE name = '" + type + "'";
 			if (!db->Query(typeFormatQuery, formatConstruction, nullptr))
 			{
 				throw CustomExportException("Query to get format failed");
@@ -72,7 +72,7 @@ namespace Data
 			CORE_LOG(CUSTOM_DATA, "Finished exporting data type: " + type);
 		}
 
-		UniquePtr<DataType> ExportDataType(String sql, Ptr<File> customAssets)
+		UniquePtr<DataType> ExportDataType(std::string sql, Ptr<File> customAssets)
 		{
 			CORE_LOG(CUSTOM_DATA, "Starting to export data type: " + sql);
 
@@ -97,13 +97,13 @@ namespace Data
 
 			FilePath exportTo = { GetCWD() + "Resources/ExportedAssets/CustomData/", "" };
 
-			BoolFunction<Ptr<void>, List<String>, List<String>> exportData = [dataType = type.get(), directAssets, exportTo](void* forwardedInfo, List<String> columnValues, List<String> columnNames)
+			BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>> exportData = [dataType = type.get(), directAssets, exportTo](void* forwardedInfo, std::vector<std::string> columnValues, std::vector<std::string> columnNames)
 			{
 				MetaAssetData assetData;
 				assetData.typeName = dataType->Name;
 				assetData.typeAcronym = dataType->Acronym;
 
-				String assetName;
+				std::string assetName;
 
 				for (auto& prop : dataType->Properties)
 				{
@@ -114,7 +114,7 @@ namespace Data
 					}
 				}
 
-				auto IsReference = [dataType](String variableName)
+				auto IsReference = [dataType](std::string variableName)
 				{
 					if (variableName == "ExportDirectly")
 					{
@@ -155,7 +155,7 @@ namespace Data
 					newVariable.variableName = columnNames[i];
 					newVariable.variableValue = columnValues[i];
 
-					Push(assetData.variables, newVariable);
+					assetData.variables.push_back(newVariable);
 				}
 
 				ExportDataItemForType(assetData, exportTo, directAssets);
@@ -163,7 +163,7 @@ namespace Data
 				return false;
 			};
 
-			String elementQuery = "Select * from " + type->Name;
+			std::string elementQuery = "Select * from " + type->Name;
 
 			ExportDirectReference_Open(type->Name, directAssets);
 			if (!db->Query(elementQuery, exportData, nullptr))
@@ -175,7 +175,7 @@ namespace Data
 			CORE_LOG(CUSTOM_DATA, "Finished exporting data with type: " + type->Name);
 		}
 
-		void ExportDirectReference_Open(String name, Ptr<File> directAssets)
+		void ExportDirectReference_Open(std::string name, Ptr<File> directAssets)
 		{
 			directAssets->Write("\t\tstruct " + name);
 			directAssets->CreateNewLine();
@@ -183,7 +183,7 @@ namespace Data
 			directAssets->CreateNewLine();
 		}
 
-		void ExportDirectReference_Close(String name, Ptr<File> directAssets)
+		void ExportDirectReference_Close(std::string name, Ptr<File> directAssets)
 		{
 			auto acronym = Acronym(name);
 
@@ -210,7 +210,7 @@ namespace Data
 
 			if (asset.directExport)
 			{
-				String assetName = "AssetName<" + asset.typeName + ">";
+				std::string assetName = "AssetName<" + asset.typeName + ">";
 				directAssets->Write("\t\t\tconst " + assetName + " " + asset.assetName + " = " + assetName + "(" + to_string(HashValue(asset.assetName)) + ");");
 				directAssets->CreateNewLine();
 			}
@@ -222,7 +222,7 @@ namespace Data
 		{
 			customAssets->Clear();
 
-			String header = R"(#pragma once
+			std::string header = R"(#pragma once
 
 #include "Data/Headers/AssetType.h"
 
@@ -240,7 +240,7 @@ namespace Data
 
 		void FinalizeCustomAssetFile(Ptr<File> customAssets)
 		{
-			String footer = R"(
+			std::string footer = R"(
 }
 )";
 			customAssets->Write(footer);

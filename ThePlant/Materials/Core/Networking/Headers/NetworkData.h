@@ -7,11 +7,11 @@ namespace Networking {
   class NetworkData
   {
     // byte array that is comprised of all data
-    List<byte> _data;
+    std::vector<byte> _data;
 
   public:
     template<typename... Ts>
-    void AddData(List<byte> newData)
+    void AddData(std::vector<byte> newData)
     {
       uint newDataSize = newData.size();
       // key representing the size of this block of data
@@ -25,9 +25,9 @@ namespace Networking {
       _data.clear();
     }
 
-    List<byte> GetData() const
+    std::vector<byte> GetData() const
     {
-      List<byte> returnedData(_data.size());
+      std::vector<byte> returnedData(_data.size());
       Push(returnedData, _data);
 
       return returnedData;

@@ -74,7 +74,7 @@ private:
     {
         File assetFile = OpenFileI(_getFilePath(asset));
 
-        String assetData = assetFile.GetFullText();
+        std::string assetData = assetFile.GetFullText();
 
         // non-const to start for deserialization
         SharedPtr<T> loadedData = MakeShared<T>();

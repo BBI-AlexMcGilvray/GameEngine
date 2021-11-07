@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Core/Headers/CoreDefs.h"
 #include <cmath>
+#include <utility>
+
+#include "Core/Headers/CoreDefs.h"
 
 namespace Core {
 namespace Math {
@@ -60,7 +62,7 @@ namespace Math {
   }
 
   template<typename T>
-  Pair<T> QuadraticFormula(T a, T b, T c)
+  std::pair<T, T> QuadraticFormula(T a, T b, T c)
   {
     T additiveResult = ((-b + QuadraticFormulaRoot(a, b, c)) / (T(2) * a));
 

@@ -4,7 +4,6 @@
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
-#include "Core/Headers/MapDefs.h"
 
 namespace Application {
 namespace Rendering {

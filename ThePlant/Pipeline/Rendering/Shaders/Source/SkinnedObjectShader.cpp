@@ -19,7 +19,7 @@ namespace Rendering {
     return &VShader;
   }
 
-  void SkinnedObjectShader::SetSkinningInformation(const List<Float4x4> boneList)
+  void SkinnedObjectShader::SetSkinningInformation(const std::vector<Float4x4> boneList)
   {
     VShader.SetSkinningInformation(boneList);
   }

@@ -30,7 +30,7 @@ namespace Animation {
 
   Core::Ptr<Animator> AnimationManager::AddAnimator(Core::UniquePtr<Animator> animator)
   {
-    Core::Push(_animators, move(animator));
+    _animators.push_back(move(animator));
 
     return _animators[_animators.size() - 1].get();
   }
@@ -39,7 +39,7 @@ namespace Animation {
   {
     for (Core::size i = 0; i < _animators.size(); i++) {
       if (_animators[i].get() == animator) {
-        Core::RemoveIndex(_animators, i);
+        _animators.erase(_animators.begin() + i);
       }
     }
   }

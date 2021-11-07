@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include <vector>
+
 #include "Core/Headers/Hash.h"
 
 #include "Pipeline/Animation/TransformAnimation/Headers/TransformAnimationTrack.h"
@@ -15,13 +18,13 @@ namespace Animation {
     void SetTrack(string boneName, TransformAnimationTrack animationTrack);
 
     void SetStartState(const Rendering::Skeleton &skeleton);
-    Core::Map<string, Core::Geometric::Transform> Evaluate(Core::Second time);
+    std::map<string, Core::Geometric::Transform> Evaluate(Core::Second time);
 
   private:
-    Core::List<Core::Geometric::Transform> _startState;
+    std::vector<Core::Geometric::Transform> _startState;
 
     // <bone name, animation track>
-    Core::Map<string, TransformAnimationTrack> _tracks;
+    std::map<string, TransformAnimationTrack> _tracks;
 
     int CreateStartState(Core::Ptr<Geometric::Node> rootBone, int index);
   };

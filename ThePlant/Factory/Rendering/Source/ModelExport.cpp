@@ -59,7 +59,7 @@ namespace Data
 			return Core::Serialize<Core::Serialization::Format::JSON>(modelData);
 		}
 
-		void CreateFileForModel(Data::Config& config, Ptr<File> directAssets, Ptr<const aiScene> scene, uint meshIndex, String name)
+		void CreateFileForModel(Data::Config& config, Ptr<File> directAssets, Ptr<const aiScene> scene, uint meshIndex, std::string name)
 		{
 			Core::Serialization::Format::JSON modelAsJSON = scene->mMeshes[meshIndex]->HasBones() ? SerializeAnimatedModel(name) : SerializeSimpleModel(name);
 

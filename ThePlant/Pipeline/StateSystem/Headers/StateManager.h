@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/Headers/ListDefs.h"
+#include <vector>
+
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
@@ -77,7 +78,7 @@ private:
   Rendering::RenderManager &RenderSystem;
   Input::InputManager &InputSystem;
 
-  List<UniquePtr<State>> States;
+  std::vector<UniquePtr<State>> States;
 
   SystemState CurrentState = SystemState::None;
   StateTransitionInfo TransitionInfo;

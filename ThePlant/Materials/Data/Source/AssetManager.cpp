@@ -1,5 +1,7 @@
 #include "Data/Headers/AssetManager.h"
 
+#include <utility>
+
 namespace Data
 {
     AssetManager::~AssetManager()
@@ -8,7 +10,7 @@ namespace Data
         cleanAssets();
 
         int retainedAssets = 0;
-        for (const Pair<AssetName<void>, WeakPtr<const void>>& pair : _assets)
+        for (const std::pair<AssetName<void>, WeakPtr<const void>>& pair : _assets)
         {
             ++retainedAssets;
         }
@@ -32,7 +34,7 @@ namespace Data
 
     void AssetManager::unlockAllAssets()
     {
-        for (const Pair<AssetName<void>, SharedPtr<const void>>& pair : _lockedAssets)
+        for (const std::pair<AssetName<void>, SharedPtr<const void>>& pair : _lockedAssets)
         {
             unlockAsset(pair.first);
         }

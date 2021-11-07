@@ -10,7 +10,7 @@ namespace Animation {
     : AnimationCurve({ Keyframe(0_s, 0.0f), Keyframe(1_s, 0.0f) })
   {}
 
-  AnimationCurve::AnimationCurve(Core::List<Keyframe> keyframes)
+  AnimationCurve::AnimationCurve(std::vector<Keyframe> keyframes)
     : _keyframes(keyframes)
   {}
 

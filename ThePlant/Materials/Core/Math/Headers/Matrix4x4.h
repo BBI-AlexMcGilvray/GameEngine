@@ -1,5 +1,7 @@
 #pragma once
 
+#include <utility>
+
 #include "Core/Headers/ListDefs.h"
 #include "Core/Math/Headers/Matrix.h"
 #include "Core/Math/Headers/Vector4.h"
@@ -88,9 +90,9 @@ namespace Math {
     }
 
     // methods
-    Pair<Dimension<4>, Dimension<4>> Dimensions() const
+    std::pair<Dimension<4>, Dimension<4>> Dimensions() const
     {
-      return Pair<Dimension<4>, Dimension<4>>(4, 4);
+      return std::pair<Dimension<4>, Dimension<4>>(4, 4);
     }
 
     void SetColumn(int column, VectorA<T, 4> columnVector)

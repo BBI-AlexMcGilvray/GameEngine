@@ -55,7 +55,7 @@ void StateManager::CleanUp()
 
 void StateManager::PushState(StateTransitionInfo transitionInfo)
 {
-  Push(States, MakeUnique<State>(RenderSystem, InputSystem));
+  States.push_back(MakeUnique<State>(RenderSystem, InputSystem));
   States[States.size() - 1]->Initialize();
 
   GoToState(States[States.size() - 1].get(), transitionInfo);
@@ -117,7 +117,7 @@ void StateManager::RemoveState(Ptr<State> state)
         }
       }
 
-      RemoveIndex(States, i);
+      States.erase(States.begin() + i);
       break;
     }
   }

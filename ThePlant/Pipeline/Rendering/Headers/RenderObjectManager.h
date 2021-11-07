@@ -1,8 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "Pipeline/Rendering/Headers/RenderObjectBase.h"
 
-#include "Core/Headers/ListDefs.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
@@ -49,7 +50,7 @@ namespace Rendering {
     // Should this not be ptrs at all to have contiguous memory?
     // ~ that would mean they would need to live here, and not on a component
     // ~ so components point to element held by array within the system instead of the other way around
-    Core::List<Core::UniquePtr<RenderObjectBase>> RenderObjects;
+    std::vector<Core::UniquePtr<RenderObjectBase>> RenderObjects;
   };
 }// namespace Rendering
 }// namespace Application

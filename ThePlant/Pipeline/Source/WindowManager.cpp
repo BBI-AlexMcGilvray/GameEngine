@@ -1,7 +1,7 @@
 #include "Pipeline/Headers/WindowManager.h"
 
 namespace Application {
-WindowManager::WindowManager(String name, int width, int height)
+WindowManager::WindowManager(std::string name, int width, int height)
   : Name(name), Width(width), Height(height)
 {
 }

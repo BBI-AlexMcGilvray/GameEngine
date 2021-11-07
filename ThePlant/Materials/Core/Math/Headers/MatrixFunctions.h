@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Core/Math/Headers/Matrix.h"
 #include "Core/Math/Headers/Matrix2x2.h"
 #include "Core/Math/Headers/Matrix3x3.h"
@@ -301,9 +303,9 @@ namespace Math {
 #if DEBUG
 
   template<typename T, typename int A, typename int B>
-  String MatrixString(MatrixAxB<T, A, B> m)
+  std::string MatrixString(MatrixAxB<T, A, B> m)
   {
-    String matrixInfo;
+    std::string matrixInfo;
 
     matrixInfo += "[";
     for (auto i = 0; i < A; i++) {

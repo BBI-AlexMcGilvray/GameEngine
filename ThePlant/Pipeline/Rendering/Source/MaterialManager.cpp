@@ -42,7 +42,7 @@ namespace Rendering {
     // we will need some handling here for render objects to have types (animated, stagnant, alpha, solid) to be able to put them into different lists
     // for efficiency and general handling (ex: only update animated, alpha has to be rendered last IN Z ORDER to ensure correct rendering)
 
-    Push(_materials, move(material));
+    _materials.push_back(move(material));
 
     return _materials[_materials.size() - 1].get();
   }
@@ -51,7 +51,7 @@ namespace Rendering {
   {
     for (Core::size i = 0; i < _materials.size(); i++) {
       if (_materials[i].get() == material) {
-        RemoveIndex(_materials, i);
+        _materials.erase(_materials.begin() + i);
       }
     }
   }

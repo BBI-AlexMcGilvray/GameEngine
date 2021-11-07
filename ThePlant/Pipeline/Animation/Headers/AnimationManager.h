@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/Headers/ListDefs.h"
+#include <vector>
+
 #include "Core/Headers/TimeDefs.h"
 
 #include "Pipeline/Animation/Headers/Animator.h"
@@ -38,7 +39,7 @@ namespace Animation {
     // ~ that would mean they would need to live here, and not on a component
     // ~ so components point to element held by array within the system instead of the other way around
     // ~ which is what we want!
-    Core::List<Core::UniquePtr<Animator>> _animators;
+    std::vector<Core::UniquePtr<Animator>> _animators;
   };
 }// namespace Animation
 }// namespace Application

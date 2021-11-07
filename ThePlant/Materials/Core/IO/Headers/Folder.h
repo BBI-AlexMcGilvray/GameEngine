@@ -12,8 +12,8 @@ namespace IO {
     Error
   };
 
-  CreateFolderResult CreateFolder(String path);
-  bool FolderExists(String path);
+  CreateFolderResult CreateFolder(std::string path);
+  bool FolderExists(std::string path);
 
   // Functions to be done later:
 

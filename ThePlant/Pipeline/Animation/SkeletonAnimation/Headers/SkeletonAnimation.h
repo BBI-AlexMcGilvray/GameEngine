@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include <string>
+
 #include "Pipeline/Animation/Headers/Animation.h"
 
 #include "Data/Rendering/Headers/SkeletonAnimationData.h"
@@ -12,12 +15,12 @@ namespace Animation {
     SkeletonAnimation(Data::AssetName<Data::Rendering::SkeletonAnimationData> data);
 
     void Evaluate(Core::Second time) override;
-    Map<string, Core::Geometric::Transform> GetAnimationResults();
+    std::map<std::string, Core::Geometric::Transform> GetAnimationResults();
 
   private:
     Data::AssetData<Data::Rendering::SkeletonAnimationData> _data;
     SkeletonAnimationTrack _track;
-    Map<string, Core::Geometric::Transform> _evaluationResults;
+    std::map<string, Core::Geometric::Transform> _evaluationResults;
   };
 }// namespace Animation
 }// namespace Application

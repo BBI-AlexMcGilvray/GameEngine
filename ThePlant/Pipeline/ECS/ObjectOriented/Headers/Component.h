@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Headers/Hash.h"
-#include "Core/Headers/MapDefs.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Functionality/Headers/Event.h"

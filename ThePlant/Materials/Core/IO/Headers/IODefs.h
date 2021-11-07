@@ -1,10 +1,12 @@
 #pragma once
 
-#include "Core/Headers/CoreDefs.h"
-#include "Core/IO/Headers/Exception.h"
 #include <fstream>
 #include <ios>
 #include <sstream>
+#include <string>
+
+#include "Core/Headers/CoreDefs.h"
+#include "Core/IO/Headers/Exception.h"
 
 namespace Core {
 namespace IO {
@@ -45,10 +47,10 @@ namespace IO {
 
   struct FilePath
   {
-    String Path;
-    String File;
+    std::string Path;
+    std::string File;
 
-    String GetFullPath() const
+    std::string GetFullPath() const
     {
       return (Path + File);
     }

@@ -21,7 +21,7 @@ namespace IO {
 
     File(FilePath path, OpenMode permissions, Endian endian = Endian::Big);
 
-    String GetFullPath();
+    std::string GetFullPath();
 
     void SetPermissions(OpenMode permissions);
 
@@ -47,8 +47,8 @@ namespace IO {
     bool MoveToNextLine();
     bool CreateNewLine();
 
-    String GetFullText();
-    String GetLine();
+    std::string GetFullText();
+    std::string GetLine();
 
     template<typename T>
     bool Read(T &&target)
@@ -87,7 +87,7 @@ namespace IO {
     template<typename T, typename... Ts>
     bool Write(T &&source, Ts &&...args)
     {
-      if (Write(source) && Write(String(" "))) {
+      if (Write(source) && Write(std::string(" "))) {
         return Write(std::forward<Ts>(args)...);
       }
       return false;

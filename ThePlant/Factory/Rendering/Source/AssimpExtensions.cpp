@@ -27,12 +27,12 @@ namespace Data
 		}
 
 		// marks node as include if names match
-		void ExportNode::IncludeNode(Core::String name)
+		void ExportNode::IncludeNode(std::string name)
 		{
 			IncludeIfContainsName(name);
 		}
 
-		bool ExportNode::IncludeIfContainsName(Core::String name)
+		bool ExportNode::IncludeIfContainsName(std::string name)
 		{
 			bool include = false;
 

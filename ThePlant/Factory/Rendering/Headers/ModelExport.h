@@ -13,6 +13,6 @@ namespace Data
 {
 	namespace DataExport
 	{
-		void CreateFileForModel(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<const aiScene> scene, Core::uint meshIndex, Core::String name);
+		void CreateFileForModel(Config& config, Core::Ptr<Core::IO::File> directAssets, Core::Ptr<const aiScene> scene, Core::uint meshIndex, std::string name);
 	}
 }

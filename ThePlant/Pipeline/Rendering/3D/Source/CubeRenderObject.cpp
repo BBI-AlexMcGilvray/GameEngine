@@ -57,7 +57,7 @@ namespace Rendering {
     newBuffer.Unbind();
     glDisableVertexAttribArray(0);
 
-    Push(Vbos, newBuffer);
+    Vbos.push_back(newBuffer);
   }
 
   void CubeRenderObject::Prepare(const Float4x4 &mvp, const Color &color) const
@@ -74,7 +74,7 @@ namespace Rendering {
 
   void CubeRenderObject::CreateMesh()
   {
-    std::vector<Float3> vertices = List<Float3>(8);
+    std::vector<Float3> vertices = std::vector<Float3>(8);
     vertices.push_back(Float3(-Scale.X, -Scale.Y, -Scale.Z));
     vertices.push_back(Float3(-Scale.X, Scale.Y, -Scale.Z));
     vertices.push_back(Float3(Scale.X, Scale.Y, -Scale.Z));

@@ -13,7 +13,7 @@ The game running itself should only ever be READING from already created directo
 
 namespace Core {
 namespace IO {
-  CreateFolderResult CreateFolder(String path)
+  CreateFolderResult CreateFolder(std::string path)
   {
     if (path.empty()) {
       return CreateFolderResult::Error;
@@ -35,7 +35,7 @@ namespace IO {
     return CreateFolderResult::Error;
   }
 
-  bool FolderExists(String path)
+  bool FolderExists(std::string path)
   {
     auto fileAttributes = GetFileAttributesA(path.c_str());
 

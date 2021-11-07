@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Core/Headers/PtrDefs.h"
 #include "Core/IO/Headers/File.h"
 
@@ -13,6 +15,6 @@ namespace Data
 {
 	namespace DataExport
 	{
-		void CreateFileForMaterial(Config& config, Core::Ptr<Core::IO::File> directAssets, const aiMaterial* material, Core::String name);
+		void CreateFileForMaterial(Config& config, Core::Ptr<Core::IO::File> directAssets, const aiMaterial* material, std::string name);
 	}
 }

@@ -1,9 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "ColliderBase.h"
 #include "CollisionBase.h"
-
-#include "Core/Headers/ListDefs.h"
 
 namespace Application {
 namespace GameSystem {
@@ -21,7 +21,7 @@ namespace GameSystem {
       void CleanUp();
 
     private:
-      List<ColliderBase> Colliders;
+      std::vector<ColliderBase> Colliders;
     };
   }// namespace Collision
 }// namespace GameSystem

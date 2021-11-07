@@ -2,7 +2,8 @@
 
 #include "Factory/Rendering/Headers/MaterialExport.h"
 
-#include "Core/Headers/ListDefs.h"
+#include <vector>
+
 #include "Core/Headers/Hash.h"
 
 #include "Core/Logging/Logger.h"
@@ -58,7 +59,7 @@ namespace Data
 			return Core::Serialize<Core::Serialization::Format::JSON>(materialData);
 		}
 
-		void CreateFileForMaterial(Config& config, Core::Ptr<Core::IO::File> directAssets, const aiMaterial* material, String name)
+		void CreateFileForMaterial(Config& config, Core::Ptr<Core::IO::File> directAssets, const aiMaterial* material, std::string name)
 		{
 			CORE_LOG(MATERIAL_EXPORT, "Getting material information from assimp...");
 			Core::Serialization::Format::JSON materialAsJSON = SerializeMaterial(material);

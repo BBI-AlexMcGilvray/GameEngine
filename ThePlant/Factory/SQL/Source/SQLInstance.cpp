@@ -54,7 +54,7 @@ namespace Data
 			State = DBState::Closed;
 		}
 
-		bool SQLInstance::Query(String sqlCall, BoolFunction<Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo)
+		bool SQLInstance::Query(std::string sqlCall, BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>> rowOperation, Ptr<void> forwardedInfo)
 		{
 			CORE_LOG(SQL_INSTANCE, "Querying <" + DBPath.GetFullPath() + ">");
 
@@ -69,10 +69,10 @@ namespace Data
 			struct WrappedInfo
 			{
 				Ptr<void> ForwardedInfo;
-				BoolFunction<Ptr<void>, List<String>, List<String>>& RowOperation;
+				BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>>& RowOperation;
 
 				// need this constructor as MakeUnique does NOT work on initializer lists
-				WrappedInfo(Ptr<void> forwardedInfo, BoolFunction<Ptr<void>, List<String>, List<String>>& rowOperation)
+				WrappedInfo(Ptr<void> forwardedInfo, BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>>& rowOperation)
 					: ForwardedInfo(forwardedInfo), RowOperation(rowOperation)
 				{}
 			};
@@ -82,13 +82,13 @@ namespace Data
 			{
 				Ptr<WrappedInfo> wrappedInfoObj = static_cast<Ptr<WrappedInfo>>(wrappedInfo);
 
-				List<String> columnValueStrings;
-				List<String> columnNameStrings;
+				std::vector<std::string> columnValueStrings;
+				std::vector<std::string> columnNameStrings;
 
 				for (int i = 0; i < columnCount; i++)
 				{
-					Push(columnValueStrings, String(columnValues[i]));
-					Push(columnNameStrings, String(columnNames[i]));
+					columnValueStrings.push_back(std::string(columnValues[i]));
+					columnNameStrings.push_back(std::string(columnNames[i]));
 				}
 
 				return wrappedInfoObj->RowOperation(wrappedInfoObj->ForwardedInfo, columnValueStrings, columnNameStrings);
@@ -107,7 +107,7 @@ namespace Data
 			return true;
 		}
 
-		bool SQLInstance::Query(List<String> sqlCalls, BoolFunction<Ptr<void>, List<String>, List<String>> rowOperation, Ptr<void> forwardedInfo)
+		bool SQLInstance::Query(std::vector<std::string> sqlCalls, BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>> rowOperation, Ptr<void> forwardedInfo)
 		{
 			for (auto& sqlCall : sqlCalls)
 			{
@@ -120,7 +120,7 @@ namespace Data
 			return true;
 		}
 
-		String SQLInstance::GetError()
+		std::string SQLInstance::GetError()
 		{
 			return LatestError;
 		}

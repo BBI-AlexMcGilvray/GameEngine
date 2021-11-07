@@ -81,7 +81,7 @@ namespace Rendering {
     const float t = (1.0f + Sqrt(5.0f)) / 2.0f;
     // So each side has a length of sqrt( t*t + 1.0 )
     float rScale = Radius / Sqrt(t * t + 1.0f);// correct the radius
-    List<Float3> vertices = List<Float3>(12);
+    std::vector<Float3> vertices = std::vector<Float3>(12);
 
     for (int i = 0; i < 4; i++)
       //v[ i ] = Vector( 0, -(i&2), -(i&1)*t ) ;

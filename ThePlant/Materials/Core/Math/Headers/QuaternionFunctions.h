@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Math/Headers/MathUtils.h"
 #include "Core/Math/Headers/Matrix3x3.h"
@@ -282,9 +284,9 @@ namespace Math {
 
 #if DEBUG
   template<typename T>
-  String QuaternionString(Quaternion<T> const &q)
+  std::string QuaternionString(Quaternion<T> const &q)
   {
-    String quaternionInfo;
+    std::string quaternionInfo;
 
     quaternionInfo += "(";
     for (auto i = 0; i < 4; i++) {

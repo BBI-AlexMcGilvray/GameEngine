@@ -1,8 +1,10 @@
 #pragma once
 
-#include "Pipeline/Animation/Headers/AnimationMixer.h"
+#include <map>
+#include <string>
+#include <vector>
 
-#include "Core/Headers/MapDefs.h"
+#include "Pipeline/Animation/Headers/AnimationMixer.h"
 
 #include "Pipeline/Rendering/3D/Headers/Skeleton.h"
 #include "Pipeline/Animation/SkeletonAnimation/Headers/SkeletonAnimatable.h"
@@ -23,15 +25,15 @@ namespace Animation {
     struct MixData
     {
       float weight;
-      Core::Map<string, Core::Geometric::Transform> transforms;
+      std::map<std::string, Core::Geometric::Transform> transforms;
 
-      MixData(float weight, Map<string, Core::Geometric::Transform> transform)
+      MixData(float weight, std::map<string, Core::Geometric::Transform> transform)
         : weight(weight), transforms(transform)
       {}
     };
 
     SkeletonAnimatable &_target;
-    List<MixData> _animationsToMix;
+    std::vector<MixData> _animationsToMix;
   };
 }// namespace Animation
 }// namespace Application

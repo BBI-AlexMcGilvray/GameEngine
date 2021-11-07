@@ -33,13 +33,13 @@ namespace Data
 			const std::string SCENE_CONVERSION = "Scene Conversion";
 		}
 
-		void ConvertModelsInFolder(Config& config, Ptr<File> directAssets, String folder)
+		void ConvertModelsInFolder(Config& config, Ptr<File> directAssets, std::string folder)
 		{
-			List<Pair<ModelType, String>> models;
-			List<Pair<ModelType, String>> meshes;
-			List<String> materials;
-			List<String> skeletons;
-			List<String> skeletonAnimations;
+			std::vector<std::pair<ModelType, std::string>> models;
+			std::vector<std::pair<ModelType, std::string>> meshes;
+			std::vector<std::string> materials;
+			std::vector<std::string> skeletons;
+			std::vector<std::string> skeletonAnimations;
 
 			// in the future, this should likely also reference a database that is used to get specific file locations
 			FilePath listPath = FilePath{ folder, config.getValue("modelsFile") };
@@ -48,7 +48,7 @@ namespace Data
 
 			try
 			{
-				String line = listFile.GetLine();
+				std::string line = listFile.GetLine();
 
 				IOSStreamChar lineStream(line);
 
@@ -58,13 +58,13 @@ namespace Data
 				int assetsExported = 0;
 				while (assetsExported < numAssets)
 				{
-					String line = listFile.GetLine();
+					std::string line = listFile.GetLine();
 
 					IOSStreamChar lineStream(line);
 
-					String name;
-					String path;
-					String file;
+					std::string name;
+					std::string path;
+					std::string file;
 
 					lineStream >> name;
 					lineStream >> path;
@@ -91,18 +91,18 @@ namespace Data
 			DirectSkeletonAnimations(directAssets, skeletonAnimations);
 		}
 
-		void ConvertFilesForScene(Config& config, Ptr<File> directAssets, Ptr<File> sceneFile, String sceneName, List<Pair<ModelType, String>>& models, List<Pair<ModelType, String>>& meshes, List<String>& materials, List<String>& skeletons, List<String>& skeletonAnimations)
+		void ConvertFilesForScene(Config& config, Ptr<File> directAssets, Ptr<File> sceneFile, std::string sceneName, std::vector<std::pair<ModelType, std::string>>& models, std::vector<std::pair<ModelType, std::string>>& meshes, std::vector<std::string>& materials, std::vector<std::string>& skeletons, std::vector<std::string>& skeletonAnimations)
 		{
 			CORE_LOG(SCENE_CONVERSION, "Converting files for <<" + sceneFile->GetFullPath() + ">>");
 			// this process preset also INCLUDES the flag to make all faces based on triangles
-			String fullPathCopy = sceneFile->GetFullPath();
+			std::string fullPathCopy = sceneFile->GetFullPath();
 			Ptr<const char> c_Path = fullPathCopy.c_str();
 			Ptr<const aiScene> loadedScene = aiImportFile(c_Path, aiProcessPreset_TargetRealtime_MaxQuality);
 
 			if (!loadedScene)
 			{
 				CORE_LOG(SCENE_CONVERSION, "Could not load file <<" + sceneFile->GetFullPath() + ">>");
-				CORE_LOG(SCENE_CONVERSION, "ASSIMP ERROR: " + String(aiGetErrorString()));
+				CORE_LOG(SCENE_CONVERSION, "ASSIMP ERROR: " + std::string(aiGetErrorString()));
 				return;
 			}
 
@@ -112,7 +112,7 @@ namespace Data
 			// Create a file for each mesh in the parent mesh
 			for (uint32_t meshIndex = 0u; meshIndex < numberOfMeshes; meshIndex++)
 			{
-				String fileName = sceneName + "_" + std::to_string(meshIndex);
+				std::string fileName = sceneName + "_" + std::to_string(meshIndex);
 
 				CORE_LOG(SCENE_CONVERSION, "Creating file to hold model information for <<" + fileName + ">>");
 				CreateFileForModel(config, directAssets, loadedScene, meshIndex, fileName);
@@ -122,34 +122,34 @@ namespace Data
 
 				if (!loadedScene->mMeshes[meshIndex]->HasBones())
 				{
-					Push(models, Pair<ModelType, String>(ModelType::Simple, fileName));
-					Push(meshes, Pair<ModelType, String>(ModelType::Simple, fileName));
+					models.push_back(std::pair<ModelType, std::string>(ModelType::Simple, fileName));
+					meshes.push_back(std::pair<ModelType, std::string>(ModelType::Simple, fileName));
 
-					Push(models, Pair<ModelType, String>(ModelType::Static, fileName));
-					Push(meshes, Pair<ModelType, String>(ModelType::Static, fileName));
+					models.push_back(std::pair<ModelType, std::string>(ModelType::Static, fileName));
+					meshes.push_back(std::pair<ModelType, std::string>(ModelType::Static, fileName));
 				}
 				else
 				{
-					Push(models, Pair<ModelType, String>(ModelType::Animated, fileName));
-					Push(meshes, Pair<ModelType, String>(ModelType::Animated, fileName));
+					models.push_back(std::pair<ModelType, std::string>(ModelType::Animated, fileName));
+					meshes.push_back(std::pair<ModelType, std::string>(ModelType::Animated, fileName));
 				}
 
 				CORE_LOG(SCENE_CONVERSION, "Creating file to hold material information for <<" + fileName + ">>");
 				CreateFileForMaterial(config, directAssets, loadedScene->mMaterials[loadedScene->mMeshes[meshIndex]->mMaterialIndex], fileName);
-				Push(materials, fileName);
+				materials.push_back(fileName);
 
 				if (loadedScene->mMeshes[meshIndex]->HasBones())
 				{
 					CORE_LOG(SCENE_CONVERSION, "Creating file to hold skeleton information for <<" + fileName + ">>");
 					CreateFileForSkeleton(config, directAssets, loadedScene, meshIndex, fileName);
-					Push(skeletons, fileName);
+					skeletons.push_back(fileName);
 
 					for (uint animationIndex = 0; animationIndex < loadedScene->mNumAnimations; animationIndex++)
 					{
 						CORE_LOG(SCENE_CONVERSION, "Creating file to hold skeleton animation information for <<" + fileName + ">>");
 						// do this before the skeleton so the skeleton knows (and saves) its animations?
 						CreateFileForSkeletonAnimation(config, directAssets, loadedScene->mAnimations[animationIndex], loadedScene->mRootNode, loadedScene->mMeshes[meshIndex], meshIndex, fileName);
-						Push(skeletonAnimations, fileName + "_" + FixAnimationName(String(loadedScene->mAnimations[animationIndex]->mName.C_Str())));
+						skeletonAnimations.push_back(fileName + "_" + FixAnimationName(std::string(loadedScene->mAnimations[animationIndex]->mName.C_Str())));
 					}
 				}
 				else
@@ -163,7 +163,7 @@ namespace Data
 			aiReleaseImport(loadedScene);
 		}
 
-		void DirectModels(Ptr<File> directAssets, List<Pair<ModelType, String>>& models)
+		void DirectModels(Ptr<File> directAssets, std::vector<std::pair<ModelType, std::string>>& models)
 		{
 			// simple
 			ExportDirectReference_Open("SimpleModels", "spmdl", directAssets);
@@ -210,7 +210,7 @@ namespace Data
 			ExportDirectReference_Close("AnimatedModels", "amdl", directAssets);
 		}
 
-		void DirectMeshes(Ptr<File> directAssets, List<Pair<ModelType, String>>& meshes)
+		void DirectMeshes(Ptr<File> directAssets, std::vector<std::pair<ModelType, std::string>>& meshes)
 		{
 			// simple
 			ExportDirectReference_Open("SimpleMeshes", "spmsh", directAssets);
@@ -257,7 +257,7 @@ namespace Data
 			ExportDirectReference_Close("AnimatedMeshes", "amsh", directAssets);
 		}
 
-		void DirectMaterials(Ptr<File> directAssets, List<String>& materials)
+		void DirectMaterials(Ptr<File> directAssets, std::vector<std::string>& materials)
 		{
 			ExportDirectReference_Open("Materials", "mat", directAssets);
 
@@ -270,7 +270,7 @@ namespace Data
 			ExportDirectReference_Close("Materials", "mat", directAssets);
 		}
 
-		void DirectSkeletons(Ptr<File> directAssets, List<String>& skeletons)
+		void DirectSkeletons(Ptr<File> directAssets, std::vector<std::string>& skeletons)
 		{
 			ExportDirectReference_Open("Skeletons", "skl", directAssets);
 
@@ -283,7 +283,7 @@ namespace Data
 			ExportDirectReference_Close("Skeletons", "skl", directAssets);
 		}
 
-		void DirectSkeletonAnimations(Ptr<File> directAssets, List<String>& skeletonAnimations)
+		void DirectSkeletonAnimations(Ptr<File> directAssets, std::vector<std::string>& skeletonAnimations)
 		{
 			ExportDirectReference_Open("SkeletonAnimations", "sanim", directAssets);
 
@@ -296,14 +296,14 @@ namespace Data
 			ExportDirectReference_Close("SkeletonAnimations", "sanim", directAssets);
 		}
 
-		String FixAnimationName(String name)
+		std::string FixAnimationName(std::string name)
 		{
-			String fixedStr = "";
+			std::string fixedStr = "";
 
-			List<char> invalidChars = { '|', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '{', '}', '[', ']', '-', '=', '+' };
+			std::vector<char> invalidChars = { '|', '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '{', '}', '[', ']', '-', '=', '+' };
 			for (uint i = 0; i < name.length(); i++)
 			{
-				if (InList(invalidChars, name[i]))
+				if (std::find(invalidChars.begin(), invalidChars.end(), name[i]) != invalidChars.end())
 				{
 					fixedStr += '_';
 				}

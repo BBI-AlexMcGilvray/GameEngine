@@ -50,7 +50,7 @@ namespace Geometric {
 
   Ptr<ContentBase> ContainerBase::AddContent(UniquePtr<ContentBase> newContent)
   {
-    Push(Content, move(newContent));
+    Content.push_back(move(newContent));
 
     return Content[Content.size() - 1].get();
   }
@@ -59,7 +59,7 @@ namespace Geometric {
   {
     for (int i = 0; i < Content.size(); i++) {
       if (Content[i].get() == content) {
-        RemoveIndex(Content, i);
+        Content.erase(Content.begin() + i);
       }
     }
   }

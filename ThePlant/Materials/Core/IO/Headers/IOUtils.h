@@ -8,6 +8,6 @@ namespace IO {
   File OpenFileI(FilePath file);
   File OpenFileO(FilePath file);
 
-  String GetCWD();
+  std::string GetCWD();
 }// namespace IO
 }// namespace Core

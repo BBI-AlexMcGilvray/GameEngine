@@ -14,7 +14,7 @@
 
 namespace Application {
 namespace Rendering {
-  Bone::Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Ptr<Bone> rootBone, Core::String name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale)
+  Bone::Bone(Core::Ptr<State> parentState, Ptr<Node> parentNode, Ptr<Bone> rootBone, std::string name, Core::Math::Float3 position, Core::Math::FQuaternion rotation, Core::Math::Float3 scale)
     : Node(parentState, parentNode, name, position, rotation, scale, false), RootBone(rootBone)
   {
     // initial position is the bind position
@@ -58,7 +58,7 @@ namespace Rendering {
 
   // Problem was: was returning the depth, but the way it was calculated is not equivalent to bone INDEX
   // New Problem: Keeps counting forever, need to break out of the recursion when a bone is found
-  int Bone::GetBoneIndex(Core::String name)
+  int Bone::GetBoneIndex(std::string name)
   {
     bool indexFound = false;
     int index = GetBoneIndex(name, indexFound);
@@ -71,7 +71,7 @@ namespace Rendering {
     return (indexFound ? index : -1);
   }
 
-  void Bone::GetBoneMatrices(List<Core::Math::Float4x4> &boneMatrices, int &offset)
+  void Bone::GetBoneMatrices(std::vector<Core::Math::Float4x4> &boneMatrices, int &offset)
   {
     boneMatrices[offset] = GetBindOffset();
     for (int i = 0; i < Children.size(); i++) {
@@ -79,7 +79,7 @@ namespace Rendering {
     }
   }
 
-  int Bone::GetBoneIndex(Core::String name, bool &indexFound)
+  int Bone::GetBoneIndex(std::string name, bool &indexFound)
   {
     if (Name == name) {
       indexFound = true;

@@ -47,7 +47,7 @@ namespace Functionality {
 		template <typename T>
 		struct Subscription
 		{
-			List<Ptr<Subscriber<T>>>  Subscribers;
+			std::vector<Ptr<Subscriber<T>>>  Subscribers;
 
 			~Subscription()
 			{

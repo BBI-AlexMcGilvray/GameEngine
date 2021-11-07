@@ -5,11 +5,11 @@ namespace Core
 {
 	namespace Geometric
 	{
-		Polygon2D::Polygon2D(List<Float2> vertices)
+		Polygon2D::Polygon2D(std::vector<Float2> vertices)
 			: Polygon2D(Float2(0.0f), vertices)
 		{}
 
-		Polygon2D::Polygon2D(Float2 origin, List<Float2> vertices)
+		Polygon2D::Polygon2D(Float2 origin, std::vector<Float2> vertices)
 			: Origin(origin), Vertices(vertices)
 		{
 

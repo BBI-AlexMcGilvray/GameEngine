@@ -58,7 +58,7 @@ namespace Rendering {
   }
 
 
-  void SkinnedVertexShader::SetSkinningInformation(const List<Float4x4> boneList)
+  void SkinnedVertexShader::SetSkinningInformation(const std::vector<Float4x4> boneList)
   {
     BoneList = boneList;
   }

@@ -1,5 +1,7 @@
 #include "Pipeline/Animation/SkeletonAnimation/Headers/SkeletonAnimationTrack.h"
 
+#include <utility>
+
 #include "Core/Logging/Logger.h"
 #include "Data/Headers/AssetExceptions.h"
 
@@ -21,7 +23,8 @@ namespace Animation {
 
   void SkeletonAnimationTrack::SetTrack(string boneName, TransformAnimationTrack animationTrack)
   {
-    if (!Core::In(_tracks, boneName)) {
+    if (_tracks.find(boneName) != _tracks.end())
+    {
       _tracks[boneName] = animationTrack;
     }
 
@@ -34,11 +37,11 @@ namespace Animation {
     CreateStartState(hierarchy, 0);
   }
 
-  Core::Map<string, Core::Geometric::Transform> SkeletonAnimationTrack::Evaluate(Core::Second time)
+  std::map<string, Core::Geometric::Transform> SkeletonAnimationTrack::Evaluate(Core::Second time)
   {
-    Core::Map<string, Core::Geometric::Transform> skeleton;
+    std::map<string, Core::Geometric::Transform> skeleton;
 
-    for (Core::Pair<const string, TransformAnimationTrack> &pair : _tracks) {
+    for (std::pair<const string, TransformAnimationTrack> &pair : _tracks) {
       skeleton[pair.first] = pair.second.Evaluate(time);
     }
 

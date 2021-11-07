@@ -8,7 +8,7 @@ namespace IO {
   {
     using Exception::Exception;
 
-    IOException(const String &error)
+    IOException(const std::string &error)
     : Exception(error)
     {}
   };
@@ -17,7 +17,7 @@ namespace IO {
   {
     using IOException::IOException;
 
-    EOFException(const String &error)
+    EOFException(const std::string &error)
     : IOException(error)
     {}
   };

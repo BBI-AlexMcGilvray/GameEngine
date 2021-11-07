@@ -1,5 +1,8 @@
 #include "Pipeline/Animation/TransformAnimation/Headers/TransformAnimationTrack.h"
 
+#include <utility>
+#include <vector>
+
 #include "Core/Logging/Logger.h"
 
 namespace Application {
@@ -7,28 +10,28 @@ namespace Animation {
   TransformAnimationTrack::TransformAnimationTrack(const Data::Rendering::BoneAnimationData &data)
   {
     // position
-    Core::List<Keyframe> posX;
-    Core::List<Keyframe> posY;
-    Core::List<Keyframe> posZ;
+    std::vector<Keyframe> posX;
+    std::vector<Keyframe> posY;
+    std::vector<Keyframe> posZ;
     for (const Data::Rendering::PositionFrameData& positionData : data.positionChannel) {
-      Push(posX, Keyframe(positionData.time, positionData.position.X));
-      Push(posY, Keyframe(positionData.time, positionData.position.Y));
-      Push(posZ, Keyframe(positionData.time, positionData.position.Z));
+      posX.push_back(Keyframe(positionData.time, positionData.position.X));
+      posY.push_back(Keyframe(positionData.time, positionData.position.Y));
+      posZ.push_back(Keyframe(positionData.time, positionData.position.Z));
     }
     SetTrack(TransformTarget::P_X, FloatAnimationTrack(AnimationCurve(posX)));
     SetTrack(TransformTarget::P_Y, FloatAnimationTrack(AnimationCurve(posY)));
     SetTrack(TransformTarget::P_Z, FloatAnimationTrack(AnimationCurve(posZ)));
 
     // rotation
-    Core::List<Keyframe> rotX;
-    Core::List<Keyframe> rotY;
-    Core::List<Keyframe> rotZ;
-    Core::List<Keyframe> rotW;
+    std::vector<Keyframe> rotX;
+    std::vector<Keyframe> rotY;
+    std::vector<Keyframe> rotZ;
+    std::vector<Keyframe> rotW;
     for (const Data::Rendering::RotationFrameData& rotationData : data.rotationChannel) {
-      Push(posX, Keyframe(rotationData.time, rotationData.rotation.X));
-      Push(posY, Keyframe(rotationData.time, rotationData.rotation.Y));
-      Push(posZ, Keyframe(rotationData.time, rotationData.rotation.Z));
-      Push(posZ, Keyframe(rotationData.time, rotationData.rotation.W));
+      posX.push_back(Keyframe(rotationData.time, rotationData.rotation.X));
+      posY.push_back(Keyframe(rotationData.time, rotationData.rotation.Y));
+      posZ.push_back(Keyframe(rotationData.time, rotationData.rotation.Z));
+      posZ.push_back(Keyframe(rotationData.time, rotationData.rotation.W));
     }
     SetTrack(TransformTarget::R_X, FloatAnimationTrack(AnimationCurve(rotX)));
     SetTrack(TransformTarget::R_Y, FloatAnimationTrack(AnimationCurve(rotY)));
@@ -36,13 +39,13 @@ namespace Animation {
     SetTrack(TransformTarget::R_W, FloatAnimationTrack(AnimationCurve(rotW)));
 
     // scale
-    Core::List<Keyframe> scaleX;
-    Core::List<Keyframe> scaleY;
-    Core::List<Keyframe> scaleZ;
+    std::vector<Keyframe> scaleX;
+    std::vector<Keyframe> scaleY;
+    std::vector<Keyframe> scaleZ;
     for (const Data::Rendering::ScaleFrameData& scaleData : data.scaleChannel) {
-      Push(scaleX, Keyframe(scaleData.time, scaleData.scale.X));
-      Push(scaleY, Keyframe(scaleData.time, scaleData.scale.Y));
-      Push(scaleZ, Keyframe(scaleData.time, scaleData.scale.Z));
+      scaleX.push_back(Keyframe(scaleData.time, scaleData.scale.X));
+      scaleY.push_back(Keyframe(scaleData.time, scaleData.scale.Y));
+      scaleZ.push_back(Keyframe(scaleData.time, scaleData.scale.Z));
     }
     SetTrack(TransformTarget::S_X, FloatAnimationTrack(AnimationCurve(scaleX)));
     SetTrack(TransformTarget::S_Y, FloatAnimationTrack(AnimationCurve(scaleY)));
@@ -51,7 +54,8 @@ namespace Animation {
 
   void TransformAnimationTrack::SetTrack(TransformTarget target, FloatAnimationTrack animationTrack)
   {
-    if (!Core::In(_tracks, target)) {
+    if (_tracks.find(target) != _tracks.end())
+    {
       _tracks[target] = animationTrack;
     }
 
@@ -69,7 +73,7 @@ namespace Animation {
     Core::Math::FQuaternion rotation = _startState.GetRotation();
     Core::Math::Float3 scale = _startState.GetScale();
 
-    for (Core::Pair<const TransformTarget, FloatAnimationTrack> &pair : _tracks) {
+    for (std::pair<const TransformTarget, FloatAnimationTrack> &pair : _tracks) {
       switch (pair.first) {
       case TransformTarget::P_X: {
         position.X = pair.second.Evaluate(time);

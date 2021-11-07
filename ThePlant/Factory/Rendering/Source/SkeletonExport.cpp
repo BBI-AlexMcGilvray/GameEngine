@@ -76,7 +76,7 @@ namespace Data
 			}
 		}
 
-		Core::Serialization::Format::JSON SerializeSkeleton(Ptr<const aiScene> scene, uint meshIndex, String name)
+		Core::Serialization::Format::JSON SerializeSkeleton(Ptr<const aiScene> scene, uint meshIndex, std::string name)
 		{
 			Data::Rendering::SkeletonData skeletonData;
 			
@@ -93,7 +93,7 @@ namespace Data
 			return Core::Serialize<Core::Serialization::Format::JSON>(skeletonData);
 		}
 
-		void CreateFileForSkeleton(Config& config, Core::Ptr<Core::IO::File> directAssets, Ptr<const aiScene> scene, uint meshIndex, String name)
+		void CreateFileForSkeleton(Config& config, Core::Ptr<Core::IO::File> directAssets, Ptr<const aiScene> scene, uint meshIndex, std::string name)
 		{
 			Core::Ptr<const aiNode> rootNode = scene->mRootNode;
 			Core::Ptr<const aiMesh> mesh = scene->mMeshes[meshIndex];

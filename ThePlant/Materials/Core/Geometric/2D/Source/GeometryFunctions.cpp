@@ -66,7 +66,7 @@ namespace Geometric {
     //   Float2 boxAxis2 = box->GetRelativeWidthAxis();
 
     //   auto axisCollision = [point, box](Float2 axis) {
-    //     List<Float2> boxProjections = List<Float2>(4);
+    //     std::vector<Float2> boxProjections = std::vector<Float2>(4);
     //     Push(boxProjections, Project(box->GetTopLeftCorner(), axis));
     //     Push(boxProjections, Project(box->GetTopRightCorner(), axis));
     //     Push(boxProjections, Project(box->GetBottomLeftCorner(), axis));
@@ -167,7 +167,7 @@ namespace Geometric {
     // bool Intersect(Ptr<const Line2D> line, Ptr<const Box2D> box)
     // {
     //   auto axisCollision = [line, box](Float2 axis) {
-    //     List<Float2> boxProjections = List<Float2>(4);
+    //     std::vector<Float2> boxProjections = std::vector<Float2>(4);
     //     Push(boxProjections, Project(box->GetTopLeftCorner(), axis));
     //     Push(boxProjections, Project(box->GetTopRightCorner(), axis));
     //     Push(boxProjections, Project(box->GetBottomLeftCorner(), axis));
@@ -241,13 +241,13 @@ namespace Geometric {
     //   Float2 box2Axis2 = box2->GetTopLeftCorner() - box2->GetTopRightCorner();
 
     //   auto axisCollision = [box1, box2](Float2 axis) {
-    //     List<Float2> box1Projections = List<Float2>(4);
+    //     std::vector<Float2> box1Projections = std::vector<Float2>(4);
     //     Push(box1Projections, Project(box1->GetTopLeftCorner(), axis));
     //     Push(box1Projections, Project(box1->GetTopRightCorner(), axis));
     //     Push(box1Projections, Project(box1->GetBottomLeftCorner(), axis));
     //     Push(box1Projections, Project(box1->GetBottomRightCorner(), axis));
 
-    //     List<Float2> box2Projections = List<Float2>(4);
+    //     std::vector<Float2> box2Projections = std::vector<Float2>(4);
     //     Push(box2Projections, Project(box2->GetTopLeftCorner(), axis));
     //     Push(box2Projections, Project(box2->GetTopRightCorner(), axis));
     //     Push(box2Projections, Project(box2->GetBottomLeftCorner(), axis));

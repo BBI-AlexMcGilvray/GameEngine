@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "Core/IO/Headers/File.h"
 #include "Core/Headers/PtrDefs.h"
 
@@ -22,7 +24,7 @@ namespace Data
 
 		// none of the below should be here, but for the sake of getting this running without re-configuring
 		// the whole mesh/mat export data sequence
-		void ExportDirectReference_Open(String name, String acronym, Ptr<File> directAssets);
-		void ExportDirectReference_Close(String name, String acronym, Ptr<File> directAssets);
+		void ExportDirectReference_Open(std::string name, std::string acronym, Ptr<File> directAssets);
+		void ExportDirectReference_Close(std::string name, std::string acronym, Ptr<File> directAssets);
 	}
 }

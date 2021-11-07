@@ -1,5 +1,7 @@
 #pragma once
 
+#include <map>
+
 #include "Pipeline\Headers\GLContextManager.h"
 #include "Pipeline\Headers\WindowManager.h"
 
@@ -14,7 +16,6 @@
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
-#include "Core/Headers/MapDefs.h"
 
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/Color.h"
@@ -72,9 +73,9 @@ namespace Rendering {
     Core::Ptr<WindowManager> Window;
 
     // should all of these maps be combined into a single object to have a single mapping instead of multiple?
-    Core::Map<Core::Ptr<State>, Core::Ptr<RenderObjectManager>> ObjectManagers;
-    Core::Map<Core::Ptr<State>, Core::Ptr<MaterialManager>> MaterialManagers;
-    Core::Map<Core::Ptr<State>, Core::Ptr<CameraManager>> CameraManagers;
+    std::map<Core::Ptr<State>, Core::Ptr<RenderObjectManager>> ObjectManagers;
+    std::map<Core::Ptr<State>, Core::Ptr<MaterialManager>> MaterialManagers;
+    std::map<Core::Ptr<State>, Core::Ptr<CameraManager>> CameraManagers;
     Core::Ptr<State> ActiveState = nullptr;
 
     void RenderStart();
