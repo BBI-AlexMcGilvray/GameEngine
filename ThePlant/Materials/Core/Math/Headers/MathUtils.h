@@ -7,21 +7,36 @@
 
 namespace Core {
 namespace Math {
-  template <typename T, int POWER>
+  namespace {
+    template <typename T, int POWER>
+    struct PowerOf
+    {
+        static constexpr T ToThe(const T& base)
+        {
+            return PowerOf<T, POWER - 1>::ToThe(base) * base;
+        }
+    };
+
+    template <typename T>
+    struct PowerOf<T, 0>
+    {
+        static constexpr T ToThe(const T& base)
+        {
+            return 1;
+        }
+    };
+  }
+
+  template <int POWER, typename T>
   constexpr T pow(const T& d)
   {
-    if constexpr (POWER == 0)
-    {
-      return 1;
-    }
-
-    return d * pow<T, POWER - 1>(d);
+      return PowerOf<T, POWER>::ToThe(d);
   }
 
   template<typename T>
   constexpr T sqr(const T& d)
   {
-    return pow<T, 2>(d);
+    return pow<2>(d);
   }
 
   template<typename T>
