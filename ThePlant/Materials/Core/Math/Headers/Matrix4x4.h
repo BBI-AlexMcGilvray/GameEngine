@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <utility>
 
 #include "Core/Math/Headers/Matrix.h"
@@ -26,15 +27,15 @@ namespace Math {
                 Vector4<T> E1;
                 Vector4<T> E2;
               };
-              Vector4<T> E1E2[2];
+              std::array<Vector4<T>, 2> E1E2;
             };
             Vector4<T> E3;
           };
-          Vector4<T> E1E2E3[3];
+          std::array<Vector4<T>, 3> E1E2E3;
         };
         Vector4<T> E4;
       };
-      Vector4<T> E1E2E3E4[4];
+      std::array<Vector4<T>, 4> E1E2E3E4;
     };
 
     MatrixAxB()

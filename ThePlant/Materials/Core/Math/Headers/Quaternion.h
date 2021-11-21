@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "Core/Debugging/Headers/Macros.h"
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Math/Headers/MathDefs.h"
@@ -41,15 +43,15 @@ namespace Math {
                 T X;
                 T Y;
               };
-              T XY[2];
+              std::array<T, 2> XY;
             };
             T Z;
           };
-          T XYZ[3];
+          std::array<T, 3> XYZ;
         };
         T W;
       };
-      T XYZW[4];
+      std::array<T, 4> XYZW;
     };
 
     Quaternion()

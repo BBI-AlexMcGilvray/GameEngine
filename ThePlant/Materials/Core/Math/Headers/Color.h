@@ -1,9 +1,10 @@
 #pragma once
 
+#include <array>
+
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Math/Headers/MathDefs.h"
 #include "Core/Math/Headers/MathUtils.h"
-#include "Core/Math/Headers/Vector.h"
 
 namespace Core {
 namespace Math {
@@ -18,11 +19,11 @@ namespace Math {
               float G;
               float B;
           };
-          float RGB[3];
+          std::array<float, 3> RGB;
         };
         float A;
       };
-      float RGBA[4];
+      std::array<float, 4> RGBA;
     };
 
     constexpr Color()

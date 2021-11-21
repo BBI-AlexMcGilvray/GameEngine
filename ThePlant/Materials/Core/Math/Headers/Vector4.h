@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Core/Math/Headers/Vector.h"
+#include <array>
+
+#include "Core/Math/Headers/Vector3.h"
 
 namespace Core {
 namespace Math {
@@ -19,15 +21,15 @@ namespace Math {
                 T X;
                 T Y;
               };
-              VectorA<T, 2> XY;
+              Vector2<T> XY;
             };
             T Z;
           };
-          VectorA<T, 3> XYZ;
+          Vector3<T> XYZ;
         };
         T W;
       };
-      T XYZW[4];
+      std::array<T, 4> XYZW;
     };
 
     VectorA()

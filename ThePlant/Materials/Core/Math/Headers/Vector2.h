@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "Core/Math/Headers/Vector.h"
 
 namespace Core {
@@ -13,7 +15,7 @@ namespace Math {
         T X;
         T Y;
       };
-      T XY[2];
+      std::array<T, 2> XY;
     };
 
     VectorA()

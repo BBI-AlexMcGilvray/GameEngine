@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <utility>
 
 #include "Core/Math/Headers/Matrix.h"
@@ -19,14 +20,14 @@ namespace Math {
         union {
           struct
           {
-            VectorA<T, 3> E1;
-            VectorA<T, 3> E2;
+            Vector3<T> E1;
+            Vector3<T> E2;
           };
-          VectorA<T, 3> E1E2[2];
+          std::array<Vector3<T>, 2> E1E2;
         };
         VectorA<T, 3> E3;
       };
-      VectorA<T, 3> E1E2E3[3];
+      std::array<Vector3<T>, 3> E1E2E3;
     };
 
     MatrixAxB()
