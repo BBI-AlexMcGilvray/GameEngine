@@ -46,11 +46,11 @@ namespace Rendering {
   {
     // set the required information that needs to be used in the shader
     GLint MVP = glGetUniformLocation(program, "MVP");
-    glUniformMatrix4fv(MVP, 1, GL_FALSE, (GLfloat *)&(mvp.Bases[0]));
+    glUniformMatrix4fv(MVP, 1, GL_FALSE, (GLfloat *)&(mvp.E1E2E3E4[0]));
 
     // assign color to shader
     GLint modColor = glGetUniformLocation(program, "modColor");
-    glUniform4fv(modColor, 1, color.Values);
+    glUniform4fv(modColor, 1, &(color.RGBA[0]));
   }
 
   void VertexShader::CleanUp() const

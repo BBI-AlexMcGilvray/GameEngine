@@ -73,7 +73,7 @@ namespace Math {
   template<typename T, int D>
   T Magnitude(VectorA<T, D> const &v)
   {
-    return Sqrt(MagnitudeSqr(v));
+    return sqrt(MagnitudeSqr(v));
   }
 
   template<typename T, int D>
@@ -191,11 +191,11 @@ namespace Math {
   }
 
   template<typename T, int D>
-  Rad AngleBetweenVectors(VectorA<T, D> const &v1, VectorA<T, D> const &v2)
+  Rad<T> AngleBetweenVectors(VectorA<T, D> const &v1, VectorA<T, D> const &v2)
   {
     T dot = Dot(Normalize(v1), Normalize(v2));
 
-    return Acos(dot);
+    return acos(dot);
   }
 
   template<typename T>
@@ -239,7 +239,7 @@ namespace Math {
   template<typename T, typename int A>
   T Distance(VectorA<T, A> const &v1, VectorA<T, A> const &v2)
   {
-    return Sqrt(DistanceSqr(v1, v2));
+    return sqrt(DistanceSqr(v1, v2));
   }
 
   template<typename T, typename int A>

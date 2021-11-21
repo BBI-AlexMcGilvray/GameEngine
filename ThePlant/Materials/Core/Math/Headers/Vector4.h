@@ -27,7 +27,7 @@ namespace Math {
         };
         T W;
       };
-      T Axes[4];
+      T XYZW[4];
     };
 
     VectorA()
@@ -210,26 +210,26 @@ namespace Math {
       return v;
     }
 
-    bool operator==(VectorA<T, 4> const &v)
+    bool operator==(VectorA<T, 4> const &v) const
     {
       return (X == v.X && Y == v.Y && Z == v.Z && W == v.W);
     }
 
-    bool operator!=(VectorA<T, 4> const &v)
+    bool operator!=(VectorA<T, 4> const &v) const
     {
-      return (X != v.X || Y != v.Y || Z != v.Z || W != v.W);
+      return !(*this == v);
     }
 
     // add in other comparison operators
 
     T &operator[](int axis)
     {
-      return Axes[axis];
+      return XYZW[axis];
     }
 
     T operator[](int axis) const
     {
-      return Axes[axis];
+      return XYZW[axis];
     }
   };
 

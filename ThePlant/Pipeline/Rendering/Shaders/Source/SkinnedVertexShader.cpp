@@ -74,7 +74,7 @@ namespace Rendering {
 
     // assign color to shader
     GLint modColor = glGetUniformLocation(program, "modColor");
-    glUniform4fv(modColor, 1, color.Values);
+    glUniform4fv(modColor, 1, &(color.RGBA[0]));
 
     // assign bones to shader
     VERIFY(BoneList.size() <= 50);

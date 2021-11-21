@@ -7,64 +7,33 @@
 
 namespace Core {
 namespace Math {
-  template<typename T>
-  T Sqr(T a)
+  template <typename T, int POWER>
+  constexpr T pow(const T& d)
   {
-    return (a * a);
+    if constexpr (POWER == 0)
+    {
+      return 1;
+    }
+
+    return d * pow<T, POWER - 1>(d);
   }
 
   template<typename T>
-  T Sqrt(T a)
+  constexpr T sqr(const T& d)
   {
-    return sqrt(a);
-  }
-
-  template<typename T>
-  T Cos(T a)
-  {
-    return cos(a);
-  }
-
-  template<typename T>
-  T Acos(T a)
-  {
-    return acos(a);
-  }
-
-  template<typename T>
-  T Sin(T a)
-  {
-    return sin(a);
-  }
-
-  template<typename T>
-  T Asin(T a)
-  {
-    return asin(a);
-  }
-
-  template<typename T>
-  T Tan(T a)
-  {
-    return tan(a);
-  }
-
-  template<typename T>
-  T Atan(T a)
-  {
-    return atan(a);
+    return pow<T, 2>(d);
   }
 
   template<typename T>
   T QuadraticFormulaRoot(T a, T b, T c)
   {
-    return (Sqr(b) - (T(4) * a * c));
+    return (sqr(b) - (static_cast<T>(4) * a * c));
   }
 
   template<typename T>
   std::pair<T, T> QuadraticFormula(T a, T b, T c)
   {
-    T additiveResult = ((-b + QuadraticFormulaRoot(a, b, c)) / (T(2) * a));
+    T additiveResult = ((-b + QuadraticFormulaRoot(a, b, c)) / (static_cast<T>(2) * a));
 
     return Pair<T>(additiveResult, -additiveResult);
   }

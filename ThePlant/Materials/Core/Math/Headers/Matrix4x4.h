@@ -34,7 +34,7 @@ namespace Math {
         };
         Vector4<T> E4;
       };
-      Vector4<T> Bases[4];
+      Vector4<T> E1E2E3E4[4];
     };
 
     MatrixAxB()
@@ -100,6 +100,11 @@ namespace Math {
     }
 
     VectorA<T, 4> GetColumn(int column) const
+    {
+      return (*this)[column];
+    }
+
+    VectorA<T, 4>& GetColumn(int column)
     {
       return (*this)[column];
     }
@@ -262,21 +267,26 @@ namespace Math {
       return m;
     }
 
-    bool operator==(MatrixAxB<T, 4, 4> const &m)
+    bool operator==(MatrixAxB<T, 4, 4> const &m) const
     {
       return (E1 == m.E1 && E2 == m.E2 && E3 == m.E3 && E4 == m.E4);
+    }
+
+    bool operator!=(MatrixAxB<T, 4, 4> const& m) const
+    {
+      return !(*this == m);
     }
 
     // other comparison operators have no meaning
 
     VectorA<T, 4> &operator[](int basis)
     {
-      return Bases[basis];
+      return E1E2E3E4[basis];
     }
 
     VectorA<T, 4> operator[](int basis) const
     {
-      return Bases[basis];
+      return E1E2E3E4[basis];
     }
   };
 

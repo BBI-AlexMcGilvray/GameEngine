@@ -28,7 +28,7 @@ namespace Rendering {
 
     void LookAt(Float3 position);
 
-    void SetFOVY(Rad fovy);
+    void SetFOVY(FRad fovy);
 
     void SetAspectRatio(float width, float height);
     void SetAspectRatio(Float2 viewRect);
@@ -39,7 +39,7 @@ namespace Rendering {
     void SetPlanes(const float &nearPlane, const float &farPlane);
     void SetPlanes(const Float2 &planes);
 
-    void SetProjectionVariables(const Rad &fovy, const float &AspectRatio, const float &nearPlane, const float &farPlane);
+    void SetProjectionVariables(const FRad &fovy, const float &AspectRatio, const float &nearPlane, const float &farPlane);
 
   protected:
     Geometric::HierarchyTransform& CameraTransform;
@@ -49,7 +49,7 @@ namespace Rendering {
     Float4x4 ProjectionMatrix;
 
     float AspectRatio;
-    Rad FOVY = 1.57079f;// radian representation of 90
+    FRad FOVY = 1.57079f;// radian representation of 90
 
     float NearPlane = 0.1f;
     float FarPlane = 1000.0f;

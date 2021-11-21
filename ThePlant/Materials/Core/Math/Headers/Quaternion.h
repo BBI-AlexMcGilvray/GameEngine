@@ -49,7 +49,7 @@ namespace Math {
         };
         T W;
       };
-      T quat[4];
+      T XYZW[4];
     };
 
     Quaternion()
@@ -224,32 +224,26 @@ namespace Math {
       return q;
     }
 
-    bool operator==(Quaternion<T> const &q)
+    bool operator==(Quaternion<T> const &q) const
     {
       return (X == q.X && Y == q.Y && Z == q.Z && W == q.W);
     }
 
-    // other comparison operators have no meaning
-    template<int A>
-    T &operator[](Axis<A> axis)
+    bool operator!=(Quaternion<T> const& q) const
     {
-      return (*this)[(int(axis) + 1) % 4];
+      return !(*this == q);
     }
 
-    template<int A>
-    T &operator[](Axis<A> axis) const
-    {
-      return (*this)[(int(axis) + 1) % 4];
-    }
+    // other comparison operators have no meaning
 
     T &operator[](int index)
     {
-      return quat[index];
+      return XYZW[index];
     }
 
     T operator[](int index) const
     {
-      return quat[index];
+      return XYZW[index];
     }
   };
 

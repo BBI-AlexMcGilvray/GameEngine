@@ -38,9 +38,9 @@ namespace Rendering {
   struct DirectionalLight : BaseLight
   {
     Float3 Direction;
-    Rad ConeAngle = 0.523599f;
+    FRad ConeAngle = 0.523599f;
 
-    DirectionalLight(SharedPtr<Transform> position, Float3 direction = Float3(0.0f, 0.0f, -1.0f), Rad coneAngle = 0.523599f, Color lightColor = WHITE, float intensity = Inf_F);
+    DirectionalLight(SharedPtr<Transform> position, Float3 direction = Float3(0.0f, 0.0f, -1.0f), FRad coneAngle = 0.523599f, Color lightColor = WHITE, float intensity = Inf_F);
 
     float GetIntensity(const Float3 &position) const override;
   };

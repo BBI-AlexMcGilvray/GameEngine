@@ -226,7 +226,7 @@ namespace Math {
     // U stores the entries U[0] = u01, U[1] = u02, U[2] = u12
 
     // build orthogonal matrix Q
-    T fInvLength = T(1) / Sqrt(m[0][0] * m[0][0] + m[0][1] * m[0][1] + m[0][2] * m[0][2]);
+    T fInvLength = T(1) / sqrt(m[0][0] * m[0][0] + m[0][1] * m[0][1] + m[0][2] * m[0][2]);
 
     q[0][0] = m[0][0] * fInvLength;
     q[0][1] = m[0][1] * fInvLength;
@@ -236,7 +236,7 @@ namespace Math {
     q[1][0] = m[1][0] - fDot * q[0][0];
     q[1][1] = m[1][1] - fDot * q[0][1];
     q[1][2] = m[1][2] - fDot * q[0][2];
-    fInvLength = T(1) / Sqrt(q[1][0] * q[1][0] + q[1][1] * q[1][1] + q[1][2] * q[1][2]);
+    fInvLength = T(1) / sqrt(q[1][0] * q[1][0] + q[1][1] * q[1][1] + q[1][2] * q[1][2]);
 
     q[1][0] *= fInvLength;
     q[1][1] *= fInvLength;
@@ -250,7 +250,7 @@ namespace Math {
     q[2][0] -= fDot * q[1][0];
     q[2][1] -= fDot * q[1][1];
     q[2][2] -= fDot * q[1][2];
-    fInvLength = T(1) / Sqrt(q[2][0] * q[2][0] + q[2][1] * q[2][1] + q[2][2] * q[2][2]);
+    fInvLength = T(1) / sqrt(q[2][0] * q[2][0] + q[2][1] * q[2][1] + q[2][2] * q[2][2]);
 
     q[2][0] *= fInvLength;
     q[2][1] *= fInvLength;

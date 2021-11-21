@@ -90,7 +90,7 @@ namespace Math {
 
     T trace = m[0][0] + m[1][1] + m[2][2];
 
-    T root = (T(1) / T(2)) / Sqrt(trace + T(1));
+    T root = (T(1) / T(2)) / sqrt(trace + T(1));
 
     if (trace > 0) {
       quaternion.W = (T(1) / T(4)) / root;
@@ -99,21 +99,21 @@ namespace Math {
       quaternion.Z = (m[0][1] - m[1][0]) * root;
     } else {
       if (m[0][0] > m[1][1] && m[0][0] > m[2][2]) {
-        root = T(2) * Sqrt(T(1) + m[0][0] - m[1][1] - m[2][2]);
+        root = T(2) * sqrt(T(1) + m[0][0] - m[1][1] - m[2][2]);
 
         quaternion.W = (m[1][2] - m[2][1]) / root;
         quaternion.X = (T(1) / T(4)) * root;
         quaternion.Y = (m[1][0] + m[0][1]) / root;
         quaternion.Z = (m[2][0] + m[0][2]) / root;
       } else if (m[1][1] > m[2][2]) {
-        root = T(2) * Sqrt(T(1) + m[1][1] - m[0][0] - m[2][2]);
+        root = T(2) * sqrt(T(1) + m[1][1] - m[0][0] - m[2][2]);
 
         quaternion.W = (m[2][0] - m[0][2]) / root;
         quaternion.X = (m[1][0] + m[0][1]) / root;
         quaternion.Y = (T(1) / T(4)) * root;
         quaternion.Z = (m[2][1] + m[1][2]) / root;
       } else {
-        root = T(2) * Sqrt(T(1) + m[2][2] - m[0][0] - m[1][1]);
+        root = T(2) * sqrt(T(1) + m[2][2] - m[0][0] - m[1][1]);
 
         quaternion.W = (m[0][1] - m[1][0]) / root;
         quaternion.X = (m[2][0] + m[0][2]) / root;
@@ -130,10 +130,10 @@ namespace Math {
   {
     Matrix3x3<T> rotationMatrix;
 
-    auto sqrW = Sqr(quaternion.W);
-    auto sqrX = Sqr(quaternion.X);
-    auto sqrY = Sqr(quaternion.Y);
-    auto sqrZ = Sqr(quaternion.Z);
+    auto sqrW = sqr(quaternion.W);
+    auto sqrX = sqr(quaternion.X);
+    auto sqrY = sqr(quaternion.Y);
+    auto sqrZ = sqr(quaternion.Z);
 
     auto inverse = T(1) / (sqrX + sqrY + sqrZ + sqrW);
 
@@ -177,8 +177,8 @@ namespace Math {
       return Quaternion<T>(Rad(PI_F), fallbackAxis);
     }
 
-    T sqrt = Sqrt((T(1) + dot) * T(2));
-    T inverseSqrt = T(1) / sqrt;
+    T initialSqrt = sqrt((T(1) + dot) * T(2));
+    T inverseSqrt = T(1) / initialSqrt;
 
     Vector3<T> crossProduct = CrossProduct(nV1, nV2);
 
@@ -186,7 +186,7 @@ namespace Math {
     rotation.Y = crossProduct.Y * inverseSqrt;
     rotation.Z = crossProduct.Z * inverseSqrt;
 
-    rotation.W = sqrt * 0.5f;
+    rotation.W = initialSqrt * 0.5f;
 
     rotation = Normalize(rotation);
 

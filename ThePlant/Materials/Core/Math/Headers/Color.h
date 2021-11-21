@@ -12,12 +12,17 @@ namespace Math {
     union {
       struct
       {
-        float R;
-        float G;
-        float B;
+        union {
+          struct {
+              float R;
+              float G;
+              float B;
+          };
+          float RGB[3];
+        };
         float A;
       };
-      float Values[4];
+      float RGBA[4];
     };
 
     constexpr Color()
@@ -198,19 +203,24 @@ namespace Math {
       return c;
     }
 
-    bool operator==(Color const &c)
+    bool operator==(const Color &c) const
     {
       return (R == c.R && G == c.G && B == c.B && A == c.A);
     }
 
+    bool operator!=(const Color& c) const
+    {
+      return !(*this == c);
+    }
+
     float &operator[](int axis)
     {
-      return Values[axis];
+      return RGBA[axis];
     }
 
     float operator[](int axis) const
     {
-      return Values[axis];
+      return RGBA[axis];
     }
   };
 

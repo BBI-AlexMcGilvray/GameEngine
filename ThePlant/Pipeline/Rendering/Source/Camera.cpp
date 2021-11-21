@@ -41,7 +41,7 @@ namespace Rendering {
     CameraTransform.SetWorldRotation(RotationBetweenVectors(DefaultDirection, Direction));
   }
 
-  void Camera::SetFOVY(Rad fovy)
+  void Camera::SetFOVY(FRad fovy)
   {
     FOVY = fovy;
 
@@ -88,7 +88,7 @@ namespace Rendering {
     RecalculateProjectionMatrix();
   }
 
-  void Camera::SetProjectionVariables(const Rad &fovy, const float &aspectRatio, const float &nearPlane, const float &farPlane)
+  void Camera::SetProjectionVariables(const FRad &fovy, const float &aspectRatio, const float &nearPlane, const float &farPlane)
   {
     FOVY = fovy;
 

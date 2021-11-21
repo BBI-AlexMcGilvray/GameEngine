@@ -12,7 +12,7 @@ using namespace Core;
 namespace Application {
 namespace Rendering {
   // this is wrong
-  Float4x4 CalculatePerspectiveMatrix(Rad fovy, float aspectRatio, float nearPlane, float farPlane)
+  Float4x4 CalculatePerspectiveMatrix(FRad fovy, float aspectRatio, float nearPlane, float farPlane)
   {
     Float4x4 perspectiveMatrix;
 
@@ -22,7 +22,7 @@ namespace Rendering {
 
     // Note: tan(FOV_H/2) / screen_width = tan(FOV_V/2) / screen_height
 
-    float fovYRatio = 1.0f / Tan(0.5f * fovy);
+    float fovYRatio = 1.0f / tan(0.5f * fovy);
     float fovXRatio = fovYRatio / aspectRatio;
     float frustrumDepth = farPlane - nearPlane;
 

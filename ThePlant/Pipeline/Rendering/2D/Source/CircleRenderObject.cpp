@@ -45,7 +45,7 @@ namespace Rendering {
         _vertices.push_back({ currentPosition, normal });
 
         currentPosition.X = Lerp(startX, endX, i / halfStepCount);
-        currentPosition.Y = positiveY ? Sqrt(Sqr(Radius) - Sqr(currentPosition.X)) : -Sqrt(Sqr(Radius) - Sqr(currentPosition.X));
+        currentPosition.Y = positiveY ? sqrt(sqr(Radius) - sqr(currentPosition.X)) : -sqrt(sqr(Radius) - sqr(currentPosition.X));
 
         _vertices.push_back({ currentPosition, normal });
         _vertices.push_back({ center, normal });

@@ -36,7 +36,7 @@ namespace Rendering {
 
   // Directional Light
 
-  DirectionalLight::DirectionalLight(SharedPtr<Transform> position, Float3 direction, Rad coneAngle, Color lightColor, float intensity)
+  DirectionalLight::DirectionalLight(SharedPtr<Transform> position, Float3 direction, FRad coneAngle, Color lightColor, float intensity)
     : BaseLight(position, intensity, lightColor), Direction(direction), ConeAngle(coneAngle)
   {}
 

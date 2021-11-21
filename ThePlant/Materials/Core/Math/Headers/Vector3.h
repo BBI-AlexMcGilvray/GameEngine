@@ -20,7 +20,7 @@ namespace Math {
         };
         T Z;
       };
-      T Axes[3];
+      T XYZ[3];
     };
 
     VectorA()
@@ -190,26 +190,26 @@ namespace Math {
       return v;
     }
 
-    bool operator==(VectorA<T, 3> const &v)
+    bool operator==(VectorA<T, 3> const &v) const
     {
       return (X == v.X && Y == v.Y && Z == v.Z);
     }
 
-    bool operator!=(VectorA<T, 3> const &v)
+    bool operator!=(VectorA<T, 3> const &v) const
     {
-      return (X != v.X || Y != v.Y || Z != v.Z);
+      return !(*this == v);
     }
 
-    // add in other comparison operaators
+    // add in other comparison operators
 
     T &operator[](int axis)
     {
-      return Axes[axis];
+      return XYZ[axis];
     }
 
     T operator[](int axis) const
     {
-      return Axes[axis];
+      return XYZ[axis];
     }
   };
 

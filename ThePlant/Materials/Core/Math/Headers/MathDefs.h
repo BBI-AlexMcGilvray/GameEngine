@@ -44,36 +44,47 @@ namespace Math {
     constexpr operator T() const { return static_cast<T>(i); }
   };
 
+  template <typename T>
   struct Rad;
 
   template<typename T = float>
   struct Deg
   {
+    T Degrees = T(0);
+
     constexpr Deg(T degrees = T(0))
       : Degrees(degrees)
     {}
 
-    constexpr Deg(Rad radians)
-      : Degrees(radians * T(180) / T(PI_F))
+    template <typename R>
+    constexpr Deg(Rad<R> radians)
+      : Degrees(static_cast<T>(radians) * static_cast<T>(180) / static_cast<T>(PI_D))
     {}
 
-    T Degrees = T(0);
     constexpr operator T() const { return Degrees; }
   };
 
+  using FDeg = Deg<float>;
+  using DDeg = Deg<double>;
+
+  template <typename T = float>
   struct Rad
   {
-    constexpr Rad(float radians = 0.0f)
+    float Radians = 0.0f;
+
+    constexpr Rad(T radians = T(0))
       : Radians(radians)
     {}
 
-    template<typename T>
-    constexpr Rad(Deg<T> degrees)
-      : Radians(float(degrees) * PI_F / 180.0f)
+    template <typename D>
+    constexpr Rad(Deg<D> degrees)
+      : Radians(static_cast<T>(degrees) * static_cast<T>(PI_D) / static_cast<T>(180))
     {}
 
-    float Radians = 0.0f;
-    constexpr operator float() const { return Radians; }
+    constexpr operator T() const { return Radians; }
   };
+
+  using FRad = Rad<float>;
+  using DRad = Rad<double>;
 }// namespace Math
 }// namespace Core

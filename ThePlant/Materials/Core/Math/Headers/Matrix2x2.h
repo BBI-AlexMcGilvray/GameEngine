@@ -19,7 +19,7 @@ namespace Math {
         VectorA<T, 2> E1;
         VectorA<T, 2> E2;
       };
-      VectorA<T, 2> Bases[2];
+      VectorA<T, 2> E1E2[2];
     };
 
     // constructors
@@ -35,15 +35,15 @@ namespace Math {
       : E1(e1), E2(e2)
     {}
 
-    MatrixAxB(II i)
+    MatrixAxB(const II& i)
       : E1(T(i), T(0)), E2(T(0), T(i))
     {}
 
-    MatrixAxB(T d)
+    MatrixAxB(const T& d)
       : E1(d), E2(d)
     {}
 
-    MatrixAxB(T d1, T d2, T d3 = 0, T d4 = 0)
+    MatrixAxB(const T& d1, const T& d2, const T& d3 = 0, const T& d4 = 0)
       : E1(d1, d2), E2(d3, d4)
     {}
 
@@ -70,24 +70,29 @@ namespace Math {
       return std::pair<Dimension<2>, Dimension<2>>(2, 2);
     }
 
-    void SetColumn(int column, VectorA<T, 2> columnVector)
+    void SetColumn(const int& column, const VectorA<T, 2>& columnVector)
     {
       (*this)[column] = columnVector;
     }
 
-    VectorA<T, 2> GetColumn(int column) const
+    VectorA<T, 2> GetColumn(const int& column) const
     {
       return (*this)[column];
     }
 
-    void SetRow(int row, VectorA<T, 2> rowVector)
+    VectorA<T, 2>& GetColumn(const int& column)
+    {
+      return (*this)[column];
+    }
+
+    void SetRow(const int& row, const VectorA<T, 2>& rowVector)
     {
       for (int i = 0; i < 2; i++) {
         (*this)[i][row] = rowVector[i];
       }
     }
 
-    VectorA<T, 2> GetRow(int row) const
+    VectorA<T, 2> GetRow(const int& row) const
     {
       VectorA<T, 2> rowV;
       for (int i = 0; i < 2; i++) {
@@ -98,7 +103,7 @@ namespace Math {
     }
 
     // operators
-    MatrixAxB<T, 2, 2> &operator-=(MatrixAxB<T, 2, 2> const &m)
+    MatrixAxB<T, 2, 2> &operator-=(const MatrixAxB<T, 2, 2>& m)
     {
       E1 -= m.E1;
       E2 -= m.E2;
@@ -106,7 +111,7 @@ namespace Math {
       return *this;
     }
 
-    MatrixAxB<T, 2, 2> &operator+=(MatrixAxB<T, 2, 2> const &m)
+    MatrixAxB<T, 2, 2> &operator+=(const MatrixAxB<T, 2, 2>& m)
     {
       E1 += m.E1;
       E2 += m.E2;
@@ -114,7 +119,7 @@ namespace Math {
       return *this;
     }
 
-    MatrixAxB<T, 2, 2> &operator*=(T d)
+    MatrixAxB<T, 2, 2> &operator*=(const T& d)
     {
       E1 *= d;
       E2 *= d;
@@ -122,7 +127,7 @@ namespace Math {
       return *this;
     }
 
-    MatrixAxB<T, 2, 2> &operator*=(MatrixAxB<T, 2, 2> const &m)
+    MatrixAxB<T, 2, 2> &operator*=(const MatrixAxB<T, 2, 2> &m)
     {
       auto newCol1 = VectorA<T, 2>(Dot((*this).GetRow(0), m.E1), Dot((*this).GetRow(0), m.E2));
       auto newCol2 = VectorA<T, 2>(Dot((*this).GetRow(1), m.E1), Dot((*this).GetRow(1), m.E2));
@@ -133,7 +138,7 @@ namespace Math {
       return *this;
     }
 
-    MatrixAxB<T, 2, 2> &operator/=(T d)
+    MatrixAxB<T, 2, 2> &operator/=(const T& d)
     {
       E1 /= d;
       E2 /= d;
@@ -141,7 +146,7 @@ namespace Math {
       return *this;
     }
 
-    MatrixAxB<T, 2, 2> &operator/=(MatrixAxB<T, 2, 2> const &m)
+    MatrixAxB<T, 2, 2> &operator/=(const MatrixAxB<T, 2, 2> &m)
     {
       E1 /= m.E1;
       E2 /= m.E2;
@@ -149,7 +154,7 @@ namespace Math {
       return *this;
     }
 
-    MatrixAxB<T, 2, 2> &operator=(T d)
+    MatrixAxB<T, 2, 2> &operator=(const T& d)
     {
       E1 = VectorA<T, 4>(d);
       E2 = VectorA<T, 4>(d);
@@ -157,7 +162,7 @@ namespace Math {
       return *this;
     }
 
-    MatrixAxB<T, 2, 2> &operator=(MatrixAxB<T, 2, 2> const &m)
+    MatrixAxB<T, 2, 2> &operator=(const MatrixAxB<T, 2, 2> &m)
     {
       E1 = m.E1;
       E2 = m.E2;
@@ -165,76 +170,81 @@ namespace Math {
       return *this;
     }
 
-    friend MatrixAxB<T, 2, 2> operator-(MatrixAxB<T, 2, 2> m, T d)
+    friend MatrixAxB<T, 2, 2> operator-(MatrixAxB<T, 2, 2>& m, const T& d)
     {
       m -= d;
       return m;
     }
 
-    friend MatrixAxB<T, 2, 2> operator-(MatrixAxB<T, 2, 2> m, MatrixAxB<T, 2, 2> const &oM)
+    friend MatrixAxB<T, 2, 2> operator-(MatrixAxB<T, 2, 2> m, const MatrixAxB<T, 2, 2> &oM)
     {
       m -= oM;
       return m;
     }
 
-    friend MatrixAxB<T, 2, 2> operator+(MatrixAxB<T, 2, 2> m, T d)
+    friend MatrixAxB<T, 2, 2> operator+(MatrixAxB<T, 2, 2> m, const T& d)
     {
       m += d;
       return m;
     }
 
-    friend MatrixAxB<T, 2, 2> operator+(MatrixAxB<T, 2, 2> m, MatrixAxB<T, 2, 2> const &oM)
+    friend MatrixAxB<T, 2, 2> operator+(MatrixAxB<T, 2, 2> m, const MatrixAxB<T, 2, 2> &oM)
     {
       m += oM;
       return m;
     }
 
-    friend MatrixAxB<T, 2, 2> operator*(MatrixAxB<T, 2, 2> m, T d)
+    friend MatrixAxB<T, 2, 2> operator*(MatrixAxB<T, 2, 2> m, const T& d)
     {
       m *= d;
       return m;
     }
 
-    friend MatrixAxB<T, 2, 2> operator*(MatrixAxB<T, 2, 2> m, MatrixAxB<T, 2, 2> const &oM)
+    friend MatrixAxB<T, 2, 2> operator*(MatrixAxB<T, 2, 2> m, const MatrixAxB<T, 2, 2> &oM)
     {
       m *= oM;
       return m;
     }
 
-    friend VectorA<T, 2> operator*(MatrixAxB<T, 2, 2> m, VectorA<T, 2> const &v)
+    friend VectorA<T, 2> operator*(MatrixAxB<T, 2, 2> m, const VectorA<T, 2> &v)
     {
       VectorA<T, 2> nV(Dotr(m.GetRow(0), v), Dot(m.GetRow(1), v));
 
       return nV;
     }
 
-    friend MatrixAxB<T, 2, 2> operator/(MatrixAxB<T, 2, 2> m, T d)
+    friend MatrixAxB<T, 2, 2> operator/(MatrixAxB<T, 2, 2> m, const T& d)
     {
       m /= d;
       return m;
     }
 
-    friend MatrixAxB<T, 2, 2> operator/(MatrixAxB<T, 2, 2> m, MatrixAxB<T, 2, 2> const &oM)
+    friend MatrixAxB<T, 2, 2> operator/(MatrixAxB<T, 2, 2> m, const MatrixAxB<T, 2, 2> &oM)
     {
       m /= oM;
       return m;
     }
 
-    bool operator==(MatrixAxB<T, 2, 2> const &m)
+    bool operator==(const MatrixAxB<T, 2, 2> &m) const
     {
       return (E1 == m.E1 && E2 == m.E2);
+    }
+
+    bool operator!=(const MatrixAxB<T, 2, 2>& m) const
+    {
+      return !(*this == m);
     }
 
     // other comparison operators have no meaning
 
     VectorA<T, 2> &operator[](int basis)
     {
-      return Bases[basis];
+      return E1E2[basis];
     }
 
     VectorA<T, 2> operator[](int basis) const
     {
-      return Bases[basis];
+      return E1E2[basis];
     }
   };
 
