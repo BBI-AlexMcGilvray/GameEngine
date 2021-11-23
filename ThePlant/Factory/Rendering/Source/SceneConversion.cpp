@@ -41,7 +41,7 @@ namespace Data
 			std::vector<std::string> skeletonAnimations;
 
 			// in the future, this should likely also reference a database that is used to get specific file locations
-			FilePath listPath = FilePath{ folder, config.getValue("modelsFile") };
+			FilePath listPath = FilePath{ folder, config.getValue("modelsImportFile") };
 			File listFile = File(listPath, std::ios::in);
 			listFile.Open();
 
@@ -83,11 +83,7 @@ namespace Data
 
 			listFile.Close();
 
-			DirectModels(directAssets, models);
-			DirectMeshes(directAssets, meshes);
-			DirectMaterials(directAssets, materials);
-			DirectSkeletons(directAssets, skeletons);
-			DirectSkeletonAnimations(directAssets, skeletonAnimations);
+			
 		}
 
 		void ConvertFilesForScene(Config& config, Ptr<File> directAssets, Ptr<File> sceneFile, std::string sceneName, std::vector<std::pair<ModelType, std::string>>& models, std::vector<std::pair<ModelType, std::string>>& meshes, std::vector<std::string>& materials, std::vector<std::string>& skeletons, std::vector<std::string>& skeletonAnimations)

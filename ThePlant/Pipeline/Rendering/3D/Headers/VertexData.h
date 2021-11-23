@@ -62,6 +62,8 @@ namespace Rendering {
   
   std::vector<SimpleVertexData> createRuntimeData(const Data::Rendering::SimpleMeshData& meshData);
   std::vector<VertexData> createRuntimeData(const Data::Rendering::StaticMeshData& meshData);
-  std::vector<AnimatedVertexData> createRuntimeData(const Data::Rendering::AnimatedMeshData& meshData);
+  std::vector<AnimatedVertexData> createExplicitRuntimeData(const Data::Rendering::AnimatedMeshData& meshData);
+  std::vector<SkinnedVertexData> createRuntimeData(const std::vector<AnimatedVertexData>& animatedData);
+  std::vector<SkinnedVertexData> createRuntimeData(const Data::Rendering::AnimatedMeshData& meshData);
 }// namespace Rendering
 }// namespace Application

@@ -56,8 +56,6 @@ namespace Rendering {
     Core::Functionality::Delegate<> _onMaterialDeleted;
     ComponentPtr<MaterialComponent> _materialComponent;
     Core::Ptr<Skeleton> _skeleton;// should be a skeleton component in the future
-
-    void CreateRenderData();
   };
 }// namespace Rendering
 }// namespace Application

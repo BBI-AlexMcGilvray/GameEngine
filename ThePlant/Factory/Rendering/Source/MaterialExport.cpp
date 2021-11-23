@@ -65,7 +65,7 @@ namespace Data
 			Core::Serialization::Format::JSON materialAsJSON = SerializeMaterial(material);
 
 			// store values in file
-			FilePath materialFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("materialsPath"), to_string(HashValue(name)) + ".mat" };
+			FilePath materialFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("materialsExportPath"), to_string(HashValue(name)) + ".mat" };
 			File materialFile = File(materialFilePath, std::ios::out);
 			materialFile.Open();
 

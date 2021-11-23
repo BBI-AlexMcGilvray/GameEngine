@@ -64,7 +64,7 @@ namespace Data
 		{
 			Core::Serialization::Format::JSON modelAsJSON = scene->mMeshes[meshIndex]->HasBones() ? SerializeAnimatedModel(name) : SerializeSimpleModel(name);
 
-			FilePath meshFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("modelsPath"), to_string(HashValue(name)) + ".mdl" };
+			FilePath meshFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("modelsExportPath"), to_string(HashValue(name)) + ".mdl" };
 			File meshFile = File(meshFilePath, std::ios::out);
 			meshFile.Open();
 

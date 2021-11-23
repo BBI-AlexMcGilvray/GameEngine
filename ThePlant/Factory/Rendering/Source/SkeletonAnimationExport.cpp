@@ -152,7 +152,7 @@ namespace Data
 			Core::UniquePtr<ExportNode> exportSkeleton = AllNodesForMesh(rootNode, mesh, meshIndex);
 
 			// store values in file
-			FilePath skeletonAnimationFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsPath"), to_string(HashValue(name + std::string(animation->mName.C_Str()))) + ".sanim" };
+			FilePath skeletonAnimationFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsExportPath"), to_string(HashValue(name + std::string(animation->mName.C_Str()))) + ".sanim" };
 			File skeletonAnimationFile = File(skeletonAnimationFilePath, std::ios::out);
 			skeletonAnimationFile.Open();
 

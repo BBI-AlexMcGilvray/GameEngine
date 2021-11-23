@@ -54,8 +54,8 @@ namespace Rendering {
     newBuffer.Bind();
 
     // if we want to allow for modifying the vertex (or just reading the data), this should be stored in the instance
-    _runtimeData = createRuntimeData(*Data);
-    CreateRenderData();
+    _runtimeData = createExplicitRuntimeData(*Data);
+    _renderData = createRuntimeData(_runtimeData);
 
     // glBufferData( < type >, < size of data >, < start of data >, < draw type >); // GL_DYNAMIC_DRAW because Skin(...) could be called multiple times, changing indices
     glBufferData(newBuffer.Type, _renderData.size() * sizeof(Application::Rendering::SkinnedVertexData), &(_renderData[0]), GL_DYNAMIC_DRAW);
@@ -127,13 +127,6 @@ namespace Rendering {
     MappedMesh.Map(GL_WRITE_ONLY);
     MappedMesh.Assign(&(_renderData[0]), _renderData.size() * sizeof(Application::Rendering::SkinnedVertexData));
     MappedMesh.Unmap();
-  }
-
-  void SkinnedMeshBase::CreateRenderData()
-  {
-    for (int i = 0; i < _runtimeData.size(); i++) {
-      _renderData.push_back(SkinnedVertexData(_runtimeData[i]));
-    }
   }
 }// namespace Rendering
 }// namespace Application

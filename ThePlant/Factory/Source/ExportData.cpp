@@ -10,6 +10,7 @@
 #include "Factory/CustomData/Headers/DataCreation.h"
 
 #include "Factory/Rendering/Headers/SceneConversion.h"
+#include "Factory/Rendering/Headers/ShaderExport.h"
 
 namespace Data
 {
@@ -66,15 +67,19 @@ namespace Data
 			CORE_LOG(EXPORTING, "Starting to export rendering data");
 
 			// maybe this should be it's own function?
-			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("modelsPath"));
-			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("materialsPath"));
-			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("meshesPath"));
-			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("skeletonsPath"));
-			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsPath"));
-			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("texturesPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("modelsExportPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("materialsExportPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("meshesExportPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("skeletonsExportPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsExportPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("texturesExportPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("shadersExportPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("shadersExportPath") + config.getValue("fragmentShadersExportPath"));
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("shadersExportPath") + config.getValue("vertexShadersExportPath"));
 
 			// in the future, this should likely also reference a database that is used to get specific file locations
-			ConvertModelsInFolder(config, directAssets, GetCWD() + config.getValue("importPath") + config.getValue("modelsPath"));
+			ConvertModelsInFolder(config, directAssets, GetCWD() + config.getValue("importPath") + config.getValue("modelsImportPath"));
+			ExportShadersInFolder(config, directAssets, GetCWD() + config.getValue("importPath") + config.getValue("shadersImportPath"));
 
 			CORE_LOG(EXPORTING, "Finished exporting rendering data");
 		}

@@ -7,6 +7,7 @@ namespace Application
         std::vector<SimpleVertexData> createRuntimeData(const Data::Rendering::SimpleMeshData& meshData)
         {
             std::vector<SimpleVertexData> runtimeData;
+            runtimeData.reserve(meshData.vertexCount);
 
             // do we need the field vertexCount? could we not just use indices.size()?
             for(uint i = 0; i < meshData.vertexCount; i++)
@@ -24,6 +25,7 @@ namespace Application
         std::vector<VertexData> createRuntimeData(const Data::Rendering::StaticMeshData& meshData)
         {
             std::vector<VertexData> runtimeData;
+            runtimeData.reserve(meshData.vertexCount);
 
             // do we need the field vertexCount? could we not just use indices.size()?
             for(uint i = 0; i < meshData.vertexCount; i++)
@@ -38,9 +40,10 @@ namespace Application
             return runtimeData;
         }
 
-        std::vector<AnimatedVertexData> createRuntimeData(const Data::Rendering::AnimatedMeshData& meshData)
+        std::vector<AnimatedVertexData> createExplicitRuntimeData(const Data::Rendering::AnimatedMeshData& meshData)
         {
             std::vector<AnimatedVertexData> runtimeData;
+            runtimeData.reserve(meshData.indices.size());
 
             // do we need the field vertexCount? could we not just use indices.size()?
             for(uint i = 0; i < meshData.indices.size(); i++)
@@ -53,6 +56,23 @@ namespace Application
             }
 
             return runtimeData;
+        }
+
+        std::vector<SkinnedVertexData> createRuntimeData(const std::vector<AnimatedVertexData>& animatedData)
+        {
+            std::vector<SkinnedVertexData> runtimeData;
+            runtimeData.reserve(animatedData.size());
+
+            for (int i = 0; i < animatedData.size(); i++) {
+                runtimeData.push_back(SkinnedVertexData(animatedData[i]));
+            }
+
+            return runtimeData;
+        }
+
+        std::vector<SkinnedVertexData> createRuntimeData(const Data::Rendering::AnimatedMeshData& meshData)
+        {
+            return createRuntimeData(createExplicitRuntimeData(meshData));
         }
     }
 }

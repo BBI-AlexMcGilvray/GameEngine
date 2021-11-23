@@ -2,16 +2,23 @@ codeGenerationPath : Product/Supplies/
 directAssetsFile : Assets.h
 
 exportPath : Resources/Exported/
-customDataPath : CustomData/
-materialsPath : Materials/
-meshesPath : Meshes/
-modelsPath : Models/
-skeletonAnimationsPath : SkeletonAnimations/
-skeletonsPath : Skeletons/
-texturesPath : Textures/
+customDataExportPath : CustomData/
+materialsExportPath : Materials/
+meshesExportPath : Meshes/
+modelsExportPath : Models/
+skeletonAnimationsExportPath : SkeletonAnimations/
+skeletonsExportPath : Skeletons/
+texturesExportPath : Textures/
+shadersExportPath : Shaders/
+fragmentShadersExportPath : Fragment/
+vertexShadersExportPath : Vertex/
 
 importPath : Resources/Imported/
-customDataPath : CustomData/
-dataDB : Data.db
-modelsPath : Models/
-modelsFile : UsedModels.txt
+customDataImportPath : CustomData/
+dataDBImport : Data.db
+modelsImportPath : Models/
+modelsImportFile : UsedModels.txt
+shadersImportPath : Shaders/
+shadersFile : Shaders.txt
+fragmentShadersImportPath : Fragment/
+vertexShadersImportPath : Vertex/

@@ -1,0 +1,4 @@
+3
+Debug Debug Debug
+Static Object Debug
+Skinned Skinned Debug

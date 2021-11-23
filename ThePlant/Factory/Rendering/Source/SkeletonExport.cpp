@@ -107,7 +107,7 @@ namespace Data
 			// Core::UniquePtr<ExportNode> exportSkeleton = AllNodesForMesh(rootNode, mesh, meshIndex);
 
 			// store values in file
-			Core::IO::FilePath skeletonFilePath = Core::IO::FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonsPath"), to_string(HashValue(name)) + ".skl" };
+			Core::IO::FilePath skeletonFilePath = Core::IO::FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonsExportPath"), to_string(HashValue(name)) + ".skl" };
 			Core::IO::File skeletonFile = File(skeletonFilePath, ios::out);
 			skeletonFile.Open();
 
