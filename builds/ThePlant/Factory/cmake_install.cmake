@@ -45,6 +45,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/Rendering/Headers/MeshExport.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/Rendering/Headers/ModelExport.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/Rendering/Headers/SceneConversion.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Factory/Rendering/Headers/ShaderExport.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/Rendering/Headers/SkeletonAnimationExport.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/Rendering/Headers/SkeletonExport.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Factory/Rendering/Headers/TextureExport.h"

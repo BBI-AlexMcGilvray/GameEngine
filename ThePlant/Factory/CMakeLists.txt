@@ -13,6 +13,7 @@ Rendering/Source/MaterialExport.cpp #
 Rendering/Source/MeshExport.cpp #
 Rendering/Source/ModelExport.cpp #
 Rendering/Source/SceneConversion.cpp #
+Rendering/Source/ShaderExport.cpp #
 Rendering/Source/SkeletonAnimationExport.cpp #
 Rendering/Source/SkeletonExport.cpp #
 Rendering/Source/TextureExport.cpp #
@@ -33,6 +34,7 @@ Rendering/Headers/MaterialExport.h #
 Rendering/Headers/MeshExport.h #
 Rendering/Headers/ModelExport.h #
 Rendering/Headers/SceneConversion.h #
+Rendering/Headers/ShaderExport.h #
 Rendering/Headers/SkeletonAnimationExport.h #
 Rendering/Headers/SkeletonExport.h #
 Rendering/Headers/TextureExport.h #

@@ -47,12 +47,12 @@ namespace Data
 			CORE_LOG(EXPORTING, "Finished exporting data");
 		}
 
-		void ExportCustomData(Ptr<File> directAssets)
+		void ExportCustomData(Ptr<File> directAssets, Config& config)
 		{
-			CreateFolder(GetCWD() + "Resources/ExportedAssets/CustomData");
+			CreateFolder(GetCWD() + config.getValue("exportPath") + config.getValue("customDataExportPath"));
 
 			CORE_LOG(EXPORTING, "Starting to export custom data");
-			auto dbPath = FilePath{ GetCWD() + "Resources/ImportedAssets/CustomData/", std::string("Data.db") };
+			auto dbPath = FilePath{ GetCWD() + config.getValue("importPath") + config.getValue("customDataImportPath"), config.getValue("dataDBImport") };
 			SQLInstance db = SQLInstance(dbPath);
 			db.Open();
 
@@ -97,6 +97,7 @@ namespace Data
 #include "Data/Rendering/Headers/AnimatedMeshData.h"
 #include "Data/Rendering/Headers/AnimatedModelData.h"
 #include "Data/Rendering/Headers/MaterialData.h"
+#include "Data/Rendering/Headers/ShaderData.h"
 #include "Data/Rendering/Headers/SkeletonAnimationData.h"
 #include "Data/Rendering/Headers/SkeletonData.h"
 #include "Data/Rendering/Headers/SimpleMeshData.h"

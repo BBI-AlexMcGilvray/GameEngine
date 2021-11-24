@@ -145,10 +145,12 @@ namespace IO {
     if (CanRead())
     {
       constexpr size_t buffer_size = 4096;
-      auto buffer = std::string(buffer_size, '\0');
+      auto buffer = std::string();
+      buffer.reserve(buffer_size);
 
       while (!AtEndOfFile()) {
           buffer.append(GetLine());
+          buffer.append(1, '\n');
       }
 
       return buffer;

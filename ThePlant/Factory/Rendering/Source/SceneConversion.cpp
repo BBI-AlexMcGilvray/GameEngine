@@ -83,7 +83,11 @@ namespace Data
 
 			listFile.Close();
 
-			
+			DirectModels(directAssets, models);
+			DirectMeshes(directAssets, meshes);
+			DirectMaterials(directAssets, materials);
+			DirectSkeletons(directAssets, skeletons);
+			DirectSkeletonAnimations(directAssets, skeletonAnimations);
 		}
 
 		void ConvertFilesForScene(Config& config, Ptr<File> directAssets, Ptr<File> sceneFile, std::string sceneName, std::vector<std::pair<ModelType, std::string>>& models, std::vector<std::pair<ModelType, std::string>>& meshes, std::vector<std::string>& materials, std::vector<std::string>& skeletons, std::vector<std::string>& skeletonAnimations)

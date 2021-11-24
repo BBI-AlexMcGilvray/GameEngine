@@ -45,15 +45,13 @@ namespace Data
 
 			auto shaderAsJSON = Core::Serialize<Core::Serialization::Format::JSON>(shaderData);
 
-			exportFile.Open();
-
 			if (!exportFile->FileStream.is_open())
 			{
 				CORE_LOG(SHADER_EXPORT, "Could not open file <<" + exportFile->GetFullPath() + ">>");
 				return;
 			}
 
-			exportFile.Write(shaderAsJSON.ToString(Core::Serialization::Format::Style::Readable));
+			exportFile->Write(shaderAsJSON.ToString(Core::Serialization::Format::Style::Readable));
         }
 
 		void CreateShader(Config& config, Core::Ptr<Core::IO::File> directAssets, const std::string& name, const std::string& vertexShader, const std::string& fragmentShader)
@@ -88,7 +86,7 @@ namespace Data
 
             // Combination
             Core::Hash shaderHash = HashValue(name);
-            FilePath shaderExportPath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("shaderPath"), to_string(shaderHash) + ".shd" };
+            FilePath shaderExportPath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("shadersExportPath"), to_string(shaderHash) + ".shd" };
             File shaderExport = File(shaderExportPath, std::ios::out);
             shaderExport.Open();
 

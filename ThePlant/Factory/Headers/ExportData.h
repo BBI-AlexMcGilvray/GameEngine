@@ -16,7 +16,7 @@ namespace Data
 	{
 		void ExportData();
 
-		void ExportCustomData(Ptr<File> directAssets);
+		void ExportCustomData(Ptr<File> directAssets, Config& config);
 		void ExportRenderingData(Ptr<File> directAssets, Config& config);
 
 		void InitializeAssetsFile(Ptr<File> directAssets);

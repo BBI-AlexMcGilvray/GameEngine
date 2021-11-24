@@ -285,6 +285,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Rendering\Source\MeshExport.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Rendering\Source\ModelExport.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Rendering\Source\SceneConversion.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Rendering\Source\ShaderExport.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Rendering\Source\SkeletonAnimationExport.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Rendering\Source\SkeletonExport.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Factory\Rendering\Source\TextureExport.cpp" />
