@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "Data/Headers/AssetType.h"
 #include "Data/Headers/AssetName.h"
 
@@ -157,6 +159,12 @@ namespace Data
 			const AssetName<Rendering::ShaderData> Debug = AssetName<Rendering::ShaderData>(AsHash(1039867416));
 			const AssetName<Rendering::ShaderData> Static = AssetName<Rendering::ShaderData>(AsHash(1817995711));
 			const AssetName<Rendering::ShaderData> Skinned = AssetName<Rendering::ShaderData>(AsHash(3797269510));
+
+			const std::array<AssetName<Rendering::ShaderData>, 3> All = {
+				Debug,
+				Static,
+				Skinned};
+
 		};
 		const Shaders shd;
 

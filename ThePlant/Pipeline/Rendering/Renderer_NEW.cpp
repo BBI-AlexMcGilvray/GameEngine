@@ -63,6 +63,34 @@ namespace Rendering {
     _SetShaderVariables(context.context);
   }
 
+  void Renderer_NEW::_SetMaterialContext(const Material_NEW& material) const
+  {
+    for (const auto& context : material.shaderContext)
+    {
+      std::visit([name = context.first, shader = material.shader](const double& val)
+      {
+        GLint doubleLocation = glGetUniformLocation(shader.glProgram, name);
+        glUniform1d(doubleLocation, val);
+      }, [name = context.first](const float& val)
+      {
+        GLint floatLocation = glGetUniformLocation(shader.glProgram, name);
+        glUniform1f(floatLocation, val);
+      }, [name = context.first](const int& val)
+      {
+        GLint intLocation = glGetUniformLocation(shader.glProgram, name);
+        glUniform1i(intLocation, val);
+      }, [name = context.first](const uint& val)
+      {
+        GLint uintLocation = glGetUniformLocation(shader.glProgram, name);
+        glUniform1ui(uintLocation, val);
+      }, [name = context.first](const Core::Math::Color& val)
+      {
+        GLint colorLocation = glGetUniformLocation(shader.glProgram, name);
+        glUniform4fv(colorLocation, 1, &(val.RGBA[0]));
+      }, context.second);
+    }
+  }
+
   void Renderer_NEW::_SetShader(const ShaderBase& shader)
   {
     if (_currentShader == &shader)

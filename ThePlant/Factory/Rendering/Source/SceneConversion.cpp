@@ -134,7 +134,17 @@ namespace Data
 				}
 
 				CORE_LOG(SCENE_CONVERSION, "Creating file to hold material information for <<" + fileName + ">>");
-				CreateFileForMaterial(config, directAssets, loadedScene->mMaterials[loadedScene->mMeshes[meshIndex]->mMaterialIndex], fileName);
+				// the shader logic obviously should be nicer, but we can do it this way for now...
+				std::string shader = "Debug";
+				if (!loadedScene->mMeshes[meshIndex]->HasBones())
+				{
+					shader = "Static";
+				}
+				else
+				{
+					shader = "Skinned";
+				}
+				CreateFileForMaterial(config, directAssets, loadedScene->mMaterials[loadedScene->mMeshes[meshIndex]->mMaterialIndex], fileName, shader);
 				materials.push_back(fileName);
 
 				if (loadedScene->mMeshes[meshIndex]->HasBones())

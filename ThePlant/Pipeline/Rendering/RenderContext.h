@@ -6,8 +6,8 @@
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
-#include "Pipeline/Rendering/Headers/Material_NEW.h"
-#include "Pipeline/Rendering/Headers/Mesh_NEW.h"
+#include "Pipeline/Rendering/Material_NEW.h"
+#include "Pipeline/Rendering/Mesh_NEW.h"
 
 namespace Application {
 namespace Rendering {

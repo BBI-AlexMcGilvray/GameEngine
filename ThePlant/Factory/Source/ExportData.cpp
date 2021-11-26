@@ -89,6 +89,8 @@ namespace Data
 			auto header = R"(
 #pragma once
 
+#include <array>
+
 #include "Data/Headers/AssetType.h"
 #include "Data/Headers/AssetName.h"
 

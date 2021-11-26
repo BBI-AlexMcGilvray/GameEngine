@@ -17,7 +17,12 @@ namespace Rendering {
   bool CreateShader(Ptr<ShaderBase> shader);
 
   FragmentShader_NEW CreateFragmentShader(const std::string& shaderCode);
+  void DeleteFragmentShader(const FragmentShader_NEW& shader);
+  
   VertexShader_NEW CreateVertexShader(const std::string& shaderCode);
+  void DeleteVertexShader(const VertexShader_NEW& shader);
+
   Shader_NEW CreateShader(const VertexShader_NEW& vertexShader, const FragmentShader_NEW& fragmentShader);
+  void DeleteShader(const Shader_NEW& shader);
 }// namespace Rendering
 }// namespace Application

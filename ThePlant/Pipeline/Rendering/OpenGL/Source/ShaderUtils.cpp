@@ -128,6 +128,11 @@ namespace Rendering {
     return shader;
   }
   
+  void DeleteFragmentShader(const FragmentShader_NEW& shader)
+  {
+    glDeleteShader(shader.glShader.Object);
+  }
+  
   VertexShader_NEW CreateVertexShader(const std::string& shaderCode)
   {
     VertexShader_NEW shader;
@@ -136,9 +141,16 @@ namespace Rendering {
     return shader;
   }
 
+  void DeleteVertexShader(const VertexShader_NEW& shader)
+  {
+    glDeleteShader(shader.glShader.Object);
+  }
+
   Shader_NEW CreateShader(const VertexShader_NEW& vertexShader, const FragmentShader_NEW& fragmentShader)
   {
     Shader_NEW shader;
+    shader.vertexShader = vertexShader;
+    shader.fragmentShader = fragmentShader;
 
     int linkResult = 0;
     // create the program handle, attach the shader and link it
@@ -163,6 +175,13 @@ namespace Rendering {
     shader.glProgram.Object = program;
 
     return shader;
+  }
+
+  void DeleteShader(const Shader_NEW& shader)
+  {
+    glDeleteProgram(shader.glProgram.Object);
+    DeleteVertexShader(shader.vertexShader);
+    DeleteFragmentShader(shader.fragmentShader);
   }
 }// namespace Rendering
 }// namespace Application

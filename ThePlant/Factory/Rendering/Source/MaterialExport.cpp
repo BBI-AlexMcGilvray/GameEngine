@@ -35,7 +35,7 @@ namespace Data
 			const std::string MATERIAL_EXPORT = "Material Export";
 		}
 
-		Core::Serialization::Format::JSON SerializeMaterial(const aiMaterial* material)
+		Core::Serialization::Format::JSON SerializeMaterial(const aiMaterial* material, const std::string& shader)
 		{
 			// material values
 			aiColor4D specularColor;
@@ -55,14 +55,15 @@ namespace Data
 			materialData.diffuse = Core::Math::Color(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
 			materialData.ambient = Core::Math::Color(ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a);
 			materialData.shininess = shininess;
+			materialData.shader = HashValue(shader);
 
 			return Core::Serialize<Core::Serialization::Format::JSON>(materialData);
 		}
 
-		void CreateFileForMaterial(Config& config, Core::Ptr<Core::IO::File> directAssets, const aiMaterial* material, std::string name)
+		void CreateFileForMaterial(Config& config, Core::Ptr<Core::IO::File> directAssets, const aiMaterial* material, const std::string& name, const std::string& shader)
 		{
 			CORE_LOG(MATERIAL_EXPORT, "Getting material information from assimp...");
-			Core::Serialization::Format::JSON materialAsJSON = SerializeMaterial(material);
+			Core::Serialization::Format::JSON materialAsJSON = SerializeMaterial(material, shader);
 
 			// store values in file
 			FilePath materialFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("materialsExportPath"), to_string(HashValue(name)) + ".mat" };

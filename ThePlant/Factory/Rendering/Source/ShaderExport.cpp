@@ -33,6 +33,18 @@ namespace Data
                 directAssets->CreateNewLine();
 			}
 
+			directAssets->CreateNewLine();
+			directAssets->Write("\t\t\tconst std::array<AssetName<Rendering::ShaderData>, " + std::to_string(shaders.size()) + "> All = {");
+			directAssets->CreateNewLine();
+			int index = 0;
+			for (auto& shader : shaders)
+			{
+                directAssets->Write("\t\t\t\t" + shader + (index < shaders.size() - 1 ? "," : "};"));
+                directAssets->CreateNewLine();
+				++index;
+			}
+			directAssets->CreateNewLine();
+
 			ExportDirectReference_Close("Shaders", "shd", directAssets);
 		}
         
