@@ -30,6 +30,6 @@ namespace Rendering {
     {}
   };
 
-  Material_NEW CreateMaterial(const Data::Rendering::MaterialData& data, ShaderManager& shaderManager);
+  Material_NEW CreateMaterial(const Data::AssetData<Data::Rendering::MaterialData>& data, ShaderManager& shaderManager);
 } // namespace Application
 } // namespace Rendering

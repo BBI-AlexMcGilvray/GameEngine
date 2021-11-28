@@ -10,19 +10,20 @@ namespace Application {
 namespace Rendering {
   void Renderer_NEW::DrawMesh(const Context& context) const
   {
+    _SetShader(context.material.Shader);
     _SetShaderVariables(context);
     _Draw(context);
   }
 
   void Renderer_NEW::DrawMesh(const SkinnedContext& context) const
   {
+    _SetShader(context.context.material.Shader);
     _SetShaderVariables(context);
     _Draw(context.context);
   }
 
   void Renderer_NEW::_Draw(const Context& context) const
   {
-    _SetShader(context.material.Shader); // we should set shader values by storing a collection of <string, value> pairs (since we need to set shader values by name)
     context.mesh.Buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
     _DrawTriangles(context.vertices);
   }
@@ -50,6 +51,8 @@ namespace Rendering {
     // assign color to shader
     GLint modColor = glGetUniformLocation(program, "modColor");
     glUniform4fv(modColor, 1, &(context.color.RGBA[0]));
+
+    _SetMaterialContext(context.material);
   }
 
   void Renderer_NEW::_SetShaderVariables(const SkinnedContext& context) const
@@ -91,7 +94,7 @@ namespace Rendering {
     }
   }
 
-  void Renderer_NEW::_SetShader(const ShaderBase& shader)
+  void Renderer_NEW::_SetShader(const Shader_NEW& shader)
   {
     if (_currentShader == &shader)
     {
@@ -99,6 +102,7 @@ namespace Rendering {
     }
 
     _currentShader = &shader;
+    glUseProgram(_currentShader.glProgram.Object);
   }
 }// namespace Rendering
 }// namespace Application

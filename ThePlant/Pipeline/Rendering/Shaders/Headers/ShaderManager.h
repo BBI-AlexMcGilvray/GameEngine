@@ -40,7 +40,7 @@ namespace Rendering {
     const Shader_NEW GetShader(const Data::AssetName<Data::Rendering::ShaderData>& shader); // we probably want to return a straight shader, but need to be ensure lifetime is ensured
 
   private:
-    std::unordered_map<Data::AssetName<Data::Rendering::ShaderData>, Shader_NEW> _shaders;
+    std::unordered_map<Data::AssetName<Data::Rendering::ShaderData>, Shader_NEW, Data::AssetNameHasher<Data::Rendering::ShaderData>> _shaders;
   };
 }// namespace Rendering
 }// namespace Application

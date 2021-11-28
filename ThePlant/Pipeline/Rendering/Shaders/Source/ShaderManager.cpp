@@ -55,10 +55,11 @@ namespace Rendering {
   
   const Shader_NEW ShaderManager::AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
   {
-    if (_shaders.find(shader) != _shaders.end())
+    auto existingShader = _shaders.find(shader);
+    if (existingShader != _shaders.end())
     {
       DEBUG_WARNING("Shader Manager", "Trying to add the same shader twice");
-      return;
+      return existingShader->second;
     }
 
     // doing it this way could give us problems because we don't hold on to shared_ptrs that keep the data alive for shaders/fragmentshaders/vertexshaders

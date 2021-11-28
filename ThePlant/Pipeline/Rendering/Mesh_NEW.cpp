@@ -77,5 +77,23 @@ namespace Rendering {
         // keep track of mesh data to write to
         mesh.mappedBuffer = GLMappedBuffer(&newBuffer);
     }
+
+    Mesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::SimpleMeshData>& data)
+    {
+        std::vector<SimpleVertexData> vertexData = createRuntimeData(*data);
+        return CreateMesh(vertexData);
+    }
+
+    Mesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::StaticMeshData>& data)
+    {
+        std::vector<SimpleVertexData> vertexData = createRuntimeData(*data);
+        return CreateMesh(vertexData);
+    }
+
+    MappedMesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data)
+    {
+        std::vector<SkinnedVertexData> vertexData = createRuntimeData(*data);
+        return CreateMesh(vertexData);
+    }
 } // namespace Rendering
 } // namespace Application
