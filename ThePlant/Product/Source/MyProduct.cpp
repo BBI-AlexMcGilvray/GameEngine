@@ -87,8 +87,8 @@ namespace Product
 
         // testing
         // This will need to be done elsewhere since the rendering logic in Application will clear the screen!
-        _renderer.SetShader(_material.shader);
-        _renderer.DrawMesh(_mesh);
+        // _renderer.SetShader(_material.shader);
+        // _renderer.DrawMesh(_mesh);
         // \testing
     }
 

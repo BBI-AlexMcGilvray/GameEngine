@@ -647,6 +647,9 @@ struct JSON
       }
       case '\r':
       case '\n': {
+        if (inQuotes) {
+          token += c;
+        }
         break;
       }
       case ' ':

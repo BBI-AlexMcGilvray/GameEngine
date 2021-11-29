@@ -89,15 +89,16 @@ namespace Rendering {
     return true;
   }
   
-  GLShader CreateShader(const std::string& shaderCode)
+  GLShader CreateShader(const std::string& shaderCode, GLenum shaderType)
   {
     GLShader shader;
+    shader.Type = shaderType;
     
     int compileResult = 0;
 
-    shader.Object = glCreateShader(GL_SHADER);// create shader creates an empty shader object (handle) of desired type
+    shader.Object = glCreateShader(shader.Type);// create shader creates an empty shader object (handle) of desired type
     const char *shaderCodePtr = shaderCode.c_str();
-    //const int shaderCodeSize = source.size(); // we can create a StringRef class that holds a const char*, and also the size of the array (by reading null character) to fill this in
+    // const int shaderCodeSize = shaderCode.size(); // we can create a StringRef class that holds a const char*, and also the size of the array (by reading null character) to fill this in
 
     glShaderSource(shader.Object, 1, &shaderCodePtr, nullptr);//, &shaderCodeSize); // loads the shader object with given code.
       // count is usually set to 1 because you normally have one character array
@@ -123,7 +124,7 @@ namespace Rendering {
   FragmentShader_NEW CreateFragmentShader(const std::string& shaderCode)
   {
     FragmentShader_NEW shader;
-    shader.glShader = CreateShader(shaderCode);
+    shader.glShader = CreateShader(shaderCode, GL_FRAGMENT_SHADER);
 
     return shader;
   }
@@ -136,7 +137,7 @@ namespace Rendering {
   VertexShader_NEW CreateVertexShader(const std::string& shaderCode)
   {
     VertexShader_NEW shader;
-    shader.glShader = CreateShader(shaderCode);
+    shader.glShader = CreateShader(shaderCode, GL_VERTEX_SHADER);
 
     return shader;
   }
