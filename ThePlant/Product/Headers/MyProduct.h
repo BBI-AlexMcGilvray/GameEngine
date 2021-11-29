@@ -6,6 +6,11 @@
 #include "Product/Headers/CameraController.h"
 #include "Product/Scripting/LuaManager.h"
 
+// testing
+#include "Pipeline/Rendering/Material_NEW.h"
+#include "Pipeline/Rendering/Mesh_NEW.h"
+// \testing
+
 /*
 Notes:
 - Work on this now
@@ -42,5 +47,11 @@ namespace Product
 
         CameraController _cameraController;
         LuaManager _luaManager;
+
+        // testing
+        Application::Rendering::Material_NEW _material;
+        Application::Rendering::Mesh_NEW _mesh;
+        Application::Rendering::Renderer_NEW _renderer;
+        // \testing
     };
 }

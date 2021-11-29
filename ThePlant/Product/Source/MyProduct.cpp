@@ -42,6 +42,12 @@ namespace Product
         inputManager->addReceiver(&_cameraController);
 
         _luaManager.initialize();
+
+        // testing
+        auto& assetManager = Application::ApplicationManager::AppAssetManager();
+        _material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), Application::ApplicationManager::AppRenderManager().ObjectShaderManager);
+        _mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
+        // \testing
     }
 
     void MyProduct::start()
@@ -78,6 +84,12 @@ namespace Product
         FQuaternion rotationModification = _shoulderBone->Transformation.GetLocalRotation();
         _shoulderBone->Transformation.AdjustLocalRotation(FQuaternion(0.0f, 0.0f, 0.01f, 0.99f));
         //end of testing
+
+        // testing
+        // This will need to be done elsewhere since the rendering logic in Application will clear the screen!
+        _renderer.SetShader(_material.shader);
+        _renderer.DrawMesh(_mesh);
+        // \testing
     }
 
     void MyProduct::end()

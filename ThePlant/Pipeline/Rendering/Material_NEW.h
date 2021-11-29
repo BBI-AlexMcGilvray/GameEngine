@@ -38,11 +38,15 @@ namespace Rendering {
   struct Material_NEW
   {
     ShaderContext shaderContext;
-    const Shader_NEW shader;
+    Shader_NEW shader;
 
     Material_NEW(const Shader_NEW& shader)
     : shader(shader)
     {}
+
+    Material_NEW() = default;
+    Material_NEW(const Material_NEW&) = default;
+    Material_NEW& operator=(const Material_NEW&) = default;
   };
 
   Material_NEW CreateMaterial(const Data::AssetData<Data::Rendering::MaterialData>& data, ShaderManager& shaderManager);
