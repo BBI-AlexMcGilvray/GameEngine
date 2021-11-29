@@ -79,6 +79,7 @@ Rendering/Shaders/Source/ShaderManager.cpp #
 Rendering/Shaders/Source/SkinnedObjectShader.cpp #
 Rendering/Shaders/Source/SkinnedVertexShader.cpp #
 Rendering/Shaders/Source/VertexShader.cpp #
+Rendering/Shaders/Shader_NEW.cpp #
 Rendering/Source/Camera.cpp #
 Rendering/Source/CameraComponent.cpp #
 Rendering/Source/CameraManager.cpp #
@@ -91,6 +92,9 @@ Rendering/Source/RenderManager.cpp #
 Rendering/Source/RenderObjectBase.cpp #
 Rendering/Source/RenderObjectManager.cpp #
 Rendering/Source/SingleCameraManager.cpp #
+Rendering/Material_NEW.cpp #
+Rendering/Mesh_NEW.cpp #
+Rendering/Renderer_NEW.cpp #
 Source/ApplicationManager.cpp #
 Source/GLContextManager.cpp #
 Source/SDL2Manager.cpp #
@@ -195,6 +199,11 @@ Rendering/Shaders/Headers/ShaderManager.h #
 Rendering/Shaders/Headers/SkinnedObjectShader.h #
 Rendering/Shaders/Headers/SkinnedVertexShader.h #
 Rendering/Shaders/Headers/VertexShader.h #
+Rendering/Shaders/Shader_NEW.h #
+Rendering/Material_NEW.h #
+Rendering/Mesh_NEW.h #
+Rendering/RenderContext.h #
+Rendering/Renderer_NEW.h #
 StateSystem/Headers/State.h #
 StateSystem/Headers/StateManager.h #
 Time/Headers/TimeManager.h #

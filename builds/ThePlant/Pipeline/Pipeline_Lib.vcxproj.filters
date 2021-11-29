@@ -223,6 +223,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\VertexShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Shader_NEW.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -257,6 +260,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\SingleCameraManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Material_NEW.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Mesh_NEW.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Renderer_NEW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\ApplicationManager.cpp">

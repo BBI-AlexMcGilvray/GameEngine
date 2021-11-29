@@ -48,7 +48,7 @@ namespace Math {
 
     // operators
     // methods
-    Dimension<4> Dimensions()
+    Dimension<4> Dimensions() const
     {
       return Dimension<4>();
     }

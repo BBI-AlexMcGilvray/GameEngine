@@ -1,6 +1,6 @@
-#include "Pipeline\Rendering\Headers\Renderer_NEW.h"
+#include "Pipeline\Rendering\Renderer_NEW.h"
 
-#include "Pipeline/Rendering/Headers/RenderObjectBase.h"
+#include "Materials/Core/Debugging/Headers/Macros.h"
 
 #include "Dependencies/Includes/glew.h"
 
@@ -8,23 +8,53 @@ using namespace Core;
 
 namespace Application {
 namespace Rendering {
+  struct GLVisitor
+  {
+    GLVisitor(const GLint& location)
+    : location(location)
+    {}
+
+    void operator()(const double& val) { glUniform1d(location, val); }
+
+    void operator()(const float& val) { glUniform1f(location, val); }
+
+    void operator()(const int& val) { glUniform1i(location, val); }
+
+    void operator()(const uint& val) { glUniform1ui(location, val); }
+
+    void operator()(const Core::Math::Color& val) { glUniform4fv(location, 1, &(val.RGBA[0])); }
+
+  private:
+      const GLint location;
+  };
+
+  void Renderer_NEW::SetShader(const Shader_NEW& shader)
+  {
+    if (_currentShader == shader)
+    {
+      return;
+    }
+
+    _currentShader = shader;
+    glUseProgram(_currentShader.glProgram.Object);
+  }
+
   void Renderer_NEW::DrawMesh(const Context& context) const
   {
-    _SetShader(context.material.Shader);
     _SetShaderVariables(context);
     _Draw(context);
   }
 
   void Renderer_NEW::DrawMesh(const SkinnedContext& context) const
   {
-    _SetShader(context.context.material.Shader);
     _SetShaderVariables(context);
     _Draw(context.context);
   }
 
   void Renderer_NEW::_Draw(const Context& context) const
   {
-    context.mesh.Buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
+    VERIFY(context.material.shader == _currentShader);
+    context.mesh.buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
     _DrawTriangles(context.vertices);
   }
 
@@ -42,7 +72,7 @@ namespace Rendering {
 
   void Renderer_NEW::_SetShaderVariables(const Context& context) const
   {
-    GLuint program = _currentShader->Object;
+    GLuint program = _currentShader.glProgram.Object;
 
     // set the required information that needs to be used in the shader
     GLint MVP = glGetUniformLocation(program, "MVP");
@@ -57,7 +87,7 @@ namespace Rendering {
 
   void Renderer_NEW::_SetShaderVariables(const SkinnedContext& context) const
   {
-    GLuint program = _currentShader->Object;
+    GLuint program = _currentShader.glProgram.Object;
 
     VERIFY(context.bones.size() <= 50);
     GLint boneMatrices = glGetUniformLocation(program, "boneMatrices");
@@ -70,39 +100,29 @@ namespace Rendering {
   {
     for (const auto& context : material.shaderContext)
     {
-      std::visit([name = context.first, shader = material.shader](const double& val)
-      {
-        GLint doubleLocation = glGetUniformLocation(shader.glProgram, name);
-        glUniform1d(doubleLocation, val);
-      }, [name = context.first](const float& val)
-      {
-        GLint floatLocation = glGetUniformLocation(shader.glProgram, name);
-        glUniform1f(floatLocation, val);
-      }, [name = context.first](const int& val)
-      {
-        GLint intLocation = glGetUniformLocation(shader.glProgram, name);
-        glUniform1i(intLocation, val);
-      }, [name = context.first](const uint& val)
-      {
-        GLint uintLocation = glGetUniformLocation(shader.glProgram, name);
-        glUniform1ui(uintLocation, val);
-      }, [name = context.first](const Core::Math::Color& val)
-      {
-        GLint colorLocation = glGetUniformLocation(shader.glProgram, name);
-        glUniform4fv(colorLocation, 1, &(val.RGBA[0]));
-      }, context.second);
-    }
-  }
+      const auto& name = context.first;
+      const auto& shader = material.shader;
+      GLint glLocation = glGetUniformLocation(shader.glProgram.Object, name.c_str());
 
-  void Renderer_NEW::_SetShader(const Shader_NEW& shader)
-  {
-    if (_currentShader == &shader)
-    {
-      return;
+      // std::visit([name, shader, glLocation](const double& val)
+      // {
+      //   glUniform1d(glLocation, val);
+      // }, [name, shader, glLocation](const float& val)
+      // {
+      //   glUniform1f(glLocation, val);
+      // }, [name, shader, glLocation](const int& val)
+      // {
+      //   glUniform1i(glLocation, val);
+      // }, [name, shader, glLocation](const uint& val)
+      // {
+      //   glUniform1ui(glLocation, val);
+      // }, [name, shader, glLocation](const Core::Math::Color& val)
+      // {
+      //   glUniform4fv(glLocation, 1, &(val.RGBA[0]));
+      // }, context.second);
+      GLVisitor visitor(glLocation);
+      std::visit(visitor, context.second);
     }
-
-    _currentShader = &shader;
-    glUseProgram(_currentShader.glProgram.Object);
   }
 }// namespace Rendering
 }// namespace Application

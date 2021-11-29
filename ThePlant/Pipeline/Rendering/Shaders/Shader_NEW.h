@@ -22,6 +22,11 @@ namespace Rendering {
     GLShader glShader;
     
     // AssetData<FragmentShaderData> in debug?
+
+    bool operator==(const VertexShader_NEW& other) const
+    {
+      return (glShader == other.glShader);
+    }
   };
   
   VertexShader_NEW CreateVertexShader_NEW(const Data::AssetData<Data::Rendering::VertexShaderData>& data);
@@ -32,6 +37,11 @@ namespace Rendering {
     GLShader glShader;
     
     // AssetData<VertexShaderData> in debug?
+
+    bool operator==(const FragmentShader_NEW& other) const
+    {
+      return (glShader == other.glShader);
+    }
   };
   
   FragmentShader_NEW CreateFragmentShader_NEW(const Data::AssetData<Data::Rendering::FragmentShaderData>& data);
@@ -43,6 +53,11 @@ namespace Rendering {
     GLShaderProgram glProgram;
 
     // AssetData<ShaderData> in debug?
+
+    bool operator==(const Shader_NEW& other) const
+    {
+      return (vertexShader == other.vertexShader && fragmentShader == other.fragmentShader && glProgram == other.glProgram);
+    }
   };
 
   Shader_NEW CreateShader_NEW(const Data::AssetData<Data::Rendering::ShaderData>& data);

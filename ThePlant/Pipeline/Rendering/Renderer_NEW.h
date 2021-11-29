@@ -16,6 +16,8 @@ namespace Rendering {
   // this should also hold (a point perhaps) to the camera that is being used by the system
   struct Renderer_NEW
   {
+    // must be called before any meshes that need that shader (or once per set)
+    void SetShader(const Shader_NEW& shader);
     // should contain the logic that is currently in the shader and the render object
     void DrawMesh(const Context& context) const;
     void DrawMesh(const SkinnedContext& context) const;
@@ -32,8 +34,6 @@ namespace Rendering {
     void _SetShaderVariables(const Context& context) const;
     void _SetShaderVariables(const SkinnedContext& context) const;
     void _SetMaterialContext(const Material_NEW& material) const;
-
-    void _SetShader(const Shader_NEW& shader);
   };
 }// namespace Rendering
 }// namespace Application

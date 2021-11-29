@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Core/Headers/CoreDefs.h"
+
+#include "Data/Headers/AssetData.h"
 #include "Data/Rendering/Headers/SimpleMeshData.h"
 #include "Data/Rendering/Headers/StaticMeshData.h"
 #include "Data/Rendering/Headers/AnimatedMeshData.h"
@@ -13,6 +15,14 @@
 
 namespace Application {
 namespace Rendering {
+    struct Mesh_NEW;
+    struct MappedMesh_NEW;
+
+    // should only be called for code-created meshes
+    Mesh_NEW CreateMesh(const std::vector<SimpleVertexData>& data);
+    Mesh_NEW CreateMesh(const std::vector<VertexData>& data);
+    MappedMesh_NEW CreateMesh(const std::vector<SkinnedVertexData>& data);
+
     struct Mesh_NEW
     {
         uint vertices; // number of vertices
@@ -20,6 +30,7 @@ namespace Rendering {
 
     private:
         friend Mesh_NEW CreateMesh(const std::vector<SimpleVertexData>&);
+        friend Mesh_NEW CreateMesh(const std::vector<VertexData>& data);
         friend MappedMesh_NEW CreateMesh(const std::vector<SkinnedVertexData>&);
 
         std::vector<GLBuffer> _vbos; // should be useful to update only certain data when (if) required. NOTE: We are currently NOT using these correctly
@@ -33,11 +44,10 @@ namespace Rendering {
     struct MappedMesh_NEW : public Mesh_NEW
     {
         GLMappedBuffer mappedBuffer;
-    };
 
-    // should only be called for code-created meshes
-    Mesh_NEW CreateMesh(const std::vector<SimpleVertexData>& data);
-    MappedMesh_NEW CreateMesh(const std::vector<SkinnedVertexData>& data);
+    private:
+        friend MappedMesh_NEW CreateMesh(const std::vector<SkinnedVertexData>&);
+    };
 
     // these need to be adjusted in the future to not create the same mesh multiple times for the same asset (would need something like we have for shaders)
     Mesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::SimpleMeshData>& data);

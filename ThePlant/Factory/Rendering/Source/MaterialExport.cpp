@@ -51,10 +51,11 @@ namespace Data
 
 			Data::Rendering::MaterialData materialData;
 
-			materialData.specular = Core::Math::Color(specularColor.r, specularColor.g, specularColor.b, specularColor.a);
-			materialData.diffuse = Core::Math::Color(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
-			materialData.ambient = Core::Math::Color(ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a);
-			materialData.shininess = shininess;
+			materialData.context.specular = Core::Math::Color(specularColor.r, specularColor.g, specularColor.b, specularColor.a);
+			materialData.context.diffuse = Core::Math::Color(diffuseColor.r, diffuseColor.g, diffuseColor.b, diffuseColor.a);
+			materialData.context.ambient = Core::Math::Color(ambientColor.r, ambientColor.g, ambientColor.b, ambientColor.a);
+			materialData.context.shininess = shininess;
+			
 			materialData.shader = HashValue(shader);
 
 			return Core::Serialize<Core::Serialization::Format::JSON>(materialData);

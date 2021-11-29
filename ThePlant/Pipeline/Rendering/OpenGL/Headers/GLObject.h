@@ -16,6 +16,11 @@ namespace Rendering {
 
     virtual void SetObject(GLuint object);
     virtual void SetType(GLenum type);
+
+    bool operator==(const GLObject& other) const 
+    {
+      return (Object == other.Object && Type == other.Type);
+    }
   };
 }// namespace Rendering
 }// namespace Application

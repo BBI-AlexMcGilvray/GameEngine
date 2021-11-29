@@ -6,11 +6,15 @@
 
 namespace Data {
 namespace Rendering {
-  ASSET(MaterialData,
+  NESTED_ASSET(MaterialContext,
     (Core::Math::Color) specular,
     (Core::Math::Color) diffuse,
     (Core::Math::Color) ambient,
-    (float) shininess,
+    (float) shininess
+  );
+
+  ASSET(MaterialData,
+    (MaterialContext) context,
     (AssetName<ShaderData>) shader
   );
 }// namespace Rendering

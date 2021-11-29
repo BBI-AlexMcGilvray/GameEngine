@@ -355,6 +355,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\SkinnedObjectShader.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\SkinnedVertexShader.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\VertexShader.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Shader_NEW.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\Camera.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\CameraComponent.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\CameraManager.cpp" />
@@ -367,6 +368,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\RenderObjectBase.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\RenderObjectManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\SingleCameraManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Material_NEW.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Mesh_NEW.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Renderer_NEW.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\ApplicationManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\GLContextManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\SDL2Manager.cpp" />
