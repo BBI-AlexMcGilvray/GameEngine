@@ -184,6 +184,18 @@ namespace Rendering {
     return RenderCamera;
   }
 
+  // testing
+  void RenderManager::QueueRender(const Context& context)
+  {
+    _contexts.push_back(context);
+  }
+
+  void RenderManager::QueueRender(const SkinnedContext& context)
+  {
+    _skinnedContexts.push_back(context);
+  }
+  // \testing
+
   void RenderManager::RenderStart()
   {
     glClearColor(ClearColor.R, ClearColor.G, ClearColor.B, ClearColor.A);
@@ -204,6 +216,23 @@ namespace Rendering {
       //MaterialManagers[ActiveState]->Render(initialMVP, InitialColor);
       ObjectManagers[ActiveState]->Render(initialMVP, InitialColor);
     }
+
+    // testing
+    _renderer_NEW.StartFrame();
+    for (auto& context : _contexts)
+    {
+      _renderer_NEW.SetShader(context.material.shader);
+      _renderer_NEW.DrawMesh(context);
+    }
+
+    for (auto& context : _skinnedContexts)
+    {
+      _renderer_NEW.SetShader(context.context.material.shader);
+      _renderer_NEW.DrawMesh(context);
+    }
+    _renderer_NEW.SetShader(Shader_NEW());
+    _renderer_NEW.EndFrame();
+    // \testing
   }
 
   void RenderManager::RenderEnd()

@@ -18,7 +18,6 @@ namespace Rendering {
         const Material_NEW material;
         const Core::Math::Float4x4 mvp;
         const Core::Math::Color color;
-        const size_t vertices;
         const Mesh_NEW mesh;
     };
 

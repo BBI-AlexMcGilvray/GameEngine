@@ -28,6 +28,17 @@ namespace Rendering {
       const GLint location;
   };
 
+  void Renderer_NEW::StartFrame()
+  {
+    DEBUG_LOG("Renderer_NEW", "Starting frame with " + std::to_string(_drawCalls) + " draw calls");
+  }
+
+  void Renderer_NEW::EndFrame()
+  {
+    DEBUG_LOG("Renderer_NEW", "Ending frame with " + std::to_string(_drawCalls) + " draw calls");
+    _drawCalls = 0;
+  }
+
   void Renderer_NEW::SetShader(const Shader_NEW& shader)
   {
     if (_currentShader == shader)
@@ -55,17 +66,20 @@ namespace Rendering {
   {
     VERIFY(context.material.shader == _currentShader);
     context.mesh.buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
-    _DrawTriangles(context.vertices);
+    _DrawTriangles(context.mesh.vertices);
+    context.mesh.buffer.Unbind();
   }
 
   void Renderer_NEW::_DrawLines(Core::size vertexCount) const
   {
+    ++_drawCalls;
     VERIFY((INT32_MAX >= vertexCount));
     glDrawArrays(GL_LINE_STRIP, 0, GLsizei(vertexCount));
   }
 
   void Renderer_NEW::_DrawTriangles(Core::size vertexCount) const
   {
+    ++_drawCalls;
     VERIFY((INT32_MAX >= vertexCount));
     glDrawArrays(GL_TRIANGLES, 0, GLsizei(vertexCount));
   }

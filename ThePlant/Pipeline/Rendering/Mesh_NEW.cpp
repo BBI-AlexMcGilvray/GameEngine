@@ -63,8 +63,8 @@ namespace Rendering {
         glEnableVertexAttribArray(1);// this matches with object shader construction
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::VertexData), (void *)(offsetof(Application::Rendering::VertexData, Application::Rendering::VertexData::normal)));
         // uvs
-        glEnableVertexAttribArray(2);// this matches with object shader construction
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::VertexData), (void *)(offsetof(Application::Rendering::VertexData, Application::Rendering::VertexData::uvs)));
+        // glEnableVertexAttribArray(2);// this matches with object shader construction
+        // glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::VertexData), (void *)(offsetof(Application::Rendering::VertexData, Application::Rendering::VertexData::uvs)));
 
         mesh.buffer.Unbind();// must be done first, as it stores the states of the binded vbos
         newBuffer.Unbind();
@@ -98,13 +98,13 @@ namespace Rendering {
         glEnableVertexAttribArray(1);// this matches with object shader construction
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::normal)));
         // uvs
-        glEnableVertexAttribArray(2);// this matches with object shader construction
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::uvs)));
+        // UVS not used YET: glEnableVertexAttribArray(2);// this matches with object shader construction
+        // glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::uvs)));
         // bone weight
-        glEnableVertexAttribArray(3);// this matches with object shader construction
+        glEnableVertexAttribArray(2);// this matches with object shader construction
         glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::boneWeight)));
         // bone indices
-        glEnableVertexAttribArray(4);// this matches with object shader construction
+        glEnableVertexAttribArray(3);// this matches with object shader construction
         glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::boneIndices)));
 
         mesh.buffer.Unbind();// must be done first, as it stores the states of the binded vbos

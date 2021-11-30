@@ -11,6 +11,10 @@
 #include "Pipeline/Rendering/Headers/Renderer.h"
 #include "Pipeline/Rendering/Headers/Camera.h"
 #include "Pipeline/Rendering/Shaders/Headers/ShaderManager.h"
+// testing
+#include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/Renderer_NEW.h"
+// \testing
 
 #include "Core/Functionality/Headers/Subscription.h"
 
@@ -65,6 +69,11 @@ namespace Rendering {
 
     Core::Ptr<const Camera> GetCamera() const;
 
+    // testing
+    void QueueRender(const Context& context);
+    void QueueRender(const SkinnedContext& context);
+    // \testing
+
   private:
     Core::Ptr<Camera> RenderCamera = nullptr;
     Core::Math::Color InitialColor;
@@ -81,6 +90,12 @@ namespace Rendering {
     void RenderStart();
     void RenderMiddle();
     void RenderEnd();
+  
+    // testing
+    std::vector<Context> _contexts;
+    std::vector<SkinnedContext> _skinnedContexts;
+    Renderer_NEW _renderer_NEW;
+    // \testing
   };
 }// namespace Rendering
 }// namespace Application

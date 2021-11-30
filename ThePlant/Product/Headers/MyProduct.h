@@ -9,7 +9,6 @@
 // testing
 #include "Pipeline/Rendering/Material_NEW.h"
 #include "Pipeline/Rendering/Mesh_NEW.h"
-// #include "Pipeline/Rendering/Renderer_NEW.h"
 // \testing
 
 /*
@@ -52,7 +51,7 @@ namespace Product
         // testing
         Application::Rendering::Material_NEW _material;
         Application::Rendering::Mesh_NEW _mesh;
-        // Application::Rendering::Renderer_NEW _renderer;
+        bool _added = false;
         // \testing
     };
 }

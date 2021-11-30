@@ -86,7 +86,20 @@ namespace Product
         //end of testing
 
         // testing
-        // This will need to be done elsewhere since the rendering logic in Application will clear the screen!
+        if (!_added) // only add once, or we draw MANY copies
+        {
+            auto cameraMatrix = _cameraNode->CameraComponent->GetCamera()->GetTransformationMatrix();
+            Transform tempTransform;
+            tempTransform.AdjustPosition(Core::Math::Float3(0.0f, 0.0f, -600.0f));
+            Application::Rendering::Context context = {
+                _material,
+                cameraMatrix * tempTransform.GetTransformationMatrix(),
+                Core::Math::WHITE,
+                _mesh
+            };
+            Application::ApplicationManager::AppRenderManager().QueueRender(context);
+            _added = true;
+        }
         // _renderer.SetShader(_material.shader);
         // _renderer.DrawMesh(_mesh);
         // \testing
