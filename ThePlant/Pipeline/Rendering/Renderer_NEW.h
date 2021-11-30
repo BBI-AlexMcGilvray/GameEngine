@@ -16,10 +16,8 @@ namespace Rendering {
   // this should also hold (a point perhaps) to the camera that is being used by the system
   struct Renderer_NEW
   {
-    // just for tracking for now
     void StartFrame();
     void EndFrame();
-    // \just for tracking for now
 
     // must be called before any meshes that need that shader (or once per set)
     void SetShader(const Shader_NEW& shader);
@@ -28,8 +26,21 @@ namespace Rendering {
     void DrawMesh(const SkinnedContext& context) const;
 
   private:
+  #ifdef DEBUG
+    struct TrackingInfo
+    {
+      uint shadersUsed = 0;
+      uint drawCalls = 0;
+      uint modelsDrawn = 0;
+      uint skinnedModelsDrawn = 0;
+    };
+    mutable TrackingInfo _trackingInfo; // ideally this is actually thread-safe, but since it is just debugging for now it doesn't matter too much
+
+    void _ResetTrackingInfo() const;
+    void _PrintTrackingInfo() const;
+  #endif
+
     Shader_NEW _currentShader; // used for tracking shader changes and ordering information
-    mutable uint _drawCalls = 0; // debugging for now
 
     // is this needed?
     void _Draw(const Context& context) const;

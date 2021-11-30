@@ -8,6 +8,8 @@ using namespace Core;
 
 namespace Application {
 namespace Rendering {
+  const std::string TAG = "Renderer_NEW";
+
   struct GLVisitor
   {
     GLVisitor(const GLint& location)
@@ -30,13 +32,16 @@ namespace Rendering {
 
   void Renderer_NEW::StartFrame()
   {
-    DEBUG_LOG("Renderer_NEW", "Starting frame with " + std::to_string(_drawCalls) + " draw calls");
+  #ifdef DEBUG
+    _ResetTrackingInfo();
+  #endif
   }
 
   void Renderer_NEW::EndFrame()
   {
-    DEBUG_LOG("Renderer_NEW", "Ending frame with " + std::to_string(_drawCalls) + " draw calls");
-    _drawCalls = 0;
+  #ifdef DEBUG
+    _PrintTrackingInfo();
+  #endif
   }
 
   void Renderer_NEW::SetShader(const Shader_NEW& shader)
@@ -46,18 +51,27 @@ namespace Rendering {
       return;
     }
 
+  #ifdef DEBUG
+    _trackingInfo.shadersUsed += 1;
+  #endif
     _currentShader = shader;
     glUseProgram(_currentShader.glProgram.Object);
   }
 
   void Renderer_NEW::DrawMesh(const Context& context) const
   {
+  #ifdef DEBUG
+    _trackingInfo.modelsDrawn += 1;
+  #endif
     _SetShaderVariables(context);
     _Draw(context);
   }
 
   void Renderer_NEW::DrawMesh(const SkinnedContext& context) const
   {
+  #ifdef DEBUG
+    _trackingInfo.skinnedModelsDrawn += 1;
+  #endif
     _SetShaderVariables(context);
     _Draw(context.context);
   }
@@ -72,14 +86,18 @@ namespace Rendering {
 
   void Renderer_NEW::_DrawLines(Core::size vertexCount) const
   {
-    ++_drawCalls;
+  #ifdef DEBUG
+    _trackingInfo.drawCalls += 1;
+  #endif
     VERIFY((INT32_MAX >= vertexCount));
     glDrawArrays(GL_LINE_STRIP, 0, GLsizei(vertexCount));
   }
 
   void Renderer_NEW::_DrawTriangles(Core::size vertexCount) const
   {
-    ++_drawCalls;
+  #ifdef DEBUG
+    _trackingInfo.drawCalls += 1;
+  #endif
     VERIFY((INT32_MAX >= vertexCount));
     glDrawArrays(GL_TRIANGLES, 0, GLsizei(vertexCount));
   }
@@ -118,25 +136,22 @@ namespace Rendering {
       const auto& shader = material.shader;
       GLint glLocation = glGetUniformLocation(shader.glProgram.Object, name.c_str());
 
-      // std::visit([name, shader, glLocation](const double& val)
-      // {
-      //   glUniform1d(glLocation, val);
-      // }, [name, shader, glLocation](const float& val)
-      // {
-      //   glUniform1f(glLocation, val);
-      // }, [name, shader, glLocation](const int& val)
-      // {
-      //   glUniform1i(glLocation, val);
-      // }, [name, shader, glLocation](const uint& val)
-      // {
-      //   glUniform1ui(glLocation, val);
-      // }, [name, shader, glLocation](const Core::Math::Color& val)
-      // {
-      //   glUniform4fv(glLocation, 1, &(val.RGBA[0]));
-      // }, context.second);
       GLVisitor visitor(glLocation);
       std::visit(visitor, context.second);
     }
+  }
+
+  void Renderer_NEW::_ResetTrackingInfo() const
+  {
+    _trackingInfo = TrackingInfo();
+  }
+
+  void Renderer_NEW::_PrintTrackingInfo() const
+  {
+    CORE_LOG(TAG, "shadersUsed = " + std::to_string(_trackingInfo.shadersUsed));
+    CORE_LOG(TAG, "drawCalls = " + std::to_string(_trackingInfo.drawCalls));
+    CORE_LOG(TAG, "modelsDrawn = " + std::to_string(_trackingInfo.modelsDrawn));
+    CORE_LOG(TAG, "skinnedModelsDrawn = " + std::to_string(_trackingInfo.skinnedModelsDrawn));
   }
 }// namespace Rendering
 }// namespace Application

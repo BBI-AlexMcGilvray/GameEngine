@@ -230,7 +230,7 @@ namespace Rendering {
       _renderer_NEW.SetShader(context.context.material.shader);
       _renderer_NEW.DrawMesh(context);
     }
-    _renderer_NEW.SetShader(Shader_NEW());
+    _renderer_NEW.SetShader(Shader_NEW()); // this should be done in the EndFrame call?
     _renderer_NEW.EndFrame();
     // \testing
   }
