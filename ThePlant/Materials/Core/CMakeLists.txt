@@ -20,7 +20,8 @@ Networking/Source/NetworkProtocol.cpp #
 Networking/Source/Utils.cpp #
 Source/Exception.cpp #
 Source/Hash.cpp #
-TypeId/TypeId.cpp #
+IdTypes/IncrementalId.cpp #
+IdTypes/TypeId.cpp #
 CoreUnitTests.cpp)
 
 set(HEADER_FILES #
@@ -99,8 +100,10 @@ Serialization/Formats/JSON/JSON.h #
 Serialization/Serialization.h #
 Serialization/SerializationDefs.h #
 Serialization/type_traits.h #
-TypeId/TypeId.h #
-TypeId/UUID.h #
+IdTypes/IncrementalId.h #
+IdTypes/InstanceId.h #
+IdTypes/TypeId.h #
+IdTypes/UUID.h #
 TypeSafety/NotNullPtr.h #
 TypeSafety/SafeVoidPtr.h #
 Versioning/SemanticVerion.h #

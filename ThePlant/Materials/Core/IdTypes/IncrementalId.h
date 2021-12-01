@@ -2,9 +2,11 @@
 
 #include <cstdint>
 
+namespace Application {
 struct IncrementalId;
 IncrementalId GetIncrementalId();
 
+// all ids increment the hidden counter, regardless of what it is used for - each is unique (unless there is overflow)
 struct IncrementalId
 {
     friend IncrementalId GetIncrementalId();
@@ -25,3 +27,4 @@ protected:
 private:
     uint64_t _id;
 };
+}// namespace Application

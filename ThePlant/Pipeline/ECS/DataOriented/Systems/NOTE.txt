@@ -1,0 +1,4 @@
+* No explicit systems should be defined here (inside ECS/DataOriented/*), they should be defined elsewhere
+    - this should just be for how the architecture works, not for how the gameplay connects to it
+    - we should have a place where all the components and systems are defined for the application (and another for product-specific ones)
+        - this makes the separation of responsibilities more clear

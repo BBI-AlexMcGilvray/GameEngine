@@ -4,8 +4,9 @@
 #include <stdexcept>
 #include <vector>
 
-#include "../TypeId/TypeId.h"
+#include "Core/IdTypes/TypeId.h"
 
+namespace Application {
 struct TypeCollection;
 
 template <typename ...Ts>
@@ -127,3 +128,4 @@ TypeCollection RemoveFromCollection(const TypeCollection& collection)
 
     return TypeCollection(TypeCollection::Constructor::TAG, std::move(existing));
 }
+}// namespace Application

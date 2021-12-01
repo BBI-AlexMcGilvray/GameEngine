@@ -2,10 +2,11 @@
 
 #include <utility>
 
-#include "Archetype.h"
-#include "IDs.h"
-#include "TypeCollection.h"
+#include "Pipeline/ECS/DataOriented/Archetype.h"
+#include "Pipeline/ECS/DataOriented/IDs.h"
+#include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
+namespace Application {
 class ArchetypeManager
 {
 public:
@@ -93,7 +94,7 @@ public:
     void RemoveEntity(const Entity& entity);
 
     template <typename ...Ts>
-    const std::vector<Archetype*> GetArchetypesContaining()
+    const std::vector<Archetype*> GetArchetypesContaining() const
     {
         TypeCollection types = CollectTypes<Ts...>();
 
@@ -137,3 +138,4 @@ private:
 
     Archetype& _GetArchetype(const ArchetypeId& archetypeId);
 };
+}// namespace Application

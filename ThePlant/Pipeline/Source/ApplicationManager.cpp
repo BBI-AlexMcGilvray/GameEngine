@@ -44,6 +44,11 @@ Data::AssetManager& ApplicationManager::AppAssetManager()
   return Application()->_assetManager;
 }
 
+ArchetypeManager& ApplicationManager::AppArchetypeManager()
+{
+  return Application()->_archetypeManager;
+}
+
 ApplicationManager::ApplicationManager(ConstructorTag tag)
   : InputSystem(SDL), StateSystem(RenderSystem, InputSystem), OnQuit([this]() {
       Quit = true;

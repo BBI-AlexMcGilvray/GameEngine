@@ -58,7 +58,10 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Source\Hash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\TypeId\TypeId.cpp">
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IdTypes\IncrementalId.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IdTypes\TypeId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\CoreUnitTests.cpp">

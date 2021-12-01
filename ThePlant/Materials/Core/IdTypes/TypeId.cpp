@@ -1,4 +1,4 @@
-#include "Core/TypeId/TypeId.h"
+#include "Core/IdTypes/TypeId.h"
 
 namespace Core
 {

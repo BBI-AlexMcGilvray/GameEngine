@@ -1,9 +1,9 @@
 #pragma once
 
-#include "IncrementalId.h"
+#include "Core/IdTypes/IncrementalId.h"
+#include "Core/IdTypes/TypeId.h"
 
-#include "../TypeId/TypeId.h"
-
+namespace Application {
 struct ArchetypeId
 {
     ArchetypeId(const IncrementalId& archetypeId)
@@ -142,3 +142,4 @@ private:
         _archetypeId = archetypeId;
     }
 };
+}// namespace Application

@@ -1,5 +1,6 @@
-#include "Archetype.h"
+#include "Pipeline/ECS/DataOriented/Archetype.h"
 
+namespace Application {
 Archetype::Archetype(Archetype&& other)
 : _id(std::move(other._id))
 , _types(std::move(other._types))
@@ -47,12 +48,12 @@ void Archetype::RemoveEntity(const Entity& entity)
     }
 }
 
-bool Archetype::HasComponent(const runtimeId_t& componentId)
+bool Archetype::HasComponent(const runtimeId_t& componentId) const
 {
     return _components.find(componentId) != _components.end();
 }
 
-bool Archetype::ContainsTypes(const TypeCollection& types)
+bool Archetype::ContainsTypes(const TypeCollection& types) const
 {
     const std::vector<runtimeId_t>& typeIds = types.Types();
 
@@ -67,7 +68,7 @@ bool Archetype::ContainsTypes(const TypeCollection& types)
     return true;
 }
 
-bool Archetype::IsArchetype(const TypeCollection& types)
+bool Archetype::IsArchetype(const TypeCollection& types) const
 {
     return _types == types;
 }
@@ -92,3 +93,4 @@ void Archetype::_AddEntity(const Entity& entity)
         component.second->AddComponentFor(entity.GetEntityId());
     }
 }
+}// namespace Application

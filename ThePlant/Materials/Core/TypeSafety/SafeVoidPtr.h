@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../TypeId/TypeId.h"
+#include "../IdTypes/TypeId.h"
 
 namespace Core {
 class SafeVoidPtr

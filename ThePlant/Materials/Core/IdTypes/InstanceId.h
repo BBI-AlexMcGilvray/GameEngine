@@ -15,7 +15,9 @@ namespace {
   }
 }// namespace
 
-template<typename T, typename ID_TYPE = size_t>
+// all ids of the same ID_TYPE increment the hidden counter - each is unique for the given ID_TYPE (unless there is overflow)
+// i.e. instanceId<int> may equal instanceId<float>, but instanceId<int> will never equal another instanceId<int> (unless they are copied/moved)
+template<typename ID_TYPE>
 struct instanceId
 {
   constexpr instanceId()
@@ -45,4 +47,7 @@ struct instanceId
 private:
   ID_TYPE _id;
 };
+
+template <typename ID_TYPE>
+instanceId<ID_TYPE> GetInstanceId() { return instanceId<ID_TYPE>(); }
 }// namespace Core

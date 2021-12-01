@@ -6,11 +6,11 @@
 #include <utility>
 #include <vector>
 
-#include "../TypeId/TypeId.h"
+#include "Core/IdTypes/TypeId.h"
 
-#include "Component.h"
-#include "IDs.h"
-#include "TypeCollection.h"
+#include "Pipeline/ECS/DataOriented/Component.h"
+#include "Pipeline/ECS/DataOriented/IDs.h"
+#include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
 template <>
 struct std::hash<runtimeId_t>
@@ -21,6 +21,7 @@ struct std::hash<runtimeId_t>
     }
 };
 
+namespace Application {
 // this may need to be templated with an inheritance of a base interface so they can be held generically
 struct Archetype
 {
@@ -54,12 +55,12 @@ struct Archetype
     void RemoveEntity(const Entity& entity);
 
     template <typename T>
-    bool HasComponent()
+    bool HasComponent() const
     {
         return HasComponent(GetTypeId<T>());
     }
 
-    bool HasComponent(const runtimeId_t& componentId);
+    bool HasComponent(const runtimeId_t& componentId) const;
 
     template <typename T>
     T& GetComponentFor(const Entity& entity)
@@ -95,9 +96,9 @@ struct Archetype
         SetComponentFor(entity, std::forward<Ts>(args)...);
     }
 
-    bool ContainsTypes(const TypeCollection& types);
+    bool ContainsTypes(const TypeCollection& types) const;
 
-    bool IsArchetype(const TypeCollection& types);
+    bool IsArchetype(const TypeCollection& types) const;
 
     const ArchetypeId& GetId() const;
     const TypeCollection& GetArchetype() const;
@@ -215,3 +216,4 @@ Archetype CreateArchetypeFrom_Remove(const Archetype& basis)
 
     return Archetype(Archetype::Constructor::TAG, GetIncrementalId(), RemoveFromCollection<Ts...>(basis.GetArchetype()), std::move(components));
 }
+}// namespace Application

@@ -2,29 +2,27 @@
 
 #include "ArchetypeManager.h"
 
+namespace Application {
 struct ISystem
 {
-    ISystem(ArchetypeManager& archetypeManager)
-    : _archetypeManager(archetypeManager)
-    {}
-
-    virtual void Execute() = 0;
-
-public:
-    ArchetypeManager& _archetypeManager;
+    template <typename T>
+    bool IsSystem() { return (GetTypeId<T> == GetSystem()); }
+    virtual runtimeId_t GetSystem() const = 0;
+    virtual void Execute(const ArchetypeManager& archetypeManager) const = 0;
 };
 
 // holds boiler plate code that is the same for all systems before forwarding to the specific handling for the system
 template <typename SYSTEM, typename ...Ts>
 struct System : public ISystem
 {
-    System(ArchetypeManager& archetypeManager)
-    : ISystem(archetypeManager)
-    {}
-
-    void Execute()
+    runtimeId_t GetSystem() const override
     {
-        std::vector<Archetype*> affectedArchetypes = _archetypeManager.GetArchetypesContaining<Ts...>();
+        return GetTypeId<SYSTEM>();
+    }
+
+    void Execute(const ArchetypeManager& archetypeManager) const override
+    {
+        std::vector<Archetype*> affectedArchetypes = archetypeManager.GetArchetypesContaining<Ts...>();
 
         for (auto& archetype : affectedArchetypes)
         {
@@ -66,3 +64,4 @@ private:
     }
 };
 */
+}// namespace Application

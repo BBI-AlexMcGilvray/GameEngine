@@ -1,7 +1,8 @@
-#include "ArchetypeManager.h"
+#include "Pipeline/ECS/DataOriented/ArchetypeManager.h"
 
 #include <stdexcept>
 
+namespace Application {
 void ArchetypeManager::RemoveEntity(const Entity& entity)
 {
     if (!_HasArchetype(entity.GetArchetypeId()))
@@ -62,3 +63,4 @@ Archetype& ArchetypeManager::_GetArchetype(const ArchetypeId& archetypeId)
 
     throw std::invalid_argument("archetype does not exist within manager");
 }
+}// namespace Application

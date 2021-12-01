@@ -4,8 +4,9 @@
 #include <stdexcept>
 #include <vector>
 
-#include "IDs.h"
+#include "Pipeline/ECS/DataOriented/IDs.h"
 
+namespace Application {
 // template <typename T>
 // struct ComponentWrapper // may not want to use this, could intead have 2 lists (entityid and component) that would just need to be kept in sync
 // {
@@ -197,3 +198,4 @@ private:
         throw std::invalid_argument("entity is not held by this component list");
     }
 };
+}// namespace Application
