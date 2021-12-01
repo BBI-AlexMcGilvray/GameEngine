@@ -21,6 +21,7 @@ namespace Rendering {
   {
     GLShader glShader;
     
+    // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
     // AssetData<VertexShaderData> in debug?
 
     VertexShader_NEW() = default;
@@ -40,6 +41,7 @@ namespace Rendering {
   {
     GLShader glShader;
     
+    // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
     // AssetData<FragmentShaderData> in debug?
 
     FragmentShader_NEW() = default;
@@ -60,6 +62,7 @@ namespace Rendering {
     FragmentShader_NEW fragmentShader;
     GLShaderProgram glProgram;
 
+    // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
     // AssetData<ShaderData> in debug?
 
     Shader_NEW() = default;

@@ -41,6 +41,7 @@ namespace Rendering {
   #endif
 
     Shader_NEW _currentShader; // used for tracking shader changes and ordering information
+    // Renderer<OpenGL> _impl; // when we support multiple renderers, we would want to swap the impl at compile type (or launch time based on GPU?) and have the 'final' calls as part of that renderer
 
     // is this needed?
     void _Draw(const Context& context) const;

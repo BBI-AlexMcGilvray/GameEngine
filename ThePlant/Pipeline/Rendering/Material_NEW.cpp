@@ -22,7 +22,8 @@ namespace Rendering {
 
   Material_NEW CreateMaterial(const Data::AssetData<Data::Rendering::MaterialData>& data, ShaderManager& shaderManager)
   {
-    Material_NEW material(shaderManager.GetShader(data->shader));
+    Material_NEW material;
+    material.shader = shaderManager.GetShader(data->shader);
 
     reflector::visit_all(data->context, context_creator(material.shaderContext));
 

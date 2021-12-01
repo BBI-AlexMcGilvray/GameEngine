@@ -25,8 +25,11 @@ namespace Rendering {
 
     struct Mesh_NEW
     {
-        uint vertices; // number of vertices
+        size_t vertices; // number of vertices
         GLArrayBuffer buffer; // vao
+
+        // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
+        // AssetData<MeshData> in debug?
 
     private:
         friend Mesh_NEW CreateMesh(const std::vector<SimpleVertexData>&);

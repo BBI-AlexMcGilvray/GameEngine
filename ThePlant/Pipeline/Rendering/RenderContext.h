@@ -24,7 +24,7 @@ namespace Rendering {
     struct SkinnedContext
     {
         Context context;
-        std::array<Core::Math::Float4x4, 50> bones;
+        std::array<Core::Math::Float4x4, 50> bones; // currently cap the number of bones at 50, could make it a vector if we care about the space, but alignment/cache misses make array probably better
     };
 }// namespace Rendering
 }// namespace Application

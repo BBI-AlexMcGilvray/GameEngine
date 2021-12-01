@@ -17,9 +17,9 @@ namespace Rendering {
   using ShaderVariant = std::variant<double, float, int, uint, Core::Math::Color>; // others will probably be needed (vectors, matrices, ...)
   using ShaderVariable = std::pair<std::string, ShaderVariant>;
 
-  struct ShaderContextHasher
+  struct ShaderVariableHasher
   {
-    ShaderContextHasher() = default;
+    ShaderVariableHasher() = default;
 
     std::size_t operator()(const ShaderVariable& variable) const
     {
@@ -31,7 +31,7 @@ namespace Rendering {
   };
 
   // <shader attribute name, shader attribute value>
-  using ShaderContext = std::unordered_set<ShaderVariable, ShaderContextHasher>;
+  using ShaderContext = std::unordered_set<ShaderVariable, ShaderVariableHasher>;
 
   // holds shader information in terms of how it is affected by light, shadows, ...
   // maybe should contain the data, not BE the data?
@@ -40,9 +40,8 @@ namespace Rendering {
     ShaderContext shaderContext;
     Shader_NEW shader;
 
-    Material_NEW(const Shader_NEW& shader)
-    : shader(shader)
-    {}
+    // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
+    // AssetData<MaterialData> in debug?
 
     Material_NEW() = default;
     Material_NEW(const Material_NEW&) = default;

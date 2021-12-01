@@ -10,6 +10,9 @@ namespace Application {
 namespace Rendering {
   const std::string TAG = "Renderer_NEW";
 
+  // have not yet confirmed this works, but it should set the given variables to the provided values if they exist in the shader
+  // as for how we can guarantee/determine what shader variables exist for consistency/debugging, TBD - maybe there is a OpenGL call?
+  //  - see: https://stackoverflow.com/questions/440144/in-opengl-is-there-a-way-to-get-a-list-of-all-uniforms-attribs-used-by-a-shade
   struct GLVisitor
   {
     GLVisitor(const GLint& location)
@@ -40,7 +43,7 @@ namespace Rendering {
   void Renderer_NEW::EndFrame()
   {
   #ifdef DEBUG
-    _PrintTrackingInfo();
+    // _PrintTrackingInfo(); // only print if needed for debugging (in the future this can be used with an IMGUI window - the window could be a Logger implementation based on tag?)
   #endif
   }
 
