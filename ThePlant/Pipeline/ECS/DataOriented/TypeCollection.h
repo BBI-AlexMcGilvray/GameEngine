@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <vector>
 
-#include "Core/IdTypes/TypeId.h"
+#include "Core/IdTypes/RuntimeId.h"
 
 namespace Application {
 struct TypeCollection;
@@ -49,7 +49,7 @@ struct TypeCollection
         return *this;
     }
 
-    const std::vector<runtimeId_t>& Types() const
+    const std::vector<Core::runtimeId_t>& Types() const
     {
         return _types;
     }
@@ -78,10 +78,10 @@ struct TypeCollection
     }
 
 private:
-    std::vector<runtimeId_t> _types;
+    std::vector<Core::runtimeId_t> _types;
 
     enum class Constructor : int { TAG };
-    TypeCollection(Constructor tag, std::vector<runtimeId_t>&& types)
+    TypeCollection(Constructor tag, std::vector<Core::runtimeId_t>&& types)
     {
         _types = std::move(types);
 
@@ -99,16 +99,16 @@ private:
 template <typename ...Ts>
 TypeCollection CollectTypes()
 {
-    return TypeCollection(TypeCollection::Constructor::TAG, std::vector<runtimeId_t>{ GetTypeId<Ts>()... });
+    return TypeCollection(TypeCollection::Constructor::TAG, std::vector<Core::runtimeId_t>{ GetTypeId<Ts>()... });
 }
 
 template <typename ...Ts>
 TypeCollection AddToCollection(const TypeCollection& collection)
 {
-    std::vector<runtimeId_t> existing = collection.Types();
-    std::vector<runtimeId_t> toAdd = std::vector<runtimeId_t>{ GetTypeId<Ts>()... };
+    std::vector<Core::runtimeId_t> existing = collection.Types();
+    std::vector<Core::runtimeId_t> toAdd = std::vector<Core::runtimeId_t>{ GetTypeId<Ts>()... };
     
-    std::vector<runtimeId_t> all;
+    std::vector<Core::runtimeId_t> all;
     all.insert(all.end(), existing.begin(), existing.end());
     all.insert(all.end(), toAdd.begin(), toAdd.end());
 
@@ -118,8 +118,8 @@ TypeCollection AddToCollection(const TypeCollection& collection)
 template <typename ...Ts>
 TypeCollection RemoveFromCollection(const TypeCollection& collection)
 {
-    std::vector<runtimeId_t> existing = collection.Types();
-    std::vector<runtimeId_t> toRemove = std::vector<runtimeId_t>{ GetTypeId<Ts>()... };
+    std::vector<Core::runtimeId_t> existing = collection.Types();
+    std::vector<Core::runtimeId_t> toRemove = std::vector<Core::runtimeId_t>{ GetTypeId<Ts>()... };
     
     existing.erase(std::remove_if(existing.begin(), existing.end(), [toRemove](const auto& x)
     {

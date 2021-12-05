@@ -48,16 +48,16 @@ void Archetype::RemoveEntity(const Entity& entity)
     }
 }
 
-bool Archetype::HasComponent(const runtimeId_t& componentId) const
+bool Archetype::HasComponent(const Core::runtimeId_t& componentId) const
 {
     return _components.find(componentId) != _components.end();
 }
 
 bool Archetype::ContainsTypes(const TypeCollection& types) const
 {
-    const std::vector<runtimeId_t>& typeIds = types.Types();
+    const std::vector<Core::runtimeId_t>& typeIds = types.Types();
 
-    for (const runtimeId_t& typeId : typeIds)
+    for (const Core::runtimeId_t& typeId : typeIds)
     {
         if (_components.find(typeId) == _components.end())
         {

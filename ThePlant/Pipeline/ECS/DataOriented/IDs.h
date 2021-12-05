@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/IdTypes/IncrementalId.h"
-#include "Core/IdTypes/TypeId.h"
+#include "Core/IdTypes/RuntimeId.h"
 
 namespace Application {
 struct ArchetypeId

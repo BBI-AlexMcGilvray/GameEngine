@@ -44,9 +44,9 @@ Data::AssetManager& ApplicationManager::AppAssetManager()
   return Application()->_assetManager;
 }
 
-ArchetypeManager& ApplicationManager::AppArchetypeManager()
+ECS& ApplicationManager::AppECS()
 {
-  return Application()->_archetypeManager;
+  return Application()->_ecsSystem;
 }
 
 ApplicationManager::ApplicationManager(ConstructorTag tag)

@@ -1,12 +1,12 @@
 #pragma once
 
+#include <vector>
+
 #include "Materials/Core/Headers/PtrDefs.h"
 #include "Materials/Core/Logging/Logger.h"
 
 #include "Pipeline/ECS/DataOriented/ArchetypeManager.h"
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
-
-#include <set>
 
 namespace Application
 {
@@ -18,7 +18,7 @@ namespace Application
         void Update(); // run each system - we need to take care to ensure dependencies are adhered to REGARDLESS OF INSERTION ORDER
 
         template <typename SYSTEM, typename ...ARGS>
-        void AddSystem(ARGS ...args)
+        ISystem& AddSystem(ARGS ...args)
         {
             if (_HasSystem<SYSTEM>())
             {
@@ -26,13 +26,18 @@ namespace Application
                 return;
             }
 
-            _systems.emplace(Core::MakeUnique<T>(std::forward<ARGS>(args)...));
-            _Dirty();
+            auto& result = _systems.emplace_back(Core::MakeUnique<T>(std::forward<ARGS>(args)...));
+            if (result.second)
+            {
+                _Dirty();
+            }
+
+            return (*(*result.first));
         }
 
     private:
         const ArchetypeManager& _archetypeManager;
-        std::set<Core::UniquePtr<ISystem>> _systems;
+        std::vector<Core::UniquePtr<ISystem>> _systems;
         bool _systemsDirty = false;
 
         void _Dirty() { _systemsDirty = true; }

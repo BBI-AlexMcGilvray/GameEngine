@@ -21,7 +21,7 @@ Networking/Source/Utils.cpp #
 Source/Exception.cpp #
 Source/Hash.cpp #
 IdTypes/IncrementalId.cpp #
-IdTypes/TypeId.cpp #
+IdTypes/RuntimeId.cpp #
 CoreUnitTests.cpp)
 
 set(HEADER_FILES #
@@ -102,7 +102,7 @@ Serialization/SerializationDefs.h #
 Serialization/type_traits.h #
 IdTypes/IncrementalId.h #
 IdTypes/InstanceId.h #
-IdTypes/TypeId.h #
+IdTypes/RuntimeId.h #
 IdTypes/UUID.h #
 TypeSafety/NotNullPtr.h #
 TypeSafety/SafeVoidPtr.h #

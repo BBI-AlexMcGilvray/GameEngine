@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "Materials/Core/IdTypes/RuntimeId.h"
+
 #include "Pipeline/ECS/DataOriented/IDs.h"
 
 namespace Application {
@@ -63,7 +65,7 @@ struct ComponentList;
 
 struct IComponentList
 {
-    virtual runtimeId_t ComponentType() const = 0;
+    virtual Core::runtimeId_t ComponentType() const = 0;
     virtual std::unique_ptr<IComponentList> CreateEmptyCopy() const = 0;
     virtual void AddComponentFor(const EntityId& entity) = 0;
     virtual void RemoveComponentFor(const EntityId& entity) = 0;
@@ -108,7 +110,7 @@ protected:
     template <typename T>
     bool _IsCorrectType() const { return _IsCorrectType(GetTypeId<T>()); } // could be compiled out when not in debug
 
-    bool _IsCorrectType(const runtimeId_t& type) const { return (type == ComponentType()); }
+    bool _IsCorrectType(const Core::runtimeId_t& type) const { return (type == ComponentType()); }
 
 private:
     virtual void* _VoidPtrToComponentFor(const EntityId& entity) = 0;
@@ -118,7 +120,7 @@ private:
 template <typename T>
 struct ComponentList : public IComponentList
 {
-    runtimeId_t ComponentType() const override { return GetTypeId<T>(); }
+    Core::runtimeId_t ComponentType() const override { return Core::GetTypeId<T>(); }
 
     std::unique_ptr<IComponentList> CreateEmptyCopy() const override 
     {

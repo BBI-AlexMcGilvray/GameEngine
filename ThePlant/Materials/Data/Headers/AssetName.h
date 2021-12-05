@@ -3,7 +3,7 @@
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/TemplateDefs.h"
 #include "Core/IO/Headers/IODefs.h"
-#include "Core/IdTypes/TypeId.h"
+#include "Core/IdTypes/RuntimeId.h"
 
 #include "Data/Headers/AssetType.h"
 

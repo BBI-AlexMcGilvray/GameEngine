@@ -6,16 +6,16 @@
 #include <utility>
 #include <vector>
 
-#include "Core/IdTypes/TypeId.h"
+#include "Core/IdTypes/RuntimeId.h"
 
 #include "Pipeline/ECS/DataOriented/Component.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
 template <>
-struct std::hash<runtimeId_t>
+struct std::hash<Core::runtimeId_t>
 {
-    std::size_t operator()(const runtimeId_t& runtimeId) const
+    std::size_t operator()(const Core::runtimeId_t& runtimeId) const
     {
         return static_cast<const uint32_t>(runtimeId);
     }
@@ -60,7 +60,7 @@ struct Archetype
         return HasComponent(GetTypeId<T>());
     }
 
-    bool HasComponent(const runtimeId_t& componentId) const;
+    bool HasComponent(const Core::runtimeId_t& componentId) const;
 
     template <typename T>
     T& GetComponentFor(const Entity& entity)
@@ -106,7 +106,7 @@ struct Archetype
 private:
     ArchetypeId _id;
     TypeCollection _types;
-    std::unordered_map<runtimeId_t, std::unique_ptr<IComponentList>> _components;
+    std::unordered_map<Core::runtimeId_t, std::unique_ptr<IComponentList>> _components;
     
     enum class Constructor { TAG };
     Archetype(Constructor, const IncrementalId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components);

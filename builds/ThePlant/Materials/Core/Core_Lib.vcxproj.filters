@@ -61,7 +61,7 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IdTypes\IncrementalId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IdTypes\TypeId.cpp">
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IdTypes\RuntimeId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\CoreUnitTests.cpp">

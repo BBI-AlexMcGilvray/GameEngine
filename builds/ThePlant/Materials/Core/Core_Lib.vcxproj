@@ -297,7 +297,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Source\Exception.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Source\Hash.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IdTypes\IncrementalId.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IdTypes\TypeId.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IdTypes\RuntimeId.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\CoreUnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>

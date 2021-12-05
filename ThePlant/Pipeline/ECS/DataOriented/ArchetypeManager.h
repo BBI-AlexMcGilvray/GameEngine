@@ -36,6 +36,7 @@ public:
         oldArchetype.TransferEntityTo(entity, newArchetype);
     }
 
+    // must provide an argument for each component type provided
     template <typename ...Ts>
     void AddComponentsTo(Entity& entity, Ts ...args)
     {

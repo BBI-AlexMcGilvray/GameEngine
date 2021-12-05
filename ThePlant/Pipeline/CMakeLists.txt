@@ -25,6 +25,9 @@ Collision/Source/CollisionCheck.cpp #
 Collision/Source/CollisionManager.cpp #
 Collision/Source/SphericalCollider.cpp #
 Debugging/Source/Logging.cpp #
+ECS/DataOriented/Systems/SystemManager.cpp #
+ECS/DataOriented/Archetype.cpp #
+ECS/DataOriented/ArchetypeManager.cpp #
 ECS/ObjectOriented/Source/Component.cpp #
 ECS/ObjectOriented/Source/Entity.cpp #
 GameSystem/Source/GameObjectBase.cpp #
@@ -127,7 +130,15 @@ Collision/Headers/CollisionManager.h #
 Collision/Headers/SphericalCollider.h #
 Debugging/Headers/Declarations.h #
 Debugging/Headers/Logging.h #
-Debugging/Headers/Macros.h #
+Debugging/Headers/Macros.h 
+ECS/DataOriented/Systems/System.h #
+ECS/DataOriented/Systems/SystemManager.h #
+ECS/DataOriented/Archetype.h #
+ECS/DataOriented/ArchetypeManager.h #
+ECS/DataOriented/Component.h #
+ECS/DataOriented/ECS.h #
+ECS/DataOriented/IDs.h #
+ECS/DataOriented/TypeCollection.h #
 ECS/ObjectOriented/Headers/Component.h #
 ECS/ObjectOriented/Headers/ComponentPtr.h #
 ECS/ObjectOriented/Headers/Entity.h #
