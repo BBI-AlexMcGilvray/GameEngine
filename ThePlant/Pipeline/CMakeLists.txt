@@ -142,6 +142,11 @@ ECS/DataOriented/TypeCollection.h #
 ECS/ObjectOriented/Headers/Component.h #
 ECS/ObjectOriented/Headers/ComponentPtr.h #
 ECS/ObjectOriented/Headers/Entity.h #
+ECSSystems/GeneralComponents.h #
+ECSSystems/RenderingComponents.h #
+ECSSystems/RenderingSystem.h #
+ECSSystems/TransformComponents.h #
+ECSSystems/TransformSystem.h #
 GameSystem/Headers/GameObjectBase.h #
 GameSystem/Headers/GameObjectManager.h #
 GameSystem/Headers/GameSystemManager.h #
