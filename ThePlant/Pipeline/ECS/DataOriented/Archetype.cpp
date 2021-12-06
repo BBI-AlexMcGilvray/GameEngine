@@ -34,7 +34,7 @@ void Archetype::TransferEntityTo(Entity& entity, Archetype& destination)
         {
             continue;
         }
-        component.second->MoveEntityTo(entity.GetEntityId(), *(destination._components[component.first])); // this removes the entity from 'component'
+        component.second->MoveEntityTo(_GetEntityIndex(entity.GetEntityId()), *(destination._components[component.first])); // this removes the entity from 'component'
     }
     
     entity._SetArchetypeId(destination.GetId());
@@ -42,10 +42,17 @@ void Archetype::TransferEntityTo(Entity& entity, Archetype& destination)
 
 void Archetype::RemoveEntity(const Entity& entity)
 {
+    size_t entityIndex = _GetEntityIndex(entity.GetEntityId());
     for (auto& component : _components)
     {
-        component.second->RemoveComponentFor(entity.GetEntityId());
+        component.second->RemoveComponentAt(entityIndex);
     }
+    _entities.erase(_entities.begin() + entityIndex);
+}
+
+const std::vector<EntityId>& Archetype::GetEntities() const
+{
+    return _entities;
 }
 
 bool Archetype::HasComponent(const Core::runtimeId_t& componentId) const
@@ -88,9 +95,10 @@ Archetype::Archetype(Constructor, const IncrementalId& id, const TypeCollection&
 
 void Archetype::_AddEntity(const Entity& entity)
 {
+    _entities.emplace_back(entity.GetEntityId());
     for (auto& component : _components)
     {
-        component.second->AddComponentFor(entity.GetEntityId());
+        component.second->AddComponent();
     }
 }
 }// namespace Application

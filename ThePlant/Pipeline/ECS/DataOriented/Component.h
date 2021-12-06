@@ -67,23 +67,23 @@ struct IComponentList
 {
     virtual Core::runtimeId_t ComponentType() const = 0;
     virtual std::unique_ptr<IComponentList> CreateEmptyCopy() const = 0;
-    virtual void AddComponentFor(const EntityId& entity) = 0;
-    virtual void RemoveComponentFor(const EntityId& entity) = 0;
-    virtual void MoveEntityTo(const EntityId& entity, IComponentList& destination) = 0;
+    virtual void AddComponent() = 0;
+    virtual void RemoveComponentAt(const size_t& index) = 0;
+    virtual void MoveEntityTo(const size_t& index, IComponentList& destination) = 0;
 
     template <typename T>
-    void AddComponentFor(const EntityId& entity, T value)
+    void AddComponent(T value)
     {
         if (!_IsCorrectType<T>())
         {
             throw std::invalid_argument("type does not match that held by the component list");
         }
 
-        static_cast<ComponentList<T>&>(*this).AddComponentFor(entity, std::move(value));
+        static_cast<ComponentList<T>&>(*this).AddComponent(std::move(value));
     }
 
     template <typename T>
-    T& GetComponentFor(const EntityId& entity)
+    T& GetComponentAt(const size_t& index)
     {
         // should be in debug only
         if (!_IsCorrectType<T>())
@@ -91,7 +91,7 @@ struct IComponentList
             throw std::invalid_argument("type does not match that held by the component list");
         }
 
-        return *(static_cast<T*>(_VoidPtrToComponentFor(entity)));
+        return *(static_cast<T*>(_VoidPtrToComponentAt(index)));
     }
 
     template <typename T>
@@ -113,7 +113,7 @@ protected:
     bool _IsCorrectType(const Core::runtimeId_t& type) const { return (type == ComponentType()); }
 
 private:
-    virtual void* _VoidPtrToComponentFor(const EntityId& entity) = 0;
+    virtual void* _VoidPtrToComponentAt(const size_t& index) = 0;
     virtual void* _VoidPtrToComponentsVector() = 0;
 };
 
@@ -127,18 +127,17 @@ struct ComponentList : public IComponentList
         return std::make_unique<ComponentList<T>>();
     }
 
-    void AddComponentFor(const EntityId& entity) override
+    void AddComponent() override
     {
-        AddComponentFor(entity, T());
+        AddComponent(T());
     }
 
-    void AddComponentFor(const EntityId& entity, T value)
+    void AddComponent(T value)
     {
-        _entities.emplace_back(entity);
         _components.emplace_back(std::move(value));
     }
 
-    void MoveEntityTo(const EntityId& entity, IComponentList& destination) override
+    void MoveEntityTo(const size_t& index, IComponentList& destination) override
     {
         // should be debug only
         if (!_IsCorrectType(destination.ComponentType()))
@@ -147,36 +146,24 @@ struct ComponentList : public IComponentList
         }
 
         ComponentList<T>& trueDestination = static_cast<ComponentList<T>&>(destination);
-        trueDestination._ComponentFor(entity) = std::move(_ComponentFor(entity));
-        RemoveComponentFor(entity);
+        trueDestination._ComponentAt(index) = std::move(_ComponentAt(index));
+        RemoveComponentAt(index);
     }
 
-    void RemoveComponentFor(const EntityId& entity) override
+    void RemoveComponentAt(const size_t& index) override
     {
-        std::size_t index = 0;
-        for (auto& _entity : _entities)
-        {
-            if (_entity == entity)
-            {
-                _entities.erase(_entities.begin() + index);
-                _components.erase(_components.begin() + index);
-                return;
-            }
+        VERIFY(index < _components.size());
 
-            ++index;
-        }
-
-        throw std::invalid_argument("entity is not held by this component list");
+        _components.erase(_components.begin() + index);
     }
 
 private:
     // _entities and _components must be kept in sync (i.e. _entities[X] corresponds to _components[X])
-    std::vector<EntityId> _entities;
     std::vector<T> _components;
 
-    void* _VoidPtrToComponentFor(const EntityId& entity) override
-    {
-        return &_ComponentFor(entity);
+    void* _VoidPtrToComponentAt(const size_t& index) override
+    {c
+        return &_ComponentAt(index);
     }
 
     void* _VoidPtrToComponentsVector() override
@@ -184,20 +171,11 @@ private:
         return &_components;
     }
 
-    T& _ComponentFor(const EntityId& entity)
+    T& _ComponentAt(const size_t& index)
     {
-        std::size_t index = 0;
-        for (auto& _entity : _entities)
-        {
-            if (_entity == entity)
-            {
-                return _components[index];
-            }
+        VERIFY(index < _components.size());
 
-            ++index;
-        }
-
-        throw std::invalid_argument("entity is not held by this component list");
+        return _components[index];
     }
 };
 }// namespace Application

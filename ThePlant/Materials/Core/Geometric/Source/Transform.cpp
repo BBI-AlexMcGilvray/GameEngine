@@ -52,6 +52,13 @@ namespace Geometric {
     return *this;
   }
 
+  void Transform::Reset()
+  {
+    SetPosition(Float3(0.0f));
+    SetScale(Float3(1.0f));
+    SetRotation(II());
+  }
+
   Float4x4 Transform::GetTransformationMatrix()
   {
     _RecalculateTransformationMatrix();
@@ -66,6 +73,11 @@ namespace Geometric {
 
   void Transform::SetPosition(const Float3 &position)
   {
+    if (_position == position)
+    {
+      return;
+    }
+
     _position = position;
     _Dirty();
   }
@@ -82,6 +94,11 @@ namespace Geometric {
 
   void Transform::SetRotation(const FQuaternion &rotation)
   {
+    if (_rotation == rotation)
+    {
+      return;
+    }
+
     _rotation = rotation;
     _Dirty(true);
   }
@@ -98,12 +115,16 @@ namespace Geometric {
 
   void Transform::SetScale(const float &scale)
   {
-    _scale = scale;
-    _Dirty();
+    SetScale(Float3(scale));
   }
 
   void Transform::SetScale(const Float3 &scale)
   {
+    if (_scale == scale)
+    {
+      return;
+    }
+
     _scale = scale;
     _Dirty();
   }

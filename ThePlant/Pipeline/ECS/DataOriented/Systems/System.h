@@ -11,9 +11,9 @@ namespace Application {
 struct ISystem
 {
     template <typename T>
-    bool IsSystem() { return (Core::GetTypeId<T> == GetSystem()); }
+    bool IsSystem() const { return (Core::GetTypeId<T>() == GetSystem()); }
     virtual Core::runtimeId_t GetSystem() const = 0;
-    virtual void Execute(const ArchetypeManager& archetypeManager) const = 0;
+    virtual void Execute(ArchetypeManager& archetypeManager) const = 0;
     
     template <typename ...Ts>
     void AddDependency()
@@ -42,9 +42,9 @@ struct System : public ISystem
         return Core::GetTypeId<SYSTEM>();
     }
 
-    void Execute(const ArchetypeManager& archetypeManager) const override
+    void Execute(ArchetypeManager& archetypeManager) const override
     {
-        std::vector<Archetype*> affectedArchetypes = archetypeManager.GetArchetypesContaining<Ts...>();
+        std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<Ts...>();
 
         for (auto& archetype : affectedArchetypes)
         {
@@ -53,14 +53,25 @@ struct System : public ISystem
     }
 
 private:
-    void _ApplyToArchetype(Archetype* archetype)
+    void _ApplyToArchetype(Core::Ptr<Archetype> archetype) const
     {
         SYSTEM::ApplyToArchetype(archetype->GetComponents<Ts>()...);
     }
 };
 
+template <typename SYSTEM>
+struct System<SYSTEM> : public ISystem
+{
+    Core::runtimeId_t GetSystem() const override
+    {
+        return Core::GetTypeId<SYSTEM>();
+    }
+
+    // no archetypes means the system must provide it's own Execute method
+};
+
 template <typename SYSTEM, typename ...NESTED>
-struct CompoundSystem : public ISytem
+struct CompoundSystem : public ISystem
 {
     Core::runtimeId_t GetSystem() const override
     {
@@ -69,9 +80,9 @@ struct CompoundSystem : public ISytem
 
     // this works for now, but the nested systems won't be parallelized in the future without changes
     // could just change the internal call to execute each as a task (with the same dependencies as the main system)
-    void Execute(const ArchetypeManager& archetypeManager) const override
+    void Execute(ArchetypeManager& archetypeManager) const override
     {
-        std::apply([](const auto& ...args)
+        std::apply([&archetypeManager](const auto& ...args)
         {
             // all tuple elements are passed as arguemnts, hence the expression expansion logic
             (args.Execute(archetypeManager), ...);

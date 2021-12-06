@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#include "Core/Logging/Logger.h"
 #include "Core/IdTypes/RuntimeId.h"
 
 #include "Pipeline/ECS/DataOriented/Component.h"
@@ -62,6 +63,8 @@ struct Archetype
 
     bool HasComponent(const Core::runtimeId_t& componentId) const;
 
+    const std::vector<EntityId>& GetEntities() const;
+
     template <typename T>
     T& GetComponentFor(const Entity& entity)
     {
@@ -72,11 +75,11 @@ struct Archetype
 
         // for some reason can't do this in one line or compiler is confused
         IComponentList* componentList = _components.at(GetTypeId<T>()).get();
-        return componentList->GetComponentFor<T>(entity.GetEntityId());
+        return componentList->GetComponentAt<T>(_GetEntityIndex(entity.GetEntityId()));
     }
 
     template <typename T>
-    std::vector<T>& GetComponents() // vector should not be modified, but elements may be
+    std::vector<T>& GetComponents()// vector should not be modified, but elements may be
     {
         // for some reason can't do this in one line or compiler is confused
         IComponentList* componentList = _components.at(GetTypeId<T>()).get();
@@ -86,7 +89,7 @@ struct Archetype
     template <typename T>
     void SetComponentFor(const Entity& entity, T value)
     {
-        GetComponentFor<T>(entity) = value;
+        GetComponentAt<T>(_GetEntityIndex(entity.GetEntityId())) = value;
     }
 
     template <typename T, typename ...Ts>
@@ -106,6 +109,7 @@ struct Archetype
 private:
     ArchetypeId _id;
     TypeCollection _types;
+    std::vector<EntityId> _entities;
     std::unordered_map<Core::runtimeId_t, std::unique_ptr<IComponentList>> _components;
     
     enum class Constructor { TAG };
@@ -116,13 +120,14 @@ private:
     template <typename ...Ts>
     void _AddEntity(const Entity& entity, Ts ...args)
     {
-        _AddComponentForEntity(entity, args...);
+        _entities.emplace_back(entity.GetEntityId());
+        _AddComponentForEntity(args...);
     }
 
     template <typename T>
     void _AddComponentForEntity(const Entity& entity, T value)
     {
-        _components.at(GetTypeId<T>())->AddComponentFor(entity.GetEntityId(), std::move(value));
+        _components.at(GetTypeId<T>())->AddComponent(std::move(value));
     }
 
     template <typename T, typename ...Ts>
@@ -130,6 +135,19 @@ private:
     {
         _AddComponentForEntity(entity, std::move(value));
         _AddComponentForEntity(entity, args...);
+    }
+
+    size_t _GetEntityIndex(const EntityId& entity)
+    {
+        for (size_t index = 0; index < _entities.size(); ++index)
+        {
+            if (_entities[index] == entity)
+            {
+                return index;
+            }
+        }
+
+        throw std::invalid_argument("entity does not exist in this archetype");
     }
 };
 

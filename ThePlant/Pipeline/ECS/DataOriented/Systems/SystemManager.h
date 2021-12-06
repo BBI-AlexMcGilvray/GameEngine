@@ -13,7 +13,7 @@ namespace Application
     class SystemManager
     {
     public:
-        SystemManager(const ArchetypeManager& archetypeManager);
+        SystemManager(ArchetypeManager& archetypeManager);
 
         void Update(); // run each system - we need to take care to ensure dependencies are adhered to REGARDLESS OF INSERTION ORDER
 
@@ -23,20 +23,17 @@ namespace Application
             if (_HasSystem<SYSTEM>())
             {
                 DEBUG_THROW("SystemManager", "Adding system that already exists! Systems must be unique");
-                return;
+                return _GetSystem<SYSTEM>();
             }
 
-            auto& result = _systems.emplace_back(Core::MakeUnique<T>(std::forward<ARGS>(args)...));
-            if (result.second)
-            {
-                _Dirty();
-            }
+            auto& result = _systems.emplace_back(Core::MakeUnique<SYSTEM>(std::forward<ARGS>(args)...));
+            _Dirty();
 
-            return (*(*result.first));
+            return *result;
         }
 
     private:
-        const ArchetypeManager& _archetypeManager;
+        ArchetypeManager& _archetypeManager;
         std::vector<Core::UniquePtr<ISystem>> _systems;
         bool _systemsDirty = false;
 
@@ -47,17 +44,31 @@ namespace Application
         void _OrderSetForDependencies();
 
         template <typename SYSTEM>
-        bool _HasSystem()
+        bool _HasSystem() const
         {
             for (auto& system : _systems)
             {
-                if (system.IsSystem<SYSTEM>())
+                if (system->IsSystem<SYSTEM>())
                 {
                     return true;
                 }
             }
 
             return false;
+        }
+
+        template <typename SYSTEM>
+        ISystem& _GetSystem()
+        {
+            for (auto& system : _systems)
+            {
+                if (system->IsSystem<SYSTEM>())
+                {
+                    return *system;
+                }
+            }
+
+            throw std::invalid_argument("System does not exist");
         }
     };
 } // namespace Application

@@ -1,5 +1,7 @@
 #include "Product/Headers/ProductManager.h"
 
+#include "Pipeline/ECSSystems/TransformSystem.h"
+
 namespace Product
 {
     void ProductManager::run()
@@ -22,6 +24,7 @@ namespace Product
         // the creation of the Application should include the application name, default window size, ...
         // maybe window info should just be a struct (camera?) - tbd
         _pipeline = Application::ApplicationManager::Application();
+        _pipeline->AppECS().AddSystem<Application::TransformSystem>();
 
         bool pipelineInitialized = _pipeline->Initialize();
         _time.Initialize();

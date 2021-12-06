@@ -6,7 +6,7 @@
 
 namespace Application
 {
-    SystemManager::SystemManager(const ArchetypeManager& archetypeManager)
+    SystemManager::SystemManager(ArchetypeManager& archetypeManager)
     : _archetypeManager(archetypeManager)
     {}
 

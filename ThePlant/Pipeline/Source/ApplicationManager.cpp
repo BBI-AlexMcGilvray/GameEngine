@@ -113,6 +113,7 @@ void ApplicationManager::Start()
 void ApplicationManager::Update()
 {
   InputSystem.update();
+  _ecsSystem.Update();
 }
 
 void ApplicationManager::Update(Core::Second dt)

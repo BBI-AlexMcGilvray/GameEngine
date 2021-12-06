@@ -95,17 +95,17 @@ public:
     void RemoveEntity(const Entity& entity);
 
     template <typename ...Ts>
-    const std::vector<Archetype*> GetArchetypesContaining() const
+    std::vector<Core::Ptr<Archetype>> GetArchetypesContaining()
     {
         TypeCollection types = CollectTypes<Ts...>();
 
-        std::vector<Archetype*> relevantArchetypes;
+        std::vector<Core::Ptr<Archetype>> relevantArchetypes;
 
         for (auto& archetype : _archetypes)
         {
             if (archetype.ContainsTypes(types))
             {
-                relevantArchetypes.push_back(&archetype);
+                relevantArchetypes.emplace_back(&archetype);
             }
         }
 

@@ -22,6 +22,8 @@ namespace Geometric {
     Transform &operator=(const Transform &other);
     Transform& operator=(const Core::Math::Float4x4& transformationMatrix);
 
+    void Reset();
+
     // world-relative
     Core::Math::Float4x4 GetTransformationMatrix();
     Core::Math::Float4x4 GetInverseTransformationMatrix();
