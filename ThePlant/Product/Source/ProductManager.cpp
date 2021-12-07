@@ -1,6 +1,7 @@
 #include "Product/Headers/ProductManager.h"
 
 #include "Pipeline/ECSSystems/TransformSystem.h"
+#include "Pipeline/ECSSystems/RenderingSystem.h"
 
 namespace Product
 {
@@ -25,6 +26,7 @@ namespace Product
         // maybe window info should just be a struct (camera?) - tbd
         _pipeline = Application::ApplicationManager::Application();
         _pipeline->AppECS().AddSystem<Application::TransformSystem>();
+        _pipeline->AppECS().AddSystem<Application::RenderingSystem>().AddDependency<Application::TransformSystem>();
 
         bool pipelineInitialized = _pipeline->Initialize();
         _time.Initialize();

@@ -16,7 +16,7 @@ struct ISystem
     virtual void Execute(ArchetypeManager& archetypeManager) const = 0;
     
     template <typename ...Ts>
-    void AddDependency()
+    void AddDependencies()
     {
         (AddDependency<Ts>(),...);
     }

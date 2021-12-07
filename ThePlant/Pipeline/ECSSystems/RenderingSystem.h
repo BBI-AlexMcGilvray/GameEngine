@@ -13,49 +13,103 @@ namespace Application {
 // do we want two systems (one for this, one that takes into account a color component)?
 // or should we instead have higher-level logic in here that checks each archetype (that matches the rest) for also the color component?
 // probably the second?
-struct MeshRenderingSystem : public System<MeshRenderingSystem, MaterialComponent, MeshComponent, WorldTransformComponent>
+struct MeshRenderingSystem : public ISystem
 {
     MeshRenderingSystem(Rendering::RenderManager& renderManager)
     : _renderManager(renderManager)
     {}
 
-    static void ApplyToArchetype(std::vector<MaterialComponent>& materialComponents, std::vector<MeshComponent>& meshComponents, std::vector<WorldTransformComponent>& transformComponents)
+    void Execute(ArchetypeManager& archetypeManager) const override
     {
-        VERIFY(materialComponents.size() == meshComponents.size() == transformComponents.size());
+        std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<MaterialComponent, MeshComponent, WorldTransformComponent>();
 
-        for (size_t index = 0; index < materialComponents.size(); ++index)
+        for (auto& archetype : affectedArchetypes)
         {
-            Rendering::Context context = {
-                materialComponents[index].material,
-                transformComponents[index].transform.GetTransformationMatrix(),
-                Core::Math::WHITE, // this should be gotten from the ColorComponent if the archetype has it
-                meshComponents[index].mesh
-            };
-            _renderManager.QueueRender(context); // if we do more custom logic for handling of this, the rendererManager should be passed in as a parameter
+            _ApplyToArchetype(archetype);
         }
     }
 
 private:
     Rendering::RenderManager& _renderManager;
+
+    void _ApplyToArchetype(Core::Ptr<Archetype> archetype) const
+    {
+        std::vector<MaterialComponent>& materials = archetype->GetComponents<MaterialComponent>();
+        std::vector<MeshComponent>& meshes = archetype->GetComponents<MeshComponent>();
+        std::vector<WorldTransformComponent>& transforms = archetype->GetComponents<WorldTransformComponent>();
+        Core::Ptr<std::vector<ColorComponent>> colors = archetype->HasComponent<ColorComponent>() ? &(archetype->GetComponents<ColorComponent>()) : nullptr;
+
+        VERIFY(materials.size() == meshes.size() == transforms.size());
+        VERIFY(colors == nullptr || colors->size() == materials.size());
+
+        for (size_t index = 0; index < materials.size(); ++index)
+        {
+            Rendering::Context context = {
+                materials[index].material,
+                transforms[index].transform.GetTransformationMatrix(),
+                colors == nullptr ? Core::Math::WHITE : (*colors)[index].color,
+                meshes[index].mesh
+            };
+            _renderManager.QueueRender(context);
+        }
+    }
 };
 
 // should take values from world transform and writes to the array of transforms for the bones
 struct SkeletonUpdateSystem : public System<SkeletonUpdateSystem, SkeletonComponent, WorldTransformComponent>
 {
-
+    static void ApplyToArchetype(std::vector<SkeletonComponent>& skeletonComponents, std::vector<WorldTransformComponent>& worldTransformComponents)
+    {
+        // need different handling, like getting all world transforms and iterating over them to find the skeleton bones, or having a special 'BoneComponent'
+        // to narrow down the list of WorldTransformComponents to only those that would be relevant
+    }
 };
 
-struct SkinnedMeshRenderingSystem : public System<SkinnedMeshRenderingSystem, MaterialComponent, SkinnedMeshComponent, WorldTransformComponent>
+struct SkinnedMeshRenderingSystem : public ISystem
 {
-    static void ApplyToArchetype(std::vector<MaterialComponent>& materialComponents, std::vector<SkinnedMeshComponent>& skinnedMeshComponents, std::vector<WorldTransformComponent>& transformComponents)
-    {
-        VERIFY(materialComponents.size() == skinnedMeshComponents.size() == transformComponents.size());
+    SkinnedMeshRenderingSystem(Rendering::RenderManager& renderManager)
+    : _renderManager(renderManager)
+    {}
 
-        for (size_t index = 0; index < materialComponents.size(); ++index)
+    void Execute(ArchetypeManager& archetypeManager) const override
+    {
+        std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<MaterialComponent, SkinnedMeshComponent, SkeletonComponent, WorldTransformComponent>();
+
+        for (auto& archetype : affectedArchetypes)
         {
-            
+            _ApplyToArchetype(archetype);
         }
-    }   
+    }
+
+private:
+    Rendering::RenderManager& _renderManager;
+
+    void _ApplyToArchetype(Core::Ptr<Archetype> archetype) const
+    {
+        std::vector<MaterialComponent>& materials = archetype->GetComponents<MaterialComponent>();
+        std::vector<SkinnedMeshComponent>& meshes = archetype->GetComponents<SkinnedMeshComponent>();
+        std::vector<SkeletonComponent>& skeletons = archetype->GetComponents<SkeletonComponent>();
+        std::vector<WorldTransformComponent>& transforms = archetype->GetComponents<WorldTransformComponent>();
+        Core::Ptr<std::vector<ColorComponent>> colors = archetype->HasComponent<ColorComponent>() ? &(archetype->GetComponents<ColorComponent>()) : nullptr;
+
+        VERIFY(materials.size() == meshes.size() == transforms.size());
+        VERIFY(colors == nullptr || colors->size() == materials.size());
+
+        for (size_t index = 0; index < materials.size(); ++index)
+        {
+            Rendering::Context context = {
+                materials[index].material,
+                transforms[index].transform.GetTransformationMatrix(),
+                colors == nullptr ? Core::Math::WHITE : (*colors)[index].color,
+                meshes[index].mesh
+            };
+            Rendering::SkinnedContext skinnedContext = {
+                context,
+                skeletons[index].boneArray
+            };
+            _renderManager.QueueRender(context);
+        }
+    }
 };
 
 // must be made dependent on the TransformSystem
