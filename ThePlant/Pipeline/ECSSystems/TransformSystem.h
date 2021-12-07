@@ -241,6 +241,6 @@ LocalTransformScaleSystem,
 LocalTransformRotationSystem,
 LocalToWorldTransformSystem>
 {
-    // no need for application logic, it is handled by the CompoundSystem class
+    // maybe want custom logic to handle dependency for parallel execution?
 };
 }// namespace Application
