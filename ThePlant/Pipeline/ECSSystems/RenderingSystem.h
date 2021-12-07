@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <vector>
 
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
@@ -56,12 +57,42 @@ private:
 };
 
 // should take values from world transform and writes to the array of transforms for the bones
-struct SkeletonUpdateSystem : public System<SkeletonUpdateSystem, SkeletonComponent, WorldTransformComponent>
+struct SkeletonUpdateSystem : public ISystem
 {
-    static void ApplyToArchetype(std::vector<SkeletonComponent>& skeletonComponents, std::vector<WorldTransformComponent>& worldTransformComponents)
+    void Execute(ArchetypeManager& archetypeManager) const override
     {
-        // need different handling, like getting all world transforms and iterating over them to find the skeleton bones, or having a special 'BoneComponent'
-        // to narrow down the list of WorldTransformComponents to only those that would be relevant
+        std::vector<Core::Ptr<Archetype>> skeletonArchetypes = archetypeManager.GetArchetypesContaining<SkeletonComponent>();
+        // bones require the relative change in THEIR position to affect the mesh, NOT the world position/offset (otherwise animation would break moving any real distance)
+        std::vector<Core::Ptr<Archetype>> boneArchetypes = archetypeManager.GetArchetypesContaining<BoneComponent, LocalTransformComponent>();
+
+        std::map<EntityId, std::pair<BoneComponent, LocalTransformComponent>> boneToDataMapping;
+        for (auto& boneArchetype : boneArchetypes)
+        {
+            const std::vector<EntityId>& entities = boneArchetype->GetEntities();
+            std::vector<BoneComponent>& bones = boneArchetype->GetComponents<BoneComponent>();
+            std::vector<LocalTransformComponent>& transforms = boneArchetype->GetComponents<LocalTransformComponent>();
+
+            VERIFY(entities.size() == bones.size() == transforms.size());
+            for (size_t index = 0; index < entities.size(); ++index)
+            {
+                boneToDataMapping[entities[index]] = std::make_pair(bones[index], transforms[index]);
+            }
+        }
+
+        for (auto& skeletonArchetype : skeletonArchetypes)
+        {
+            std::vector<SkeletonComponent>& skeletons = skeletonArchetype->GetComponents<SkeletonComponent>();
+
+            for (auto& skeleton : skeletons)
+            {
+                for (size_t boneIndex = 0; boneIndex < skeleton.entityArray.size(); ++boneIndex)
+                {
+                    auto& entityData = boneToDataMapping[skeleton.entityArray[boneIndex]];
+                    const auto& relativeTransform = entityData.first.bindMatrix * entityData.second.transform.GetTransformationMatrix();
+                    skeleton.boneArray[boneIndex] = relativeTransform;
+                }
+            }
+        }
     }
 };
 

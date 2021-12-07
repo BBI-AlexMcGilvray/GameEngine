@@ -3,6 +3,7 @@
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
+#include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/Rendering/Material_NEW.h"
 #include "Pipeline/Rendering/Mesh_NEW.h"
 
@@ -27,8 +28,14 @@ struct SkinnedMeshComponent
     Rendering::MappedMesh_NEW mesh;
 };
 
+struct BoneComponent
+{
+    Core::Math::Float4x4 bindMatrix; // inverse of initial bone position
+};
+
 struct SkeletonComponent
 {
+    std::array<Application::EntityId, 50> entityArray;
     std::array<Core::Math::Float4x4, 50> boneArray;
 };
 
