@@ -34,7 +34,7 @@ namespace Rendering {
         newBuffer.Unbind();
         glDisableVertexAttribArray(0);
 
-        mesh._vbos.push_back(newBuffer);
+        mesh._vbo = newBuffer;
 
         return mesh;
     }
@@ -70,14 +70,15 @@ namespace Rendering {
         newBuffer.Unbind();
         glDisableVertexAttribArray(0);
 
-        mesh._vbos.push_back(newBuffer);
+        mesh._vbo = newBuffer;
 
         return mesh;
     }
 
     MappedMesh_NEW CreateMesh(const std::vector<SkinnedVertexData>& data)
     {
-        MappedMesh_NEW mesh;
+        MappedMesh_NEW skinnedMesh;
+        Mesh_NEW mesh;
         mesh.vertices = data.size();
 
         mesh.buffer.Generate();
@@ -111,12 +112,14 @@ namespace Rendering {
         newBuffer.Unbind();
         glDisableVertexAttribArray(0);
 
-        mesh._vbos.push_back(newBuffer);
+        mesh._vbo = newBuffer;
 
+        // mapped buffer just 'mimics' the buffer it is mapping, but this should probably be cleaned up later
+        skinnedMesh.skeletonBuffer = GLMappedBuffer(mesh._vbo.Object, mesh._vbo.Type);
         // keep track of mesh data to write to
-        mesh.mappedBuffer = GLMappedBuffer(&newBuffer);
+        skinnedMesh.mesh = mesh;
 
-        return mesh;
+        return skinnedMesh;
     }
 
     Mesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::SimpleMeshData>& data)

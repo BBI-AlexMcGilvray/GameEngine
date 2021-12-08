@@ -46,6 +46,11 @@ namespace Rendering {
     Material_NEW() = default;
     Material_NEW(const Material_NEW&) = default;
     Material_NEW& operator=(const Material_NEW&) = default;
+
+    bool operator==(const Material_NEW& other) const
+    {
+      return (shaderContext == other.shaderContext && shader == other.shader);
+    }
   };
 
   Material_NEW CreateMaterial(const Data::AssetData<Data::Rendering::MaterialData>& data, ShaderManager& shaderManager);

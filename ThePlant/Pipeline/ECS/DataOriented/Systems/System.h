@@ -73,6 +73,14 @@ struct System<SYSTEM> : public ISystem
 template <typename SYSTEM, typename ...NESTED>
 struct CompoundSystem : public ISystem
 {
+    CompoundSystem()
+    {}
+
+    template <typename ...ARGS>
+    CompoundSystem(ARGS ...args)
+    : _nestedSystems(std::forward<ARGS>(args)...)
+    {}
+
     Core::runtimeId_t GetSystem() const override
     {
         return Core::GetTypeId<SYSTEM>();

@@ -1,6 +1,6 @@
 #include "Core/IDTypes/IncrementalId.h"
 
-namespace Application {
+namespace Core {
 namespace
 {
     constexpr uint64_t INVALID_ID = 0u;
@@ -39,4 +39,4 @@ IncrementalId GetIncrementalId()
 {
     return IncrementalId(IncrementalId::Constructor::TAG);
 }
-}// namespace Application
+}// namespace Core

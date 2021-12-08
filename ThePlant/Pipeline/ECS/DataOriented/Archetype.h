@@ -113,7 +113,7 @@ private:
     std::unordered_map<Core::runtimeId_t, std::unique_ptr<IComponentList>> _components;
     
     enum class Constructor { TAG };
-    Archetype(Constructor, const IncrementalId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components);
+    Archetype(Constructor, const Core::IncrementalId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components);
 
     void _AddEntity(const Entity& entity);
 

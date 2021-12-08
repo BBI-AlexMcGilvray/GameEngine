@@ -1,15 +1,21 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 
-namespace Application {
+namespace Core {
 struct IncrementalId;
 IncrementalId GetIncrementalId();
+
+template <>
+struct ::std::hash<IncrementalId>;
 
 // all ids increment the hidden counter, regardless of what it is used for - each is unique (unless there is overflow)
 struct IncrementalId
 {
     friend IncrementalId GetIncrementalId();
+
+    friend struct ::std::hash<IncrementalId>;
 
     IncrementalId();
     IncrementalId(const IncrementalId& rhs);
@@ -27,4 +33,13 @@ protected:
 private:
     uint64_t _id;
 };
-}// namespace Application
+}// namespace Core
+
+template <>
+struct std::hash<Core::IncrementalId>
+{
+    size_t operator()(const Core::IncrementalId& id) const
+    {
+        return id._id;
+    }
+};

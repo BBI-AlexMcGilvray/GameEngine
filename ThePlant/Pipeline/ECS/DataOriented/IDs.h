@@ -4,9 +4,15 @@
 #include "Core/IdTypes/RuntimeId.h"
 
 namespace Application {
+struct ArchetypeId;
+template <>
+struct ::std::hash<ArchetypeId>;
+
 struct ArchetypeId
 {
-    ArchetypeId(const IncrementalId& archetypeId)
+    friend struct ::std::hash<ArchetypeId>;
+
+    ArchetypeId(const Core::IncrementalId& archetypeId)
     : _archetypeId(archetypeId)
     {}
 
@@ -38,12 +44,18 @@ struct ArchetypeId
     // explicit operator const IncrementalId() const { return _archetypeId; }
 
 private:
-    IncrementalId _archetypeId;
+    Core::IncrementalId _archetypeId;
 };
+
+struct EntityId;
+template <>
+struct ::std::hash<EntityId>;
 
 struct EntityId
 {
-    EntityId(const IncrementalId& entityId)
+    friend struct ::std::hash<EntityId>;
+
+    EntityId(const Core::IncrementalId& entityId)
     : _entityId(entityId)
     {}
 
@@ -75,7 +87,7 @@ struct EntityId
     // explicit operator const IncrementalId() const { return _entityId; }
 
 private:
-    IncrementalId _entityId;
+    Core::IncrementalId _entityId;
 };
 
 struct Entity
@@ -83,7 +95,7 @@ struct Entity
     friend struct Archetype;
     
     Entity(const ArchetypeId& archetypeId)
-    : _entityId(GetIncrementalId())
+    : _entityId(Core::GetIncrementalId())
     , _archetypeId(archetypeId)
     {}
 
@@ -143,3 +155,27 @@ private:
     }
 };
 }// namespace Application
+
+template <>
+struct std::hash<Application::ArchetypeId>
+{
+    size_t operator()(const Application::ArchetypeId& archetypeId) const
+    {
+        return _hasher(archetypeId._archetypeId);
+    }
+
+private:
+    std::hash<Core::IncrementalId> _hasher;
+};
+
+template <>
+struct std::hash<Application::EntityId>
+{
+    size_t operator()(const Application::EntityId& entityId) const
+    {
+        return _hasher(entityId._entityId);
+    }
+
+private:
+    std::hash<Core::IncrementalId> _hasher;
+};

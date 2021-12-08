@@ -1,6 +1,6 @@
 #pragma once
 
-#include <map>
+#include <unordered_map>
 #include <vector>
 
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
@@ -19,6 +19,8 @@ struct MeshRenderingSystem : public ISystem
     MeshRenderingSystem(Rendering::RenderManager& renderManager)
     : _renderManager(renderManager)
     {}
+
+    Core::runtimeId_t GetSystem() const { return Core::GetTypeId<MeshRenderingSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
@@ -59,13 +61,31 @@ private:
 // should take values from world transform and writes to the array of transforms for the bones
 struct SkeletonUpdateSystem : public ISystem
 {
+    enum class TAG { CREATE };
+
+    using BoneData = std::unordered_map<EntityId, std::pair<BoneComponent, LocalTransformComponent>>;
+
+    SkeletonUpdateSystem(const TAG& tag)
+    {}
+
+    Core::runtimeId_t GetSystem() const { return Core::GetTypeId<SkeletonUpdateSystem>(); };
+
     void Execute(ArchetypeManager& archetypeManager) const override
     {
         std::vector<Core::Ptr<Archetype>> skeletonArchetypes = archetypeManager.GetArchetypesContaining<SkeletonComponent>();
         // bones require the relative change in THEIR position to affect the mesh, NOT the world position/offset (otherwise animation would break moving any real distance)
         std::vector<Core::Ptr<Archetype>> boneArchetypes = archetypeManager.GetArchetypesContaining<BoneComponent, LocalTransformComponent>();
 
-        std::map<EntityId, std::pair<BoneComponent, LocalTransformComponent>> boneToDataMapping;
+        BoneData boneToDataMapping = GetEntityBoneData(boneArchetypes);
+
+        ApplyBoneDataToSkeleton(skeletonArchetypes, boneToDataMapping);
+    }
+
+private:
+    static BoneData GetEntityBoneData(std::vector<Core::Ptr<Archetype>>& boneArchetypes)
+    {
+        BoneData boneToDataMapping;
+
         for (auto& boneArchetype : boneArchetypes)
         {
             const std::vector<EntityId>& entities = boneArchetype->GetEntities();
@@ -79,6 +99,11 @@ struct SkeletonUpdateSystem : public ISystem
             }
         }
 
+        return boneToDataMapping;
+    }
+
+    static void ApplyBoneDataToSkeleton(std::vector<Core::Ptr<Archetype>>& skeletonArchetypes, BoneData& boneToDataMapping)
+    {
         for (auto& skeletonArchetype : skeletonArchetypes)
         {
             std::vector<SkeletonComponent>& skeletons = skeletonArchetype->GetComponents<SkeletonComponent>();
@@ -87,7 +112,7 @@ struct SkeletonUpdateSystem : public ISystem
             {
                 for (size_t boneIndex = 0; boneIndex < skeleton.entityArray.size(); ++boneIndex)
                 {
-                    auto& entityData = boneToDataMapping[skeleton.entityArray[boneIndex]];
+                    auto& entityData = boneToDataMapping.at(skeleton.entityArray[boneIndex]);
                     const auto& relativeTransform = entityData.first.bindMatrix * entityData.second.transform.GetTransformationMatrix();
                     skeleton.boneArray[boneIndex] = relativeTransform;
                 }
@@ -101,6 +126,8 @@ struct SkinnedMeshRenderingSystem : public ISystem
     SkinnedMeshRenderingSystem(Rendering::RenderManager& renderManager)
     : _renderManager(renderManager)
     {}
+
+    Core::runtimeId_t GetSystem() const { return Core::GetTypeId<SkinnedMeshRenderingSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
@@ -132,7 +159,7 @@ private:
                 materials[index].material,
                 transforms[index].transform.GetTransformationMatrix(),
                 colors == nullptr ? Core::Math::WHITE : (*colors)[index].color,
-                meshes[index].mesh
+                meshes[index].skinnedMesh.mesh
             };
             Rendering::SkinnedContext skinnedContext = {
                 context,
@@ -149,6 +176,12 @@ MeshRenderingSystem,
 SkeletonUpdateSystem,
 SkinnedMeshRenderingSystem>
 {
+    RenderingSystem(Rendering::RenderManager& rendererManager)
+    : CompoundSystem<RenderingSystem,
+        MeshRenderingSystem,
+        SkeletonUpdateSystem,
+        SkinnedMeshRenderingSystem>(rendererManager, SkeletonUpdateSystem::TAG::CREATE, rendererManager)
+    {}
     // maybe want custom logic to handle dependency for parallel execution?
 };
 } // namespace Application

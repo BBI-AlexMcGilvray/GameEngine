@@ -83,7 +83,7 @@ bool Archetype::IsArchetype(const TypeCollection& types) const
 const ArchetypeId& Archetype::GetId() const { return _id; }
 const TypeCollection& Archetype::GetArchetype() const { return _types; }
 
-Archetype::Archetype(Constructor, const IncrementalId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components)
+Archetype::Archetype(Constructor, const Core::IncrementalId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components)
 : _id(id)
 , _types(types)
 {

@@ -8,27 +8,25 @@
 
 namespace Application {
 namespace Rendering {
-  struct GLMappedBuffer
+  struct GLMappedBuffer : GLBuffer
   {
   private:
-    Core::Ptr<GLBuffer> _buffer;
     Core::Ptr<void> _mappedBuffer = nullptr;
 
   public:
     GLMappedBuffer();
-    GLMappedBuffer(Core::Ptr<GLBuffer> bufferToMap);
+    GLMappedBuffer(GLuint object, GLenum type = GL_BUFFER);
 
     ~GLMappedBuffer();
-
-    void Bind() const;
 
     void Map(GLenum accessType, bool internalHandling = true);
     void Assign(Core::Ptr<void> data, Core::size dataSize, bool internalHandling = true);
     bool Unmap(bool internalHandling = true) const;
 
-    void Unbind() const;
-
-    // does this need a delete method?
+    bool operator==(const GLMappedBuffer& other) const
+    {
+      return (_mappedBuffer == other._mappedBuffer && GLBuffer::operator==(other));
+    }
   };
 }// namespace Rendering
 }// namespace Application

@@ -9,18 +9,13 @@ namespace Rendering {
   GLMappedBuffer::GLMappedBuffer()
   {}
 
-  GLMappedBuffer::GLMappedBuffer(Core::Ptr<GLBuffer> bufferToMap)
-    : _buffer(bufferToMap)
+  GLMappedBuffer::GLMappedBuffer(GLuint object, GLenum type)
+    : GLBuffer(object, type)
   {}
 
   GLMappedBuffer::~GLMappedBuffer()
   {
     // don't unmap here since map and unmap must be called together
-  }
-
-  void GLMappedBuffer::Bind() const
-  {
-    _buffer->Bind();
   }
 
   void GLMappedBuffer::Map(GLenum accessType, bool internalHandling)
@@ -29,7 +24,7 @@ namespace Rendering {
       Bind();
     }
 
-    _mappedBuffer = glMapBuffer(_buffer->Type, accessType);
+    _mappedBuffer = glMapBuffer(Type, accessType);
 #if DEBUG
     if (_mappedBuffer == nullptr) {
       //LOG("Failed to assign mapped buffer");
@@ -53,18 +48,13 @@ namespace Rendering {
 
   bool GLMappedBuffer::Unmap(bool internalHandling) const
   {
-    bool result = glUnmapBuffer(_buffer->Type);
+    bool result = glUnmapBuffer(Type);
 
     if (internalHandling) {
       Unbind();
     }
 
     return result;
-  }
-
-  void GLMappedBuffer::Unbind() const
-  {
-    _buffer->Unbind();
   }
 }// namespace Rendering
 }// namespace Application

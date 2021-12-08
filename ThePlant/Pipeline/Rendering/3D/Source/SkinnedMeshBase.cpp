@@ -80,8 +80,8 @@ namespace Rendering {
 
     Vbos.push_back(newBuffer);
 
-    // keep track of mesh data to write to
-    MappedMesh = GLMappedBuffer(&Vbos[0]);
+    // mapped buffer just 'mimics' the buffer it is mapping, but this should probably be cleaned up later
+    MappedMesh = GLMappedBuffer(newBuffer.Object, newBuffer.Type);
   }
 
   void SkinnedMeshBase::Prepare(const Core::Math::Float4x4 &mvp, const Core::Math::Color &color) const

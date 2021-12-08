@@ -31,12 +31,17 @@ namespace Rendering {
         // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
         // AssetData<MeshData> in debug?
 
+        bool operator==(const Mesh_NEW& other) const
+        {
+            return (vertices == other.vertices && buffer == other.buffer);
+        }
+
     private:
         friend Mesh_NEW CreateMesh(const std::vector<SimpleVertexData>&);
         friend Mesh_NEW CreateMesh(const std::vector<VertexData>& data);
         friend MappedMesh_NEW CreateMesh(const std::vector<SkinnedVertexData>&);
 
-        std::vector<GLBuffer> _vbos; // should be useful to update only certain data when (if) required. NOTE: We are currently NOT using these correctly
+        GLBuffer _vbo; // should be useful to update only certain data when (if) required. NOTE: We are currently NOT using these correctly
         // ex: have one VBO for each piece of data (position, normal, color, ...), then update the specific VBO when it's held data is changed (ex: change color without changing position)
 
         // do we need to store the data for readability on cpu?
@@ -44,9 +49,15 @@ namespace Rendering {
         // needs investigation when relevant - maybe we just use the mapped mesh, as below, with a different flag to read right from the GPU?
     };
 
-    struct MappedMesh_NEW : public Mesh_NEW
+    struct MappedMesh_NEW
     {
-        GLMappedBuffer mappedBuffer;
+        Mesh_NEW mesh;
+        GLMappedBuffer skeletonBuffer;
+
+        bool operator==(const MappedMesh_NEW& other) const
+        {
+            return (skeletonBuffer == other.skeletonBuffer && mesh == other.mesh);
+        }
 
     private:
         friend MappedMesh_NEW CreateMesh(const std::vector<SkinnedVertexData>&);

@@ -51,7 +51,6 @@ namespace Product
         // testing
         Application::Rendering::Material_NEW _material;
         Application::Rendering::Mesh_NEW _mesh;
-        bool _added = false;
         // \testing
     };
 }

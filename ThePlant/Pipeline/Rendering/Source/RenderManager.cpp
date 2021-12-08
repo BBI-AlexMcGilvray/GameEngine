@@ -218,15 +218,20 @@ namespace Rendering {
     }
 
     // testing
+    // in the future, we should have an array of cameras (?) that we populate based on the CameraComponents (they determine matrix based on their matching WorldTransformComponent)
+    // then we iterate over each context for each camera
+    // this is also where we would do culling (unless that is another system?)
     _renderer_NEW.StartFrame();
     for (auto& context : _contexts)
     {
+      context.mvp = RenderCamera->GetTransformationMatrix() * context.mvp;
       _renderer_NEW.SetShader(context.material.shader);
       _renderer_NEW.DrawMesh(context);
     }
 
     for (auto& context : _skinnedContexts)
     {
+      context.context.mvp = RenderCamera->GetTransformationMatrix() * context.context.mvp;
       _renderer_NEW.SetShader(context.context.material.shader);
       _renderer_NEW.DrawMesh(context);
     }
@@ -237,6 +242,10 @@ namespace Rendering {
 
   void RenderManager::RenderEnd()
   {    
+    // delete queued contexts
+    _contexts.clear();
+    _skinnedContexts.clear();
+    
     SDL_GL_SwapWindow(Window->GetWindow());
   }
 }// namespace Rendering
