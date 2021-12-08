@@ -47,6 +47,9 @@ namespace Product
         auto& assetManager = Application::ApplicationManager::AppAssetManager();
         _material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), Application::ApplicationManager::AppRenderManager().ObjectShaderManager);
         _mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
+
+        auto& ecs = Application::ApplicationManager::AppECS();
+        ecs.CreateEntity<Application::WorldTransformComponent, Application::MaterialComponent, Application::MeshComponent>(Transform(), _material, _mesh);
         // \testing
     }
 

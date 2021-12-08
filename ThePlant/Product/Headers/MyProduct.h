@@ -9,6 +9,9 @@
 // testing
 #include "Pipeline/Rendering/Material_NEW.h"
 #include "Pipeline/Rendering/Mesh_NEW.h"
+#include "Pipeline/ECSSystems/GeneralComponents.h"
+#include "Pipeline/ECSSystems/RenderingComponents.h"
+#include "Pipeline/ECSSystems/TransformComponents.h"
 // \testing
 
 /*
