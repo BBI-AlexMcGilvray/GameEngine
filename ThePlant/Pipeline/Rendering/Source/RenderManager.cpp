@@ -187,12 +187,12 @@ namespace Rendering {
   // testing
   void RenderManager::QueueRender(const Context& context)
   {
-    _contexts.push_back(context);
+    _contexts.emplace_back(context);
   }
 
   void RenderManager::QueueRender(const SkinnedContext& context)
   {
-    _skinnedContexts.push_back(context);
+    _skinnedContexts.emplace_back(context);
   }
   // \testing
 

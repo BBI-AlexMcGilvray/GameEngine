@@ -21,6 +21,8 @@ struct IncrementalId
     IncrementalId(const IncrementalId& rhs);
     IncrementalId& operator=(const IncrementalId& other);
 
+    bool IsValid() const;
+
     bool operator==(const IncrementalId& other) const;
     bool operator!=(const IncrementalId& other) const;
 

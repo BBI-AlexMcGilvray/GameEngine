@@ -12,6 +12,8 @@ struct ArchetypeId
 {
     friend struct ::std::hash<ArchetypeId>;
 
+    ArchetypeId() = default;
+
     ArchetypeId(const Core::IncrementalId& archetypeId)
     : _archetypeId(archetypeId)
     {}
@@ -29,6 +31,11 @@ struct ArchetypeId
         _archetypeId = other._archetypeId;
 
         return *this;
+    }
+
+    bool IsValid() const
+    {
+        return _archetypeId.IsValid();
     }
 
     bool operator==(const ArchetypeId& other) const
@@ -55,6 +62,8 @@ struct EntityId
 {
     friend struct ::std::hash<EntityId>;
 
+    EntityId() = default;
+
     EntityId(const Core::IncrementalId& entityId)
     : _entityId(entityId)
     {}
@@ -72,6 +81,11 @@ struct EntityId
         _entityId = other._entityId;
 
         return *this;
+    }
+
+    bool IsValid() const
+    {
+        return _entityId.IsValid();
     }
 
     bool operator==(const EntityId& other) const
@@ -93,6 +107,8 @@ private:
 struct Entity
 {
     friend struct Archetype;
+    
+    Entity() = default;
     
     Entity(const ArchetypeId& archetypeId)
     : _entityId(Core::GetIncrementalId())
@@ -133,6 +149,11 @@ struct Entity
     const ArchetypeId& GetArchetypeId() const
     {
         return _archetypeId;
+    }
+
+    bool IsValid() const
+    {
+        return _archetypeId.IsValid() && _entityId.IsValid();
     }
 
     bool operator==(const Entity& other) const

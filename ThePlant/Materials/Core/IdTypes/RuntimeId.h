@@ -32,6 +32,11 @@ struct runtimeId_t
     return *this;
   }
 
+  constexpr bool IsValid() const
+  {
+    return _id == TypeId_Helper::INVALID_ID;
+  }
+
   constexpr bool operator==(const runtimeId_t &other) const
   {
     return _id == other._id;
@@ -72,6 +77,11 @@ struct runtimeId
   {
     _t = rhs._t;
     return *this;
+  }
+  
+  constexpr bool IsValid() const
+  {
+    return _t.IsValid();
   }
 
   constexpr bool operator==(const runtimeId &other) const

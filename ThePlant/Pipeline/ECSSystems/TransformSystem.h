@@ -166,7 +166,7 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
             {
                 auto entityLocation = std::make_pair(firstIndex, secondIndex);
                 auto parent = findParent(entityLocation);
-                auto dependencyLocation = (parent == nullptr) ? findParentIndices(*parent) : std::make_pair(INVALID_INDEX, INVALID_INDEX);
+                auto dependencyLocation = (parent != nullptr) ? findParentIndices(*parent) : std::make_pair(INVALID_INDEX, INVALID_INDEX);
                 dependencyTree.emplace_back(entityLocation, dependencyLocation);
             }
         }

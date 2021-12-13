@@ -3,6 +3,9 @@
 #include <set>
 #include <tuple>
 
+// testing
+#include "Materials/Core/Logging/Logger.h"
+// \testing
 #include "Materials/Core/IdTypes/RuntimeId.h"
 
 #include "Pipeline/ECS/DataOriented/ArchetypeManager.h"
@@ -10,6 +13,13 @@
 namespace Application {
 struct ISystem
 {
+    ISystem() = default;
+
+    ISystem(const ISystem&) = delete;
+    ISystem(ISystem&&) = delete;
+    ISystem& operator=(const ISystem&) = delete;
+    ISystem& operator=(ISystem&&) = delete;
+
     template <typename T>
     bool IsSystem() const { return (Core::GetTypeId<T>() == GetSystem()); }
     virtual Core::runtimeId_t GetSystem() const = 0;
@@ -37,6 +47,8 @@ private:
 template <typename SYSTEM, typename ...Ts>
 struct System : public ISystem
 {
+    using ISystem::ISystem;
+
     Core::runtimeId_t GetSystem() const override
     {
         return Core::GetTypeId<SYSTEM>();
@@ -62,6 +74,8 @@ private:
 template <typename SYSTEM>
 struct System<SYSTEM> : public ISystem
 {
+    using ISystem::ISystem;
+
     Core::runtimeId_t GetSystem() const override
     {
         return Core::GetTypeId<SYSTEM>();
@@ -73,11 +87,13 @@ struct System<SYSTEM> : public ISystem
 template <typename SYSTEM, typename ...NESTED>
 struct CompoundSystem : public ISystem
 {
+    using ISystem::ISystem;
+
     CompoundSystem()
     {}
 
     template <typename ...ARGS>
-    CompoundSystem(ARGS ...args)
+    CompoundSystem(ARGS&& ...args)
     : _nestedSystems(std::forward<ARGS>(args)...)
     {}
 

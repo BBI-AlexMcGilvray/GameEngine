@@ -21,6 +21,11 @@ IncrementalId& IncrementalId::operator=(const IncrementalId& other)
     return *this;
 }
 
+bool IncrementalId::IsValid() const
+{
+    return _id != INVALID_ID;
+}
+
 bool IncrementalId::operator==(const IncrementalId& other) const
 {
     return _id == other._id;

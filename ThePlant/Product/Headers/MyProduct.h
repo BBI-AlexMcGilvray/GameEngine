@@ -52,8 +52,7 @@ namespace Product
         LuaManager _luaManager;
 
         // testing
-        Application::Rendering::Material_NEW _material;
-        Application::Rendering::Mesh_NEW _mesh;
+        Application::Entity _entity;
         // \testing
     };
 }

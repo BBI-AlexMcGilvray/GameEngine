@@ -46,7 +46,7 @@ struct Archetype
     {
         Entity newEntity(GetId());
 
-        _AddEntity(newEntity, args...);
+        _AddEntity(newEntity, std::forward<Ts>(args)...);
         
         return newEntity;
     }
@@ -118,23 +118,23 @@ private:
     void _AddEntity(const Entity& entity);
 
     template <typename ...Ts>
-    void _AddEntity(const Entity& entity, Ts ...args)
+    void _AddEntity(const Entity& entity, Ts&& ...args)
     {
         _entities.emplace_back(entity.GetEntityId());
-        _AddComponentForEntity(args...);
+        _AddComponentForEntity(std::forward<Ts>(args)...);
     }
 
     template <typename T>
-    void _AddComponentForEntity(const Entity& entity, T value)
+    void _AddComponentForEntity(T value)
     {
         _components.at(GetTypeId<T>())->AddComponent(std::move(value));
     }
 
     template <typename T, typename ...Ts>
-    void _AddComponentForEntity(const Entity& entity, T value, Ts ...args)
+    void _AddComponentForEntity(T&& value, Ts&& ...args)
     {
-        _AddComponentForEntity(entity, std::move(value));
-        _AddComponentForEntity(entity, args...);
+        _AddComponentForEntity(std::move(value));
+        _AddComponentForEntity(std::forward<Ts>(args)...);
     }
 
     size_t _GetEntityIndex(const EntityId& entity)

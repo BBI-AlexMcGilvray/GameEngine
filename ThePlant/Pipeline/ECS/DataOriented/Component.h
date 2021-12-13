@@ -162,7 +162,7 @@ private:
     std::vector<T> _components;
 
     void* _VoidPtrToComponentAt(const size_t& index) override
-    {c
+    {
         return &_ComponentAt(index);
     }
 

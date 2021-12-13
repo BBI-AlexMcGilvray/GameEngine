@@ -20,14 +20,14 @@ namespace Application
 
         // we need all calls that ArchetypeManager and SystemManager have and forward to them respectively
         template <typename T>
-        T& GetComponentFor(const Entity& entity) { return _archetypes.GetComponentFor(entity); }
+        T& GetComponentFor(const Entity& entity) { return _archetypes.GetComponentFor<T>(entity); }
 
         template <typename ...Ts>
         void AddComponentsTo(Entity& entity) { _archetypes.AddComponentsTo<Ts...>(entity); }
 
         // must provide an argument for each component type provided
         template <typename ...Ts>
-        void AddComponentsTo(Entity& entity, Ts ...args) { _archetypes.AddComponentsTo<Ts...>(entity, std::forward<Ts>(args)...); }
+        void AddComponentsTo(Entity& entity, Ts&& ...args) { _archetypes.AddComponentsTo<Ts...>(entity, std::forward<Ts>(args)...); }
 
         template <typename ...Ts>
         void RemoveComponentsFrom(Entity& entity) { _archetypes.RemoveComponentsFrom(entity); }
@@ -37,14 +37,14 @@ namespace Application
 
         // must provide an argument for each component type provided
         template <typename ...Ts>
-        Entity CreateEntity(Ts ...args) { return _archetypes.CreateEntity<Ts...>(std::forward<Ts>(args)...); }
+        Entity CreateEntity(Ts&& ...args) { return _archetypes.CreateEntity<Ts...>(std::forward<Ts>(args)...); }
 
         void RemoveEntity(const Entity& entity) { _archetypes.RemoveEntity(entity); }
         
         void Update() { _systems.Update(); }
 
         template <typename SYSTEM, typename ...ARGS>
-        ISystem& AddSystem(ARGS ...args) { return _systems.AddSystem<SYSTEM, ARGS...>(std::forward<ARGS>(args)...); }
+        ISystem& AddSystem(ARGS&& ...args) { return _systems.AddSystem<SYSTEM, ARGS...>(std::forward<ARGS>(args)...); }
 
     private:
         ArchetypeManager _archetypes;

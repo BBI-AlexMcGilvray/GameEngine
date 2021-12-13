@@ -25,9 +25,6 @@ namespace Product
         // the creation of the Application should include the application name, default window size, ...
         // maybe window info should just be a struct (camera?) - tbd
         _pipeline = Application::ApplicationManager::Application();
-        // the below should probably be a part of the application's initialization (for the default systems at least)
-        _pipeline->AppECS().AddSystem<Application::TransformSystem>();
-        _pipeline->AppECS().AddSystem<Application::RenderingSystem>(_pipeline->AppRenderManager()).AddDependency<Application::TransformSystem>();
 
         bool pipelineInitialized = _pipeline->Initialize();
         _time.Initialize();
@@ -36,6 +33,10 @@ namespace Product
         auto sdlManager = _pipeline->AppSDLManager();
         _debugUI = Core::MakeUnique<Application::UI::IMGUIManager>(sdlManager.GetWindowManager(), sdlManager.GetContextManager());
         _debugUI->initialize();
+
+        // the below should probably be a part of the application's initialization (for the default systems at least)
+        _pipeline->AppECS().AddSystem<Application::TransformSystem>();
+        _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependency<Application::TransformSystem>();
 
         return pipelineInitialized;
     }

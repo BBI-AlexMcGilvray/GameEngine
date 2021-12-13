@@ -113,11 +113,13 @@ void ApplicationManager::Start()
 void ApplicationManager::Update()
 {
   InputSystem.update();
-  _ecsSystem.Update();
 }
 
 void ApplicationManager::Update(Core::Second dt)
 {
+  // this may requried the dt passed in for time-reliant systems?
+  _ecsSystem.Update(); // either way, this can't be above as this is only once-per frame (or should be)
+
   // update everything
   StateSystem.Update(dt);
 

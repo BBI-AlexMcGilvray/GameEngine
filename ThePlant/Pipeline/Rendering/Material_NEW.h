@@ -44,8 +44,8 @@ namespace Rendering {
     // AssetData<MaterialData> in debug?
 
     Material_NEW() = default;
-    Material_NEW(const Material_NEW&) = default;
-    Material_NEW& operator=(const Material_NEW&) = default;
+    Material_NEW(const Material_NEW& other) = default;
+    Material_NEW& operator=(const Material_NEW& other) = default;
 
     bool operator==(const Material_NEW& other) const
     {

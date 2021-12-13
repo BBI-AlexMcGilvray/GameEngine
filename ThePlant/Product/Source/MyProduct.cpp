@@ -45,11 +45,12 @@ namespace Product
 
         // testing
         auto& assetManager = Application::ApplicationManager::AppAssetManager();
-        _material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), Application::ApplicationManager::AppRenderManager().ObjectShaderManager);
-        _mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
+        auto material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), Application::ApplicationManager::AppRenderManager().ObjectShaderManager);
+        auto mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
+        Transform transform = Transform();
 
         auto& ecs = Application::ApplicationManager::AppECS();
-        ecs.CreateEntity<Application::WorldTransformComponent, Application::MaterialComponent, Application::MeshComponent>(Transform(), _material, _mesh);
+        _entity = ecs.CreateEntity<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(transform, Core::Math::Float3(0.0f, 0.0f, -600.0f), Core::Math::FQuaternion(), material, mesh);
         // \testing
     }
 
@@ -89,15 +90,11 @@ namespace Product
         //end of testing
 
         // testing
-        Transform tempTransform;
-        tempTransform.AdjustPosition(Core::Math::Float3(0.0f, 0.0f, -600.0f));
-        Application::Rendering::Context context = {
-            _material,
-            tempTransform.GetTransformationMatrix(),
-            Core::Math::WHITE,
-            _mesh
-        };
-        Application::ApplicationManager::AppRenderManager().QueueRender(context);
+        Application::RotationComponent& entityRotationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(_entity);
+        
+        FQuaternion entityRotation = entityRotationComponent.rotation;
+        FQuaternion newEntityRotation = Core::Math::LerpQuat(entityRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * entityRotation, Duration(dt));
+        entityRotationComponent.rotation = newEntityRotation;
         // \testing
     }
 

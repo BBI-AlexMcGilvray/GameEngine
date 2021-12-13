@@ -34,6 +34,11 @@ struct instanceId
     return *this;
   }
 
+  constexpr bool IsValid() const
+  {
+    return _id != INVALID_ID;
+  }
+
   constexpr bool operator==(const runtimeId &other)
   {
     return _id == other._id;
