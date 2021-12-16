@@ -13,119 +13,26 @@ namespace Rendering {
 
   void RenderManager::Initialize(WindowManager &window, Color clearColor)
   {
-    ObjectShaderManager.Initialize();
+    _window = &window;
 
-    Window = &window;
-
-    InitialColor = WHITE;
-    ClearColor = clearColor;
+    _initialColor = WHITE;
+    _clearColor = clearColor;
 
     // don't render everything, but set up the default state
-    RenderStart();
-    RenderEnd();
+    _RenderStart();
+    _RenderEnd();
   }
 
   void RenderManager::Start()
   {
-    // this is getting called correctly, but the problem is the camera is not initialized AFTER this - incorrectly
-    RenderCamera = nullptr;
-  }
-
-  void RenderManager::AttachRenderObjectManager(Ptr<State> state, Ptr<RenderObjectManager> objectManager)
-  {
-    ObjectManagers.insert(std::make_pair(std::move(state), std::move(objectManager)));
-  }
-
-  void RenderManager::DettachRenderObjectManager(Ptr<State> state)
-  {
-    ObjectManagers.erase(state);
-  }
-
-  void RenderManager::AttachMaterialManager(Core::Ptr<State> state, Core::Ptr<MaterialManager> materialManager)
-  {
-    MaterialManagers.insert(std::make_pair(std::move(state), std::move(materialManager)));
-  }
-
-  void RenderManager::DettachMaterialManager(Core::Ptr<State> state)
-  {
-    MaterialManagers.erase(state);
-  }
-
-  void RenderManager::AttachCameraManager(Core::Ptr<State> state, Core::Ptr<CameraManager> cameraManager)
-  {
-    CameraManagers.insert(std::make_pair(std::move(state), std::move(cameraManager)));
-  }
-
-  void RenderManager::DettachCameraManager(Core::Ptr<State> state)
-  {
-    CameraManagers.erase(state);
-  }
-
-  Core::Ptr<State> RenderManager::GetActiveState()
-  {
-    return ActiveState;
-  }
-
-  void RenderManager::SetActiveState(Ptr<State> state)
-  {
-    if (state == nullptr) {
-      DEBUG_LOG("RenderManager", "Active state can't be null!");
-      return;
-    }
-
-    if (ActiveState == state) {
-      return;
-    }
-
-    ActiveState = state;
-  }
-
-  void RenderManager::DeactivateState(Ptr<State> state)
-  {
-    if (ActiveState == state) {
-      ActiveState = nullptr;
-    }
-  }
-
-  Ptr<RenderObjectManager> RenderManager::GetObjectManagerForState(Ptr<State> state)
-  {
-    return ObjectManagers[state];
-  }
-
-  Core::Ptr<MaterialManager> RenderManager::GetMaterialManagerForState(Core::Ptr<State> state)
-  {
-    return MaterialManagers[state];
-  }
-
-  Core::Ptr<CameraManager> RenderManager::GetCameraManagerForState(Core::Ptr<State> state)
-  {
-    return CameraManagers[state];
-  }
-
-  void RenderManager::Update(Second dt)
-  {
-    // update render object manager
-    if (ActiveState != nullptr) {
-      CameraManagers[ActiveState]->Update(dt);
-      MaterialManagers[ActiveState]->Update(dt);
-      ObjectManagers[ActiveState]->Update(dt);
-
-      RenderCamera = CameraManagers[ActiveState]->GetCamera();
-    }
-#if _DEBUG// check in debug to find errors, no errors should exist in live
-    if (RenderCamera == nullptr) {
-      DEBUG_ERROR("RenderManager", "NO RENDER CAMERA IN RENDER MANAGER!");
-      return;
-    }
-#endif
-    Render();
+    
   }
 
   void RenderManager::Render()
   {
-    RenderStart();
-    RenderMiddle();
-    RenderEnd();
+    _RenderStart();
+    _RenderMiddle();
+    _RenderEnd();
   }
 
   void RenderManager::End()
@@ -134,7 +41,7 @@ namespace Rendering {
 
   void RenderManager::CleanUp()
   {
-    ObjectShaderManager.CleanUp();
+    
   }
 
   void RenderManager::SetOpenGLAttributes()
@@ -179,74 +86,63 @@ namespace Rendering {
   }
 #endif
 
-  Ptr<const Camera> RenderManager::GetCamera() const
-  {
-    return RenderCamera;
-  }
-
   // testing
   void RenderManager::QueueRender(const Context& context)
   {
-    _contexts.emplace_back(context);
+    _renderFrame.contexts.emplace_back(context);
   }
 
   void RenderManager::QueueRender(const SkinnedContext& context)
   {
-    _skinnedContexts.emplace_back(context);
+    _renderFrame.skinnedContexts.emplace_back(context);
   }
   // \testing
 
-  void RenderManager::RenderStart()
+  void RenderManager::_RenderStart()
   {
-    glClearColor(ClearColor.R, ClearColor.G, ClearColor.B, ClearColor.A);
+    glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // to render lines of triangles in mesh and both front and back
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   }
 
-  void RenderManager::RenderMiddle()
+  void _RenderFrameForCamera(Renderer_NEW& renderer, const Float4x4& camera, RenderFrame& renderFrame)
+  {
+    // NOTE: if we want shaders to get a delta time, we can provide that here by adding a field to the contexts (and providing a delta time)
+    for (auto& context : renderFrame.contexts)
+    {
+      context.mvp = camera * context.mvp;
+      renderer.SetShader(context.material.shader);
+      renderer.DrawMesh(context);
+    }
+
+    for (auto& context : renderFrame.skinnedContexts)
+    {
+      context.context.mvp = camera * context.context.mvp;
+      renderer.SetShader(context.context.material.shader);
+      renderer.DrawMesh(context);
+    }
+    renderer.SetShader(Shader_NEW()); // this should be done in the EndFrame call?
+  }
+
+  void RenderManager::_RenderMiddle()
   {
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
 
-    // render manager render call
-    auto initialMVP = RenderCamera->GetTransformationMatrix();
-    if (ActiveState != nullptr) {
-      // MaterialManagers probably does not need a render call
-      //MaterialManagers[ActiveState]->Render(initialMVP, InitialColor);
-      ObjectManagers[ActiveState]->Render(initialMVP, InitialColor);
-    }
-
-    // testing
-    // in the future, we should have an array of cameras (?) that we populate based on the CameraComponents (they determine matrix based on their matching WorldTransformComponent)
-    // then we iterate over each context for each camera
-    // this is also where we would do culling (unless that is another system?)
-    _renderer_NEW.StartFrame();
-    for (auto& context : _contexts)
+    for (auto& camera : _cameraManagers.GetCameras())
     {
-      context.mvp = RenderCamera->GetTransformationMatrix() * context.mvp;
-      _renderer_NEW.SetShader(context.material.shader);
-      _renderer_NEW.DrawMesh(context);
+      _RenderFrameForCamera(_renderer_NEW, camera, _renderFrame);
     }
-
-    for (auto& context : _skinnedContexts)
-    {
-      context.context.mvp = RenderCamera->GetTransformationMatrix() * context.context.mvp;
-      _renderer_NEW.SetShader(context.context.material.shader);
-      _renderer_NEW.DrawMesh(context);
-    }
-    _renderer_NEW.SetShader(Shader_NEW()); // this should be done in the EndFrame call?
-    _renderer_NEW.EndFrame();
-    // \testing
   }
 
-  void RenderManager::RenderEnd()
+  void RenderManager::_RenderEnd()
   {    
     // delete queued contexts
-    _contexts.clear();
-    _skinnedContexts.clear();
+    _renderFrame.contexts.clear();
+    _renderFrame.skinnedContexts.clear();
     
-    SDL_GL_SwapWindow(Window->GetWindow());
+    SDL_GL_SwapWindow(_window->GetWindow());
   }
 }// namespace Rendering
 }// namespace Application

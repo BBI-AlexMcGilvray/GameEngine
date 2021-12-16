@@ -38,6 +38,9 @@ namespace Application
         // must provide an argument for each component type provided
         template <typename ...Ts>
         Entity CreateEntity(Ts&& ...args) { return _archetypes.CreateEntity<Ts...>(std::forward<Ts>(args)...); }
+        
+        template <typename ...Ts>
+        Entity CreateEntity(const std::tuple<Ts...>& components) { return _archetypes.CreateEntity(components); }
 
         void RemoveEntity(const Entity& entity) { _archetypes.RemoveEntity(entity); }
         

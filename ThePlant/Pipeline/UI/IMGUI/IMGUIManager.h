@@ -23,8 +23,8 @@ namespace UI {
     void cleanUp();
 
     private:
-        const WindowManager& _window;
-        const GLContextManager& _glContext;
+      const WindowManager& _window;
+      const GLContextManager& _glContext;
   };
 }// namespace UI
 }// namespace Application

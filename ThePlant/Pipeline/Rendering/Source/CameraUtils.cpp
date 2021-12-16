@@ -12,7 +12,7 @@ using namespace Core;
 namespace Application {
 namespace Rendering {
   // this is wrong
-  Float4x4 CalculatePerspectiveMatrix(FRad fovy, float aspectRatio, float nearPlane, float farPlane)
+  Float4x4 CalculatePerspectiveMatrix(const FRad& fovy, const float& aspectRatio, const float& nearPlane, const float& farPlane)
   {
     Float4x4 perspectiveMatrix;
 
@@ -36,12 +36,17 @@ namespace Rendering {
     return perspectiveMatrix;
   }
 
-  Float3 ScreenToWorld(const Camera &camera, const Float2 &screenPosition, const Float2 &viewRect)
+  Float4x4 CalculateTransformationMatrix(Camera& camera, Core::Geometric::Transform& transform)
+  {
+    return camera.GetProjectionMatrix() * transform.GetInverseTransformationMatrix();
+  }
+
+  Float3 ScreenToWorld(const Camera &camera, Core::Geometric::Transform& cameraTransform, const Float2 &screenPosition, const Float2 &viewRect)
   {
     float worldX = screenPosition.X / viewRect.X * 2.0f - 1.0f;
     float worldY = 1.0f - screenPosition.Y / viewRect.Y * 2.0f;
 
-    Float4x4 inverseMVP = camera.GetTransformationMatrix();
+    Float4x4 inverseMVP = cameraTransform.GetTransformationMatrix();
 
     Float4 worldPosition = inverseMVP * Float4(worldX, worldY, 0.0f, 1.0f);
 
@@ -53,9 +58,9 @@ namespace Rendering {
     // Note: Create a ray class that has a direction and origin and can test for intersection & find the values when an axis (typically y) is 0
   }
 
-  Float2 WorldToScreen(const Camera &camera, const Float2 &worldPosition, const Float2 &viewRect)
+  Float2 WorldToScreen(const Camera &camera, Core::Geometric::Transform& cameraTransform, const Float2 &worldPosition, const Float2 &viewRect)
   {
-    Float4x4 MVP = camera.GetTransformationMatrix();
+    Float4x4 MVP = cameraTransform.GetTransformationMatrix();
     Float4 transformedPosition = MVP * Float4(worldPosition, 1.0f);
 
     float screenX = transformedPosition.X / transformedPosition.Z;// scaled down based on distance from 0 x
@@ -65,6 +70,18 @@ namespace Rendering {
     screenY = (1.0f - screenY) * 0.5f * viewRect.Y;// y goes from top to bottom in screen space
 
     return Float2(screenX, screenY);
+  }
+
+  void LookAt(Core::Geometric::Transform& cameraTransform, const Float3& position)
+  {
+    auto newDirection = Normalize(position - cameraTransform.GetPosition());
+
+    LookInDirection(cameraTransform, newDirection);
+  }
+
+  void LookInDirection(Core::Geometric::Transform& cameraTransform, const Float3& direction)
+  {
+    cameraTransform.SetRotation(RotationBetweenVectors(Camera::defaultDirection, direction));
   }
 }// namespace Rendering
 }// namespace Application

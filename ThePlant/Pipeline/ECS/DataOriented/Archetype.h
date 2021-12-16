@@ -51,6 +51,16 @@ struct Archetype
         return newEntity;
     }
 
+    template <typename ...Ts>
+    Entity AddEntity(const std::tuple<Ts...>& components)
+    {
+        Entity newEntity(GetId());
+
+        _AddEntity(newEntity, components);
+
+        return newEntity;
+    }
+
     void TransferEntityTo(Entity& entity, Archetype& destination);
 
     void RemoveEntity(const Entity& entity);
@@ -121,20 +131,40 @@ private:
     void _AddEntity(const Entity& entity, Ts&& ...args)
     {
         _entities.emplace_back(entity.GetEntityId());
-        _AddComponentForEntity(std::forward<Ts>(args)...);
+        _AddComponent(std::forward<Ts>(args)...);
     }
 
     template <typename T>
-    void _AddComponentForEntity(T value)
+    void _AddComponent(T value)
     {
         _components.at(GetTypeId<T>())->AddComponent(std::move(value));
     }
 
     template <typename T, typename ...Ts>
-    void _AddComponentForEntity(T&& value, Ts&& ...args)
+    void _AddComponent(T&& value, Ts&& ...args)
     {
-        _AddComponentForEntity(std::move(value));
-        _AddComponentForEntity(std::forward<Ts>(args)...);
+        _AddComponent(std::move(value));
+        _AddComponent(std::forward<Ts>(args)...);
+    }
+
+    template <typename ...Ts>
+    Entity _AddEntity(const Entity& entity, const std::tuple<Ts...>& components)
+    {
+        _entities.emplace_back(entity.GetEntityId());
+        _AddComponentFromTuple<std::tuple_size<Ts...> - 1, Ts...>(components);
+    }
+
+    template <size_t 0, typename ...Ts>
+    void _AddComponentFromTuple(const std::tuple<Ts...>& components)
+    {
+        _AddComponent<std::get<0>(components)::type>(std::get<0>(components));
+    }
+
+    template <size_t ELEMENT, typename ...Ts>
+    void _AddComponentFromTuple(const std::tuple<Ts...>& components)
+    {
+        _AddComponent<std::get<ELEMENTS>(components)::type>(std::get<ELEMENTS>(components));
+        _AddComponentFromTuple<ELEMENT - 1, Ts...>(components);
     }
 
     size_t _GetEntityIndex(const EntityId& entity)

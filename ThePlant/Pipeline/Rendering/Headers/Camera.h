@@ -18,21 +18,23 @@ namespace Rendering {
   // anything needed for camera. should create specifications for perspective and orthographic
   struct Camera
   {
-    static const Float3 DefaultDirection;
+    inline static const Float3 defaultDirection = Float3(0.0f, 0.0f, -1.0f);
 
-    Camera(const float &aspectRatio, Geometric::HierarchyTransform &transform, const Float3 &direction = DefaultDirection);
+    Camera(const float &aspectRatio = 0.5f);
 
-    Geometric::HierarchyTransform &GetCameraTransform();
+    Camera(const Camera&) = default;
+    Camera(Camera&&) = default;
 
-    Float4x4 GetTransformationMatrix() const;
+    Camera& operator=(const Camera&) = default;
+    Camera& operator=(Camera&&) = default;
 
-    void LookAt(Float3 position);
+    Float4x4 GetProjectionMatrix();
 
-    void SetFOVY(FRad fovy);
+    void SetFOVY(const FRad& fovy);
 
-    void SetAspectRatio(float width, float height);
-    void SetAspectRatio(Float2 viewRect);
-    void SetAspectRatio(float aspectRatio);
+    void SetAspectRatio(const float& width, const float& height);
+    void SetAspectRatio(const Float2& viewRect);
+    void SetAspectRatio(const float& aspectRatio);
 
     void SetNearPlane(const float &nearPlane);
     void SetFarPlane(const float &farPlane);
@@ -41,20 +43,25 @@ namespace Rendering {
 
     void SetProjectionVariables(const FRad &fovy, const float &AspectRatio, const float &nearPlane, const float &farPlane);
 
+    bool operator==(const Camera& other);
+    bool operator!=(const Camera& other) { return !(*this == other); }
+
   protected:
-    Geometric::HierarchyTransform& CameraTransform;
+    bool _dirty = true;
 
-    Float3 Direction;// direction the camera is looking
+    Float4x4 _projectionMatrix;
 
-    Float4x4 ProjectionMatrix;
+    float _aspectRatio;
+    FRad _fovy = 1.57079f;// radian representation of 90
 
-    float AspectRatio;
-    FRad FOVY = 1.57079f;// radian representation of 90
+    float _nearPlane = 0.1f;
+    float _farPlane = 1000.0f;
 
-    float NearPlane = 0.1f;
-    float FarPlane = 1000.0f;
+    bool _IsDirty() const;
+    void _Dirty();
+    void _Clean();
 
-    void RecalculateProjectionMatrix();
+    void _RecalculateProjectionMatrix();
   };
 }// namespace Rendering
 }// namespace Application

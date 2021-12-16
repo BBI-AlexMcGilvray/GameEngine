@@ -13,66 +13,53 @@ using namespace Application::Geometric;
 
 namespace Application {
 namespace Rendering {
-  const Float3 Camera::DefaultDirection = Float3(0.0f, 0.0f, -1.0f);
-
-  Camera::Camera(const float &aspectRatio, HierarchyTransform &transform, const Float3 &direction)
-    : CameraTransform(transform)
+  Camera::Camera(const float &aspectRatio /* = 0.5f */)
   {
-    LookAt(CameraTransform.GetWorldPosition() + direction);
-
-    SetProjectionVariables(FOVY, aspectRatio, NearPlane, FarPlane);
+    SetProjectionVariables(_fovy, aspectRatio, _nearPlane, _farPlane);
   }
 
-  HierarchyTransform &Camera::GetCameraTransform()
+  Float4x4 Camera::GetProjectionMatrix()
   {
-    return CameraTransform;
+    if (_IsDirty())
+    {
+      _RecalculateProjectionMatrix();
+    }
+
+    return _projectionMatrix;
   }
 
-  Float4x4 Camera::GetTransformationMatrix() const
+  void Camera::SetFOVY(const FRad& fovy)
   {
-    // Camera uses 'World' because it's rotation matters for rendering
-    return ProjectionMatrix * CameraTransform.GetWorldInverseTransformationMatrix();
+    _fovy = fovy;
+
+    _Dirty();
   }
 
-  void Camera::LookAt(Float3 position)
-  {
-    Direction = Normalize(position - CameraTransform.GetWorldPosition());
-
-    CameraTransform.SetWorldRotation(RotationBetweenVectors(DefaultDirection, Direction));
-  }
-
-  void Camera::SetFOVY(FRad fovy)
-  {
-    FOVY = fovy;
-
-    RecalculateProjectionMatrix();
-  }
-
-  void Camera::SetAspectRatio(float width, float height)
+  void Camera::SetAspectRatio(const float& width, const float& height)
   {
     SetAspectRatio(Float2(width, height));
   }
 
-  void Camera::SetAspectRatio(Float2 viewRect)
+  void Camera::SetAspectRatio(const Float2& viewRect)
   {
     SetAspectRatio(viewRect.X / viewRect.Y);
   }
 
-  void Camera::SetAspectRatio(float aspectRatio)
+  void Camera::SetAspectRatio(const float& aspectRatio)
   {
-    AspectRatio = aspectRatio;
+    _aspectRatio = aspectRatio;
 
-    RecalculateProjectionMatrix();
+    _Dirty();
   }
 
   void Camera::SetNearPlane(const float &nearPlane)
   {
-    SetPlanes(nearPlane, FarPlane);
+    SetPlanes(nearPlane, _farPlane);
   }
 
   void Camera::SetFarPlane(const float &farPlane)
   {
-    SetPlanes(NearPlane, farPlane);
+    SetPlanes(_nearPlane, farPlane);
   }
 
   void Camera::SetPlanes(const float &nearPlane, const float &farPlane)
@@ -82,27 +69,40 @@ namespace Rendering {
 
   void Camera::SetPlanes(const Float2 &planes)
   {
-    NearPlane = planes.X;
-    FarPlane = planes.Y;
+    _nearPlane = planes.X;
+    _farPlane = planes.Y;
 
-    RecalculateProjectionMatrix();
+    _Dirty();
   }
 
   void Camera::SetProjectionVariables(const FRad &fovy, const float &aspectRatio, const float &nearPlane, const float &farPlane)
   {
-    FOVY = fovy;
+    _fovy = fovy;
 
-    AspectRatio = aspectRatio;
+    _aspectRatio = aspectRatio;
 
-    NearPlane = nearPlane;
-    FarPlane = farPlane;
+    _nearPlane = nearPlane;
+    _farPlane = farPlane;
 
-    RecalculateProjectionMatrix();
+    _Dirty();
   }
 
-  void Camera::RecalculateProjectionMatrix()
+  bool Camera::operator==(const Camera& other)
   {
-    ProjectionMatrix = CalculatePerspectiveMatrix(FOVY, AspectRatio, NearPlane, FarPlane);
+    return (_fovy == other._fovy
+          && _aspectRatio == other._aspectRatio
+          && _nearPlane == other._nearPlane
+          && _farPlane == other._farPlane);
+  }
+
+  bool Camera::_IsDirty() const { return _dirty; }
+  void Camera::_Dirty() { _dirty = true; }
+  void Camera::_Clean() { _dirty = false; }
+  
+  void Camera::_RecalculateProjectionMatrix()
+  {
+    _projectionMatrix = CalculatePerspectiveMatrix(_fovy, _aspectRatio, _nearPlane, _farPlane);
+    _Clean();
   }
 }// namespace Rendering
 }// namespace Application

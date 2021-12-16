@@ -1,74 +1,81 @@
 #include "Pipeline/Rendering/3D/Headers/ModelBase.h"
 
-#include "Pipeline/Headers/ApplicationManager.h"
-
-#include "Pipeline/Rendering/Headers/RenderManager.h"
-
-#include "Pipeline/Rendering/2D/Headers/Material.h"
-#include "Pipeline/Rendering/3D/Headers/SimpleMeshBase.h"
+#include "Pipeline/ECSSystems/GeneralComponents.h"
+#include "Pipeline/ECSSystems/TransformComponents.h"
+#include "Pipeline/ECSSystems/RenderingComponents.h"
 
 using namespace Core;
 using namespace Core::Math;
-
-using namespace Application::Geometric;
+using namespace Core::Geometric;
 
 namespace Application {
 namespace Rendering {
-  ModelBase::ModelBase(const Core::Ptr<State> owningState, Ptr<HierarchyTransform> renderTransform, Data::AssetName<Data::Rendering::SimpleModelData> asset)
-    //: RenderObjectBase(manager, renderTransform)
-    : ContentBase(owningState), Data(ApplicationManager::AppAssetManager().getAssetData(asset)), _transform(renderTransform)
-  //, Mesh(Data.Data.Mesh)
-  //, Shader(manager->ObjectShaderManager.DefaultShader)
+  InitialModelState::InitialModelState(const Data::AssetName<Data::Rendering::SimpleModelData>& asset)
+  : InitialModelState(asset, Transform(), EntityId())
+  {}
+
+  InitialModelState::InitialModelState(const Data::AssetName<Data::Rendering::SimpleModelData>& asset, const EntityId& parent)
+  : InitialModelState(asset, Transform(), parent)
+  {}
+  
+  InitialModelState::InitialModelState(const Data::AssetName<Data::Rendering::SimpleModelData>& asset, const Transform& transform)
+  : InitialModelState(asset, transform, EntityId())
+  {}
+
+  InitialModelState::InitialModelState(const Data::AssetName<Data::Rendering::SimpleModelData>& asset, const Transform& localTransform, const EntityId& parent)
+  : asset(asset)
+  , transform(localTransform)
+  , parent(parent)
+  {}
+
+  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, const InitialModelState& modelState)
   {
-    // load material using mat file in folder
-    _renderComponent = AddComponent<Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(_onwningState));
-    _materialComponent = AddComponent<MaterialComponent>(ApplicationManager::AppRenderManager().GetMaterialManagerForState(_onwningState));
-  }
+    Data::AssetData<Data::Rendering::SimpleModelData> assetData = assetManager.getAssetData(modelState.asset);
+    
+    // ideally we find a way to create a tuple once and add to it (instead of many if-elses or altering the entity many times)
+    // because we
+    /*
+    - only want the parent component if a parent is provided
+    - only want a position component if the transform position != 0     [?]
+    - only want a rotation component if the transform rotation != II()  [?]
+    - only want a scale component if the transform scale != 0           [?]
+    - only want a LocalTransformComponent if a parent is provided
+    */
 
-  //Core::size ModelBase::GetVertexCount() const
-  //{
-  //	// again, should would be much easier with a DataPtr<T>
-  //	return Mesh.Data.Data.VertexCount;
-  //}
-
-  //void ModelBase::Prepare(const Float4x4& mvp, const Color& color) const
-  //{
-  //	Mesh.Prepare();
-  //	Shader.Prepare(mvp, color);
-  //}
-
-  //void ModelBase::CleanUp() const
-  //{
-  //	Mesh.CleanUp();
-  //	Shader.CleanUp();
-  //}
-
-  void ModelBase::Initialize()
-  {
-    // create components
-    _materialComponent->SetMaterial<Material>(Data->material);
-
-    _renderComponent->SetRenderObject<SimpleMeshBase>(_transform, Data->mesh)->SetMaterialComponent(_materialComponent);
-  }
-
-  void ModelBase::Start()
-  {
-  }
-
-  void ModelBase::Update(Core::Second dt)
-  {
-  }
-
-  void ModelBase::End()
-  {
-  }
-
-  void ModelBase::CleanUp()
-  {
-    // cleanup components
-    _renderComponent->GetRenderObject<SimpleMeshBase>()->ClearMaterialComponent();
-    _renderComponent->RemoveRenderObject();
-    _materialComponent->RemoveMaterial();
+    if (modelState.parent.IsValid())
+    {
+      return ecsSystem.CreateEntity<ParentComponent
+                                  , MaterialComponent
+                                  , MeshComponent
+                                  , PositionComponent
+                                  , ScaleComponent
+                                  , RotationComponent
+                                  , WorldTransformComponent
+                                  , LocalTransformComponent>(
+                                    modelState.parent,
+                                    CreateMaterial(assetData->material),
+                                    CreateMesh(assetData->mesh),
+                                    modelState.transform.GetPosition(),
+                                    modelState.transform.GetScale(),
+                                    modelState.transform.GetRotation(),
+                                    Transform(),
+                                    Transform()
+                                  );
+    }
+    
+    return ecsSystem.CreateEntity<MaterialComponent
+                                , MeshComponent
+                                , PositionComponent
+                                , ScaleComponent
+                                , RotationComponent
+                                , WorldTransformComponent>(
+                                  CreateMaterial(assetData->material),
+                                  CreateMesh(assetData->mesh),
+                                  modelState.transform.GetPosition(),
+                                  modelState.transform.GetScale(),
+                                  modelState.transform.GetRotation(),
+                                  Transform()
+                                );
   }
 }// namespace Rendering
 }// namespace Application

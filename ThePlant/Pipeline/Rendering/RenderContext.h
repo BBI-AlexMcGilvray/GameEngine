@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <vector>
 
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Math/Headers/Color.h"
@@ -39,6 +40,13 @@ namespace Rendering {
             return (context == other.context
                 && bones == other.bones);
         }
+    };
+
+    // maybe have this include the camera(s?) to use
+    struct RenderFrame
+    {
+        std::vector<Context> contexts;
+        std::vector<SkinnedContext> skinnedContexts;
     };
 }// namespace Rendering
 }// namespace Application

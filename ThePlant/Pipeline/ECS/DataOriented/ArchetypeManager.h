@@ -38,7 +38,7 @@ public:
 
     // must provide an argument for each component type provided
     template <typename ...Ts>
-    void AddComponentsTo(Entity& entity, Ts ...args)
+    void AddComponentsTo(Entity& entity, Ts&& ...args)
     {
         Archetype& oldArchetype = _GetArchetype(entity.GetArchetypeId());
         TypeCollection newArchetypeType = AddToCollection<Ts...>(oldArchetype.GetArchetype());
@@ -81,7 +81,7 @@ public:
 
     // must provide an argument for each component type provided
     template <typename ...Ts>
-    Entity CreateEntity(Ts ...args)
+    Entity CreateEntity(Ts&& ...args)
     {
         if (!_HasArchetype<Ts...>())
         {
@@ -90,6 +90,18 @@ public:
         }
 
         return Entity(_GetArchetype<Ts...>().AddEntity(std::forward<Ts>(args)...));
+    }
+        
+    template <typename ...Ts>
+    Entity CreateEntity(const std::tuple<Ts...>& components)
+    {
+        if (!_HasArchetype<Ts...>())
+        {
+            _archetypes.emplace_back(CreateArchetype<Ts...>());
+            return Entity(_GetArchetype<Ts...>().AddEntity(components));
+        }
+        
+        return Entity(_GetArchetype<Ts...>().AddEntity(components));
     }
 
     void RemoveEntity(const Entity& entity);

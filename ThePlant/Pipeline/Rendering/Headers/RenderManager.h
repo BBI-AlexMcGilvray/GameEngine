@@ -30,33 +30,15 @@ struct State;
 namespace Rendering {
   struct RenderManager
   {
-    ShaderManager ObjectShaderManager;
-    Renderer ObjectRenderer;
-
     // should subscribe to StateManager::StateChanged to change active state automatically
     RenderManager();
 
     void Initialize(WindowManager &window, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();
 
-    void AttachRenderObjectManager(Core::Ptr<State> state, Core::Ptr<RenderObjectManager> objectManager);
-    void DettachRenderObjectManager(Core::Ptr<State> state);
+    void QueueRender(const Context& context);
+    void QueueRender(const SkinnedContext& context);
 
-    void AttachMaterialManager(Core::Ptr<State> state, Core::Ptr<MaterialManager> materialManager);
-    void DettachMaterialManager(Core::Ptr<State> state);
-
-    void AttachCameraManager(Core::Ptr<State> state, Core::Ptr<CameraManager> cameraManager);
-    void DettachCameraManager(Core::Ptr<State> state);
-
-    Core::Ptr<State> GetActiveState();
-    void SetActiveState(Core::Ptr<State> state);
-    void DeactivateState(Core::Ptr<State> state);
-
-    Core::Ptr<RenderObjectManager> GetObjectManagerForState(Core::Ptr<State> state);
-    Core::Ptr<MaterialManager> GetMaterialManagerForState(Core::Ptr<State> state);
-    Core::Ptr<CameraManager> GetCameraManagerForState(Core::Ptr<State> state);
-
-    void Update(Core::Second dt);
     void Render();
 
     void End();
@@ -67,33 +49,22 @@ namespace Rendering {
     void VerifyOpenGLAttributes();
 #endif
 
-    Core::Ptr<const Camera> GetCamera() const;
-
-    // testing
-    void QueueRender(const Context& context);
-    void QueueRender(const SkinnedContext& context);
-    // \testing
-
   private:
-    Core::Ptr<Camera> RenderCamera = nullptr;
-    Core::Math::Color InitialColor;
+    Core::Math::Color _initialColor;
 
-    Core::Math::Color ClearColor;
-    Core::Ptr<WindowManager> Window;
+    Core::Math::Color _clearColor;
+    Core::Ptr<WindowManager> _window;
 
     // should all of these maps be combined into a single object to have a single mapping instead of multiple?
-    std::map<Core::Ptr<State>, Core::Ptr<RenderObjectManager>> ObjectManagers;
-    std::map<Core::Ptr<State>, Core::Ptr<MaterialManager>> MaterialManagers;
-    std::map<Core::Ptr<State>, Core::Ptr<CameraManager>> CameraManagers;
-    Core::Ptr<State> ActiveState = nullptr;
+    Renderer _renderers;
+    CameraManager _cameraManagers;
 
-    void RenderStart();
-    void RenderMiddle();
-    void RenderEnd();
+    void _RenderStart();
+    void _RenderMiddle();
+    void _RenderEnd();
   
     // testing
-    std::vector<Context> _contexts;
-    std::vector<SkinnedContext> _skinnedContexts;
+    RenderFrame _renderFrame; // in the future, this can be a tripple buffer guarded by a mutex and be what is used for threading purposes
     Renderer_NEW _renderer_NEW;
     // \testing
   };
