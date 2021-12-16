@@ -56,7 +56,7 @@ struct Archetype
     {
         Entity newEntity(GetId());
 
-        _AddEntity(newEntity, components);
+        _AddEntityFromTuple(newEntity, components, std::index_sequence_for<Ts...>());
 
         return newEntity;
     }
@@ -134,6 +134,12 @@ private:
         _AddComponent(std::forward<Ts>(args)...);
     }
 
+    template <typename Tuple, int ...Is>
+    void _AddEntityFromTuple(const Entity& entity, const Tuple& components, std::integer_sequence<Is...>)
+    {
+        _AddEntity(entity, std::get<Is>(components), ...);
+    }
+
     template <typename T>
     void _AddComponent(T value)
     {
@@ -145,26 +151,6 @@ private:
     {
         _AddComponent(std::move(value));
         _AddComponent(std::forward<Ts>(args)...);
-    }
-
-    template <typename ...Ts>
-    Entity _AddEntity(const Entity& entity, const std::tuple<Ts...>& components)
-    {
-        _entities.emplace_back(entity.GetEntityId());
-        _AddComponentFromTuple<std::tuple_size<Ts...> - 1, Ts...>(components);
-    }
-
-    template <size_t 0, typename ...Ts>
-    void _AddComponentFromTuple(const std::tuple<Ts...>& components)
-    {
-        _AddComponent<std::get<0>(components)::type>(std::get<0>(components));
-    }
-
-    template <size_t ELEMENT, typename ...Ts>
-    void _AddComponentFromTuple(const std::tuple<Ts...>& components)
-    {
-        _AddComponent<std::get<ELEMENTS>(components)::type>(std::get<ELEMENTS>(components));
-        _AddComponentFromTuple<ELEMENT - 1, Ts...>(components);
     }
 
     size_t _GetEntityIndex(const EntityId& entity)
