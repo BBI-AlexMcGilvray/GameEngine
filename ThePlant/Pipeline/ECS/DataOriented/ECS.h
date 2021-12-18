@@ -42,6 +42,8 @@ namespace Application
         template <typename ...Ts>
         Entity CreateEntity(const std::tuple<Ts...>& components) { return _archetypes.CreateEntity(components); }
 
+        Entity CreateEntity(const EntityCreator& creator) { return _archetypes.CreateEntity(creator); }
+
         void RemoveEntity(const Entity& entity) { _archetypes.RemoveEntity(entity); }
         
         void Update() { _systems.Update(); }

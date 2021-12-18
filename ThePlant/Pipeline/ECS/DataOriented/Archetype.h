@@ -23,7 +23,8 @@ struct std::hash<Core::runtimeId_t>
 };
 
 namespace Application {
-// this may need to be templated with an inheritance of a base interface so they can be held generically
+struct EntityCreator;
+
 struct Archetype
 {
     template <typename ...Ts>
@@ -32,6 +33,8 @@ struct Archetype
     friend Archetype CreateArchetypeFrom_Add(const Archetype& basis);
     template <typename ...Ts>
     friend Archetype CreateArchetypeFrom_Remove(const Archetype& basis);
+
+    friend struct EntityCreator;
 
     Archetype(const Archetype&) = delete;
     Archetype& operator=(const Archetype&) = delete;

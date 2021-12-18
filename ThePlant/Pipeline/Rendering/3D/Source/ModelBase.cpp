@@ -1,5 +1,6 @@
 #include "Pipeline/Rendering/3D/Headers/ModelBase.h"
 
+#include "Pipeline/ECS/DataDriven/EntityCreator.h"
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
@@ -32,50 +33,33 @@ namespace Rendering {
   {
     Data::AssetData<Data::Rendering::SimpleModelData> assetData = assetManager.getAssetData(modelState.asset);
     
-    // ideally we find a way to create a tuple once and add to it (instead of many if-elses or altering the entity many times)
-    // because we
-    /*
-    - only want the parent component if a parent is provided
-    - only want a position component if the transform position != 0     [?]
-    - only want a rotation component if the transform rotation != II()  [?]
-    - only want a scale component if the transform scale != 0           [?]
-    - only want a LocalTransformComponent if a parent is provided
-    */
+    EntityCreator creator;
+    creator.AddComponent<MaterialComponent>(CreateMaterial(assetData->material));
+    creator.AddComponent<MeshComponent>(CreateMesh(assetData->mesh));
+    creator.AddComponent<WorldTransformComponent>(Transform);
 
     if (modelState.parent.IsValid())
     {
-      return ecsSystem.CreateEntity<ParentComponent
-                                  , MaterialComponent
-                                  , MeshComponent
-                                  , PositionComponent
-                                  , ScaleComponent
-                                  , RotationComponent
-                                  , WorldTransformComponent
-                                  , LocalTransformComponent>(
-                                    modelState.parent,
-                                    CreateMaterial(assetData->material),
-                                    CreateMesh(assetData->mesh),
-                                    modelState.transform.GetPosition(),
-                                    modelState.transform.GetScale(),
-                                    modelState.transform.GetRotation(),
-                                    Transform(),
-                                    Transform()
-                                  );
+      creator.AddComponent<ParentComponent>(modelSate.parent);
+      creator.AddComponent<LocalTransformComponent>(Transform);
     }
-    
-    return ecsSystem.CreateEntity<MaterialComponent
-                                , MeshComponent
-                                , PositionComponent
-                                , ScaleComponent
-                                , RotationComponent
-                                , WorldTransformComponent>(
-                                  CreateMaterial(assetData->material),
-                                  CreateMesh(assetData->mesh),
-                                  modelState.transform.GetPosition(),
-                                  modelState.transform.GetScale(),
-                                  modelState.transform.GetRotation(),
-                                  Transform()
-                                );
+
+    // the below conditions may not be entirely valid, we may want to have explicit toggles for components in the model asset data
+    // but that can be handled later
+    if (modelState.transform.GetPosition() != Float3(0.0f))
+    {
+      creator.AddComponent<PositionComponent>(modelState.transform.GetPosition());
+    }
+    if (modelState.transform.GetScale() != Float3(1.0f))
+    {
+      creator.AddComponent<ScaleComponent>(modelState.transform.GetScale());
+    }
+    if (modelState.transform.GetRotation() != FQuaternion(Core::Math::II()))
+    {
+      creator.AddComponent<RotationComponent>(modelState.transform.GetRotation());
+    }
+
+    return ecsSystem.CreateEntity(creator);
   }
 }// namespace Rendering
 }// namespace Application

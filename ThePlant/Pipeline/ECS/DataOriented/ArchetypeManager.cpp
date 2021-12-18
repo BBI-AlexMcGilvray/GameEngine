@@ -2,7 +2,20 @@
 
 #include <stdexcept>
 
+#include "Pipeline/ECS/DataOriented/EntityCreator.h"
+
 namespace Application {
+Entity ArchetypeManager::CreateEntity(const EntityCreator& creator)
+{
+    auto& archetype = creator.GetArchetype();
+    if (!_HasArchetype(archetype))
+    {
+        _archetypes.emplace_back(creator.CreateArchetype());
+    }
+
+    return creator.CreateEntity(_GetArchetype(archetype));
+}
+
 void ArchetypeManager::RemoveEntity(const Entity& entity)
 {
     if (!_HasArchetype(entity.GetArchetypeId()))

@@ -60,7 +60,7 @@ public:
         TypeCollection newArchetypeType = RemoveFromCollection<Ts...>(oldArchetype.GetArchetype());
         if (!_HasArchetype(newArchetypeType))
         {
-            _archetypes.emplace_back(CreateArchetypeFrom_Add<Ts...>(oldArchetype));
+            _archetypes.emplace_back(CreateArchetypeFrom_Remove<Ts...>(oldArchetype));
         }
         Archetype& newArchetype = _GetArchetype(newArchetypeType);
         oldArchetype.TransferEntityTo(entity, newArchetype);
@@ -103,6 +103,8 @@ public:
         
         return Entity(_GetArchetype<Ts...>().AddEntity(components));
     }
+
+    Entity CreateEntity(const EntityCreator& creator);
 
     void RemoveEntity(const Entity& entity);
 

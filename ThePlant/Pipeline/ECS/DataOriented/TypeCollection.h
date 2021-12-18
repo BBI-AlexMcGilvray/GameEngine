@@ -7,6 +7,7 @@
 #include "Core/IdTypes/RuntimeId.h"
 
 namespace Application {
+struct EntityCreator;
 struct TypeCollection;
 
 template <typename ...Ts>
@@ -25,7 +26,23 @@ struct TypeCollection
     template <typename ...Ts>
     friend TypeCollection RemoveFromCollection(const TypeCollection& collection);
 
+    friend struct EntityCreator;
+
     TypeCollection() = delete;
+
+    TypeCollection(std::vector<Core::runtimeId_t>&& types)
+    {
+        _types = std::move(types);
+
+        // should be debug only
+        for (auto iter = _types.begin(); iter != _types.end(); ++iter)
+        {
+            if (std::find(iter + 1, _types.end(), *iter) != _types.end())
+            {
+                throw std::invalid_argument("all component types in a collection must be unique!");
+            }
+        }
+    }
 
     TypeCollection(const TypeCollection& other)
     : _types(other._types)
@@ -79,27 +96,12 @@ struct TypeCollection
 
 private:
     std::vector<Core::runtimeId_t> _types;
-
-    enum class Constructor : int { TAG };
-    TypeCollection(Constructor tag, std::vector<Core::runtimeId_t>&& types)
-    {
-        _types = std::move(types);
-
-        // should be debug only
-        for (auto iter = _types.begin(); iter != _types.end(); ++iter)
-        {
-            if (std::find(iter + 1, _types.end(), *iter) != _types.end())
-            {
-                throw std::invalid_argument("all component types in a collection must be unique!");
-            }
-        }
-    }
 };
 
 template <typename ...Ts>
 TypeCollection CollectTypes()
 {
-    return TypeCollection(TypeCollection::Constructor::TAG, std::vector<Core::runtimeId_t>{ GetTypeId<Ts>()... });
+    return TypeCollection(std::vector<Core::runtimeId_t>{ GetTypeId<Ts>()... });
 }
 
 template <typename ...Ts>
@@ -112,7 +114,7 @@ TypeCollection AddToCollection(const TypeCollection& collection)
     all.insert(all.end(), existing.begin(), existing.end());
     all.insert(all.end(), toAdd.begin(), toAdd.end());
 
-    return TypeCollection(TypeCollection::Constructor::TAG, std::move(all));
+    return TypeCollection(std::move(all));
 }
 
 template <typename ...Ts>
@@ -126,6 +128,6 @@ TypeCollection RemoveFromCollection(const TypeCollection& collection)
         return std::find(toRemove.begin(), toRemove.end(), x) != toRemove.end();
     }));
 
-    return TypeCollection(TypeCollection::Constructor::TAG, std::move(existing));
+    return TypeCollection(std::move(existing));
 }
 }// namespace Application
