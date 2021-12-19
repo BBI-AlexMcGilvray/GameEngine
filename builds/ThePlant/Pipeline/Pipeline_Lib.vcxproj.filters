@@ -70,6 +70,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\ArchetypeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\EntityCreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\ObjectOriented\Source\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -124,19 +127,10 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Input\Source\InputReceiverBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\2D\Source\BoxRenderObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\2D\Source\CircleRenderObject.cpp">
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\2D\Source\SimpleShapes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\2D\Source\Image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\2D\Source\Material.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\2D\Source\MaterialComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\2D\Source\Sprite.cpp">
@@ -151,13 +145,7 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\Bone.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\CubeRenderObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\ModelBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\SimpleMeshBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\Skeleton.cpp">
@@ -167,9 +155,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\SkinnedMeshBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\SphereRenderObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\VertexData.cpp">
@@ -202,43 +187,13 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\OpenGL\Source\ShaderUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\DebugObjectShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\DebugVertexShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\FragmentShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\ObjectShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\ObjectShaderBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\ShaderBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\ShaderManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\SkinnedObjectShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\SkinnedVertexShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Source\VertexShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\Shader_NEW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\Camera.cpp">
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Shaders\ShaderManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\CameraComponent.cpp">
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\CameraManager.cpp">
@@ -253,22 +208,7 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\MaterialManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\RenderComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\RenderManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\RenderObjectBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\RenderObjectManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Source\SingleCameraManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Material_NEW.cpp">

@@ -35,14 +35,19 @@ namespace Application
         template <typename ...Ts>
         Entity CreateEntity() { return _archetypes.CreateEntity(); }
 
+        Entity CreateEntity(const EntityCreator& creator) { return _archetypes.CreateEntity(creator); }
+
+        /*
+         NOTE: This consumes the calls when using anything (ex: above method)
+            - either need to use different names, or just use the tuple constructor below (since we require constructed values anyways)
+            - or we need to find a way for this to NOT consume other calls
+        */
         // must provide an argument for each component type provided
-        template <typename ...Ts>
-        Entity CreateEntity(Ts&& ...args) { return _archetypes.CreateEntity<Ts...>(std::forward<Ts>(args)...); }
+        // template <typename ...Ts>
+        // Entity CreateEntity(Ts&& ...args) { return _archetypes.CreateEntity<Ts...>(std::forward<Ts>(args)...); }
         
         template <typename ...Ts>
         Entity CreateEntity(const std::tuple<Ts...>& components) { return _archetypes.CreateEntity(components); }
-
-        Entity CreateEntity(const EntityCreator& creator) { return _archetypes.CreateEntity(creator); }
 
         void RemoveEntity(const Entity& entity) { _archetypes.RemoveEntity(entity); }
         

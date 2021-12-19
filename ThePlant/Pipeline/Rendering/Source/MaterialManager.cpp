@@ -19,14 +19,7 @@ namespace Rendering {
 
   void MaterialManager::Update(Second dt)
   {
-    for (auto &material : _materials) {
-      material->Update(dt);
-    }
-  }
-
-  // maybe not necessary
-  void MaterialManager::Render(const Float4x4 &mvp, const Color &color)
-  {
+    // this could be where we update the materials that require a time input
   }
 
   void MaterialManager::End()
@@ -37,23 +30,27 @@ namespace Rendering {
   {
   }
 
-  Ptr<Material> MaterialManager::AddMaterial(UniquePtr<Material> material)
+  Core::instanceId<Material_NEW> MaterialManager::AddMaterial(const Material_NEW& material)
   {
-    // we will need some handling here for render objects to have types (animated, stagnant, alpha, solid) to be able to put them into different lists
-    // for efficiency and general handling (ex: only update animated, alpha has to be rendered last IN Z ORDER to ensure correct rendering)
+    Core::instanceId<Material_NEW> newId = GetInstanceId<Material_NEW>();
 
-    _materials.push_back(move(material));
+    _materials.emplace(std::make_pair(newId, material));
 
-    return _materials[_materials.size() - 1].get();
+    return newId;
   }
 
-  void MaterialManager::RemoveMaterial(Ptr<Material> material)
+  Core::instanceId<Material_NEW> MaterialManager::AddMaterial(Material_NEW&& material)
   {
-    for (Core::size i = 0; i < _materials.size(); i++) {
-      if (_materials[i].get() == material) {
-        _materials.erase(_materials.begin() + i);
-      }
-    }
+    Core::instanceId<Material_NEW> newId = GetInstanceId<Material_NEW>();
+
+    _materials.emplace(std::make_pair(newId, std::move(material)));
+
+    return newId;
+  }
+
+  void MaterialManager::RemoveMaterial(const Core::instanceId<Material_NEW>& materialId)
+  {
+    _materials.erase(materialId);
   }
 }// namespace Rendering
 }// namespace Application

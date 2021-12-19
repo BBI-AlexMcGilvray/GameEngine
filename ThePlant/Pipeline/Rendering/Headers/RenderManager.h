@@ -7,10 +7,8 @@
 
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
-#include "Pipeline/Rendering/Headers/RenderObjectManager.h"
-#include "Pipeline/Rendering/Headers/Renderer.h"
 #include "Pipeline/Rendering/Headers/Camera.h"
-#include "Pipeline/Rendering/Shaders/Headers/ShaderManager.h"
+#include "Pipeline/Rendering/Shaders/ShaderManager.h"
 // testing
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/Renderer_NEW.h"
@@ -56,7 +54,6 @@ namespace Rendering {
     Core::Ptr<WindowManager> _window;
 
     // should all of these maps be combined into a single object to have a single mapping instead of multiple?
-    Renderer _renderers;
     CameraManager _cameraManagers;
 
     void _RenderStart();

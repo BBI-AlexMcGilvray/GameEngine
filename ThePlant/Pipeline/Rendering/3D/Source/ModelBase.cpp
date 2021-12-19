@@ -1,9 +1,9 @@
 #include "Pipeline/Rendering/3D/Headers/ModelBase.h"
 
-#include "Pipeline/ECS/DataDriven/EntityCreator.h"
+#include "Pipeline/ECS/DataOriented/EntityCreator.h"
 #include "Pipeline/ECSSystems/GeneralComponents.h"
-#include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
+#include "Pipeline/ECSSystems/TransformComponents.h"
 
 using namespace Core;
 using namespace Core::Math;
@@ -29,19 +29,19 @@ namespace Rendering {
   , parent(parent)
   {}
 
-  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, const InitialModelState& modelState)
+  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialModelState& modelState)
   {
     Data::AssetData<Data::Rendering::SimpleModelData> assetData = assetManager.getAssetData(modelState.asset);
     
     EntityCreator creator;
-    creator.AddComponent<MaterialComponent>(CreateMaterial(assetData->material));
-    creator.AddComponent<MeshComponent>(CreateMesh(assetData->mesh));
-    creator.AddComponent<WorldTransformComponent>(Transform);
+    creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
+    creator.AddComponent<MeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
+    creator.AddComponent<WorldTransformComponent>(Transform());
 
     if (modelState.parent.IsValid())
     {
-      creator.AddComponent<ParentComponent>(modelSate.parent);
-      creator.AddComponent<LocalTransformComponent>(Transform);
+      creator.AddComponent<ParentComponent>(modelState.parent);
+      creator.AddComponent<LocalTransformComponent>(Transform());
     }
 
     // the below conditions may not be entirely valid, we may want to have explicit toggles for components in the model asset data

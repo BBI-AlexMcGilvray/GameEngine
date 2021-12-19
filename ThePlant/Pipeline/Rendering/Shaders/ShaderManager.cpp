@@ -1,4 +1,4 @@
-#include "Pipeline/Rendering/Shaders/Headers/ShaderManager.h"
+#include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
 #include "Core/Logging/Logger.h"
 
@@ -26,7 +26,7 @@ namespace Rendering {
 
     // doing it this way could give us problems because we don't hold on to shared_ptrs that keep the data alive for shaders/fragmentshaders/vertexshaders
     // i think we want this to have a loop that goes over all shaders (to add them), locks all data when reached, and then releases them all when done
-    auto shaderData = assetManager.getAssetData(shader);
+    auto shaderData = _assetManager.getAssetData(shader);
     _shaders[shader] = CreateShader_NEW(shaderData);
     return _shaders[shader];
   }

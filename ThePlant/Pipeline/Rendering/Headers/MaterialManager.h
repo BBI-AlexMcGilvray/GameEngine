@@ -1,14 +1,14 @@
 #pragma once
 
-#include <vector>
-
-#include "Pipeline/Rendering/2D/Headers/Material.h"
+#include <unordered_map>
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
-
+#include "Core/IdTypes/InstanceId.h"
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
+
+#include "Pipeline/Rendering/Material_NEW.h"
 
 namespace Application {
 namespace Rendering {
@@ -23,24 +23,19 @@ namespace Rendering {
     void Start();
 
     void Update(Core::Second dt);
-    // maybe not necessary
-    void Render(const Core::Math::Float4x4 &mvp, const Core::Math::Color &color);
 
     void End();
     void CleanUp();
 
-    // This should return a RanderObjectPtr that holds a unique ptr to the render object and will remove the object from
-    // the manager once deleted
-    template<typename T, typename... Ts>
-    Core::Ptr<T> AddMaterial(Ts &&...args)
+    template <typename ...ARGS>
+    Core::instanceId<Material_NEW> AddMaterial(ARGS&& ...args)
     {
-      Core::UniquePtr<Material> newMaterial = Core::MakeUnique<T>(_manager, Forward<Ts>(args)...);
-
-      return static_cast<Ptr<T>>(AddRenderObject(move(newRenderObject)));
+      return AddMaterial(CreateMaterial(std::forward<ARGS>(args)...));
     }
 
-    virtual Core::Ptr<Material> AddMaterial(Core::UniquePtr<Material> material);
-    virtual void RemoveMaterial(Core::Ptr<Material> renderObject);
+    Core::instanceId<Material_NEW> AddMaterial(const Material_NEW& material);
+    Core::instanceId<Material_NEW> AddMaterial(Material_NEW&& material);
+    void RemoveMaterial(const Core::instanceId<Material_NEW>& renderObject);
 
   private:
     // ideally we find a way to make this not a raw pointer, but it should be fine for now since this object
@@ -49,10 +44,7 @@ namespace Rendering {
     // ~ reference instead since it must exist?
     Core::Ptr<RenderManager> _manager;
 
-    // Should this not be ptrs at all to have contiguous memory?
-    // ~ that would mean they would need to live here, and not on a component
-    // ~ so components point to element held by array within the system instead of the other way around
-    std::vector<Core::UniquePtr<Material>> _materials;
+    std::unordered_map<Core::instanceId<Material_NEW>, Material_NEW, Core::instanceIdHasher<Material_NEW>> _materials;
   };
 }// namespace Rendering
 }// namespace Application

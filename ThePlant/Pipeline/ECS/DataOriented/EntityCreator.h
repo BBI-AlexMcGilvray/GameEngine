@@ -28,7 +28,7 @@ struct IComponentCreator
             throw std::invalid_argument("type does not match that held by the component creator");
         }
 
-        return *(static_cast<T*>(_VoidPtrToComponentValue()));
+        return *(static_cast<const T*>(_VoidPtrToComponentValue()));
     }
 
 private:
@@ -37,14 +37,14 @@ private:
 
     bool _IsCorrectType(const Core::runtimeId_t& type) const { return (type == ComponentType()); }
 
-    virtual Core::Ptr<void> _VoidPtrToComponentValue() const = 0;
+    virtual Core::Ptr<const void> _VoidPtrToComponentValue() const = 0;
 };
 
 template <typename T>
 struct ComponentCreator : public IComponentCreator
 {
     ComponentCreator(const T& component)
-    : _componet(component)
+    : _component(component)
     {}
 
     ComponentCreator() = default;
@@ -62,13 +62,13 @@ struct ComponentCreator : public IComponentCreator
 
     void CreateComponent(Archetype& archetype, const Entity& entity) const override
     {
-        archetype.GetComponentFor(entity) = _component;
+        archetype.GetComponentFor<T>(entity) = _component;
     }
 
 private:
     T _component;
 
-    Core::Ptr<void> _VoidPtrToComponentValue() const override
+    Core::Ptr<const void> _VoidPtrToComponentValue() const override
     {
         return &_component;
     }

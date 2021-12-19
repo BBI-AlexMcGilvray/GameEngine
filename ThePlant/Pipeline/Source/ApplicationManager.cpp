@@ -124,7 +124,7 @@ void ApplicationManager::Update(Core::Second dt)
   StateSystem.Update(dt);
 
   AnimationSystem.Update(dt);
-  RenderSystem.Update(dt);
+  RenderSystem.Render();
 }
 
 void ApplicationManager::End()

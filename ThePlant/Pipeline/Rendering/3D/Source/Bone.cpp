@@ -8,7 +8,6 @@
 #include "Pipeline/Geometric/Headers/HierarchyComponent.h"
 #include "Pipeline/Geometric/Headers/ContentBase.h"
 
-#include "Pipeline/Rendering/Headers/RenderComponent.h"
 #include "Pipeline/Rendering/3D/Headers/SphereRenderObject.h"
 #endif
 

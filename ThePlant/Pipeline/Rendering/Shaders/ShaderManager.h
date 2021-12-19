@@ -12,6 +12,7 @@ namespace Rendering {
   // holds list of ALL shaders that can be used, handles construction, retrieval and deletion of the shaders
   class ShaderManager
   {
+  public:
     ShaderManager(Data::AssetManager& assetManager);
     ~ShaderManager();
 

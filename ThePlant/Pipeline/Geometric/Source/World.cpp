@@ -5,8 +5,6 @@
 #if _DEBUG
 #include "Pipeline/Geometric/Headers/ContentBase.h"
 #include "Pipeline/Geometric/Headers/HierarchyComponent.h"
-#include "Pipeline/Rendering/Headers/RenderComponent.h"
-#include "Pipeline/Rendering/3D/Headers/SphereRenderObject.h"
 #endif
 
 namespace Application {
@@ -32,12 +30,12 @@ namespace Geometric {
 
 #if _DEBUG
     // debug
-    Ptr<ContentBase> debugContent = AddContent<ContentBase>();
+    // Ptr<ContentBase> debugContent = AddContent<ContentBase>();
 
-    ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
-    ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
+    // ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
+    // ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 
-    renderComponent->SetRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLACK, 0.5f);
+    // renderComponent->SetRenderObject<Rendering::SphereRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), BLACK, 0.5f);
 #endif
   }
 }// namespace Geometric

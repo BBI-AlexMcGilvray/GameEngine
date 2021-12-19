@@ -79,18 +79,25 @@ public:
         return Entity(_GetArchetype<Ts...>().AddEntity());
     }
 
-    // must provide an argument for each component type provided
-    template <typename ...Ts>
-    Entity CreateEntity(Ts&& ...args)
-    {
-        if (!_HasArchetype<Ts...>())
-        {
-            _archetypes.emplace_back(CreateArchetype<Ts...>());
-            return Entity(_GetArchetype<Ts...>().AddEntity(std::forward<Ts>(args)...));
-        }
+    Entity CreateEntity(const EntityCreator& creator);
 
-        return Entity(_GetArchetype<Ts...>().AddEntity(std::forward<Ts>(args)...));
-    }
+    /*
+        NOTE: This consumes the calls when using anything (ex: above method)
+        - either need to use different names, or just use the tuple constructor below (since we require constructed values anyways)
+        - or we need to find a way for this to NOT consume other calls
+    */
+    // must provide an argument for each component type provided
+    // template <typename ...Ts>
+    // Entity CreateEntity(Ts&& ...args)
+    // {
+    //     if (!_HasArchetype<Ts...>())
+    //     {
+    //         _archetypes.emplace_back(CreateArchetype<Ts...>());
+    //         return Entity(_GetArchetype<Ts...>().AddEntity(std::forward<Ts>(args)...));
+    //     }
+
+    //     return Entity(_GetArchetype<Ts...>().AddEntity(std::forward<Ts>(args)...));
+    // }
         
     template <typename ...Ts>
     Entity CreateEntity(const std::tuple<Ts...>& components)
@@ -103,8 +110,6 @@ public:
         
         return Entity(_GetArchetype<Ts...>().AddEntity(components));
     }
-
-    Entity CreateEntity(const EntityCreator& creator);
 
     void RemoveEntity(const Entity& entity);
 

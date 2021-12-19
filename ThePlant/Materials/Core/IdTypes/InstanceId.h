@@ -3,25 +3,39 @@
 #include <cstdint>
 
 namespace Core {
-namespace {
+namespace InstanceId_Helper {
   constexpr uint32_t INVALID_ID = 0;
-  static uint32_t next_id = 1;
 
   template <typename ID_TYPE>
-  ID_TYPE GetNewId()
+  uint32_t GetNextId()
   {
-      static ID_TYPE current_ID = 0;
-      return ++current_ID;
+      static uint32_t next_id = 1;
+      return next_id++;
   }
-}// namespace
+} // namespace InstanceId_Helper
+
+template <typename ID_TYPE>
+struct instanceId;
+
+template <typename ID_TYPE>
+instanceId<ID_TYPE> GetInstanceId();
+
+template <typename ID_TYPE>
+struct instanceIdHasher;
 
 // all ids of the same ID_TYPE increment the hidden counter - each is unique for the given ID_TYPE (unless there is overflow)
-// i.e. instanceId<int> may equal instanceId<float>, but instanceId<int> will never equal another instanceId<int> (unless they are copied/moved)
+// i.e. instanceId<Type> may equal instanceId<Class>, but instanceId<Type> will never equal another instanceId<Type> (unless they are copied/moved)
 template<typename ID_TYPE>
 struct instanceId
 {
+  template <typename ID_TYPE>
+  friend instanceId<ID_TYPE> GetInstanceId();
+
+  template <typename ID_TYPE>
+  friend struct instanceIdHasher;
+
   constexpr instanceId()
-  : _id(GetNewId<ID_TYPE>())
+  : _id(INVALID_ID)
   {}
 
   constexpr instanceId(const instanceId &rhs)
@@ -39,20 +53,38 @@ struct instanceId
     return _id != INVALID_ID;
   }
 
-  constexpr bool operator==(const runtimeId &other)
+  constexpr bool operator==(const instanceId<ID_TYPE> &other) const
   {
     return _id == other._id;
   }
 
-  constexpr bool operator!=(const runtimeId &other)
+  constexpr bool operator!=(const instanceId<ID_TYPE> &other) const
   {
-    return _id == other._id;
+    return !(*this == other);
   }
+
+protected:
+  enum Constructor {
+    NEW
+  };
+
+  instanceId(Constructor)
+    : _id(InstanceId_Helper::GetNextId<ID_TYPE>()) // post so that id '1' gets used
+  {}
 
 private:
-  ID_TYPE _id;
+  uint32_t _id;
 };
 
 template <typename ID_TYPE>
-instanceId<ID_TYPE> GetInstanceId() { return instanceId<ID_TYPE>(); }
+instanceId<ID_TYPE> GetInstanceId() { return instanceId<ID_TYPE>(instanceId<ID_TYPE>::Constructor::NEW); }
+
+template <typename ID_TYPE>
+struct instanceIdHasher
+{
+    size_t operator()(const Core::instanceId<ID_TYPE>& id) const
+    {
+        return id._id;
+    }
+};
 }// namespace Core

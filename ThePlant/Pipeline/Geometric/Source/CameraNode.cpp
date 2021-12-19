@@ -4,8 +4,6 @@
 
 #if _DEBUG
 #include "Pipeline/Headers/ApplicationManager.h"
-#include "Pipeline/Rendering/Headers/RenderComponent.h"
-#include "Pipeline/Rendering/2D/Headers/CircleRenderObject.h"
 #endif
 
 namespace Application {
@@ -13,13 +11,13 @@ namespace Geometric {
   CameraNode::CameraNode(Ptr<State> parentState, Ptr<Node> parentNode, Rendering::RenderManager &renderSystem, const float &aspectRatio)
     : Node(parentState, parentNode)
   {
-    Core::Ptr<ContentBase> cameraContent = AddContent(MakeUnique<ContentBase>(ParentState));
-    CameraComponent = cameraContent->AddComponent<Rendering::CameraComponent>(renderSystem.GetCameraManagerForState(ParentState), aspectRatio);
+    // Core::Ptr<ContentBase> cameraContent = AddContent(MakeUnique<ContentBase>(ParentState));
+    // CameraComponent = cameraContent->AddComponent<Rendering::CameraComponent>(renderSystem.GetCameraManagerForState(ParentState), aspectRatio);
   }
 
   void CameraNode::Initialize()
   {
-    CameraComponent->Initialize();
+    // CameraComponent->Initialize();
   }
 
   void CameraNode::Start()
@@ -34,12 +32,12 @@ namespace Geometric {
 
 #if _DEBUG
     // debug
-    Ptr<ContentBase> debugContent = AddContent<ContentBase>();
+    // Ptr<ContentBase> debugContent = AddContent<ContentBase>();
 
-    ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
-    ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
+    // ComponentPtr<Hierarchy> hierarchyComponent = debugContent->GetComponent<Hierarchy>();
+    // ComponentPtr<Rendering::Render> renderComponent = debugContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
 
-    renderComponent->SetRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), RED, 0.25f);
+    // renderComponent->SetRenderObject<Rendering::CircleRenderObject>(&(hierarchyComponent->GetHeirarchyNode()->Transformation), RED, 0.25f);
 #endif
   }
 }// namespace Geometric

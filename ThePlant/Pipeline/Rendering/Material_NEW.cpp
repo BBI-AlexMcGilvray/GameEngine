@@ -1,6 +1,6 @@
 #include "Pipeline/Rendering/Material_NEW.h"
 
-#include "Pipeline/Rendering/Shaders/Headers/ShaderManager.h"
+#include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
 namespace Application {
 namespace Rendering {
