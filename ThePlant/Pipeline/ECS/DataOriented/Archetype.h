@@ -138,7 +138,7 @@ private:
     }
 
     template <typename Tuple, int ...Is>
-    void _AddEntityFromTuple(const Entity& entity, const Tuple& components, std::integer_sequence<Is...>)
+    void _AddEntityFromTuple(const Entity& entity, const Tuple& components, std::index_sequence<Is...>)
     {
         _AddEntity(entity, std::get<Is>(components), ...);
     }

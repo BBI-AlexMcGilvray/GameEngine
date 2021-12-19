@@ -48,8 +48,8 @@ struct ComponentCreator : public IComponentCreator
     {}
 
     ComponentCreator() = default;
-    ComponentCreator(const ComponentCreator&) = default
-    ComponentCreator(ComponentCreator&&) = default
+    ComponentCreator(const ComponentCreator&) = default;
+    ComponentCreator(ComponentCreator&&) = default;
     ComponentCreator& operator=(const ComponentCreator&) = default;
     ComponentCreator& operator=(ComponentCreator&&) = default;
 
