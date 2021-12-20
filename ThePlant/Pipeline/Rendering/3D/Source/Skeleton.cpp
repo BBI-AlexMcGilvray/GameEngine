@@ -1,76 +1,65 @@
 #include "Pipeline/Rendering/3D/Headers/Skeleton.h"
 
-#include "Core/Math/Headers/QuaternionFunctions.h"
-#include "Core/Logging/Logger.h"
+#include "Core/Geometric/Headers/Transform.h"
 
-#include "Pipeline/Headers/ApplicationManager.h"
+#include "Pipeline/ECS/DataOriented/ECS.h"
+#include "Pipeline/ECS/DataOriented/EntityCreator.h"
+#include "Pipeline/ECSSystems/GeneralComponents.h"
+#include "Pipeline/ECSSystems/TransformComponents.h"
 
 using namespace Core;
 using namespace Core::Math;
 
 namespace Application {
 namespace Rendering {
-  Skeleton::Skeleton(Core::Ptr<State> parentState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::SkeletonData> asset)
-    : Geometric::Node(parentState, parentNode), Data(ApplicationManager::AppAssetManager().getAssetData(asset)), OnRootDeleted{ [this]() {
-        Root = nullptr;
-
-        return true;
-      } }
+  EntityId CreateBone(ECS& ecs, const Data::Rendering::SkeletonBoneData& boneData, const EntityId& parent)
   {
-    size_t startIndex = 0;
-    Root = CreateBoneHeirarchy(parentNode, startIndex);
+    EntityCreator creator;
 
-    // fit root to node
-    Root->Transformation.AdjustLocalPosition(-1 * Root->Transformation.GetLocalPosition());
-    Root->Transformation.AdjustLocalRotation(Root->Transformation.GetLocalRotation().Inverse());
+    Core::Geometric::Transform bindTransform(boneData.position, boneData.rotation, boneData.scale);
 
-    Root->Deleted += OnRootDeleted;
+    creator.AddComponent<ParentComponent>(parent);
+    creator.AddComponent<LocalTransformComponent>();
+    // we may want to have a flag for if a given bone can/should have a world transform component (only needed if we want to be able to make it a parent to other entities)
+    creator.AddComponent<WorldTransformComponent>();
+    creator.AddComponent<PositionComponent>(bindTransform.GetPosition());
+    creator.AddComponent<ScaleComponent>(bindTransform.GetScale());
+    creator.AddComponent<RotationComponent>(bindTransform.GetRotation());
+    // the bind matrix provided will be relative to the LocalTransformComponent, not the WorldTransformComponent - but that should make it more clear moving forwards as well
+    creator.AddComponent<BoneComponent>(bindTransform.GetInverseTransformationMatrix());
+
+    return ecs.CreateEntity(creator).GetEntityId();
   }
 
-  int Skeleton::GetBoneCount() const
+  std::vector<EntityId> AddChildBones(ECS& ecs, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent)
   {
-    VERIFY(Root != nullptr);
-    return Root->GetSubNodeCount() + 1;
-  }
+    std::vector<EntityId> bones;
 
-  Core::Ptr<Bone> Skeleton::GetSkeletonHierarchy() const
-  {
-    VERIFY(Root != nullptr);
-    return Root;
-  }
+    const Data::Rendering::SkeletonBoneData& boneData = skeletonData->bones[boneIndex];
 
-  std::vector<Core::Math::Float4x4> Skeleton::GetBoneMatrices() const
-  {
-    VERIFY(Root != nullptr);
-    int initialOffset = 0;
-    std::vector<Core::Math::Float4x4> boneMatrices = std::vector<Core::Math::Float4x4>(GetBoneCount());
-    Root->GetBoneMatrices(boneMatrices, initialOffset);
-    return boneMatrices;
-  }
+    EntityId newBone = CreateBone(ecs, boneData, parent);
+    bones.push_back(newBone);
 
-  int Skeleton::GetIndexOf(const std::string &nodeName) const
-  {
-    return ((Ptr<Bone>)Root)->GetBoneIndex(nodeName);
-  }
-
-  Core::Ptr<Bone> Skeleton::CreateBoneHeirarchy(Core::Ptr<Geometric::Node> parentNode, size_t& boneIndex, Ptr<Bone> rootBone)
-  {
-    const Data::Rendering::SkeletonBoneData& boneData = Data->bones[boneIndex];
-    CORE_LOG("Skeleton", "Setting bone to have scale of 1.0f instead of " + VectorString(boneData.scale));
-
-    Ptr<Bone> newBone = parentNode->AddChild<Bone>(rootBone, boneData.name, boneData.position, boneData.rotation, 1.0f);// boneData->Scale);
-
-    if (rootBone == nullptr) {
-      rootBone = newBone;
+    size_t firstChildIndex = boneIndex + 1; // +1 because we added 'this' bone
+    for (size_t child = 0; child < boneData.children; ++child)
+    {
+      auto childBones = AddChildBones(ecs, skeletonData, firstChildIndex + child, newBone);
+      bones.insert(bones.end(), childBones.begin(), childBones.end());
     }
 
-    BoneList.push_back(newBone);
+    return bones;
+  }
 
-    for (uint i = 0; i < boneData.children; i++) {
-      CreateBoneHeirarchy(newBone, ++boneIndex, rootBone);
-    }
+  SkeletonComponent CreateSkeleton(ECS& ecs, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const EntityId& parent)
+  {
+    SkeletonComponent skeleton;
 
-    return newBone;
+    // we assume the first bone is the root of the skeleton (parent to all other bones)
+    std::vector<EntityId> allBones = AddChildBones(ecs, skeletonData, 0, parent);
+    VERIFY(allBones.size() <= 50); // we only support up to 50 bones
+    std::copy(allBones.begin(), allBones.end(), skeleton.entityArray.begin());
+
+    return skeleton;
   }
 }// namespace Rendering
 }// namespace Application

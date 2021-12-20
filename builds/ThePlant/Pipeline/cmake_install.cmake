@@ -99,7 +99,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/2D/Headers/Sprite.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/2D/Headers/Texture.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/3D/Headers/AnimatedModel.h"
-    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/3D/Headers/Bone.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/3D/Headers/ModelBase.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/3D/Headers/Skeleton.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/3D/Headers/SkeletonComponent.h"

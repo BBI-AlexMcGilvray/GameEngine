@@ -142,9 +142,6 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\AnimatedModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\Bone.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\ModelBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
