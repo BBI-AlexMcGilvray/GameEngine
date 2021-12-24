@@ -1,45 +1,28 @@
 #pragma once
 
-#include "Pipeline/Animation/Headers/AnimatorComponent.h"
-#include "Pipeline/Animation/SkeletonAnimation/Headers/SkeletonAnimatable.h"
-
-#include "Pipeline/Geometric/Headers/ContentBase.h"
-#include "Pipeline/Geometric/Headers/Node.h"
-
-#include "Pipeline/Rendering/Shaders/Headers/SkinnedObjectShader.h"
-
-#include "Pipeline/Rendering/2D/Headers/MaterialComponent.h"
-#include "Pipeline/Rendering/3D/Headers/SkeletonComponent.h"
-#include "Pipeline/Rendering/Headers/RenderComponent.h"
+#include "Core/Geometric/Headers/Transform.h"
 
 #include "Data/Headers/AssetData.h"
+#include "Data/Headers/AssetManager.h"
 #include "Data/Rendering/Headers/AnimatedModelData.h"
+
+#include "Pipeline/ECS/DataOriented/ECS.h"
 
 namespace Application {
 namespace Rendering {
-  // is a model,  but also has a list of timelines that can be called for animations
-  // also holds a list of the relevant bones
-  struct AnimatedModel : public Geometric::ContentBase
+  // creates the entity that will be used by a model
+  struct InitialAnimatedModelState
   {
-    Data::AssetData<Data::Rendering::AnimatedModelData> Data;
+    const Data::AssetName<Data::Rendering::AnimatedModelData> asset;
+    const EntityId parent = EntityId();
+    const Core::Geometric::Transform transform; // transform is local if parent is provided
 
-    AnimatedModel(const Core::Ptr<State> owningState, Core::Ptr<Geometric::Node> parentNode, Data::AssetName<Data::Rendering::AnimatedModelData> asset);
-
-    // be able to change what skeleton a model is listening to - returns true if able to map to skeleton
-    bool SkinToSkeleton(Core::Ptr<Skeleton> skeleton);
-
-    void Initialize() override;
-    void Start() override;
-    void Update(Core::Second dt) override;
-    void End() override;
-    void CleanUp() override;
-
-  private:
-    ComponentPtr<SkeletonComponent> _skeletonComponent;
-    ComponentPtr<MaterialComponent> _materialComponent;
-    ComponentPtr<Render> _renderComponent;
-    ComponentPtr<Animation::AnimatorComponent> _animatorComponent;
-    Animation::SkeletonAnimatable _animatable;
+    InitialAnimatedModelState(const Data::AssetName<Data::Rendering::AnimatedModelData>& asset);
+    InitialAnimatedModelState(const Data::AssetName<Data::Rendering::AnimatedModelData>& asset, const EntityId& parent);
+    InitialAnimatedModelState(const Data::AssetName<Data::Rendering::AnimatedModelData>& asset, const Core::Geometric::Transform& transform);
+    InitialAnimatedModelState(const Data::AssetName<Data::Rendering::AnimatedModelData>& asset, const Core::Geometric::Transform& localTransform, const EntityId& parent);
   };
+
+  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState);
 }// namespace Rendering
 }// namespace Application

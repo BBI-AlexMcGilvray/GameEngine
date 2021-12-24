@@ -1,8 +1,8 @@
 #include "Pipeline/Rendering/3D/Headers/Skeleton.h"
 
 #include "Core/Geometric/Headers/Transform.h"
+#include "Core/Math/Headers/MatrixFunctions.h"
 
-#include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/ECS/DataOriented/EntityCreator.h"
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
@@ -12,7 +12,27 @@ using namespace Core::Math;
 
 namespace Application {
 namespace Rendering {
-  EntityId CreateBone(ECS& ecs, const Data::Rendering::SkeletonBoneData& boneData, const EntityId& parent)
+  InitialSkeletonState::InitialSkeletonState(const Data::AssetName<Data::Rendering::SkeletonData>& asset, const EntityId& parent, const Core::instanceId<Animator> animatorId = Core::instanceId<Animator>())
+  : skeleton(asset)
+  , parent(parent)
+  , animatorId(animatorId)
+  {}
+
+  namespace BoneCreationHelper
+  {
+    struct BoneCreationData
+    {
+      const Core::Geometric::Transform rootBone;
+      const Core::instanceId<Animator> animatorId;
+
+      BoneCreationData(const Core::Geometric::Transform& rootBone, const Core::instanceId<Animator>& animatorId)
+      : rootBone(rootBone)
+      , animatorId(animatorId)
+      {}
+    };
+  }
+
+  EntityId CreateBone(ECS& ecsSystem, const Data::Rendering::SkeletonBoneData& boneData, const EntityId& parent, const BoneCreationHelper::BoneCreationData& creationData)
   {
     EntityCreator creator;
 
@@ -25,41 +45,53 @@ namespace Rendering {
     creator.AddComponent<PositionComponent>(bindTransform.GetPosition());
     creator.AddComponent<ScaleComponent>(bindTransform.GetScale());
     creator.AddComponent<RotationComponent>(bindTransform.GetRotation());
-    // the bind matrix provided will be relative to the LocalTransformComponent, not the WorldTransformComponent - but that should make it more clear moving forwards as well
-    creator.AddComponent<BoneComponent>(bindTransform.GetInverseTransformationMatrix());
 
-    return ecs.CreateEntity(creator).GetEntityId();
+    // steps written our for clarity
+    Core::Geometric::Float4x4 inverseRootBoneMatrix = creationData.rootBone.GetInverseTransformationMatrix();
+    Core::Geometric::Float4x4 initialBoneMatrix = bindTransform.GetTransformationMatrix();
+    Core::Geometric::Float4x4 relativeToRootBoneMatrix = inverseRootBoneMatrix * initialBoneMatrix;
+    Core::Geometric::Float4x4 bindMatrix = Core::Math::Inverse(relativeToRootBoneMatrix);
+    creator.AddComponent<BoneComponent>(bindMatrix);
+
+    if (animatorId.IsValid())
+    {
+      creator.AddComponent<AnimationComponent>(creationData.animatorId);
+    }
+
+    return ecsSystem.CreateEntity(creator).GetEntityId();
   }
 
-  std::vector<EntityId> AddChildBones(ECS& ecs, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent)
+  std::vector<EntityId> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, const BoneCreationHelper::BoneCreationData& creationData)
   {
     std::vector<EntityId> bones;
 
     const Data::Rendering::SkeletonBoneData& boneData = skeletonData->bones[boneIndex];
 
-    EntityId newBone = CreateBone(ecs, boneData, parent);
+    EntityId newBone = CreateBone(ecsSystem, boneData, parent, creationData);
     bones.push_back(newBone);
 
     size_t firstChildIndex = boneIndex + 1; // +1 because we added 'this' bone
     for (size_t child = 0; child < boneData.children; ++child)
     {
-      auto childBones = AddChildBones(ecs, skeletonData, firstChildIndex + child, newBone);
+      auto childBones = AddChildBones(ecsSystem, skeletonData, firstChildIndex + child, newBone, creationData);
       bones.insert(bones.end(), childBones.begin(), childBones.end());
     }
 
     return bones;
   }
 
-  SkeletonComponent CreateSkeleton(ECS& ecs, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const EntityId& parent)
+  void CreateSkeleton(ECS& ecsSystem, Data::AssetManager& assetManager, const InitialSkeletonState& skeletonState, SkeletonComponent& skeleton)
   {
-    SkeletonComponent skeleton;
+    Data::AssetData<Data::Rendering::SkeletonData> assetData = assetManager.getAssetData(skeletonState.asset);
+
+    const Data::Rendering::SkeletonBoneData& rootBoneData = assetData->bones[0];
+    Core::Geometric::Transform rootBoneTransform(rootBoneData.position, rootBoneData.rotation, rootBoneData.scale);
+    BoneCreationHelper::BoneCreationData creationData = BoneCreationHelper::BoneCreationData(rootBoneTransform, skeletonState.animatorId);
 
     // we assume the first bone is the root of the skeleton (parent to all other bones)
-    std::vector<EntityId> allBones = AddChildBones(ecs, skeletonData, 0, parent);
+    std::vector<EntityId> allBones = AddChildBones(ecsSystem, assetData, 0, skeletonState.parent, creationData);
     VERIFY(allBones.size() <= 50); // we only support up to 50 bones
     std::copy(allBones.begin(), allBones.end(), skeleton.entityArray.begin());
-
-    return skeleton;
   }
 }// namespace Rendering
 }// namespace Application

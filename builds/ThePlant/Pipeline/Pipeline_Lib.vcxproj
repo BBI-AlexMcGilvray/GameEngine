@@ -328,8 +328,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\AnimatedModel.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\ModelBase.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\Skeleton.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\SkeletonComponent.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\SkinnedMeshBase.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\VertexData.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Animation\Source\KeyFrame.cpp">
       <ObjectFileName>$(IntDir)/Rendering/Animation/Source/KeyFrame.cpp.obj</ObjectFileName>

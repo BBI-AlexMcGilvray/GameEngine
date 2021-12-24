@@ -54,8 +54,6 @@ Rendering/2D/Source/Texture.cpp #
 Rendering/3D/Source/AnimatedModel.cpp #
 Rendering/3D/Source/ModelBase.cpp #
 Rendering/3D/Source/Skeleton.cpp #
-Rendering/3D/Source/SkeletonComponent.cpp #
-Rendering/3D/Source/SkinnedMeshBase.cpp #
 Rendering/3D/Source/VertexData.cpp #
 Rendering/Animation/Source/KeyFrame.cpp #
 Rendering/Animation/Source/Timeline.cpp #
@@ -154,8 +152,6 @@ Rendering/2D/Headers/Texture.h #
 Rendering/3D/Headers/AnimatedModel.h #
 Rendering/3D/Headers/ModelBase.h #
 Rendering/3D/Headers/Skeleton.h #
-Rendering/3D/Headers/SkeletonComponent.h #
-Rendering/3D/Headers/SkinnedMeshBase.h #
 Rendering/3D/Source/VertexData.h #
 Rendering/Animation/Headers/KeyFrame.h #
 Rendering/Animation/Headers/Timeline.h #
