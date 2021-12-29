@@ -35,7 +35,7 @@ struct instanceId
   friend struct instanceIdHasher;
 
   constexpr instanceId()
-  : _id(INVALID_ID)
+  : _id(InstanceId_Helper::INVALID_ID)
   {}
 
   constexpr instanceId(const instanceId &rhs)
@@ -50,7 +50,7 @@ struct instanceId
 
   constexpr bool IsValid() const
   {
-    return _id != INVALID_ID;
+    return _id != InstanceId_Helper::INVALID_ID;
   }
 
   constexpr bool operator==(const instanceId<ID_TYPE> &other) const

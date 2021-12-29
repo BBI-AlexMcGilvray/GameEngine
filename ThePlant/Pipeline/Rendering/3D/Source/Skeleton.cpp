@@ -3,7 +3,9 @@
 #include "Core/Geometric/Headers/Transform.h"
 #include "Core/Math/Headers/MatrixFunctions.h"
 
+#include "Pipeline/Animation/Headers/Animator.h"
 #include "Pipeline/ECS/DataOriented/EntityCreator.h"
+#include "Pipeline/ECSSystems/AnimationComponents.h"
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
 
@@ -12,8 +14,8 @@ using namespace Core::Math;
 
 namespace Application {
 namespace Rendering {
-  InitialSkeletonState::InitialSkeletonState(const Data::AssetName<Data::Rendering::SkeletonData>& asset, const EntityId& parent, const Core::instanceId<Animator> animatorId = Core::instanceId<Animator>())
-  : skeleton(asset)
+  InitialSkeletonState::InitialSkeletonState(const Data::AssetName<Data::Rendering::SkeletonData>& asset, const EntityId& parent, const Core::instanceId<Animation::Animator> animatorId)
+  : asset(asset)
   , parent(parent)
   , animatorId(animatorId)
   {}
@@ -22,17 +24,17 @@ namespace Rendering {
   {
     struct BoneCreationData
     {
-      const Core::Geometric::Transform rootBone;
-      const Core::instanceId<Animator> animatorId;
+      Core::Geometric::Transform rootBone;
+      const Core::instanceId<Animation::Animator> animatorId;
 
-      BoneCreationData(const Core::Geometric::Transform& rootBone, const Core::instanceId<Animator>& animatorId)
+      BoneCreationData(const Core::Geometric::Transform& rootBone, const Core::instanceId<Animation::Animator>& animatorId)
       : rootBone(rootBone)
       , animatorId(animatorId)
       {}
     };
   }
 
-  EntityId CreateBone(ECS& ecsSystem, const Data::Rendering::SkeletonBoneData& boneData, const EntityId& parent, const BoneCreationHelper::BoneCreationData& creationData)
+  EntityId CreateBone(ECS& ecsSystem, const Data::Rendering::SkeletonBoneData& boneData, const EntityId& parent, BoneCreationHelper::BoneCreationData& creationData)
   {
     EntityCreator creator;
 
@@ -47,21 +49,22 @@ namespace Rendering {
     creator.AddComponent<RotationComponent>(bindTransform.GetRotation());
 
     // steps written our for clarity
-    Core::Geometric::Float4x4 inverseRootBoneMatrix = creationData.rootBone.GetInverseTransformationMatrix();
-    Core::Geometric::Float4x4 initialBoneMatrix = bindTransform.GetTransformationMatrix();
-    Core::Geometric::Float4x4 relativeToRootBoneMatrix = inverseRootBoneMatrix * initialBoneMatrix;
-    Core::Geometric::Float4x4 bindMatrix = Core::Math::Inverse(relativeToRootBoneMatrix);
+    Core::Math::Float4x4 inverseRootBoneMatrix = creationData.rootBone.GetInverseTransformationMatrix();
+    Core::Math::Float4x4 initialBoneMatrix = bindTransform.GetTransformationMatrix();
+    Core::Math::Float4x4 relativeToRootBoneMatrix = inverseRootBoneMatrix * initialBoneMatrix;
+    Core::Math::Float4x4 bindMatrix = Core::Math::Inverse(relativeToRootBoneMatrix);
     creator.AddComponent<BoneComponent>(bindMatrix);
 
-    if (animatorId.IsValid())
+    if (creationData.animatorId.IsValid())
     {
-      creator.AddComponent<AnimationComponent>(creationData.animatorId);
+      // animator id to know what animator to use, name so the animator knows how this bone is animated
+      creator.AddComponent<AnimationComponent>(creationData.animatorId, Core::HashValue(boneData.name));
     }
 
     return ecsSystem.CreateEntity(creator).GetEntityId();
   }
 
-  std::vector<EntityId> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, const BoneCreationHelper::BoneCreationData& creationData)
+  std::vector<EntityId> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, BoneCreationHelper::BoneCreationData& creationData)
   {
     std::vector<EntityId> bones;
 

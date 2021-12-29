@@ -1,5 +1,7 @@
 #include "Pipeline/Animation/Headers/AnimationManager.h"
 
+#include "Pipeline/Animation/Headers/SkeletonAnimation.h"
+
 namespace Application {
 namespace Animation {
   AnimationManager::AnimationManager()
@@ -13,10 +15,11 @@ namespace Animation {
   {
   }
 
-  void AnimationManager::Update(Core::Second dt)
+  void AnimationManager::Update(const Core::Second& dt)
   {
-    for (int i = 0; i < _animators.size(); i++) {
-      _animators[i]->Update(dt);
+    for (auto& animator : _animators)
+    {
+      animator.second.Update(dt);
     }
   }
 
@@ -28,20 +31,25 @@ namespace Animation {
   {
   }
 
-  Core::Ptr<Animator> AnimationManager::AddAnimator(Core::UniquePtr<Animator> animator)
+  Core::instanceId<Animator> AnimationManager::CreateAnimator(Data::AssetManager& assetManager, const std::vector<Data::AssetName<Data::Rendering::SkeletonAnimationData>>& animations)
   {
-    _animators.push_back(move(animator));
+    Core::instanceId<Animator> newAnimatorId = Core::GetInstanceId<Animator>();
 
-    return _animators[_animators.size() - 1].get();
+    Animator newAnimator;
+
+    for (const auto& animation : animations)
+    {
+      newAnimator.AddAnimation(CreateAnimation(assetManager, animation));
+    }
+
+    _animators.emplace(newAnimatorId, newAnimator);
+
+    return newAnimatorId;
   }
 
-  void AnimationManager::RemoveAnimator(Core::Ptr<Animator> animator)
+  void AnimationManager::RemoveAnimator(const Core::instanceId<Animator>& animator)
   {
-    for (Core::size i = 0; i < _animators.size(); i++) {
-      if (_animators[i].get() == animator) {
-        _animators.erase(_animators.begin() + i);
-      }
-    }
+    _animators.erase(animator);
   }
 }// namespace Animation
 }// namespace Application

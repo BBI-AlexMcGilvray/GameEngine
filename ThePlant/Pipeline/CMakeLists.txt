@@ -5,19 +5,10 @@ message("Configuring Pipeline")
 add_subdirectory(Dependencies)
 
 set(SOURCE_FILES #
-Animation/FieldAnimation/Source/FloatAnimationTrack.cpp #
-Animation/SkeletonAnimation/Source/SkeletonAnimatable.cpp #
-Animation/SkeletonAnimation/Source/SkeletonAnimation.cpp #
-Animation/SkeletonAnimation/Source/SkeletonAnimationMixer.cpp #
-Animation/SkeletonAnimation/Source/SkeletonAnimationTrack.cpp #
-Animation/Source/Animatable.cpp #
 Animation/Source/AnimationCurve.cpp #
 Animation/Source/AnimationManager.cpp #
-Animation/Source/AnimationMixer.cpp #
 Animation/Source/Animator.cpp #
-Animation/Source/AnimatorComponent.cpp #
 Animation/Source/Keyframe.cpp #
-Animation/TransformAnimation/Source/TransformAnimationTrack.cpp #
 Collision/Source/BoxCollider.cpp #
 Collision/Source/ColliderBase.cpp #
 Collision/Source/CollisionBase.cpp #
@@ -55,8 +46,6 @@ Rendering/3D/Source/AnimatedModel.cpp #
 Rendering/3D/Source/ModelBase.cpp #
 Rendering/3D/Source/Skeleton.cpp #
 Rendering/3D/Source/VertexData.cpp #
-Rendering/Animation/Source/KeyFrame.cpp #
-Rendering/Animation/Source/Timeline.cpp #
 Rendering/OpenGL/Source/GLArrayBuffer.cpp #
 Rendering/OpenGL/Source/GLBuffer.cpp #
 Rendering/OpenGL/Source/GLMappedBuffer.cpp #
@@ -85,20 +74,11 @@ Time/Source/TimeManager.cpp #
 UI/IMGUI/IMGUIManager.cpp)
 
 set(HEADER_FILES #
-Animation/FieldAnimation/Headers/FloatAnimationTrack.h #
-Animation/Headers/Animatable.h #
 Animation/Headers/Animation.h #
 Animation/Headers/AnimationCurve.h #
 Animation/Headers/AnimationManager.h #
-Animation/Headers/AnimationMixer.h #
 Animation/Headers/Animator.h #
-Animation/Headers/AnimatorComponent.h #
 Animation/Headers/Keyframe.h #
-Animation/SkeletonAnimation/Headers/SkeletonAnimatable.h #
-Animation/SkeletonAnimation/Headers/SkeletonAnimation.h #
-Animation/SkeletonAnimation/Headers/SkeletonAnimationMixer.h #
-Animation/SkeletonAnimation/Headers/SkeletonAnimationTrack.h #
-Animation/TransformAnimation/Headers/TransformAnimationTrack.h #
 Collision/Headers/BoxCollider.h #
 Collision/Headers/ColliderBase.h #
 Collision/Headers/CollisionBase.h #
@@ -153,8 +133,6 @@ Rendering/3D/Headers/AnimatedModel.h #
 Rendering/3D/Headers/ModelBase.h #
 Rendering/3D/Headers/Skeleton.h #
 Rendering/3D/Source/VertexData.h #
-Rendering/Animation/Headers/KeyFrame.h #
-Rendering/Animation/Headers/Timeline.h #
 Rendering/Headers/Camera.h #
 Rendering/Headers/CameraManager.h #
 Rendering/Headers/CameraUtils.h #

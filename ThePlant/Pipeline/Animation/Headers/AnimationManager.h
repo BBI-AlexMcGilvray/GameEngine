@@ -1,8 +1,12 @@
 #pragma once
 
-#include <vector>
+#include <unordered_map>
 
 #include "Core/Headers/TimeDefs.h"
+#include "Core/IdTypes/InstanceId.h"
+
+#include "Data/Headers/AssetManager.h"
+#include "Data/Rendering/Headers/SkeletonAnimationData.h"
 
 #include "Pipeline/Animation/Headers/Animator.h"
 
@@ -18,28 +22,17 @@ namespace Animation {
     void Initialize();
     void Start();
 
-    void Update(Core::Second dt);
+    void Update(const Core::Second& dt);
 
     void End();
     void CleanUp();
 
-    template<typename T, typename... Ts>
-    Core::Ptr<T> AddAnimator(Ts &&...args)
-    {
-      Core::UniquePtr<Animator> newAnimator = Core::MakeUnique<T>(Forward<Ts>(args)...);
+    Core::instanceId<Animator> CreateAnimator(Data::AssetManager& assetManager, const std::vector<Data::AssetName<Data::Rendering::SkeletonAnimationData>>& animations);
 
-      return static_cast<Ptr<T>>(AddAnimator(move(newAnimator)));
-    }
-
-    Core::Ptr<Animator> AddAnimator(Core::UniquePtr<Animator> animator);
-    void RemoveAnimator(Core::Ptr<Animator> animator);
+    void RemoveAnimator(const Core::instanceId<Animator>& animator);
 
   private:
-    // Should this not be ptrs at all to have contiguous memory?
-    // ~ that would mean they would need to live here, and not on a component
-    // ~ so components point to element held by array within the system instead of the other way around
-    // ~ which is what we want!
-    std::vector<Core::UniquePtr<Animator>> _animators;
+    std::unordered_map<Core::instanceId<Animator>, Animator> _animators;
   };
 }// namespace Animation
 }// namespace Application

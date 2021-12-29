@@ -9,8 +9,6 @@
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
-#include "Pipeline/Animation/Headers/Animatable.h"
-#include "Pipeline/Animation/Headers/AnimationMixer.h"
 #include "Pipeline/Animation/Headers/Animation.h"
 
 namespace Application {
@@ -18,21 +16,28 @@ namespace Animation {
   class Animator
   {
   public:
-    Animator(Core::Ptr<Animatable> animatable);
+    Animator() = default;
 
-    void SetAnimatable(Core::Ptr<Animatable> animatable);
-    Core::Ptr<Animatable> GetAnimatable();
+    template <typename ...Ts>
+    Core::Hash AddAnimation(Ts&& ...args)
+    {
+      return AddAnimation(Animation(std::forward<Ts>(args)...));
+    }
 
-    // we probably want what animations are held to be driven through data?
-    // how do we handle different animation types through a similar system?
-    void AddAnimation(Core::Hash name, Core::SharedPtr<Animation> data);
-    void RemoveAnimation(Core::Hash name);
+    Core::Hash AddAnimation(const Animation& animation);
+    void RemoveAnimation(const Core::Hash name);
 
-    void PlayAnimation(Core::Hash name, Core::Second transitionTime);
+    void PlayAnimation(const Core::Hash& name);
 
-    void StopAnimation(Core::Hash name, Core::Second stopTime);
+    void StopAnimation(const Core::Hash& name);
 
-    void Update(Core::Second dt);// continues current animations
+    void Update(const Core::Second& dt);// continues current animations
+
+    template <typename T>
+    T Evaluate(const Core::Hash& target) const
+    {
+      return _animations[target].Evaluate<T>(target, _currentAnimation.time);
+    }
 
   private:
     // the below two structs should be removed in favour of behaviuor trees in the future
@@ -40,44 +45,22 @@ namespace Animation {
     {
       AnimationState() = default;
 
-      AnimationState(Core::Hash name, float weight = 1.0f)
+      AnimationState(Core::Hash name)
       {
-        animationTime = Core::Second(0);
+        time = Core::Second(0);
         name = name;
-        weight = weight;
       }
 
-      Core::Second animationTime;
+      Core::Second time;
       Core::Hash name;
-      float weight;
-    };
-
-    struct TransitionData
-    {
-      TransitionData() = default;
-
-      TransitionData(AnimationState state, Core::Second transitionTime)
-      {
-        state = state;
-        transitionTimeLeft = transitionTime;
-        transitioning = transitionTime != Core::Second(0);
-      }
-
-      bool transitioning;
-      AnimationState state;
-      Core::Second transitionTimeLeft;
     };
 
     bool _animating = false;// this is just the control of the current animation, it can be false and still be transitioning
     AnimationState _currentAnimation;
 
-    Core::Ptr<Animatable> _animatable = nullptr;
-    std::unordered_map<Core::Hash, Core::SharedPtr<Animation>> _animations;
+    std::unordered_map<Core::Hash, Animation> _animations;
 
-    // until we have more complex logic, we will just use simple transition data to manage it - as such, we can only blend two animations at the moment
-    TransitionData _transition;
-    // in the future, we shoud have behaviour trees that dictate the flow from one animation to another based on state and such for smoother transitions
-    // BehaviourTree _behaviourTree;
+    // worry about transitions and blending stuff later
   };
 }// namespace Animation
 }// namespace Application

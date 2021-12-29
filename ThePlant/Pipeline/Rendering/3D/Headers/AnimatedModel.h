@@ -6,7 +6,9 @@
 #include "Data/Headers/AssetManager.h"
 #include "Data/Rendering/Headers/AnimatedModelData.h"
 
+#include "Pipeline/Animation/Headers/AnimationManager.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
+#include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
 namespace Application {
 namespace Rendering {
@@ -23,6 +25,6 @@ namespace Rendering {
     InitialAnimatedModelState(const Data::AssetName<Data::Rendering::AnimatedModelData>& asset, const Core::Geometric::Transform& localTransform, const EntityId& parent);
   };
 
-  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState);
+  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, Animation::AnimationManager& animationManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState);
 }// namespace Rendering
 }// namespace Application

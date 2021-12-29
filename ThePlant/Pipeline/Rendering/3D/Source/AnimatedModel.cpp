@@ -3,7 +3,9 @@
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Quaternion.h"
 
+#include "Pipeline/Animation/Headers/Animator.h"
 #include "Pipeline/ECS/DataOriented/EntityCreator.h"
+#include "Pipeline/ECSSystems/AnimationComponents.h"
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
@@ -31,7 +33,7 @@ namespace Rendering {
   , parent(parent)
   {}
 
-  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState)
+  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, Animation::AnimationManager& animationManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState)
   {
     Data::AssetData<Data::Rendering::AnimatedModelData> assetData = assetManager.getAssetData(modelState.asset);
     
@@ -61,17 +63,21 @@ namespace Rendering {
       creator.AddComponent<RotationComponent>(modelState.transform.GetRotation());
     }
 
-    auto animationData = assetData->animations;
-    bool isAnimated = (animationData != nullptr && animationData->num > 0);
+    // with this here, we are getting it twice (here and in CreateSkeleton below) - ideally we strip one of those calls
+    // but we should still be able to create a skeleton from just an asset name
+    // maybe all 'create' calls should have overloads for [AssetManager, AssetName] and [AssetData] (former redirects to the latter)
+    Data::AssetData<Data::Rendering::SkeletonData> skeletonData = assetManager.getAssetData(assetData->skeleton);
+    bool isAnimated = (skeletonData->animations.size() > 0);
     if (isAnimated)
     {
-      creator.AddComponent<AnimationComponent>(assetData->animations);
+      auto animatorId = animationManager.CreateAnimator(assetManager, skeletonData->animations);
+      creator.AddComponent<AnimatorComponent>(animatorId);
       // register animations?
     }
 
     Entity model = ecsSystem.CreateEntity(creator);
 
-    InitialSkeletonState skeletonState = InitialSkeletonState(assetData->skeleton, model, ecsSystem.GetComponentFor<AnimationComponent>(model).animatorId);
+    InitialSkeletonState skeletonState = InitialSkeletonState(assetData->skeleton, model, ecsSystem.GetComponentFor<AnimatorComponent>(model).animatorId);
     CreateSkeleton(ecsSystem, assetManager, skeletonState, ecsSystem.GetComponentFor<SkeletonComponent>(model));
   }
 }// namespace Rendering

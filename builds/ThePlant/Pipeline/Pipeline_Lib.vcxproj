@@ -277,21 +277,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\FieldAnimation\Source\FloatAnimationTrack.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\SkeletonAnimation\Source\SkeletonAnimatable.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\SkeletonAnimation\Source\SkeletonAnimation.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\SkeletonAnimation\Source\SkeletonAnimationMixer.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\SkeletonAnimation\Source\SkeletonAnimationTrack.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\Source\Animatable.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\Source\AnimationCurve.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\Source\AnimationManager.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\Source\AnimationMixer.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\Source\Animator.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\Source\AnimatorComponent.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\Source\Keyframe.cpp">
-      <ObjectFileName>$(IntDir)/Animation/Source/Keyframe.cpp.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\TransformAnimation\Source\TransformAnimationTrack.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Animation\Source\Keyframe.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Collision\Source\BoxCollider.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Collision\Source\ColliderBase.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Collision\Source\CollisionBase.cpp" />
@@ -329,10 +318,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\ModelBase.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\Skeleton.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\3D\Source\VertexData.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Animation\Source\KeyFrame.cpp">
-      <ObjectFileName>$(IntDir)/Rendering/Animation/Source/KeyFrame.cpp.obj</ObjectFileName>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\Animation\Source\Timeline.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\OpenGL\Source\GLArrayBuffer.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\OpenGL\Source\GLBuffer.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Rendering\OpenGL\Source\GLMappedBuffer.cpp" />
