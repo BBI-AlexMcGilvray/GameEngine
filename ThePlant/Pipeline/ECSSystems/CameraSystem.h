@@ -9,43 +9,56 @@
 #include "Pipeline/Rendering/Headers/CameraUtils.h"
 
 namespace Application {
-struct CameraSystem : public System<CameraSystem, CameraComponent, WorldTransformComponent>
+struct CameraSystem : public ISystem
 {
     CameraSystem(Rendering::CameraManager& cameraManager)
     : _cameraManager(cameraManager)
     {}
+    
+    Core::runtimeId_t GetSystem() const { return Core::GetTypeId<CameraSystem>(); };
 
+    void Execute(ArchetypeManager& archetypeManager) const override
+    {
+        std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<CameraComponent, WorldTransformComponent>();
+
+        for (auto& archetype : affectedArchetypes)
+        {
+            _ApplyToArchetype(_cameraManager, archetype->GetComponents<CameraComponent>(), archetype->GetComponents<WorldTransformComponent>());
+        }
+    }
+
+private:
+    Rendering::CameraManager& _cameraManager;
+    
     // need this to ensure none of the affected archetypes have a CameraWeightingComponent
-    static void ApplyToArchetype(std::vector<CameraComponent>& cameras, std::vector<WorldTransformComponent>& transforms)
+    static void _ApplyToArchetype(Rendering::CameraManager& cameraManager, std::vector<CameraComponent>& cameras, std::vector<WorldTransformComponent>& transforms)
     {
         VERIFY(cameras.size() == transforms.size());
         for (size_t index = 0; index < cameras.size(); ++index)
         {
-            _cameraManager.AddCamera(CalculateTransformationMatrix(cameras[index].camera, transforms[index].transform));
+            Rendering::LookAt(transforms[index].transform, cameras[index].targetPosition);
+            cameraManager.AddCamera(CalculateTransformationMatrix(cameras[index].camera, transforms[index].transform));
         }
     }
-
-private:
-    Rendering::CameraManager& _cameraManager;
 };
 
-struct WeightedCameraSystem : public System<WeightedCameraSystem, CameraComponent, CameraWeightingComponent, WorldTransformComponent>
-{
-    WeightedCameraSystem(Rendering::CameraManager& cameraManager)
-    : _cameraManager(cameraManager)
-    {}
+// struct WeightedCameraSystem : public System<WeightedCameraSystem, CameraComponent, CameraWeightingComponent, WorldTransformComponent>
+// {
+//     WeightedCameraSystem(Rendering::CameraManager& cameraManager)
+//     : _cameraManager(cameraManager)
+//     {}
 
-    static void ApplyToArchetype(std::vector<CameraComponent>& cameras, std::vector<CameraComponent>& weightings, std::vector<WorldTransformComponent>& transforms)
-    {
-        VERIFY(cameras.size() == weightings.size() == transforms.size());
-        for (size_t index = 0; index < cameras.size(); ++index)
-        {
-            // we need to calculate the final camera for each component group and then add that final camera to the manager instead
-            _cameraManager.AddCamera(CalculateTransformationMatrix(cameras[index].camera, transforms[index].transform));
-        }
-    }
+//     static void ApplyToArchetype(std::vector<CameraComponent>& cameras, std::vector<CameraComponent>& weightings, std::vector<WorldTransformComponent>& transforms)
+//     {
+//         VERIFY(cameras.size() == weightings.size() == transforms.size());
+//         for (size_t index = 0; index < cameras.size(); ++index)
+//         {
+//             // we need to calculate the final camera for each component group and then add that final camera to the manager instead
+//             _cameraManager.AddCamera(CalculateTransformationMatrix(cameras[index].camera, transforms[index].transform));
+//         }
+//     }
 
-private:
-    Rendering::CameraManager& _cameraManager;
-};
+// private:
+//     Rendering::CameraManager& _cameraManager;
+// };
 } // namespace Application

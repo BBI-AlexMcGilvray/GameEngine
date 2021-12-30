@@ -3,16 +3,10 @@
 #include "Materials/Core/Headers/PtrDefs.h"
 #include "Materials/Core/Headers/TimeDefs.h"
 
+#include "Pipeline/ECS/DataOriented/IDs.h"
+
 #include "Product/Headers/CameraController.h"
 #include "Product/Scripting/LuaManager.h"
-
-// testing
-#include "Pipeline/Rendering/Material_NEW.h"
-#include "Pipeline/Rendering/Mesh_NEW.h"
-#include "Pipeline/ECSSystems/GeneralComponents.h"
-#include "Pipeline/ECSSystems/RenderingComponents.h"
-#include "Pipeline/ECSSystems/TransformComponents.h"
-// \testing
 
 /*
 Notes:
@@ -43,10 +37,9 @@ namespace Product
         void cleanUp();
 
     private:
-        // Core::Ptr<Application::Geometric::World> _currentWorld;
-        // Core::Ptr<Application::Geometric::CameraNode> _cameraNode;
         // Core::Ptr<Application::Geometric::Node> _holderNode;
         // Core::Ptr<Application::Geometric::Node> _shoulderBone;
+        Application::Entity _camera;
 
         CameraController _cameraController;
         LuaManager _luaManager;

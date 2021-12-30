@@ -57,6 +57,7 @@ struct Archetype
 
     void TransferEntityTo(Entity& entity, Archetype& destination);
 
+    bool HasEntity(const EntityId& entity) const;
     void RemoveEntity(const Entity& entity);
 
     template <typename T>
@@ -77,9 +78,14 @@ struct Archetype
             throw std::invalid_argument("entity does not have valid archetype id");
         }
 
-        // for some reason can't do this in one line or compiler is confused
+        return GetComponentFor<T>(entity.GetEntityId());
+    }
+
+    template <typename T>
+    T& GetComponentFor(const EntityId& entity)
+    {
         IComponentList* componentList = _components.at(GetTypeId<T>()).get();
-        return componentList->GetComponentAt<T>(_GetEntityIndex(entity.GetEntityId()));
+        return componentList->GetComponentAt<T>(_GetEntityIndex(entity));
     }
 
     template <typename T>
@@ -131,7 +137,7 @@ private:
     template <typename Tuple, int ...Is>
     void _AddEntityFromTuple(const Entity& entity, const Tuple& components, std::index_sequence<Is...>)
     {
-        _AddEntity(entity, std::get<Is>(components), ...);
+        _AddEntity(entity, std::get<Is>(components)...);
     }
 
     template <typename T>

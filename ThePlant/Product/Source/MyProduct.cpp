@@ -8,6 +8,14 @@
 #include "Pipeline/Geometric/Headers/ContentBase.h"
 #include "Pipeline/Geometric/Headers/Node.h"
 
+#include "Pipeline/ECSSystems/CameraComponents.h"
+#include "Pipeline/ECSSystems/GeneralComponents.h"
+#include "Pipeline/ECSSystems/RenderingComponents.h"
+#include "Pipeline/ECSSystems/TransformComponents.h"
+
+#include "Pipeline/Rendering/Material_NEW.h"
+#include "Pipeline/Rendering/Mesh_NEW.h"
+
 #include "Pipeline/Rendering/3D/Headers/ModelBase.h"
 #include "Pipeline/Rendering/3D/Headers/AnimatedModel.h"
 
@@ -26,14 +34,6 @@ namespace Product
     {
         Application::StateManager& stateManager = Application::ApplicationManager::AppStateManager();
         Application::State& currentState = stateManager.GetActiveState();
-        // _currentWorld = &(currentState.getHierarchy());
-
-        // before this we need to add a world, then add the camera to it
-        // this will be data driven from the future
-        // _cameraNode = _currentWorld->AddChild<Application::Geometric::CameraNode>(Application::ApplicationManager::AppRenderManager(), 1280.0f / 1080.0f);
-        // camera position not acting correctly in final transformation matrix (from camera)
-        // _cameraNode->Transformation.SetLocalPosition(Float3(0.0f, 0.0f, 20.0f));
-        // _cameraNode->CameraComponent->GetCamera()->LookAt(Float3(0.0f, 0.0f, 0.0f));
 
         // _cameraController = CameraController(_cameraNode);
         // Application::Input::InputManager& inputManager = Application::ApplicationManager::AppInputManager();
@@ -43,13 +43,26 @@ namespace Product
         _luaManager.initialize();
 
         // testing
-        // auto& assetManager = Application::ApplicationManager::AppAssetManager();
-        // auto material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), Application::ApplicationManager::AppRenderManager().ObjectShaderManager);
-        // auto mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
-        // Transform transform = Transform();
+        auto& assetManager = Application::ApplicationManager::AppAssetManager();
+        auto& shaderManager = Application::ApplicationManager::AppShaderManager();
+        auto material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), shaderManager);
+        auto mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
+        Transform transform = Transform();
 
-        // auto& ecs = Application::ApplicationManager::AppECS();
-        // _entity = ecs.CreateEntity<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(transform, Core::Math::Float3(0.0f, 0.0f, -600.0f), Core::Math::FQuaternion(), material, mesh);
+        auto& ecs = Application::ApplicationManager::AppECS();
+        auto components = std::make_tuple<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(transform, Core::Math::Float3(0.0f, 0.0f, -600.0f), Core::Math::FQuaternion(), material, mesh);
+        _entity = ecs.CreateEntity<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(components);
+
+        // this will be data driven from the future
+        Transform cameraTransform;
+        Application::CameraComponent camera(1280.0f / 1080.0f, Core::Math::Float3(0.0f, 0.0f, 0.0f));
+        auto cameraComponents = std::make_tuple<Application::CameraComponent, Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent>(std::move(camera), cameraTransform, Core::Math::Float3(0.0f, 0.0f, 20.0f), Core::Math::FQuaternion(Core::Math::II()));
+        _camera = ecs.CreateEntity(cameraComponents);
+
+        _cameraController = CameraController(ecs, _camera.GetEntityId());
+        Application::Input::InputManager& inputManager = Application::ApplicationManager::AppInputManager();
+        inputManager.setInputController<Application::Input::DefaultInputController>();
+        inputManager->addReceiver(&_cameraController);
         // \testing
     }
 

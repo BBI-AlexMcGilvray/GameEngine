@@ -1,5 +1,7 @@
 #include "Product/Headers/ProductManager.h"
 
+#include "Pipeline/ECSSystems/AnimationSystem.h"
+#include "Pipeline/ECSSystems/CameraSystem.h"
 #include "Pipeline/ECSSystems/TransformSystem.h"
 #include "Pipeline/ECSSystems/RenderingSystem.h"
 
@@ -36,7 +38,8 @@ namespace Product
 
         // the below should probably be a part of the application's initialization (for the default systems at least)
         _pipeline->AppECS().AddSystem<Application::TransformSystem>();
-        _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependency<Application::TransformSystem>();
+        _pipeline->AppECS().AddSystem<Application::CameraSystem>(Application::ApplicationManager::AppRenderManager().GetCameraManager()).AddDependency<Application::TransformSystem>();
+        _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependencies<Application::TransformSystem, Application::CameraSystem>();
 
         return pipelineInitialized;
     }

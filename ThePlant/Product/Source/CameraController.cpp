@@ -1,13 +1,13 @@
 #include "Product/Headers/CameraController.h"
 
+#include "Pipeline/ECS/DataOriented/ECS.h"
+#include "Pipeline/ECSSystems/TransformComponents.h"
+
 namespace Product
 {
-    CameraController::CameraController()
-    : _cameraNode(nullptr)
-    {}
-
-    CameraController::CameraController(Core::Ptr<Application::Geometric::CameraNode> cameraNode)
-    : _cameraNode(cameraNode)
+    CameraController::CameraController(Application::ECS& ecs, const Application::EntityId& cameraEntity)
+    : _ecs(&ecs)
+    , _cameraEntity(cameraEntity)
     {}
 
     bool CameraController::handleInput(Ptr<const Application::Input::InputEventBase> event) const
@@ -18,7 +18,8 @@ namespace Product
             {
                 auto actualEvent = static_cast<Core::Ptr<const Application::Input::InputEvent<Application::Input::MouseWheelData>>>(event);
 
-                _cameraNode->Transformation.AdjustLocalPosition(Core::Math::Float3(0.0f, 0.0f, 5.0f) * static_cast<float>(actualEvent->data.mouseX));
+                Application::PositionComponent& cameraPosition = _ecs->GetComponentFor<Application::PositionComponent>(_cameraEntity);
+                cameraPosition.position += (Core::Math::Float3(0.0f, 0.0f, 5.0f) * static_cast<float>(actualEvent->data.mouseX));
 
                 return true;
             }

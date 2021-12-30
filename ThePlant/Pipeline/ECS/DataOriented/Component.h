@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <vector>
 
+#include "Materials/Core/Debugging/Headers/Macros.h"
 #include "Materials/Core/IdTypes/RuntimeId.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"

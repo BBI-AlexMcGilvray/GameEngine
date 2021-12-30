@@ -105,6 +105,10 @@ ECS/DataOriented/TypeCollection.h #
 ECS/ObjectOriented/Headers/Component.h #
 ECS/ObjectOriented/Headers/ComponentPtr.h #
 ECS/ObjectOriented/Headers/Entity.h #
+ECSSystems/AnimationSystem.h #
+ECSSystems/AnimationComponents.h #
+ECSSystems/CameraSystem.h #
+ECSSystems/CameraComponents.h #
 ECSSystems/GeneralComponents.h #
 ECSSystems/RenderingComponents.h #
 ECSSystems/RenderingSystem.h #

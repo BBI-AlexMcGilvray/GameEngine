@@ -1,6 +1,9 @@
 #include "Pipeline/Input/Headers/InputReceiverBase.h"
 
-#include "Pipeline/Geometric/Headers/CameraNode.h"
+#include "Core/Headers/PtrDefs.h"
+
+#include "Pipeline/ECS/DataOriented/IDs.h"
+#include "Pipeline/ECS/DataOriented/ECS.h"
 
 namespace Product
 {
@@ -10,11 +13,13 @@ namespace Product
     class CameraController : public Application::Input::IInputReceiver
     {
     public:
-        CameraController();
-        CameraController(Core::Ptr<Application::Geometric::CameraNode> cameraNode);
+        CameraController() = default;
+        CameraController(Application::ECS& ecs, const Application::EntityId& cameraEntity);
 
         bool handleInput(Ptr<const Application::Input::InputEventBase> event) const override;
+
     private:
-        Core::Ptr<Application::Geometric::CameraNode> _cameraNode;
+        Core::Ptr<Application::ECS> _ecs;
+        Application::EntityId _cameraEntity;
     };
 }

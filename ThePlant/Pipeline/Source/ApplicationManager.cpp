@@ -29,6 +29,11 @@ RenderManager &ApplicationManager::AppRenderManager()
   return Application()->RenderSystem;
 }
 
+ShaderManager& ApplicationManager::AppShaderManager()
+{
+  return Application()->_shaderManager;
+}
+
 InputManager &ApplicationManager::AppInputManager()
 {
   return Application()->InputSystem;
@@ -50,7 +55,8 @@ ECS& ApplicationManager::AppECS()
 }
 
 ApplicationManager::ApplicationManager(ConstructorTag tag)
-  : InputSystem(SDL), StateSystem(RenderSystem, InputSystem), OnQuit([this]() {
+  : _shaderManager(_assetManager)
+  , InputSystem(SDL), StateSystem(RenderSystem, InputSystem), OnQuit([this]() {
       Quit = true;
       return false;
     }

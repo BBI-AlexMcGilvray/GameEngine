@@ -22,6 +22,12 @@ public:
         return _GetArchetype(entity.GetArchetypeId()).GetComponentFor<T>(entity);
     }
 
+    template <typename T>
+    T& GetComponentFor(const EntityId& entity)
+    {
+        return _GetArchetype(entity).GetComponentFor<T>(entity);
+    }
+
     // need a way for this to take in a value for the new components
     template <typename ...Ts>
     void AddComponentsTo(Entity& entity)
@@ -142,9 +148,9 @@ private:
         return _HasArchetype(types);
     }
 
-    bool _HasArchetype(const TypeCollection& archetypeTypes);
+    bool _HasArchetype(const TypeCollection& archetypeTypes) const;
 
-    bool _HasArchetype(const ArchetypeId& archetypeId);
+    bool _HasArchetype(const ArchetypeId& archetypeId) const;
 
     template <typename ...Ts>
     Archetype& _GetArchetype()
@@ -157,5 +163,7 @@ private:
     Archetype& _GetArchetype(const TypeCollection& archetypeTypes);
 
     Archetype& _GetArchetype(const ArchetypeId& archetypeId);
+
+    Archetype& _GetArchetype(const EntityId& entity);
 };
 }// namespace Application

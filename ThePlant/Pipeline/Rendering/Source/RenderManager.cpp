@@ -11,6 +11,11 @@ namespace Rendering {
   RenderManager::RenderManager()
   {}
 
+  CameraManager& RenderManager::GetCameraManager()
+  {
+    return _cameraManager;
+  }
+
   void RenderManager::Initialize(WindowManager &window, Color clearColor)
   {
     _window = &window;
@@ -129,11 +134,11 @@ namespace Rendering {
   void RenderManager::_RenderMiddle()
   {
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
-
-    for (auto& camera : _cameraManagers.GetCameras())
+    for (auto& camera : _cameraManager.GetCameras())
     {
       _RenderFrameForCamera(_renderer_NEW, camera, _renderFrame);
     }
+    _cameraManager.ClearCameras();
   }
 
   void RenderManager::_RenderEnd()

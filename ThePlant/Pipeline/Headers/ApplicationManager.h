@@ -8,6 +8,7 @@
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/StateSystem/Headers/StateManager.h"
 #include "Pipeline/Input/Headers/InputManager.h"
+#include "Pipeline/Rendering/Shaders/ShaderManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 #include "Pipeline/Time/Headers/TimeManager.h"
 
@@ -31,6 +32,7 @@ struct ApplicationManager
 
   static AnimationManager &AppAnimationManager();
   static RenderManager &AppRenderManager();
+  static ShaderManager& AppShaderManager();
   static InputManager &AppInputManager();
   static StateManager &AppStateManager();
   // could potentially break this up into longterm and shorterm asset managers for consistent behaviour
@@ -76,6 +78,7 @@ private:
   ECS _ecsSystem;
   AnimationManager AnimationSystem;
   RenderManager RenderSystem;
+  ShaderManager _shaderManager;
   InputManager InputSystem;
   StateManager StateSystem;
 

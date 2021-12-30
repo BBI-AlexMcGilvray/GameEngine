@@ -25,7 +25,7 @@ void ArchetypeManager::RemoveEntity(const Entity& entity)
     _GetArchetype(entity.GetArchetypeId()).RemoveEntity(entity);
 }
 
-bool ArchetypeManager::_HasArchetype(const TypeCollection& archetypeTypes)
+bool ArchetypeManager::_HasArchetype(const TypeCollection& archetypeTypes) const
 {
     for (auto& archetype : _archetypes)
     {
@@ -38,7 +38,7 @@ bool ArchetypeManager::_HasArchetype(const TypeCollection& archetypeTypes)
     return false;
 }
 
-bool ArchetypeManager::_HasArchetype(const ArchetypeId& archetypeId)
+bool ArchetypeManager::_HasArchetype(const ArchetypeId& archetypeId) const
 {
     for (auto& archetype : _archetypes)
     {
@@ -69,6 +69,19 @@ Archetype& ArchetypeManager::_GetArchetype(const ArchetypeId& archetypeId)
     for (auto& archetype : _archetypes)
     {
         if (archetype.GetId() == archetypeId)
+        {
+            return archetype;
+        }
+    }
+
+    throw std::invalid_argument("archetype does not exist within manager");
+}
+
+Archetype& ArchetypeManager::_GetArchetype(const EntityId& entity)
+{
+    for (auto& archetype : _archetypes)
+    {
+        if (archetype.HasEntity(entity))
         {
             return archetype;
         }

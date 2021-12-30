@@ -8,11 +8,8 @@
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/Camera.h"
-#include "Pipeline/Rendering/Shaders/ShaderManager.h"
-// testing
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/Renderer_NEW.h"
-// \testing
 
 #include "Core/Functionality/Headers/Subscription.h"
 
@@ -30,6 +27,8 @@ namespace Rendering {
   {
     // should subscribe to StateManager::StateChanged to change active state automatically
     RenderManager();
+
+    CameraManager& GetCameraManager();
 
     void Initialize(WindowManager &window, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();
@@ -53,8 +52,7 @@ namespace Rendering {
     Core::Math::Color _clearColor;
     Core::Ptr<WindowManager> _window;
 
-    // should all of these maps be combined into a single object to have a single mapping instead of multiple?
-    CameraManager _cameraManagers;
+    CameraManager _cameraManager;
 
     void _RenderStart();
     void _RenderMiddle();

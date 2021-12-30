@@ -40,6 +40,19 @@ void Archetype::TransferEntityTo(Entity& entity, Archetype& destination)
     entity._SetArchetypeId(destination.GetId());
 }
 
+bool Archetype::HasEntity(const EntityId& entity) const
+{
+    for (size_t index = 0; index < _entities.size(); ++index)
+    {
+        if (_entities[index] == entity)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void Archetype::RemoveEntity(const Entity& entity)
 {
     size_t entityIndex = _GetEntityIndex(entity.GetEntityId());

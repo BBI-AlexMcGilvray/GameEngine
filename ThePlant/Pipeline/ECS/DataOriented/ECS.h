@@ -22,6 +22,9 @@ namespace Application
         template <typename T>
         T& GetComponentFor(const Entity& entity) { return _archetypes.GetComponentFor<T>(entity); }
 
+        template <typename T>
+        T& GetComponentFor(const EntityId& entity) { return _archetypes.GetComponentFor<T>(entity); }
+
         template <typename ...Ts>
         void AddComponentsTo(Entity& entity) { _archetypes.AddComponentsTo<Ts...>(entity); }
 
