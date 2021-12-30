@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 
 namespace Core {
   namespace TypeId_Helper {
@@ -15,6 +16,7 @@ struct runtimeId_t
 {
   template<typename T>
   friend struct runtimeId;
+  friend struct ::std::hash<runtimeId_t>;
 
   friend runtimeId_t MakeTypeId(uint32_t);
 
@@ -125,3 +127,12 @@ inline runtimeId_t MakeTypeId(uint32_t id)
   return runtimeId_t(id);
 }
 }// namespace Core
+
+template <>
+struct std::hash<Core::runtimeId_t>
+{
+    std::size_t operator()(const Core::runtimeId_t& runtimeId) const
+    {
+        return runtimeId._id;
+    }
+};

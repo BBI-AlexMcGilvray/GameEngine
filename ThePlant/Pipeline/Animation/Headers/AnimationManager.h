@@ -18,6 +18,11 @@ namespace Animation {
     // ~ The animation manager should handle holding all animations and have them just be referenced by the animators to limit data footprint and have them accessible by all
   public:
     AnimationManager();
+    AnimationManager(AnimationManager&&) = default;
+    AnimationManager& operator=(AnimationManager&&) = default;
+
+    AnimationManager(const AnimationManager&) = delete;
+    AnimationManager& operator=(const AnimationManager&) = delete;
 
     void Initialize();
     void Start();
@@ -32,7 +37,7 @@ namespace Animation {
     void RemoveAnimator(const Core::instanceId<Animator>& animator);
 
   private:
-    std::unordered_map<Core::instanceId<Animator>, Animator> _animators;
+    std::unordered_map<Core::instanceId<Animator>, Animator, Core::instanceIdHasher<Animator>> _animators;
   };
 }// namespace Animation
 }// namespace Application

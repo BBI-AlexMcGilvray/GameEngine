@@ -13,15 +13,6 @@
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
-template <>
-struct std::hash<Core::runtimeId_t>
-{
-    std::size_t operator()(const Core::runtimeId_t& runtimeId) const
-    {
-        return static_cast<const uint32_t>(runtimeId);
-    }
-};
-
 namespace Application {
 struct EntityCreator;
 

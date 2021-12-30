@@ -88,3 +88,16 @@ struct instanceIdHasher
     }
 };
 }// namespace Core
+
+// doesn't work for some reason...
+// namespace std
+// {
+//   template <typename ID_TYPE>
+//   struct hash<Core::instanceId<ID_TYPE>>
+//   {
+//     size_t operator()(const Core::instanceId<ID_TYPE>& id) const
+//     {
+//         return id._id;
+//     }
+//   };
+// }

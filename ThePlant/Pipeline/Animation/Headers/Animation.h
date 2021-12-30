@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "Core/Headers/CoreDefs.h"
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/TimeDefs.h"
 
@@ -13,6 +14,11 @@ namespace Animation {
   {
   public:
     Animation() = default;
+    Animation(Animation&&) = default;
+    Animation& operator=(Animation&&) = default;
+    
+    Animation(const Animation&) = delete;
+    Animation& operator=(const Animation&) = delete;
 
     Animation(const std::string& name, const Core::Second& duration)
     : Animation(Core::HashValue(name), duration)
@@ -34,7 +40,7 @@ namespace Animation {
       {
         newObjectChannel->AddChannel(channel);
       }
-      _channels.emplace(std::make_pair(target, Core::GetTypeId<ATTRIBUTE>()), newObjectChannel);
+      _channels[std::make_pair(target, Core::GetTypeId<ATTRIBUTE>())] = std::move(newObjectChannel);
     }
 
     template <typename T, typename ATTRIBUTE>
@@ -47,7 +53,7 @@ namespace Animation {
     Core::Hash _name;
     Core::Second _duration;
     // std::pair<Target (name), Attribute>, ex: 'std::pair<LeftShoulder, Rotation>'
-    std::unordered_map<std::pair<Core::Hash, Core::runtimeId_t>, std::unique_ptr<IObjectChannel>> _channels;
+    std::unordered_map<std::pair<Core::Hash, Core::runtimeId_t>, std::unique_ptr<IObjectChannel>, Core::pair_hasher<Core::Hash, Core::runtimeId_t>> _channels;
   };
 }// namespace Animation
 }// namespace Application

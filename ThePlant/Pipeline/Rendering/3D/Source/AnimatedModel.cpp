@@ -39,7 +39,7 @@ namespace Rendering {
     
     EntityCreator creator;
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
-    creator.AddComponent<MeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
+    creator.AddComponent<SkinnedMeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
     creator.AddComponent<WorldTransformComponent>(Core::Geometric::Transform());
 
     if (modelState.parent.IsValid())
@@ -77,8 +77,10 @@ namespace Rendering {
 
     Entity model = ecsSystem.CreateEntity(creator);
 
-    InitialSkeletonState skeletonState = InitialSkeletonState(assetData->skeleton, model, ecsSystem.GetComponentFor<AnimatorComponent>(model).animatorId);
+    InitialSkeletonState skeletonState = InitialSkeletonState(assetData->skeleton, model.GetEntityId(), ecsSystem.GetComponentFor<AnimatorComponent>(model).animatorId);
     CreateSkeleton(ecsSystem, assetManager, skeletonState, ecsSystem.GetComponentFor<SkeletonComponent>(model));
+
+    return model;
   }
 }// namespace Rendering
 }// namespace Application

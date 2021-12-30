@@ -12,7 +12,7 @@
 namespace Application {
 namespace Animation
 {
-    struct Animator;
+  class Animator;
 } // namespae Animation
 
 namespace Rendering {

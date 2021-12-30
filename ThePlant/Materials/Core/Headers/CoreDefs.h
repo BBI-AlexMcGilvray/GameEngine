@@ -1,5 +1,8 @@
 #pragma once
 
+#include <functional>
+#include <utility>
+
 namespace Core {
 template<typename T>
 struct Truth
@@ -32,6 +35,14 @@ bool InRange(const T& value, const T& min, const T& max)
 {
   return ((value >= min) && (value <= max));
 }
+
+template <typename T1, typename T2>
+struct pair_hasher
+{
+  std::size_t operator() (const std::pair<T1, T2> &pair) const {
+    return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
+  }
+};
 
 using uint = unsigned int;
 using uint64 = unsigned long int;

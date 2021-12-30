@@ -33,7 +33,7 @@ namespace Animation {
         Channel_Float3 positionY(&Core::Math::Float3::Y, positionCurves[1]);
         Channel_Float3 positionZ(&Core::Math::Float3::Z, positionCurves[2]);
 
-        skeletonAnimation.AddObjectChannel<Core::Math::Float3, TargetAttribute::Position>(target, { positionX, positionY, positionZ });
+        skeletonAnimation.AddObjectChannel<Core::Math::Float3, Attribute::Position>(target, { positionX, positionY, positionZ });
     }
 
     std::array<AnimationCurve, 3> CreateScaleAnimationCurves(const std::vector<Data::Rendering::ScaleFrameData>& scaleFrames)
@@ -52,7 +52,7 @@ namespace Animation {
         return curves;
     }
 
-    void AddScaleChannels(Animation& skeletonAnimation, const Core::Hash& target, const std::vector<Data::Rendering::PositionFrameData>& scaleFrames)
+    void AddScaleChannels(Animation& skeletonAnimation, const Core::Hash& target, const std::vector<Data::Rendering::ScaleFrameData>& scaleFrames)
     {
         std::array<AnimationCurve, 3> scaleCurves = CreateScaleAnimationCurves(scaleFrames);
 
@@ -60,7 +60,7 @@ namespace Animation {
         Channel_Float3 scaleY(&Core::Math::Float3::Y, scaleCurves[1]);
         Channel_Float3 scaleZ(&Core::Math::Float3::Z, scaleCurves[2]);
 
-        skeletonAnimation.AddObjectChannel<Core::Math::Float3, TargetAttribute::Scale>(target, { scaleX, scaleY, scaleZ });
+        skeletonAnimation.AddObjectChannel<Core::Math::Float3, Attribute::Scale>(target, { scaleX, scaleY, scaleZ });
     }
 
     std::array<AnimationCurve, 4> CreateRotationAnimationCurves(const std::vector<Data::Rendering::RotationFrameData>& rotationFrames)
@@ -75,12 +75,12 @@ namespace Animation {
             keyframes[3].push_back(Keyframe(frame.time, frame.rotation.Z));
         }
 
-        std::array<AnimationCurve, 4> curves = { keyframes[0], keyframes[1], keyframes[2], keyframe[3] };
+        std::array<AnimationCurve, 4> curves = { keyframes[0], keyframes[1], keyframes[2], keyframes[3] };
 
         return curves;
     }
 
-    void AddRotationChannels(Animation& skeletonAnimation, const Core::Hash& target, const std::vector<Data::Rendering::PositionFrameData>& rotationFrames)
+    void AddRotationChannels(Animation& skeletonAnimation, const Core::Hash& target, const std::vector<Data::Rendering::RotationFrameData>& rotationFrames)
     {
         std::array<AnimationCurve, 4> rotationCurves = CreateRotationAnimationCurves(rotationFrames);
 
@@ -89,7 +89,7 @@ namespace Animation {
         Channel_FQuat rotationZ(&Core::Math::FQuaternion::Z, rotationCurves[2]);
         Channel_FQuat rotationW(&Core::Math::FQuaternion::W, rotationCurves[3]);
 
-        skeletonAnimation.AddObjectChannel<Core::Math::FQuaternion, TargetAttribute::Rotation>(target, { rotationX, rotationY, rotationZ, rotationW });
+        skeletonAnimation.AddObjectChannel<Core::Math::FQuaternion, Attribute::Rotation>(target, { rotationX, rotationY, rotationZ, rotationW });
     }
 
     Animation CreateAnimation(Data::AssetManager& assetManager, const Data::AssetName<Data::Rendering::SkeletonAnimationData>& asset)
@@ -101,9 +101,9 @@ namespace Animation {
         for (const auto& boneAnimationData : assetData->boneAnimations)
         {
             // not using preBehaviour or postBehaviour - should later
-            AddPositionChannels(skeletonAnimation, Core::HashValue(boneAnimationData->name), assetData->positionChannel);
-            AddScaleChannels(skeletonAnimation, Core::HashValue(boneAnimationData->name), assetData->scaleChannel);
-            AddRotationChannels(skeletonAnimation, Core::HashValue(boneAnimationData->name), assetData->rotationChannel);
+            AddPositionChannels(skeletonAnimation, Core::HashValue(boneAnimationData.name), boneAnimationData.positionChannel);
+            AddScaleChannels(skeletonAnimation, Core::HashValue(boneAnimationData.name), boneAnimationData.scaleChannel);
+            AddRotationChannels(skeletonAnimation, Core::HashValue(boneAnimationData.name), boneAnimationData.rotationChannel);
         }
 
         return skeletonAnimation;

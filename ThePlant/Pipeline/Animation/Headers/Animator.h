@@ -17,14 +17,13 @@ namespace Animation {
   {
   public:
     Animator() = default;
+    Animator(Animator&&) = default;
+    Animator& operator=(Animator&&) = default;
 
-    template <typename ...Ts>
-    Core::Hash AddAnimation(Ts&& ...args)
-    {
-      return AddAnimation(Animation(std::forward<Ts>(args)...));
-    }
+    Animator(const Animator&) = delete;
+    Animator& operator=(const Animator&) = delete;
 
-    Core::Hash AddAnimation(const Animation& animation);
+    Core::Hash AddAnimation(Animation&& animation);
     void RemoveAnimation(const Core::Hash name);
 
     void PlayAnimation(const Core::Hash& name);

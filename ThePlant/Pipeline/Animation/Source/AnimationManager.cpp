@@ -42,7 +42,7 @@ namespace Animation {
       newAnimator.AddAnimation(CreateAnimation(assetManager, animation));
     }
 
-    _animators.emplace(newAnimatorId, newAnimator);
+    _animators.emplace(newAnimatorId, std::move(newAnimator));
 
     return newAnimatorId;
   }

@@ -90,6 +90,8 @@ namespace Animation {
         ObjectChannel()
         {}
 
+        Core::runtimeId_t ObjectType() const override { return Core::GetTypeId<TYPE>(); }
+
         void AddChannel(float TYPE::*member, const AnimationCurve& curve)
         {
             AddChannel(Channel<TYPE>(member, curve));
@@ -126,7 +128,7 @@ namespace Animation {
             }
         }
 
-        TYPE Evaluate(const Core::Second& time) const override
+        TYPE Evaluate(const Core::Second& time) const
         {
             TYPE result;
 
@@ -143,9 +145,9 @@ namespace Animation {
 
         auto _GetMemberChannel(const float TYPE::*member) const
         {
-           return std::find_if(_channels.begin(), channels.end(), [member](const Channel<TYPE>& channel)
+           return std::find_if(_channels.begin(), _channels.end(), [member](const Channel<TYPE>& channel)
             {
-                channel.TargetsMember(member);
+                return channel.TargetsMember(member);
             }); 
         }
     };

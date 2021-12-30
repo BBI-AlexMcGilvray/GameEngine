@@ -3,6 +3,7 @@
 #include "Core/Random/Random.h"
 #include <array>
 #include <bitset>
+#include <functional>
 #include <sstream>
 #include <string>
 
@@ -115,3 +116,12 @@ private:
   }
 };
 }// namespace Core
+
+// template <>
+// struct std::hash<Core::UUID>
+// {
+//     std::size_t operator()(const Core::UUID& uuid) const
+//     {
+//         return static_cast<const uint32_t>(uuid); // not how this should get done
+//     }
+// };

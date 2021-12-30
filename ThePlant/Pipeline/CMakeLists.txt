@@ -8,7 +8,9 @@ set(SOURCE_FILES #
 Animation/Source/AnimationCurve.cpp #
 Animation/Source/AnimationManager.cpp #
 Animation/Source/Animator.cpp #
+Animation/Source/Channel.cpp #
 Animation/Source/Keyframe.cpp #
+Animation/Source/SkeletonAnimation.cpp #
 Collision/Source/BoxCollider.cpp #
 Collision/Source/ColliderBase.cpp #
 Collision/Source/CollisionBase.cpp #
@@ -78,7 +80,10 @@ Animation/Headers/Animation.h #
 Animation/Headers/AnimationCurve.h #
 Animation/Headers/AnimationManager.h #
 Animation/Headers/Animator.h #
+Animation/Headers/Channel.h #
+Animation/Headers/ChannelTypes.h #
 Animation/Headers/Keyframe.h #
+Animation/Headers/SkeletonAnimation.h #
 Collision/Headers/BoxCollider.h #
 Collision/Headers/ColliderBase.h #
 Collision/Headers/CollisionBase.h #

@@ -87,7 +87,7 @@ struct EntityCreator
     template <typename T, typename ...ARGS>
     void AddComponent(ARGS&& ...args)
     {
-        _componentCreators.emplace_back(std::make_unique<ComponentCreator<T>>(std::forward<ARGS>(args)...));
+        _componentCreators.emplace_back(std::make_unique<ComponentCreator<T>>(T(std::forward<ARGS>(args)...)));
     }
 
     template <typename T>

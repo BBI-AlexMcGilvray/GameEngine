@@ -43,10 +43,10 @@ namespace Product
         void cleanUp();
 
     private:
-        Core::Ptr<Application::Geometric::World> _currentWorld;
-        Core::Ptr<Application::Geometric::CameraNode> _cameraNode;
-        Core::Ptr<Application::Geometric::Node> _holderNode;
-        Core::Ptr<Application::Geometric::Node> _shoulderBone;
+        // Core::Ptr<Application::Geometric::World> _currentWorld;
+        // Core::Ptr<Application::Geometric::CameraNode> _cameraNode;
+        // Core::Ptr<Application::Geometric::Node> _holderNode;
+        // Core::Ptr<Application::Geometric::Node> _shoulderBone;
 
         CameraController _cameraController;
         LuaManager _luaManager;
