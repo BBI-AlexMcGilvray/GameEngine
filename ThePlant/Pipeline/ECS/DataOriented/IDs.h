@@ -33,6 +33,13 @@ struct ArchetypeId
         return *this;
     }
 
+    ArchetypeId& operator=(ArchetypeId&& other)
+    {
+        _archetypeId = std::move(other._archetypeId);
+
+        return *this;
+    }
+
     bool IsValid() const
     {
         return _archetypeId.IsValid();
@@ -79,6 +86,13 @@ struct EntityId
     EntityId& operator=(const EntityId& other)
     {
         _entityId = other._entityId;
+
+        return *this;
+    }
+
+    EntityId& operator=(EntityId&& other)
+    {
+        _entityId = std::move(other._entityId);
 
         return *this;
     }

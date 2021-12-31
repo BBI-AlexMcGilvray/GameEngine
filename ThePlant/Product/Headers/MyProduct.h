@@ -45,7 +45,8 @@ namespace Product
         LuaManager _luaManager;
 
         // testing
-        Application::Entity _entity;
+        Application::Entity _mi;
+        Application::Entity _woman;
         // \testing
     };
 }

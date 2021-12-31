@@ -111,7 +111,6 @@ public:
         if (!_HasArchetype<Ts...>())
         {
             _archetypes.emplace_back(CreateArchetype<Ts...>());
-            return Entity(_GetArchetype<Ts...>().AddEntity(components));
         }
         
         return Entity(_GetArchetype<Ts...>().AddEntity(components));

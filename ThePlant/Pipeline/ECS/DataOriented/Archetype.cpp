@@ -4,6 +4,7 @@ namespace Application {
 Archetype::Archetype(Archetype&& other)
 : _id(std::move(other._id))
 , _types(std::move(other._types))
+, _entities(std::move(other._entities))
 , _components(std::move(other._components))
 {}
 
@@ -11,6 +12,7 @@ Archetype& Archetype::operator=(Archetype&& other)
 {
     _id = std::move(other._id);
     _types = std::move(other._types);
+    _entities = std::move(other._entities);
     _components = std::move(other._components);
 
     return *this;

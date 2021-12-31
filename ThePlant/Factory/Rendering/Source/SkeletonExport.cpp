@@ -1,3 +1,4 @@
+#include "Factory/Rendering/Headers/SceneConversion.h"
 #include "Factory/Rendering/Headers/SkeletonExport.h"
 #include "Factory/Rendering/Headers/Utils.h"
 #include "Factory/Rendering/Headers/AssimpExtensions.h"
@@ -87,7 +88,8 @@ namespace Data
 
 			for (uint animationIndex = 0; animationIndex < scene->mNumAnimations; animationIndex++)
 			{
-				skeletonData.animations.push_back(HashValue(std::string(scene->mAnimations[animationIndex]->mName.C_Str())));
+				// naming stuff is dumb here since we do the same calculation in different spots, clean that up (SkeletonExport.cpp-L92, SkeletonAnimationExport.cpp-L156, SceneConversion.cpp-L161)
+				skeletonData.animations.push_back(HashValue(name + "_" + FixAnimationName(std::string(scene->mAnimations[animationIndex]->mName.C_Str()))));
 			}
 
 			return Core::Serialize<Core::Serialization::Format::JSON>(skeletonData);

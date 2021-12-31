@@ -6,7 +6,7 @@ namespace Application {
 namespace Animation {
   Core::Hash Animator::AddAnimation(Animation&& animation)
   {
-    if (_animations.find(animation.GetName()) != _animations.end()) {
+    if (_animations.find(animation.GetName()) == _animations.end()) {
       _animations[animation.GetName()] = std::move(animation);
     } else {
       DEBUG_THROW("Animator", "Animation with given name already exists!");

@@ -1,3 +1,4 @@
+#include "Factory/Rendering/Headers/SceneConversion.h"
 #include "Factory/Rendering/Headers/SkeletonAnimationExport.h"
 #include "Factory/Rendering/Headers/Utils.h"
 #include "Factory/Rendering/Headers/AssimpExtensions.h"
@@ -152,7 +153,8 @@ namespace Data
 			Core::UniquePtr<ExportNode> exportSkeleton = AllNodesForMesh(rootNode, mesh, meshIndex);
 
 			// store values in file
-			FilePath skeletonAnimationFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsExportPath"), to_string(HashValue(name + std::string(animation->mName.C_Str()))) + ".sanim" };
+			// naming stuff is dumb here since we do the same calculation in different spots, clean that up (SkeletonExport.cpp-L92, SkeletonAnimationExport.cpp-L156, SceneConversion.cpp-L161)
+			FilePath skeletonAnimationFilePath = FilePath{ GetCWD() + config.getValue("exportPath") + config.getValue("skeletonAnimationsExportPath"), to_string(HashValue(name + "_" + FixAnimationName(std::string(animation->mName.C_Str())))) + ".sanim" };
 			File skeletonAnimationFile = File(skeletonAnimationFilePath, std::ios::out);
 			skeletonAnimationFile.Open();
 

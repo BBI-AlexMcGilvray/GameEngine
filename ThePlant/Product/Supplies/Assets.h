@@ -110,7 +110,7 @@ namespace Data
 			const AssetName<Rendering::SkeletonAnimationData> Woman_0_Armature_SitIdle = AssetName<Rendering::SkeletonAnimationData>(AsHash(2289128976));
 			const AssetName<Rendering::SkeletonAnimationData> Woman_0_Armature_Sitting = AssetName<Rendering::SkeletonAnimationData>(AsHash(437013649));
 			const AssetName<Rendering::SkeletonAnimationData> Woman_0_Armature_Walking = AssetName<Rendering::SkeletonAnimationData>(AsHash(460649925));
-			const AssetName<Rendering::SkeletonAnimationData> Chicken_0_picotear_005 = AssetName<Rendering::SkeletonAnimationData>(AsHash(4146678407));
+			const AssetName<Rendering::SkeletonAnimationData> Chicken_0_picotear = AssetName<Rendering::SkeletonAnimationData>(AsHash(4146678407));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_0_EsqueletoAction = AssetName<Rendering::SkeletonAnimationData>(AsHash(3725065295));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_0_idle = AssetName<Rendering::SkeletonAnimationData>(AsHash(2951178086));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_0_idle2 = AssetName<Rendering::SkeletonAnimationData>(AsHash(809336635));
@@ -120,7 +120,7 @@ namespace Data
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_0_Esqueleto_idle2 = AssetName<Rendering::SkeletonAnimationData>(AsHash(980737063));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_0_Esqueleto_picotear = AssetName<Rendering::SkeletonAnimationData>(AsHash(4131041682));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_0_Esqueleto_PoseLib = AssetName<Rendering::SkeletonAnimationData>(AsHash(1508527250));
-			const AssetName<Rendering::SkeletonAnimationData> Chicken_1_picotear_005 = AssetName<Rendering::SkeletonAnimationData>(AsHash(4146980487));
+			const AssetName<Rendering::SkeletonAnimationData> Chicken_1_picotear = AssetName<Rendering::SkeletonAnimationData>(AsHash(4146980487));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_1_EsqueletoAction = AssetName<Rendering::SkeletonAnimationData>(AsHash(3725054439));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_1_idle = AssetName<Rendering::SkeletonAnimationData>(AsHash(2956683110));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_1_idle2 = AssetName<Rendering::SkeletonAnimationData>(AsHash(809337307));
@@ -130,7 +130,7 @@ namespace Data
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_1_Esqueleto_idle2 = AssetName<Rendering::SkeletonAnimationData>(AsHash(980742927));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_1_Esqueleto_picotear = AssetName<Rendering::SkeletonAnimationData>(AsHash(2251993102));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_1_Esqueleto_PoseLib = AssetName<Rendering::SkeletonAnimationData>(AsHash(1510553234));
-			const AssetName<Rendering::SkeletonAnimationData> Chicken_2_picotear_005 = AssetName<Rendering::SkeletonAnimationData>(AsHash(4148241031));
+			const AssetName<Rendering::SkeletonAnimationData> Chicken_2_picotear = AssetName<Rendering::SkeletonAnimationData>(AsHash(4148241031));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_2_EsqueletoAction = AssetName<Rendering::SkeletonAnimationData>(AsHash(3725014207));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_2_idle = AssetName<Rendering::SkeletonAnimationData>(AsHash(3154077542));
 			const AssetName<Rendering::SkeletonAnimationData> Chicken_2_idle2 = AssetName<Rendering::SkeletonAnimationData>(AsHash(809361403));

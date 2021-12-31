@@ -41,6 +41,7 @@ namespace Rendering {
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
     creator.AddComponent<SkinnedMeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
     creator.AddComponent<WorldTransformComponent>(Core::Geometric::Transform());
+    creator.AddComponent<SkeletonComponent>();
 
     if (modelState.parent.IsValid())
     {
@@ -70,9 +71,9 @@ namespace Rendering {
     bool isAnimated = (skeletonData->animations.size() > 0);
     if (isAnimated)
     {
+      // register animations?
       auto animatorId = animationManager.CreateAnimator(assetManager, skeletonData->animations);
       creator.AddComponent<AnimatorComponent>(animatorId);
-      // register animations?
     }
 
     Entity model = ecsSystem.CreateEntity(creator);

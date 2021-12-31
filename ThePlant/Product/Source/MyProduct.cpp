@@ -35,34 +35,38 @@ namespace Product
         Application::StateManager& stateManager = Application::ApplicationManager::AppStateManager();
         Application::State& currentState = stateManager.GetActiveState();
 
-        // _cameraController = CameraController(_cameraNode);
-        // Application::Input::InputManager& inputManager = Application::ApplicationManager::AppInputManager();
-        // inputManager.setInputController<Application::Input::DefaultInputController>();
-        // inputManager->addReceiver(&_cameraController);
-
         _luaManager.initialize();
 
         // testing
+        auto& animationManager = Application::ApplicationManager::AppAnimationManager();
         auto& assetManager = Application::ApplicationManager::AppAssetManager();
-        auto& shaderManager = Application::ApplicationManager::AppShaderManager();
-        auto material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), shaderManager);
-        auto mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
-        Transform transform = Transform();
-
         auto& ecs = Application::ApplicationManager::AppECS();
-        auto components = std::make_tuple<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(transform, Core::Math::Float3(0.0f, 0.0f, -600.0f), Core::Math::FQuaternion(), material, mesh);
-        _entity = ecs.CreateEntity<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(components);
+        auto& shaderManager = Application::ApplicationManager::AppShaderManager();
 
         // this will be data driven from the future
+        // create camera
         Transform cameraTransform;
         Application::CameraComponent camera(1280.0f / 1080.0f, Core::Math::Float3(0.0f, 0.0f, 0.0f));
         auto cameraComponents = std::make_tuple<Application::CameraComponent, Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent>(std::move(camera), cameraTransform, Core::Math::Float3(0.0f, 0.0f, 20.0f), Core::Math::FQuaternion(Core::Math::II()));
         _camera = ecs.CreateEntity(cameraComponents);
 
+        // create camera controller
         _cameraController = CameraController(ecs, _camera.GetEntityId());
         Application::Input::InputManager& inputManager = Application::ApplicationManager::AppInputManager();
         inputManager.setInputController<Application::Input::DefaultInputController>();
         inputManager->addReceiver(&_cameraController);
+
+        // create MI
+        auto material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), shaderManager);
+        auto mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
+        Transform transform = Transform();
+
+        auto components = std::make_tuple<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(transform, Core::Math::Float3(0.0f, 0.0f, -600.0f), Core::Math::FQuaternion(Core::Math::II()), material, mesh);
+        _mi = ecs.CreateEntity(components);
+
+        // create Woman
+        Application::Rendering::InitialAnimatedModelState initialWomanState(Data::Ast.amdl.Woman_0, Transform());
+        _woman = Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
         // \testing
     }
 
@@ -102,11 +106,11 @@ namespace Product
         //end of testing
 
         // testing
-        // Application::RotationComponent& entityRotationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(_entity);
+        Application::RotationComponent& entityRotationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(_mi);
         
-        // FQuaternion entityRotation = entityRotationComponent.rotation;
-        // FQuaternion newEntityRotation = Core::Math::LerpQuat(entityRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * entityRotation, Duration(dt));
-        // entityRotationComponent.rotation = newEntityRotation;
+        FQuaternion entityRotation = entityRotationComponent.rotation;
+        FQuaternion newEntityRotation = Core::Math::LerpQuat(entityRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * entityRotation, Duration(dt));
+        entityRotationComponent.rotation = newEntityRotation;
         // \testing
     }
 

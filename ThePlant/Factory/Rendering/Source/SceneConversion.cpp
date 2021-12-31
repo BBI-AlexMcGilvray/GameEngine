@@ -158,6 +158,7 @@ namespace Data
 						CORE_LOG(SCENE_CONVERSION, "Creating file to hold skeleton animation information for <<" + fileName + ">>");
 						// do this before the skeleton so the skeleton knows (and saves) its animations?
 						CreateFileForSkeletonAnimation(config, directAssets, loadedScene->mAnimations[animationIndex], loadedScene->mRootNode, loadedScene->mMeshes[meshIndex], meshIndex, fileName);
+						// naming stuff is dumb here since we do the same calculation in different spots, clean that up (SkeletonExport.cpp-L92, SkeletonAnimationExport.cpp-L156, SceneConversion.cpp-L161)
 						skeletonAnimations.push_back(fileName + "_" + FixAnimationName(std::string(loadedScene->mAnimations[animationIndex]->mName.C_Str())));
 					}
 				}

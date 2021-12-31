@@ -173,17 +173,40 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
         // sort based on dependencies
         std::sort(dependencyTree.begin(), dependencyTree.end(), [](const auto& p1, const auto& p2)
         {
-            if (p1.second == std::make_pair(INVALID_INDEX, INVALID_INDEX))
-            {
-                return true;
-            }
-
+            // if p1 depends on p2, p2 must come after
             if (p1.second == p2.first)
             {
                 return false;
             }
+            // if p2 depends on p1, p1 must come first
+            if (p2.second == p1.first)
+            {
+                return true;
+            }
 
-            return true;
+            // if one of them has no dependencies and the other does, the one with no dependencies should go first
+            // otherwise, sort based on their indices
+            auto invalidPair = std::make_pair(INVALID_INDEX, INVALID_INDEX);
+            bool p1_noDeps = p1.second == invalidPair;
+            bool p2_noDeps = p2.second == invalidPair;
+            if (p1_noDeps == p2_noDeps)
+            {
+                auto p1_indices = p1.first;
+                auto p2_indices = p2.first;
+                if (p1_indices.first > p2_indices.first)
+                {
+                    return false;
+                }
+                return (p1_indices.first < p2_indices.first ? true : p1_indices.second < p2_indices.second);
+            }
+            else if (p1_noDeps) // p1_noDeps == true, p2_noDeps == false
+            {
+                return true;
+            }
+            else // p1_noDeps == false, p2_noDeps == true
+            {
+                return false;
+            }
         });
 
         // Note: This is not efficient, we end up jumping around a lot. there isn't much of an alternative (even copying sorted into a new list will result in jumping around)
