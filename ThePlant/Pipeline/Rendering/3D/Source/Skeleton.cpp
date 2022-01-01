@@ -109,6 +109,7 @@ namespace Rendering {
     // we assume the first bone is the root of the skeleton (parent to all other bones)
     std::vector<std::pair<Core::Hash, Application::EntityId>> allBones = AddChildBones(ecsSystem, assetData, 0, skeletonState.parent, creationData);
     VERIFY(allBones.size() <= 50); // we only support up to 50 bones
+    skeleton.rootBone = allBones[0].second; // root bone is created first
     std::copy(allBones.begin(), allBones.end(), skeleton.nameAndEntities.begin());
   }
 }// namespace Rendering

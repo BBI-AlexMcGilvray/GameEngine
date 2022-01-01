@@ -111,6 +111,7 @@ struct BoneComponent
 
 struct SkeletonComponent
 {
+    EntityId rootBone;
     std::array<std::pair<Core::Hash, Application::EntityId>, 50> nameAndEntities;
     std::array<Core::Math::Float4x4, 50> boneArray;
 
@@ -120,13 +121,14 @@ struct SkeletonComponent
     SkeletonComponent& operator=(const SkeletonComponent&) = default;
     SkeletonComponent& operator=(SkeletonComponent&&) = default;
 
-    SkeletonComponent(const std::array<std::pair<Core::Hash, Application::EntityId>, 50>& boneInfo)
-    : nameAndEntities(boneInfo)
+    SkeletonComponent(const EntityId& rootBone, const std::array<std::pair<Core::Hash, Application::EntityId>, 50>& boneInfo)
+    : rootBone(rootBone)
+    , nameAndEntities(boneInfo)
     {}
 
     bool operator==(const SkeletonComponent& other) const
     {
-        return (nameAndEntities == other.nameAndEntities && boneArray == other.boneArray);
+        return (rootBone == other.rootBone && nameAndEntities == other.nameAndEntities && boneArray == other.boneArray);
     }
 
     Application::EntityId GetBone(const std::string& name)

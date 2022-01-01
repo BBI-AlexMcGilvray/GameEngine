@@ -63,7 +63,7 @@ struct SkeletonUpdateSystem : public ISystem
 {
     enum class TAG { CREATE };
 
-    using BoneData = std::unordered_map<EntityId, std::pair<BoneComponent, LocalTransformComponent>>;
+    using BoneData = std::unordered_map<EntityId, std::pair<BoneComponent, WorldTransformComponent>>;
 
     SkeletonUpdateSystem(const TAG& tag)
     {}
@@ -90,7 +90,7 @@ private:
         {
             const std::vector<EntityId>& entities = boneArchetype->GetEntities();
             std::vector<BoneComponent>& bones = boneArchetype->GetComponents<BoneComponent>();
-            std::vector<LocalTransformComponent>& transforms = boneArchetype->GetComponents<LocalTransformComponent>();
+            std::vector<WorldTransformComponent>& transforms = boneArchetype->GetComponents<WorldTransformComponent>();
 
             VERIFY((entities.size() == bones.size()) && (entities.size() == transforms.size()));
             for (size_t index = 0; index < entities.size(); ++index)
@@ -110,10 +110,12 @@ private:
 
             for (auto& skeleton : skeletons)
             {
+                auto& rootBone = boneToDataMapping.at(skeleton.rootBone).second;
                 for (size_t boneIndex = 0; boneIndex < skeleton.nameAndEntities.size() && skeleton.nameAndEntities[boneIndex].second.IsValid(); ++boneIndex)
                 {
                     auto& entityData = boneToDataMapping.at(skeleton.nameAndEntities[boneIndex].second);
-                    const auto& relativeTransform = entityData.first.bindMatrix * entityData.second.transform.GetTransformationMatrix();
+                    const auto& relativeToRootBoneTransform = rootBone.transform.GetInverseTransformationMatrix() * entityData.second.transform.GetTransformationMatrix();
+                    const auto& relativeTransform = relativeToRootBoneTransform * entityData.first.bindMatrix;
                     skeleton.boneArray[boneIndex] = relativeTransform;
                 }
             }
