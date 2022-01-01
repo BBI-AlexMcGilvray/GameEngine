@@ -25,6 +25,7 @@ namespace Rendering {
     InitialSkeletonState(const Data::AssetName<Data::Rendering::SkeletonData>& asset, const EntityId& parent, const Core::instanceId<Animation::Animator> animationId = Core::instanceId<Animation::Animator>());
   };
 
+  size_t GetBoneIndex(const Data::Rendering::SkeletonData& skeleton, const std::string& boneName);
   void CreateSkeleton(ECS& ecsSystem, Data::AssetManager& assetManager, const InitialSkeletonState& skeletonState, SkeletonComponent& skeleton);
 }// namespace Rendering
 }// namespace Application

@@ -25,6 +25,10 @@ namespace Rendering {
     InitialAnimatedModelState(const Data::AssetName<Data::Rendering::AnimatedModelData>& asset, const Core::Geometric::Transform& localTransform, const EntityId& parent);
   };
 
+  /*
+  NOTE: The 'Woman' model has fucked up scales that have been manually changed in the generated skeleton asset file - that may be a problem if we regenerate it
+  */
+
   Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, Animation::AnimationManager& animationManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState);
 }// namespace Rendering
 }// namespace Application

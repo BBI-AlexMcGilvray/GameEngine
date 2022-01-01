@@ -134,9 +134,10 @@ namespace Rendering {
         return CreateMesh(vertexData);
     }
 
-    MappedMesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data)
+    MappedMesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data, const Data::AssetData<Data::Rendering::SkeletonData>& skeleton)
     {
-        std::vector<SkinnedVertexData> vertexData = createRuntimeData(*data);
+        std::vector<SkinnedVertexData> vertexData = createRuntimeData(*data, *skeleton);
+
         return CreateMesh(vertexData);
     }
 } // namespace Rendering

@@ -64,14 +64,14 @@ namespace Rendering {
     return ecsSystem.CreateEntity(creator).GetEntityId();
   }
 
-  std::vector<EntityId> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, BoneCreationHelper::BoneCreationData& creationData)
+  std::vector<std::pair<Core::Hash, Application::EntityId>> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, BoneCreationHelper::BoneCreationData& creationData)
   {
-    std::vector<EntityId> bones;
+    std::vector<std::pair<Core::Hash, Application::EntityId>> bones;
 
     const Data::Rendering::SkeletonBoneData& boneData = skeletonData->bones[boneIndex];
 
     EntityId newBone = CreateBone(ecsSystem, boneData, parent, creationData);
-    bones.push_back(newBone);
+    bones.push_back({ Core::HashValue(boneData.name), newBone });
 
     size_t firstChildIndex = boneIndex + 1; // +1 because we added 'this' bone
     for (size_t child = 0; child < boneData.children; ++child)
@@ -83,6 +83,21 @@ namespace Rendering {
     return bones;
   }
 
+  size_t GetBoneIndex(const Data::Rendering::SkeletonData& skeleton, const std::string& boneName)
+  {
+    size_t index = 0;
+    for (auto& bone : skeleton.bones)
+    {
+      if (bone.name == boneName)
+      {
+        return index;
+      }
+      ++index;
+    }
+
+    throw std::exception("bone does not exist in skeleton");
+  }
+
   void CreateSkeleton(ECS& ecsSystem, Data::AssetManager& assetManager, const InitialSkeletonState& skeletonState, SkeletonComponent& skeleton)
   {
     Data::AssetData<Data::Rendering::SkeletonData> assetData = assetManager.getAssetData(skeletonState.asset);
@@ -92,9 +107,9 @@ namespace Rendering {
     BoneCreationHelper::BoneCreationData creationData = BoneCreationHelper::BoneCreationData(rootBoneTransform, skeletonState.animatorId);
 
     // we assume the first bone is the root of the skeleton (parent to all other bones)
-    std::vector<EntityId> allBones = AddChildBones(ecsSystem, assetData, 0, skeletonState.parent, creationData);
+    std::vector<std::pair<Core::Hash, Application::EntityId>> allBones = AddChildBones(ecsSystem, assetData, 0, skeletonState.parent, creationData);
     VERIFY(allBones.size() <= 50); // we only support up to 50 bones
-    std::copy(allBones.begin(), allBones.end(), skeleton.entityArray.begin());
+    std::copy(allBones.begin(), allBones.end(), skeleton.nameAndEntities.begin());
   }
 }// namespace Rendering
 }// namespace Application

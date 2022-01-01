@@ -1,5 +1,7 @@
 #include "Pipeline/Rendering/3D/Headers/VertexData.h"
 
+#include "Pipeline/Rendering/3D/Headers/Skeleton.h"
+
 namespace Application
 {
     namespace Rendering
@@ -58,21 +60,35 @@ namespace Application
             return runtimeData;
         }
 
-        std::vector<SkinnedVertexData> createRuntimeData(const std::vector<AnimatedVertexData>& animatedData)
+        SkinnedVertexData SkinToSkeleton(const AnimatedVertexData& vertexData, const Data::Rendering::SkeletonData& skeleton)
+        {
+            SkinnedVertexData result(vertexData);
+            for (size_t index = 0; index < vertexData.boneName.size(); ++index)
+            {
+                const auto& boneName = vertexData.boneName[index];
+                if (!boneName.empty())
+                {
+                    result.boneIndices[index] = static_cast<int>(GetBoneIndex(skeleton, boneName));
+                }
+            }
+            return result;
+        }
+
+        std::vector<SkinnedVertexData> createRuntimeData(const std::vector<AnimatedVertexData>& animatedData, const Data::Rendering::SkeletonData& skeleton)
         {
             std::vector<SkinnedVertexData> runtimeData;
             runtimeData.reserve(animatedData.size());
 
             for (int i = 0; i < animatedData.size(); i++) {
-                runtimeData.push_back(SkinnedVertexData(animatedData[i]));
+                runtimeData.push_back(SkinToSkeleton(animatedData[i], skeleton));
             }
 
             return runtimeData;
         }
 
-        std::vector<SkinnedVertexData> createRuntimeData(const Data::Rendering::AnimatedMeshData& meshData)
+        std::vector<SkinnedVertexData> createRuntimeData(const Data::Rendering::AnimatedMeshData& meshData, const Data::Rendering::SkeletonData& skeleton)
         {
-            return createRuntimeData(createExplicitRuntimeData(meshData));
+            return createRuntimeData(createExplicitRuntimeData(meshData), skeleton);
         }
     }
 }

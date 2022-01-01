@@ -57,39 +57,31 @@ namespace Product
         inputManager->addReceiver(&_cameraController);
 
         // create MI
-        auto material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), shaderManager);
-        auto mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
-        Transform transform = Transform();
+        // auto material = CreateMaterial(assetManager.getAssetData(Data::Ast.mat.MI_0), shaderManager);
+        // auto mesh = CreateMesh(assetManager.getAssetData(Data::Ast.smsh.MI_0));
+        // Transform transform = Transform();
 
-        auto components = std::make_tuple<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(transform, Core::Math::Float3(0.0f, 0.0f, -600.0f), Core::Math::FQuaternion(Core::Math::II()), material, mesh);
-        _mi = ecs.CreateEntity(components);
+        // auto components = std::make_tuple<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(transform, Core::Math::Float3(0.0f, 0.0f, -600.0f), Core::Math::FQuaternion(Core::Math::II()), material, mesh);
+        // _mi = ecs.CreateEntity(components);
+        Application::Rendering::InitialStaticModelState initialMIState(Data::Ast.smdl.MI_0, Transform());
+        _mi = Application::Rendering::CreateModel(ecs, assetManager, shaderManager, initialMIState);
 
         // create Woman
+        /*
+        NOTE: We are never 'skinning' the mesh (assigning the bone indices)
+            - maybe we can do this when we create the mesh by providing the skeleton data?
+            - maybe we need to do this after, in which case we should provide a skeleton component (that includes an array of strings (hashes?) to match entity ids and allow us to get indices)
+                - the array of strings should probably exist anyways so we can get the bone (entityId) based on the name (hashed name?)
+        */
         Application::Rendering::InitialAnimatedModelState initialWomanState(Data::Ast.amdl.Woman_0, Transform());
         _woman = Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
+        ecs.GetComponentFor<Application::RotationComponent>(_woman).rotation = FQuaternion(0.0f, 0.707f, 0.0f, 0.707f) * FQuaternion(-0.707f, 0.0f, 0.0f, 0.707f);
         // \testing
     }
 
     void MyProduct::start()
     {
         _luaManager.start();
-
-        //Ptr<Node> staticMeshNode = AddChild<Node>("StaticMesh", Float3(-10.0f, 0.0f, 0.0f));
-        //Ptr<ContentBase> staticMeshContent = staticMeshNode->AddContent(MakeUnique<ContentBase>());
-        //ComponentPtr<Hierarchy> staticHierarchyComponent = staticMeshContent->GetComponent<Hierarchy>();
-        //ComponentPtr<Rendering::Render> staticRenderComponent = staticMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
-        //staticRenderComponent->AddRenderObject<Rendering::ModelBase>(&(staticHierarchyComponent->GetHeirarchyNode()->Transformation), Data::Ast.spmdl.MI_0);
-
-        // _holderNode = _currentWorld->AddChild<Application::Geometric::Node>("Holder");
-
-        // Ptr<Application::Geometric::Node> animatedMeshNode = _holderNode->AddChild<Application::Geometric::Node>("AnimatedMesh", Float3(0.0f, 0.0f, 0.0f), FQuaternion(0.0f, 0.707f, 0.0f, 0.707f) * FQuaternion(-0.707f, 0.0f, 0.0f, 0.707f));
-        //animatedMeshNode->Transformation.SetRotation()
-
-        // Ptr<Application::Geometric::ContentBase> animatedMeshContent = animatedMeshNode->AddContent<AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
-        // animatedMeshContent->Initialize();
-        //ComponentPtr<Rendering::Render> animatedRenderComponent = animatedMeshContent->AddComponent<Rendering::Render>(ApplicationManager::AppRenderManager().GetObjectManagerForState(ParentState));
-        //Ptr<Rendering::AnimatedModel> animatedModel = animatedRenderComponent->SetRenderObject<Rendering::AnimatedModel>(animatedMeshNode, Data::Ast.amdl.Woman_0);
-        // _shoulderBone = animatedMeshNode->GetChild("LeftShoulder");// Targetting the "RootNode" works... maybe an issue with how the values are uploaded?
     }
 
     void MyProduct::update(Core::Second dt)
@@ -97,12 +89,13 @@ namespace Product
         _luaManager.update(dt);
 
         // just for testing currently
-        // FQuaternion currentRotation = _holderNode->Transformation.GetLocalRotation();
-        // FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * currentRotation, Duration(dt));
-        // _holderNode->Transformation.SetLocalRotation(newRot);
+        Application::SkeletonComponent& skeleton = Application::ApplicationManager::AppECS().GetComponentFor<Application::SkeletonComponent>(_woman);
+        Application::EntityId skeletonShoulder = skeleton.GetBone("LeftShoulder");
 
-        // FQuaternion rotationModification = _shoulderBone->Transformation.GetLocalRotation();
-        // _shoulderBone->Transformation.AdjustLocalRotation(FQuaternion(0.0f, 0.0f, 0.01f, 0.99f));
+        Application::RotationComponent& armRotation = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(skeletonShoulder);
+        FQuaternion currentRotation = armRotation.rotation;
+        FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * currentRotation, Duration(dt));
+        armRotation.rotation = newRot;
         //end of testing
 
         // testing

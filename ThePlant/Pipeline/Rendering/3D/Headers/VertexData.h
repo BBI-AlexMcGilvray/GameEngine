@@ -9,9 +9,10 @@
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Headers/Macros.h"
 
-#include "Data/Rendering/Headers/SimpleMeshData.h"
-#include "Data/Rendering/Headers/StaticMeshData.h"
 #include "Data/Rendering/Headers/AnimatedMeshData.h"
+#include "Data/Rendering/Headers/SimpleMeshData.h"
+#include "Data/Rendering/Headers/SkeletonData.h"
+#include "Data/Rendering/Headers/StaticMeshData.h"
 
 namespace Application {
 namespace Rendering {
@@ -63,7 +64,8 @@ namespace Rendering {
   std::vector<SimpleVertexData> createRuntimeData(const Data::Rendering::SimpleMeshData& meshData);
   std::vector<VertexData> createRuntimeData(const Data::Rendering::StaticMeshData& meshData);
   std::vector<AnimatedVertexData> createExplicitRuntimeData(const Data::Rendering::AnimatedMeshData& meshData);
-  std::vector<SkinnedVertexData> createRuntimeData(const std::vector<AnimatedVertexData>& animatedData);
-  std::vector<SkinnedVertexData> createRuntimeData(const Data::Rendering::AnimatedMeshData& meshData);
+  SkinnedVertexData SkinToSkeleton(const AnimatedVertexData& vertexData, const Data::Rendering::SkeletonData& skeleton);
+  std::vector<SkinnedVertexData> createRuntimeData(const std::vector<AnimatedVertexData>& animatedData, const Data::Rendering::SkeletonData& skeleton);
+  std::vector<SkinnedVertexData> createRuntimeData(const Data::Rendering::AnimatedMeshData& meshData, const Data::Rendering::SkeletonData& skeleton);
 }// namespace Rendering
 }// namespace Application

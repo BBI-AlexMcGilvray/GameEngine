@@ -92,7 +92,7 @@ private:
             std::vector<BoneComponent>& bones = boneArchetype->GetComponents<BoneComponent>();
             std::vector<LocalTransformComponent>& transforms = boneArchetype->GetComponents<LocalTransformComponent>();
 
-            VERIFY(entities.size() == bones.size() == transforms.size());
+            VERIFY((entities.size() == bones.size()) && (entities.size() == transforms.size()));
             for (size_t index = 0; index < entities.size(); ++index)
             {
                 boneToDataMapping[entities[index]] = std::make_pair(bones[index], transforms[index]);
@@ -110,9 +110,9 @@ private:
 
             for (auto& skeleton : skeletons)
             {
-                for (size_t boneIndex = 0; boneIndex < skeleton.entityArray.size(); ++boneIndex)
+                for (size_t boneIndex = 0; boneIndex < skeleton.nameAndEntities.size() && skeleton.nameAndEntities[boneIndex].second.IsValid(); ++boneIndex)
                 {
-                    auto& entityData = boneToDataMapping.at(skeleton.entityArray[boneIndex]);
+                    auto& entityData = boneToDataMapping.at(skeleton.nameAndEntities[boneIndex].second);
                     const auto& relativeTransform = entityData.first.bindMatrix * entityData.second.transform.GetTransformationMatrix();
                     skeleton.boneArray[boneIndex] = relativeTransform;
                 }
@@ -165,7 +165,7 @@ private:
                 context,
                 skeletons[index].boneArray
             };
-            _renderManager.QueueRender(context);
+            _renderManager.QueueRender(skinnedContext);
         }
     }
 };

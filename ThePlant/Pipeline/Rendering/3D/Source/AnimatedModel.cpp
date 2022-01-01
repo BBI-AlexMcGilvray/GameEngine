@@ -37,9 +37,11 @@ namespace Rendering {
   {
     Data::AssetData<Data::Rendering::AnimatedModelData> assetData = assetManager.getAssetData(modelState.asset);
     
+    Data::AssetData<Data::Rendering::SkeletonData> skeletonData = assetManager.getAssetData(assetData->skeleton);
+
     EntityCreator creator;
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
-    creator.AddComponent<SkinnedMeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
+    creator.AddComponent<SkinnedMeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh), skeletonData));
     creator.AddComponent<WorldTransformComponent>(Core::Geometric::Transform());
     creator.AddComponent<SkeletonComponent>();
 
@@ -51,15 +53,15 @@ namespace Rendering {
 
     // the below conditions may not be entirely valid, we may want to have explicit toggles for components in the model asset data
     // but that can be handled later
-    if (modelState.transform.GetPosition() != Core::Math::Float3(0.0f))
+    // if (modelState.transform.GetPosition() != Core::Math::Float3(0.0f))
     {
       creator.AddComponent<PositionComponent>(modelState.transform.GetPosition());
     }
-    if (modelState.transform.GetScale() != Core::Math::Float3(1.0f))
+    // if (modelState.transform.GetScale() != Core::Math::Float3(1.0f))
     {
       creator.AddComponent<ScaleComponent>(modelState.transform.GetScale());
     }
-    if (modelState.transform.GetRotation() != Core::Math::FQuaternion(Core::Math::II()))
+    // if (modelState.transform.GetRotation() != Core::Math::FQuaternion(Core::Math::II()))
     {
       creator.AddComponent<RotationComponent>(modelState.transform.GetRotation());
     }
@@ -67,7 +69,6 @@ namespace Rendering {
     // with this here, we are getting it twice (here and in CreateSkeleton below) - ideally we strip one of those calls
     // but we should still be able to create a skeleton from just an asset name
     // maybe all 'create' calls should have overloads for [AssetManager, AssetName] and [AssetData] (former redirects to the latter)
-    Data::AssetData<Data::Rendering::SkeletonData> skeletonData = assetManager.getAssetData(assetData->skeleton);
     bool isAnimated = (skeletonData->animations.size() > 0);
     if (isAnimated)
     {

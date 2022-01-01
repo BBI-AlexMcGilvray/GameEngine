@@ -3,9 +3,10 @@
 #include "Core/Headers/CoreDefs.h"
 
 #include "Data/Headers/AssetData.h"
-#include "Data/Rendering/Headers/SimpleMeshData.h"
-#include "Data/Rendering/Headers/StaticMeshData.h"
 #include "Data/Rendering/Headers/AnimatedMeshData.h"
+#include "Data/Rendering/Headers/SimpleMeshData.h"
+#include "Data/Rendering/Headers/SkeletonData.h"
+#include "Data/Rendering/Headers/StaticMeshData.h"
 
 #include "Pipeline/Rendering/3D/Headers/VertexData.h"
 
@@ -66,6 +67,8 @@ namespace Rendering {
     // these need to be adjusted in the future to not create the same mesh multiple times for the same asset (would need something like we have for shaders)
     Mesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::SimpleMeshData>& data);
     Mesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::StaticMeshData>& data);
-    MappedMesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data);
+    // is this one needed?
+    // MappedMesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data);
+    MappedMesh_NEW CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data, const Data::AssetData<Data::Rendering::SkeletonData>& skeleton);
 }// namespace Rendering
 }// namespace Application

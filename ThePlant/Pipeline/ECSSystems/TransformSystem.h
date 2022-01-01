@@ -144,6 +144,7 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
             for (; firstIndex < allEntities.size(); ++firstIndex)
             {
                 auto& entities = *(allEntities[firstIndex]);
+                secondIndex = 0;
                 for (; secondIndex < entities.size(); ++secondIndex)
                 {
                     if (entities[secondIndex] == parent.entity)
@@ -155,6 +156,11 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
                 {
                     break;
                 }
+            }
+
+            if (firstIndex >= allEntities.size())
+            {
+                throw std::exception("Could not find parent!");
             }
 
             return std::make_pair(firstIndex, secondIndex);
@@ -212,29 +218,6 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
         // Note: This is not efficient, we end up jumping around a lot. there isn't much of an alternative (even copying sorted into a new list will result in jumping around)
         // But don't worry about this yet, optimize this later once we know it works
         // actually update
-        auto findParentWorldTransfom = [&allEntities, &allWorldTransforms, &allLocalTransforms](const ParentComponent& parent)
-        {
-            size_t firstIndex = 0;
-            size_t secondIndex = 0;
-
-            for (; firstIndex < allEntities.size(); ++firstIndex)
-            {
-                auto& entities = *(allEntities[firstIndex]);
-                for (; secondIndex < entities.size(); ++secondIndex)
-                {
-                    if (entities[secondIndex] == parent.entity)
-                    {
-                        break;
-                    }
-                }
-                if (secondIndex < entities.size())
-                {
-                    break;
-                }
-            }
-
-            return (*(allWorldTransforms[firstIndex]))[secondIndex].transform;
-        };
         for (const auto& dependencySet : dependencyTree)
         {
             if (dependencySet.second == std::make_pair(INVALID_INDEX, INVALID_INDEX))
@@ -242,11 +225,10 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
                 continue;
             }
 
-            auto& parentComponent = (*(allParents[dependencySet.second.first]))[dependencySet.second.second];
-            auto& parentWorldTransform = findParentWorldTransfom(parentComponent);
+            auto& parentWorldTransform = (*(allWorldTransforms[dependencySet.second.first]))[dependencySet.second.second];
 
             auto& thisWorldTransform = (*(allWorldTransforms[dependencySet.first.first]))[dependencySet.first.second];
-            thisWorldTransform.transform = parentWorldTransform.GetTransformationMatrix() * thisWorldTransform.transform.GetTransformationMatrix();
+            thisWorldTransform.transform = parentWorldTransform.transform.GetTransformationMatrix() * thisWorldTransform.transform.GetTransformationMatrix();
         }
     }
 };

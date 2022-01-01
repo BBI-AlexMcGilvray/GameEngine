@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Headers/Hash.h"
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
@@ -110,7 +111,7 @@ struct BoneComponent
 
 struct SkeletonComponent
 {
-    std::array<Application::EntityId, 50> entityArray;
+    std::array<std::pair<Core::Hash, Application::EntityId>, 50> nameAndEntities;
     std::array<Core::Math::Float4x4, 50> boneArray;
 
     SkeletonComponent() = default;
@@ -119,13 +120,31 @@ struct SkeletonComponent
     SkeletonComponent& operator=(const SkeletonComponent&) = default;
     SkeletonComponent& operator=(SkeletonComponent&&) = default;
 
-    SkeletonComponent(const std::array<Application::EntityId, 50>& entityArray)
-    : entityArray(entityArray)
+    SkeletonComponent(const std::array<std::pair<Core::Hash, Application::EntityId>, 50>& boneInfo)
+    : nameAndEntities(boneInfo)
     {}
 
     bool operator==(const SkeletonComponent& other) const
     {
-        return (entityArray == other.entityArray && boneArray == other.boneArray);
+        return (nameAndEntities == other.nameAndEntities && boneArray == other.boneArray);
+    }
+
+    Application::EntityId GetBone(const std::string& name)
+    {
+        return GetBone(Core::HashValue(name));
+    }
+
+    Application::EntityId GetBone(const Core::Hash& name)
+    {
+        for (size_t index = 0; index < nameAndEntities.size(); ++index)
+        {
+            if (name == nameAndEntities[index].first)
+            {
+                return nameAndEntities[index].second;
+            }
+        }
+
+        throw std::exception("bone does not exist in skeleton");
     }
 };
 

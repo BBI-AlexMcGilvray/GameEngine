@@ -19,7 +19,7 @@ namespace Product
                 auto actualEvent = static_cast<Core::Ptr<const Application::Input::InputEvent<Application::Input::MouseWheelData>>>(event);
 
                 Application::PositionComponent& cameraPosition = _ecs->GetComponentFor<Application::PositionComponent>(_cameraEntity);
-                cameraPosition.position += (Core::Math::Float3(0.0f, 0.0f, 5.0f) * static_cast<float>(actualEvent->data.mouseX));
+                cameraPosition.position += (Core::Math::Float3(0.0f, 0.0f, 3.0f) * static_cast<float>(actualEvent->data.mouseX));
 
                 return true;
             }
