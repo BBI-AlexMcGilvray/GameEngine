@@ -34,19 +34,20 @@ namespace Rendering {
     };
   }
 
-  EntityId CreateBone(ECS& ecsSystem, const Data::Rendering::SkeletonBoneData& boneData, const EntityId& parent, BoneCreationHelper::BoneCreationData& creationData)
+  EntityId CreateBone(ECS& ecsSystem, const Data::Rendering::SkeletonBoneData& boneData, const EntityId& parent, Core::Geometric::Transform& parentTransform, BoneCreationHelper::BoneCreationData& creationData)
   {
     EntityCreator creator;
 
     Core::Geometric::Transform bindTransform(boneData.position, boneData.rotation, boneData.scale);
+    Core::Geometric::Transform localTransform = parentTransform.GetInverseTransformationMatrix() * bindTransform.GetTransformationMatrix();
 
     creator.AddComponent<ParentComponent>(parent);
     creator.AddComponent<LocalTransformComponent>();
     // we may want to have a flag for if a given bone can/should have a world transform component (only needed if we want to be able to make it a parent to other entities)
     creator.AddComponent<WorldTransformComponent>();
-    creator.AddComponent<PositionComponent>(bindTransform.GetPosition());
-    creator.AddComponent<ScaleComponent>(bindTransform.GetScale());
-    creator.AddComponent<RotationComponent>(bindTransform.GetRotation());
+    creator.AddComponent<PositionComponent>(localTransform.GetPosition());
+    creator.AddComponent<ScaleComponent>(localTransform.GetScale());
+    creator.AddComponent<RotationComponent>(localTransform.GetRotation());
 
     // steps written our for clarity
     Core::Math::Float4x4 inverseRootBoneMatrix = creationData.rootBone.GetInverseTransformationMatrix();
@@ -64,19 +65,20 @@ namespace Rendering {
     return ecsSystem.CreateEntity(creator).GetEntityId();
   }
 
-  std::vector<std::pair<Core::Hash, Application::EntityId>> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, BoneCreationHelper::BoneCreationData& creationData)
+  std::vector<std::pair<Core::Hash, Application::EntityId>> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, Core::Geometric::Transform& parentTransform, BoneCreationHelper::BoneCreationData& creationData)
   {
     std::vector<std::pair<Core::Hash, Application::EntityId>> bones;
 
     const Data::Rendering::SkeletonBoneData& boneData = skeletonData->bones[boneIndex];
 
-    EntityId newBone = CreateBone(ecsSystem, boneData, parent, creationData);
+    EntityId newBone = CreateBone(ecsSystem, boneData, parent, parentTransform, creationData);
     bones.push_back({ Core::HashValue(boneData.name), newBone });
 
     size_t firstChildIndex = boneIndex + 1; // +1 because we added 'this' bone
+    Core::Geometric::Transform boneTransform(boneData.position, boneData.rotation, boneData.scale);
     for (size_t child = 0; child < boneData.children; ++child)
     {
-      auto childBones = AddChildBones(ecsSystem, skeletonData, firstChildIndex + child, newBone, creationData);
+      auto childBones = AddChildBones(ecsSystem, skeletonData, firstChildIndex + child, newBone, boneTransform, creationData);
       bones.insert(bones.end(), childBones.begin(), childBones.end());
     }
 
@@ -107,7 +109,7 @@ namespace Rendering {
     BoneCreationHelper::BoneCreationData creationData = BoneCreationHelper::BoneCreationData(rootBoneTransform, skeletonState.animatorId);
 
     // we assume the first bone is the root of the skeleton (parent to all other bones)
-    std::vector<std::pair<Core::Hash, Application::EntityId>> allBones = AddChildBones(ecsSystem, assetData, 0, skeletonState.parent, creationData);
+    std::vector<std::pair<Core::Hash, Application::EntityId>> allBones = AddChildBones(ecsSystem, assetData, 0, skeletonState.parent, rootBoneTransform, creationData);
     VERIFY(allBones.size() <= 50); // we only support up to 50 bones
     skeleton.rootBone = allBones[0].second; // root bone is created first
     std::copy(allBones.begin(), allBones.end(), skeleton.nameAndEntities.begin());
