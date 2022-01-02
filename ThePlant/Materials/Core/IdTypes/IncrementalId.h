@@ -26,6 +26,23 @@ struct IncrementalId
     bool operator==(const IncrementalId& other) const;
     bool operator!=(const IncrementalId& other) const;
 
+    bool operator<(const IncrementalId& other) const
+    {
+        return _id < other._id;
+    }
+    bool operator<=(const IncrementalId& other) const
+    {
+        return !(other < *this);
+    }
+    bool operator>(const IncrementalId& other) const
+    {
+        return !(*this <= other);
+    }
+    bool operator>=(const IncrementalId& other) const
+    {
+        return !(*this < other);
+    }
+
     // explicit operator const uint64_t() const { return _id; }
 
 protected:

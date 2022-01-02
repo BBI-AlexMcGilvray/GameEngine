@@ -20,6 +20,12 @@ namespace Application
 
         // we need all calls that ArchetypeManager and SystemManager have and forward to them respectively
         template <typename T>
+        bool HasComponent(const Entity& entity) { return _archetypes.HasComponent<T>(entity); }
+        
+        template <typename T>
+        bool HasComponent(const EntityId& entity) { return _archetypes.HasComponent<T>(entity); }
+
+        template <typename T>
         T& GetComponentFor(const Entity& entity) { return _archetypes.GetComponentFor<T>(entity); }
 
         template <typename T>

@@ -72,7 +72,7 @@ namespace Animation {
             keyframes[0].push_back(Keyframe(frame.time, frame.rotation.X));
             keyframes[1].push_back(Keyframe(frame.time, frame.rotation.Y));
             keyframes[2].push_back(Keyframe(frame.time, frame.rotation.Z));
-            keyframes[3].push_back(Keyframe(frame.time, frame.rotation.Z));
+            keyframes[3].push_back(Keyframe(frame.time, frame.rotation.W));
         }
 
         std::array<AnimationCurve, 4> curves = { keyframes[0], keyframes[1], keyframes[2], keyframes[3] };

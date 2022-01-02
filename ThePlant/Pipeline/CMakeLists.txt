@@ -24,6 +24,7 @@ ECS/DataOriented/ArchetypeManager.cpp #
 ECS/DataOriented/EntityCreator.cpp #
 ECS/ObjectOriented/Source/Component.cpp #
 ECS/ObjectOriented/Source/Entity.cpp #
+ECSSystems/AnimationSystem.cpp #
 GameSystem/Source/GameObjectBase.cpp #
 GameSystem/Source/GameObjectManager.cpp #
 GameSystem/Source/GameSystemManager.cpp #

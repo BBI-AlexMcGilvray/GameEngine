@@ -220,6 +220,7 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
         // actually update
         for (const auto& dependencySet : dependencyTree)
         {
+            // no dependency means it does not have a local transform, means the world transform is as-is
             if (dependencySet.second == std::make_pair(INVALID_INDEX, INVALID_INDEX))
             {
                 continue;
@@ -227,8 +228,10 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
 
             auto& parentWorldTransform = (*(allWorldTransforms[dependencySet.second.first]))[dependencySet.second.second];
 
+            auto& thisLocalTransform = (*(allLocalTransforms[dependencySet.first.first]))[dependencySet.first.second];
+
             auto& thisWorldTransform = (*(allWorldTransforms[dependencySet.first.first]))[dependencySet.first.second];
-            thisWorldTransform.transform = parentWorldTransform.transform.GetTransformationMatrix() * thisWorldTransform.transform.GetTransformationMatrix();
+            thisWorldTransform.transform = thisLocalTransform.transform.GetTransformationMatrix() * parentWorldTransform.transform.GetTransformationMatrix();
         }
     }
 };

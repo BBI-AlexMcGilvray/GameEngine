@@ -49,10 +49,26 @@ struct ArchetypeId
     {
         return (_archetypeId == other._archetypeId);
     }
-
     bool operator!=(const ArchetypeId& other) const
     {
         return !(*this == other);
+    }
+
+    bool operator<(const ArchetypeId& other) const
+    {
+        return _archetypeId < other._archetypeId;
+    }
+    bool operator<=(const ArchetypeId& other) const
+    {
+        return !(other < *this);
+    }
+    bool operator>(const ArchetypeId& other) const
+    {
+        return !(*this <= other);
+    }
+    bool operator>=(const ArchetypeId& other) const
+    {
+        return !(*this < other);
     }
 
     // explicit operator const IncrementalId() const { return _archetypeId; }
@@ -106,10 +122,26 @@ struct EntityId
     {
         return (_entityId == other._entityId);
     }
-
     bool operator!=(const EntityId& other) const
     {
         return !(*this == other);
+    }
+
+    bool operator<(const EntityId& other) const
+    {
+        return _entityId < other._entityId;
+    }
+    bool operator<=(const EntityId& other) const
+    {
+        return !(other < *this);
+    }
+    bool operator>(const EntityId& other) const
+    {
+        return !(*this <= other);
+    }
+    bool operator>=(const EntityId& other) const
+    {
+        return !(*this < other);
     }
 
     // explicit operator const IncrementalId() const { return _entityId; }

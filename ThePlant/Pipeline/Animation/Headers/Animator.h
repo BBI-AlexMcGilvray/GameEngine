@@ -35,6 +35,11 @@ namespace Animation {
     template <typename ATTRIBUTE>
     bool AffectingTarget(const Core::Hash& target) const
     {
+      if (!_animating)
+      {
+        return false;
+      }
+      
       return _animations.at(_currentAnimation.name).AffectsTarget<ATTRIBUTE>(target);
     }
 

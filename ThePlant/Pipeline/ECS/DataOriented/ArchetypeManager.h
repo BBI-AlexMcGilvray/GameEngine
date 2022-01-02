@@ -17,6 +17,18 @@ public:
     ArchetypeManager& operator=(ArchetypeManager&&) = delete;
 
     template <typename T>
+    bool HasComponent(const Entity& entity)
+    {
+        return _GetArchetype(entity.GetArchetypeId()).HasComponent<T>();
+    }
+    
+    template <typename T>
+    bool HasComponent(const EntityId& entity)
+    {
+        return _GetArchetype(entity).HasComponent<T>();
+    }
+
+    template <typename T>
     T& GetComponentFor(const Entity& entity)
     {
         return _GetArchetype(entity.GetArchetypeId()).GetComponentFor<T>(entity);

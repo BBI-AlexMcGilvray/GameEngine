@@ -52,7 +52,7 @@ namespace Rendering {
     // steps written our for clarity
     Core::Math::Float4x4 inverseRootBoneMatrix = creationData.rootBone.GetInverseTransformationMatrix();
     Core::Math::Float4x4 initialBoneMatrix = bindTransform.GetTransformationMatrix();
-    Core::Math::Float4x4 relativeToRootBoneMatrix = inverseRootBoneMatrix * initialBoneMatrix;
+    Core::Math::Float4x4 relativeToRootBoneMatrix = initialBoneMatrix * inverseRootBoneMatrix;
     Core::Math::Float4x4 bindMatrix = Core::Math::Inverse(relativeToRootBoneMatrix);
     creator.AddComponent<BoneComponent>(bindMatrix);
 

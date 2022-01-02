@@ -76,7 +76,7 @@ namespace Product
         */
         Application::Rendering::InitialAnimatedModelState initialWomanState(Data::Ast.amdl.Woman_0, Transform());
         _woman = Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
-        ecs.GetComponentFor<Application::RotationComponent>(_woman).rotation = FQuaternion(0.0f, 0.707f, 0.0f, 0.707f) * FQuaternion(-0.707f, 0.0f, 0.0f, 0.707f);
+        // ecs.GetComponentFor<Application::RotationComponent>(_woman).rotation = FQuaternion(0.0f, 0.707f, 0.0f, 0.707f) * FQuaternion(-0.707f, 0.0f, 0.0f, 0.707f);
         // \testing
     }
 
