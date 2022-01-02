@@ -43,10 +43,16 @@ namespace Animation {
       _channels[std::make_pair(target, Core::GetTypeId<ATTRIBUTE>())] = std::move(newObjectChannel);
     }
 
-    template <typename T, typename ATTRIBUTE>
-    T Evaluate(const Core::Hash& target, const Core::Second& time)
+    template <typename ATTRIBUTE>
+    bool AffectsTarget(const Core::Hash& target) const
     {
-      return _channels[{target, Core::GetTypeId<ATTRIBUTE>()}].Evaluate(time);
+      return _channels.find({target, Core::GetTypeId<ATTRIBUTE>()}) != _channels.end();
+    }
+
+    template <typename T, typename ATTRIBUTE>
+    T Evaluate(const Core::Hash& target, const Core::Second& time) const
+    {
+      return _channels.at({target, Core::GetTypeId<ATTRIBUTE>()})->Evaluate<T>(time);
     }
 
   private:

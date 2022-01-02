@@ -34,6 +34,8 @@ namespace Animation {
 
     Core::instanceId<Animator> CreateAnimator(Data::AssetManager& assetManager, const std::vector<Data::AssetName<Data::Rendering::SkeletonAnimationData>>& animations);
 
+    Animator& GetAnimator(const Core::instanceId<Animator>& animatorId);
+
     void RemoveAnimator(const Core::instanceId<Animator>& animator);
 
   private:

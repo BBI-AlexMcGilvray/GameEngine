@@ -42,7 +42,7 @@ private:
         std::vector<WorldTransformComponent>& transforms = archetype->GetComponents<WorldTransformComponent>();
         Core::Ptr<std::vector<ColorComponent>> colors = archetype->HasComponent<ColorComponent>() ? &(archetype->GetComponents<ColorComponent>()) : nullptr;
 
-        VERIFY(materials.size() == meshes.size() == transforms.size());
+        VERIFY((materials.size() == meshes.size()) && (materials.size() == transforms.size()));
         VERIFY(colors == nullptr || colors->size() == materials.size());
 
         for (size_t index = 0; index < materials.size(); ++index)

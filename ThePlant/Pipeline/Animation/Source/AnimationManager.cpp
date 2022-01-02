@@ -39,12 +39,17 @@ namespace Animation {
 
     for (const auto& animation : animations)
     {
-      newAnimator.AddAnimation(CreateAnimation(assetManager, animation));
+      newAnimator.AddAnimation(animation, CreateAnimation(assetManager, animation));
     }
 
     _animators.emplace(newAnimatorId, std::move(newAnimator));
 
     return newAnimatorId;
+  }
+
+  Animator& AnimationManager::GetAnimator(const Core::instanceId<Animator>& animatorId)
+  {
+    return _animators[animatorId];
   }
 
   void AnimationManager::RemoveAnimator(const Core::instanceId<Animator>& animator)

@@ -14,7 +14,7 @@ namespace Animation {
     class Channel
     {
     public:
-        Channel(const float TYPE::*member, const AnimationCurve& curve)
+        Channel(float TYPE::*member, const AnimationCurve& curve)
         : _member(member)
         , _curve(curve)
         {}
@@ -34,7 +34,7 @@ namespace Animation {
         }
 
     private:
-        const float TYPE::*_member;
+        float TYPE::*_member;
         AnimationCurve _curve;
     };
 
@@ -51,7 +51,7 @@ namespace Animation {
         template <typename T>
         T Evaluate(const Core::Second& time) const
         {
-            AsObjectChannel<T>.Evaluate(time);
+            return AsObjectChannel<T>().Evaluate(time);
         }
 
         template <typename T>
@@ -62,7 +62,7 @@ namespace Animation {
                 throw std::invalid_argument("type does not match that held by the component list");
             }
 
-            return &(static_cast<Core::Ptr<ObjectChannel<T>>>(this));
+            return *(static_cast<Core::Ptr<ObjectChannel<T>>>(this));
         }
         
         template <typename T>
@@ -73,7 +73,7 @@ namespace Animation {
                 throw std::invalid_argument("type does not match that held by the component list");
             }
 
-            return &(static_cast<Core::Ptr<ObjectChannel<T>>>(this));
+            return *(static_cast<Core::Ptr<const ObjectChannel<T>>>(this));
         }
 
     protected:

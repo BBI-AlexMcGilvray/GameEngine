@@ -15,12 +15,12 @@ namespace Animation {
     AnimationCurve();
     AnimationCurve(std::vector<Keyframe> keyframes);
 
-    float Evaluate(Core::Second time);
+    float Evaluate(Core::Second time) const;
 
   private:
     std::vector<Keyframe> _keyframes;
 
-    std::tuple<Keyframe, Keyframe> GetClosestKeyframes(Core::Second time);
+    std::tuple<Keyframe, Keyframe> GetClosestKeyframes(Core::Second time) const;
   };
 }// namespace Animation
 }// namespace Application

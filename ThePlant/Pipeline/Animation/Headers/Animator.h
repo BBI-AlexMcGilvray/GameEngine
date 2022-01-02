@@ -23,7 +23,7 @@ namespace Animation {
     Animator(const Animator&) = delete;
     Animator& operator=(const Animator&) = delete;
 
-    Core::Hash AddAnimation(Animation&& animation);
+    Core::Hash AddAnimation(const Core::Hash& name, Animation&& animation);
     void RemoveAnimation(const Core::Hash name);
 
     void PlayAnimation(const Core::Hash& name);
@@ -32,10 +32,16 @@ namespace Animation {
 
     void Update(const Core::Second& dt);// continues current animations
 
-    template <typename T>
+    template <typename ATTRIBUTE>
+    bool AffectingTarget(const Core::Hash& target) const
+    {
+      return _animations.at(_currentAnimation.name).AffectsTarget<ATTRIBUTE>(target);
+    }
+
+    template <typename T, typename ATTRIBUTE>
     T Evaluate(const Core::Hash& target) const
     {
-      return _animations[target].Evaluate<T>(target, _currentAnimation.time);
+      return _animations.at(_currentAnimation.name).Evaluate<T, ATTRIBUTE>(target, _currentAnimation.time);
     }
 
   private:
@@ -44,11 +50,10 @@ namespace Animation {
     {
       AnimationState() = default;
 
-      AnimationState(Core::Hash name)
-      {
-        time = Core::Second(0);
-        name = name;
-      }
+      AnimationState(const Core::Hash& name)
+      : name(name)
+      , time(Core::Second(0))
+      {}
 
       Core::Second time;
       Core::Hash name;

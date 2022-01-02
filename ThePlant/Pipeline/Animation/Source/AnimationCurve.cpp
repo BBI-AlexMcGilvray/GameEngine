@@ -15,7 +15,7 @@ namespace Animation {
   {}
 
   // Source: https://forum.unity.com/threads/need-way-to-evaluate-animationcurve-in-the-job.532149/
-  float AnimationCurve::Evaluate(Core::Second time)
+  float AnimationCurve::Evaluate(Core::Second time) const
   {
     float t = Core::Duration(time);
 
@@ -41,14 +41,11 @@ namespace Animation {
   }
 
 
-  std::tuple<Keyframe, Keyframe> AnimationCurve::GetClosestKeyframes(Core::Second time)
+  std::tuple<Keyframe, Keyframe> AnimationCurve::GetClosestKeyframes(Core::Second time) const
   {
-    Keyframe first;
-    Keyframe second;
+    Keyframe first = _keyframes[_keyframes.size() - 1];
+    Keyframe second = _keyframes[_keyframes.size() - 1];
 
-#if DEBUG
-    bool keysAssigned = false;
-#endif
     for (int i = 0; i < _keyframes.size(); i++) {
       Keyframe keyframe = _keyframes[i];
       Core::Second keyTime = keyframe.GetTime();
@@ -59,14 +56,9 @@ namespace Animation {
 
       if (keyTime >= time) {
         second = keyframe;
-#if DEBUG
-        keysAssigned = true;
-#endif
         break;
       }
     }
-
-    ASSERT(keysAssigned);
 
     return std::tuple<Keyframe, Keyframe>(first, second);
   }

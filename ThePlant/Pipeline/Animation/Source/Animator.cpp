@@ -4,15 +4,15 @@
 
 namespace Application {
 namespace Animation {
-  Core::Hash Animator::AddAnimation(Animation&& animation)
+  Core::Hash Animator::AddAnimation(const Core::Hash& name, Animation&& animation)
   {
-    if (_animations.find(animation.GetName()) == _animations.end()) {
-      _animations[animation.GetName()] = std::move(animation);
+    if (_animations.find(name) == _animations.end()) {
+      _animations[name] = std::move(animation);
     } else {
       DEBUG_THROW("Animator", "Animation with given name already exists!");
     }
 
-    return animation.GetName();
+    return name;
   }
 
   void Animator::RemoveAnimation(const Core::Hash name)
@@ -24,9 +24,9 @@ namespace Animation {
     }
   }
 
-
   void Animator::PlayAnimation(const Core::Hash& name)
   {
+    VERIFY(_animations.find(name) != _animations.end());
     if (name == _currentAnimation.name) {
       return;
     }

@@ -8,6 +8,7 @@
 #include "Pipeline/Geometric/Headers/ContentBase.h"
 #include "Pipeline/Geometric/Headers/Node.h"
 
+#include "Pipeline/ECSSystems/AnimationComponents.h"
 #include "Pipeline/ECSSystems/CameraComponents.h"
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
@@ -82,21 +83,24 @@ namespace Product
     void MyProduct::start()
     {
         _luaManager.start();
+
+        auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_woman);
+        Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).PlayAnimation(Data::Ast.sanim.Woman_0_Armature_Idle);
     }
 
     void MyProduct::update(Core::Second dt)
     {
         _luaManager.update(dt);
 
-        // just for testing currently
-        Application::SkeletonComponent& skeleton = Application::ApplicationManager::AppECS().GetComponentFor<Application::SkeletonComponent>(_woman);
-        Application::EntityId skeletonShoulder = skeleton.GetBone("LeftShoulder");
+        // testing local transforms by rotating arm
+        // Application::SkeletonComponent& skeleton = Application::ApplicationManager::AppECS().GetComponentFor<Application::SkeletonComponent>(_woman);
+        // Application::EntityId skeletonShoulder = skeleton.GetBone("LeftShoulder");
 
-        Application::RotationComponent& armRotation = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(skeletonShoulder);
-        FQuaternion currentRotation = armRotation.rotation;
-        FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * currentRotation, Duration(dt));
-        armRotation.rotation = newRot;
-        //end of testing
+        // Application::RotationComponent& armRotation = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(skeletonShoulder);
+        // FQuaternion currentRotation = armRotation.rotation;
+        // FQuaternion newRot = Core::Math::LerpQuat(currentRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * currentRotation, Duration(dt));
+        // armRotation.rotation = newRot;
+        // \testing
 
         // testing
         Application::RotationComponent& entityRotationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(_mi);

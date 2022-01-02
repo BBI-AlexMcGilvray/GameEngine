@@ -37,9 +37,10 @@ namespace Product
         _debugUI->initialize();
 
         // the below should probably be a part of the application's initialization (for the default systems at least)
-        _pipeline->AppECS().AddSystem<Application::TransformSystem>();
+        _pipeline->AppECS().AddSystem<Application::AnimationSystem>(Application::ApplicationManager::AppAnimationManager());
+        _pipeline->AppECS().AddSystem<Application::TransformSystem>().AddDependency<Application::AnimationSystem>();
         _pipeline->AppECS().AddSystem<Application::CameraSystem>(Application::ApplicationManager::AppRenderManager().GetCameraManager()).AddDependency<Application::TransformSystem>();
-        _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependencies<Application::TransformSystem, Application::CameraSystem>();
+        _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependencies<Application::TransformSystem, Application::CameraSystem, Application::AnimationSystem>();
 
         return pipelineInitialized;
     }
