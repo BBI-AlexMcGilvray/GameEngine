@@ -17,11 +17,13 @@ namespace Rendering {
     ~ShaderManager();
 
     // games should loop through all shaders and add them at game-creation time (once games get big enough, this would get done on level-switch?)
+    const Shader_NEW GetDefaultShader();
     const Shader_NEW AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader);
     const Shader_NEW GetShader(const Data::AssetName<Data::Rendering::ShaderData>& shader); // we probably want to return a straight shader, but need to be ensure lifetime is ensured
 
   private:
     Data::AssetManager& _assetManager;
+    Shader_NEW _defaultShader;
     std::unordered_map<Data::AssetName<Data::Rendering::ShaderData>, Shader_NEW, Data::AssetNameHasher<Data::Rendering::ShaderData>> _shaders;
   };
 }// namespace Rendering

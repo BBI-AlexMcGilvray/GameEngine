@@ -26,15 +26,17 @@ struct ISystem
     virtual void Execute(ArchetypeManager& archetypeManager) const = 0;
     
     template <typename ...Ts>
-    void AddDependencies()
+    ISystem& AddDependencies()
     {
         (AddDependency<Ts>(),...);
+        return *this;
     }
 
     template <typename T>
-    void AddDependency()
+    ISystem& AddDependency()
     {
         _dependencies.emplace(Core::GetTypeId<T>());
+        return *this;
     }
 
     const std::set<Core::runtimeId_t>& GetDependencies() const { return _dependencies; }

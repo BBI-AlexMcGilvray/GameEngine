@@ -52,7 +52,8 @@ namespace Animation {
     template <typename T, typename ATTRIBUTE>
     T Evaluate(const Core::Hash& target, const Core::Second& time) const
     {
-      return _channels.at({target, Core::GetTypeId<ATTRIBUTE>()})->Evaluate<T>(time);
+      auto clampedTime = std::min(time, _duration);
+      return _channels.at({target, Core::GetTypeId<ATTRIBUTE>()})->Evaluate<T>(clampedTime);
     }
 
   private:

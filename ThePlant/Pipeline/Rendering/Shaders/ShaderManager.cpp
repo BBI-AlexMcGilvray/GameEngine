@@ -15,6 +15,17 @@ namespace Rendering {
     // if we want to lock the shaders in the asset manager (which we shouldn't need to do - except in debug mode so we can live-edit them) then we should unlock them all here
   }
   
+  const Shader_NEW ShaderManager::GetDefaultShader()
+  {
+    // this is here because we can't make it immediately since opengl is not in a good state, but we should have an nicer way to check for validity
+    if (_defaultShader.glProgram.Object == 0)
+    {
+      _defaultShader = CreateDefaultShader();
+    }
+
+    return _defaultShader;
+  }
+
   const Shader_NEW ShaderManager::AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
   {
     auto existingShader = _shaders.find(shader);

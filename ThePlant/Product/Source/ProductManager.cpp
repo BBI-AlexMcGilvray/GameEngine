@@ -4,6 +4,10 @@
 #include "Pipeline/ECSSystems/CameraSystem.h"
 #include "Pipeline/ECSSystems/TransformSystem.h"
 #include "Pipeline/ECSSystems/RenderingSystem.h"
+#if DEBUG
+#include "Pipeline/ECSSystems/DebugSystems/DebugBoneSystem.h"
+#include "Pipeline/ECSSystems/DebugSystems/DebugTransformSystem.h"
+#endif
 
 namespace Product
 {
@@ -39,8 +43,15 @@ namespace Product
         // the below should probably be a part of the application's initialization (for the default systems at least)
         _pipeline->AppECS().AddSystem<Application::AnimationSystem>(Application::ApplicationManager::AppAnimationManager());
         _pipeline->AppECS().AddSystem<Application::TransformSystem>().AddDependency<Application::AnimationSystem>();
+    #if DEBUG
+        _pipeline->AppECS().AddSystem<Application::DebugBoneSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::TransformSystem>();
+        _pipeline->AppECS().AddSystem<Application::DebugTransformSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::TransformSystem>();
+    #endif
         _pipeline->AppECS().AddSystem<Application::CameraSystem>(Application::ApplicationManager::AppRenderManager().GetCameraManager()).AddDependency<Application::TransformSystem>();
-        _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependencies<Application::TransformSystem, Application::CameraSystem, Application::AnimationSystem>();
+        auto& renderingSystem = _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependencies<Application::TransformSystem, Application::CameraSystem, Application::AnimationSystem>();
+    #if DEBUG
+        renderingSystem.AddDependencies<Application::DebugBoneSystem, Application::DebugTransformSystem>();
+    #endif
 
         return pipelineInitialized;
     }

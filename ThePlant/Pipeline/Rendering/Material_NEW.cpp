@@ -1,5 +1,7 @@
 #include "Pipeline/Rendering/Material_NEW.h"
 
+#include "Materials/Data/Rendering/Headers/MaterialData.h"
+
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
 namespace Application {
@@ -19,6 +21,17 @@ namespace Rendering {
   private:
       ShaderContext& _context;
   };
+
+  Material_NEW CreateDefaultMaterial(ShaderManager& shaderManager)
+  {
+    Material_NEW defaultMaterial;
+    defaultMaterial.shader = shaderManager.GetDefaultShader();
+    
+    Data::Rendering::MaterialContext defaultContext = { Core::Math::WHITE, Core::Math::WHITE, Core::Math::WHITE, 0.0 };
+    reflector::visit_all(defaultContext, context_creator(defaultMaterial.shaderContext));
+
+    return defaultMaterial;
+  }
 
   Material_NEW CreateMaterial(const Data::AssetData<Data::Rendering::MaterialData>& data, ShaderManager& shaderManager)
   {

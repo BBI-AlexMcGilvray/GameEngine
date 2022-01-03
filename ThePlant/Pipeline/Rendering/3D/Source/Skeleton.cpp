@@ -74,11 +74,12 @@ namespace Rendering {
     EntityId newBone = CreateBone(ecsSystem, boneData, parent, parentTransform, creationData);
     bones.push_back({ Core::HashValue(boneData.name), newBone });
 
-    size_t firstChildIndex = boneIndex + 1; // +1 because we added 'this' bone
+    size_t childIndex = boneIndex + 1; // +1 because we added 'this' bone
     Core::Geometric::Transform boneTransform(boneData.position, boneData.rotation, boneData.scale);
     for (size_t child = 0; child < boneData.children; ++child)
     {
-      auto childBones = AddChildBones(ecsSystem, skeletonData, firstChildIndex + child, newBone, boneTransform, creationData);
+      auto childBones = AddChildBones(ecsSystem, skeletonData, childIndex, newBone, boneTransform, creationData);
+      childIndex += childBones.size();
       bones.insert(bones.end(), childBones.begin(), childBones.end());
     }
 

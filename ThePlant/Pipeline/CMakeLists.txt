@@ -47,6 +47,7 @@ Rendering/2D/Source/Sprite.cpp #
 Rendering/2D/Source/Texture.cpp #
 Rendering/3D/Source/AnimatedModel.cpp #
 Rendering/3D/Source/ModelBase.cpp #
+Rendering/3D/Source/SimpleShapes.cpp #
 Rendering/3D/Source/Skeleton.cpp #
 Rendering/3D/Source/VertexData.cpp #
 Rendering/OpenGL/Source/GLArrayBuffer.cpp #
@@ -106,6 +107,8 @@ ECS/DataOriented/TypeCollection.h #
 ECS/ObjectOriented/Headers/Component.h #
 ECS/ObjectOriented/Headers/ComponentPtr.h #
 ECS/ObjectOriented/Headers/Entity.h #
+ECSSystems/DebugSystems/DebugBoneSystem.h #
+ECSSystems/DebugSystems/DebugWorldTransformSystem.h #
 ECSSystems/AnimationSystem.h #
 ECSSystems/AnimationComponents.h #
 ECSSystems/CameraSystem.h #
@@ -141,6 +144,7 @@ Rendering/2D/Headers/Sprite.h #
 Rendering/2D/Headers/Texture.h #
 Rendering/3D/Headers/AnimatedModel.h #
 Rendering/3D/Headers/ModelBase.h #
+Rendering/3D/Headers/SimpleShapes.h #
 Rendering/3D/Headers/Skeleton.h #
 Rendering/3D/Source/VertexData.h #
 Rendering/Headers/Camera.h #

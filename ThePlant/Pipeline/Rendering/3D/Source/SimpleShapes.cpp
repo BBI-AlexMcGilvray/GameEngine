@@ -13,7 +13,8 @@ namespace Rendering {
 
     Mesh_NEW CreateCube(const Core::Math::Float3& min, const Core::Math::Float3& max)
     {
-        std::vector<Core::Math::Float3> corners = std::vector<Core::Math::Float3>(8);
+        std::vector<Core::Math::Float3> corners;
+        corners.reserve(8);
         corners.push_back(Core::Math::Float3(min.X, min.Y, min.Z));
         corners.push_back(Core::Math::Float3(min.X, max.Y, min.Z));
         corners.push_back(Core::Math::Float3(max.X, max.Y, min.Z));
@@ -64,6 +65,46 @@ namespace Rendering {
         vertices.push_back({ corners[4], normal });
         vertices.push_back({ corners[6], normal });
         vertices.push_back({ corners[7], normal });
+
+        return CreateMesh(vertices);
+    }
+
+    Mesh_NEW CreatePyramid(const float& height, const float& sideLength)
+    {
+        const float halfSideLength = sideLength * 0.5f;
+
+        std::vector<Core::Math::Float3> corners;
+        corners.reserve(5);
+        corners.push_back(Core::Math::Float3(-halfSideLength, 0.0f, -halfSideLength));
+        corners.push_back(Core::Math::Float3(-halfSideLength, 0.0f, halfSideLength));
+        corners.push_back(Core::Math::Float3(halfSideLength, 0.0f, halfSideLength));
+        corners.push_back(Core::Math::Float3(halfSideLength, 0.0f, -halfSideLength));
+        corners.push_back(Core::Math::Float3(0.0f, height, 0.0f));
+
+        // we could set this to be correct for each vert
+        Core::Math::Float3 normal = 0.0f;
+
+        std::vector<SimpleVertexData> vertices;
+        // the sides
+        vertices.push_back({ corners[4], normal });
+        vertices.push_back({ corners[1], normal });
+        vertices.push_back({ corners[2], normal });
+        vertices.push_back({ corners[4], normal });
+        vertices.push_back({ corners[2], normal });
+        vertices.push_back({ corners[3], normal });
+        vertices.push_back({ corners[4], normal });
+        vertices.push_back({ corners[3], normal });
+        vertices.push_back({ corners[0], normal });
+        vertices.push_back({ corners[4], normal });
+        vertices.push_back({ corners[0], normal });
+        vertices.push_back({ corners[1], normal });
+        // the bottom (counter clockwise since we want it visible from beneath, not the top)
+        vertices.push_back({ corners[1], normal });
+        vertices.push_back({ corners[2], normal });
+        vertices.push_back({ corners[0], normal });
+        vertices.push_back({ corners[0], normal });
+        vertices.push_back({ corners[3], normal });
+        vertices.push_back({ corners[2], normal });
 
         return CreateMesh(vertices);
     }

@@ -115,7 +115,7 @@ private:
                 {
                     auto& entityData = boneToDataMapping.at(skeleton.nameAndEntities[boneIndex].second);
                     const auto& relativeToRootBoneTransform = rootBone.transform.GetInverseTransformationMatrix() * entityData.second.transform.GetTransformationMatrix();
-                    const auto& relativeTransform = entityData.first.bindMatrix * relativeToRootBoneTransform;
+                    const auto& relativeTransform = relativeToRootBoneTransform * entityData.first.bindMatrix;
                     skeleton.boneArray[boneIndex] = relativeTransform;
                 }
             }

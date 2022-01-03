@@ -74,9 +74,9 @@ namespace Product
             - maybe we need to do this after, in which case we should provide a skeleton component (that includes an array of strings (hashes?) to match entity ids and allow us to get indices)
                 - the array of strings should probably exist anyways so we can get the bone (entityId) based on the name (hashed name?)
         */
-        Application::Rendering::InitialAnimatedModelState initialWomanState(Data::Ast.amdl.Woman_0, Transform());
+        Application::Rendering::InitialAnimatedModelState initialWomanState(Data::Ast.amdl.Monk_1, Transform());
         _woman = Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
-        // ecs.GetComponentFor<Application::RotationComponent>(_woman).rotation = FQuaternion(0.0f, 0.707f, 0.0f, 0.707f) * FQuaternion(-0.707f, 0.0f, 0.0f, 0.707f);
+        // ecs.GetComponentFor<Application::RotationComponent>(_woman).rotation = FQuaternion(-0.707f, 0.0f, 0.0f, 0.707f);
         // \testing
     }
 
@@ -84,13 +84,23 @@ namespace Product
     {
         _luaManager.start();
 
-        auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_woman);
-        Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).PlayAnimation(Data::Ast.sanim.Woman_0_Armature_Idle);
+        // auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_woman);
+        // Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).PlayAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Idle);
     }
 
+    bool played = false;
+    int frames = 0;
     void MyProduct::update(Core::Second dt)
     {
         _luaManager.update(dt);
+
+        ++frames;
+        if (frames > 50 && !played)
+        {
+            auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_woman);
+            Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).PlayAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
+            played = true;
+        }
 
         // testing local transforms by rotating arm
         // Application::SkeletonComponent& skeleton = Application::ApplicationManager::AppECS().GetComponentFor<Application::SkeletonComponent>(_woman);

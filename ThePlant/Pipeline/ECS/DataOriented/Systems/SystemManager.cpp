@@ -28,10 +28,20 @@ namespace Application
     {
         std::vector<Core::UniquePtr<ISystem>> sortedSystems;
         
-        auto dependenciesSorted = [&sortedSystems](const std::set<Core::runtimeId_t>& dependencies)
+        auto dependenciesSorted = [&sortedSystems, this](const std::set<Core::runtimeId_t>& dependencies)
         {
             for (const auto& dependency : dependencies)
             {
+                auto inSystems = std::find_if(_systems.begin(), _systems.end(), [&dependency](const auto& system)
+                {
+                    return (dependency == system->GetSystem());
+                });
+                // if the system is not loaded, the dependency is fulfilled (maybe not the most safe...)
+                if (inSystems == _systems.end())
+                {
+                    return true;
+                }
+
                 auto& inSorted = std::find_if(sortedSystems.begin(), sortedSystems.end(), [&dependency](const auto& system)
                 {
                     return (dependency == system->GetSystem());

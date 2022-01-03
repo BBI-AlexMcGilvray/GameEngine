@@ -53,6 +53,7 @@ namespace Rendering {
     }
   };
 
+  Material_NEW CreateDefaultMaterial(ShaderManager& shaderManager);
   Material_NEW CreateMaterial(const Data::AssetData<Data::Rendering::MaterialData>& data, ShaderManager& shaderManager);
 } // namespace Application
 } // namespace Rendering

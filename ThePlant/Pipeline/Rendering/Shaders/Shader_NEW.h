@@ -76,5 +76,6 @@ namespace Rendering {
   };
 
   Shader_NEW CreateShader_NEW(const Data::AssetData<Data::Rendering::ShaderData>& data);
+  Shader_NEW CreateDefaultShader();
 }// namespace Rendering
 }// namespace Application

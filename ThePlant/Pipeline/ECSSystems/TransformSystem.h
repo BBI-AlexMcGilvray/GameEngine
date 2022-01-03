@@ -231,7 +231,7 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
             auto& thisLocalTransform = (*(allLocalTransforms[dependencySet.first.first]))[dependencySet.first.second];
 
             auto& thisWorldTransform = (*(allWorldTransforms[dependencySet.first.first]))[dependencySet.first.second];
-            thisWorldTransform.transform = thisLocalTransform.transform.GetTransformationMatrix() * parentWorldTransform.transform.GetTransformationMatrix();
+            thisWorldTransform.transform = parentWorldTransform.transform.GetTransformationMatrix() * thisLocalTransform.transform.GetTransformationMatrix();
         }
     }
 };
