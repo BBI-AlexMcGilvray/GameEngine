@@ -19,7 +19,45 @@ namespace Product
                 auto actualEvent = static_cast<Core::Ptr<const Application::Input::InputEvent<Application::Input::MouseWheelData>>>(event);
 
                 Application::PositionComponent& cameraPosition = _ecs->GetComponentFor<Application::PositionComponent>(_cameraEntity);
-                cameraPosition.position += (Core::Math::Float3(0.0f, 0.0f, 3.0f) * static_cast<float>(actualEvent->data.mouseX));
+                cameraPosition.position += (Core::Math::Float3(0.0f, 0.0f, 5.0f) * static_cast<float>(actualEvent->data.mouseX));
+
+                return true;
+            }
+            case Application::Input::InputEventType::KeyboardEvent:
+            {
+                auto actualEvent = static_cast<Core::Ptr<const Application::Input::InputEvent<Application::Input::KeyboardButtonData>>>(event);
+
+                Application::PositionComponent& cameraPosition = _ecs->GetComponentFor<Application::PositionComponent>(_cameraEntity);
+
+                if (actualEvent->data.state != Application::Input::ButtonState::Down)
+                {
+                    return false;
+                }
+
+                if (actualEvent->data.button == Application::Input::KeyboardButton::Button_W)
+                {
+                    cameraPosition.position += Core::Math::Float3(0.0f, 0.0f, -5.0f);
+                }
+                else if (actualEvent->data.button == Application::Input::KeyboardButton::Button_S)
+                {
+                    cameraPosition.position += Core::Math::Float3(0.0f, 0.0f, 5.0f);
+                }
+                else if (actualEvent->data.button == Application::Input::KeyboardButton::Button_A)
+                {
+                    cameraPosition.position += Core::Math::Float3(-5.0f, 0.0f, 0.0f);
+                }
+                else if (actualEvent->data.button == Application::Input::KeyboardButton::Button_D)
+                {
+                    cameraPosition.position += Core::Math::Float3(5.0f, 0.0f, 0.0f);
+                }
+                else if (actualEvent->data.button == Application::Input::KeyboardButton::Button_Space)
+                {
+                    cameraPosition.position += Core::Math::Float3(0.0f, 5.0f, 0.0f);
+                }
+                else if (actualEvent->data.button == Application::Input::KeyboardButton::Button_Control_Left)
+                {
+                    cameraPosition.position += Core::Math::Float3(0.0f, -5.0f, 0.0f);
+                }
 
                 return true;
             }

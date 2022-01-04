@@ -59,10 +59,11 @@ namespace Rendering {
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_GREATER);
     // facing and culling
-    // glEnable(GL_CULL_FACE);
-    // glFrontFace(GL_CW);
-    // glCullFace(GL_BACK);
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CW);
+    glCullFace(GL_BACK);
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // turns on wireframe mode
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);// turns off wireframe mode
