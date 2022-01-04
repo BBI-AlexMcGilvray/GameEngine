@@ -14,8 +14,8 @@
 #include "Pipeline/ECSSystems/RenderingComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
 
-#include "Pipeline/Rendering/Material_NEW.h"
-#include "Pipeline/Rendering/Mesh_NEW.h"
+#include "Pipeline/Rendering/Material.h"
+#include "Pipeline/Rendering/Mesh.h"
 
 #include "Pipeline/Rendering/3D/Headers/ModelBase.h"
 #include "Pipeline/Rendering/3D/Headers/AnimatedModel.h"

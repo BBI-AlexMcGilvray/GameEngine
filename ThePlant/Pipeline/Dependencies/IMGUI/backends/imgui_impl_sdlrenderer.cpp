@@ -86,7 +86,7 @@ static void ImGui_ImplSDLRenderer_SetupRenderState()
 	SDL_RenderSetClipRect(bd->SDLRenderer, NULL);
 }
 
-void ImGui_ImplSDLRenderer_NewFrame()
+void ImGui_ImplSDLRendererFrame()
 {
     ImGui_ImplSDLRenderer_Data* bd = ImGui_ImplSDLRenderer_GetBackendData();
     IM_ASSERT(bd != NULL && "Did you call ImGui_ImplSDLRenderer_Init()?");

@@ -7,8 +7,8 @@
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
 #include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
-#include "Pipeline/Rendering/Material_NEW.h"
-#include "Pipeline/Rendering/Mesh_NEW.h"
+#include "Pipeline/Rendering/Material.h"
+#include "Pipeline/Rendering/Mesh.h"
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
@@ -33,8 +33,8 @@ struct DebugBoneSystem : public System<DebugBoneSystem>
     }
 
 private:
-    Rendering::Material_NEW _transformMaterial;
-    Rendering::Mesh_NEW _transformMesh;
+    Rendering::Material _transformMaterial;
+    Rendering::Mesh _transformMesh;
     Rendering::RenderManager& _renderManager;
 
     void _ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms) const

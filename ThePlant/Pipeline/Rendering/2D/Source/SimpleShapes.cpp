@@ -4,7 +4,7 @@
 
 namespace Application {
 namespace Rendering {
-    Mesh_NEW CreateBox(const Core::Math::Float2& dimensions)
+    Mesh CreateBox(const Core::Math::Float2& dimensions)
     {
         auto halfX = dimensions.X * 0.5f;
         auto halfY = dimensions.Y * 0.5f;
@@ -12,7 +12,7 @@ namespace Rendering {
         return CreateBox(Core::Math::Float2(-halfX, -halfY), Core::Math::Float2(halfX, halfY));
     }
 
-    Mesh_NEW CreateBox(const Core::Math::Float2& min, const Core::Math::Float2& max)
+    Mesh CreateBox(const Core::Math::Float2& min, const Core::Math::Float2& max)
     {
         std::vector<SimpleVertexData> vertices;
 
@@ -27,7 +27,7 @@ namespace Rendering {
         return CreateMesh(vertices);
     }
 
-    Mesh_NEW CreateCircle(const float& radius)
+    Mesh CreateCircle(const float& radius)
     {
         std::vector<SimpleVertexData> vertices;
 

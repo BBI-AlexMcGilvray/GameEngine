@@ -58,10 +58,11 @@ namespace Rendering {
     // we are going to use double buffering (this only sets a 23bit Z buffer)
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+    glEnable(GL_DEPTH_TEST);
     // facing and culling
-    glEnable(GL_CULL_FACE | GL_DEPTH_TEST);
-    glFrontFace(GL_CW);
-    glCullFace(GL_BACK);
+    // glEnable(GL_CULL_FACE);
+    // glFrontFace(GL_CW);
+    // glCullFace(GL_BACK);
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // turns on wireframe mode
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);// turns off wireframe mode
@@ -112,7 +113,7 @@ namespace Rendering {
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   }
 
-  void _RenderFrameForCamera(Renderer_NEW& renderer, const Float4x4& camera, RenderFrame& renderFrame)
+  void _RenderFrameForCamera(Renderer& renderer, const Float4x4& camera, RenderFrame& renderFrame)
   {
     // NOTE: if we want shaders to get a delta time, we can provide that here by adding a field to the contexts (and providing a delta time)
     for (auto& context : renderFrame.contexts)
@@ -128,7 +129,7 @@ namespace Rendering {
       renderer.SetShader(context.context.material.shader);
       renderer.DrawMesh(context);
     }
-    renderer.SetShader(Shader_NEW()); // this should be done in the EndFrame call?
+    renderer.SetShader(Shader()); // this should be done in the EndFrame call?
   }
 
   void RenderManager::_RenderMiddle()
@@ -136,7 +137,7 @@ namespace Rendering {
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
     for (auto& camera : _cameraManager.GetCameras())
     {
-      _RenderFrameForCamera(_renderer_NEW, camera, _renderFrame);
+      _RenderFrameForCamera(_Renderer, camera, _renderFrame);
     }
     _cameraManager.ClearCameras();
   }

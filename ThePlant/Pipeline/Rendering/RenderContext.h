@@ -7,8 +7,8 @@
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
-#include "Pipeline/Rendering/Material_NEW.h"
-#include "Pipeline/Rendering/Mesh_NEW.h"
+#include "Pipeline/Rendering/Material.h"
+#include "Pipeline/Rendering/Mesh.h"
 
 namespace Application {
 namespace Rendering {
@@ -16,10 +16,10 @@ namespace Rendering {
     // though we will need a way to validate the mesh VAO and such are still valid?
     struct Context
     {
-        const Material_NEW material;
+        const Material material;
         Core::Math::Float4x4 mvp; // may be modified by other things (ex: including the camera matrix)
         Core::Math::Color color; // may be modified by other things (ex: general render setting changing the color)
-        const Mesh_NEW mesh;
+        const Mesh mesh;
 
         bool operator==(const Context& other) const
         {

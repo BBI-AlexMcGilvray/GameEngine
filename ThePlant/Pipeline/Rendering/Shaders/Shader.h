@@ -17,65 +17,65 @@ namespace Rendering {
   */
 
   // for 'preparing' the shader, all shaders should have the same input variables - so we can do it generically
-  struct VertexShader_NEW
+  struct VertexShader
   {
     GLShader glShader;
     
     // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
     // AssetData<VertexShaderData> in debug?
 
-    VertexShader_NEW() = default;
-    VertexShader_NEW(const VertexShader_NEW&) = default;
-    VertexShader_NEW& operator=(const VertexShader_NEW&) = default;
+    VertexShader() = default;
+    VertexShader(const VertexShader&) = default;
+    VertexShader& operator=(const VertexShader&) = default;
 
-    bool operator==(const VertexShader_NEW& other) const
+    bool operator==(const VertexShader& other) const
     {
       return (glShader == other.glShader);
     }
   };
   
-  VertexShader_NEW CreateVertexShader_NEW(const Data::AssetData<Data::Rendering::VertexShaderData>& data);
+  VertexShader CreateVertexShader(const Data::AssetData<Data::Rendering::VertexShaderData>& data);
 
   // for 'preparing' the shader, all shaders should have the same input variables - so we can do it generically
-  struct FragmentShader_NEW
+  struct FragmentShader
   {
     GLShader glShader;
     
     // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
     // AssetData<FragmentShaderData> in debug?
 
-    FragmentShader_NEW() = default;
-    FragmentShader_NEW(const FragmentShader_NEW&) = default;
-    FragmentShader_NEW& operator=(const FragmentShader_NEW&) = default;
+    FragmentShader() = default;
+    FragmentShader(const FragmentShader&) = default;
+    FragmentShader& operator=(const FragmentShader&) = default;
 
-    bool operator==(const FragmentShader_NEW& other) const
+    bool operator==(const FragmentShader& other) const
     {
       return (glShader == other.glShader);
     }
   };
   
-  FragmentShader_NEW CreateFragmentShader_NEW(const Data::AssetData<Data::Rendering::FragmentShaderData>& data);
+  FragmentShader CreateFragmentShader(const Data::AssetData<Data::Rendering::FragmentShaderData>& data);
 
-  struct Shader_NEW
+  struct Shader
   {
-    VertexShader_NEW vertexShader;
-    FragmentShader_NEW fragmentShader;
+    VertexShader vertexShader;
+    FragmentShader fragmentShader;
     GLShaderProgram glProgram;
 
     // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
     // AssetData<ShaderData> in debug?
 
-    Shader_NEW() = default;
-    Shader_NEW(const Shader_NEW&) = default;
-    Shader_NEW& operator=(const Shader_NEW&) = default;
+    Shader() = default;
+    Shader(const Shader&) = default;
+    Shader& operator=(const Shader&) = default;
 
-    bool operator==(const Shader_NEW& other) const
+    bool operator==(const Shader& other) const
     {
       return (vertexShader == other.vertexShader && fragmentShader == other.fragmentShader && glProgram == other.glProgram);
     }
   };
 
-  Shader_NEW CreateShader_NEW(const Data::AssetData<Data::Rendering::ShaderData>& data);
-  Shader_NEW CreateDefaultShader();
+  Shader CreateShader(const Data::AssetData<Data::Rendering::ShaderData>& data);
+  Shader CreateDefaultShader();
 }// namespace Rendering
 }// namespace Application

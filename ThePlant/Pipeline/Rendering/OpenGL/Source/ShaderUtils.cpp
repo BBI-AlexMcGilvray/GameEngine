@@ -41,35 +41,35 @@ namespace Rendering {
     return shader;
   }
 
-  FragmentShader_NEW CreateFragmentShader(const std::string& shaderCode)
+  FragmentShader CreateFragmentShader(const std::string& shaderCode)
   {
-    FragmentShader_NEW shader;
+    FragmentShader shader;
     shader.glShader = CreateShader(shaderCode, GL_FRAGMENT_SHADER);
 
     return shader;
   }
   
-  void DeleteFragmentShader(const FragmentShader_NEW& shader)
+  void DeleteFragmentShader(const FragmentShader& shader)
   {
     glDeleteShader(shader.glShader.Object);
   }
   
-  VertexShader_NEW CreateVertexShader(const std::string& shaderCode)
+  VertexShader CreateVertexShader(const std::string& shaderCode)
   {
-    VertexShader_NEW shader;
+    VertexShader shader;
     shader.glShader = CreateShader(shaderCode, GL_VERTEX_SHADER);
 
     return shader;
   }
 
-  void DeleteVertexShader(const VertexShader_NEW& shader)
+  void DeleteVertexShader(const VertexShader& shader)
   {
     glDeleteShader(shader.glShader.Object);
   }
 
-  Shader_NEW CreateShader(const VertexShader_NEW& vertexShader, const FragmentShader_NEW& fragmentShader)
+  Shader CreateShader(const VertexShader& vertexShader, const FragmentShader& fragmentShader)
   {
-    Shader_NEW shader;
+    Shader shader;
     shader.vertexShader = vertexShader;
     shader.fragmentShader = fragmentShader;
 
@@ -98,7 +98,7 @@ namespace Rendering {
     return shader;
   }
 
-  void DeleteShader(const Shader_NEW& shader)
+  void DeleteShader(const Shader& shader)
   {
     glDeleteProgram(shader.glProgram.Object);
     DeleteVertexShader(shader.vertexShader);

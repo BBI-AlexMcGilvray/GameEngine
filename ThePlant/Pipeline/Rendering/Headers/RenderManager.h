@@ -9,7 +9,7 @@
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/Camera.h"
 #include "Pipeline/Rendering/RenderContext.h"
-#include "Pipeline/Rendering/Renderer_NEW.h"
+#include "Pipeline/Rendering/Renderer.h"
 
 #include "Core/Functionality/Headers/Subscription.h"
 
@@ -60,7 +60,7 @@ namespace Rendering {
   
     // testing
     RenderFrame _renderFrame; // in the future, this can be a tripple buffer guarded by a mutex and be what is used for threading purposes
-    Renderer_NEW _renderer_NEW;
+    Renderer _Renderer;
     // \testing
   };
 }// namespace Rendering

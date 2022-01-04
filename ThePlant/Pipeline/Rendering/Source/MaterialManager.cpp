@@ -30,25 +30,25 @@ namespace Rendering {
   {
   }
 
-  Core::instanceId<Material_NEW> MaterialManager::AddMaterial(const Material_NEW& material)
+  Core::instanceId<Material> MaterialManager::AddMaterial(const Material& material)
   {
-    Core::instanceId<Material_NEW> newId = GetInstanceId<Material_NEW>();
+    Core::instanceId<Material> newId = GetInstanceId<Material>();
 
     _materials.emplace(std::make_pair(newId, material));
 
     return newId;
   }
 
-  Core::instanceId<Material_NEW> MaterialManager::AddMaterial(Material_NEW&& material)
+  Core::instanceId<Material> MaterialManager::AddMaterial(Material&& material)
   {
-    Core::instanceId<Material_NEW> newId = GetInstanceId<Material_NEW>();
+    Core::instanceId<Material> newId = GetInstanceId<Material>();
 
     _materials.emplace(std::make_pair(newId, std::move(material)));
 
     return newId;
   }
 
-  void MaterialManager::RemoveMaterial(const Core::instanceId<Material_NEW>& materialId)
+  void MaterialManager::RemoveMaterial(const Core::instanceId<Material>& materialId)
   {
     _materials.erase(materialId);
   }

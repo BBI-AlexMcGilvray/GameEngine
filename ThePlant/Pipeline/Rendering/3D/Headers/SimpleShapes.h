@@ -2,13 +2,13 @@
 
 #include "Core/Math/Headers/Vector3.h"
 
-#include "Pipeline/Rendering/Mesh_NEW.h"
+#include "Pipeline/Rendering/Mesh.h"
 
 namespace Application {
 namespace Rendering {
-    Mesh_NEW CreateCube(const Core::Math::Float3& dimensions);
-    Mesh_NEW CreateCube(const Core::Math::Float3& min, const Core::Math::Float3& max);
-    Mesh_NEW CreatePyramid(const float& height, const float& sideLength);
-    Mesh_NEW CreateSphere(const float& radius);
+    Mesh CreateCube(const Core::Math::Float3& dimensions);
+    Mesh CreateCube(const Core::Math::Float3& min, const Core::Math::Float3& max);
+    Mesh CreatePyramid(const float& height, const float& sideLength);
+    Mesh CreateSphere(const float& radius);
 } // namespace Rendering
 } // namespace Application

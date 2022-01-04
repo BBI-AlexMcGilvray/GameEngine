@@ -5,8 +5,8 @@
 #include "Core/Math/Headers/Matrix4x4.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"
-#include "Pipeline/Rendering/Material_NEW.h"
-#include "Pipeline/Rendering/Mesh_NEW.h"
+#include "Pipeline/Rendering/Material.h"
+#include "Pipeline/Rendering/Mesh.h"
 
 namespace Application {
 struct ColorComponent
@@ -31,7 +31,7 @@ struct ColorComponent
 
 struct MaterialComponent
 {
-    Rendering::Material_NEW material;
+    Rendering::Material material;
 
     MaterialComponent() = default;
     MaterialComponent(const MaterialComponent&) = default;
@@ -39,7 +39,7 @@ struct MaterialComponent
     MaterialComponent& operator=(const MaterialComponent&) = default;
     MaterialComponent& operator=(MaterialComponent&&) = default;
 
-    MaterialComponent(const Rendering::Material_NEW& material)
+    MaterialComponent(const Rendering::Material& material)
     : material(material)
     {}
 
@@ -51,7 +51,7 @@ struct MaterialComponent
 
 struct MeshComponent
 {
-    Rendering::Mesh_NEW mesh;
+    Rendering::Mesh mesh;
 
     MeshComponent() = default;
     MeshComponent(const MeshComponent&) = default;
@@ -59,7 +59,7 @@ struct MeshComponent
     MeshComponent& operator=(const MeshComponent&) = default;
     MeshComponent& operator=(MeshComponent&&) = default;
 
-    MeshComponent(const Rendering::Mesh_NEW& mesh)
+    MeshComponent(const Rendering::Mesh& mesh)
     : mesh(mesh)
     {}
 
@@ -71,7 +71,7 @@ struct MeshComponent
 
 struct SkinnedMeshComponent
 {
-    Rendering::MappedMesh_NEW skinnedMesh;
+    Rendering::MappedMesh skinnedMesh;
 
     SkinnedMeshComponent() = default;
     SkinnedMeshComponent(const SkinnedMeshComponent&) = default;
@@ -79,7 +79,7 @@ struct SkinnedMeshComponent
     SkinnedMeshComponent& operator=(const SkinnedMeshComponent&) = default;
     SkinnedMeshComponent& operator=(SkinnedMeshComponent&&) = default;
 
-    SkinnedMeshComponent(const Rendering::MappedMesh_NEW& skinnedMesh)
+    SkinnedMeshComponent(const Rendering::MappedMesh& skinnedMesh)
     : skinnedMesh(skinnedMesh)
     {}
 

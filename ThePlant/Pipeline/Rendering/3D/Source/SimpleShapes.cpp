@@ -2,7 +2,7 @@
 
 namespace Application {
 namespace Rendering {
-    Mesh_NEW CreateCube(const Core::Math::Float3& dimensions)
+    Mesh CreateCube(const Core::Math::Float3& dimensions)
     {
         auto halfX = dimensions.X * 0.5f;
         auto halfY = dimensions.Y * 0.5f;
@@ -11,7 +11,7 @@ namespace Rendering {
         return CreateCube(Core::Math::Float3(-halfX, -halfY, -halfZ), Core::Math::Float3(halfX, halfY, halfZ));
     }
 
-    Mesh_NEW CreateCube(const Core::Math::Float3& min, const Core::Math::Float3& max)
+    Mesh CreateCube(const Core::Math::Float3& min, const Core::Math::Float3& max)
     {
         std::vector<Core::Math::Float3> corners;
         corners.reserve(8);
@@ -69,7 +69,7 @@ namespace Rendering {
         return CreateMesh(vertices);
     }
 
-    Mesh_NEW CreatePyramid(const float& height, const float& sideLength)
+    Mesh CreatePyramid(const float& height, const float& sideLength)
     {
         const float halfSideLength = sideLength * 0.5f;
 
@@ -109,7 +109,7 @@ namespace Rendering {
         return CreateMesh(vertices);
     }
 
-    Mesh_NEW CreateSphere(const float& radius)
+    Mesh CreateSphere(const float& radius)
     {
         // http://en.wikipedia.org/wiki/Icosahedron
         //(0, +/-1, +/-t)

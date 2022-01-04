@@ -1,4 +1,4 @@
-#include "Pipeline\Rendering\Renderer_NEW.h"
+#include "Pipeline\Rendering\Renderer.h"
 
 #include "Materials/Core/Debugging/Headers/Macros.h"
 
@@ -8,7 +8,7 @@ using namespace Core;
 
 namespace Application {
 namespace Rendering {
-  const std::string TAG = "Renderer_NEW";
+  const std::string TAG = "Renderer";
 
   // have not yet confirmed this works, but it should set the given variables to the provided values if they exist in the shader
   // as for how we can guarantee/determine what shader variables exist for consistency/debugging, TBD - maybe there is a OpenGL call?
@@ -33,21 +33,21 @@ namespace Rendering {
       const GLint location;
   };
 
-  void Renderer_NEW::StartFrame()
+  void Renderer::StartFrame()
   {
   #ifdef DEBUG
     _ResetTrackingInfo();
   #endif
   }
 
-  void Renderer_NEW::EndFrame()
+  void Renderer::EndFrame()
   {
   #ifdef DEBUG
     // _PrintTrackingInfo(); // only print if needed for debugging (in the future this can be used with an IMGUI window - the window could be a Logger implementation based on tag?)
   #endif
   }
 
-  void Renderer_NEW::SetShader(const Shader_NEW& shader)
+  void Renderer::SetShader(const Shader& shader)
   {
     if (_currentShader == shader)
     {
@@ -61,7 +61,7 @@ namespace Rendering {
     glUseProgram(_currentShader.glProgram.Object);
   }
 
-  void Renderer_NEW::DrawMesh(const Context& context) const
+  void Renderer::DrawMesh(const Context& context) const
   {
   #ifdef DEBUG
     _trackingInfo.modelsDrawn += 1;
@@ -70,7 +70,7 @@ namespace Rendering {
     _Draw(context);
   }
 
-  void Renderer_NEW::DrawMesh(const SkinnedContext& context) const
+  void Renderer::DrawMesh(const SkinnedContext& context) const
   {
   #ifdef DEBUG
     _trackingInfo.skinnedModelsDrawn += 1;
@@ -79,7 +79,7 @@ namespace Rendering {
     _Draw(context.context);
   }
 
-  void Renderer_NEW::_Draw(const Context& context) const
+  void Renderer::_Draw(const Context& context) const
   {
     VERIFY(context.material.shader == _currentShader);
     context.mesh.buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
@@ -87,7 +87,7 @@ namespace Rendering {
     context.mesh.buffer.Unbind();
   }
 
-  void Renderer_NEW::_DrawLines(Core::size vertexCount) const
+  void Renderer::_DrawLines(Core::size vertexCount) const
   {
   #ifdef DEBUG
     _trackingInfo.drawCalls += 1;
@@ -96,7 +96,7 @@ namespace Rendering {
     glDrawArrays(GL_LINE_STRIP, 0, GLsizei(vertexCount));
   }
 
-  void Renderer_NEW::_DrawTriangles(Core::size vertexCount) const
+  void Renderer::_DrawTriangles(Core::size vertexCount) const
   {
   #ifdef DEBUG
     _trackingInfo.drawCalls += 1;
@@ -105,7 +105,7 @@ namespace Rendering {
     glDrawArrays(GL_TRIANGLES, 0, GLsizei(vertexCount));
   }
 
-  void Renderer_NEW::_SetShaderVariables(const Context& context) const
+  void Renderer::_SetShaderVariables(const Context& context) const
   {
     GLuint program = _currentShader.glProgram.Object;
 
@@ -120,7 +120,7 @@ namespace Rendering {
     _SetMaterialContext(context.material);
   }
 
-  void Renderer_NEW::_SetShaderVariables(const SkinnedContext& context) const
+  void Renderer::_SetShaderVariables(const SkinnedContext& context) const
   {
     GLuint program = _currentShader.glProgram.Object;
 
@@ -131,7 +131,7 @@ namespace Rendering {
     _SetShaderVariables(context.context);
   }
 
-  void Renderer_NEW::_SetMaterialContext(const Material_NEW& material) const
+  void Renderer::_SetMaterialContext(const Material& material) const
   {
     for (const auto& context : material.shaderContext)
     {
@@ -144,12 +144,12 @@ namespace Rendering {
     }
   }
 
-  void Renderer_NEW::_ResetTrackingInfo() const
+  void Renderer::_ResetTrackingInfo() const
   {
     _trackingInfo = TrackingInfo();
   }
 
-  void Renderer_NEW::_PrintTrackingInfo() const
+  void Renderer::_PrintTrackingInfo() const
   {
     CORE_LOG(TAG, "shadersUsed = " + std::to_string(_trackingInfo.shadersUsed));
     CORE_LOG(TAG, "drawCalls = " + std::to_string(_trackingInfo.drawCalls));

@@ -6,19 +6,19 @@
 
 #include "Dependencies/Includes/glew.h"
 
-#include "Pipeline/Rendering/Shaders/Shader_NEW.h"
+#include "Pipeline/Rendering/Shaders/Shader.h"
 
 using namespace Core;
 
 namespace Application {
 namespace Rendering {
-  FragmentShader_NEW CreateFragmentShader(const std::string& shaderCode);
-  void DeleteFragmentShader(const FragmentShader_NEW& shader);
+  FragmentShader CreateFragmentShader(const std::string& shaderCode);
+  void DeleteFragmentShader(const FragmentShader& shader);
   
-  VertexShader_NEW CreateVertexShader(const std::string& shaderCode);
-  void DeleteVertexShader(const VertexShader_NEW& shader);
+  VertexShader CreateVertexShader(const std::string& shaderCode);
+  void DeleteVertexShader(const VertexShader& shader);
 
-  Shader_NEW CreateShader(const VertexShader_NEW& vertexShader, const FragmentShader_NEW& fragmentShader);
-  void DeleteShader(const Shader_NEW& shader);
+  Shader CreateShader(const VertexShader& vertexShader, const FragmentShader& fragmentShader);
+  void DeleteShader(const Shader& shader);
 }// namespace Rendering
 }// namespace Application

@@ -8,7 +8,7 @@
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
-#include "Pipeline/Rendering/Material_NEW.h"
+#include "Pipeline/Rendering/Material.h"
 
 namespace Application {
 namespace Rendering {
@@ -28,14 +28,14 @@ namespace Rendering {
     void CleanUp();
 
     template <typename ...ARGS>
-    Core::instanceId<Material_NEW> AddMaterial(ARGS&& ...args)
+    Core::instanceId<Material> AddMaterial(ARGS&& ...args)
     {
       return AddMaterial(CreateMaterial(std::forward<ARGS>(args)...));
     }
 
-    Core::instanceId<Material_NEW> AddMaterial(const Material_NEW& material);
-    Core::instanceId<Material_NEW> AddMaterial(Material_NEW&& material);
-    void RemoveMaterial(const Core::instanceId<Material_NEW>& renderObject);
+    Core::instanceId<Material> AddMaterial(const Material& material);
+    Core::instanceId<Material> AddMaterial(Material&& material);
+    void RemoveMaterial(const Core::instanceId<Material>& renderObject);
 
   private:
     // ideally we find a way to make this not a raw pointer, but it should be fine for now since this object
@@ -44,7 +44,7 @@ namespace Rendering {
     // ~ reference instead since it must exist?
     Core::Ptr<RenderManager> _manager;
 
-    std::unordered_map<Core::instanceId<Material_NEW>, Material_NEW, Core::instanceIdHasher<Material_NEW>> _materials;
+    std::unordered_map<Core::instanceId<Material>, Material, Core::instanceIdHasher<Material>> _materials;
   };
 }// namespace Rendering
 }// namespace Application

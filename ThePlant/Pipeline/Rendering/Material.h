@@ -8,7 +8,7 @@
 
 #include "Data/Headers/AssetData.h"
 #include "Data/Rendering/Headers/MaterialData.h"
-#include "Pipeline/Rendering/Shaders/Shader_NEW.h"
+#include "Pipeline/Rendering/Shaders/Shader.h"
 
 namespace Application {
 namespace Rendering {
@@ -35,25 +35,25 @@ namespace Rendering {
 
   // holds shader information in terms of how it is affected by light, shadows, ...
   // maybe should contain the data, not BE the data?
-  struct Material_NEW
+  struct Material
   {
     ShaderContext shaderContext;
-    Shader_NEW shader;
+    Shader shader;
 
     // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
     // AssetData<MaterialData> in debug?
 
-    Material_NEW() = default;
-    Material_NEW(const Material_NEW& other) = default;
-    Material_NEW& operator=(const Material_NEW& other) = default;
+    Material() = default;
+    Material(const Material& other) = default;
+    Material& operator=(const Material& other) = default;
 
-    bool operator==(const Material_NEW& other) const
+    bool operator==(const Material& other) const
     {
       return (shaderContext == other.shaderContext && shader == other.shader);
     }
   };
 
-  Material_NEW CreateDefaultMaterial(ShaderManager& shaderManager);
-  Material_NEW CreateMaterial(const Data::AssetData<Data::Rendering::MaterialData>& data, ShaderManager& shaderManager);
+  Material CreateDefaultMaterial(ShaderManager& shaderManager);
+  Material CreateMaterial(const Data::AssetData<Data::Rendering::MaterialData>& data, ShaderManager& shaderManager);
 } // namespace Application
 } // namespace Rendering

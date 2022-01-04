@@ -99,7 +99,7 @@ int main(int, char**)
         }
 
         // Start the Dear ImGui frame
-        ImGui_ImplSDLRenderer_NewFrame();
+        ImGui_ImplSDLRendererFrame();
         ImGui_ImplSDL2_NewFrame(window);
         ImGui::NewFrame();
 

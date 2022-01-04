@@ -15,7 +15,7 @@ namespace Rendering {
     // if we want to lock the shaders in the asset manager (which we shouldn't need to do - except in debug mode so we can live-edit them) then we should unlock them all here
   }
   
-  const Shader_NEW ShaderManager::GetDefaultShader()
+  const Shader ShaderManager::GetDefaultShader()
   {
     // this is here because we can't make it immediately since opengl is not in a good state, but we should have an nicer way to check for validity
     if (_defaultShader.glProgram.Object == 0)
@@ -26,7 +26,7 @@ namespace Rendering {
     return _defaultShader;
   }
 
-  const Shader_NEW ShaderManager::AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
+  const Shader ShaderManager::AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
   {
     auto existingShader = _shaders.find(shader);
     if (existingShader != _shaders.end())
@@ -38,11 +38,11 @@ namespace Rendering {
     // doing it this way could give us problems because we don't hold on to shared_ptrs that keep the data alive for shaders/fragmentshaders/vertexshaders
     // i think we want this to have a loop that goes over all shaders (to add them), locks all data when reached, and then releases them all when done
     auto shaderData = _assetManager.getAssetData(shader);
-    _shaders[shader] = CreateShader_NEW(shaderData);
+    _shaders[shader] = CreateShader(shaderData);
     return _shaders[shader];
   }
 
-  const Shader_NEW ShaderManager::GetShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
+  const Shader ShaderManager::GetShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
   {
     auto existing = _shaders.find(shader);
     if (existing == _shaders.end())
