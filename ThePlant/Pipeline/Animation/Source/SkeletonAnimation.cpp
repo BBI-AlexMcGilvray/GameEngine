@@ -101,7 +101,7 @@ namespace Animation {
         for (const auto& boneAnimationData : assetData->boneAnimations)
         {
             // not using preBehaviour or postBehaviour - should later (we should give the pre/post behaviour to the IObjectChannel)
-            // and they should be used to implicityly change/convert the time (ex: repeat modulos (of sorts) the time to ensure it is always in range)
+            //      - though it seems like it should be animation-wide... maybe not, need to talk with artists to really get a sense
             AddPositionChannels(skeletonAnimation, Core::HashValue(boneAnimationData.name), boneAnimationData.positionChannel);
             AddScaleChannels(skeletonAnimation, Core::HashValue(boneAnimationData.name), boneAnimationData.scaleChannel);
             AddRotationChannels(skeletonAnimation, Core::HashValue(boneAnimationData.name), boneAnimationData.rotationChannel);

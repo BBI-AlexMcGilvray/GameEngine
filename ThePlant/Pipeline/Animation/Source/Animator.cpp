@@ -26,13 +26,12 @@ namespace Animation {
 
   void Animator::PlayAnimation(const Core::Hash& name)
   {
-    VERIFY(_animations.find(name) != _animations.end());
-    if (name == _currentAnimation.name) {
-      return;
-    }
+    _PlayAnimation(name, false);
+  }
 
-    _currentAnimation = AnimationState(name);
-    _animating = true;
+  void Animator::RepeatAnimation(const Core::Hash& name)
+  {
+    _PlayAnimation(name, true);
   }
 
   void Animator::StopAnimation(const Core::Hash& name)
@@ -46,7 +45,32 @@ namespace Animation {
   {
     if (_animating) {
       _currentAnimation.time += dt;
+
+      const Core::Second duration = _animations[_currentAnimation.name].GetDuration();
+      if (duration < _currentAnimation.time)
+      {
+        if (_currentAnimation.repeating)
+        {
+          _currentAnimation.time = _currentAnimation.time - duration;
+        }
+        else
+        {
+          _animating = false;
+        }
+      }
+      _currentAnimation.time = std::min(_currentAnimation.time, duration);
     }
+  }
+
+  void Animator::_PlayAnimation(const Core::Hash& name, bool repeat)
+  {
+    VERIFY(_animations.find(name) != _animations.end());
+    if (name == _currentAnimation.name) {
+      return;
+    }
+
+    _currentAnimation = AnimationState(name, repeat);
+    _animating = true;
   }
 }// namespace Animation
 }// namespace Application

@@ -3,6 +3,7 @@
 #include "Core/Headers/Hash.h"
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
+#include "Core/Geometric/Headers/Transform.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/Rendering/Material.h"
@@ -91,6 +92,7 @@ struct SkinnedMeshComponent
 
 struct BoneComponent
 {
+    Core::Geometric::Transform defaultState; // t-pose position (taken when not playing an animation) - local transform, relative to parent
     Core::Math::Float4x4 bindMatrix; // inverse of initial bone position
 
     BoneComponent() = default;
@@ -99,8 +101,9 @@ struct BoneComponent
     BoneComponent& operator=(const BoneComponent&) = default;
     BoneComponent& operator=(BoneComponent&&) = default;
 
-    BoneComponent(const Core::Math::Float4x4& bindMatrix)
-    : bindMatrix(bindMatrix)
+    BoneComponent(const Core::Geometric::Transform& defaultState, const Core::Math::Float4x4& bindMatrix)
+    : defaultState(defaultState)
+    , bindMatrix(bindMatrix)
     {}
 
     bool operator==(const BoneComponent& other) const

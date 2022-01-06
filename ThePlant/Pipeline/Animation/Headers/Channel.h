@@ -5,6 +5,7 @@
 
 #include "Materials/Core/Headers/PtrDefs.h"
 #include "Materials/Core/IdTypes/RuntimeId.h"
+#include "Materials/Data/Rendering/Headers/SkeletonAnimationData.h"
 
 #include "Pipeline/Animation/Headers/AnimationCurve.h"
 

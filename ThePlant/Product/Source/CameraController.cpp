@@ -34,6 +34,7 @@ namespace Product
                     return false;
                 }
 
+                // NOTE: reason this looks weird is because we are looking at the same spot and not ROTATING around it, but just moving away and re-focusing
                 if (actualEvent->data.button == Application::Input::KeyboardButton::Button_W)
                 {
                     cameraPosition.position += Core::Math::Float3(0.0f, 0.0f, -5.0f);

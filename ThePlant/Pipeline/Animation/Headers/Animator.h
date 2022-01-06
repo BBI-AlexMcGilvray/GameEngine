@@ -27,6 +27,7 @@ namespace Animation {
     void RemoveAnimation(const Core::Hash name);
 
     void PlayAnimation(const Core::Hash& name);
+    void RepeatAnimation(const Core::Hash& name);
 
     void StopAnimation(const Core::Hash& name);
 
@@ -55,19 +56,23 @@ namespace Animation {
     {
       AnimationState() = default;
 
-      AnimationState(const Core::Hash& name)
+      AnimationState(const Core::Hash& name, bool repeating)
       : name(name)
       , time(Core::Second(0))
+      , repeating(repeating)
       {}
 
       Core::Second time;
       Core::Hash name;
+      bool repeating;
     };
 
     bool _animating = false;// this is just the control of the current animation, it can be false and still be transitioning
     AnimationState _currentAnimation;
 
     std::unordered_map<Core::Hash, Animation> _animations;
+
+    void _PlayAnimation(const Core::Hash& name, bool repeat);
 
     // worry about transitions and blending stuff later
   };

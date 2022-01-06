@@ -22,7 +22,7 @@ struct SkeletonAnimationSystem  : public ISystem
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
-        std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<AnimationComponent, BoneComponent, ParentComponent>();
+        std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<AnimationComponent, BoneComponent>();
 
         for (auto& archetype : affectedArchetypes)
         {

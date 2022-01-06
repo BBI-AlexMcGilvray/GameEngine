@@ -54,7 +54,7 @@ namespace Rendering {
     Core::Math::Float4x4 initialBoneMatrix = bindTransform.GetTransformationMatrix();
     Core::Math::Float4x4 relativeToRootBoneMatrix = initialBoneMatrix * inverseRootBoneMatrix;
     Core::Math::Float4x4 bindMatrix = Core::Math::Inverse(relativeToRootBoneMatrix);
-    creator.AddComponent<BoneComponent>(bindMatrix);
+    creator.AddComponent<BoneComponent>(localTransform, bindMatrix);
 
     if (creationData.animatorId.IsValid())
     {
