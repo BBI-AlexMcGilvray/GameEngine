@@ -42,8 +42,8 @@ private:
         std::vector<WorldTransformComponent>& transforms = archetype->GetComponents<WorldTransformComponent>();
         Core::Ptr<std::vector<ColorComponent>> colors = archetype->HasComponent<ColorComponent>() ? &(archetype->GetComponents<ColorComponent>()) : nullptr;
 
-        VERIFY((materials.size() == meshes.size()) && (materials.size() == transforms.size()));
-        VERIFY(colors == nullptr || colors->size() == materials.size());
+        DEBUG_ASSERT((materials.size() == meshes.size()) && (materials.size() == transforms.size()));
+        DEBUG_ASSERT(colors == nullptr || colors->size() == materials.size());
 
         for (size_t index = 0; index < materials.size(); ++index)
         {
@@ -92,7 +92,7 @@ private:
             std::vector<BoneComponent>& bones = boneArchetype->GetComponents<BoneComponent>();
             std::vector<WorldTransformComponent>& transforms = boneArchetype->GetComponents<WorldTransformComponent>();
 
-            VERIFY((entities.size() == bones.size()) && (entities.size() == transforms.size()));
+            DEBUG_ASSERT((entities.size() == bones.size()) && (entities.size() == transforms.size()));
             for (size_t index = 0; index < entities.size(); ++index)
             {
                 boneToDataMapping[entities[index]] = std::make_pair(bones[index], transforms[index]);
@@ -152,8 +152,8 @@ private:
         std::vector<WorldTransformComponent>& transforms = archetype->GetComponents<WorldTransformComponent>();
         Core::Ptr<std::vector<ColorComponent>> colors = archetype->HasComponent<ColorComponent>() ? &(archetype->GetComponents<ColorComponent>()) : nullptr;
 
-        VERIFY(materials.size() == meshes.size() == transforms.size());
-        VERIFY(colors == nullptr || colors->size() == materials.size());
+        DEBUG_ASSERT(materials.size() == meshes.size() == transforms.size());
+        DEBUG_ASSERT(colors == nullptr || colors->size() == materials.size());
 
         for (size_t index = 0; index < materials.size(); ++index)
         {

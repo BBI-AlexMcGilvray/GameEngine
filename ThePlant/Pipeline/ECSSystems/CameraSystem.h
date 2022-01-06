@@ -33,7 +33,7 @@ private:
     // need this to ensure none of the affected archetypes have a CameraWeightingComponent
     static void _ApplyToArchetype(Rendering::CameraManager& cameraManager, std::vector<CameraComponent>& cameras, std::vector<WorldTransformComponent>& transforms)
     {
-        VERIFY(cameras.size() == transforms.size());
+        DEBUG_ASSERT(cameras.size() == transforms.size());
         for (size_t index = 0; index < cameras.size(); ++index)
         {
             Rendering::LookAt(transforms[index].transform, cameras[index].targetPosition);
@@ -50,7 +50,7 @@ private:
 
 //     static void ApplyToArchetype(std::vector<CameraComponent>& cameras, std::vector<CameraComponent>& weightings, std::vector<WorldTransformComponent>& transforms)
 //     {
-//         VERIFY(cameras.size() == weightings.size() == transforms.size());
+//         DEBUG_ASSERT(cameras.size() == weightings.size() == transforms.size());
 //         for (size_t index = 0; index < cameras.size(); ++index)
 //         {
 //             // we need to calculate the final camera for each component group and then add that final camera to the manager instead

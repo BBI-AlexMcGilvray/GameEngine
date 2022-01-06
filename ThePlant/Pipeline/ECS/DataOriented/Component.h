@@ -153,7 +153,7 @@ struct ComponentList : public IComponentList
 
     void RemoveComponentAt(const size_t& index) override
     {
-        VERIFY(index < _components.size());
+        DEBUG_ASSERT(index < _components.size());
 
         _components.erase(_components.begin() + index);
     }
@@ -174,7 +174,7 @@ private:
 
     T& _ComponentAt(const size_t& index)
     {
-        VERIFY(index < _components.size());
+        DEBUG_ASSERT(index < _components.size());
 
         return _components[index];
     }

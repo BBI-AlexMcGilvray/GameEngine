@@ -73,7 +73,7 @@ namespace Application
             }
         }
 
-        VERIFY(_systems.size() == 0);
+        DEBUG_ASSERT(_systems.size() == 0);
         _systems = std::move(sortedSystems);
 
         _Clean();

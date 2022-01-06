@@ -10,9 +10,9 @@ void SkeletonAnimationSystem::_ApplyAnimations(Animation::AnimationManager& anim
     Core::Ptr<std::vector<ScaleComponent>> scales = archetype->HasComponent<ScaleComponent>() ? &(archetype->GetComponents<ScaleComponent>()) : nullptr;
     Core::Ptr<std::vector<RotationComponent>> rotations = archetype->HasComponent<RotationComponent>() ? &(archetype->GetComponents<RotationComponent>()) : nullptr;
 
-    VERIFY(positions == nullptr || positions->size() == animationComponents.size());
-    VERIFY(scales == nullptr || scales->size() == animationComponents.size());
-    VERIFY(rotations == nullptr || rotations->size() == animationComponents.size());
+    DEBUG_ASSERT(positions == nullptr || positions->size() == animationComponents.size());
+    DEBUG_ASSERT(scales == nullptr || scales->size() == animationComponents.size());
+    DEBUG_ASSERT(rotations == nullptr || rotations->size() == animationComponents.size());
 
     for (size_t index = 0; index < animationComponents.size(); ++index)
     {

@@ -99,10 +99,10 @@ Plane Line3D::GetNormal(const Math::Float3& atPoint) const
     return Plane(*this);
 }
 
+Line3D Rotate(const Line3D& line, const Math::FQuaternion& rotation);
+
 float Distance(const Line3D& line, const Math::Float3& point);
 float Distance(const Line3D& line1, const Line3D& line2);
-
-Line3D Rotate(const Line3D& line, const Math::FQuaternion& rotation);
 
 bool Intersect(const Line3D& line, const Math::Float3& point);
 bool Intersect(const Line3D& line1, const Line3D& line2);

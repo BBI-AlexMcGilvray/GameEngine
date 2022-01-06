@@ -1,5 +1,6 @@
 #include "Core/Geometric/3D/Box.h"
 
+#include "Core/Debugging/Headers/Macros.h"
 #include "Core/Geometric/3D/Line3D.h"
 #include "Core/Geometric/3D/Plane.h"
 #include "Core/Geometric/3D/Sphere.h"
@@ -16,7 +17,9 @@ Box::Box(const Math::Float3& origin)
 Box::Box(const Math::Float3& min, const Math::Float3& max)
 : _min(min)
 , _max(max)
-{}
+{
+    DEBUG_ASSERT(_min < _max);
+}
 
 bool Box::operator==(const Box& other) const
 {
@@ -72,7 +75,11 @@ Math::Float3 Box::GetOrigin() const
     return _min + (_max - _min);
 }
 
-Box FromDimensions(const Math::Float3& origin, const Math::Float3& dimensions);
+Box FromDimensions(const Math::Float3& origin, const Math::Float3& dimensions)
+{
+    auto halfDimensions = dimensions * 0.5f;
+    return Box(origin - halfDimensions, origin + halfDimensions);
+}
 
 float Distance(const Box& box, const Math::Float3& point);
 float Distance(const Box& box, const Line3D& line);

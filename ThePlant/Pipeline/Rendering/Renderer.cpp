@@ -81,7 +81,7 @@ namespace Rendering {
 
   void Renderer::_Draw(const Context& context) const
   {
-    VERIFY(context.material.shader == _currentShader);
+    DEBUG_ASSERT(context.material.shader == _currentShader);
     context.mesh.buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
     _DrawTriangles(context.mesh.vertices);
     context.mesh.buffer.Unbind();
@@ -92,7 +92,7 @@ namespace Rendering {
   #ifdef DEBUG
     _trackingInfo.drawCalls += 1;
   #endif
-    VERIFY((INT32_MAX >= vertexCount));
+    DEBUG_ASSERT((INT32_MAX >= vertexCount));
     glDrawArrays(GL_LINE_STRIP, 0, GLsizei(vertexCount));
   }
 
@@ -101,7 +101,7 @@ namespace Rendering {
   #ifdef DEBUG
     _trackingInfo.drawCalls += 1;
   #endif
-    VERIFY((INT32_MAX >= vertexCount));
+    DEBUG_ASSERT((INT32_MAX >= vertexCount));
     glDrawArrays(GL_TRIANGLES, 0, GLsizei(vertexCount));
   }
 
@@ -124,7 +124,7 @@ namespace Rendering {
   {
     GLuint program = _currentShader.glProgram.Object;
 
-    VERIFY(context.bones.size() <= 50);
+    DEBUG_ASSERT(context.bones.size() <= 50);
     GLint boneMatrices = glGetUniformLocation(program, "boneMatrices");
     glUniformMatrix4fv(boneMatrices, static_cast<GLsizei>(context.bones.size()), GL_FALSE, (GLfloat *)&(context.bones[0].E1.X));
 

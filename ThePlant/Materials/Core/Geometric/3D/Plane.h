@@ -59,11 +59,11 @@ namespace Geometric {
   Plane BetweenPoints(const Math::Float3& point1, const Math::Float3& point2, const Math::Float3& point3);
   Plane BetweenPoints(const Math::Float3& point1, const Math::Float3& point2, const Math::Float3& point3, const Math::Float2& dimensions);
 
+  Plane Rotate(const Plane& plane, const Math::FQuaternion& rotation);
+
   float Distance(const Plane& plane, const Math::Float3& point);
   float Distance(const Plane& plane, const Line3D& line);
   float Distance(const Plane& plane1, const Plane& plane2);
-
-  Plane Rotate(const Plane& plane, const Math::FQuaternion& rotation);
 
   bool Intersect(const Plane& plane, const Math::Float3& point);
   bool Intersect(const Plane& plane, const Line3D& line);

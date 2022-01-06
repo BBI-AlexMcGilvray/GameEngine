@@ -120,11 +120,11 @@ Plane BetweenPoints(const Math::Float3& point1, const Math::Float3& point2, cons
     _BetweenPoints(point1, point2, point3, dimensions, false);
 }
 
+Plane Rotate(const Plane& plane, const Math::FQuaternion& rotation);
+
 float Distance(const Plane& plane, const Math::Float3& point);
 float Distance(const Plane& plane, const Line3D& line);
 float Distance(const Plane& plane1, const Plane& plane2);
-
-Plane Rotate(const Plane& plane, const Math::FQuaternion& rotation);
 
 bool Intersect(const Plane& plane, const Math::Float3& point);
 bool Intersect(const Plane& plane, const Line3D& line);

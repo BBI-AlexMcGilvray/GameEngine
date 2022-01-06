@@ -135,7 +135,7 @@ State& StateManager::GetActiveState() const
 
 void StateManager::ChangeToState(Ptr<State> state)
 {
-  VERIFY(state != nullptr);
+  DEBUG_ASSERT(state != nullptr);
 
   if (ActiveState != nullptr) {
     ActiveState->End();

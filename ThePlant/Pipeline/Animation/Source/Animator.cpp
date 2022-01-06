@@ -64,7 +64,7 @@ namespace Animation {
 
   void Animator::_PlayAnimation(const Core::Hash& name, bool repeat)
   {
-    VERIFY(_animations.find(name) != _animations.end());
+    DEBUG_ASSERT(_animations.find(name) != _animations.end());
     if (name == _currentAnimation.name) {
       return;
     }

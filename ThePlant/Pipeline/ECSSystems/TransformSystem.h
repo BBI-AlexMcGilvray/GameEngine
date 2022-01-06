@@ -22,7 +22,7 @@ struct LocalTransformPositionSystem : public System<LocalTransformPositionSystem
 {
     static void ApplyToArchetype(std::vector<LocalTransformComponent>& localTransforms, std::vector<PositionComponent>& positions)
     {
-        VERIFY(localTransforms.size() == positions.size());
+        DEBUG_ASSERT(localTransforms.size() == positions.size());
         for (size_t index = 0; index < localTransforms.size(); ++index)
         {
             localTransforms[index].transform.SetPosition(positions[index].position);
@@ -34,7 +34,7 @@ struct LocalTransformScaleSystem : public System<LocalTransformScaleSystem, Loca
 {
     static void ApplyToArchetype(std::vector<LocalTransformComponent>& localTransforms, std::vector<ScaleComponent>& scales)
     {
-        VERIFY(localTransforms.size() == scales.size());
+        DEBUG_ASSERT(localTransforms.size() == scales.size());
         for (size_t index = 0; index < localTransforms.size(); ++index)
         {
             localTransforms[index].transform.SetScale(scales[index].scale);
@@ -46,7 +46,7 @@ struct LocalTransformRotationSystem : public System<LocalTransformRotationSystem
 {
     static void ApplyToArchetype(std::vector<LocalTransformComponent>& localTransforms, std::vector<RotationComponent>& rotations)
     {
-        VERIFY(localTransforms.size() == rotations.size());
+        DEBUG_ASSERT(localTransforms.size() == rotations.size());
         for (size_t index = 0; index < localTransforms.size(); ++index)
         {
             localTransforms[index].transform.SetRotation(rotations[index].rotation);
@@ -69,7 +69,7 @@ struct WorldTransformPositionSystem : public System<WorldTransformPositionSystem
 {
     static void ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms, std::vector<PositionComponent>& positions)
     {
-        VERIFY(worldTransforms.size() == positions.size());
+        DEBUG_ASSERT(worldTransforms.size() == positions.size());
         for (size_t index = 0; index < worldTransforms.size(); ++index)
         {
             worldTransforms[index].transform.SetPosition(positions[index].position);
@@ -81,7 +81,7 @@ struct WorldTransformScaleSystem : public System<WorldTransformScaleSystem, Worl
 {
     static void ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms, std::vector<ScaleComponent>& scales)
     {
-        VERIFY(worldTransforms.size() == scales.size());
+        DEBUG_ASSERT(worldTransforms.size() == scales.size());
         for (size_t index = 0; index < worldTransforms.size(); ++index)
         {
             worldTransforms[index].transform.SetScale(scales[index].scale);
@@ -93,7 +93,7 @@ struct WorldTransformRotationSystem : public System<WorldTransformRotationSystem
 {
     static void ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms, std::vector<RotationComponent>& rotations)
     {
-        VERIFY(worldTransforms.size() == rotations.size());
+        DEBUG_ASSERT(worldTransforms.size() == rotations.size());
         for (size_t index = 0; index < worldTransforms.size(); ++index)
         {
             worldTransforms[index].transform.SetRotation(rotations[index].rotation);
