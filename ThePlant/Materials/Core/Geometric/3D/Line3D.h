@@ -48,9 +48,17 @@ namespace Geometric {
   Line3D Rotate(const Line3D& line, const Math::FQuaternion& rotation);
 
   float Distance(const Line3D& line, const Math::Float3& point);
+  float Distance(const Math::Float3& point, const Line3D& line)
+  {
+    return Distance(line, point);
+  }
   float Distance(const Line3D& line1, const Line3D& line2);
   
-  bool Intersect(const Line3D& line, const Math::Float3& point);
-  bool Intersect(const Line3D& line1, const Line3D& line2);
+  bool Intersect(const Line3D& line, const Math::Float3& point, const float& variance = 0.01f);
+  bool Intersect(const Math::Float3& point, const Line3D& line, const float& variance = 0.01f)
+  {
+    return Intersect(line, point, variance);
+  }
+  bool Intersect(const Line3D& line1, const Line3D& line2, const float& variance = 0.01f);
 }// namespace Geometric
 }// namespace Core

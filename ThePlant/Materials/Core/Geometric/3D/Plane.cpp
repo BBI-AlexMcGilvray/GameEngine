@@ -126,8 +126,8 @@ float Distance(const Plane& plane, const Math::Float3& point);
 float Distance(const Plane& plane, const Line3D& line);
 float Distance(const Plane& plane1, const Plane& plane2);
 
-bool Intersect(const Plane& plane, const Math::Float3& point);
-bool Intersect(const Plane& plane, const Line3D& line);
-bool Intersect(const Plane& plane1, const Plane& plane2);
+bool Intersect(const Plane& plane, const Math::Float3& point, const float& variance/* = 0.01f*/);
+bool Intersect(const Plane& plane, const Line3D& line, const float& variance/* = 0.01f*/);
+bool Intersect(const Plane& plane1, const Plane& plane2, const float& variance/* = 0.01f*/);
 } // namespace Geometric
 } // namespace Core

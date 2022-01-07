@@ -41,15 +41,47 @@ namespace Geometric {
   Box FromDimensions(const Math::Float3& origin, const Math::Float3& dimensions);
 
   float Distance(const Box& box, const Math::Float3& point);
+  float Distance(const Math::Float3& point, const Box& box)
+  {
+    return Distance(box, point);
+  }
   float Distance(const Box& box, const Line3D& line);
+  float Distance(const Line3D& line, const Box& box)
+  {
+    return Distance(box, line);
+  }
   float Distance(const Box& box, const Plane& plane);
+  float Distance(const Plane& plane, const Box& box)
+  {
+    return Distance(box, plane);
+  }
   float Distance(const Box& box, const Sphere& sphere);
+  float Distance(const Sphere& sphere, const Box& box)
+  {
+    return Distance(box, sphere);
+  }
   float Distance(const Box& box1, const Box& box2);
 
-  bool Intersect(const Box& box, const Math::Float3& point);
-  bool Intersect(const Box& box, const Line3D& line);
-  bool Intersect(const Box& box, const Plane& plane);
-  bool Intersect(const Box& box, const Sphere& sphere);
-  bool Intersect(const Box& box1, const Box& box2);
+  bool Intersect(const Box& box, const Math::Float3& point, const float& variance = 0.01f);
+  bool Intersect(const Math::Float3& point, const Box& box, const float& variance = 0.01f)
+  {
+    return Intersect(box, point, variance);
+  }
+  bool Intersect(const Box& box, const Line3D& line, const float& variance = 0.01f);
+  bool Intersect(const Line3D& line, const Box& box, const float& variance = 0.01f)
+  {
+    return Intersect(box, line, variance);
+  }
+  bool Intersect(const Box& box, const Plane& plane, const float& variance = 0.01f);
+  bool Intersect(const Plane& plane, const Box& box, const float& variance = 0.01f)
+  {
+    return Intersect(box, plane, variance);
+  }
+  bool Intersect(const Box& box, const Sphere& sphere, const float& variance = 0.01f);
+  bool Intersect(const Sphere& sphere, const Box& box, const float& variance = 0.01f)
+  {
+    return Intersect(box, sphere, variance);
+  }
+  bool Intersect(const Box& box1, const Box& box2, const float& variance = 0.01f);
 }// namespace Geometric
 }// namespace Core

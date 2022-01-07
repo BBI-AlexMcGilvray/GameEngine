@@ -224,6 +224,7 @@ namespace Math {
     return (v1 - Project(v1, v2));
   }
 
+  // ?
   template<typename T, typename int A>
   VectorA<T, A> Reject(VectorA<T, A> const &v1, VectorA<T, A> const &v2)
   {

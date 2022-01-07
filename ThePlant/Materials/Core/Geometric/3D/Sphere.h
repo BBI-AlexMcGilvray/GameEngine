@@ -34,13 +34,37 @@ namespace Geometric {
   };
 
   float Distance(const Sphere& sphere, const Math::Float3& point);
+  float Distance(const Math::Float3& point, const Sphere& sphere)
+  {
+    return Distance(sphere, point);
+  }
   float Distance(const Sphere& sphere, const Line3D& line);
+  float Distance(const Line3D& line, const Sphere& sphere)
+  {
+    return Distance(sphere, line);
+  }
   float Distance(const Sphere& sphere, const Plane& plane);
+  float Distance(const Plane& plane, const Sphere& sphere)
+  {
+    return Distance(sphere, plane);
+  }
   float Distance(const Sphere& sphere1, const Sphere& sphere2);
 
-  bool Intersect(const Sphere& sphere, const Math::Float3& point);
-  bool Intersect(const Sphere& sphere, const Line3D& line);
-  bool Intersect(const Sphere& sphere, const Plane& plane);
-  bool Intersect(const Sphere& sphere1, const Sphere& sphere2);
+  bool Intersect(const Sphere& sphere, const Math::Float3& point, const float& variance = 0.01f);
+  bool Intersect(const Math::Float3& point, const Sphere& sphere, const float& variance = 0.01f)
+  {
+    return Intersect(sphere, point, variance);
+  }
+  bool Intersect(const Sphere& sphere, const Line3D& line, const float& variance = 0.01f);
+  bool Intersect(const Line3D& line, const Sphere& sphere, const float& variance = 0.01f)
+  {
+    return Intersect(sphere, line, variance);
+  }
+  bool Intersect(const Sphere& sphere, const Plane& plane, const float& variance = 0.01f);
+  bool Intersect(const Plane& plane, const Sphere& sphere, const float& variance = 0.01f)
+  {
+    return Intersect(sphere, plane, variance);
+  }
+  bool Intersect(const Sphere& sphere1, const Sphere& sphere2, const float& variance = 0.01f);
 }// namespace Geometric
 }// namespace Core
