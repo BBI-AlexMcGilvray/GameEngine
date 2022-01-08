@@ -110,48 +110,5 @@ Line3D Rotate(const Line3D& line, const Math::FQuaternion& rotation)
     }
     return Line3D(line.GetDirection(), rotatedDirection, line.GetLength());
 }
-
-float Distance(const Line3D& line, const Math::Float3& point)
-{
-    auto originToP = point - line.GetOrigin();
-
-    auto pOntoLine = Math::Project(originToP, line.GetDirection());
-    auto perpToP = originToP - Math::Perp(originToP, line.GetDirection());
-
-    auto intersectionPoint = line.GetOrigin() + pOntoLine;
-
-    // point is 'behind' the line origin
-    if (Math::Dot(pOntoLine, line.GetDirection()) < 0)
-    {
-        return Math::Magnitude(originToP);
-    }
-
-    // give closest point on line to point
-    if (line.IsInfinite())
-    {
-        return Math::Magnitude(perpToP);
-    }
-
-    // point is passed the end of the line
-    if (Math::MagnitudeSqr(pOntoLine) > Math::sqr(line.GetLength()))
-    {
-        Math::Float3 endOfLine = line.GetOrigin() + (Math::Magnitude(line.GetDirection()) * line.GetLength());
-        return Math::Magnitude(point - endOfLine);
-    }
-
-    return Math::Magnitude(intersectionPoint);
-}
-
-float Distance(const Line3D& line1, const Line3D& line2);
-
-bool Intersect(const Line3D& line, const Math::Float3& point, const float& variance/* = 0.01f*/)
-{
-    return Distance(line, point) <= variance;
-}
-
-bool Intersect(const Line3D& line1, const Line3D& line2, const float& variance/* = 0.01f*/)
-{
-    return Distance(line1, line2) <= variance;
-}
 } // namespace Geometric
 } // namespace Core

@@ -80,22 +80,5 @@ Box FromDimensions(const Math::Float3& origin, const Math::Float3& dimensions)
     auto halfDimensions = dimensions * 0.5f;
     return Box(origin - halfDimensions, origin + halfDimensions);
 }
-
-float Distance(const Box& box, const Math::Float3& point)
-float Distance(const Box& box, const Line3D& line);
-float Distance(const Box& box, const Plane& plane);
-
-float Distance(const Box& box, const Sphere& sphere)
-{
-    return std::min(Distance(box, sphere.GetOrigin()) - sphere.GetRadius(), 0.0f);
-}
-
-float Distance(const Box& box1, const Box& box2);
-
-bool Intersect(const Box& box, const Math::Float3& point, const float& variance/* = 0.01f*/);
-bool Intersect(const Box& box, const Line3D& line, const float& variance/* = 0.01f*/);
-bool Intersect(const Box& box, const Plane& plane, const float& variance/* = 0.01f*/);
-bool Intersect(const Box& box, const Sphere& sphere, const float& variance/* = 0.01f*/);
-bool Intersect(const Box& box1, const Box& box2, const float& variance/* = 0.01f*/);
 } // namespace Geometric
 } // namespace Core

@@ -57,30 +57,5 @@ Math::Float3 Sphere::GetOrigin() const
 {
     return _origin;
 }
-
-float Distance(const Sphere& sphere, const Math::Float3& point)
-{
-    return std::min(Math::Magnitude(point - sphere.GetOrigin()) - sphere.GetRadius(), 0.0f);
-}
-
-float Distance(const Sphere& sphere, const Line3D& line)
-{
-    return std::min(Distance(sphere.GetOrigin(), line) - sphere.GetRadius(), 0.0f);
-}
-
-float Distance(const Sphere& sphere, const Plane& plane)
-{
-    return std::min(Distance(sphere.GetOrigin(), plane) - sphere.GetRadius(), 0.0f);
-}
-
-float Distance(const Sphere& sphere1, const Sphere& sphere2)
-{
-    return std::min(Math::Magnitude(sphere1.GetOrigin() - sphere2.GetOrigin()) - (sphere1.GetRadius() + sphere2.GetRadius()), 0.0f);
-}
-
-bool Intersect(const Sphere& sphere, const Math::Float3& point, const float& variance/* = 0.01f*/);
-bool Intersect(const Sphere& sphere, const Line3D& line, const float& variance/* = 0.01f*/);
-bool Intersect(const Sphere& sphere, const Plane& plane, const float& variance/* = 0.01f*/);
-bool Intersect(const Sphere& sphere1, const Sphere& sphere2, const float& variance/* = 0.01f*/);
 } // namespace Geometric
 } // namespace Core
