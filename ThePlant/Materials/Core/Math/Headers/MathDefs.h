@@ -24,6 +24,7 @@ namespace Math {
   using Tenth = Precision<10>;
   using Hundredth = Precision<100>;
   using Thousandth = Precision<1000>;
+  using DEFAULT_PRECISION = Tenth;
 
   template<typename int D>
   struct Dimension

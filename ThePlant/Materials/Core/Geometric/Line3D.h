@@ -6,7 +6,7 @@ namespace Core {
 namespace Geometric {
   struct Line3D
   {
-    Math::Float3 direction;
+    Math::Float3 direction; // direction should always be normalized
     float length;
     bool infinite;
 
@@ -15,12 +15,12 @@ namespace Geometric {
     {}
 
     Line3D(const Math::Float3 &direction)
-    : direction(direction)
+    : direction(Math::Normalize(direction))
     , infinite(true)
     {}
 
     Line3D(const Math::Float3 &direction, const float& length)
-    : direction(direction)
+    : direction(Math::Normalize(direction))
     , length(length)
     , infinite(infinite)
     {}

@@ -15,10 +15,12 @@
 
 namespace Core {
 namespace Geometric {
+    struct Point{}; // just used to signify we use the 'orientation's position
+    
     using Point2D = Math::Float2;
     using Point3D = Math::Float3;
-    using Shape2D = std::variant<Circle, Line2D, Point2D, Rectangle>;
-    using Shape3D = std::variant<Box, Line2D, Plane, Point3D, Sphere>;
+    using Shape2D = std::variant<Circle, Line2D, Point, Rectangle>;
+    using Shape3D = std::variant<Box, Line2D, Plane, Point, Sphere>;
 
     template <typename SHAPE>
     struct ShapeOrientation
@@ -26,5 +28,11 @@ namespace Geometric {
         SHAPE shape;
         Transform orientation;
     };
+    
+#if DEBUG
+#define VERIFY_2D(SHAPE_ORIENTATION) VERIFY(SHAPE_ORIENTATION.orientation.GetPosition().Z == 0.0f);
+#else
+#define VERIFY_2D(SHAPE_ORIENTATION)
+#endif
 } // namespace Geometric
 } // namespace Core

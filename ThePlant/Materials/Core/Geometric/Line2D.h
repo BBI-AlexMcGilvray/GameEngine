@@ -7,7 +7,7 @@ namespace Core {
 namespace Geometric {
   struct Line2D
   {
-    Math::Float2 direction;
+    Math::Float2 direction; // direction should always be normalized
     float length;
     bool infinite;
 
@@ -16,12 +16,12 @@ namespace Geometric {
     {}
 
     Line2D(const Math::Float2 &direction)
-    : direction(direction)
+    : direction(Math::Normalize(direction))
     , infinite(true)
     {}
 
     Line2D(const Math::Float2 &direction, const float& length)
-    : direction(direction)
+    : direction(Math::Normalize(direction))
     , length(length)
     , infinite(false)
     {}

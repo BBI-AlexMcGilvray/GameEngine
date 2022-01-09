@@ -20,14 +20,14 @@ float Distance(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<S
 }
 
 // to handle checking if shapes intersect
-template <typename SHAPE_1, typename SHAPE_2, typename PRECISION = Math::Hundredth>
+template <typename SHAPE_1, typename SHAPE_2, typename PRECISION = Math::DEFAULT_PRECISION>
 bool Intersect(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2)
 {
     return Distance(shape1, shape2) <= PRECISION();
 }
 
 template <typename SHAPE_1, typename SHAPE_2>
-bool Intersect(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2, const float& precision)
+bool Intersect(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2, const float& precision = Math::DEFAULT_PRECISION())
 {
     return Distance(shape1, shape2) <= precision;
 }
