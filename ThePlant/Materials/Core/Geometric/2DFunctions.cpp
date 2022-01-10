@@ -52,7 +52,21 @@ float Distance(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Lin
     VERIFY_2D(line1);
     VERIFY_2D(line2);
 
+    ShapeOrientation<Line2D> modifiedLine2 = line2;
+    modifiedLine2.orientation.AdjustPosition(line1.orientation.GetPosition());
+    modifiedLine2.orientation.AdjustRotation(line1.orientation.GetRotation().Inverse());
 
+    const auto modifiedLine2EffectiveDirection = EffectiveDirection(modifiedLine2);
+    bool linesParallel = (std::abs(Math::DistanceSqr(line1.shape.direction, modifiedLine2EffectiveDirection)) <= Math::DEFAULT_PRECISION());
+    if (linesParallel)
+    {
+        // if line1 points to line2, use ClosestPointOnLine(line1, line2.origin)
+        // if line2 points to line1, use ClosestPointOnLine(line2, line1.oirign)
+        // otherwise return distance between origins
+    }
+
+    // lines are guaranteed to intersect, calculate where then calculate closest point on each line to that point
+    // then give distance between the closest points on each line
 }
 
 float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Point>& point)
