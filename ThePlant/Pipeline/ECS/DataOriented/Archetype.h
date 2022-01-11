@@ -10,6 +10,7 @@
 #include "Core/IdTypes/RuntimeId.h"
 
 #include "Pipeline/ECS/DataOriented/Component.h"
+#include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
@@ -63,7 +64,7 @@ struct Archetype
     template <typename T>
     bool HasComponent() const
     {
-        return HasComponent(GetTypeId<T>());
+        return HasComponent(Core::GetTypeId<T>());
     }
 
     bool HasComponent(const Core::runtimeId_t& componentId) const;
@@ -107,6 +108,20 @@ struct Archetype
     {
         SetComponentFor(entity, std::forward<T>(value));
         SetComponentFor(entity, std::forward<Ts>(args)...);
+    }
+
+    std::unique_ptr<EntitySnapshot> GetTemporaryEntitySnapshot(const Entity& entity) { return GetTemporaryEntitySnapshot(entity.GetEntityId()); }
+    std::unique_ptr<EntitySnapshot> GetTemporaryEntitySnapshot(const EntityId& entity)
+    {
+        const auto entityIndex = _GetEntityIndex(entity);
+
+        std::vector<std::unique_ptr<ITemporaryComponentRef>> componentRefs;
+        for (auto& component : _components)
+        {
+            componentRefs.push_back(component.second->GetTemporaryComponentRef(entityIndex));
+        }
+
+        return std::make_unique<EntitySnapshot>(entity, componentRefs);
     }
 
     bool ContainsTypes(const TypeCollection& types) const;

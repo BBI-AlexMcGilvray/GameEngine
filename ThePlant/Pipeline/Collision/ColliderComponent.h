@@ -16,6 +16,7 @@ namespace Collision
     Outline:
         - Collider has shape and if it is a trigger or not
         - Collider State system runs to generate an oct-tree first (for easier checks later)
+            - See: https://www.kitware.com/octree-collision-imstk/
         - Collision system runs on oct tree to generate all Collisions
             - Collisions hold: EntitySnapshot for both entities in the collision
                 - EntitySnapshot should have the EntityId it applies to, and a reference (tuple?) to each component it has at the time of the collision

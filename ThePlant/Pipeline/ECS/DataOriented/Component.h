@@ -6,63 +6,69 @@
 
 #include "Materials/Core/Debugging/Headers/Macros.h"
 #include "Materials/Core/IdTypes/RuntimeId.h"
+#include "Materials/Core/Logging/Logger.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"
 
 namespace Application {
-// template <typename T>
-// struct ComponentWrapper // may not want to use this, could intead have 2 lists (entityid and component) that would just need to be kept in sync
-// {
-//     template <typename C>
-//     friend MakeComponentFor(const EntityId& entity);
-
-//     ComponentWrapper() = delete;
-//     // only one component wrapper should exist for each entity
-//     ComponentWrapper(const ComponentWrapper&) = delete;
-//     ComponentWrapper& operator=(const ComponentWrapper&) = delete;
-
-//     ComponentWrapper(ComponentWrapper&& other)
-//     {
-//         _entity = std::move(other._entity);
-//         _component = std::move(other._component);
-//     }
-
-//     ComponentWrapper& operator=(ComponentWrapper&& other)
-//     {
-//         _entity = std::move(other._entity);
-//         _component = std::move(other._component);
-//     }
-
-//     bool BelongsTo(const EntityId& entity) const { return _entity == entity; }
-
-//     void TakeDataFrom(const ComponentWrapper<T>& source)
-//     {
-//         _component = std::move(source._component);
-//     }
-
-//     constexpr operator T() { return _component; }
-    
-// private:
-//     EntityId _entity; // we are indexing component->entity instead of entity->component
-//     T _component;
-
-//     ComponentWrapper(const EntityId& entity, T component)
-//     : _entity(entity)
-//     , _component(component)
-//     {}
-// };
-
-// // may want to find a way to make this take in constructor parameters
-// template <typename T>
-// ComponentWrapper<T> MakeComponentFor(const EntityId& entity)
-// {
-//     // in debug mode this should iterate over a debug list of all entities to ensure we never do this for a given entity more than once! (per component type) unless that component has been destroyed
-//     // would make use of the ArchetypeManager to check for such a thing i imagine
-//     return ComponentWrapper<T>(entity, T());
-// }
-
 template <typename T>
 struct ComponentList;
+
+// NOTE: NOT to be used as a permanent-reference, they reference is liable to break at any point
+struct ITemporaryComponentRef
+{
+    ITemporaryComponentRef() = delete;
+    ITemporaryComponentRef(const ITemporaryComponentRef&) = delete;
+    ITemporaryComponentRef& operator=(const ITemporaryComponentRef&) = delete;
+
+    ITemporaryComponentRef(ITemporaryComponentRef&&) = default;
+    ITemporaryComponentRef& operator=(ITemporaryComponentRef&&) = default;
+
+    virtual Core::runtimeId_t GetComponentType() const = 0;
+
+    // If you are calling this, the type check is up to you
+    Core::Ptr<void> GetPtrToComponent() const
+    {
+        return _GetPtrToComponent();
+    }
+
+    template <typename T>
+    T& GetComponent()
+    {
+        if (Core::GetTypeId<T>() == GetComponentType())
+        {
+            DEBUG_THROW("ITemporaryComponentRef", "Requested type does not exist");
+        }
+        
+        return *static_cast<Core::Ptr<T>>(_GetPtrToComponent());
+    }
+
+private:
+    virtual Core::Ptr<void> _GetPtrToComponent() const = 0;
+};
+
+// NOTE: NOT to be used as a permanent-reference, they reference is liable to break at any point
+template <typename T>
+struct TemporaryComponentRef : public ITemporaryComponentRef
+{
+    TemporaryComponentRef(T& component)
+    : _component(componens)
+    {}
+
+    TemporaryComponentRef() = delete;
+    TemporaryComponentRef(const TemporaryComponentRef&) = delete;
+    TemporaryComponentRef& operator=(const TemporaryComponentRef&) = delete;
+
+    TemporaryComponentRef(TemporaryComponentRef&&) = default;
+    TemporaryComponentRef& operator=(TemporaryComponentRef&&) = default;
+
+    Core::runtimeId_t GetComponentType() const override { return Core::GetTypeId<T>(); }
+
+private:
+    T& _component;
+
+    Core::Ptr<void> _GetPtrToComponent() const override { return &_component; }
+};
 
 struct IComponentList
 {
@@ -77,7 +83,7 @@ struct IComponentList
     {
         if (!_IsCorrectType<T>())
         {
-            throw std::invalid_argument("type does not match that held by the component list");
+            DEBUG_THROW("IComponentList", "type does not match that held by the component list");
         }
 
         static_cast<ComponentList<T>&>(*this).AddComponent(std::move(value));
@@ -89,7 +95,7 @@ struct IComponentList
         // should be in debug only
         if (!_IsCorrectType<T>())
         {
-            throw std::invalid_argument("type does not match that held by the component list");
+            DEBUG_THROW("IComponentList", "type does not match that held by the component list");
         }
 
         return *(static_cast<T*>(_VoidPtrToComponentAt(index)));
@@ -101,10 +107,18 @@ struct IComponentList
         // should be in debug only
         if (!_IsCorrectType<T>())
         {
-            throw std::invalid_argument("type does not match that held by the component list");
+            DEBUG_THROW("IComponentList", "type does not match that held by the component list");
         }
 
         return *(static_cast<std::vector<T>*>(_VoidPtrToComponentsVector()));
+    }
+
+    virtual std::unique_ptr<ITemporaryComponentRef> GetTemporaryComponentRef(const size_t& index) const = 0;
+
+    template <typename T>
+    TemporaryComponentRef<T> GetTemporaryComponentRef(const size_t& index) const
+    {
+        return TemporaryComponentRef<T>(GetComponentAt(index));
     }
 
 protected:
@@ -156,6 +170,11 @@ struct ComponentList : public IComponentList
         DEBUG_ASSERT(index < _components.size());
 
         _components.erase(_components.begin() + index);
+    }
+
+    std::unique_ptr<ITemporaryComponentRef> GetTemporaryComponentRef(const size_t& index) const override
+    {
+        return std::make_unique<TemporaryComponentRef<T>>(_ComponentAt(index));
     }
 
 private:
