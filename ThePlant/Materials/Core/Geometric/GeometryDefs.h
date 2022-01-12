@@ -25,9 +25,12 @@ namespace Geometric {
     template <typename SHAPE>
     struct ShapeOrientation
     {
-        SHAPE shape;
         Transform orientation;
+        SHAPE shape;
     };
+
+    using ShapeOrientation2D = ShapeOrientation<Shape2D>;
+    using ShapeOrientation3D = ShapeOrientation<Shape3D>;
     
 #if DEBUG
 #define VERIFY_2D(SHAPE_ORIENTATION) VERIFY(SHAPE_ORIENTATION.orientation.GetPosition().Z == 0.0f);
