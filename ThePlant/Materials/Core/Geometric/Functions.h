@@ -7,6 +7,16 @@
 
 namespace Core {
 namespace Geometric {
+namespace INTERNAL_HELPER {
+    struct Shape3DVisitor_Distance
+    {
+        template <typename SHAPE1, typename SHAPE2>
+        float operator()(const SHAPE1& shape1, const SHAPE2& shape2)
+        {
+            return Distance(shape1, shape2);
+        }
+    };
+} // namespace INTERNAL_HELPER
 /*
 // NOTE: We may want a
 Math::Float2 IntersectionPoint(...)
@@ -17,6 +27,19 @@ template <typename SHAPE_1, typename SHAPE_2>
 float Distance(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2)
 {
     return Distance(shape2, shape1);
+}
+
+// if possible, this type of parrern for the variants
+// one for each method for 3d shapes, one for each method for 2d shapes, and one for each method of 3d and 2d shape (where the 2d shape is used to make a plane)
+float Distance(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
+{
+    return std::visit(INTERNAL_HELPER::Shape3DVisitor_Distance(), shape1, shape2);
+}
+
+template <typename SHAPE_1, typename SHAPE_2>
+bool Engulfs(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2)
+{
+    return Engulfs(shape2, shape1);
 }
 
 // to handle checking if shapes intersect

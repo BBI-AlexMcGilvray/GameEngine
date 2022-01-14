@@ -3,9 +3,7 @@
 #include <vector>
 
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
-#include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
-#include "Pipeline/ECSSystems/RenderingComponents.h"
 #include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
