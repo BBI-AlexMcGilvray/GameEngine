@@ -19,7 +19,7 @@ namespace Geometric {
     
     using Point2D = Math::Float2;
     using Point3D = Math::Float3;
-    using Shape2D = std::variant<Circle, Line2D, Point, Rectangle>;
+    // using Shape2D = std::variant<Circle, Line2D, Point, Rectangle>; // defined in Plane.h, maybe we want a '2DGeometryDefs.h' file to hold it and be referenced by both?
     using Shape3D = std::variant<Box, Line2D, Plane, Point, Sphere>;
 
     template <typename SHAPE>

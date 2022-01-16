@@ -12,12 +12,12 @@ struct Collision
     EntitySnapshot entity2;
 };
 
-struct ICollisionHadler
+struct ICollisionHandler
 {
     virtual const TypeCollection& GetFromRequirements() const = 0;
     virtual const TypeCollection& GetToRequirements() const = 0;
 
-    void Handle(const Collision& collision)
+    void Handle(Collision& collision)
     {
         const auto& fromRequirements = GetFromRequirements();
         const auto& toRequirements = GetToRequirements();
@@ -37,14 +37,14 @@ struct ICollisionHadler
 private:
     // hanlders only need to worry about apply the logic from 'from' to 'to'
     // if the other permutation should get applied, it is handled above
-    virtual void _Apply(const EntitySnapshot& from, const EntitySnapshot& to) const = 0;
+    virtual void _Apply(EntitySnapshot& from, EntitySnapshot& to) const = 0;
 };
 
 template <typename HANDLER>
 struct CollisionHandler
 {
 private:
-    void _Apply(const EntitySnapshot& from, const EntitySnapshot& to) const override
+    void _Apply(EntitySnapshot& from, EntitySnapshot& to) const override
     {
         HANLDER::Handle(from, to);
     }

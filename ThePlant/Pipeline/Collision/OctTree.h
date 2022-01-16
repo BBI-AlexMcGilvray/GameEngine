@@ -31,6 +31,13 @@ class OctTreeNode
     friend OctTreeNode CreateOctTree(const Core::Math::Float3& totalSize);
 
     public:
+        OctTreeNode(OctTreeNode&&) = default;
+        OctTreeNode& operator=(OctTreeNode&&) = default;
+
+        OctTreeNode() = delete;
+        OctTreeNode(const OctTreeNode&) = delete;
+        OctTreeNode& operator=(const OctTreeNode&) = delete;
+
         // These just provide the entities that intersect with the provided shape
         EntitySnapshot FindFirstEntity(const ShapeOrientation3D& shape) const;
         std::vector<EntitySnapshot> FindAllEntities(const ShapeOrientation3D& shape) const;
@@ -44,6 +51,8 @@ class OctTreeNode
 
         // Collisions occur between two entities within the tree, nothing else
         std::vector<Collision> AllCollisions() const;
+
+        void ClearTree();
 
     private:
         // EntitySnapshot is not the lightest thing to create, so create these first

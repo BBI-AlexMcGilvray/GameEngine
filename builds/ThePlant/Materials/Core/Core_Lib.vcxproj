@@ -278,12 +278,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Functionality\Source\Scheduler.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\AABB.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\Circle.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\GeometryFunctions.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\Line.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2D\Source\Polygon.cpp" />
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\Source\Transform.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2DFunctions.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\3DFunctions.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\RectangleFunctions.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\Transform.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IO\Source\File.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IO\Source\Folder.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\IO\Source\IOUtils.cpp" />

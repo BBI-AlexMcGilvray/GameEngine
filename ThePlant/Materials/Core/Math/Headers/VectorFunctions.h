@@ -88,7 +88,7 @@ namespace Math {
     VectorA<T, D> minV;
 
     for (int i = 0; i < D; i++) {
-      minV[i] = Min(v[i], d);
+      minV[i] = std::min(v[i], d);
     }
 
     return minV;
@@ -100,7 +100,7 @@ namespace Math {
     VectorA<T, D> minV;
 
     for (int i = 0; i < D; i++) {
-      minV[i] = Min(v1[i], v2[i]);
+      minV[i] = std::min(v1[i], v2[i]);
     }
 
     return minV;
@@ -124,7 +124,7 @@ namespace Math {
     VectorA<T, D> maxV;
 
     for (int i = 0; i < D; i++) {
-      maxV[i] = Max(v[i], d);
+      maxV[i] = std::max(v[i], d);
     }
 
     return maxV;
@@ -136,7 +136,7 @@ namespace Math {
     VectorA<T, D> maxV;
 
     for (int i = 0; i < D; i++) {
-      maxV[i] = Max(v1[i], v2[i]);
+      maxV[i] = std::max(v1[i], v2[i]);
     }
 
     return maxV;

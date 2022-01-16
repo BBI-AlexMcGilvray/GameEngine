@@ -11,12 +11,8 @@ Animation/Source/Animator.cpp #
 Animation/Source/Channel.cpp #
 Animation/Source/Keyframe.cpp #
 Animation/Source/SkeletonAnimation.cpp #
-Collision/Source/BoxCollider.cpp #
-Collision/Source/ColliderBase.cpp #
-Collision/Source/CollisionBase.cpp #
-Collision/Source/CollisionCheck.cpp #
-Collision/Source/CollisionManager.cpp #
-Collision/Source/SphericalCollider.cpp #
+Collision/CollisionManager.cpp #
+Collision/OctTree.cpp #
 Debugging/Source/Logging.cpp #
 ECS/DataOriented/Systems/SystemManager.cpp #
 ECS/DataOriented/Archetype.cpp #
@@ -86,12 +82,9 @@ Animation/Headers/Channel.h #
 Animation/Headers/ChannelTypes.h #
 Animation/Headers/Keyframe.h #
 Animation/Headers/SkeletonAnimation.h #
-Collision/Headers/BoxCollider.h #
-Collision/Headers/ColliderBase.h #
-Collision/Headers/CollisionBase.h #
-Collision/Headers/CollisionCheck.h #
-Collision/Headers/CollisionManager.h #
-Collision/Headers/SphericalCollider.h #
+Collision/Collision.h #
+Collision/CollisionManager.h #
+Collision/OctTree.h #
 Debugging/Headers/Declarations.h #
 Debugging/Headers/Logging.h #
 Debugging/Headers/Macros.h 
@@ -107,12 +100,15 @@ ECS/DataOriented/TypeCollection.h #
 ECS/ObjectOriented/Headers/Component.h #
 ECS/ObjectOriented/Headers/ComponentPtr.h #
 ECS/ObjectOriented/Headers/Entity.h #
+ECSSystems/DebugSystems/CollisionDebugSystem.h #
 ECSSystems/DebugSystems/DebugBoneSystem.h #
 ECSSystems/DebugSystems/DebugWorldTransformSystem.h #
 ECSSystems/AnimationSystem.h #
 ECSSystems/AnimationComponents.h #
 ECSSystems/CameraSystem.h #
 ECSSystems/CameraComponents.h #
+ECSSystems/CollisionComponents.h #
+ECSSystems/CollisionSystem.h #
 ECSSystems/GeneralComponents.h #
 ECSSystems/RenderingComponents.h #
 ECSSystems/RenderingSystem.h #

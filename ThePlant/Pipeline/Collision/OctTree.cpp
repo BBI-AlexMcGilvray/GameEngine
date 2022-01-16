@@ -48,6 +48,13 @@ std::vector<Collision> OctTreeNode::AllCollisions() const
     return _CreateCollisions(intermediaryCollisions);
 }
 
+void OctTreeNode::ClearTree()
+{
+    _children.fill(nullptr);
+    _content.clear();
+    _stopGapped = false;
+}
+
 void OctTreeNode::_CreateChildren()
 {
     if ( _ChildrenExist())

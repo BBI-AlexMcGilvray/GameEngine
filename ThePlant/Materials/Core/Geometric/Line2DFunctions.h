@@ -11,19 +11,6 @@ Math::Float2 EffectiveDirection(const ShapeOrientation<Line2D>& line)
     return Math::RotateNormalVectorBy(line.shape.direction, line.orientation.GetRotation());
 }
 
-bool PointIsOnLine(const ShapeOrientation<Line2D>& line, Point2D& point, const float& precision = Math::DEFAULT_PRECISION())
-{
-    VERIFY_2D(line);
-
-    return PointIsOnLine(LineMultiplierForPoint_X(line, point), LineMultiplierForPoint_Y(line, point), precision);
-}
-
-// overload to avoid calculating multipliers multiple times if known
-bool PointIsOnLine(const float& xMultiplier, const float& yMultiplier, const float& precision = Math::DEFAULT_PRECISION())
-{
-    return std::abs(xMultiplier - yMultiplier) <= precision;
-}
-
 float LineMultiplierForPoint_X(const ShapeOrientation<Line2D>& line, const Point2D& point)
 {
     VERIFY_2D(line);
@@ -36,6 +23,19 @@ float LineMultiplierForPoint_Y(const ShapeOrientation<Line2D>& line, const Point
     VERIFY_2D(line);
 
     return (point.Y - line.orientation.GetPosition().Y) / EffectiveDirection(line).Y;
+}
+
+// overload to avoid calculating multipliers multiple times if known
+bool PointIsOnLine(const float& xMultiplier, const float& yMultiplier, const float& precision = Math::DEFAULT_PRECISION())
+{
+    return std::abs(xMultiplier - yMultiplier) <= precision;
+}
+
+bool PointIsOnLine(const ShapeOrientation<Line2D>& line, Point2D& point, const float& precision = Math::DEFAULT_PRECISION())
+{
+    VERIFY_2D(line);
+
+    return PointIsOnLine(LineMultiplierForPoint_X(line, point), LineMultiplierForPoint_Y(line, point), precision);
 }
 
 Math::Float2 PointOnLine(const ShapeOrientation<Line2D>& line, const float& multiplier)

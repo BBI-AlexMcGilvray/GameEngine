@@ -25,7 +25,7 @@ float Distance(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<C
     VERIFY_2D(circle1);
     VERIFY_2D(circle2);
 
-    ShapeOrientation<Point> circleCenter = { Point(), circle1.orientation };
+    ShapeOrientation<Point> circleCenter = { circle1.orientation, Point() };
     return std::min(0.0f, Distance(circle2, circleCenter) - circle1.shape.radius);
 }
 
@@ -43,7 +43,7 @@ float Distance(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circ
     VERIFY_2D(line);
     VERIFY_2D(circle);
 
-    ShapeOrientation<Point> circleCenter = { Point(), circle.orientation };
+    ShapeOrientation<Point> circleCenter = { circle.orientation, Point() };
     return std::min(0.0f, std::abs(Distance(line, circleCenter) - circle.shape.radius));
 }
 
@@ -88,7 +88,7 @@ float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientat
     VERIFY_2D(rectangle);
     VERIFY_2D(circle);
 
-    ShapeOrientation<Point> circleCenter = { Point(), circle.orientation };
+    ShapeOrientation<Point> circleCenter = { circle.orientation, Point() };
     return std::min(0.0f, std::abs(Distance(rectangle, circleCenter) - circle.shape.radius));
 }
 
@@ -98,7 +98,7 @@ float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientat
     VERIFY_2D(line);
 
     const Math::Float2 closestPoint = ClosestPointToLine(rectangle, line);
-    return Distance(line, { Point2D(), Transform(Math::Float3(closestPoint)) });
+    return Distance(line, { Transform(Math::Float3(closestPoint)), Point() });
 }
 
 float Distance(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientation<Rectangle>& rectangle2)

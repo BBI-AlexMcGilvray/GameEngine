@@ -40,7 +40,7 @@ Math::Float2 LastPointOnRectangleInDirection(const Rectangle& rectangle, const M
     const Math::Float2 topRight = RectangleMaxCenteredAt0(rectangle);
     const Math::Float2 bottomLeft = RectangleMinCenteredAt0(rectangle);
 
-    ShapeOrientation<Line2D> line = { Line2D(direction), Transform() };
+    ShapeOrientation<Line2D> line = { Transform(), Line2D(direction) };
 
     // closest side is the one with the smalled multiplier, we find that then calculate the point on the line
     const auto leftMultiplier = LineMultiplierForPoint_X(line, bottomLeft);

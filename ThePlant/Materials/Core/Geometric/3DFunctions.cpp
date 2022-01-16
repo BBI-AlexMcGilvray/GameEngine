@@ -21,25 +21,25 @@ float Distance(const ShapeOrientation<Plane>& plane1, const ShapeOrientation<Pla
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Point>& point)
 {
-    ShapeOrientation<Point> sphereCenter = { Point(), sphere.orientation };
+    ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
     return std::min(0.0f, Distance(sphereCenter, point) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
-    ShapeOrientation<Point> sphereCenter = { Point(), sphere.orientation };
+    ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
     return std::min(0.0f, Distance(line, sphereCenter) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
-    ShapeOrientation<Point> sphereCenter = { Point(), sphere.orientation };
+    ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
     return std::min(0.0f, Distance(plane, sphereCenter) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
-    ShapeOrientation<Point> sphereCenter = { Point(), sphere1.orientation };
+    ShapeOrientation<Point> sphereCenter = { sphere1.orientation, Point() };
     return std::min(0.0f, Distance(sphere2, sphereCenter) - sphere1.shape.radius);
 }
 

@@ -8,6 +8,7 @@
 namespace Core {
 namespace Geometric {
 namespace INTERNAL_HELPER {
+    // given two variants, will call the appropriate Distance(...) method for the two types held by them respectively
     struct Shape3DVisitor_Distance
     {
         template <typename SHAPE1, typename SHAPE2>

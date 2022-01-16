@@ -3,7 +3,7 @@
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
-#include "Core/Geometric/Headers/Transform.h"
+#include "Core/Geometric/Transform.h"
 
 using namespace Core;
 using namespace Core::Geometric;
