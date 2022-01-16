@@ -12,6 +12,18 @@
 
 namespace Core {
 namespace Math {
+  template <typename T>
+  Quaternion<T> QuaternionFromVector(const Vector4<T>& vector)
+  {
+    return Quaternion<T>(vector.X, vector.Y, vector.Z, vector.W);
+  }
+
+  template <typename T>
+  Quaternion<T> QuaternionFromVector(const Vector3<T>& vector)
+  {
+    return Quaternion<T>(vector.X, vector.Y, vector.Z, 0.0f);
+  }
+
   template<typename T, typename int A>
   T EulerAngle(Quaternion<T> const &q, Axis<A> axis)
   {
@@ -199,7 +211,7 @@ namespace Math {
   {
     // conjugate of q
     auto qI = Inverse(q);
-    qI *= v;
+    qI *= QuaternionFromVector(v);
     qI *= q;
 
     Vector3<T> rV = Normalize(Vector3<T>(qI.X, qI.Y, qI.Z));
@@ -223,7 +235,7 @@ namespace Math {
 
     // conjugate of q
     auto rotatedV = q;
-    Quaternion<T> vAsQuaternion = Quaternion<T>(v);
+    Quaternion<T> vAsQuaternion = QuaternionFromVector<T>(v);
     rotatedV *= vAsQuaternion;
     rotatedV *= q.Inverse();
 

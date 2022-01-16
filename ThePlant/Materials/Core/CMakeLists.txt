@@ -4,7 +4,7 @@ set(SOURCE_FILES #
 Functionality/Source/Scheduler.cpp #
 Geometric/2DFunctions.cpp #
 Geometric/3DFunctions.cpp #
-Geometric/RectangleFunctions.cpp #
+#Geometric/RectangleFunctions.cpp #
 Geometric/Transform.cpp #
 IO/Source/File.cpp #
 IO/Source/Folder.cpp #

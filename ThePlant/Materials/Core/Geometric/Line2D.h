@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/Quaternion.h"
+#include "Core/Math/Headers/Vector2.h"
+#include "Core/Math/Headers/VectorFunctions.h"
 
 namespace Core {
 namespace Geometric {

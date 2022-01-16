@@ -5,9 +5,6 @@
 #include "Core/Debugging/Headers/Macros.h"
 #include "Core/Headers/CoreDefs.h"
 #include "Core/Math/Headers/MathDefs.h"
-#include "Core/Math/Headers/Vector3.h"
-#include "Core/Math/Headers/Vector4.h"
-#include "Core/Math/Headers/VectorFunctions.h"
 
 namespace Core {
 namespace Math {
@@ -59,27 +56,18 @@ namespace Math {
     {}
 
     Quaternion(II i)
-      : Quaternion(Vector4<T>(0, 0, 0, i))
+      : Quaternion(T(0), T(0), T(0), T(i))
     {}
 
-    // NOTE: Quaternions are made with W first, not X!
-    // Should this be changed?
+    // would be nice if we could use Vector4<T> here, but it wouldn't compile
     Quaternion(T x, T y, T z, T w)
-      : Quaternion(Vector4<T>(x, y, z, w))
-    {}
-
-    Quaternion(Vector3<T> v, T w = 0)
-      : Quaternion(Vector4<T>(v, w))
-    {}
-
-    Quaternion(Vector4<T> v)
     {
-      auto vNormalize = (v == Vector4<T>(0)) ? Vector4<T>(0) : Normalize(v);
+      auto magnitude = sqrt((x * x) + (y * y) + (z * z) + (w * w));
 
-      X = vNormalize.X;
-      Y = vNormalize.Y;
-      Z = vNormalize.Z;
-      W = vNormalize.W;
+      X = x / magnitude;
+      Y = y / magnitude;
+      Z = z / magnitude;
+      W = w / magnitude;
     }
 
     Quaternion(Quaternion const &q)
@@ -107,13 +95,7 @@ namespace Math {
     template<int A>
     Quaternion(const Deg<T> &deg, const Axis<A> &axis)
       : Quaternion((axis == XAxis()) ? deg : T(0), (axis == YAxis()) ? deg : T(0), (axis == ZAxis()) ? deg : T(0))
-    {
-    }
-
-    operator VectorA<T, 4>() const
-    {
-      return VectorA<T, 4>(X, Y, Z, W);
-    }
+    {}
 
     Quaternion<T> Inverse() const
     {
@@ -201,11 +183,6 @@ namespace Math {
       MESSAGE(false, "Don't use this - why are you using this?");
 
       return q;
-    }
-
-    friend Quaternion<T> operator*(Quaternion<T> q, Vector3<T> const &v)
-    {
-      return q * Quaternion<T>(v);
     }
 
     friend Quaternion<T> operator*(Quaternion<T> q, Quaternion<T> const &oQ)

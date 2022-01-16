@@ -27,6 +27,18 @@ namespace Geometric {
     {
         Transform orientation;
         SHAPE shape;
+
+        ShapeOrientation() = delete;
+
+        ShapeOrientation(const Transform& orientation, const SHAPE& shape)
+        : orientation(orientation)
+        , shape(shape)
+        {}
+
+        ShapeOrientation(const ShapeOrientation&) = default;
+        ShapeOrientation(ShapeOrientation&&) = default;
+        ShapeOrientation& operator=(const ShapeOrientation&) = default;
+        ShapeOrientation& operator=(ShapeOrientation&&) = default;
     };
 
     using ShapeOrientation2D = ShapeOrientation<Shape2D>;

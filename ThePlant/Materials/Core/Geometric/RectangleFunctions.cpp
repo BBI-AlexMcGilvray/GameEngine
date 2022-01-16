@@ -1,6 +1,7 @@
 #include "Core/Geometric/RectangleFunctions.h"
 
 #include "Core/Geometric/2DFunctions.h"
+#include "Core/Geometric/Transform.h"
 
 namespace Core {
 namespace Geometric {
@@ -51,10 +52,10 @@ Math::Float2 ClosestPointToLine(const ShapeOrientation<Rectangle>& rectangle, co
         return modifiedLine.orientation.GetPosition();
     }
 
-    ShapeOrientation<Line2D> topEdge = { Transform(Math::Float3(rectMin.X, rectMax.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f)) };
-    ShapeOrientation<Line2D> bottomdge = { Transform(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f)) };
-    ShapeOrientation<Line2D> leftEdge = { Transform(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f)) };
-    ShapeOrientation<Line2D> rightEdge = { Transform(Math::Float3(rectMax.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f)) };
+    ShapeOrientation<Line2D> topEdge(Transform(Math::Float3(rectMin.X, rectMax.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f)));
+    ShapeOrientation<Line2D> bottomdge(Transform(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f)));
+    ShapeOrientation<Line2D> leftEdge(Transform(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f)));
+    ShapeOrientation<Line2D> rightEdge(Transform(Math::Float3(rectMax.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f)));
     const auto topEdgeDistance = Distance(modifiedLine, topEdge);
     const auto bottomEdgeDistance = Distance(modifiedLine, bottomdge);
     const auto leftEdgeDistance = Distance(modifiedLine, leftEdge);

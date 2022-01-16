@@ -15,7 +15,7 @@ namespace Geometric {
     // create constructor for each variation of data (position, rotation, scale)
     Transform();
     Transform(Core::Math::FQuaternion rotation, Core::Math::Float3 scale = Core::Math::Float3(1.0f));
-    Transform(Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(Core::Math::II{}), Core::Math::Float3 scale = Core::Math::Float3(1.0f));
+    Transform(Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f));
     Transform::Transform(const Core::Math::Float4x4& transformationMatrix);
 
     Transform(const Transform &other);
