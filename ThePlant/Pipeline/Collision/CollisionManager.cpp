@@ -4,10 +4,9 @@ namespace Application
 {
 namespace Collision
 {
-CollisionManager::CollisionManager(const Core::Math::Float3& worldSize)
-{
-    _octTree = CreateOctTree(worldSize);
-}
+CollisionManager::CollisionManager(ECS& ecs, const Core::Math::Float3& worldSize)
+: _octTree(CreateOctTree(ecs, worldSize))
+{}
 
 OctTree& CollisionManager::GetOctTree()
 {
@@ -31,14 +30,13 @@ const std::vector<Core::Ptr<ICollisionHandler>> CollisionManager::GetAllCollisio
     return allHandlers;
 }
 
-Core::InstanceId<ICollisionHandler> CollisionManager::AddCollisionHandler(std::unique_ptr<ICollisionHandler> handler)
+Core::instanceId<ICollisionHandler> CollisionManager::AddCollisionHandler(std::unique_ptr<ICollisionHandler> handler)
 {
-    auto handlerId = GetInstanceId<ICollisionHandler>();
+    auto handlerId = Core::GetInstanceId<ICollisionHandler>();
 
-    _handlers.emplace_back(handlerId, std::move(handler));
+    _handlers.emplace(handlerId, std::move(handler));
 
     return handlerId;
 }
-};
 } // namespace Collision
 } // namespace Application

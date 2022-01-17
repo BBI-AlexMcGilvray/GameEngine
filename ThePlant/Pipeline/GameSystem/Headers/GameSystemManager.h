@@ -10,12 +10,9 @@
 #include "Pipeline/Input/Headers/InputManager.h"
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
-#include "Pipeline/Collision/Headers/CollisionManager.h"
 
 using namespace Core;
 using namespace Core::Functionality;
-
-using namespace Application::GameSystem::Collision;
 
 namespace Application {
 struct State;

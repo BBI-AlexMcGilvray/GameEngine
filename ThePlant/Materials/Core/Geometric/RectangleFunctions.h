@@ -78,7 +78,7 @@ Math::Float2 LastPointOnRectangleInDirection(const ShapeOrientation<Rectangle>& 
     const Math::Float2 effectiveDirection = Math::RotateVectorBy(direction, rectangle.orientation.GetRotation().Inverse());
     
     const auto effectiveLastPoint = LastPointOnRectangleInDirection(rectangle.shape, effectiveDirection);
-    rectangle.orientation.GetPosition().XY + Math::RotateVectorBy(effectiveLastPoint, rectangle.orientation.GetRotation());
+    return rectangle.orientation.GetPosition().XY + Math::RotateVectorBy(effectiveLastPoint, rectangle.orientation.GetRotation());
 }
 
 Math::Float2 ClosestPointToPoint(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Point>& point, const float& precision = Math::DEFAULT_PRECISION())

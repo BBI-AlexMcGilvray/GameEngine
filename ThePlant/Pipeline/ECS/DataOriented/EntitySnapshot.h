@@ -5,26 +5,23 @@
 #include "Core/Headers/type_traits.h"
 #include "Core/Logging/Logger.h"
 
-#include "Pipeline/ECS/DataOriented/Archetype.h"
 #include "Pipeline/ECS/DataOriented/Component.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
+#include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
 namespace Application
 {
     struct EntitySnapshot
     {
-        EntitySnapshot(const EntityId& entity, std::vector<std::unique_ptr<ITemporaryComponentRef>> components)
+        EntitySnapshot(const EntityId& entity, std::vector<std::unique_ptr<ITemporaryComponentRef>>&& components)
         : _entity(entity)
         {
-            for (auto& component : components)
-            {
-                _componentReferences.emplace_back(std::move(component));
-            }
+            _componentReferences = std::move(components);
         }
         
         EntitySnapshot() = default;
-        EntitySnapshot(const EntitySnapshot&) = delete;
-        EntitySnapshot& operator=(const EntitySnapshot&) = delete;
+        EntitySnapshot(const EntitySnapshot&) = default;
+        EntitySnapshot& operator=(const EntitySnapshot&) = default;
 
         EntitySnapshot(EntitySnapshot&&) = default;
         EntitySnapshot& operator=(EntitySnapshot&&) = default;
@@ -42,7 +39,7 @@ namespace Application
             {
                 auto typeIter = std::find_if(_componentReferences.begin(), _componentReferences.end(), [typeId](const auto& componentReference)
                 {
-                    return (componentReference->GetComponentType() == type);
+                    return (componentReference->GetComponentType() == typeId);
                 });
 
                 if (typeIter == _componentReferences.end())
@@ -72,6 +69,11 @@ namespace Application
             }
 
             return *(static_cast<Core::Ptr<T>(componentPtr));
+        }
+
+        bool IsValid() const
+        {
+            return _entity.IsValid();
         }
 
     private:

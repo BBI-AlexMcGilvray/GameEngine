@@ -17,10 +17,10 @@ struct ComponentList;
 // NOTE: NOT to be used as a permanent-reference, they reference is liable to break at any point
 struct ITemporaryComponentRef
 {
-    ITemporaryComponentRef() = delete;
     ITemporaryComponentRef(const ITemporaryComponentRef&) = delete;
     ITemporaryComponentRef& operator=(const ITemporaryComponentRef&) = delete;
 
+    ITemporaryComponentRef() = default;
     ITemporaryComponentRef(ITemporaryComponentRef&&) = default;
     ITemporaryComponentRef& operator=(ITemporaryComponentRef&&) = default;
 
@@ -52,7 +52,7 @@ template <typename T>
 struct TemporaryComponentRef : public ITemporaryComponentRef
 {
     TemporaryComponentRef(T& component)
-    : _component(componens)
+    : _component(component)
     {}
 
     TemporaryComponentRef() = delete;
@@ -113,13 +113,7 @@ struct IComponentList
         return *(static_cast<std::vector<T>*>(_VoidPtrToComponentsVector()));
     }
 
-    virtual std::unique_ptr<ITemporaryComponentRef> GetTemporaryComponentRef(const size_t& index) const = 0;
-
-    template <typename T>
-    TemporaryComponentRef<T> GetTemporaryComponentRef(const size_t& index) const
-    {
-        return TemporaryComponentRef<T>(GetComponentAt(index));
-    }
+    virtual std::unique_ptr<ITemporaryComponentRef> GetTemporaryComponentRef(const size_t& index) = 0;
 
 protected:
     template <typename T>
@@ -172,7 +166,7 @@ struct ComponentList : public IComponentList
         _components.erase(_components.begin() + index);
     }
 
-    std::unique_ptr<ITemporaryComponentRef> GetTemporaryComponentRef(const size_t& index) const override
+    std::unique_ptr<ITemporaryComponentRef> GetTemporaryComponentRef(const size_t& index) override
     {
         return std::make_unique<TemporaryComponentRef<T>>(_ComponentAt(index));
     }

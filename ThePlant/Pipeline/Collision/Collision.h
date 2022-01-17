@@ -48,6 +48,6 @@ private:
     {
         HANLDER::Handle(from, to);
     }
-}
+};
 } // namespace Collision
 } // namespace Application

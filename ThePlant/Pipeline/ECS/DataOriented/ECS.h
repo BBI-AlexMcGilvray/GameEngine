@@ -45,7 +45,6 @@ namespace Application
         Entity CreateEntity() { return _archetypes.CreateEntity(); }
 
         Entity CreateEntity(const EntityCreator& creator) { return _archetypes.CreateEntity(creator); }
-
         /*
          NOTE: This consumes the calls when using anything (ex: above method)
             - either need to use different names, or just use the tuple constructor below (since we require constructed values anyways)
@@ -60,6 +59,9 @@ namespace Application
 
         void RemoveEntity(const Entity& entity) { _archetypes.RemoveEntity(entity); }
         
+        EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity) { return _archetypes.GetTemporaryEntitySnapshot(entity); }
+        EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity) { return _archetypes.GetTemporaryEntitySnapshot(entity); }
+
         void Update() { _systems.Update(); }
 
         template <typename SYSTEM, typename ...ARGS>

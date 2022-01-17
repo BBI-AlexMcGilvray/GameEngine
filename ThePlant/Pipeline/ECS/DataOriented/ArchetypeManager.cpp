@@ -24,6 +24,20 @@ void ArchetypeManager::RemoveEntity(const Entity& entity)
     }
     _GetArchetype(entity.GetArchetypeId()).RemoveEntity(entity);
 }
+        
+EntitySnapshot ArchetypeManager::GetTemporaryEntitySnapshot(const Entity& entity)
+{
+    if (!_HasArchetype(entity.GetArchetypeId()))
+    {
+        CORE_THROW("ArchetypeManager", "Archetype does not exist for given entity");
+    }
+    return GetTemporaryEntitySnapshot(entity.GetEntityId());
+}
+
+EntitySnapshot ArchetypeManager::GetTemporaryEntitySnapshot(const EntityId& entity)
+{
+    return _GetArchetype(entity).GetTemporaryEntitySnapshot(entity);
+}
 
 bool ArchetypeManager::_HasArchetype(const TypeCollection& archetypeTypes) const
 {

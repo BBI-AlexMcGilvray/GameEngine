@@ -129,6 +129,9 @@ public:
     }
 
     void RemoveEntity(const Entity& entity);
+        
+    EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity);
+    EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity);
 
     template <typename ...Ts>
     std::vector<Core::Ptr<Archetype>> GetArchetypesContaining()

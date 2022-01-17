@@ -69,6 +69,8 @@ float Distance(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Lin
 
     // lines are guaranteed to intersect, calculate where then calculate closest point on each line to that point
     // then give distance between the closest points on each line
+
+    return 1.0f;
 }
 
 float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Point>& point)
@@ -107,6 +109,8 @@ float Distance(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrienta
 {
     VERIFY_2D(rectangle1);
     VERIFY_2D(rectangle2);
+
+    return 1.0f;
 }
 } // namespace Geometric
 } // namespace Core

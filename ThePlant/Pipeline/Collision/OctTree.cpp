@@ -1,37 +1,45 @@
 #include "Pipeline/Collision/OctTree.h"
 
+#include "Core/Geometric/Functions.h"
+
 namespace Application
 {
 namespace Collision
 {
-OctTreeNode::OctTreeNode(const Core::Math::Float3& totalSize)
-: OctTree(Core::Math::Float3(0.0f), Core::Geometric::Box(totalSize))
+OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& totalSize)
+: OctTree(ecs, Core::Math::Float3(0.0f), Core::Geometric::Box(totalSize), nullptr)
 {}
 
-OctTreeNode::OctTreeNode(const Core::Math::Float3& origin, const Core::Geometric::Box box)
-: _this{ Core::Geometric::Transform(origin), box }
+OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& origin, const Core::Geometric::Box box, Core::Ptr<OctTreeNode> parent)
+: _ecs(ecs)
+, _parent(parent)
+, _this{ Core::Geometric::Transform(origin), box }
 {}
 
-EntitySnapshot OctTreeNode::FindFirstEntity(const ShapeOrientation3D& shape) const
+EntitySnapshot OctTreeNode::FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const
 {
-    OctTreeNode& containingNode = _FindContainingNode(shape);
+    const OctTreeNode& containingNode = _FindContainingNode(shape);
     for (const auto& content : containingNode._content)
     {
-        if (Intersect(content.shapeOrientation, shape))
+        if (Core::Geometric::Intersect(content.shapeOrientation, shape))
         {
-            return CreateSnapshot(content.entity);
+            return _ecs.GetTemporaryEntitySnapshot(content.entity);
         }
     }
 
-    return CreateEmptySnapshot();
+    // maybe we collide with a parent's content if we have a parent
+    if (_parent == nullptr)
+    {
+        return EntitySnapshot();
+    }
+    return _parent->FindFirstEntity(shape);
 }
 
-std::vector<EntitySnapshot> OctTreeNode::FindAllEntities(const ShapeOrientation3D& shape) const
+std::vector<EntitySnapshot> OctTreeNode::FindAllEntities(const Core::Geometric::ShapeOrientation3D& shape) const
 {
-    std::<EntitySnapshot> entities;
-    // find the node that contains it first to limit the amount of searching we do
-    OctTreeNode& containingNode = _FindContainingNode(shape);
-    containingNode._FindAllEntities(entities, shape);
+    std::vector<EntitySnapshot> entities;
+    // not calling '_FindContainingNode' because we want EVERYTHING it may intersect with, so we may as well start from the top
+    _FindAllEntities(entities, shape);
     return entities;
 }
 
@@ -64,16 +72,16 @@ void OctTreeNode::_CreateChildren()
 
     for (size_t i = 0; i < 8; ++i)
     {
-        _children[i] = std::make_unique<OctTreeNode>()
+        _children[i] = std::make_unique<OctTreeNode>();
     }
 }
 
-bool OctTreeNode::_Engulfs(const ShapeOrientation3D& shape) const
+bool OctTreeNode::_Engulfs(const Core::Geometric::ShapeOrientation3D& shape) const
 {
     return Core::Geometric::Engulfs(_this, shape);
 }
 
-OctTreeNode& OctTreeNode::_FindContainingNode(const ShapeOrientation3D& shape) const
+OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape)
 {
     if (!_ChildrenExist())
     {
@@ -82,9 +90,27 @@ OctTreeNode& OctTreeNode::_FindContainingNode(const ShapeOrientation3D& shape) c
 
     for (auto& child : _children)
     {
-        if (child._Engulfs(shape))
+        if (child->_Engulfs(shape))
         {
-            return child._FindContainingNode(shape);
+            return child->_FindContainingNode(shape);
+        }
+    }
+
+    return *this;
+}
+
+const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape) const
+{
+    if (!_ChildrenExist())
+    {
+        return *this;
+    }
+
+    for (auto& child : _children)
+    {
+        if (child->_Engulfs(shape))
+        {
+            return child->_FindContainingNode(shape);
         }
     }
 
@@ -95,7 +121,7 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
 {
     if (_content.empty() && !_ChildrenExist())
     {
-        _content.insert(content);
+        _content.push_back(content);
         _stopGapped = true;
     }
 
@@ -104,34 +130,38 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
     if (_stopGapped)
     {
         _stopGapped = false;
-        _FindContainingNode(_stopGapped)._InsertContent(_content.pop_back()); // now that the tree has been expanded, try to move the stop-gapped content down a layer
+        // get and remove the stop-gapped content so it can be properly insterted
+        OctTreeContent stopGappedContent = _content.back();
+        _content.pop_back();
+        _FindContainingNode(content.shapeOrientation)._InsertContent(stopGappedContent); // now that the tree has been expanded, try to move the stop-gapped content down a layer
     }
+    // insert the new content
     _FindContainingNode(content.shapeOrientation)._content.push_back(content);
 }
 
-void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const ShapeOrientation& shape) const
+void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const
 {
     _InternalEntities(entities, shape);
     for (const auto& child : _children)
     {
-        if (Engulfs(shape, child->_this))
+        if (Core::Geometric::Engulfs(shape, child->_this))
         {
-            child->_EntitiesForAllContent(collisions);
+            child->_EntitiesForAllContent(entities);
         }
-        else if (Intersect(shape, child->_this))
+        else if (Core::Geometric::Intersect(shape, child->_this))
         {
             child->_FindAllEntities(entities, shape);
         }
     }
 }
 
-void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const ShapeOrientation& shape) const
+void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const
 {
     for (const auto& content : _content)
     {
-        if (Intersect(content.shapeOrientation, shape))
+        if (Core::Geometric::Intersect(content.shapeOrientation, shape))
         {
-            entities.push_back(CreateEntitySnapshot(content.entity));
+            entities.push_back(_ecs.GetTemporaryEntitySnapshot(content.entity));
         }
     }
 }
@@ -140,7 +170,7 @@ void OctTreeNode::_EntitiesForAllContent(std::vector<EntitySnapshot>& entities) 
 {
     for (const auto& content : _content)
     {
-        entities.push_back(CreateEntitySnapshot(content.entity));
+        entities.push_back(_ecs.GetTemporaryEntitySnapshot(content.entity));
     }
 
     for (const auto& child : _children)
@@ -160,11 +190,11 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
 {
     for (size_t i = 0; i < _content.size() - 1; ++i)
     {
-        for (size_t j = i + 1; j < _content; ++j)
+        for (size_t j = i + 1; j < _content.size(); ++j)
         {
-            if (std::optional<Collision> collision = Intersect(_content[i].shapeOrientation, _content[j].shapeOrientation))
+            if (Core::Geometric::Intersect(_content[i].shapeOrientation, _content[j].shapeOrientation))
             {
-                collisions.push_back(collision);
+                collisions.push_back(IntermediaryCollision(_content[i].entity, _content[j].entity));
             }
         }
     }
@@ -181,12 +211,13 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
     {
         for (const auto& child : _children)
         {
-            if (Engulfs(_content[i].shapeOrientation, child->_this))
+            if (Core::Geometric::Engulfs(_content[i].shapeOrientation, child->_this))
             {
                 child->_CollisionsWithAllContent(collisions, _content[i]);
             }
-            else if (Intersect(_content[i].shapeOrientation, child->_this))
+            else if (Core::Geometric::Intersect(_content[i].shapeOrientation, child->_this))
             {
+                // need to make this still...
                 child->_FindAllCollisions(collisions, _content[i]);
             }
         }
@@ -203,6 +234,22 @@ void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& 
     for (const auto& child : _children)
     {
         child->_CollisionsWithAllContent(collisions, content);
+    }
+}
+
+void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const
+{
+    for (const auto& c : _content)
+    {
+        if (Core::Geometric::Intersect(c.shapeOrientation, content.shapeOrientation))
+        {
+            collisions.push_back(IntermediaryCollision(c.entity, content.entity));
+        }
+    }
+
+    for (const auto& child : _children)
+    {
+        child->_FindAllCollisions(collisions, content);
     }
 }
 
@@ -228,16 +275,16 @@ std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<Intermed
     {
         if (snapshots.find(intermediaryCollision.entity1) == snapshots.end())
         {
-            snapshots[intermediaryCollision.entity1] = CreateSnapshot(intermediaryCollision.entity1);
+            snapshots[intermediaryCollision.entity1] = _ecs.GetTemporaryEntitySnapshot(intermediaryCollision.entity1);
         }
         if (snapshots.find(intermediaryCollision.entity2) == snapshots.end())
         {
-            snapshots[intermediaryCollision.entity2] = CreateSnapshot(intermediaryCollision.entity2);
+            snapshots[intermediaryCollision.entity2] = _ecs.GetTemporaryEntitySnapshot(intermediaryCollision.entity2);
         }
     }
 
     std::vector<Collision> collisions;
-    collisions.reserve(intermediaryCollisions);
+    collisions.reserve(intermediaryCollisions.size());
     for (const auto& intermediaryCollision : intermediaryCollisions)
     {
         collisions.push_back({ snapshots[intermediaryCollision.entity1], snapshots[intermediaryCollision.entity2] });

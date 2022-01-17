@@ -110,8 +110,8 @@ struct Archetype
         SetComponentFor(entity, std::forward<Ts>(args)...);
     }
 
-    std::unique_ptr<EntitySnapshot> GetTemporaryEntitySnapshot(const Entity& entity) { return GetTemporaryEntitySnapshot(entity.GetEntityId()); }
-    std::unique_ptr<EntitySnapshot> GetTemporaryEntitySnapshot(const EntityId& entity)
+    EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity) { return GetTemporaryEntitySnapshot(entity.GetEntityId()); }
+    EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity)
     {
         const auto entityIndex = _GetEntityIndex(entity);
 
@@ -121,7 +121,7 @@ struct Archetype
             componentRefs.push_back(component.second->GetTemporaryComponentRef(entityIndex));
         }
 
-        return std::make_unique<EntitySnapshot>(entity, componentRefs);
+        return EntitySnapshot(entity, std::move(componentRefs));
     }
 
     bool ContainsTypes(const TypeCollection& types) const;
@@ -168,7 +168,7 @@ private:
         _AddComponent(std::forward<Ts>(args)...);
     }
 
-    size_t _GetEntityIndex(const EntityId& entity)
+    size_t _GetEntityIndex(const EntityId& entity) const
     {
         for (size_t index = 0; index < _entities.size(); ++index)
         {
