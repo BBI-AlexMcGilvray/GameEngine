@@ -21,7 +21,7 @@ struct CollisionDebugSystem : public System<CollisionDebugSystem>
     : _renderManager(renderManager)
     , _meshGetter(*this)
     {
-        _debugMaterial = CreateDefaultMaterial(shaderManager);
+        _debugMaterial = Rendering::CreateDefaultMaterial(shaderManager);
         
         _circleMesh = Rendering::CreateCircle(1.0f);
         _rectangleMesh = Rendering::CreateRectangle(1.0f);

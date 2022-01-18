@@ -72,6 +72,9 @@ namespace INTERNAL_HELPER {
 // NOTE: We may want a
 Math::Float2 IntersectionPoint(...)
 method, but that can wait - likely much more complex
+
+// NOTE: How are we handling 2D<->3D collision? We should make a plane from the 2D (representing the default 2D plane) and do it that way
+    - yes
 */
 // to handle calling 'Distance' with swapped arguments
 template <typename SHAPE_1, typename SHAPE_2>
