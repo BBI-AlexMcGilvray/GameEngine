@@ -12,6 +12,8 @@
 
 namespace Application {
 namespace Rendering {
+    enum class Mode { FILL, LINE };
+
     // not references because we can create contexts for each object on main thread, then pass them all to rendering thread without worrying aobut lifetime
     // though we will need a way to validate the mesh VAO and such are still valid?
     struct Context
@@ -20,13 +22,15 @@ namespace Rendering {
         Core::Math::Float4x4 mvp; // may be modified by other things (ex: including the camera matrix)
         Core::Math::Color color; // may be modified by other things (ex: general render setting changing the color)
         const Mesh mesh;
+        const Mode mode = Mode::FILL;
 
         bool operator==(const Context& other) const
         {
             return (material == other.material
                 && mvp == other.mvp
                 && color == other.color
-                && mesh == other.mesh);
+                && mesh == other.mesh
+                && mode == other.mode);
         }
     };
 

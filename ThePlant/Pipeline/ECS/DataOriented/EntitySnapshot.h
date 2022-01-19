@@ -18,13 +18,25 @@ namespace Application
         {
             _componentReferences = std::move(components);
         }
-        
-        EntitySnapshot() = default;
-        EntitySnapshot(const EntitySnapshot&) = default;
-        EntitySnapshot& operator=(const EntitySnapshot&) = default;
 
+        EntitySnapshot() = default;
         EntitySnapshot(EntitySnapshot&&) = default;
         EntitySnapshot& operator=(EntitySnapshot&&) = default;
+
+        EntitySnapshot(const EntitySnapshot& other)
+        {
+            for (const auto& component : other._componentReferences)
+            {
+                _componentReferences.emplace_back(component->CreateCopy());
+            }
+        }
+        EntitySnapshot& operator=(const EntitySnapshot& other)
+        {
+            for (const auto& component : other._componentReferences)
+            {
+                _componentReferences.emplace_back(component->CreateCopy());
+            }
+        }
 
         EntityId GetEntity() const
         {

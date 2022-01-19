@@ -6,15 +6,24 @@ namespace Application
 {
 namespace Collision
 {
+struct OctTree_Constructor : public OctTreeNode
+{
+    OctTree_Constructor(ECS& ecs, const Core::Math::Float3& origin, const Core::Geometric::Box& box, const Core::Ptr<OctTreeNode> parent)
+    : OctTreeNode(ecs, origin, box, parent)
+    {}
+};
+
 OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& totalSize)
 : OctTree(ecs, Core::Math::Float3(0.0f), Core::Geometric::Box(totalSize), nullptr)
 {}
 
-OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& origin, const Core::Geometric::Box box, Core::Ptr<OctTreeNode> parent)
+OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& origin, const Core::Geometric::Box& box, const Core::Ptr<OctTreeNode> parent)
 : _ecs(ecs)
 , _parent(parent)
 , _this{ Core::Geometric::Transform(origin), box }
-{}
+{
+    _children.reserve(NUMBER_OF_CHILDREN);
+}
 
 EntitySnapshot OctTreeNode::FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const
 {
@@ -58,7 +67,7 @@ std::vector<Collision> OctTreeNode::AllCollisions() const
 
 void OctTreeNode::ClearTree()
 {
-    _children.fill(nullptr);
+    _children.clear();
     _content.clear();
     _stopGapped = false;
 }
@@ -70,9 +79,17 @@ void OctTreeNode::_CreateChildren()
         return;
     }
 
-    for (size_t i = 0; i < 8; ++i)
+    const Core::Geometric::Box childBox(_this.shape.dimensions * 0.5f);
+    const Core::Math::Float3 childOriginOffset = childBox.dimensions * 0.5f;
+
+    for (size_t i = 0; i < NUMBER_OF_CHILDREN; ++i)
     {
-        _children[i] = std::make_unique<OctTreeNode>();
+        Core::Math::Float3 childOrigin = _this.orientation.GetPosition();
+        childOrigin.X += childOriginOffset.X * (i < 4 ? 1 : -1);
+        childOrigin.Y += childOriginOffset.Y * (i < 2 && i > 5 ? 1 : -1);
+        childOrigin.Z += childOriginOffset.Z * (i % 2 ? 1 : -1);
+
+        _children[i] = std::make_unique<OctTree_Constructor>(_ecs, childOrigin, childBox, this);
     }
 }
 
@@ -287,7 +304,7 @@ std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<Intermed
     collisions.reserve(intermediaryCollisions.size());
     for (const auto& intermediaryCollision : intermediaryCollisions)
     {
-        collisions.push_back({ snapshots[intermediaryCollision.entity1], snapshots[intermediaryCollision.entity2] });
+        collisions.emplace_back<Collision>({ snapshots[intermediaryCollision.entity1], snapshots[intermediaryCollision.entity2] });
     }
     
     return collisions;

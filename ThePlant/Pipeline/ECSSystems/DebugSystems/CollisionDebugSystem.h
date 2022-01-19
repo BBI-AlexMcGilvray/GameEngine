@@ -95,7 +95,8 @@ private:
                 _debugMaterial,
                 scaleAdjustedTransform.GetTransformationMatrix(),
                 colliderColor,
-                colliderMesh
+                colliderMesh,
+                Rendering::RenderMode::LINE
             };
             _renderManager.QueueRender(context);
         }

@@ -17,14 +17,14 @@ struct ComponentList;
 // NOTE: NOT to be used as a permanent-reference, they reference is liable to break at any point
 struct ITemporaryComponentRef
 {
-    ITemporaryComponentRef(const ITemporaryComponentRef&) = delete;
-    ITemporaryComponentRef& operator=(const ITemporaryComponentRef&) = delete;
-
     ITemporaryComponentRef() = default;
+    ITemporaryComponentRef(const ITemporaryComponentRef&) = default;
     ITemporaryComponentRef(ITemporaryComponentRef&&) = default;
     ITemporaryComponentRef& operator=(ITemporaryComponentRef&&) = default;
+    ITemporaryComponentRef& operator=(const ITemporaryComponentRef&) = default;
 
     virtual Core::runtimeId_t GetComponentType() const = 0;
+    virtual std::unique_ptr<ITemporaryComponentRef> CreateCopy() const = 0;
 
     // If you are calling this, the type check is up to you
     Core::Ptr<void> GetPtrToComponent() const
@@ -55,14 +55,17 @@ struct TemporaryComponentRef : public ITemporaryComponentRef
     : _component(component)
     {}
 
-    TemporaryComponentRef() = delete;
-    TemporaryComponentRef(const TemporaryComponentRef&) = delete;
-    TemporaryComponentRef& operator=(const TemporaryComponentRef&) = delete;
-
+    TemporaryComponentRef() = default;
+    TemporaryComponentRef(const TemporaryComponentRef&) = default;
     TemporaryComponentRef(TemporaryComponentRef&&) = default;
+    TemporaryComponentRef& operator=(const TemporaryComponentRef&) = default;
     TemporaryComponentRef& operator=(TemporaryComponentRef&&) = default;
 
     Core::runtimeId_t GetComponentType() const override { return Core::GetTypeId<T>(); }
+    std::unique_ptr<ITemporaryComponentRef> CreateCopy() const override
+    {
+        return std::make_unique<TemporaryComponentRef<T>>(_component);
+    }
 
 private:
     T& _component;

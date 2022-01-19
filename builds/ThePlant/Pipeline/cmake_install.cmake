@@ -63,6 +63,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/DebugSystems/CollisionDebugSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/DebugSystems/DebugBoneSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/DebugSystems/DebugWorldTransformSystem.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/DebugSystems/OctTreeDebugSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/AnimationSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/AnimationComponents.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/CameraSystem.h"
