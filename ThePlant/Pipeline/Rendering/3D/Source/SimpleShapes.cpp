@@ -2,16 +2,16 @@
 
 namespace Application {
 namespace Rendering {
-    Mesh CreateCube(const Core::Math::Float3& dimensions)
+    Mesh CreateBox(const Core::Math::Float3& dimensions)
     {
         auto halfX = dimensions.X * 0.5f;
         auto halfY = dimensions.Y * 0.5f;
         auto halfZ = dimensions.Z * 0.5f;
 
-        return CreateCube(Core::Math::Float3(-halfX, -halfY, -halfZ), Core::Math::Float3(halfX, halfY, halfZ));
+        return CreateBox(Core::Math::Float3(-halfX, -halfY, -halfZ), Core::Math::Float3(halfX, halfY, halfZ));
     }
 
-    Mesh CreateCube(const Core::Math::Float3& min, const Core::Math::Float3& max)
+    Mesh CreateBox(const Core::Math::Float3& min, const Core::Math::Float3& max)
     {
         std::vector<Core::Math::Float3> corners;
         corners.reserve(8);

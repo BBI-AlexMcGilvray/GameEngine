@@ -22,7 +22,9 @@ namespace Rendering {
         Core::Math::Float4x4 mvp; // may be modified by other things (ex: including the camera matrix)
         Core::Math::Color color; // may be modified by other things (ex: general render setting changing the color)
         const Mesh mesh;
+#if DEBUG
         const Mode mode = Mode::FILL;
+#endif
 
         bool operator==(const Context& other) const
         {
@@ -30,7 +32,10 @@ namespace Rendering {
                 && mvp == other.mvp
                 && color == other.color
                 && mesh == other.mesh
-                && mode == other.mode);
+#if DEBUG
+                && mode == other.mode
+#endif
+                );
         }
     };
 

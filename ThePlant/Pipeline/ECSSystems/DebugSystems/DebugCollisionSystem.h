@@ -1,10 +1,12 @@
 #pragma once
 
-#include "Pipeline/Collision/ColliderComponent.h"
+#include "Core/Logging/Logger.h"
 
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
+#include "Pipeline/ECSSystems/ColliderComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
+#include "Pipeline/Rendering/2D/Headers/SimpleShapes.h"
 #include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
@@ -13,11 +15,9 @@
 
 namespace Application
 {
-namespace Collision
+struct DebugCollisionSystem : public System<DebugCollisionSystem>
 {
-struct CollisionDebugSystem : public System<CollisionDebugSystem>
-{
-    CollisionDebugSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
+    DebugCollisionSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
     : _renderManager(renderManager)
     , _meshGetter(*this)
     {
@@ -41,24 +41,25 @@ struct CollisionDebugSystem : public System<CollisionDebugSystem>
                 // hack fix to not draw the shape for the camera since it covers everything
                 continue;
             }
-            _ApplyToArchetype(archetype->GetComponents<WorldTransformComponent>, archetype->GetComponents<ColliderComponent>());
+            _ApplyToArchetype(archetype->GetComponents<WorldTransformComponent>(), archetype->GetComponents<ColliderComponent>());
         }
     }
 
 private:
+    // we need to handle lines, and planes as well
     struct MeshGetter
     {
-        MeshGetter(const CollisionDebugSystem& debugSystem)
+        MeshGetter(const DebugCollisionSystem& debugSystem)
         : _debugSystem(debugSystem)
         {}
 
-        Rendering::Mesh operator()(const Geoemtric::Box& box) { return _debugSystem._boxMesh; }
-        Rendering::Mesh operator()(const Geoemtric::Circle& circle) { return _debugSystem._circleMesh; }
-        Rendering::Mesh operator()(const Geoemtric::Rectange& rectangle) { return _debugSystem._rectangleMesh; }
-        Rendering::Mesh operator()(const Geoemtric::Sphere& sphere) { return _debugSystem._sphereMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Box& box) { return _debugSystem._boxMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Circle& circle) { return _debugSystem._circleMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Rectangle& rectangle) { return _debugSystem._rectangleMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Sphere& sphere) { return _debugSystem._sphereMesh; }
 
     private:
-        const CollisionDebugSystem& _debugSystem;
+        const DebugCollisionSystem& _debugSystem;
     };
 
     Rendering::RenderManager& _renderManager;
@@ -84,11 +85,12 @@ private:
         for (size_t index = 0; index < worldTransforms.size(); ++index)
         {
             Core::Geometric::Transform scaleAdjustedTransform = worldTransforms[index].transform;
-            lockedScale.AdjustScale(colliderComponents[index].shape)
+            CORE_THROW("DebugCollisionSystem", "We need to adjust the scale for the box based on the shape's scale relative to 1.0f");
+            // scaleAdjustedTransform.AdjustScale(colliderComponents[index].shape)
 
             // ideally we have this change based on if there was a collision for it
             Core::Math::Color colliderColor = colliderComponents[index].trigger ? Core::Math::BLUE : Core::Math::RED;
-            Rendering::Mesh colliderMesh = std::visit(_meshGetter, colliderComponents[index].shape);
+            Rendering::Mesh colliderMesh = _boxMesh;//std::visit(_meshGetter, colliderComponents[index].shape);
 
             // we probably want a way to set this to only draw the borders (lines instead)
             Rendering::Context context = {
@@ -96,11 +98,10 @@ private:
                 scaleAdjustedTransform.GetTransformationMatrix(),
                 colliderColor,
                 colliderMesh,
-                Rendering::RenderMode::LINE
+                Rendering::Mode::LINE
             };
             _renderManager.QueueRender(context);
         }
     }
 };
-} // namespace Collision
 } // namespace Application

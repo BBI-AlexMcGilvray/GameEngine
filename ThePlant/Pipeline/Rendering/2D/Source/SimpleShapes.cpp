@@ -4,15 +4,15 @@
 
 namespace Application {
 namespace Rendering {
-    Mesh CreateBox(const Core::Math::Float2& dimensions)
+    Mesh CreateRectangle(const Core::Math::Float2& dimensions)
     {
         auto halfX = dimensions.X * 0.5f;
         auto halfY = dimensions.Y * 0.5f;
 
-        return CreateBox(Core::Math::Float2(-halfX, -halfY), Core::Math::Float2(halfX, halfY));
+        return CreateRectangle(Core::Math::Float2(-halfX, -halfY), Core::Math::Float2(halfX, halfY));
     }
 
-    Mesh CreateBox(const Core::Math::Float2& min, const Core::Math::Float2& max)
+    Mesh CreateRectangle(const Core::Math::Float2& min, const Core::Math::Float2& max)
     {
         std::vector<SimpleVertexData> vertices;
 

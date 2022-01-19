@@ -17,7 +17,7 @@ struct ICollisionHandler
     virtual const TypeCollection& GetFromRequirements() const = 0;
     virtual const TypeCollection& GetToRequirements() const = 0;
 
-    void Handle(Collision& collision)
+    void Handle(Collision& collision) const
     {
         const auto& fromRequirements = GetFromRequirements();
         const auto& toRequirements = GetToRequirements();

@@ -5,6 +5,7 @@
 #include "Data/Headers/AssetManager.h"
 
 #include "Pipeline/Animation/Headers/AnimationManager.h"
+#include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/StateSystem/Headers/StateManager.h"
 #include "Pipeline/Input/Headers/InputManager.h"
@@ -31,6 +32,7 @@ struct ApplicationManager
   static SDL2Manager& AppSDLManager();
 
   static AnimationManager &AppAnimationManager();
+  static Collision::CollisionManager &AppCollisionManager();
   static RenderManager &AppRenderManager();
   static ShaderManager& AppShaderManager();
   static InputManager &AppInputManager();
@@ -76,6 +78,7 @@ private:
   SDL2Manager SDL;
   Data::AssetManager _assetManager;
   ECS _ecsSystem;
+  Collision::CollisionManager _collisionManager;
   AnimationManager AnimationSystem;
   RenderManager RenderSystem;
   ShaderManager _shaderManager;

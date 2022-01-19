@@ -2,10 +2,13 @@
 
 #include "Pipeline/ECSSystems/AnimationSystem.h"
 #include "Pipeline/ECSSystems/CameraSystem.h"
+#include "Pipeline/ECSSystems/CollisionSystem.h"
 #include "Pipeline/ECSSystems/TransformSystem.h"
 #include "Pipeline/ECSSystems/RenderingSystem.h"
 #if DEBUG
 #include "Pipeline/ECSSystems/DebugSystems/DebugBoneSystem.h"
+#include "Pipeline/ECSSystems/DebugSystems/DebugCollisionSystem.h"
+#include "Pipeline/ECSSystems/DebugSystems/DebugOctTreeSystem.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugTransformSystem.h"
 #endif
 
@@ -43,9 +46,12 @@ namespace Product
         // the below should probably be a part of the application's initialization (for the default systems at least)
         _pipeline->AppECS().AddSystem<Application::AnimationSystem>(Application::ApplicationManager::AppAnimationManager());
         _pipeline->AppECS().AddSystem<Application::TransformSystem>().AddDependency<Application::AnimationSystem>();
+        _pipeline->AppECS().AddSystem<Application::CollisionSystem>(_pipeline->AppCollisionManager()).AddDependency<Application::TransformSystem>();
     #if DEBUG
         _pipeline->AppECS().AddSystem<Application::DebugBoneSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::TransformSystem>();
         _pipeline->AppECS().AddSystem<Application::DebugTransformSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::TransformSystem>();
+        _pipeline->AppECS().AddSystem<Application::DebugOctTreeSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager(), Application::ApplicationManager::AppCollisionManager()).AddDependency<Application::CollisionSystem>();
+        _pipeline->AppECS().AddSystem<Application::DebugCollisionSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::CollisionSystem>();
     #endif
         _pipeline->AppECS().AddSystem<Application::CameraSystem>(Application::ApplicationManager::AppRenderManager().GetCameraManager()).AddDependency<Application::TransformSystem>();
         auto& renderingSystem = _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependencies<Application::TransformSystem, Application::CameraSystem, Application::AnimationSystem>();

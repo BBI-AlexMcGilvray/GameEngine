@@ -46,7 +46,7 @@ namespace Product
 
         // this will be data driven from the future
         // create camera
-        Transform cameraTransform;
+        Core::Geometric::Transform cameraTransform;
         Application::CameraComponent camera(1280.0f / 1080.0f, Core::Math::Float3(0.0f, 0.0f, 0.0f));
         auto cameraComponents = std::make_tuple<Application::CameraComponent, Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent>(std::move(camera), cameraTransform, Core::Math::Float3(0.0f, 0.0f, 20.0f), Core::Math::FQuaternion(Core::Math::II()));
         _camera = ecs.CreateEntity(cameraComponents);
@@ -64,7 +64,7 @@ namespace Product
 
         // auto components = std::make_tuple<Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent, Application::MaterialComponent, Application::MeshComponent>(transform, Core::Math::Float3(0.0f, 0.0f, -600.0f), Core::Math::FQuaternion(Core::Math::II()), material, mesh);
         // _mi = ecs.CreateEntity(components);
-        Application::Rendering::InitialStaticModelState initialMIState(Data::Ast.smdl.MI_0, Transform());
+        Application::Rendering::InitialStaticModelState initialMIState(Data::Ast.smdl.MI_0, Core::Geometric::Transform());
         _mi = Application::Rendering::CreateModel(ecs, assetManager, shaderManager, initialMIState);
 
         // create Woman
@@ -74,7 +74,7 @@ namespace Product
             - maybe we need to do this after, in which case we should provide a skeleton component (that includes an array of strings (hashes?) to match entity ids and allow us to get indices)
                 - the array of strings should probably exist anyways so we can get the bone (entityId) based on the name (hashed name?)
         */
-        Application::Rendering::InitialAnimatedModelState initialWomanState(Data::Ast.amdl.Monk_1, Transform());
+        Application::Rendering::InitialAnimatedModelState initialWomanState(Data::Ast.amdl.Monk_1, Core::Geometric::Transform());
         _woman = Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
         // ecs.GetComponentFor<Application::RotationComponent>(_woman).rotation = FQuaternion(-0.707f, 0.0f, 0.0f, 0.707f);
         // \testing

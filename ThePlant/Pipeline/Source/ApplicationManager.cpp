@@ -24,6 +24,11 @@ AnimationManager &ApplicationManager::AppAnimationManager()
   return Application()->AnimationSystem;
 }
 
+Collision::CollisionManager &ApplicationManager::AppCollisionManager()
+{
+  return Application()->_collisionManager;
+}
+
 RenderManager &ApplicationManager::AppRenderManager()
 {
   return Application()->RenderSystem;
@@ -55,7 +60,8 @@ ECS& ApplicationManager::AppECS()
 }
 
 ApplicationManager::ApplicationManager(ConstructorTag tag)
-  : _shaderManager(_assetManager)
+  : _collisionManager(_ecsSystem, Core::Math::Float3(1000.0f)) // must be data driven somewhere instead (in the world?)
+  , _shaderManager(_assetManager)
   , InputSystem(SDL), StateSystem(RenderSystem, InputSystem), OnQuit([this]() {
       Quit = true;
       return false;

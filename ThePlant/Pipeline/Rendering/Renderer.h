@@ -49,6 +49,10 @@ namespace Rendering {
     void _DrawLines(Core::size vertexCount) const;
     void _DrawTriangles(Core::size vertexCount) const;
 
+#if DEBUG
+    void _SetDrawMode(const Context& context) const;
+#endif
+
     void _SetShaderVariables(const Context& context) const;
     void _SetShaderVariables(const SkinnedContext& context) const;
     void _SetMaterialContext(const Material& material) const;

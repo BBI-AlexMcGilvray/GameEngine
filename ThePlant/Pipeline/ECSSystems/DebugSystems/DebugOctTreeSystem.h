@@ -12,38 +12,35 @@
 
 namespace Application
 {
-namespace Collision
+struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
 {
-struct CollisionDebugSystem : public System<CollisionDebugSystem>
-{
-    CollisionDebugSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager, CollisionManager& collisionManager)
+    DebugOctTreeSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager, Collision::CollisionManager& collisionManager)
     : _renderManager(renderManager)
     , _collisionManager(collisionManager)
     {
         _debugMaterial = Rendering::CreateDefaultMaterial(shaderManager);
-        _debugMesh = Rendering::CreateCube(1.0f);
+        _debugMesh = Rendering::CreateBox(1.0f);
     }
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
-        const OctTree& octTree = _collisionManager.GetOctTree();
+        const Collision::OctTree& octTree = _collisionManager.GetOctTree();
         _DrawOctTreeNode(octTree);
     }
 
 private:
     Rendering::RenderManager& _renderManager;
-    CollisionManager& _collisionManager;
+    Collision::CollisionManager& _collisionManager;
 
     // when using these meshes, modify the scale of the transform passed in to be multiplied by the scale of the collider (relative to the default 1.0) being used
     Rendering::Material _debugMaterial;
     Rendering::Mesh _debugMesh;
 
-    void _DrawOctTreeNode(const OctTreeNode& node) const
+    void _DrawOctTreeNode(const Collision::OctTreeNode& node) const
     {
         // create render context for node
         
         // call _DrawOctTreeNode for each child of node (if they exist)
     }
 };
-} // namespace Collision
 } // namespace Application

@@ -65,7 +65,7 @@ namespace Rendering {
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
 
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // turns on wireframe mode
+    // the FRONT_AND_BACK may be the render issue cause?
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);// turns off wireframe mode
 
     // SDL_GL_CONTEXT_PROFILE_CORE uses only the newer version, deprecated functions are disabled

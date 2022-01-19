@@ -21,7 +21,7 @@ namespace INTERNAL_HELPER {
         template <typename SHAPE1, typename SHAPE2>
         float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
-            return Distance({ transform1, shape1 }, { transform2, shape2 });
+            return Distance(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
         }
 
     private:
@@ -40,7 +40,7 @@ namespace INTERNAL_HELPER {
         template <typename SHAPE1, typename SHAPE2>
         float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
-            return Engulfs({ transform1, shape1 }, { transform2, shape2 });
+            return Engulfs(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
         }
 
     private:
@@ -59,7 +59,7 @@ namespace INTERNAL_HELPER {
         template <typename SHAPE1, typename SHAPE2>
         float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
-            return Intersect({ transform1, shape1 }, { transform2, shape2 });
+            return Intersect(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
         }
 
     private:

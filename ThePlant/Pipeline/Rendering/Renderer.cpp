@@ -65,6 +65,7 @@ namespace Rendering {
   {
   #ifdef DEBUG
     _trackingInfo.modelsDrawn += 1;
+    _SetDrawMode(context);
   #endif
     _SetShaderVariables(context);
     _Draw(context);
@@ -74,6 +75,7 @@ namespace Rendering {
   {
   #ifdef DEBUG
     _trackingInfo.skinnedModelsDrawn += 1;
+    _SetDrawMode(context.context);
   #endif
     _SetShaderVariables(context);
     _Draw(context.context);
@@ -104,6 +106,26 @@ namespace Rendering {
     DEBUG_ASSERT((INT32_MAX >= vertexCount));
     glDrawArrays(GL_TRIANGLES, 0, GLsizei(vertexCount));
   }
+
+#if DEBUG
+  void Renderer::_SetDrawMode(const Context& context) const
+  {
+    // the FRONT_AND_BACK may be the render issue cause?
+    switch (context.mode)
+    {
+      case Mode::FILL:
+      {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        break;
+      }
+      case Mode::LINE:
+      {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // wireframe mode
+        break;
+      }
+    }
+  }
+#endif
 
   void Renderer::_SetShaderVariables(const Context& context) const
   {

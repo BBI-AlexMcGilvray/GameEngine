@@ -6,8 +6,8 @@
 
 namespace Application {
 namespace Rendering {
-    Mesh CreateBox(const Core::Math::Float2& dimensions);
-    Mesh CreateBox(const Core::Math::Float2& min, const Core::Math::Float2& max);
+    Mesh CreateRectangle(const Core::Math::Float2& dimensions);
+    Mesh CreateRectangle(const Core::Math::Float2& min, const Core::Math::Float2& max);
     Mesh CreateCircle(const float& radius);
 } // namespace Rendering
 } // namespace Application

@@ -100,10 +100,10 @@ ECS/DataOriented/TypeCollection.h #
 ECS/ObjectOriented/Headers/Component.h #
 ECS/ObjectOriented/Headers/ComponentPtr.h #
 ECS/ObjectOriented/Headers/Entity.h #
-ECSSystems/DebugSystems/CollisionDebugSystem.h #
+ECSSystems/DebugSystems/DebugCollisionSystem.h #
 ECSSystems/DebugSystems/DebugBoneSystem.h #
 ECSSystems/DebugSystems/DebugWorldTransformSystem.h #
-ECSSystems/DebugSystems/OctTreeDebugSystem.h #
+ECSSystems/DebugSystems/DebugOctTreeSystem.h #
 ECSSystems/AnimationSystem.h #
 ECSSystems/AnimationComponents.h #
 ECSSystems/CameraSystem.h #
