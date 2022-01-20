@@ -132,56 +132,56 @@ bool Engulfs(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
 // to handle checking if shapes intersect
 template <typename SHAPE_1, typename SHAPE_2>
 auto Intersect(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2, const float& precision = Math::DEFAULT_PRECISION())
--> typename std::enable_if<(is_in_variant<SHAPE_1, Shape3D>::value == is_in_variant<SHAPE_2, Shape3D>::value)
-                && (is_in_variant<SHAPE_1, Shape2D>::value == is_in_variant<SHAPE_2, Shape2D>::value), bool>::type // only if SHAPE_1 and SHAPE_2 belong to the same variants
+-> typename std::enable_if<(is_in_variant<SHAPE_1, Shape3D>::value && is_in_variant<SHAPE_2, Shape3D>::value)
+                || (is_in_variant<SHAPE_1, Shape2D>::value && is_in_variant<SHAPE_2, Shape2D>::value), bool>::type // only if SHAPE_1 and SHAPE_2 belong to the same variants
 {
     return Distance(shape1, shape2) <= precision;
 }
 template <typename SHAPE3D, typename SHAPE2D>
-auto Intersect(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation<SHAPE2D>& shape_2d)
+auto Intersect(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation<SHAPE2D>& shape_2d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value && is_in_variant<SHAPE2D, Shape2D>::value, bool>::type // only if SHAPE3D and SHAPE2D belong to different variants
 {
-    return Intersect(shape_3d, ShapeOrientation<Plane>(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+    return Intersect(shape_3d, ShapeOrientation<Plane>(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)), precision);
 }
 template <typename SHAPE2D, typename SHAPE3D>
-auto Intersect(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation<SHAPE3D>& shape_3d)
+auto Intersect(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation<SHAPE3D>& shape_3d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value && is_in_variant<SHAPE2D, Shape2D>::value, bool>::type // only if SHAPE3D and SHAPE2D belong to different variants
 {
-    return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+    return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)), precision);
 }
 template <typename SHAPE3D>
-auto Intersect(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation3D& shape3d)
+auto Intersect(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation3D& shape3d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
 {
-    return Intersect(ShapeOrientation3D(shape3d), shape3d);
+    return Intersect(ShapeOrientation3D(shape3d), shape3d, precision);
 }
 template <typename SHAPE3D>
-auto Intersect(const ShapeOrientation3D& shape3d, const ShapeOrientation<SHAPE3D>& shape_3d)
+auto Intersect(const ShapeOrientation3D& shape3d, const ShapeOrientation<SHAPE3D>& shape_3d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
 {
-    return Intersect(ShapeOrientation3D(shape3d), shape3d);
+    return Intersect(ShapeOrientation3D(shape3d), shape3d, precision);
 }
 template <typename SHAPE2D>
-auto Intersect(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation2D& shape2d)
+auto Intersect(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation2D& shape2d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
 {
-    return Intersect(ShapeOrientation2D(shape2d), shape2d);
+    return Intersect(ShapeOrientation2D(shape2d), shape2d, precision);
 }
 template <typename SHAPE2D>
-auto Intersect(const ShapeOrientation2D& shape2d, const ShapeOrientation<SHAPE2D>& shape_2d)
+auto Intersect(const ShapeOrientation2D& shape2d, const ShapeOrientation<SHAPE2D>& shape_2d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
 {
-    return Intersect(ShapeOrientation2D(shape2d), shape2d);
+    return Intersect(ShapeOrientation2D(shape2d), shape2d, precision);
 }
-bool Intersect(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
+bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2, const float& precision = Math::DEFAULT_PRECISION());
+bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2, const float& precision = Math::DEFAULT_PRECISION());
+bool Intersect(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d, const float& precision = Math::DEFAULT_PRECISION())
 {
-    return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+    return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)), precision);
 }
-bool Intersect(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d)
+bool Intersect(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d, const float& precision = Math::DEFAULT_PRECISION())
 {
-    return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+    return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)), precision);
 }
-bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2);
-bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2);
 } // namespace Geometric
 } // namespace Core

@@ -31,7 +31,7 @@ namespace INTERNAL_HELPER {
         {}
 
         template <typename SHAPE1, typename SHAPE2>
-        float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
+        bool operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
             return Engulfs(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
         }
@@ -44,20 +44,22 @@ namespace INTERNAL_HELPER {
     // given two variants, will call the appropriate Intersect(...) method for the two types held by them respectively
     struct ShapeVisitor_Intersect
     {
-        ShapeVisitor_Intersect(const Transform& transform1, const Transform transform2)
+        ShapeVisitor_Intersect(const Transform& transform1, const Transform transform2, const float& precision)
         : transform1(transform1)
         , transform2(transform2)
+        , _precision(precision)
         {}
 
         template <typename SHAPE1, typename SHAPE2>
-        float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
+        bool operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
-            return Intersect(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
+            return Intersect(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2), _precision);
         }
 
     private:
         const Transform& transform1;
         const Transform& transform2;
+        const float _precision;
     };
 } // namespace INTERNAL_HELPER
 
@@ -84,32 +86,32 @@ float Distance(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Distance(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
 }
 
-float Engulfs(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
+bool Engulfs(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 {
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Engulfs(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
 }
 
-float Engulfs(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
+bool Engulfs(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
 {
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Engulfs(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
 }
 
-float Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
+bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation, precision), shape1.shape, shape2.shape);
 }
 
-float Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
+bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation, precision), shape1.shape, shape2.shape);
 }
 } // namespace Geometric
 } // namespace Core
