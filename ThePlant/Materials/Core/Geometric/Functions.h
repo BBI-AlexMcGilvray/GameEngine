@@ -2,6 +2,8 @@
 
 #include <variant>
 
+#include "Core/Headers/type_traits.h"
+
 #include "Core/Geometric/GeometryDefs.h"
 #include "Core/Geometric/2DFunctions.h"
 #include "Core/Geometric/3DFunctions.h"
@@ -9,133 +11,105 @@
 
 namespace Core {
 namespace Geometric {
-namespace INTERNAL_HELPER {
-    // given two variants, will call the appropriate Distance(...) method for the two types held by them respectively
-    struct ShapeVisitor_Distance
-    {
-        ShapeVisitor_Distance(const Transform& transform1, const Transform transform2)
-        : transform1(transform1)
-        , transform2(transform2)
-        {}
-
-        template <typename SHAPE1, typename SHAPE2>
-        float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
-        {
-            return Distance(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
-        }
-
-    private:
-        const Transform& transform1;
-        const Transform& transform2;
-    };
-
-    // given two variants, will call the appropriate Engulfs(...) method for the two types held by them respectively
-    struct ShapeVisitor_Engulfs
-    {
-        ShapeVisitor_Engulfs(const Transform& transform1, const Transform transform2)
-        : transform1(transform1)
-        , transform2(transform2)
-        {}
-
-        template <typename SHAPE1, typename SHAPE2>
-        float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
-        {
-            return Engulfs(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
-        }
-
-    private:
-        const Transform& transform1;
-        const Transform& transform2;
-    };
-
-    // given two variants, will call the appropriate Intersect(...) method for the two types held by them respectively
-    struct ShapeVisitor_Intersect
-    {
-        ShapeVisitor_Intersect(const Transform& transform1, const Transform transform2)
-        : transform1(transform1)
-        , transform2(transform2)
-        {}
-
-        template <typename SHAPE1, typename SHAPE2>
-        float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
-        {
-            return Intersect(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
-        }
-
-    private:
-        const Transform& transform1;
-        const Transform& transform2;
-    };
-} // namespace INTERNAL_HELPER
-
 /*
 // NOTE: We may want a
 Math::Float2 IntersectionPoint(...)
 method, but that can wait - likely much more complex
 
-// NOTE: How are we handling 2D<->3D collision? We should make a plane from the 2D (representing the default 2D plane) and do it that way
-    - yes
+// NOTE: We need to also handle SHAPE <-> ShapeXD interactions (variant to non-variant)
 */
 // to handle calling 'Distance' with swapped arguments
 template <typename SHAPE_1, typename SHAPE_2>
-float Distance(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2)
+auto Distance(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2)
+-> typename std::enable_if<(is_in_variant<SHAPE_1, Shape3D>::value == is_in_variant<SHAPE_2, Shape3D>::value)
+                && (is_in_variant<SHAPE_1, Shape2D>::value == is_in_variant<SHAPE_2, Shape2D>::value), float>::type // only if SHAPE_1 and SHAPE_2 belong to the same variants
 {
     return Distance(shape2, shape1);
 }
-
-float Distance(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
+template <typename SHAPE3D, typename SHAPE2D>
+auto Distance(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation<SHAPE2D>& shape_2d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value && is_in_variant<SHAPE2D, Shape2D>::value, float>::type // only if SHAPE3D and SHAPE2D belong to different variants
 {
-    // since the '.shape' is the variant, we need to pass the transforms along in the visitor
-    // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Distance(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return Distance(shape_3d, ShapeOrientation<Plane>(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
-
-float Distance(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
+template <typename SHAPE2D, typename SHAPE3D>
+auto Distance(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation<SHAPE3D>& shape_3d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value && is_in_variant<SHAPE2D, Shape2D>::value, float>::type // only if SHAPE3D and SHAPE2D belong to different variants
 {
-    // since the '.shape' is the variant, we need to pass the transforms along in the visitor
-    // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Distance(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return Distance(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
+float Distance(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
+{
+    return Distance(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+}
+float Distance(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d)
+{
+    return Distance(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+}
+float Distance(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2);
+float Distance(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2);
 
 template <typename SHAPE_1, typename SHAPE_2>
-bool Engulfs(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2)
+auto Engulfs(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2)
+-> typename std::enable_if<(is_in_variant<SHAPE_1, Shape3D>::value == is_in_variant<SHAPE_2, Shape3D>::value)
+                && (is_in_variant<SHAPE_1, Shape2D>::value == is_in_variant<SHAPE_2, Shape2D>::value), bool>::type // only if SHAPE_1 and SHAPE_2 belong to the same variants
+
 {
     return Engulfs(shape2, shape1);
 }
+template <typename SHAPE3D, typename SHAPE2D>
+auto Engulfs(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation<SHAPE2D>& shape_2d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value && is_in_variant<SHAPE2D, Shape2D>::value, bool>::type // only if SHAPE3D and SHAPE2D belong to different variants
 
-float Engulfs(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 {
-    // since the '.shape' is the variant, we need to pass the transforms along in the visitor
-    // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Engulfs(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return Engulfs(shape_3d, ShapeOrientation<Plane>(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
-
-float Engulfs(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
+template <typename SHAPE2D, typename SHAPE3D>
+auto Engulfs(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation<SHAPE3D>& shape_3d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value && is_in_variant<SHAPE2D, Shape2D>::value, bool>::type // only if SHAPE3D and SHAPE2D belong to different variants
 {
-    // since the '.shape' is the variant, we need to pass the transforms along in the visitor
-    // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Engulfs(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return Engulfs(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
+bool Engulfs(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
+{
+    return Engulfs(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+}
+bool Engulfs(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d)
+{
+    return Engulfs(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+}
+bool Engulfs(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2);
+bool Engulfs(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2);
 
 // to handle checking if shapes intersect
 template <typename SHAPE_1, typename SHAPE_2>
-bool Intersect(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2, const float& precision = Math::DEFAULT_PRECISION())
+auto Intersect(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2, const float& precision = Math::DEFAULT_PRECISION())
+-> typename std::enable_if<(is_in_variant<SHAPE_1, Shape3D>::value == is_in_variant<SHAPE_2, Shape3D>::value)
+                && (is_in_variant<SHAPE_1, Shape2D>::value == is_in_variant<SHAPE_2, Shape2D>::value), bool>::type // only if SHAPE_1 and SHAPE_2 belong to the same variants
 {
     return Distance(shape1, shape2) <= precision;
 }
-
-float Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
+template <typename SHAPE3D, typename SHAPE2D>
+auto Intersect(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation<SHAPE2D>& shape_2d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value && is_in_variant<SHAPE2D, Shape2D>::value, bool>::type // only if SHAPE3D and SHAPE2D belong to different variants
 {
-    // since the '.shape' is the variant, we need to pass the transforms along in the visitor
-    // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return Intersect(shape_3d, ShapeOrientation<Plane>(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
-
-float Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
+template <typename SHAPE2D, typename SHAPE3D>
+auto Intersect(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation<SHAPE3D>& shape_3d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value && is_in_variant<SHAPE2D, Shape2D>::value, bool>::type // only if SHAPE3D and SHAPE2D belong to different variants
 {
-    // since the '.shape' is the variant, we need to pass the transforms along in the visitor
-    // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
+bool Intersect(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
+{
+    return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+}
+bool Intersect(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d)
+{
+    return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+}
+bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2);
+bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2);
 } // namespace Geometric
 } // namespace Core

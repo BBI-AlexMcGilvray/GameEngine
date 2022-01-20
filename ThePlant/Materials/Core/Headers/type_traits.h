@@ -1,6 +1,8 @@
 #pragma once
 
 #include <type_traits>
+#include <utility>
+#include <variant>
 
 namespace Core {
 template <typename TYPE, int INDEX, typename ...ALL_TYPES>
@@ -23,4 +25,13 @@ struct type_index
 {
     static constexpr std::size_t value = type_index_check<TYPE, 0, ALL_TYPES...>::value;
 };
+
+template<typename T, typename VARIANT_T>
+struct is_in_variant;
+
+template<typename T, typename ...VARIANT_TYPES>
+struct is_in_variant<T, std::variant<VARIANT_TYPES...>> 
+  : public std::disjunction<std::is_same<T, VARIANT_TYPES>...>
+{};
+
 } // namespace Core
