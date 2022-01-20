@@ -132,8 +132,8 @@ bool Engulfs(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
 // to handle checking if shapes intersect
 template <typename SHAPE_1, typename SHAPE_2>
 auto Intersect(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2, const float& precision = Math::DEFAULT_PRECISION())
--> typename std::enable_if<(is_in_variant<SHAPE_1, Shape3D>::value && is_in_variant<SHAPE_2, Shape3D>::value)
-                || (is_in_variant<SHAPE_1, Shape2D>::value && is_in_variant<SHAPE_2, Shape2D>::value), bool>::type // only if SHAPE_1 and SHAPE_2 belong to the same variants
+-> typename std::enable_if<(is_in_variant<SHAPE_1, Shape3D>::value == is_in_variant<SHAPE_2, Shape3D>::value)
+                && (is_in_variant<SHAPE_1, Shape2D>::value == is_in_variant<SHAPE_2, Shape2D>::value), bool>::type // only if SHAPE_1 and SHAPE_2 belong to the same variants
 {
     return Distance(shape1, shape2) <= precision;
 }
