@@ -50,8 +50,8 @@ namespace Product
     #if DEBUG
         _pipeline->AppECS().AddSystem<Application::DebugBoneSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::TransformSystem>();
         _pipeline->AppECS().AddSystem<Application::DebugTransformSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::TransformSystem>();
-        _pipeline->AppECS().AddSystem<Application::DebugOctTreeSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager(), Application::ApplicationManager::AppCollisionManager()).AddDependency<Application::CollisionSystem>();
-        _pipeline->AppECS().AddSystem<Application::DebugCollisionSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::CollisionSystem>();
+        _pipeline->AppECS().AddSystem<Application::DebugOctTreeSystem>(Application::ApplicationManager::AppCollisionManager(), Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::CollisionSystem>();
+        _pipeline->AppECS().AddSystem<Application::DebugCollisionSystem>(Application::ApplicationManager::AppCollisionManager(), Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::CollisionSystem>();
     #endif
         _pipeline->AppECS().AddSystem<Application::CameraSystem>(Application::ApplicationManager::AppRenderManager().GetCameraManager()).AddDependency<Application::TransformSystem>();
         auto& renderingSystem = _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependencies<Application::TransformSystem, Application::CameraSystem, Application::AnimationSystem>();

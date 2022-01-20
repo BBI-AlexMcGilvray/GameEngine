@@ -230,5 +230,8 @@ namespace Math {
   constexpr Color RED = Color(1.0f, 0.0f, 0.0f, 1.0f);
   constexpr Color GREEN = Color(0.0f, 1.0f, 0.0f, 1.0f);
   constexpr Color BLUE = Color(0.0f, 0.0f, 1.0f, 1.0f);
+  constexpr Color YELLOW = Color(1.0f, 1.0f, 0.0f, 1.0f);
+  constexpr Color PINK = Color(1.0f, 0.0f, 1.0f, 1.0f);
+  constexpr Color TURQUISE = Color(0.0f, 1.0f, 1.0f, 1.0f);
 }// namespace Math
 }// namespace Core

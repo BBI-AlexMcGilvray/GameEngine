@@ -1,7 +1,10 @@
 #pragma once
 
+#include <algorithm>
+
 #include "Core/Logging/Logger.h"
 
+#include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/ECSSystems/ColliderComponents.h"
@@ -17,8 +20,9 @@ namespace Application
 {
 struct DebugCollisionSystem : public System<DebugCollisionSystem>
 {
-    DebugCollisionSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
-    : _renderManager(renderManager)
+    DebugCollisionSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
+    : _collisionManager(collisionManager)
+    , _renderManager(renderManager)
     , _meshGetter(*this)
     {
         _debugMaterial = Rendering::CreateDefaultMaterial(shaderManager);
@@ -33,6 +37,7 @@ struct DebugCollisionSystem : public System<DebugCollisionSystem>
     void Execute(ArchetypeManager& archetypeManager) const override
     {
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<WorldTransformComponent, ColliderComponent>();
+        const auto allCollisions = _collisionManager.GetAllCollisions();
 
         for (auto& archetype : affectedArchetypes)
         {
@@ -41,7 +46,7 @@ struct DebugCollisionSystem : public System<DebugCollisionSystem>
                 // hack fix to not draw the shape for the camera since it covers everything
                 continue;
             }
-            _ApplyToArchetype(archetype->GetComponents<WorldTransformComponent>(), archetype->GetComponents<ColliderComponent>());
+            _ApplyToArchetype(allCollisions, archetype->GetEntities(), archetype->GetComponents<WorldTransformComponent>(), archetype->GetComponents<ColliderComponent>());
         }
     }
 
@@ -62,6 +67,7 @@ private:
         const DebugCollisionSystem& _debugSystem;
     };
 
+    Collision::CollisionManager& _collisionManager;
     Rendering::RenderManager& _renderManager;
 
     // when using these meshes, modify the scale of the transform passed in to be multiplied by the scale of the collider (relative to the default 1.0) being used
@@ -79,7 +85,7 @@ private:
     // what do we do for planes? just use the relevant 2D mesh?
     // what do we do for line3D? what about if it is infinite length?
 
-    void _ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms, std::vector<ColliderComponent>& colliderComponents) const
+    void _ApplyToArchetype(const std::vector<Collision::Collision>& allCollisions, const std::vector<EntityId>& entities, std::vector<WorldTransformComponent>& worldTransforms, std::vector<ColliderComponent>& colliderComponents) const
     {
         VERIFY(worldTransforms.size() == colliderComponents.size());
         for (size_t index = 0; index < worldTransforms.size(); ++index)
@@ -88,8 +94,16 @@ private:
             CORE_THROW("DebugCollisionSystem", "We need to adjust the scale for the box based on the shape's scale relative to 1.0f");
             // scaleAdjustedTransform.AdjustScale(colliderComponents[index].shape)
 
-            // ideally we have this change based on if there was a collision for it
-            Core::Math::Color colliderColor = colliderComponents[index].trigger ? Core::Math::BLUE : Core::Math::RED;
+            const bool inCollision = std::find_if(allCollisions.begin(), allCollisions.end(), [&allCollisions, &entities, index](const auto& collision)
+            {
+                return (collision.entity1.GetEntity() == entities[index] || collision.entity2.GetEntity() == entities[index]);
+            }) != allCollisions.end();
+
+            Core::Math::Color colliderColor = colliderComponents[index].trigger ? Core::Math::BLUE : Core::Math::YELLOW;
+            if (inCollision)
+            {
+                colliderColor = colliderComponents[index].trigger ? Core::Math::GREEN : Core::Math::RED;
+            }
             Rendering::Mesh colliderMesh = _boxMesh;//std::visit(_meshGetter, colliderComponents[index].shape);
 
             // we probably want a way to set this to only draw the borders (lines instead)

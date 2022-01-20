@@ -14,9 +14,9 @@ namespace Application
 {
 struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
 {
-    DebugOctTreeSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager, Collision::CollisionManager& collisionManager)
-    : _renderManager(renderManager)
-    , _collisionManager(collisionManager)
+    DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
+    : _collisionManager(collisionManager)
+    , _renderManager(renderManager)
     {
         _debugMaterial = Rendering::CreateDefaultMaterial(shaderManager);
         _debugMesh = Rendering::CreateBox(1.0f);
@@ -29,8 +29,8 @@ struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
     }
 
 private:
-    Rendering::RenderManager& _renderManager;
     Collision::CollisionManager& _collisionManager;
+    Rendering::RenderManager& _renderManager;
 
     // when using these meshes, modify the scale of the transform passed in to be multiplied by the scale of the collider (relative to the default 1.0) being used
     Rendering::Material _debugMaterial;
@@ -39,6 +39,7 @@ private:
     void _DrawOctTreeNode(const Collision::OctTreeNode& node) const
     {
         // create render context for node
+            // make the color white if it has content, black otherwise
         
         // call _DrawOctTreeNode for each child of node (if they exist)
     }
