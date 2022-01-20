@@ -26,7 +26,7 @@ namespace Geometric {
     template <typename SHAPE2D>
     Plane Shape2DAsPlane(const SHAPE2D& shape_2d)
     {
-        return Plane(Math::FLoat3(0.0f, 0.0f, 1.0f), shape_2d);
+        return Plane(Math::Float3(0.0f, 0.0f, 1.0f), shape_2d);
     }
 
     template <typename SHAPE>

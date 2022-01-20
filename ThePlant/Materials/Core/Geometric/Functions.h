@@ -38,6 +38,30 @@ auto Distance(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation<
 {
     return Distance(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
+template <typename SHAPE3D>
+auto Distance(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation3D& shape3d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, float>::type
+{
+    return Distance(ShapeOrientation3D(shape3d), shape3d);
+}
+template <typename SHAPE3D>
+auto Distance(const ShapeOrientation3D& shape3d, const ShapeOrientation<SHAPE3D>& shape_3d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, float>::type
+{
+    return Distance(ShapeOrientation3D(shape3d), shape3d);
+}
+template <typename SHAPE2D>
+auto Distance(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation2D& shape2d)
+-> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, float>::type
+{
+    return Distance(ShapeOrientation2D(shape2d), shape2d);
+}
+template <typename SHAPE2D>
+auto Distance(const ShapeOrientation2D& shape2d, const ShapeOrientation<SHAPE2D>& shape_2d)
+-> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, float>::type
+{
+    return Distance(ShapeOrientation2D(shape2d), shape2d);
+}
 float Distance(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
 {
     return Distance(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
@@ -70,6 +94,30 @@ auto Engulfs(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation<S
 {
     return Engulfs(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
+template <typename SHAPE3D>
+auto Engulfs(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation3D& shape3d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
+{
+    return Engulfs(ShapeOrientation3D(shape3d), shape3d);
+}
+template <typename SHAPE3D>
+auto Engulfs(const ShapeOrientation3D& shape3d, const ShapeOrientation<SHAPE3D>& shape_3d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
+{
+    return Engulfs(ShapeOrientation3D(shape3d), shape3d);
+}
+template <typename SHAPE2D>
+auto Engulfs(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation2D& shape2d)
+-> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
+{
+    return Engulfs(ShapeOrientation2D(shape2d), shape2d);
+}
+template <typename SHAPE2D>
+auto Engulfs(const ShapeOrientation2D& shape2d, const ShapeOrientation<SHAPE2D>& shape_2d)
+-> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
+{
+    return Engulfs(ShapeOrientation2D(shape2d), shape2d);
+}
 bool Engulfs(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
 {
     return Engulfs(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
@@ -100,6 +148,30 @@ auto Intersect(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value && is_in_variant<SHAPE2D, Shape2D>::value, bool>::type // only if SHAPE3D and SHAPE2D belong to different variants
 {
     return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+}
+template <typename SHAPE3D>
+auto Intersect(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation3D& shape3d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
+{
+    return Intersect(ShapeOrientation3D(shape3d), shape3d);
+}
+template <typename SHAPE3D>
+auto Intersect(const ShapeOrientation3D& shape3d, const ShapeOrientation<SHAPE3D>& shape_3d)
+-> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
+{
+    return Intersect(ShapeOrientation3D(shape3d), shape3d);
+}
+template <typename SHAPE2D>
+auto Intersect(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation2D& shape2d)
+-> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
+{
+    return Intersect(ShapeOrientation2D(shape2d), shape2d);
+}
+template <typename SHAPE2D>
+auto Intersect(const ShapeOrientation2D& shape2d, const ShapeOrientation<SHAPE2D>& shape_2d)
+-> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
+{
+    return Intersect(ShapeOrientation2D(shape2d), shape2d);
 }
 bool Intersect(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
 {
