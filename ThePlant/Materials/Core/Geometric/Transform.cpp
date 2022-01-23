@@ -146,6 +146,18 @@ namespace Geometric {
 
   bool Transform::IsDirty() const { return (_dirty || _rotationDirty); }
 
+  bool Transform::operator==(const Transform& other) const
+  {
+    return (_position == other._position
+          && _rotation == other._rotation
+          && _scale == other._scale);
+  }
+  
+  bool Transform::operator!=(const Transform& other) const
+  {
+    return !(*this == other);
+  }
+
   void Transform::_Dirty(bool rotation)
   {
     _dirty = true;

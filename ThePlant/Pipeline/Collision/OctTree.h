@@ -121,9 +121,6 @@ class OctTreeNode
 
 using OctTree = OctTreeNode;
 
-OctTreeNode CreateOctTree(ECS& ecs, const Core::Math::Float3& totalSize)
-{
-    return OctTreeNode(ecs, totalSize);
-}
+OctTreeNode CreateOctTree(ECS& ecs, const Core::Math::Float3& totalSize);
 } // namespace Collision
 } // namespace Application

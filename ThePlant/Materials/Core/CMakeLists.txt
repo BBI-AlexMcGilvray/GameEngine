@@ -5,6 +5,7 @@ Functionality/Source/Scheduler.cpp #
 Geometric/2DFunctions.cpp #
 Geometric/3DFunctions.cpp #
 Geometric/Functions.cpp #
+Geometric/Line2DFunctions.cpp #
 Geometric/RectangleFunctions.cpp #
 Geometric/Transform.cpp #
 IO/Source/File.cpp #

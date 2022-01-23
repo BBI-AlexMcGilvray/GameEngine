@@ -47,6 +47,9 @@ namespace Geometric {
 
     bool IsDirty() const;
 
+    bool operator==(const Transform& other) const;
+    bool operator!=(const Transform& other) const;
+
   protected:
     bool _dirty;
     bool _rotationDirty;

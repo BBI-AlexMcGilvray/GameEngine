@@ -205,6 +205,12 @@ void OctTreeNode::_AllCollisions(std::vector<IntermediaryCollision>& collisions)
 
 void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
+    // edge case covering due to _content.size() - 1 in loop
+    if (_content.size() == 0)
+    {
+        return;
+    }
+
     for (size_t i = 0; i < _content.size() - 1; ++i)
     {
         for (size_t j = i + 1; j < _content.size(); ++j)
@@ -308,6 +314,11 @@ std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<Intermed
     }
     
     return collisions;
+}
+
+OctTreeNode CreateOctTree(ECS& ecs, const Core::Math::Float3& totalSize)
+{
+    return OctTreeNode(ecs, totalSize);
 }
 } // namespace Collision
 } // namespace Application
