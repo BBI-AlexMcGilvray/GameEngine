@@ -28,10 +28,11 @@ struct AnimationComponent
     , animationTarget(animationTarget)
     {}
 
-    bool operator==(const AnimationComponent& other)
+    bool operator==(const AnimationComponent& other) const
     {
         return animatorId == other.animatorId && animationTarget == other.animationTarget;
     }
+    bool operator !=(const AnimationComponent& other) const { return !(*this == other); }
 };
 
 struct AnimatorComponent
@@ -48,9 +49,10 @@ struct AnimatorComponent
     : animatorId(animatorId)
     {}
 
-    bool operator==(const AnimatorComponent& other)
+    bool operator==(const AnimatorComponent& other) const
     {
         return animatorId == other.animatorId;
     }
+    bool operator !=(const AnimatorComponent& other) const { return !(*this == other); }
 };
 }// namespace Application

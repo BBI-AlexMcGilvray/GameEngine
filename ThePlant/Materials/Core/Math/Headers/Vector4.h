@@ -33,6 +33,7 @@ namespace Math {
     };
 
     VectorA()
+    : VectorA(T(0), T(0), T(0), T(0))
     {}
 
     VectorA(const T &d)
@@ -212,17 +213,17 @@ namespace Math {
       return v;
     }
 
-    bool operator==(VectorA<T, 4> const &v) const
+    bool operator==(const VectorA<T, 4> &v) const
     {
       return (X == v.X && Y == v.Y && Z == v.Z && W == v.W);
     }
 
-    bool operator!=(VectorA<T, 4> const &v) const
+    bool operator!=(const VectorA<T, 4> &v) const
     {
       return !(*this == v);
     }
 
-    // add in other comparison operators
+    // add in other comparison operators?
 
     T &operator[](int axis)
     {

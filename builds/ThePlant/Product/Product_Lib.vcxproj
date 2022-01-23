@@ -281,6 +281,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\CameraController.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\MyProduct.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\ProductManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Testing\TestingUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ZERO_CHECK.vcxproj">
