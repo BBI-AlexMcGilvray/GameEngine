@@ -31,7 +31,7 @@ bool PointInRectangle(const ShapeOrientation<Rectangle>& rectangle, const Point2
 {
     VERIFY_2D(rectangle);
 
-    Point2D modifiedPoint = Math::RotateVectorBy(point, rectangle.orientation.GetRotation().Inverse()) - rectangle.orientation.GetPosition();
+    Point2D modifiedPoint = Math::RotateVectorBy(Math::Float3(point, 0.0f), rectangle.orientation.GetRotation().Inverse()) - rectangle.orientation.GetPosition();
     return PointInRectangle(rectangle.shape, modifiedPoint);
 }
 

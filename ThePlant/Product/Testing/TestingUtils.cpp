@@ -47,32 +47,32 @@ namespace Testing
         return Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
     }
 
-    // Application::Entity SpawnCollider(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
-    // {
-    //     auto& ecs = Application::ApplicationManager::AppECS();
+    Application::Entity SpawnCollider(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    {
+        auto& ecs = Application::ApplicationManager::AppECS();
 
-    //     Application::EntityCreator creator;
-    //     creator.AddComponent<Application::PositionComponent>(position);
-    //     creator.AddComponent<Application::ScaleComponent>(rotation);
-    //     creator.AddComponent<Application::RotationComponent>(scale);
-    //     creator.AddComponent<Application::WorldTransformComponent>();
-    //     creator.AddComponent<Application::ColliderComponent>(shape, false);
+        Application::EntityCreator creator;
+        creator.AddComponent<Application::PositionComponent>(position);
+        creator.AddComponent<Application::RotationComponent>(rotation);
+        creator.AddComponent<Application::ScaleComponent>(scale);
+        creator.AddComponent<Application::WorldTransformComponent>();
+        creator.AddComponent<Application::ColliderComponent>(shape, false);
 
-    //     return ecs.CreateEntity(creator);
-    // }
+        return ecs.CreateEntity(creator);
+    }
 
-    // Application::Entity SpawnTrigger(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
-    // {
-    //     auto& ecs = Application::ApplicationManager::AppECS();
+    Application::Entity SpawnTrigger(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    {
+        auto& ecs = Application::ApplicationManager::AppECS();
 
-    //     Application::EntityCreator creator;
-    //     creator.AddComponent<Application::PositionComponent>(position);
-    //     creator.AddComponent<Application::ScaleComponent>(rotation);
-    //     creator.AddComponent<Application::RotationComponent>(scale);
-    //     creator.AddComponent<Application::WorldTransformComponent>();
-    //     creator.AddComponent<Application::ColliderComponent>(shape, true);
+        Application::EntityCreator creator;
+        creator.AddComponent<Application::PositionComponent>(position);
+        creator.AddComponent<Application::RotationComponent>(rotation);
+        creator.AddComponent<Application::ScaleComponent>(scale);
+        creator.AddComponent<Application::WorldTransformComponent>();
+        creator.AddComponent<Application::ColliderComponent>(shape, true);
 
-    //     return ecs.CreateEntity(creator);
-    // }
+        return ecs.CreateEntity(creator);
+    }
 } // namespace Testing
 } // namespace Product

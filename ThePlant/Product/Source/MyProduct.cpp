@@ -12,8 +12,8 @@
 #include "Pipeline/ECSSystems/TransformComponents.h"
 
 // testing
-#include "Product/Testing/TestingUtils.h"
 #include "Product/Supplies/Assets.h"
+#include "Product/Testing/TestingUtils.h"
 // \testing
 
 namespace Product

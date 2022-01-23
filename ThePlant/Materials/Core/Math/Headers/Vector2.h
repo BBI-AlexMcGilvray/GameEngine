@@ -33,17 +33,6 @@ namespace Math {
       : X(v.X), Y(v.Y)
     {}
 
-    // conversions
-    operator VectorA<T, 3>() const
-    {
-      return VectorA<T, 3>(X, Y, T(0));
-    }
-
-    operator VectorA<T, 4>() const
-    {
-      return VectorA<T, 3>(X, Y, T(0), T(0));
-    }
-
     ~VectorA()
     {
       X.~T();

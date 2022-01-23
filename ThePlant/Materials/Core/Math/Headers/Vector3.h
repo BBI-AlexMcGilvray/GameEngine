@@ -57,11 +57,6 @@ namespace Math {
       return XY;
     }
 
-    operator VectorA<T, 4>() const
-    {
-      return VectorA<T, 4>(X, Y, Z, T(0));
-    }
-
     // methods
     Dimension<3> Dimensions() const
     {
