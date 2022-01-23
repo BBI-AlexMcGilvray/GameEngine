@@ -12,11 +12,9 @@ namespace INTERNAL_HELPER {
         {}
 
         template <typename SHAPE1, typename SHAPE2>
-        auto operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
-        -> typename std::enable_if<(is_in_variant<SHAPE1, Shape2D>::value || is_in_variant<SHAPE1, Shape3D>::value)
-                && (is_in_variant<SHAPE2, Shape2D>::value || is_in_variant<SHAPE2, Shape3D>::value), float>::type
+        float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
-            return Distance<SHAPE1, SHAPE2>(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
+            return Distance(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
         }
 
     private:
@@ -33,9 +31,7 @@ namespace INTERNAL_HELPER {
         {}
 
         template <typename SHAPE1, typename SHAPE2>
-        auto operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
-        -> typename std::enable_if<(is_in_variant<SHAPE1, Shape2D>::value || is_in_variant<SHAPE1, Shape3D>::value)
-                && (is_in_variant<SHAPE2, Shape2D>::value || is_in_variant<SHAPE2, Shape3D>::value), bool>::type
+        bool operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
             return Engulfs(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
         }
@@ -55,11 +51,9 @@ namespace INTERNAL_HELPER {
         {}
 
         template <typename SHAPE1, typename SHAPE2>
-        auto operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
-        -> typename std::enable_if<(is_in_variant<SHAPE1, Shape2D>::value || is_in_variant<SHAPE1, Shape3D>::value)
-                && (is_in_variant<SHAPE2, Shape2D>::value || is_in_variant<SHAPE2, Shape3D>::value), bool>::type
+        bool operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
-            return Intersect<SHAPE1, SHAPE2>(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2), _precision);
+            return Intersect(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2), _precision);
         }
 
     private:
