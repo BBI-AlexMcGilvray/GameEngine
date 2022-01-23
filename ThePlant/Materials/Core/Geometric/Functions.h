@@ -95,7 +95,7 @@ float Distance(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape
 // general 2d -> general 2d
 float Distance(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2);
 
-// order matters for engulf calls, this should probably not exist
+// order matters for engulf calls, this should not exist
 // template <typename SHAPE_1, typename SHAPE_2> // specific d -> specific d
 // auto Engulfs(const ShapeOrientation<SHAPE_1>& shape1, const ShapeOrientation<SHAPE_2>& shape2)
 // -> typename std::enable_if<(is_in_variant<SHAPE_1, Shape3D>::value == is_in_variant<SHAPE_2, Shape3D>::value)

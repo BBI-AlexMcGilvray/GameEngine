@@ -37,7 +37,7 @@ namespace INTERNAL_HELPER {
         -> typename std::enable_if<(is_in_variant<SHAPE1, Shape2D>::value || is_in_variant<SHAPE1, Shape3D>::value)
                 && (is_in_variant<SHAPE2, Shape2D>::value || is_in_variant<SHAPE2, Shape3D>::value), bool>::type
         {
-            return Engulfs<SHAPE1, SHAPE2>(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
+            return Engulfs(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
         }
 
     private:
