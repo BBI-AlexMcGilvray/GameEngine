@@ -54,6 +54,10 @@ std::vector<EntitySnapshot> OctTreeNode::FindAllEntities(const Core::Geometric::
 
 void OctTreeNode::AddContent(const OctTreeContent& content)
 {
+#if DEBUG
+    VERIFY(_parent != nullptr || _Engulfs(content.shapeOrientation));// All content should exist WITHIN the topmost node
+#endif
+
     // debug logic to check if content already exists?
     _InsertContent(content);
 }

@@ -270,7 +270,10 @@ namespace Math {
 
     bool operator==(MatrixAxB<T, 4, 4> const &m) const
     {
-      return (E1 == m.E1 && E2 == m.E2 && E3 == m.E3 && E4 == m.E4);
+      return (E1 == m.E1
+            && E2 == m.E2
+            && E3 == m.E3
+            && E4 == m.E4);
     }
 
     bool operator!=(MatrixAxB<T, 4, 4> const& m) const

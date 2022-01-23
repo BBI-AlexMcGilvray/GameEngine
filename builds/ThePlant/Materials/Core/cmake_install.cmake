@@ -113,7 +113,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/Formats/Binary/Binary.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/Formats/JSON/JSON.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/Serialization.h"
-    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/SerializationDefs.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Serialization/type_traits.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/IdTypes/IncrementalId.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/IdTypes/InstanceId.h"
