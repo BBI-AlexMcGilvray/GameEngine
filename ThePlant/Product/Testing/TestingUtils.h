@@ -3,7 +3,7 @@
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Quaternion.h"
 
-#include "Core/Geometric/GeometryDefs.h"
+// #include "Core/Geometric/GeometryDefs.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"
 

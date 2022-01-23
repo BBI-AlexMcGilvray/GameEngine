@@ -56,7 +56,7 @@ namespace Rendering {
       position = other.position;
       normal = other.normal;
       uvs = other.uvs;
-      boneIndices = Core::Math::Float4();
+      boneIndices = Core::Math::Float4(0.0f);
       boneWeight = other.boneWeight;
     }
   };
