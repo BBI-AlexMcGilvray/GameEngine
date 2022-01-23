@@ -43,8 +43,8 @@ namespace Rendering {
 
     void SetProjectionVariables(const FRad &fovy, const float &AspectRatio, const float &nearPlane, const float &farPlane);
 
-    bool operator==(const Camera& other) const;
-    bool operator!=(const Camera& other) const { return !(*this == other); }
+    bool operator==(const Camera& other);
+    bool operator!=(const Camera& other) { return !(*this == other); }
 
   protected:
     bool _dirty = true;

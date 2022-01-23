@@ -17,10 +17,9 @@ struct ParentComponent
     : entity(entity)
     {}
 
-    bool operator==(const ParentComponent& other) const
+    bool operator==(const ParentComponent& other)
     {
         return entity == other.entity;
     }
-    bool operator !=(const ParentComponent& other) const { return !(*this == other); }
 };
 }// namespace Application

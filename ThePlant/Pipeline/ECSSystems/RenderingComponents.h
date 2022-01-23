@@ -28,7 +28,6 @@ struct ColorComponent
     {
         return color == other.color;
     }
-    bool operator !=(const ColorComponent& other) const { return !(*this == other); }
 };
 
 struct MaterialComponent
@@ -49,7 +48,6 @@ struct MaterialComponent
     {
         return (material == other.material);
     }
-    bool operator !=(const MaterialComponent& other) const { return !(*this == other); }
 };
 
 struct MeshComponent
@@ -70,7 +68,6 @@ struct MeshComponent
     {
         return mesh == other.mesh;
     }
-    bool operator !=(const MeshComponent& other) const { return !(*this == other); }
 };
 
 struct SkinnedMeshComponent
@@ -91,7 +88,6 @@ struct SkinnedMeshComponent
     {
         return skinnedMesh == other.skinnedMesh;
     }
-    bool operator !=(const SkinnedMeshComponent& other) const { return !(*this == other); }
 };
 
 struct BoneComponent
@@ -114,7 +110,6 @@ struct BoneComponent
     {
         return bindMatrix == other.bindMatrix;
     }
-    bool operator !=(const BoneComponent& other) const { return !(*this == other); }
 };
 
 struct SkeletonComponent
@@ -138,7 +133,6 @@ struct SkeletonComponent
     {
         return (rootBone == other.rootBone && nameAndEntities == other.nameAndEntities && boneArray == other.boneArray);
     }
-    bool operator !=(const SkeletonComponent& other) const { return !(*this == other); }
 
     Application::EntityId GetBone(const std::string& name)
     {

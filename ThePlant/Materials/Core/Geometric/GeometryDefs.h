@@ -15,11 +15,7 @@
 
 namespace Core {
 namespace Geometric {
-    struct Point
-    {
-        bool operator==(const Point& other) const { return true; }
-        bool operator!=(const Point& other) const { return !(*this == other); }
-    }; // just used to signify we use the 'orientation's position
+    struct Point{}; // just used to signify we use the 'orientation's position
     
     using Point2D = Math::Float2;
     using Point3D = Math::Float3;

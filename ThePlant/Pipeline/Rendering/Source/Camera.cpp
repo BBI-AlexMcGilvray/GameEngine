@@ -87,7 +87,7 @@ namespace Rendering {
     _Dirty();
   }
 
-  bool Camera::operator==(const Camera& other) const
+  bool Camera::operator==(const Camera& other)
   {
     return (_fovy == other._fovy
           && _aspectRatio == other._aspectRatio

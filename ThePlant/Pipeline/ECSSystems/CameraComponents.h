@@ -19,11 +19,10 @@ struct CameraComponent
     , targetPosition(targetPosition)
     {}
 
-    bool operator==(const CameraComponent& other) const
+    bool operator==(const CameraComponent& other)
     {
         return camera == other.camera && targetPosition == other.targetPosition;
     }
-    bool operator !=(const CameraComponent& other) const { return !(*this == other); }
 };
 
 struct CameraWeightingComponent
@@ -42,10 +41,9 @@ struct CameraWeightingComponent
     , cameraGroup(cameraGroup)
     {}
 
-    bool operator==(const CameraWeightingComponent& other) const
+    bool operator==(const CameraWeightingComponent& other)
     {
         return weight == other.weight;
     }
-    bool operator !=(const CameraWeightingComponent& other) const { return !(*this == other); }
 };
 }// namespace Application

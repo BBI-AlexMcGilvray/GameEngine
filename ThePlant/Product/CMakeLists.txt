@@ -8,15 +8,13 @@ set(SOURCE_FILES #
 Scripting/LuaManager.cpp #
 Source/CameraController.cpp #
 Source/MyProduct.cpp #
-Source/ProductManager.cpp #
-Testing/TestingUtils.cpp)
+Source/ProductManager.cpp)
 
 set(HEADER_FILES #
 Scripting/LuaManager.h #
 Headers/CameraController.h #
 Headers/MyProduct.h #
-Headers/ProductManager.h #
-Testing/TestingUtils.h)
+Headers/ProductManager.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Product_Lib)
 

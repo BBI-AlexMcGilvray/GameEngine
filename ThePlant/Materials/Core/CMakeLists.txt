@@ -104,6 +104,7 @@ Reflection/type_traits.h #
 Serialization/Formats/Binary/Binary.h #
 Serialization/Formats/JSON/JSON.h #
 Serialization/Serialization.h #
+Serialization/SerializationDefs.h #
 Serialization/type_traits.h #
 IdTypes/IncrementalId.h #
 IdTypes/InstanceId.h #

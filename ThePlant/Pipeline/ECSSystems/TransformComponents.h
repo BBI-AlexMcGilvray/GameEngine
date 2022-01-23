@@ -18,12 +18,6 @@ struct PositionComponent
     PositionComponent(const Core::Math::Float3& position)
     : position(position)
     {}
-
-    bool operator==(const PositionComponent& other) const
-    {
-        return (position == other.position);
-    }
-    bool operator !=(const PositionComponent& other) const { return !(*this == other); }
 };
 
 struct ScaleComponent
@@ -39,12 +33,6 @@ struct ScaleComponent
     ScaleComponent(const Core::Math::Float3& scale)
     : scale(scale)
     {}
-    
-    bool operator==(const ScaleComponent& other) const
-    {
-        return (scale == other.scale);
-    }
-    bool operator !=(const ScaleComponent& other) const { return !(*this == other); }
 };
 
 struct RotationComponent
@@ -60,12 +48,6 @@ struct RotationComponent
     RotationComponent(const Core::Math::FQuaternion& rotation)
     : rotation(rotation)
     {}
-    
-    bool operator==(const RotationComponent& other) const
-    {
-        return (rotation == other.rotation);
-    }
-    bool operator !=(const RotationComponent& other) const { return !(*this == other); }
 };
 
 struct LocalTransformComponent
@@ -81,12 +63,6 @@ struct LocalTransformComponent
     LocalTransformComponent(const Core::Geometric::Transform& transform)
     : transform(transform)
     {}
-    
-    bool operator==(const LocalTransformComponent& other) const
-    {
-        return (transform == other.transform);
-    }
-    bool operator !=(const LocalTransformComponent& other) const { return !(*this == other); }
 };
 
 struct WorldTransformComponent
@@ -102,11 +78,5 @@ struct WorldTransformComponent
     WorldTransformComponent(const Core::Geometric::Transform& transform)
     : transform(transform)
     {}
-    
-    bool operator==(const WorldTransformComponent& other) const
-    {
-        return (transform == other.transform);
-    }
-    bool operator !=(const WorldTransformComponent& other) const { return !(*this == other); }
 };
 }// namespace Application
