@@ -91,7 +91,7 @@ private:
         for (size_t index = 0; index < worldTransforms.size(); ++index)
         {
             Core::Geometric::Transform scaleAdjustedTransform = worldTransforms[index].transform;
-            CORE_THROW("DebugCollisionSystem", "We need to adjust the scale for the box based on the shape's scale relative to 1.0f");
+            CORE_ERROR("DebugCollisionSystem", "We need to adjust the scale for the box based on the shape's scale relative to 1.0f");
             // scaleAdjustedTransform.AdjustScale(colliderComponents[index].shape)
 
             const bool inCollision = std::find_if(allCollisions.begin(), allCollisions.end(), [&allCollisions, &entities, index](const auto& collision)

@@ -35,6 +35,9 @@ namespace Product
         // testing
         Application::Entity _static;
         Application::Entity _animated;
+
+        Application::Entity _collider;
+        Application::Entity _trigger;
         // \testing
     };
 }

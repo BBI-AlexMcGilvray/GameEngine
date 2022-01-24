@@ -25,6 +25,8 @@ namespace Application
 
         EntitySnapshot(const EntitySnapshot& other)
         {
+            _entity = other._entity;
+
             for (const auto& component : other._componentReferences)
             {
                 _componentReferences.emplace_back(component->CreateCopy());
@@ -32,6 +34,8 @@ namespace Application
         }
         EntitySnapshot& operator=(const EntitySnapshot& other)
         {
+            _entity = other._entity;
+            
             for (const auto& component : other._componentReferences)
             {
                 _componentReferences.emplace_back(component->CreateCopy());

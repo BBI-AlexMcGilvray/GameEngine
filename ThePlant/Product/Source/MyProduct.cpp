@@ -38,6 +38,9 @@ namespace Product
         // testing
         _static = Testing::SpawnStaticModel();
         _animated = Testing::SpawnAnimatedModel();
+
+        _collider = Testing::SpawnCollider(Core::Geometric::Sphere(), Core::Math::Float3(-4.0f, 0.0f, 0.0f));
+        _trigger = Testing::SpawnTrigger(Core::Geometric::Sphere(), Core::Math::Float3(4.0f, 0.0f, 0.0f));
         // \testing
     }
 
