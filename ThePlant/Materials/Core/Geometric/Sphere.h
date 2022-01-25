@@ -7,7 +7,7 @@ namespace Geometric {
     float radius;
 
     Sphere()
-    : Sphere(1.0f)
+    : Sphere(0.5f)
     {}
 
     Sphere(const float& radius)

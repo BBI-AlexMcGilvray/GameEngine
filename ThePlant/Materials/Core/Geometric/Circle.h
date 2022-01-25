@@ -7,7 +7,7 @@ namespace Geometric {
     float radius;
 
     Circle()
-    : Circle(1.0f)
+    : Circle(0.5f)
     {}
 
     Circle(const float& radius)

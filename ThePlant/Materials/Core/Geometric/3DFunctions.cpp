@@ -134,25 +134,25 @@ bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Box>& 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Point>& point)
 {
     ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
-    return std::abs(Distance(sphereCenter, point) - sphere.shape.radius);
+    return std::max(0.0f, Distance(sphereCenter, point) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
     ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
-    return std::abs(Distance(line, sphereCenter) - sphere.shape.radius);
+    return std::max(0.0f, Distance(line, sphereCenter) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
     ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
-    return std::abs(Distance(plane, sphereCenter) - sphere.shape.radius);
+    return std::max(0.0f, Distance(plane, sphereCenter) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
     ShapeOrientation<Point> sphere2Center = { sphere2.orientation, Point() };
-    return std::abs(Distance(sphere1, sphere2Center) - sphere1.shape.radius);
+    return std::max(0.0f, Distance(sphere1, sphere2Center) - sphere1.shape.radius);
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Point>& point)

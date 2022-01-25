@@ -17,7 +17,7 @@ struct DebugTransformSystem : public System<DebugTransformSystem>
     : _renderManager(renderManager)
     {
         _transformMaterial = CreateDefaultMaterial(shaderManager);
-        _transformMesh = Rendering::CreateSphere(25.0f);
+        _transformMesh = Rendering::CreateSphere(0.5f); // not 1.0f because then it would be equal-to whatever it would be representing, should always be smalled
     }
 
     void Execute(ArchetypeManager& archetypeManager) const override
@@ -45,7 +45,7 @@ private:
         for (auto& worldTransform : worldTransforms)
         {
             Core::Geometric::Transform lockedScale = worldTransform.transform;
-            lockedScale.SetScale(1.0f);
+            // lockedScale.SetScale(1.0f); // do we want to do this? seems odd to do, maybe a clamping or something
 
             Rendering::Context context = {
                 _transformMaterial,

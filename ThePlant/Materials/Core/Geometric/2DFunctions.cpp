@@ -37,7 +37,7 @@ float Distance(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Po
 
     float pointToCenterSqr = Math::DistanceSqr(circle.orientation.GetPosition(), point.orientation.GetPosition());
 
-    return std::abs(pointToCenterSqr - Math::sqr(circle.shape.radius));
+    return std::max(0.0f, pointToCenterSqr - Math::sqr(circle.shape.radius));
 }
 
 float Distance(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
@@ -46,7 +46,7 @@ float Distance(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<C
     VERIFY_2D(circle2);
 
     ShapeOrientation<Point> circleCenter = { circle1.orientation, Point() };
-    return std::abs(Distance(circle2, circleCenter) - circle1.shape.radius);
+    return std::max(0.0f, Distance(circle2, circleCenter) - circle1.shape.radius);
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Point>& point)
@@ -107,7 +107,7 @@ float Distance(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circ
     VERIFY_2D(circle);
 
     ShapeOrientation<Point> circleCenter = { circle.orientation, Point() };
-    return std::abs(Distance(line, circleCenter) - circle.shape.radius);
+    return std::max(0.0f, Distance(line, circleCenter) - circle.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Line2D>& line2)
@@ -190,7 +190,7 @@ float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientat
     VERIFY_2D(circle);
 
     ShapeOrientation<Point> circleCenter = { circle.orientation, Point() };
-    return std::abs(Distance(rectangle, circleCenter) - circle.shape.radius);
+    return std::max(0.0f, Distance(rectangle, circleCenter) - circle.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line)
