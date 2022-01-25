@@ -6,6 +6,8 @@ namespace Core {
 namespace Geometric {
 /*
 NOTE: These are all for 2D shapes, we assume they are on the same x,y-plane and that the z-axis is not used
+
+NOTE: All Distance(...) methods return POSITIVE values
 */
 // POINT
 // float Distance(const ShapeOrientation<Point>& point1, const ShapeOrientation<Point>& point2); // handled in 3DFunctions

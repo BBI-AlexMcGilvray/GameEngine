@@ -4,6 +4,9 @@
 
 namespace Core {
 namespace Geometric {
+/*
+NOTE: All Distance(...) methods return POSITIVE values
+*/
     // POINT
     float Distance(const ShapeOrientation<Point>& point1, const ShapeOrientation<Point>& point2);
     bool Engulfs(const ShapeOrientation<Point>& point1, const ShapeOrientation<Point>& point2);

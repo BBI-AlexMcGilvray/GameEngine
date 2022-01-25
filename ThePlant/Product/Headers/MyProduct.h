@@ -8,6 +8,10 @@
 #include "Product/Headers/CameraController.h"
 #include "Product/Scripting/LuaManager.h"
 
+// testing
+#include "Core/Math/Headers/Vector3.h"
+// \testing
+
 namespace Application::Geometric
 {
     struct Node;
@@ -38,6 +42,12 @@ namespace Product
 
         Application::Entity _collider;
         Application::Entity _trigger;
+
+        bool _dir1;
+        Core::Second _swapTime;
+        Core::Second _currentSwap;
+        Core::Math::Float3 _leftPos;
+        Core::Math::Float3 _rightPos;
         // \testing
     };
 }

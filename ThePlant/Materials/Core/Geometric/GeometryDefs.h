@@ -50,6 +50,32 @@ namespace Geometric {
         ShapeOrientation(ShapeOrientation&&) = default;
         ShapeOrientation& operator=(const ShapeOrientation&) = default;
         ShapeOrientation& operator=(ShapeOrientation&&) = default;
+
+        // to allow converting between applicable shapes
+        template <typename OTHER_SHAPE>
+        ShapeOrientation(const ShapeOrientation<OTHER_SHAPE>& other)
+        {
+            orientation = other.orientation;
+            shape = other.shape;
+        }
+        template <typename OTHER_SHAPE>
+        ShapeOrientation(ShapeOrientation<OTHER_SHAPE>&& other)
+        {
+            orientation = std::move(other.orientation);
+            shape = std::move(other.shape);
+        }
+        template <typename OTHER_SHAPE>
+        ShapeOrientation& operator=(const ShapeOrientation<OTHER_SHAPE>& other)
+        {
+            orientation = other.orientation;
+            shape = other.shape;
+        }
+        template <typename OTHER_SHAPE>
+        ShapeOrientation& operator=(ShapeOrientation<OTHER_SHAPE>&&)
+        {
+            orientation = std::move(other.orientation);
+            shape = std::move(other.shape);
+        }
     };
 
     using ShapeOrientation2D = ShapeOrientation<Shape2D>;

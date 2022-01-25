@@ -37,7 +37,7 @@ float Distance(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Po
 
     float pointToCenterSqr = Math::DistanceSqr(circle.orientation.GetPosition(), point.orientation.GetPosition());
 
-    return std::min(0.0f, std::abs(pointToCenterSqr - Math::sqr(circle.shape.radius)));
+    return std::abs(pointToCenterSqr - Math::sqr(circle.shape.radius));
 }
 
 float Distance(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
@@ -46,7 +46,7 @@ float Distance(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<C
     VERIFY_2D(circle2);
 
     ShapeOrientation<Point> circleCenter = { circle1.orientation, Point() };
-    return std::min(0.0f, Distance(circle2, circleCenter) - circle1.shape.radius);
+    return std::abs(Distance(circle2, circleCenter) - circle1.shape.radius);
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Point>& point)
@@ -107,7 +107,7 @@ float Distance(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circ
     VERIFY_2D(circle);
 
     ShapeOrientation<Point> circleCenter = { circle.orientation, Point() };
-    return std::min(0.0f, std::abs(Distance(line, circleCenter) - circle.shape.radius));
+    return std::abs(Distance(line, circleCenter) - circle.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Line2D>& line2)
@@ -130,7 +130,7 @@ float Distance(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Lin
 
     // lines are guaranteed to intersect, calculate where then calculate closest point on each line to that point
     // then give distance between the closest points on each line
-
+    CORE_ERROR("2DFunctions", "Incomplete Implementation");
     return 1.0f;
 }
 
@@ -190,7 +190,7 @@ float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientat
     VERIFY_2D(circle);
 
     ShapeOrientation<Point> circleCenter = { circle.orientation, Point() };
-    return std::min(0.0f, std::abs(Distance(rectangle, circleCenter) - circle.shape.radius));
+    return std::abs(Distance(rectangle, circleCenter) - circle.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line)
@@ -227,7 +227,7 @@ bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientatio
     // using the sides that are POSITIVE when dotted with the vector from rect origin to circle origin
     //      check the farthest points on circle to see if they are still in rectangle
     //  ** if the circle origin == rect origin, pick 2 sides that are perpendicular to each other
-    CORE_THROW("2DFunctions", "Implementation Missing");
+    CORE_ERROR("2DFunctions", "Implementation Missing");
     return false;
 }
 
@@ -255,7 +255,7 @@ bool Engulfs(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientati
     VERIFY_2D(rectangle2);
 
     // check that all 4 corners of rect 2 and in rect 1
-    CORE_THROW("2DFunctions", "Implementation Missing");
+    CORE_ERROR("2DFunctions", "Implementation Missing");
     return false;
 }
 } // namespace Geometric

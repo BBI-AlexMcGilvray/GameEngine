@@ -43,13 +43,13 @@ bool Engulfs(const ShapeOrientation<Point>& point, const ShapeOrientation<Box>& 
 
 float Distance(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Point>& point)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
 float Distance(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
@@ -85,19 +85,19 @@ bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Box>& 
 
 float Distance(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Point>& point)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
 float Distance(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Line3D>& line)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
 float Distance(const ShapeOrientation<Plane>& plane1, const ShapeOrientation<Plane>& plane2)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
@@ -134,112 +134,112 @@ bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Box>& 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Point>& point)
 {
     ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
-    return std::min(0.0f, Distance(sphereCenter, point) - sphere.shape.radius);
+    return std::abs(Distance(sphereCenter, point) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
     ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
-    return std::min(0.0f, Distance(line, sphereCenter) - sphere.shape.radius);
+    return std::abs(Distance(line, sphereCenter) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
     ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
-    return std::min(0.0f, Distance(plane, sphereCenter) - sphere.shape.radius);
+    return std::abs(Distance(plane, sphereCenter) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
-    ShapeOrientation<Point> sphereCenter = { sphere1.orientation, Point() };
-    return std::min(0.0f, Distance(sphere2, sphereCenter) - sphere1.shape.radius);
+    ShapeOrientation<Point> sphere2Center = { sphere2.orientation, Point() };
+    return std::abs(Distance(sphere1, sphere2Center) - sphere1.shape.radius);
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Point>& point)
 {
-    return std::abs(Distance(sphere, point) <= sphere.shape.radius);
+    return Distance(sphere, point) <= sphere.shape.radius;
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return false;
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return false;
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
-    return (std::abs(Distance(sphere1, sphere2)) + sphere2.shape.radius) <= sphere1.shape.radius;
+    return (Distance(sphere1, sphere2) + sphere2.shape.radius) <= sphere1.shape.radius;
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Box>& box)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return false;
 }
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Point>& point)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
 float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Point>& point)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return false;
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return false;
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return false;
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return false;
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
 {
-    CORE_THROW("3DFunctions", "Implementation Missing");
+    CORE_ERROR("3DFunctions", "Implementation Missing");
     return false;
 }
 } // namespace Geometric

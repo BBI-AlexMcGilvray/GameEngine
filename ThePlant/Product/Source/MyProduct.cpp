@@ -36,11 +36,18 @@ namespace Product
         inputManager->addReceiver(&_cameraController);
 
         // testing
-        _static = Testing::SpawnStaticModel();
-        _animated = Testing::SpawnAnimatedModel();
+        // _static = Testing::SpawnStaticModel(); // (Static model)
+        // _animated = Testing::SpawnAnimatedModel(); // (Animated model)
 
-        _collider = Testing::SpawnCollider(Core::Geometric::Sphere(), Core::Math::Float3(-4.0f, 0.0f, 0.0f));
-        _trigger = Testing::SpawnTrigger(Core::Geometric::Sphere(), Core::Math::Float3(4.0f, 0.0f, 0.0f));
+        // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
+        _leftPos = Core::Math::Float3(-4.0f, 0.0f, 0.0f);
+        _rightPos = Core::Math::Float3(4.0f, 0.0f, 0.0f);
+
+        _dir1 = true;
+        _swapTime = Core::Second(5.0f);
+        _currentSwap = _swapTime;
+        _collider = Testing::SpawnCollider(Core::Geometric::Sphere(), _leftPos);
+        _trigger = Testing::SpawnTrigger(Core::Geometric::Sphere(), _rightPos);
         // \testing
     }
 
@@ -60,22 +67,36 @@ namespace Product
     {
         _luaManager.update(dt);
 
-        // testing
-        ++frames;
-        if (frames > 50 && !played)
-        {
-            auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_animated);
-            Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
-            played = true;
-        }
+        // testing (Animated model)
+        // ++frames;
+        // if (frames > 50 && !played)
+        // {
+        //     auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_animated);
+        //     Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
+        //     played = true;
+        // }
         // \testing
 
-        // testing
-        Application::RotationComponent& entityRotationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(_static);
+        // testing (Static model)
+        // Application::RotationComponent& entityRotationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(_static);
         
-        FQuaternion entityRotation = entityRotationComponent.rotation;
-        FQuaternion newEntityRotation = Core::Math::LerpQuat(entityRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * entityRotation, Duration(dt));
-        entityRotationComponent.rotation = newEntityRotation;
+        // FQuaternion entityRotation = entityRotationComponent.rotation;
+        // FQuaternion newEntityRotation = Core::Math::LerpQuat(entityRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * entityRotation, Duration(dt));
+        // entityRotationComponent.rotation = newEntityRotation;
+        // \testing
+
+        // testing (Collision)
+        auto& colliderPos = Application::ApplicationManager::AppECS().GetComponentFor<Application::PositionComponent>(_collider);
+        auto& triggerPos = Application::ApplicationManager::AppECS().GetComponentFor<Application::PositionComponent>(_trigger);
+
+        _currentSwap -= dt;
+        colliderPos = Math::Lerp(_dir1 ? _leftPos : _rightPos, _dir1 ? _rightPos : _leftPos, Duration(_currentSwap) / Duration(_swapTime));
+        triggerPos = Math::Lerp(_dir1 ? _rightPos : _leftPos, _dir1 ? _leftPos : _rightPos, Duration(_currentSwap) / Duration(_swapTime));
+        if (_currentSwap <= Core::Second(0.0f))
+        {
+            _dir1 = !_dir1;
+            _currentSwap = _swapTime;
+        }
         // \testing
     }
 

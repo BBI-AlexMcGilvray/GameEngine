@@ -42,13 +42,13 @@ template <typename SHAPE3D> // specific 3d -> general 3d
 auto Distance(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation3D& shape3d)
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, float>::type
 {
-    return Distance(ShapeOrientation3D(shape3d), shape3d);
+    return Distance(ShapeOrientation3D(shape_3d), shape3d);
 }
 template <typename SHAPE3D> // general 3d -> specific 3d
 auto Distance(const ShapeOrientation3D& shape3d, const ShapeOrientation<SHAPE3D>& shape_3d)
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, float>::type
 {
-    return Distance(ShapeOrientation3D(shape3d), shape3d);
+    return Distance(ShapeOrientation3D(shape_3d), shape3d);
 }
 template <typename SHAPE2D> // general 3d -> specific 2d
 auto Distance(const ShapeOrientation3D& shape3D, const ShapeOrientation<SHAPE2D>& shape_2d)
@@ -66,13 +66,13 @@ template <typename SHAPE2D> // specific 2d -> general 2d
 auto Distance(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation2D& shape2d)
 -> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, float>::type
 {
-    return Distance(ShapeOrientation2D(shape2d), shape2d);
+    return Distance(ShapeOrientation2D(shape_2d), shape2d);
 }
 template <typename SHAPE2D> // general 2d -> specific 2d
 auto Distance(const ShapeOrientation2D& shape2d, const ShapeOrientation<SHAPE2D>& shape_2d)
 -> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, float>::type
 {
-    return Distance(ShapeOrientation2D(shape2d), shape2d);
+    return Distance(ShapeOrientation2D(shape_2d), shape2d);
 }
 template <typename SHAPE3D> // general 2d -> specific 3d
 auto Distance(const ShapeOrientation2D& shape2D, const ShapeOrientation<SHAPE3D>& shape_3d)
@@ -122,13 +122,13 @@ template <typename SHAPE3D> // specific 3d -> general 3d
 auto Engulfs(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation3D& shape3d)
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
 {
-    return Engulfs(ShapeOrientation3D(shape3d), shape3d);
+    return Engulfs(ShapeOrientation3D(shape_3d), shape3d);
 }
 template <typename SHAPE3D> // general 3d -> specific 3d
 auto Engulfs(const ShapeOrientation3D& shape3d, const ShapeOrientation<SHAPE3D>& shape_3d)
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
 {
-    return Engulfs(ShapeOrientation3D(shape3d), shape3d);
+    return Engulfs(ShapeOrientation3D(shape_3d), shape3d);
 }
 template <typename SHAPE2D> // general 3d -> specific 2d
 auto Engulfs(const ShapeOrientation3D& shape3D, const ShapeOrientation<SHAPE2D>& shape_2d)
@@ -146,13 +146,13 @@ template <typename SHAPE2D> // specific 2d -> general 2d
 auto Engulfs(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation2D& shape2d)
 -> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
 {
-    return Engulfs(ShapeOrientation2D(shape2d), shape2d);
+    return Engulfs(ShapeOrientation2D(shape_2d), shape2d);
 }
 template <typename SHAPE2D> // general 2d -> specific 2d
 auto Engulfs(const ShapeOrientation2D& shape2d, const ShapeOrientation<SHAPE2D>& shape_2d)
 -> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
 {
-    return Engulfs(ShapeOrientation2D(shape2d), shape2d);
+    return Engulfs(ShapeOrientation2D(shape_2d), shape2d);
 }
 template <typename SHAPE3D> // general 2d -> specific 3d
 auto Engulfs(const ShapeOrientation2D& shape2D, const ShapeOrientation<SHAPE3D>& shape_3d)
@@ -199,13 +199,13 @@ template <typename SHAPE3D> // specific 3d -> general 3d
 auto Intersect(const ShapeOrientation<SHAPE3D>& shape_3d, const ShapeOrientation3D& shape3d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
 {
-    return Intersect(ShapeOrientation3D(shape3d), shape3d, precision);
+    return Intersect(ShapeOrientation3D(shape_3d), shape3d, precision);
 }
 template <typename SHAPE3D> // general 3d -> specific 3d
 auto Intersect(const ShapeOrientation3D& shape3d, const ShapeOrientation<SHAPE3D>& shape_3d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE3D, Shape3D>::value, bool>::type
 {
-    return Intersect(ShapeOrientation3D(shape3d), shape3d, precision);
+    return Intersect(ShapeOrientation3D(shape_3d), shape3d, precision);
 }
 template <typename SHAPE2D> // general 3d -> specific 2d
 auto Intersect(const ShapeOrientation3D& shape3D, const ShapeOrientation<SHAPE2D>& shape_2d)
@@ -223,13 +223,13 @@ template <typename SHAPE2D> // specific 2d -> general 2d
 auto Intersect(const ShapeOrientation<SHAPE2D>& shape_2d, const ShapeOrientation2D& shape2d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
 {
-    return Intersect(ShapeOrientation2D(shape2d), shape2d, precision);
+    return Intersect(ShapeOrientation2D(shape_2d), shape2d, precision);
 }
 template <typename SHAPE2D> // general 2d -> specific 2d
 auto Intersect(const ShapeOrientation2D& shape2d, const ShapeOrientation<SHAPE2D>& shape_2d, const float& precision = Math::DEFAULT_PRECISION())
 -> typename std::enable_if<is_in_variant<SHAPE2D, Shape2D>::value, bool>::type
 {
-    return Intersect(ShapeOrientation2D(shape2d), shape2d, precision);
+    return Intersect(ShapeOrientation2D(shape_2d), shape2d, precision);
 }
 template <typename SHAPE3D> // general 2d -> specific 3d
 auto Intersect(const ShapeOrientation2D& shape2D, const ShapeOrientation<SHAPE3D>& shape_3d)
