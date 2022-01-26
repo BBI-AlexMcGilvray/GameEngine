@@ -58,7 +58,6 @@ namespace Product
         const auto modifiedRight = _rightPos - Core::Math::Float3(0.0f, -2.0f, 0.0f);
         Testing::SpawnCollider(Core::Geometric::Plane(), Math::Lerp(modifiedLeft, modifiedRight, 0.0f));
         Testing::SpawnCollider(Core::Geometric::Plane(Core::Geometric::Circle()), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
-        // unsure why this isn't drawing, it has the EXACT same render data as a Line3D in this spot...
         Testing::SpawnCollider(Core::Geometric::Plane(Core::Geometric::Line2D()), Math::Lerp(modifiedLeft, modifiedRight, 0.4f));
         Testing::SpawnCollider(Core::Geometric::Plane(Core::Geometric::Spot2D()), Math::Lerp(modifiedLeft, modifiedRight, 0.6f));
         Testing::SpawnCollider(Core::Geometric::Plane(Core::Geometric::Rectangle()), Math::Lerp(modifiedLeft, modifiedRight, 0.8f));

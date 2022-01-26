@@ -55,6 +55,8 @@ struct DebugCollisionSystem : public System<DebugCollisionSystem>
     }
 
 private:
+    static constexpr float RENDER_MAX = 10000.0f; // std::numeric_limits<float>::max() is too big
+
     // we need to handle lines, and planes as well
     struct MeshGetter
     {
@@ -80,6 +82,7 @@ private:
     {
         Rendering::DrawType operator()(const Core::Geometric::Line2D& line) const { return Rendering::DrawType::LINE; }
         Rendering::DrawType operator()(const Core::Geometric::Line3D& line) const { return Rendering::DrawType::LINE; }
+        Rendering::DrawType operator()(const Core::Geometric::Plane& plane) const { return std::visit(*this, plane.shape); }
         template <typename T>
         Rendering::DrawType operator()(const T& otherType) const { return Rendering::DrawType::TRIANGLE; }
     };
@@ -88,9 +91,9 @@ private:
     {
         Core::Math::Float3 operator()(const Core::Geometric::Box& box) const { return box.dimensions; }
         Core::Math::Float3 operator()(const Core::Geometric::Circle& circle) const { return Core::Math::Float3(circle.radius); }
-        Core::Math::Float3 operator()(const Core::Geometric::Line2D& line) const { return Core::Math::Float3(line.infinite ? std::numeric_limits<float>::max() : line.length); }
-        Core::Math::Float3 operator()(const Core::Geometric::Line3D& line) const { return Core::Math::Float3(line.infinite ? std::numeric_limits<float>::max() : line.length); }
-        Core::Math::Float3 operator()(const Core::Geometric::Plane& plane) const { return (plane.infinite ? Core::Math::Float3(std::numeric_limits<float>::max()) : std::visit(*this, plane.shape)); }
+        Core::Math::Float3 operator()(const Core::Geometric::Line2D& line) const { return Core::Math::Float3(line.infinite ? RENDER_MAX : line.length); }
+        Core::Math::Float3 operator()(const Core::Geometric::Line3D& line) const { return Core::Math::Float3(line.infinite ? RENDER_MAX : line.length); }
+        Core::Math::Float3 operator()(const Core::Geometric::Plane& plane) const { return (plane.infinite ? Core::Math::Float3(RENDER_MAX) : std::visit(*this, plane.shape)); }
         Core::Math::Float3 operator()(const Core::Geometric::Spot2D& point) const { return Core::Math::Float3(1.0f); }
         Core::Math::Float3 operator()(const Core::Geometric::Spot3D& point) const { return Core::Math::Float3(1.0f); }
         Core::Math::Float3 operator()(const Core::Geometric::Rectangle& rectangle) const { return Core::Math::Float3(rectangle.dimensions, 1.0f); }
