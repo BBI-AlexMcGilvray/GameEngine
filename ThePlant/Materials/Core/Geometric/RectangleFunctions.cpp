@@ -82,20 +82,20 @@ Math::Float2 LastPointOnRectangleInDirection(const ShapeOrientation<Rectangle>& 
     return rectangle.orientation.GetPosition().XY + Math::RotateVectorBy(effectiveLastPoint, rectangle.orientation.GetRotation());
 }
 
-Math::Float2 ClosestPointToPoint(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Point>& point, const float& precision/* = Math::DEFAULT_PRECISION()*/)
+Math::Float2 ClosestPointToPoint(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
     VERIFY_2D(rectangle);
-    VERIFY_2D(point);
+    VERIFY_2D(spot);
 
     // offset the point by the inverse of the rectangle so calculation is simpler
-    const Math::Float2 modifiedPoint = Math::RotateVectorBy(point.orientation.GetPosition(), rectangle.orientation.GetRotation().Inverse()).XY - rectangle.orientation.GetPosition().XY;
+    const Math::Float2 modifiedPoint = Math::RotateVectorBy(spot.orientation.GetPosition(), rectangle.orientation.GetRotation().Inverse()).XY - rectangle.orientation.GetPosition().XY;
     if (PointInRectangle(rectangle.shape, modifiedPoint))
     { // point is INSIDE the rectangle
         return modifiedPoint;
     }
 
     // our modified point is relative to (0,0), so we can use it as the direction
-    return LastPointOnRectangleInDirection(rectangle, point.orientation.GetPosition() - rectangle.orientation.GetPosition());
+    return LastPointOnRectangleInDirection(rectangle, spot.orientation.GetPosition() - rectangle.orientation.GetPosition());
 }
 
 Math::Float2 ClosestPointToLine(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line, const float& precision/* = Math::DEFAULT_PRECISION()*/)

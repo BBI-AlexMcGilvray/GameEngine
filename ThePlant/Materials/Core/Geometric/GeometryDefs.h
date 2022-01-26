@@ -9,23 +9,18 @@
 #include "Core/Geometric/Line2D.h"
 #include "Core/Geometric/Line3D.h"
 #include "Core/Geometric/Plane.h"
+#include "Core/Geometric/Spot.h"
 #include "Core/Geometric/Rectangle.h"
 #include "Core/Geometric/Sphere.h"
 #include "Core/Geometric/Transform.h"
 
 namespace Core {
-namespace Geometric {
-    struct Point
-    {
-        bool operator==(const Point& other) const { return true; }
-        bool operator!=(const Point& other) const { return !(*this == other); }
-    }; // just used to signify we use the 'orientation's position
-    
+namespace Geometric {    
     using Point2D = Math::Float2;
     using Point3D = Math::Float3;
     // defined in Plane.h, maybe we want a '2DGeometryDefs.h' file to hold it and be referenced by both?
-    // using Shape2D = std::variant<Circle, Line2D, Point, Rectangle>;
-    using Shape3D = std::variant<Box, Line3D, Plane, Point, Sphere>;
+    // using Shape2D = std::variant<Circle, Line2D, Spot2D, Rectangle>;
+    using Shape3D = std::variant<Box, Line3D, Plane, Spot3D, Sphere>;
 
     template <typename SHAPE2D>
     Plane Shape2DAsPlane(const SHAPE2D& shape_2d)

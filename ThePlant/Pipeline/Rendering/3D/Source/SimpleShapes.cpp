@@ -2,6 +2,17 @@
 
 namespace Application {
 namespace Rendering {
+    Mesh CreateLine(const float& length)
+    {
+        Core::Math::Float3 normal = 0.0f;
+        std::vector<SimpleVertexData> vertices = {
+            { Core::Math::Float3(0.0f, 0.0f, 0.0f), normal },
+            { Core::Math::Float3(length, 0.0f, 0.0f), normal }
+        };
+
+        return CreateMesh(vertices);
+    }
+
     Mesh CreateBox(const Core::Math::Float3& dimensions)
     {
         auto halfX = dimensions.X * 0.5f;

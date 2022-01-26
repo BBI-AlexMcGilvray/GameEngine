@@ -58,16 +58,16 @@ Math::Float2 LineEndpoint(const ShapeOrientation<Line2D>& line)
     return PointOnLine(line, line.shape.length);
 }
 
-Math::Float2 ClosestPointOnLine(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Point>& point)
+Math::Float2 ClosestPointOnLine(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(line);
-    VERIFY_2D(point);
+    VERIFY_2D(spot);
 
     const Math::Float2 lineOrigin = line.orientation.GetPosition().XY;
-    const Math::Float2 pointOrigin = point.orientation.GetPosition().XY;
+    const Math::Float2 spotOrigin = spot.orientation.GetPosition().XY;
 
-    const Math::Float2 originToPoint = pointOrigin - lineOrigin;
-    const auto projectedOntoLine = lineOrigin + Math::Project(originToPoint, EffectiveDirection(line));
+    const Math::Float2 originToSpot = spotOrigin - lineOrigin;
+    const auto projectedOntoLine = lineOrigin + Math::Project(originToSpot, EffectiveDirection(line));
 
     // we know this is on the line since we projected it onto the line
     const auto closestPointOnLine = lineOrigin + projectedOntoLine;

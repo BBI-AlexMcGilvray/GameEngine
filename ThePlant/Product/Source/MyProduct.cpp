@@ -46,8 +46,22 @@ namespace Product
         _dir1 = true;
         _swapTime = Core::Second(5.0f);
         _currentSwap = _swapTime;
-        _collider = Testing::SpawnCollider(Core::Geometric::Sphere(), _leftPos);
-        _trigger = Testing::SpawnTrigger(Core::Geometric::Sphere(), _rightPos);
+        // _collider = Testing::SpawnCollider(Core::Geometric::Sphere(), _leftPos);
+        // _trigger = Testing::SpawnTrigger(Core::Geometric::Sphere(), _rightPos);
+        
+        Testing::SpawnCollider(Core::Geometric::Box(), Math::Lerp(_leftPos, _rightPos, 0.0f));
+        Testing::SpawnCollider(Core::Geometric::Line3D(), Math::Lerp(_leftPos, _rightPos, 0.25f));
+        Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(_leftPos, _rightPos, 0.50f));
+        Testing::SpawnCollider(Core::Geometric::Sphere(), Math::Lerp(_leftPos, _rightPos, 0.75f));
+
+        const auto modifiedLeft = _leftPos - Core::Math::Float3(0.0f, -2.0f, 0.0f);
+        const auto modifiedRight = _rightPos - Core::Math::Float3(0.0f, -2.0f, 0.0f);
+        Testing::SpawnCollider(Core::Geometric::Plane(), Math::Lerp(modifiedLeft, modifiedRight, 0.0f));
+        Testing::SpawnCollider(Core::Geometric::Plane(Core::Geometric::Circle()), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
+        // unsure why this isn't drawing, it has the EXACT same render data as a Line3D in this spot...
+        Testing::SpawnCollider(Core::Geometric::Plane(Core::Geometric::Line2D()), Math::Lerp(modifiedLeft, modifiedRight, 0.4f));
+        Testing::SpawnCollider(Core::Geometric::Plane(Core::Geometric::Spot2D()), Math::Lerp(modifiedLeft, modifiedRight, 0.6f));
+        Testing::SpawnCollider(Core::Geometric::Plane(Core::Geometric::Rectangle()), Math::Lerp(modifiedLeft, modifiedRight, 0.8f));
         // \testing
     }
 
@@ -86,17 +100,17 @@ namespace Product
         // \testing
 
         // testing (Collision)
-        auto& colliderPos = Application::ApplicationManager::AppECS().GetComponentFor<Application::PositionComponent>(_collider);
-        auto& triggerPos = Application::ApplicationManager::AppECS().GetComponentFor<Application::PositionComponent>(_trigger);
+        // auto& colliderPos = Application::ApplicationManager::AppECS().GetComponentFor<Application::PositionComponent>(_collider);
+        // auto& triggerPos = Application::ApplicationManager::AppECS().GetComponentFor<Application::PositionComponent>(_trigger);
 
-        _currentSwap -= dt;
-        colliderPos = Math::Lerp(_dir1 ? _leftPos : _rightPos, _dir1 ? _rightPos : _leftPos, Duration(_currentSwap) / Duration(_swapTime));
-        triggerPos = Math::Lerp(_dir1 ? _rightPos : _leftPos, _dir1 ? _leftPos : _rightPos, Duration(_currentSwap) / Duration(_swapTime));
-        if (_currentSwap <= Core::Second(0.0f))
-        {
-            _dir1 = !_dir1;
-            _currentSwap = _swapTime;
-        }
+        // _currentSwap -= dt;
+        // colliderPos = Math::Lerp(_dir1 ? _leftPos : _rightPos, _dir1 ? _rightPos : _leftPos, Duration(_currentSwap) / Duration(_swapTime));
+        // triggerPos = Math::Lerp(_dir1 ? _rightPos : _leftPos, _dir1 ? _leftPos : _rightPos, Duration(_currentSwap) / Duration(_swapTime));
+        // if (_currentSwap <= Core::Second(0.0f))
+        // {
+        //     _dir1 = !_dir1;
+        //     _currentSwap = _swapTime;
+        // }
         // \testing
     }
 

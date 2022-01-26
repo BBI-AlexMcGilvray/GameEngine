@@ -85,7 +85,23 @@ namespace Rendering {
   {
     DEBUG_ASSERT(context.material.shader == _currentShader);
     context.mesh.buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
-    _DrawTriangles(context.mesh.vertices);
+  #ifdef DEBUG
+    switch (context.type)
+    {
+      case DrawType::LINE:
+      {
+        _DrawLines(context.mesh.vertices);
+        break;
+      }
+      case DrawType::TRIANGLE:
+      {
+  #endif
+        _DrawTriangles(context.mesh.vertices);
+  #ifdef DEBUG
+        break;
+      }
+    }
+  #endif
     context.mesh.buffer.Unbind();
   }
 
@@ -113,12 +129,12 @@ namespace Rendering {
     // the FRONT_AND_BACK may be the render issue cause?
     switch (context.mode)
     {
-      case Mode::FILL:
+      case DrawMode::FILL:
       {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); // 'regular' rendering
         break;
       }
-      case Mode::LINE:
+      case DrawMode::LINE:
       {
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); // wireframe mode
         break;

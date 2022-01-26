@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "Core/Logging/Logger.h"
+#include "Core/Math/Headers/MathDefs.h"
 
 #include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
@@ -27,6 +28,9 @@ struct DebugCollisionSystem : public System<DebugCollisionSystem>
     {
         _debugMaterial = Rendering::CreateDefaultMaterial(shaderManager);
         
+        _lineMesh = Rendering::CreateLine(1.0f);
+        _pointMesh = Rendering::CreateSphere(0.1f);
+
         _circleMesh = Rendering::CreateCircle(1.0f);
         _rectangleMesh = Rendering::CreateRectangle(1.0f);
 
@@ -58,21 +62,52 @@ private:
         : _debugSystem(debugSystem)
         {}
 
-        Rendering::Mesh operator()(const Core::Geometric::Box& box) { return _debugSystem._boxMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Circle& circle) { return _debugSystem._circleMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Rectangle& rectangle) { return _debugSystem._rectangleMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Sphere& sphere) { return _debugSystem._sphereMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Box& box) const { return _debugSystem._boxMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Circle& circle) const { return _debugSystem._circleMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Line2D& line) const { return _debugSystem._lineMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Line3D& line) const { return _debugSystem._lineMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Plane& plane) const { return (plane.infinite ? _debugSystem._rectangleMesh : std::visit(*this, plane.shape)); }
+        Rendering::Mesh operator()(const Core::Geometric::Spot2D& point) const { return _debugSystem._pointMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Spot3D& point) const { return _debugSystem._pointMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Rectangle& rectangle) const { return _debugSystem._rectangleMesh; }
+        Rendering::Mesh operator()(const Core::Geometric::Sphere& sphere) const { return _debugSystem._sphereMesh; }
 
     private:
         const DebugCollisionSystem& _debugSystem;
     };
 
+    struct DrawTypeGetter
+    {
+        Rendering::DrawType operator()(const Core::Geometric::Line2D& line) const { return Rendering::DrawType::LINE; }
+        Rendering::DrawType operator()(const Core::Geometric::Line3D& line) const { return Rendering::DrawType::LINE; }
+        template <typename T>
+        Rendering::DrawType operator()(const T& otherType) const { return Rendering::DrawType::TRIANGLE; }
+    };
+
+    struct ScaleGetter
+    {
+        Core::Math::Float3 operator()(const Core::Geometric::Box& box) const { return box.dimensions; }
+        Core::Math::Float3 operator()(const Core::Geometric::Circle& circle) const { return Core::Math::Float3(circle.radius); }
+        Core::Math::Float3 operator()(const Core::Geometric::Line2D& line) const { return Core::Math::Float3(line.infinite ? std::numeric_limits<float>::max() : line.length); }
+        Core::Math::Float3 operator()(const Core::Geometric::Line3D& line) const { return Core::Math::Float3(line.infinite ? std::numeric_limits<float>::max() : line.length); }
+        Core::Math::Float3 operator()(const Core::Geometric::Plane& plane) const { return (plane.infinite ? Core::Math::Float3(std::numeric_limits<float>::max()) : std::visit(*this, plane.shape)); }
+        Core::Math::Float3 operator()(const Core::Geometric::Spot2D& point) const { return Core::Math::Float3(1.0f); }
+        Core::Math::Float3 operator()(const Core::Geometric::Spot3D& point) const { return Core::Math::Float3(1.0f); }
+        Core::Math::Float3 operator()(const Core::Geometric::Rectangle& rectangle) const { return Core::Math::Float3(rectangle.dimensions, 1.0f); }
+        Core::Math::Float3 operator()(const Core::Geometric::Sphere& sphere) const { return Core::Math::Float3(sphere.radius); }
+    };
+
     Collision::CollisionManager& _collisionManager;
     Rendering::RenderManager& _renderManager;
 
-    // when using these meshes, modify the scale of the transform passed in to be multiplied by the scale of the collider (relative to the default 1.0) being used
     Rendering::Material _debugMaterial;
     MeshGetter _meshGetter;
+    DrawTypeGetter _typeGetter;
+    ScaleGetter _scaleGetter;
+
+    // Both
+    Rendering::Mesh _lineMesh;
+    Rendering::Mesh _pointMesh;
 
     // 2D
     Rendering::Mesh _circleMesh;
@@ -91,8 +126,8 @@ private:
         for (size_t index = 0; index < worldTransforms.size(); ++index)
         {
             Core::Geometric::Transform scaleAdjustedTransform = worldTransforms[index].transform;
-            CORE_ERROR("DebugCollisionSystem", "We need to adjust the scale for the box based on the shape's scale relative to 1.0f");
-            // scaleAdjustedTransform.AdjustScale(colliderComponents[index].shape)
+            // below adjusts the transform scale to also take into account the shape relative scale (relative to the default value for each which is 1.0f - except radius is 0.5f)
+            scaleAdjustedTransform.AdjustScale(std::visit(_scaleGetter, colliderComponents[index].shape));
 
             const bool inCollision = std::find_if(allCollisions.begin(), allCollisions.end(), [&allCollisions, &entities, index](const auto& collision)
             {
@@ -104,15 +139,16 @@ private:
             {
                 colliderColor = colliderComponents[index].trigger ? Core::Math::GREEN : Core::Math::RED;
             }
-            Rendering::Mesh colliderMesh = _boxMesh;//std::visit(_meshGetter, colliderComponents[index].shape);
+            Rendering::Mesh colliderMesh = std::visit(_meshGetter, colliderComponents[index].shape);
+            Rendering::DrawType drawType = std::visit(_typeGetter, colliderComponents[index].shape);
 
-            // we probably want a way to set this to only draw the borders (lines instead)
             Rendering::Context context = {
                 _debugMaterial,
                 scaleAdjustedTransform.GetTransformationMatrix(),
                 colliderColor,
                 colliderMesh,
-                Rendering::Mode::LINE
+                Rendering::DrawMode::LINE,
+                drawType
             };
             _renderManager.QueueRender(context);
         }

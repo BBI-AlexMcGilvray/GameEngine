@@ -22,6 +22,7 @@ namespace Geometric {
     SetPosition(position);
     SetRotation(rotation);
     SetScale(scale);
+    _Dirty(true);
   }
 
   Transform::Transform(const Float4x4& transformationMatrix)
@@ -34,6 +35,7 @@ namespace Geometric {
     SetPosition(other.GetPosition());
     SetRotation(other.GetRotation());
     SetScale(other.GetScale());
+    _Dirty(true);
   }
 
   Transform &Transform::operator=(const Transform &other)
@@ -41,6 +43,7 @@ namespace Geometric {
     SetPosition(other.GetPosition());
     SetRotation(other.GetRotation());
     SetScale(other.GetScale());
+    _Dirty(true);
 
     return *this;
   }
@@ -175,6 +178,7 @@ namespace Geometric {
     SetPosition(position);
     SetScale(scale);
     SetRotation(rotation);
+    _Dirty(true);
   }
 
   Float3x3 Transform::_GetRotationMatrix()

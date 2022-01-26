@@ -16,7 +16,7 @@ bool PointInRectangle(const ShapeOrientation<Rectangle>& rectangle, const Point2
 Math::Float2 LastPointOnRectangleInDirection(const Rectangle& rectangle, const Math::Float2& direction);
 Math::Float2 LastPointOnRectangleInDirection(const ShapeOrientation<Rectangle>& rectangle, const Math::Float2& direction);
 
-Math::Float2 ClosestPointToPoint(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Point>& point, const float& precision = Math::DEFAULT_PRECISION());
+Math::Float2 ClosestPointToPoint(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot, const float& precision = Math::DEFAULT_PRECISION());
 // probably not the most efficient, but can deal with that later
 Math::Float2 ClosestPointToLine(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line, const float& precision = Math::DEFAULT_PRECISION());
 } // namespace Geometric

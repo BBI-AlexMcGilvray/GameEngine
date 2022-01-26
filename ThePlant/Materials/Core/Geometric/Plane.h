@@ -3,11 +3,12 @@
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Geometric/Circle.h"
 #include "Core/Geometric/Line2D.h"
+#include "Core/Geometric/Spot.h"
 #include "Core/Geometric/Rectangle.h"
 
 namespace Core {
 namespace Geometric {
-  using Shape2D = std::variant<Circle, Line2D, Rectangle>;
+  using Shape2D = std::variant<Circle, Line2D, Spot2D, Rectangle>;
 
   struct Plane
   {
@@ -21,7 +22,14 @@ namespace Geometric {
 
     Plane(const Math::Float3& normal)
     : normal(normal)
+    , shape(Rectangle())
     , infinite(true)
+    {}
+
+    Plane(const Shape2D& shape)
+    : normal(Core::Math::Float3(0.0f, 0.0f, 1.0f))
+    , shape(shape)
+    , infinite(false)
     {}
 
     Plane(const Math::Float3& normal, const Shape2D& shape)

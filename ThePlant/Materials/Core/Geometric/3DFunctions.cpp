@@ -7,41 +7,41 @@ namespace Core
 {
 namespace Geometric
 {
-float Distance(const ShapeOrientation<Point>& point1, const ShapeOrientation<Point>& point2)
+float Distance(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spot3D>& spot2)
 {
-    return Math::Distance(point1.orientation.GetPosition(), point2.orientation.GetPosition());
+    return Math::Distance(spot1.orientation.GetPosition(), spot2.orientation.GetPosition());
 }
 
-bool Engulfs(const ShapeOrientation<Point>& point1, const ShapeOrientation<Point>& point2)
+bool Engulfs(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spot3D>& spot2)
 {
-    return point1.orientation == point2.orientation;
+    return spot1.orientation == spot2.orientation;
 }
 
-bool Engulfs(const ShapeOrientation<Point>& point, const ShapeOrientation<Line3D>& line)
+bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Line3D>& line)
 {
-    // do we care about case where point == line.origin && line.length = 0?
+    // do we care about case where spot == line.origin && line.length = 0?
     return false;
 }
 
-bool Engulfs(const ShapeOrientation<Point>& point, const ShapeOrientation<Plane>& plane)
+bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Plane>& plane)
 {
-    // do we care about case where point == plane.origin && line.dimensions = 0?
+    // do we care about case where spot == plane.origin && line.dimensions = 0?
     return false;
 }
 
-bool Engulfs(const ShapeOrientation<Point>& point, const ShapeOrientation<Sphere>& sphere)
+bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Sphere>& sphere)
 {
-    // do we care about case where point == sphere.origin && sphere.radius = 0?
+    // do we care about case where spot == sphere.origin && sphere.radius = 0?
     return false;
 }
 
-bool Engulfs(const ShapeOrientation<Point>& point, const ShapeOrientation<Box>& box)
+bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Box>& box)
 {
-    // do we care about case where point == box.origin && box.dimensions = 0?
+    // do we care about case where spot == box.origin && box.dimensions = 0?
     return false;
 }
 
-float Distance(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Point>& point)
+float Distance(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
 {
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
@@ -53,9 +53,9 @@ float Distance(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Lin
     return -1.0f;
 }
 
-bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Point>& point)
+bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
 {
-    // do we care about case where point is on line?
+    // do we care about case where spot is on line?
     return false;
 }
 
@@ -83,7 +83,7 @@ bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Box>& 
     return false;
 }
 
-float Distance(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Point>& point)
+float Distance(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Spot3D>& spot)
 {
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
@@ -101,9 +101,9 @@ float Distance(const ShapeOrientation<Plane>& plane1, const ShapeOrientation<Pla
     return -1.0f;
 }
 
-bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Point>& point)
+bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Spot3D>& spot)
 {
-    // do we care about case where point is on plane?
+    // do we care about case where spot is on plane?
     return false;
 }
 
@@ -131,33 +131,33 @@ bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Box>& 
     return false;
 }
 
-float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Point>& point)
+float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot3D>& spot)
 {
-    ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
-    return std::max(0.0f, Distance(sphereCenter, point) - sphere.shape.radius);
+    ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
+    return std::max(0.0f, Distance(sphereCenter, spot) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
-    ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
+    ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
     return std::max(0.0f, Distance(line, sphereCenter) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
-    ShapeOrientation<Point> sphereCenter = { sphere.orientation, Point() };
+    ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
     return std::max(0.0f, Distance(plane, sphereCenter) - sphere.shape.radius);
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
-    ShapeOrientation<Point> sphere2Center = { sphere2.orientation, Point() };
+    ShapeOrientation<Spot3D> sphere2Center = { sphere2.orientation, Spot3D() };
     return std::max(0.0f, Distance(sphere1, sphere2Center) - sphere1.shape.radius);
 }
 
-bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Point>& point)
+bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot3D>& spot)
 {
-    return Distance(sphere, point) <= sphere.shape.radius;
+    return Distance(sphere, spot) <= sphere.shape.radius;
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
@@ -183,7 +183,7 @@ bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Box>
     return false;
 }
 
-float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Point>& point)
+float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
@@ -213,7 +213,7 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
     return -1.0f;
 }
 
-bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Point>& point)
+bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return false;

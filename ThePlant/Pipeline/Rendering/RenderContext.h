@@ -12,7 +12,8 @@
 
 namespace Application {
 namespace Rendering {
-    enum class Mode { FILL, LINE };
+    enum class DrawMode { FILL, LINE };
+    enum class DrawType { TRIANGLE, LINE };
 
     // not references because we can create contexts for each object on main thread, then pass them all to rendering thread without worrying aobut lifetime
     // though we will need a way to validate the mesh VAO and such are still valid?
@@ -23,7 +24,8 @@ namespace Rendering {
         Core::Math::Color color; // may be modified by other things (ex: general render setting changing the color)
         const Mesh mesh;
 #if DEBUG
-        const Mode mode = Mode::FILL;
+        const DrawMode mode = DrawMode::FILL;
+        const DrawType type = DrawType::TRIANGLE;
 #endif
 
         bool operator==(const Context& other) const
@@ -34,6 +36,7 @@ namespace Rendering {
                 && mesh == other.mesh
 #if DEBUG
                 && mode == other.mode
+                && type == other.type
 #endif
                 );
         }

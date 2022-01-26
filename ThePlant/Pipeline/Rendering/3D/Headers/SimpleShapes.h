@@ -6,6 +6,7 @@
 
 namespace Application {
 namespace Rendering {
+    Mesh CreateLine(const float& length);
     Mesh CreateBox(const Core::Math::Float3& dimensions);
     Mesh CreateBox(const Core::Math::Float3& min, const Core::Math::Float3& max);
     Mesh CreatePyramid(const float& height, const float& sideLength);

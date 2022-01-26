@@ -12,32 +12,57 @@
 
 namespace Core {
 namespace Geometric {
-bool Engulfs(const ShapeOrientation<Point>& point, const ShapeOrientation<Circle>& circle2)
+float Distance(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2)
 {
-    // do we care about case where point == circle.origin && circle.length = 0?
+    VERIFY_2D(spot1);
+    VERIFY_2D(spot2);
+    
+    return Math::Distance(spot1.orientation.GetPosition(), spot2.orientation.GetPosition());
+}
+
+bool Engulfs(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2)
+{
+    VERIFY_2D(spot1);
+    VERIFY_2D(spot2);
+    
+    return spot1.orientation == spot2.orientation;
+}
+
+bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Circle>& circle2)
+{
+    VERIFY_2D(spot);
+    VERIFY_2D(circle2);
+
+    // do we care about case where spot == circle.origin && circle.length = 0?
     return false;
 }
 
-bool Engulfs(const ShapeOrientation<Point>& point, const ShapeOrientation<Line2D>& line)
+bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Line2D>& line)
 {
-    // do we care about case where point == line.origin && line.length = 0?
+    VERIFY_2D(spot);
+    VERIFY_2D(line);
+
+    // do we care about case where spot == line.origin && line.length = 0?
     return false;
 }
 
-bool Engulfs(const ShapeOrientation<Point>& point, const ShapeOrientation<Rectangle>& rectangle)
+bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Rectangle>& rectangle)
 {
-    // do we care about case where point == rectangle.origin && rectangle.dimensions = 0?
+    VERIFY_2D(spot);
+    VERIFY_2D(rectangle);
+
+    // do we care about case where spot == rectangle.origin && rectangle.dimensions = 0?
     return false;
 }
 
-float Distance(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Point>& point)
+float Distance(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(circle);
-    VERIFY_2D(point);
+    VERIFY_2D(spot);
 
-    float pointToCenterSqr = Math::DistanceSqr(circle.orientation.GetPosition(), point.orientation.GetPosition());
+    float spotToCenterSqr = Math::DistanceSqr(circle.orientation.GetPosition(), spot.orientation.GetPosition());
 
-    return std::max(0.0f, pointToCenterSqr - Math::sqr(circle.shape.radius));
+    return std::max(0.0f, spotToCenterSqr - Math::sqr(circle.shape.radius));
 }
 
 float Distance(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
@@ -45,16 +70,16 @@ float Distance(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<C
     VERIFY_2D(circle1);
     VERIFY_2D(circle2);
 
-    ShapeOrientation<Point> circleCenter = { circle1.orientation, Point() };
+    ShapeOrientation<Spot2D> circleCenter = { circle1.orientation, Spot2D() };
     return std::max(0.0f, Distance(circle2, circleCenter) - circle1.shape.radius);
 }
 
-bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Point>& point)
+bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(circle);
-    VERIFY_2D(point);
+    VERIFY_2D(spot);
 
-    return Distance(circle, point) <= 0.0f;
+    return Distance(circle, spot) <= 0.0f;
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
@@ -62,7 +87,7 @@ bool Engulfs(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Cir
     VERIFY_2D(circle1);
     VERIFY_2D(circle2);
 
-    return (std::abs(Distance(circle1, ShapeOrientation<Point>(circle2.orientation, Point()))) + circle2.shape.radius) <= circle1.shape.radius;
+    return (std::abs(Distance(circle1, ShapeOrientation<Spot2D>(circle2.orientation, Spot2D()))) + circle2.shape.radius) <= circle1.shape.radius;
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Line2D>& line)
@@ -75,11 +100,11 @@ bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Line
         return false;
     }
 
-    bool engulfsLineOrigin = Engulfs(circle, ShapeOrientation<Point>(line.orientation, Point()));
+    bool engulfsLineOrigin = Engulfs(circle, ShapeOrientation<Spot2D>(line.orientation, Spot2D()));
 
     Transform lineEndOrientation = line.orientation;
     lineEndOrientation.SetPosition(Math::Float3(LineEndpoint(line), 0.0f));
-    bool engulfsLineEnd = Engulfs(circle, ShapeOrientation<Point>(lineEndOrientation, Point()));
+    bool engulfsLineEnd = Engulfs(circle, ShapeOrientation<Spot2D>(lineEndOrientation, Spot2D()));
     return (engulfsLineOrigin && engulfsLineEnd);
 }
 
@@ -92,13 +117,13 @@ bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Rect
     return false;
 }
 
-float Distance(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Point>& point)
+float Distance(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(line);
-    VERIFY_2D(point);
+    VERIFY_2D(spot);
 
-    Math::Float2 closestPointOnLine = ClosestPointOnLine(line, point);
-    return Math::Distance(point.orientation.GetPosition().XY, closestPointOnLine);
+    Math::Float2 closestPointOnLine = ClosestPointOnLine(line, spot);
+    return Math::Distance(spot.orientation.GetPosition().XY, closestPointOnLine);
 }
 
 float Distance(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circle>& circle)
@@ -106,7 +131,7 @@ float Distance(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circ
     VERIFY_2D(line);
     VERIFY_2D(circle);
 
-    ShapeOrientation<Point> circleCenter = { circle.orientation, Point() };
+    ShapeOrientation<Spot2D> circleCenter = { circle.orientation, Spot2D() };
     return std::max(0.0f, Distance(line, circleCenter) - circle.shape.radius);
 }
 
@@ -134,12 +159,12 @@ float Distance(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Lin
     return 1.0f;
 }
 
-bool Engulfs(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Point>& point)
+bool Engulfs(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(line);
-    VERIFY_2D(point);
+    VERIFY_2D(spot);
 
-    // do we care about case where point is on line?
+    // do we care about case where spot is on line?
     return false;
 }
 
@@ -170,18 +195,18 @@ bool Engulfs(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Rectan
     return false;
 }
 
-float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Point>& point)
+float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(rectangle);
-    VERIFY_2D(point);
+    VERIFY_2D(spot);
 
-    const Math::Float2 closestPointInRectangle = ClosestPointToPoint(rectangle, point);
+    const Math::Float2 closestPointInRectangle = ClosestPointToPoint(rectangle, spot);
     if (PointInRectangle(rectangle, closestPointInRectangle))
     {
         return 0.0f;
     }
 
-    return Math::Distance(point.orientation.GetPosition().XY, closestPointInRectangle);
+    return Math::Distance(spot.orientation.GetPosition().XY, closestPointInRectangle);
 }
 
 float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Circle>& circle)
@@ -189,7 +214,7 @@ float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientat
     VERIFY_2D(rectangle);
     VERIFY_2D(circle);
 
-    ShapeOrientation<Point> circleCenter = { circle.orientation, Point() };
+    ShapeOrientation<Spot2D> circleCenter = { circle.orientation, Spot2D() };
     return std::max(0.0f, Distance(rectangle, circleCenter) - circle.shape.radius);
 }
 
@@ -199,7 +224,7 @@ float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientat
     VERIFY_2D(line);
 
     const Math::Float2 closestPoint = ClosestPointToLine(rectangle, line);
-    return Distance(line, { Transform(Math::Float3(closestPoint)), Point() });
+    return Distance(line, { Transform(Math::Float3(closestPoint)), Spot2D() });
 }
 
 float Distance(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientation<Rectangle>& rectangle2)
@@ -210,12 +235,12 @@ float Distance(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrienta
     return 1.0f;
 }
 
-bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Point>& point)
+bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(rectangle);
-    VERIFY_2D(point);
+    VERIFY_2D(spot);
 
-    return PointInRectangle(rectangle, point.orientation.GetPosition());
+    return PointInRectangle(rectangle, spot.orientation.GetPosition());
 }
 
 bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Circle>& circle)
@@ -241,11 +266,11 @@ bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientatio
         return false;
     }
 
-    bool engulfsLineOrigin = Engulfs(rectangle, ShapeOrientation<Point>(line.orientation, Point()));
+    bool engulfsLineOrigin = Engulfs(rectangle, ShapeOrientation<Spot2D>(line.orientation, Spot2D()));
 
     Transform lineEndOrientation = line.orientation;
     lineEndOrientation.SetPosition(Math::Float3(LineEndpoint(line), 0.0f));
-    bool engulfsLineEnd = Engulfs(rectangle, ShapeOrientation<Point>(lineEndOrientation, Point()));
+    bool engulfsLineEnd = Engulfs(rectangle, ShapeOrientation<Spot2D>(lineEndOrientation, Spot2D()));
     return (engulfsLineOrigin && engulfsLineEnd);
 }
 

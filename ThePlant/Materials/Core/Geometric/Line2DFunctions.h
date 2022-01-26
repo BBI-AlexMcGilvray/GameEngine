@@ -16,6 +16,6 @@ bool PointIsOnLine(const ShapeOrientation<Line2D>& line, Point2D& point, const f
 Math::Float2 PointOnLine(const ShapeOrientation<Line2D>& line, const float& multiplier);
 Math::Float2 LineEndpoint(const ShapeOrientation<Line2D>& line);
 
-Math::Float2 ClosestPointOnLine(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Point>& point);
+Math::Float2 ClosestPointOnLine(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot);
 } // namespace Geometric
 } // namespace Core
