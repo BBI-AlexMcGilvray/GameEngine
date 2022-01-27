@@ -16,6 +16,10 @@ namespace Geometric {
     : Line2D(Math::Float2(1.0f, 0.0f))
     {}
 
+    Line2D(const float& length)
+    : Line2D(Math::Float2(1.0f, 0.0f), length)
+    {}
+
     Line2D(const Math::Float2 &direction)
     : direction(Math::Normalize(direction))
     , infinite(true)

@@ -14,6 +14,10 @@ namespace Geometric {
     : Line3D(Math::Float3(1.0f, 0.0f, 0.0f))
     {}
 
+    Line3D(const float& length)
+    : Line3D(Math::Float3(1.0f, 0.0f, 0.0f), length)
+    {}
+
     Line3D(const Math::Float3 &direction)
     : direction(Math::Normalize(direction))
     , infinite(true)
@@ -22,7 +26,7 @@ namespace Geometric {
     Line3D(const Math::Float3 &direction, const float& length)
     : direction(Math::Normalize(direction))
     , length(length)
-    , infinite(infinite)
+    , infinite(false)
     {}
 
     Line3D(const Line3D&) = default;
