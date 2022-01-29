@@ -25,16 +25,20 @@ bool Engulfs(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2
     VERIFY_2D(spot1);
     VERIFY_2D(spot2);
     
-    return spot1.orientation == spot2.orientation;
+    return spot1.orientation.GetPosition() == spot2.orientation.GetPosition();
 }
 
-bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Circle>& circle2)
+bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Circle>& circle)
 {
     VERIFY_2D(spot);
-    VERIFY_2D(circle2);
+    VERIFY_2D(circle);
 
-    // do we care about case where spot == circle.origin && circle.length = 0?
-    return false;
+    if (circle.shape.radius != 0.0f)
+    {
+        return false;
+    }
+
+    return spot.orientation.GetPosition() == circle.orientation.GetPosition();
 }
 
 bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Line2D>& line)
@@ -42,8 +46,12 @@ bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Line2D
     VERIFY_2D(spot);
     VERIFY_2D(line);
 
-    // do we care about case where spot == line.origin && line.length = 0?
-    return false;
+    if (line.shape.infinite || line.shape.length != 0.0f)
+    {
+        return false;
+    }
+    
+    return spot.orientation.GetPosition() == line.orientation.GetPosition();
 }
 
 bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Rectangle>& rectangle)
@@ -51,8 +59,12 @@ bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Rectan
     VERIFY_2D(spot);
     VERIFY_2D(rectangle);
 
-    // do we care about case where spot == rectangle.origin && rectangle.dimensions = 0?
-    return false;
+    if (rectangle.shape.dimensions != Core::Math::Float2(0.0f))
+    {
+        return false;
+    }
+    
+    return spot.orientation.GetPosition() == rectangle.orientation.GetPosition();
 }
 
 float Distance(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)

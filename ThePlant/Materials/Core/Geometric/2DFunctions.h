@@ -12,7 +12,7 @@ NOTE: All Distance(...) methods return POSITIVE values
 // SPOT
 float Distance(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2);
 bool Engulfs(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2);
-bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Circle>& circle2);
+bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Circle>& circle);
 bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Line2D>& line);
 bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Rectangle>& rectangle);
 

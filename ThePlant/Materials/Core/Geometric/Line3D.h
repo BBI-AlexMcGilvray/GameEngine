@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Debugging/Headers/Macros.h"
+
 #include "Core/Math/Headers/Vector3.h"
 
 namespace Core {
@@ -27,7 +29,9 @@ namespace Geometric {
     : direction(Math::Normalize(direction))
     , length(length)
     , infinite(false)
-    {}
+    {
+      VERIFY(infinite || length >= 0.0f);
+    }
 
     Line3D(const Line3D&) = default;
     Line3D(Line3D&&) = default;

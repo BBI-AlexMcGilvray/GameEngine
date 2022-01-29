@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Debugging/Headers/Macros.h"
+
 #include "Core/Math/Headers/Vector3.h"
 
 namespace Core {
@@ -16,7 +18,11 @@ namespace Geometric {
 
     Box(const Math::Float3& dimensions)
     : dimensions(dimensions)
-    {}
+    {
+      VERIFY(dimensions.X >= 0.0f);
+      VERIFY(dimensions.Y >= 0.0f);
+      VERIFY(dimensions.Z >= 0.0f);
+    }
 
     Box(const Box&) = default;
     Box(Box&&) = default;

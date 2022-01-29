@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Debugging/Headers/Macros.h"
+
 #include "Core/Math/Headers/Vector2.h"
 
 namespace Core {
@@ -16,7 +18,10 @@ namespace Geometric {
 
     Rectangle(const Math::Float2& dimensions)
     : dimensions(dimensions)
-    {}
+    {
+      VERIFY(dimensions.X >= 0.0f);
+      VERIFY(dimensions.Y >= 0.0f);
+    }
 
     Rectangle(const Rectangle&) = default;
     Rectangle(Rectangle&&) = default;

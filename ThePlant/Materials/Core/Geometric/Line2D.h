@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Debugging/Headers/Macros.h"
+
 #include "Core/Math/Headers/Quaternion.h"
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/VectorFunctions.h"
@@ -29,7 +31,9 @@ namespace Geometric {
     : direction(Math::Normalize(direction))
     , length(length)
     , infinite(false)
-    {}
+    {
+      VERIFY(infinite || length >= 0.0f);
+    }
     
     Line2D(const Line2D&) = default;
     Line2D(Line2D&&) = default;

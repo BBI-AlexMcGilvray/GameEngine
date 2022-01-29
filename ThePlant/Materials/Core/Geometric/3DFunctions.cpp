@@ -3,6 +3,8 @@
 #include "Core/Math/Headers/VectorFunctions.h"
 #include "Core/Math/Headers/QuaternionFunctions.h"
 
+#include "Core/Geometric/Functions.h"
+
 namespace Core
 {
 namespace Geometric
@@ -14,31 +16,48 @@ float Distance(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spo
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spot3D>& spot2)
 {
-    return spot1.orientation == spot2.orientation;
+    return spot1.orientation.GetPosition() == spot2.orientation.GetPosition();
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Line3D>& line)
 {
     // do we care about case where spot == line.origin && line.length = 0?
-    return false;
+    if (line.shape.infinite || line.shape.length != 0.0f)
+    {
+        return false;
+    }
+    
+    return spot.orientation.GetPosition() == line.orientation.GetPosition();
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Plane>& plane)
 {
-    // do we care about case where spot == plane.origin && line.dimensions = 0?
-    return false;
+    if (plane.shape.infinite)
+    {
+        return false;
+    }
+    
+    return Engulfs(ShapeOrientation<Spot2D>(spot.orientation, Spot2D()), ShapeOrientation2D(plane.orientation, plane.shape.shape));
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Sphere>& sphere)
 {
-    // do we care about case where spot == sphere.origin && sphere.radius = 0?
-    return false;
+    if (sphere.shape.radius != 0.0f)
+    {
+        return false;
+    }
+    
+    return spot.orientation.GetPosition() == sphere.orientation.GetPosition();
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Box>& box)
 {
-    // do we care about case where spot == box.origin && box.dimensions = 0?
-    return false;
+    if (box.shape.dimensions != Core::Math::Float3(0.0f))
+    {
+        return false;
+    }
+
+    return spot.orientation.GetPosition() == box.orientation.GetPosition();
 }
 
 float Distance(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Debugging/Headers/Macros.h"
+
 namespace Core {
 namespace Geometric {
   struct Sphere
@@ -12,7 +14,9 @@ namespace Geometric {
 
     Sphere(const float& radius)
     : radius(radius)
-    {}
+    {
+      VERIFY(radius >= 0.0f);
+    }
 
     Sphere(const Sphere&) = default;
     Sphere(Sphere&&) = default;

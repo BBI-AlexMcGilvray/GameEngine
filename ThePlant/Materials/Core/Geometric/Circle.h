@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Debugging/Headers/Macros.h"
+
 namespace Core {
 namespace Geometric {
   struct Circle
@@ -12,7 +14,9 @@ namespace Geometric {
 
     Circle(const float& radius)
     : radius(radius)
-    {}
+    {
+      VERIFY(radius >= 0.0f);
+    }
 
     Circle(const Circle&) = default;
     Circle(Circle&&) = default;
