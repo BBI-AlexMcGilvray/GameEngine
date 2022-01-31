@@ -19,7 +19,7 @@ NOTE: All Distance(...) methods return POSITIVE values
     float Distance(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot);
     float Distance(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2);
     bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot);
-    bool Engulfs(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line);
+    bool Engulfs(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2);
     bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Plane>& plane);
     bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Sphere>& sphere);
     bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Box>& box);

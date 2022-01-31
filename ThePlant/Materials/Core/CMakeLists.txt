@@ -6,6 +6,8 @@ Geometric/2DFunctions.cpp #
 Geometric/3DFunctions.cpp #
 Geometric/Functions.cpp #
 Geometric/Line2DFunctions.cpp #
+Geometric/Line3DFunctions.cpp #
+Geometric/PlaneFunctions.cpp #
 Geometric/RectangleFunctions.cpp #
 Geometric/Transform.cpp #
 IO/Source/File.cpp #
@@ -42,7 +44,9 @@ Geometric/GeometryDefs.h #
 Geometric/Line2D.h #
 Geometric/Line2DFunctions.h #
 Geometric/Line3D.h #
+Geometric/Line3DFunctions.h #
 Geometric/Plane.h #
+Geometric/PlaneFunctions.h #
 Geometric/Rectangle.h #
 Geometric/RectangleFunctions.h #
 Geometric/Sphere.h #

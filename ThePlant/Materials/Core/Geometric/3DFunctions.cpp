@@ -4,6 +4,8 @@
 #include "Core/Math/Headers/QuaternionFunctions.h"
 
 #include "Core/Geometric/Functions.h"
+#include "Core/Geometric/Line3DFunctions.h"
+#include "Core/Geometric/PlaneFunctions.h"
 
 namespace Core
 {
@@ -37,6 +39,13 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Plane>
         return false;
     }
     
+    // could be replaced with a 'IsPointOnPlane' check, though maybe this is cheaper
+    if (spot.orientation.GetPosition() != plane.orientation.GetPosition())
+    {
+        return false;
+    }
+
+    CORE_THROW("3DFunctions", "This is wrong, we would need to handle rotations");
     return Engulfs(ShapeOrientation<Spot2D>(spot.orientation, Spot2D()), ShapeOrientation2D(plane.orientation, plane.shape.shape));
 }
 
@@ -62,8 +71,7 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Box>& 
 
 float Distance(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return -1.0f;
+    return Math::Distance(spot.orientation.GetPosition(), ClosestPointOnLine(line, spot));
 }
 
 float Distance(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
@@ -74,32 +82,53 @@ float Distance(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Lin
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
 {
-    // do we care about case where spot is on line?
-    return false;
+    return PointIsOnLine(line, spot.orientation.GetPosition());
 }
 
-bool Engulfs(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line)
+bool Engulfs(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
 {
-    // do we care about case where line2 is on line1?
+    if (line1.shape.direction != line2.shape.direction)
+    {
+        return false;
+    }
+
+    if (PointIsOnLine(line1, line2.orientation.GetPosition()))
+    {
+        return (line1.shape.infinite || (!line2.shape.infinite && PointIsOnLine(line1, LineEndpoint(line2))));
+    }
+
     return false;
 }
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Plane>& plane)
 {
-    // do we care about case where plane.origin is on line && plane.dimensions == 0?
-    return false;
+    if (plane.shape.infinite || Math::Dot(EffectiveDirection(line), EffectiveNormal(plane)) != 0.0f)
+    {
+        return false;
+    }
+
+    CORE_THROW("3DFunctions", "This is wrong, we would need to handle rotations");
+    return Engulfs(ShapeOrientation<Line2D>(line.orientation, Line2D()), ShapeOrientation2D(plane.orientation, plane.shape.shape));
 }
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Sphere>& sphere)
 {
-    // do we care about case where sphere.origin is on line && sphere.radius == 0?
-    return false;
+    if (sphere.shape.radius != 0.0f)
+    {
+        return false;
+    }
+
+    return Engulfs(line, ShapeOrientation<Spot3D>(sphere.orientation, Spot3D()));
 }
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Box>& box)
 {
-    // do we care about case where box.origin is on line && box.dimensions == 0?
-    return false;
+    if (box.shape.dimensions != Core::Math::Float3(0.0f))
+    {
+        return false;
+    }
+
+    return Engulfs(line, ShapeOrientation<Spot3D>(box.orientation, Spot3D()));
 }
 
 float Distance(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Spot3D>& spot)

@@ -7,7 +7,9 @@ namespace Core {
 namespace Geometric {
 Math::Float2 EffectiveDirection(const ShapeOrientation<Line2D>& line)
 {
-    return Math::RotateNormalVectorBy(line.shape.direction, line.orientation.GetRotation());
+    VERIFY_2D(line);
+    
+    return Math::RotateNormalVectorBy(line.shape.direction, line.orientation.GetRotation()) * line.orientation.GetScale().XY;
 }
 
 float LineMultiplierForPoint_X(const ShapeOrientation<Line2D>& line, const Point2D& point)
@@ -49,7 +51,7 @@ Math::Float2 PointOnLine(const ShapeOrientation<Line2D>& line, const float& mult
     {
         return lineOrigin;
     }
-    return lineOrigin + (line.shape.direction * minMultiplier);
+    return lineOrigin + (EffectiveDirection(line) * minMultiplier);
 }
 
 Math::Float2 LineEndpoint(const ShapeOrientation<Line2D>& line)

@@ -77,7 +77,7 @@ namespace Geometric {
     using ShapeOrientation3D = ShapeOrientation<Shape3D>;
     
 #if DEBUG
-#define VERIFY_2D(SHAPE_ORIENTATION) VERIFY(SHAPE_ORIENTATION.orientation.GetPosition().Z == 0.0f);
+#define VERIFY_2D(SHAPE_ORIENTATION) VERIFY(SHAPE_ORIENTATION.orientation.GetPosition().Z == 0.0f); // we should also verify that the rotation maintains the x/y plane
 #else
 #define VERIFY_2D(SHAPE_ORIENTATION)
 #endif
