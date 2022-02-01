@@ -51,8 +51,8 @@ namespace Product
         
         // Testing::SpawnCollider(Core::Geometric::Box(), Math::Lerp(_leftPos, _rightPos, 0.0f));
         // Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.25f));
-        // Testing::SpawnCollider(Core::Geometric::Line3D(), Math::Lerp(_leftPos, _rightPos, 0.75f));
-        Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(_leftPos, _rightPos, 0.50f)); // works with: spot3D, sphere
+        // Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.75f));
+        // Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(_leftPos, _rightPos, 0.50f)); // works with: spot3D, sphere
         // Testing::SpawnCollider(Core::Geometric::Sphere(), Math::Lerp(_leftPos, _rightPos, 0.75f)); // works with: sphere
 
         // do planes last
@@ -72,13 +72,13 @@ namespace Product
                     Not|     |    |     |     |     |     |     |    |
 
             Line3D  Rot|     |    |     |     |     |     |     |    |
-                    Not|     |    |     |     |     |     |     |    |
+                    Not|     |    |     |  Y  |     |  Y  |     | Y  |
 
             Spot3D  Rot|     |    |     |     |     |     |     |    |
-                    Not|     |    |     |     |     |  Y  |     | Y  |
+                    Not|     |    |     |  Y  |     |  Y  |     | Y  |
 
             Sphere  Rot|     |    |     |     |     |     |     |    |
-                    Not|     |    |     |     |     |     |     | Y  |
+                    Not|     |    |     |  Y  |     |  Y  |     | Y  |
 
             ~~Plane do later
         */

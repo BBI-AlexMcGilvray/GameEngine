@@ -76,8 +76,8 @@ float Distance(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot
 
 float Distance(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return -1.0f;
+    const auto closestPointsOnLines = ClosestPointsBetweenLines(line1, line2);
+    return Math::Distance(closestPointsOnLines.first, closestPointsOnLines.second);
 }
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)

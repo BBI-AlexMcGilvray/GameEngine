@@ -31,11 +31,11 @@ struct DebugCollisionSystem : public System<DebugCollisionSystem>
         _lineMesh = Rendering::CreateLine(1.0f);
         _pointMesh = Rendering::CreateSphere(0.1f);
 
-        _circleMesh = Rendering::CreateCircle(1.0f);
+        _circleMesh = Rendering::CreateCircle(0.5f);
         _rectangleMesh = Rendering::CreateRectangle(1.0f);
 
         _boxMesh = Rendering::CreateBox(1.0f);
-        _sphereMesh = Rendering::CreateSphere(1.0f);
+        _sphereMesh = Rendering::CreateSphere(0.5f);
     }
 
     void Execute(ArchetypeManager& archetypeManager) const override

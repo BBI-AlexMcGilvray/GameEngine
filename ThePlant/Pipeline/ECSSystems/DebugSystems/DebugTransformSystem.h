@@ -45,7 +45,7 @@ private:
         for (auto& worldTransform : worldTransforms)
         {
             Core::Geometric::Transform lockedScale = worldTransform.transform;
-            // lockedScale.SetScale(1.0f); // do we want to do this? seems odd to do, maybe a clamping or something
+            lockedScale.AdjustScale(0.25f); // it will scale up for visibility, but always be noticable smaller
 
             Rendering::Context context = {
                 _transformMaterial,
