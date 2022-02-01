@@ -11,6 +11,7 @@ Math::Float3 EffectiveDirection(const ShapeOrientation<Line3D>& line);
 float LineMultiplierForPoint_X(const ShapeOrientation<Line3D>& line, const Point3D& point);
 float LineMultiplierForPoint_Y(const ShapeOrientation<Line3D>& line, const Point3D& point);
 float LineMultiplierForPoint_Z(const ShapeOrientation<Line3D>& line, const Point3D& point);
+float AnyValidMultiplier(const ShapeOrientation<Line3D>& line, const Point3D& point);
 
 // overload to avoid calculating multipliers multiple times if known
 bool PointIsOnLine(const float& xMultiplier, const float& yMultiplier, const float& zMultiplier, const float& precision = Math::DEFAULT_PRECISION());

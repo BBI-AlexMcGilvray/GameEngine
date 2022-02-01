@@ -41,7 +41,7 @@ struct DebugCollisionSystem : public System<DebugCollisionSystem>
     void Execute(ArchetypeManager& archetypeManager) const override
     {
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<WorldTransformComponent, ColliderComponent>();
-        const auto allCollisions = _collisionManager.GetAllCollisions();
+        const auto allCollisions = _collisionManager.GetAllCollisions(); // this calculates the collisions AGAIN, it should probably re-use a single calculation (we can cache the results somewhere? - collision manager)
 
         for (auto& archetype : affectedArchetypes)
         {

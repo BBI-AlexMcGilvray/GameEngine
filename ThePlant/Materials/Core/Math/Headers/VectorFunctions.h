@@ -155,18 +155,6 @@ namespace Math {
   }
 
   template<typename T, int D>
-  VectorA<T, D> &Clamp(VectorA<T, D> const &v, T d1, T d2)
-  {
-    VectorA<T, D> clampV;
-
-    for (int i = 0; i < D; i++) {
-      clampV[i] = Clamp(v[i], d);
-    }
-
-    return clampV;
-  }
-
-  template<typename T, int D>
   VectorA<T, D> Clamp(VectorA<T, D> const &v, VectorA<T, D> const &v1, VectorA<T, D> const &v2)
   {
     VectorA<T, D> clampV;

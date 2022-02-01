@@ -43,17 +43,22 @@ namespace Product
         _leftPos = Core::Math::Float3(-4.0f, 0.0f, 0.0f);
         _rightPos = Core::Math::Float3(4.0f, 0.0f, 0.0f);
 
+        Core::Math::Float3 modifiedLeft = _leftPos + Core::Math::Float3(0.0f, -0.5f, 0.2f);
+        Core::Math::Float3 modifiedRight = _rightPos + Core::Math::Float3(0.0f, -0.5f, 0.2f);
+        Core::Math::FQuaternion rotation1(0.0f, 0.0f, -0.707f, 0.707f); // pointing down (-90 rotation on z axis)
+        Core::Math::FQuaternion rotation2(0.0f, 0.707f, 0.0f, 0.707f); // pointing horizontally in (90 rotation on y axis)
+
         _dir1 = true;
         _swapTime = Core::Second(5.0f);
         _currentSwap = _swapTime;
-        _collider = Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), _leftPos);
+        _collider = Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), _leftPos, rotation1);
         // _trigger = Testing::SpawnTrigger(Core::Geometric::Sphere(), _rightPos);
         
         // Testing::SpawnCollider(Core::Geometric::Box(), Math::Lerp(_leftPos, _rightPos, 0.0f));
-        // Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.25f));
-        // Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.75f));
-        // Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(_leftPos, _rightPos, 0.50f)); // works with: spot3D, sphere
-        // Testing::SpawnCollider(Core::Geometric::Sphere(), Math::Lerp(_leftPos, _rightPos, 0.75f)); // works with: sphere
+        Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.3f));
+        Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.50f), rotation2, 2.0f);
+        Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(_leftPos, _rightPos, 0.25f)); // works with: spot3D, sphere
+        Testing::SpawnCollider(Core::Geometric::Sphere(), Math::Lerp(_leftPos, _rightPos, 0.75f), Core::Math::FQuaternion(Core::Math::II()), 2.0f); // works with: sphere
 
         // do planes last
         // const auto modifiedLeft = _leftPos - Core::Math::Float3(0.0f, -2.0f, 0.0f);
@@ -66,19 +71,20 @@ namespace Product
 
         // Tested combinations:
         /*
+         ** Also need to test scaling!
                        | Rot | Not| Rot | Not| Rot | Not| Rot | Not|
                        |   Box    |   Line3D  |   Spot3D  | Sphere   |
             Box     Rot|     |    |     |     |     |     |     |    |
                     Not|     |    |     |     |     |     |     |    |
 
-            Line3D  Rot|     |    |     |     |     |     |     |    |
-                    Not|     |    |     |  Y  |     |  Y  |     | Y  |
+            Line3D  Rot|     |    |  Y  |  Y  |     |  Y  |     |    |
+                    Not|     |    |  Y  |  Y  |     |  Y  |     |    |
 
             Spot3D  Rot|     |    |     |     |     |     |     |    |
-                    Not|     |    |     |  Y  |     |  Y  |     | Y  |
+                    Not|     |    |  Y  |  Y  |     |  Y  |     |    |
 
             Sphere  Rot|     |    |     |     |     |     |     |    |
-                    Not|     |    |     |  Y  |     |  Y  |     | Y  |
+                    Not|     |    |     |     |     |     |     |    |
 
             ~~Plane do later
         */

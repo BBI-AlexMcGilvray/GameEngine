@@ -210,11 +210,11 @@ namespace Math {
   Vector3<T> RotateNormalVectorBy(Vector3<T> const &v, Quaternion<T> const &q)
   {
     // conjugate of q
-    auto qI = Inverse(q);
-    qI *= QuaternionFromVector(v);
-    qI *= q;
+    auto rotatedV = q;
+    rotatedV *= QuaternionFromVector(v);
+    rotatedV *= q.Inverse();
 
-    Vector3<T> rV = Normalize(Vector3<T>(qI.X, qI.Y, qI.Z));
+    Vector3<T> rV = Normalize(Vector3<T>(rotatedV.X, rotatedV.Y, rotatedV.Z));
 
     return rV;
   }

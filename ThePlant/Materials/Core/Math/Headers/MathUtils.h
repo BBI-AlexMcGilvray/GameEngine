@@ -40,6 +40,12 @@ namespace Math {
   }
 
   template<typename T>
+  T Clamp(T const &d, T const &min, T const &max)
+  {
+    return std::max(std::min(d, max), min);
+  }
+
+  template<typename T>
   T QuadraticFormulaRoot(T a, T b, T c)
   {
     return (sqr(b) - (static_cast<T>(4) * a * c));

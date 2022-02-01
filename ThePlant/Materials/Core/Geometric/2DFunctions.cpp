@@ -1,12 +1,13 @@
-#pragma once
-
 #include "Core/Geometric/2DFunctions.h"
 
 #include "Core/Debugging/Headers/Macros.h"
+
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/VectorFunctions.h"
 #include "Core/Math/Headers/Quaternion.h"
 #include "Core/Math/Headers/QuaternionFunctions.h"
+
+#include "Core/Geometric/CircleFunctions.h"
 #include "Core/Geometric/Line2DFunctions.h"
 #include "Core/Geometric/RectangleFunctions.h"
 

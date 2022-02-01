@@ -4,8 +4,10 @@
 #include "Core/Math/Headers/QuaternionFunctions.h"
 
 #include "Core/Geometric/Functions.h"
+#include "Core/Geometric/BoxFunctions.h"
 #include "Core/Geometric/Line3DFunctions.h"
 #include "Core/Geometric/PlaneFunctions.h"
+#include "Core/Geometric/SphereFunctions.h"
 
 namespace Core
 {

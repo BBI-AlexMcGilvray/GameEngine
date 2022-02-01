@@ -4,11 +4,14 @@ set(SOURCE_FILES #
 Functionality/Source/Scheduler.cpp #
 Geometric/2DFunctions.cpp #
 Geometric/3DFunctions.cpp #
+Geometric/BoxFunctions.cpp #
+Geometric/CircleFunctions.cpp #
 Geometric/Functions.cpp #
 Geometric/Line2DFunctions.cpp #
 Geometric/Line3DFunctions.cpp #
 Geometric/PlaneFunctions.cpp #
 Geometric/RectangleFunctions.cpp #
+Geometric/SphereFunctions.cpp #
 Geometric/Transform.cpp #
 IO/Source/File.cpp #
 IO/Source/Folder.cpp #
@@ -38,7 +41,9 @@ Functionality/Headers/Subscription.h #
 Geometric/2DFunctions.h #
 Geometric/3DFunctions.h #
 Geometric/Box.h #
+Geometric/BoxFunctions.h #
 Geometric/Circle.h #
+Geometric/CircleFunctions.h #
 Geometric/Functions.h #
 Geometric/GeometryDefs.h #
 Geometric/Line2D.h #
@@ -49,6 +54,7 @@ Geometric/Plane.h #
 Geometric/PlaneFunctions.h #
 Geometric/Rectangle.h #
 Geometric/RectangleFunctions.h #
+Geometric/SphereFunctions.h #
 Geometric/Sphere.h #
 Geometric/Transform.h #
 Headers/AllCore.h #
