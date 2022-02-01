@@ -65,12 +65,11 @@ Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const Shap
     const Math::Float3 spotOrigin = spot.orientation.GetPosition();
 
     const Math::Float3 originToSpot = spotOrigin - lineOrigin;
-    const auto projectedOntoLine = lineOrigin + Math::Project(originToSpot, EffectiveDirection(line));
+    const Math::Float3 projectedOntoLine = Math::Project(originToSpot, EffectiveDirection(line));
+    const Math::Float3 closestPointOnLine = projectedOntoLine + lineOrigin;
 
     // we know this is on the line since we projected it onto the line
-    const auto closestPointOnLine = lineOrigin + projectedOntoLine;
-
-    const auto lineMultiplier = LineMultiplierForPoint_X(line, closestPointOnLine);
+    const float lineMultiplier = LineMultiplierForPoint_X(line, closestPointOnLine);
     return PointOnLine(line, lineMultiplier);
 }
 
