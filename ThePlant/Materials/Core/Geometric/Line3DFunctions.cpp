@@ -8,7 +8,8 @@ namespace Core {
 namespace Geometric {
 Math::Float3 EffectiveDirection(const ShapeOrientation<Line3D>& line)
 {
-    return Math::RotateNormalVectorBy(line.shape.direction, line.orientation.GetRotation()) * line.orientation.GetScale();
+    auto effectiveDirection = Math::RotateNormalVectorBy(line.shape.direction, line.orientation.GetRotation());
+    return effectiveDirection * line.orientation.GetScale();
 }
 
 float LineMultiplierForPoint_X(const ShapeOrientation<Line3D>& line, const Point3D& point)
@@ -53,8 +54,19 @@ bool PointIsOnLine(const float& xMultiplier, const float& yMultiplier, const flo
     return (xyClose && yzClose && zxClose);
 }
 
-bool PointIsOnLine(const ShapeOrientation<Line3D>& line, Point3D& point, const float& precision/* = Math::DEFAULT_PRECISION()*/)
+bool PointIsOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
+    const auto lineToPoint = point - line.orientation.GetPosition();
+    const auto effectiveDirection = EffectiveDirection(line);
+    for (size_t dimension = 0; dimension < lineToPoint.Dimensions(); ++dimension)
+    {
+        // check for divide by 0 case
+        if (lineToPoint[dimension] != 0.0f && effectiveDirection[dimension] == 0.0f)
+        {
+            return false;
+        }
+    }
+
     return PointIsOnLine(LineMultiplierForPoint_X(line, point), LineMultiplierForPoint_Y(line, point), LineMultiplierForPoint_Z(line, point), precision);
 }
 

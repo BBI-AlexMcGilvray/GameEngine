@@ -38,6 +38,8 @@ bool PointInRectangle(const ShapeOrientation<Rectangle>& rectangle, const Point2
 // assumes rectangle is centered on (0,0)
 Math::Float2 LastPointOnRectangleInDirection(const Rectangle& rectangle, const Math::Float2& direction)
 {
+    CORE_THROW("RectangleFunction", "This is wrong, we don't take into account negative multipliers properly");
+
     const Math::Float2 topRight = RectangleMaxCenteredAt0(rectangle);
     const Math::Float2 bottomLeft = RectangleMinCenteredAt0(rectangle);
 

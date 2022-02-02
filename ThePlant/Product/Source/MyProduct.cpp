@@ -46,17 +46,17 @@ namespace Product
         Core::Math::Float3 modifiedLeft = _leftPos + Core::Math::Float3(0.0f, -0.5f, 0.2f);
         Core::Math::Float3 modifiedRight = _rightPos + Core::Math::Float3(0.0f, -0.5f, 0.2f);
         Core::Math::FQuaternion rotation1(0.0f, 0.0f, -0.707f, 0.707f); // pointing down (-90 rotation on z axis)
-        Core::Math::FQuaternion rotation2(0.0f, 0.707f, 0.0f, 0.707f); // pointing horizontally in (90 rotation on y axis)
+        Core::Math::FQuaternion rotation2(0.0f, 0.383f, 0.0f, 0.924f); // pointing horizontally in (90 rotation on y axis)
 
         _dir1 = true;
         _swapTime = Core::Second(5.0f);
         _currentSwap = _swapTime;
-        _collider = Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), _leftPos, rotation1);
+        _collider = Testing::SpawnCollider(Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
         // _trigger = Testing::SpawnTrigger(Core::Geometric::Sphere(), _rightPos);
         
         // Testing::SpawnCollider(Core::Geometric::Box(), Math::Lerp(_leftPos, _rightPos, 0.0f));
         Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.3f));
-        Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.50f), rotation2, 2.0f);
+        Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.50f), rotation2, Core::Math::Float3(1.0f, 3.0f, 5.0f));
         Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(_leftPos, _rightPos, 0.25f)); // works with: spot3D, sphere
         Testing::SpawnCollider(Core::Geometric::Sphere(), Math::Lerp(_leftPos, _rightPos, 0.75f), Core::Math::FQuaternion(Core::Math::II()), 2.0f); // works with: sphere
 

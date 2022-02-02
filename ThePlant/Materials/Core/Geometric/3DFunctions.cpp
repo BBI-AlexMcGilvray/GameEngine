@@ -184,25 +184,25 @@ bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Box>& 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot3D>& spot)
 {
     ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
-    return std::max(0.0f, Distance(sphereCenter, spot) - sphere.shape.radius);
+    return std::max(0.0f, Distance(sphereCenter, spot) - EffectiveRadius(sphere));
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
     ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
-    return std::max(0.0f, Distance(line, sphereCenter) - sphere.shape.radius);
+    return std::max(0.0f, Distance(line, sphereCenter) - EffectiveRadius(sphere));
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
     ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
-    return std::max(0.0f, Distance(plane, sphereCenter) - sphere.shape.radius);
+    return std::max(0.0f, Distance(plane, sphereCenter) - EffectiveRadius(sphere));
 }
 
 float Distance(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
     ShapeOrientation<Spot3D> sphere2Center = { sphere2.orientation, Spot3D() };
-    return std::max(0.0f, Distance(sphere1, sphere2Center) - sphere1.shape.radius);
+    return std::max(0.0f, Distance(sphere1, sphere2Center) - EffectiveRadius(sphere1));
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot3D>& spot)
@@ -212,49 +212,73 @@ bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return false;
+    if (line.shape.infinite)
+    {
+        return false;
+    }
+
+    return PointIsInSphere(sphere, line.orientation.GetPosition()) && PointIsInSphere(sphere, LineEndpoint(line));
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return false;
+    if (plane.shape.infinite)
+    {
+        return false;
+    }
+
+    // return Engulfs(SphereAsCircleOnPlane(sphere, plane), plane);
+    CORE_THROW("3DFunctions", "Unfinished Implementation");
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
-    return (Distance(sphere1, sphere2) + sphere2.shape.radius) <= sphere1.shape.radius;
+    return (Distance(sphere1, sphere2) + EffectiveRadius(sphere2)) <= EffectiveRadius(sphere1);
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Box>& box)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return false;
+    const auto boxCorners = BoxCorners(box);
+
+    for (const auto& corner : boxCorners)
+    {
+        if (!PointIsInSphere(sphere, corner))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return -1.0f;
+    if (PointInBox(box, spot))
+    {
+        return 0.0f;
+    }
+
+    const auto closestPoint = ClosestPointToPoint(box, spot);
+    return Distance(closestPoint, spot.orientation.GetPosition());
 }
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return -1.0f;
+    return Distance(line, ShapeOrientation<Spot3D>(Transform(ClosestPointToLine(box, line)), Spot3D());
 }
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
 {
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
+
+    // closest point on plane to box
+    // distance from box to that point
 }
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return -1.0f;
+    return std::max(0.0f, Distance(box, ShapeOrientation<Spot3D>(sphere.orientation, Spot3D())) - EffectiveRadius(sphere));
 }
 
 float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
@@ -265,32 +289,48 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return false;
+    return PointInBox(box, spot);
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return false;
+    if (line.shape.infinite)
+    {
+        return false;
+    }
+
+    return PointInBox(box, line.orientation.GetPosition()) && PointInBox(box, LineEndpoint(line));
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return false;
+    if (plane.shape.infinite)
+    {
+        return false;
+    }
+
+    // return Engulfs(BoxAsRectangleOnPlane(box, plane), plane);
+    CORE_THROW("3DFunctions", "Unfinished Implementation");
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return false;
+    
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return false;
+    const auto boxCorners = BoxCorners(box2);
+
+    for (const auto& corner : boxCorners)
+    {
+        if (!PointInBox(box1, corner))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 } // namespace Geometric
 } // namespace Core

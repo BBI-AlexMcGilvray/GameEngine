@@ -7,9 +7,8 @@
 
 namespace Core {
 namespace Geometric {
-  // should we just get rid of the interfaces? what else would really use them? probably best to remove for now - seems like an overengineered solution
-  // Transform should only ever refer to 'world' relative data, and should not allow for 'local' variants. Extra methods should be removed, keep this class bare-bones
-  //    - Perhaps include static functions to set 'relative to' another transform (that would need to be included in the function)
+  // Should we have an 'orientation' struct that holds position, rotation, and scale?
+  // makes it cheaper to copy around and smaller for when we don't need a full 'transform'
   struct Transform
   {
     // create constructor for each variation of data (position, rotation, scale)

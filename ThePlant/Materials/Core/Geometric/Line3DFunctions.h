@@ -6,6 +6,8 @@
 
 namespace Core {
 namespace Geometric {
+// NOTE: These should all forward to using the base 'shape' so that those methods also exist (we don't need the orientation)
+
 Math::Float3 EffectiveDirection(const ShapeOrientation<Line3D>& line);
 
 float LineMultiplierForPoint_X(const ShapeOrientation<Line3D>& line, const Point3D& point);
@@ -15,7 +17,7 @@ float AnyValidMultiplier(const ShapeOrientation<Line3D>& line, const Point3D& po
 
 // overload to avoid calculating multipliers multiple times if known
 bool PointIsOnLine(const float& xMultiplier, const float& yMultiplier, const float& zMultiplier, const float& precision = Math::DEFAULT_PRECISION());
-bool PointIsOnLine(const ShapeOrientation<Line3D>& line, Point3D& point, const float& precision = Math::DEFAULT_PRECISION());
+bool PointIsOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point, const float& precision = Math::DEFAULT_PRECISION());
 
 Math::Float3 PointOnLine(const ShapeOrientation<Line3D>& line, const float& multiplier);
 Math::Float3 LineEndpoint(const ShapeOrientation<Line3D>& line);
