@@ -264,7 +264,7 @@ float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>&
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
-    return Distance(line, ShapeOrientation<Spot3D>(Transform(ClosestPointToLine(box, line)), Spot3D());
+    return Distance(line, ShapeOrientation<Spot3D>(Transform(ClosestPointToLine(box, line)), Spot3D()));
 }
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
@@ -309,13 +309,23 @@ bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& pl
         return false;
     }
 
-    // return Engulfs(BoxAsRectangleOnPlane(box, plane), plane);
+    // get defining points on shape on plane, check if all points are in box
     CORE_THROW("3DFunctions", "Unfinished Implementation");
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere)
 {
-    
+    const auto sphereExtremes = SphereAxisExtremes(sphere, box.orientation.GetRotation().Inverse());
+
+    for (const auto& extreme : sphereExtremes)
+    {
+        if (!PointInBox(box, extreme))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)

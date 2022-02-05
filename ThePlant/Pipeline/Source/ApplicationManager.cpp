@@ -60,7 +60,7 @@ ECS& ApplicationManager::AppECS()
 }
 
 ApplicationManager::ApplicationManager(ConstructorTag tag)
-  : _collisionManager(_ecsSystem, Core::Math::Float3(1000.0f)) // must be data driven somewhere instead (in the world?)
+  : _collisionManager(_ecsSystem, Core::Math::Float3(1024.0f)) // must be data driven somewhere instead (in the world?)
   , _shaderManager(_assetManager)
   , InputSystem(SDL), StateSystem(RenderSystem, InputSystem), OnQuit([this]() {
       Quit = true;

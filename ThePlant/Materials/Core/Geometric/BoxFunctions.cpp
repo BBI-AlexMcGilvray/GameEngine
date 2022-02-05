@@ -13,21 +13,24 @@ Math::Float3 EffectiveDimensions(const ShapeOrientation<Box>& box)
     return box.shape.dimensions * box.orientation.GetScale();
 }
 
+bool PointInBox(const Box& box, const Point3D& point)
+{
+    const auto halfDimensions = box.dimensions * 0.5f;
+    return (Math::Clamp(point, halfDimensions * -1.0f, halfDimensions) == point);
+}
+
 bool PointInBox(const ShapeOrientation<Box>& box, const Point3D& point)
 {
-    const auto counterRotatedPoint = RotateVectorBy(point, box.orientation.GetRotation().Inverse());
-    const auto relativePoint = counterRotatedPoint - box.orientation.GetPosition();
+    const auto counterRotatedSpot = RotateVectorBy(point, box.orientation.GetRotation().Inverse());
+    const auto relativeSpot = counterRotatedSpot - box.orientation.GetPosition();
 
-    const auto halfDimensions = EffectiveDimensions(box) * 0.5f;
-    return (Math::Clamp(relativePoint, halfDimensions * -1.0f, halfDimensions) == relativePoint);
+    const auto effectiveDimensions = EffectiveDimensions(box);
+    return PointInBox(Box(effectiveDimensions), relativeSpot);
 }
 
 bool PointInBox(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
-    const auto counterRotatedSpot = RotateVectorBy(spot.orientation.GetPosition(), box.orientation.GetRotation().Inverse());
-    const auto relativeSpot = counterRotatedSpot - box.orientation.GetPosition();
-
-    return PointInBox(box, relativeSpot);
+    return PointInBox(box, spot.orientation.GetPosition());
 }
 
 // we always assume boxes are not rotated, instead rotated the other shape
@@ -97,13 +100,13 @@ Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const ShapeOr
     const auto counterRotatedSpot = RotateVectorBy(spot.orientation.GetPosition(), box.orientation.GetRotation().Inverse());
     const auto relativeSpot = counterRotatedSpot - box.orientation.GetPosition();
 
-    ClosestPointToPoint(box, relativeSpot);
+    return ClosestPointToPoint(box, relativeSpot);
 }
 
 // probably not the most efficient, but can deal with that later
 Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
-    ShapeOrientation<Line2D> counterRotatedLine = line;
+    ShapeOrientation<Line3D> counterRotatedLine = line;
     counterRotatedLine.orientation.SetPosition(RotateVectorBy(counterRotatedLine.orientation.GetPosition(), box.orientation.GetRotation().Inverse())); // must also counter-rotate the line origin
     counterRotatedLine.orientation.AdjustRotation(box.orientation.GetRotation().Inverse()); // must alter the line's direction
 

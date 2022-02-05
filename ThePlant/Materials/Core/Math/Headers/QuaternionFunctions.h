@@ -231,6 +231,11 @@ namespace Math {
   template<typename T>
   Vector3<T> RotateVectorBy(Vector3<T> const &v, Quaternion<T> const &q)
   {
+    if (v == Vector3<T>(0.0f))
+    { // special case
+      return v;
+    }
+
     T vMagnitude = Magnitude(v);
 
     // conjugate of q

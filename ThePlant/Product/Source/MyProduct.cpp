@@ -40,11 +40,11 @@ namespace Product
         // _animated = Testing::SpawnAnimatedModel(); // (Animated model)
 
         // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
-        _leftPos = Core::Math::Float3(-4.0f, 0.0f, 0.0f);
-        _rightPos = Core::Math::Float3(4.0f, 0.0f, 0.0f);
+        _leftPos = Core::Math::Float3(-4.0f, 4.0f, 0.0f);
+        _rightPos = Core::Math::Float3(4.0f, 4.0f, 0.0f);
 
-        Core::Math::Float3 modifiedLeft = _leftPos + Core::Math::Float3(0.0f, -0.5f, 0.2f);
-        Core::Math::Float3 modifiedRight = _rightPos + Core::Math::Float3(0.0f, -0.5f, 0.2f);
+        Core::Math::Float3 modifiedLeft = _leftPos;// + Core::Math::Float3(0.0f, -0.5f, 0.2f);
+        Core::Math::Float3 modifiedRight = _rightPos;// + Core::Math::Float3(0.0f, -0.5f, 0.2f);
         Core::Math::FQuaternion rotation1(0.0f, 0.0f, -0.707f, 0.707f); // pointing down (-90 rotation on z axis)
         Core::Math::FQuaternion rotation2(0.0f, 0.383f, 0.0f, 0.924f); // pointing horizontally in (90 rotation on y axis)
 

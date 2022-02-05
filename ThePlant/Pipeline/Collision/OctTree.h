@@ -59,6 +59,12 @@ class OctTreeNode
 
         void ClearTree();
 
+    #if DEBUG
+        const std::array<std::unique_ptr<OctTreeNode>, 8>& DEBUG_GetAllChildren() const;
+        const Core::Geometric::ShapeOrientation<Core::Geometric::Box>& DEBUG_GetBounds() const;
+        const std::vector<OctTreeContent>& DEBUG_GetAllContent() const;
+    #endif
+
     private:
         static constexpr size_t NUMBER_OF_CHILDREN = 8;
         // EntitySnapshot is not the lightest thing to create, so create these first
@@ -84,7 +90,7 @@ class OctTreeNode
 
         ECS& _ecs;
         const Core::Ptr<OctTreeNode> _parent;
-        std::vector<std::unique_ptr<OctTreeNode>> _children;
+        std::array<std::unique_ptr<OctTreeNode>, 8> _children;
         Core::Geometric::ShapeOrientation<Core::Geometric::Box> _this;
         // the above may not be the most efficient in making use of existing collision-detection logic, maybe want a specific 'AABB' box? maybe there is an intermediary workaround...
         std::vector<OctTreeContent> _content; // this way we can easily check for collisions and return the affected entity
@@ -98,7 +104,7 @@ class OctTreeNode
 
     private:
         void _CreateChildren();
-        bool _ChildrenExist() const { return _children.empty(); }
+        bool _ChildrenExist() const { return (_children[0] != nullptr); } // either all are made, or none are
 
         bool _Engulfs(const Core::Geometric::ShapeOrientation3D& data) const;
         OctTreeNode& _FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape);

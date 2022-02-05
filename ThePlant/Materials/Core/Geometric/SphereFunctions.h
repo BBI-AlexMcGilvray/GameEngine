@@ -13,7 +13,7 @@ float EffectiveRadius(const ShapeOrientation<Sphere>& sphere);
 float DistanceToPoint(const ShapeOrientation<Sphere>& sphere, const Point3D& point);
 bool PointIsInSphere(const ShapeOrientation<Sphere>& sphere, const Point3D& point, const float& precision = Math::DEFAULT_PRECISION());
 
-std::array<Math::Float3, 4> SphereAxisExtremes(const ShapeOrientation<Sphere>& sphere, const Math::FQuaternion& axelRotation);
+std::array<Math::Float3, 6> SphereAxisExtremes(const ShapeOrientation<Sphere>& sphere, const Math::FQuaternion& axelRotation);
 
 Math::Float3 CircumferencePointInDirection(const ShapeOrientation<Sphere>& sphere, const Core::Math::Float3& direction);
 } // namespace Geometric

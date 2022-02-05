@@ -10,6 +10,7 @@ namespace Geometric {
 
 Math::Float3 EffectiveDimensions(const ShapeOrientation<Box>& box);
 
+bool PointInBox(const Box& box, const Point3D& point);
 bool PointInBox(const ShapeOrientation<Box>& box, const Point3D& point);
 bool PointInBox(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot);
 

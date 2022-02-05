@@ -21,9 +21,7 @@ OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& origin, const Core:
 : _ecs(ecs)
 , _parent(parent)
 , _this{ Core::Geometric::Transform(origin), box }
-{
-    _children.reserve(NUMBER_OF_CHILDREN);
-}
+{}
 
 EntitySnapshot OctTreeNode::FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const
 {
@@ -71,10 +69,27 @@ std::vector<Collision> OctTreeNode::AllCollisions() const
 
 void OctTreeNode::ClearTree()
 {
-    _children.clear();
+    _children = { nullptr }; // an efficiency may be to not clear the children, just progressively clear content (avoid constant allocations)
     _content.clear();
     _stopGapped = false;
 }
+
+#if DEBUG
+const std::array<std::unique_ptr<OctTreeNode>, 8>& OctTreeNode::DEBUG_GetAllChildren() const
+{
+    return _children;
+}
+
+const Core::Geometric::ShapeOrientation<Core::Geometric::Box>& OctTreeNode::DEBUG_GetBounds() const
+{
+    return _this;
+}
+
+const std::vector<OctTreeContent>& OctTreeNode::DEBUG_GetAllContent() const
+{
+    return _content;
+}
+#endif
 
 void OctTreeNode::_CreateChildren()
 {
@@ -90,7 +105,7 @@ void OctTreeNode::_CreateChildren()
     {
         Core::Math::Float3 childOrigin = _this.orientation.GetPosition();
         childOrigin.X += childOriginOffset.X * (i < 4 ? 1 : -1);
-        childOrigin.Y += childOriginOffset.Y * (i < 2 && i > 5 ? 1 : -1);
+        childOrigin.Y += childOriginOffset.Y * (i < 2 || i > 5 ? 1 : -1);
         childOrigin.Z += childOriginOffset.Z * (i % 2 ? 1 : -1);
 
         _children[i] = std::make_unique<OctTree_Constructor>(_ecs, childOrigin, childBox, this);
@@ -102,6 +117,7 @@ bool OctTreeNode::_Engulfs(const Core::Geometric::ShapeOrientation3D& shape) con
     return Core::Geometric::Engulfs(_this, shape);
 }
 
+// must be tied with the above
 OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape)
 {
     if (!_ChildrenExist())
@@ -120,6 +136,7 @@ OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrient
     return *this;
 }
 
+// must be tied with the above
 const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape) const
 {
     if (!_ChildrenExist())
@@ -127,6 +144,7 @@ const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::Shape
         return *this;
     }
 
+    Core::Ptr<OctTreeNode> onlyContaining = nullptr;
     for (auto& child : _children)
     {
         if (child->_Engulfs(shape))
@@ -144,6 +162,7 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
     {
         _content.push_back(content);
         _stopGapped = true;
+        return;
     }
 
     _CreateChildren();
@@ -154,15 +173,28 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
         // get and remove the stop-gapped content so it can be properly insterted
         OctTreeContent stopGappedContent = _content.back();
         _content.pop_back();
-        _FindContainingNode(content.shapeOrientation)._InsertContent(stopGappedContent); // now that the tree has been expanded, try to move the stop-gapped content down a layer
+        auto& stopGappedContainer = _FindContainingNode(stopGappedContent.shapeOrientation);
+        stopGappedContainer._InsertContent(stopGappedContent); // now that the tree has been expanded, try to move the stop-gapped content down a layer
     }
     // insert the new content
-    _FindContainingNode(content.shapeOrientation)._content.push_back(content);
+    auto& newContentContainer = _FindContainingNode(content.shapeOrientation);
+    if (&newContentContainer == this)
+    {
+        _content.push_back(content);
+        return;
+    }
+    newContentContainer._InsertContent(content);
 }
 
 void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const
 {
     _InternalEntities(entities, shape);
+
+    if (!_ChildrenExist())
+    {
+        return;
+    }
+
     for (const auto& child : _children)
     {
         if (Core::Geometric::Engulfs(shape, child->_this))
@@ -192,6 +224,11 @@ void OctTreeNode::_EntitiesForAllContent(std::vector<EntitySnapshot>& entities) 
     for (const auto& content : _content)
     {
         entities.push_back(_ecs.GetTemporaryEntitySnapshot(content.entity));
+    }
+
+    if (!_ChildrenExist())
+    {
+        return;
     }
 
     for (const auto& child : _children)
@@ -244,7 +281,6 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
             }
             else if (Core::Geometric::Intersect(_content[i].shapeOrientation, child->_this))
             {
-                // need to make this still...
                 child->_FindAllCollisions(collisions, _content[i]);
             }
         }
@@ -256,6 +292,11 @@ void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& 
     for (const auto& c : _content)
     {
         collisions.push_back(IntermediaryCollision(c.entity, content.entity));
+    }
+
+    if (!_ChildrenExist())
+    {
+        return;
     }
 
     for (const auto& child : _children)
@@ -274,9 +315,21 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
         }
     }
 
+    if (!_ChildrenExist())
+    {
+        return;
+    }
+
     for (const auto& child : _children)
     {
-        child->_FindAllCollisions(collisions, content);
+        if (Core::Geometric::Engulfs(content.shapeOrientation, child->_this))
+        {
+            child->_CollisionsWithAllContent(collisions, content);
+        }
+        else if (Core::Geometric::Intersect(content.shapeOrientation, child->_this))
+        {
+            child->_FindAllCollisions(collisions, content);
+        }
     }
 }
 
@@ -322,6 +375,12 @@ std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<Intermed
 
 OctTreeNode CreateOctTree(ECS& ecs, const Core::Math::Float3& totalSize)
 {
+#ifdef DEBUG
+    bool xPowerOf2 = static_cast<int>(totalSize.X) % 2 == 0;
+    bool yPowerOf2 = static_cast<int>(totalSize.Y) % 2 == 0;
+    bool zPowerOf2 = static_cast<int>(totalSize.Z) % 2 == 0;
+    VERIFY(xPowerOf2 && yPowerOf2 && zPowerOf2, "Max world size should be divisible by 2 to avoid floating errors");
+#endif
     return OctTreeNode(ecs, totalSize);
 }
 } // namespace Collision

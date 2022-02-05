@@ -38,10 +38,36 @@ private:
 
     void _DrawOctTreeNode(const Collision::OctTreeNode& node) const
     {
-        // create render context for node
-            // make the color white if it has content, black otherwise
+        const auto nodeShapeOrientation = node.DEBUG_GetBounds();
+        Core::Geometric::Transform nodeTransform = nodeShapeOrientation.orientation;
+        nodeTransform.AdjustScale(nodeShapeOrientation.shape.dimensions);
+
+        bool hasContent = node.DEBUG_GetAllContent().size() > 0;
+
+        Core::Math::Color nodeColor = Core::Math::BLACK;
+        if (hasContent)
+        {
+            nodeColor = Core::Math::WHITE;
+        }
+
+        Rendering::Context context = {
+            _debugMaterial,
+            nodeTransform.GetTransformationMatrix(),
+            nodeColor,
+            _debugMesh,
+            Rendering::DrawMode::LINE
+        };
+        _renderManager.QueueRender(context);
         
-        // call _DrawOctTreeNode for each child of node (if they exist)
+        for (const auto& child : node.DEBUG_GetAllChildren())
+        {
+            if (child == nullptr)
+            { // if one is null, they all are
+                break;
+            }
+
+            _DrawOctTreeNode(*child);
+        }
     }
 };
 } // namespace Application
