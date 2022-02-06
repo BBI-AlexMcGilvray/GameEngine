@@ -330,6 +330,20 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
         {
             child->_FindAllCollisions(collisions, content);
         }
+    #ifdef DEBUG // may want to remove this debug one confident in functionality/comment it out to avoid performance hits
+        else
+        {
+            // for debugging, get all children and explicitly check them. if any children are collided with but not checked throw an error
+            const auto allChildShapes = child->_DEBUG_AllChildShapes();
+            for (const auto& childShape : allChildShapes)
+            {
+                if (Core::Geometric::Intersect(content.shapeOrientation, childShape))
+                {
+                    CORE_THROW("OctTree", "An collision was missed due to OctTree not checking for collisions properly");
+                }
+            }
+        }
+    #endif
     }
 }
 
@@ -372,6 +386,44 @@ std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<Intermed
     
     return collisions;
 }
+
+#ifdef DEBUG
+size_t OctTreeNode::_DEBUG_NumberOfContentIncludingChildren() const
+{
+    size_t totalCount = _content.size();
+    
+    if (_ChildrenExist())
+    {
+        for (const auto& child : _children)
+        {
+            totalCount += child->_DEBUG_NumberOfContentIncludingChildren();
+        }
+    }
+
+    return totalCount;
+}
+
+const std::vector<Core::Geometric::ShapeOrientation3D> OctTreeNode::_DEBUG_AllChildShapes() const
+{
+    std::vector<Core::Geometric::ShapeOrientation3D> allChildShapes;
+
+    if (_ChildrenExist())
+    {
+        for (const auto& child : _children)
+        {
+            for (const auto& content : child->_content)
+            {
+                allChildShapes.push_back(content.shapeOrientation);
+            }
+
+            auto childShapes = child->_DEBUG_AllChildShapes();
+            allChildShapes.insert(allChildShapes.end(), childShapes.begin(), childShapes.end());
+        }
+    }
+
+    return allChildShapes;
+}
+#endif
 
 OctTreeNode CreateOctTree(ECS& ecs, const Core::Math::Float3& totalSize)
 {

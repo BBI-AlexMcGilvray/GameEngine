@@ -18,27 +18,10 @@ struct ArchetypeId
     : _archetypeId(archetypeId)
     {}
 
-    ArchetypeId(const ArchetypeId& other)
-    : _archetypeId(other._archetypeId)
-    {}
-
-    ArchetypeId(ArchetypeId&& other)
-    : _archetypeId(std::move(other._archetypeId))
-    {}
-
-    ArchetypeId& operator=(const ArchetypeId& other)
-    {
-        _archetypeId = other._archetypeId;
-
-        return *this;
-    }
-
-    ArchetypeId& operator=(ArchetypeId&& other)
-    {
-        _archetypeId = std::move(other._archetypeId);
-
-        return *this;
-    }
+    ArchetypeId(const ArchetypeId& other) = default;
+    ArchetypeId(ArchetypeId&& other) = default;
+    ArchetypeId& operator=(const ArchetypeId& other) = default;
+    ArchetypeId& operator=(ArchetypeId&& other) = default;
 
     bool IsValid() const
     {
@@ -91,27 +74,10 @@ struct EntityId
     : _entityId(entityId)
     {}
 
-    EntityId(const EntityId& other)
-    : _entityId(other._entityId)
-    {}
-
-    EntityId(EntityId&& other)
-    : _entityId(std::move(other._entityId))
-    {}
-
-    EntityId& operator=(const EntityId& other)
-    {
-        _entityId = other._entityId;
-
-        return *this;
-    }
-
-    EntityId& operator=(EntityId&& other)
-    {
-        _entityId = std::move(other._entityId);
-
-        return *this;
-    }
+    EntityId(const EntityId& other) = default;
+    EntityId(EntityId&& other) = default;
+    EntityId& operator=(const EntityId& other) = default;
+    EntityId& operator=(EntityId&&) = default;
 
     bool IsValid() const
     {
@@ -161,23 +127,10 @@ struct Entity
     , _archetypeId(archetypeId)
     {}
 
-    Entity(const Entity& other)
-    : _entityId(other._entityId)
-    , _archetypeId(other._archetypeId)
-    {}
-
     Entity(Entity&& other)
     : _entityId(std::move(other._entityId))
     , _archetypeId(std::move(other._archetypeId))
     {}
-
-    Entity& operator=(const Entity& other)
-    {
-        _entityId = other._entityId;
-        _archetypeId = other._archetypeId;
-
-        return *this;
-    }
 
     Entity& operator=(Entity&& other)
     {
@@ -186,6 +139,11 @@ struct Entity
 
         return *this;
     }
+
+    // entities should only be moved.
+    // we should only have one reference to it as the archetypes can be changed and it would be impossible to track otherwise
+    Entity(const Entity& other) = delete;
+    Entity& operator=(const Entity& other) = delete;
 
     const EntityId& GetEntityId() const
     {

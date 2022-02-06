@@ -14,6 +14,8 @@ namespace Application
 {
 struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
 {
+    bool drawOccupiedOnly = true;
+
     DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
     : _collisionManager(collisionManager)
     , _renderManager(renderManager)
@@ -50,14 +52,17 @@ private:
             nodeColor = Core::Math::WHITE;
         }
 
-        Rendering::Context context = {
-            _debugMaterial,
-            nodeTransform.GetTransformationMatrix(),
-            nodeColor,
-            _debugMesh,
-            Rendering::DrawMode::LINE
-        };
-        _renderManager.QueueRender(context);
+        if (!drawOccupiedOnly || hasContent)
+        {
+            Rendering::Context context = {
+                _debugMaterial,
+                nodeTransform.GetTransformationMatrix(),
+                nodeColor,
+                _debugMesh,
+                Rendering::DrawMode::LINE
+            };
+            _renderManager.QueueRender(context);
+        }
         
         for (const auto& child : node.DEBUG_GetAllChildren())
         {

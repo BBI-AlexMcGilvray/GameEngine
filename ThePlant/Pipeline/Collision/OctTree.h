@@ -8,6 +8,7 @@
 
 #include "Pipeline/Collision/Collision.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
+#include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 #include "Pipeline/ECSSystems/ColliderComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
@@ -26,6 +27,11 @@ struct OctTreeContent
     : shapeOrientation(shapeOrientation)
     , entity(entity)
     {}
+
+    OctTreeContent(const OctTreeContent&) = default;
+    OctTreeContent(OctTreeContent&&) = default;
+    OctTreeContent& operator=(const OctTreeContent&) = default;
+    OctTreeContent& operator=(OctTreeContent&&) = default;
 };
 
 class OctTreeNode;
@@ -123,6 +129,11 @@ class OctTreeNode
         void _ChildCollisions(std::vector<IntermediaryCollision>& collisions) const;
 
         std::vector<Collision> _CreateCollisions(const std::vector<IntermediaryCollision>& intermediaryCollisions) const;
+
+    #ifdef DEBUG
+        size_t _DEBUG_NumberOfContentIncludingChildren() const;
+        const std::vector<Core::Geometric::ShapeOrientation3D> _DEBUG_AllChildShapes() const;
+    #endif
 };
 
 using OctTree = OctTreeNode;

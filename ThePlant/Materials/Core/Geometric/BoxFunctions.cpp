@@ -89,18 +89,24 @@ Math::Float3 LastPointOnBoxInDirection(const ShapeOrientation<Box>& box, const M
     return ClosestPointToPoint(box, PointOnLine(lineOrientation, smallestMult));
 }
 
+Math::Float3 ClosestPointToPoint(const Box& box, const Point3D& point)
+{
+    const auto halfDimensions = box.dimensions * 0.5f;
+    return Math::Clamp(point, halfDimensions * -1.0f, halfDimensions); // closest point is in bounds in that direction
+}
+
 Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const Point3D& point)
 {
-    const auto halfDimensions = EffectiveDimensions(box) * 0.5f;
-    return Math::Clamp(point, halfDimensions * -1.0f, halfDimensions); // closest point is in bounds in that direction
+    const auto counterRotatedSpot = RotateVectorBy(point, box.orientation.GetRotation().Inverse());
+    const auto relativeSpot = counterRotatedSpot - box.orientation.GetPosition();
+
+    auto closestRelativeSpot = ClosestPointToPoint(Box(EffectiveDimensions(box)), relativeSpot);
+    return RotateVectorBy(closestRelativeSpot + box.orientation.GetPosition(), box.orientation.GetRotation());
 }
 
 Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
-    const auto counterRotatedSpot = RotateVectorBy(spot.orientation.GetPosition(), box.orientation.GetRotation().Inverse());
-    const auto relativeSpot = counterRotatedSpot - box.orientation.GetPosition();
-
-    return ClosestPointToPoint(box, relativeSpot);
+    return ClosestPointToPoint(box, spot.orientation.GetPosition());
 }
 
 // probably not the most efficient, but can deal with that later

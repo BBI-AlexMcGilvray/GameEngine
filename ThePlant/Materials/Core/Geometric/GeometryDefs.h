@@ -71,6 +71,15 @@ namespace Geometric {
             orientation = std::move(other.orientation);
             shape = std::move(other.shape);
         }
+
+        bool operator==(const ShapeOrientation& other) const
+        {
+            return orientation == other.orientation && shape == other.shape;
+        }
+        bool operator!=(const ShapeOrientation& other) const
+        {
+            return !(*this == other);
+        }
     };
 
     using ShapeOrientation2D = ShapeOrientation<Shape2D>;

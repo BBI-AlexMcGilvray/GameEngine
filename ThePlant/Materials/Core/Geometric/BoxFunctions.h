@@ -24,6 +24,7 @@ std::array<Math::Float3, 8> BoxCorners(const ShapeOrientation<Box>& box);
 // we always assume boxes are not rotated, instead rotated the other shape
 Math::Float3 LastPointOnBoxInDirection(const ShapeOrientation<Box>& box, const Math::Float3& direction);
 
+Math::Float3 ClosestPointToPoint(const Box& box, const Point3D& point);
 Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const Point3D& point);
 Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot);
 // probably not the most efficient, but can deal with that later
