@@ -14,12 +14,15 @@ bool PointInBox(const Box& box, const Point3D& point);
 bool PointInBox(const ShapeOrientation<Box>& box, const Point3D& point);
 bool PointInBox(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot);
 
-// we always assume boxes are not rotated, instead rotated the other shape
-Math::Float3 BoxMaxCenteredAt0(const ShapeOrientation<Box>& box);
-Math::Float3 BoxMinCenteredAt0(const ShapeOrientation<Box>& box);
+// we always assume boxes are not rotated, instead counter-rotate the other shape
+Math::Float3 BoxMax(const Box& box);
+Math::Float3 BoxMin(const Box& box);
+Math::Float3 BoxMaxAtOrigin(const ShapeOrientation<Box>& box);
+Math::Float3 BoxMinAtOrigin(const ShapeOrientation<Box>& box);
 
 // order of the corners is NOT guaranteed
 std::array<Math::Float3, 8> BoxCorners(const ShapeOrientation<Box>& box);
+std::array<ShapeOrientation<Line3D>, 12> BoxEdges(const ShapeOrientation<Box>& box);
 
 // we always assume boxes are not rotated, instead rotated the other shape
 Math::Float3 LastPointOnBoxInDirection(const ShapeOrientation<Box>& box, const Math::Float3& direction);

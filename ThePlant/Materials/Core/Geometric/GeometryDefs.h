@@ -34,7 +34,7 @@ namespace Geometric {
         Transform orientation;
         SHAPE shape;
 
-        ShapeOrientation() = delete;
+        ShapeOrientation() = default;
 
         ShapeOrientation(const Transform& orientation, const SHAPE& shape)
         : orientation(orientation)

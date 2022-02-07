@@ -160,8 +160,7 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
 {
     if (_content.empty() && !_ChildrenExist())
     {
-        _content.push_back(content);
-        _stopGapped = true;
+        _StopGapContent(content);
         return;
     }
 
@@ -169,12 +168,7 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
 
     if (_stopGapped)
     {
-        _stopGapped = false;
-        // get and remove the stop-gapped content so it can be properly insterted
-        OctTreeContent stopGappedContent = _content.back();
-        _content.pop_back();
-        auto& stopGappedContainer = _FindContainingNode(stopGappedContent.shapeOrientation);
-        stopGappedContainer._InsertContent(stopGappedContent); // now that the tree has been expanded, try to move the stop-gapped content down a layer
+        _RemoveStopGap();
     }
     // insert the new content
     auto& newContentContainer = _FindContainingNode(content.shapeOrientation);
@@ -184,6 +178,21 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
         return;
     }
     newContentContainer._InsertContent(content);
+}
+
+void OctTreeNode::_StopGapContent(const OctTreeContent& content)
+{
+    _content.push_back(content);
+    _stopGapped = true;
+}
+
+void OctTreeNode::_RemoveStopGap()
+{
+    _stopGapped = false;
+    OctTreeContent stopGappedContent = _content.back();
+    _content.pop_back();
+    auto& stopGappedContainer = _FindContainingNode(stopGappedContent.shapeOrientation);
+    stopGappedContainer._InsertContent(stopGappedContent); // now that the tree has been expanded, try to move the stop-gapped content down a layer
 }
 
 void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const

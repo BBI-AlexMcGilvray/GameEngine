@@ -37,6 +37,12 @@ struct OctTreeContent
 class OctTreeNode;
 OctTreeNode CreateOctTree(ECS& ecs, const Core::Math::Float3& totalSize);
 
+/*
+Notes:
+    - We could optimize this class by having a non-one value for stop gapping content
+        - ex: must have >8 items before they are no longer stop-gapped (as that now becomes more to check than there are children)
+    - We could potentially also optimize by only nulling-out children that did not have content (to avoid consistently allocating new nodes)
+*/
 class OctTreeNode
 {
     friend OctTreeNode CreateOctTree(ECS& ecs, const Core::Math::Float3& totalSize);
@@ -115,7 +121,9 @@ class OctTreeNode
         bool _Engulfs(const Core::Geometric::ShapeOrientation3D& data) const;
         OctTreeNode& _FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape);
         const OctTreeNode& _FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape) const;
-        void _InsertContent(const OctTreeContent& data);
+        void _InsertContent(const OctTreeContent& content);
+        void _StopGapContent(const OctTreeContent& content);
+        void _RemoveStopGap();
 
         void _FindAllEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const;
         void _InternalEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const;

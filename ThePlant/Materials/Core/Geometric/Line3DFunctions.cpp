@@ -89,18 +89,22 @@ Math::Float3 LineEndpoint(const ShapeOrientation<Line3D>& line)
     return PointOnLine(line, line.shape.length);
 }
 
-Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
+Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point)
 {
     const Math::Float3 lineOrigin = line.orientation.GetPosition();
-    const Math::Float3 spotOrigin = spot.orientation.GetPosition();
 
-    const Math::Float3 originToSpot = spotOrigin - lineOrigin;
-    const Math::Float3 projectedOntoLine = Math::Project(originToSpot, EffectiveDirection(line));
+    const Math::Float3 originToPoint = point - lineOrigin;
+    const Math::Float3 projectedOntoLine = Math::Project(originToPoint, EffectiveDirection(line));
     const Math::Float3 closestPointOnLine = projectedOntoLine + lineOrigin;
 
     // we know this is on the line since we projected it onto the line
     const float lineMultiplier = AnyValidMultiplier(line, closestPointOnLine);
     return PointOnLine(line, lineMultiplier);
+}
+
+Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
+{
+    return ClosestPointOnLine(line, spot.orientation.GetPosition());
 }
 
 std::pair<Core::Math::Float3, Core::Math::Float3> ClosestPointsBetweenLines(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
@@ -146,6 +150,15 @@ std::pair<Core::Math::Float3, Core::Math::Float3> ClosestPointsBetweenLines(cons
     float d2 =  (1.0f / l2Dir_Sqr) * (Math::Dot(o2ToO1, l2Dir) + (d1 * l1l2));
 
     return { PointOnLine(line1, d1), PointOnLine(line2, d2) };
+}
+
+ShapeOrientation<Line3D> LineFromPoints(const Point3D& point1, const Point3D& point2)
+{
+    const auto point1To2 = point2 - point1;
+    const auto magnitude = Math::Magnitude(point1To2);
+    Transform origin(point1, Math::RotationBetweenVectors(point1To2, Math::Float3(1.0f, 0.0f, 0.0f)));
+
+    return ShapeOrientation<Line3D>(origin, Line3D(point1To2 / magnitude, magnitude));
 }
 } // namespace Geometric
 } // namespace Core

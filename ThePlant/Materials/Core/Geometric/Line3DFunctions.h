@@ -22,8 +22,11 @@ bool PointIsOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point, c
 Math::Float3 PointOnLine(const ShapeOrientation<Line3D>& line, const float& multiplier);
 Math::Float3 LineEndpoint(const ShapeOrientation<Line3D>& line);
 
+Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point);
 Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot);
 // returns: <closest point on line 1, closest point on line 2>
 std::pair<Core::Math::Float3, Core::Math::Float3> ClosestPointsBetweenLines(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2, const float& precision = Math::DEFAULT_PRECISION());
+
+ShapeOrientation<Line3D> LineFromPoints(const Point3D& point1, const Point3D& point2);
 } // namespace Geometric
 } // namespace Core

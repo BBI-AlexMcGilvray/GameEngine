@@ -283,8 +283,39 @@ float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>&
 
 float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
 {
-    CORE_ERROR("3DFunctions", "Implementation Missing");
-    return -1.0f;
+    // the below is wrong, doesn't account for edge-edge contact. need to get all the EDGES of box 2 and check them for box1, then
+    // check corners of box1 against box 2
+    // i think, does it need to be the edges of each?
+
+    const auto box2Edges = BoxEdges(box2);
+    const auto box1Corners = BoxCorners(box1);
+
+    bool first = true;
+    float minimumDistance;
+    // closest point from box1 to a box2 corner
+    for (const auto& edge : box2Edges)
+    {
+        const auto closestInBoxToEdge = ClosestPointToLine(box1, edge);
+        const auto closestPointOnEdgeToBox = ClosestPointOnLine(edge, closestInBoxToEdge);
+        const auto distance = Distance(closestInBoxToEdge, closestPointOnEdgeToBox);
+        
+        if (!first)
+        {
+            minimumDistance = std::min(distance, minimumDistance);
+        }
+        else
+        {
+            minimumDistance = distance;
+            first = false;
+        }
+    }
+    // need to check the opposite too, and they may be closer
+    for (const auto& corner : box1Corners)
+    {
+        minimumDistance = std::min(Distance(ClosestPointToPoint(box2, corner), corner), minimumDistance);
+    }
+
+    return minimumDistance;
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
