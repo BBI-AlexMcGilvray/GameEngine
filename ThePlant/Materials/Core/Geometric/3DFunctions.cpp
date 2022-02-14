@@ -264,6 +264,7 @@ float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>&
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
+    const auto closestPointToLine = ClosestPointToLine(box, line);
     return Distance(line, ShapeOrientation<Spot3D>(Transform(ClosestPointToLine(box, line)), Spot3D()));
 }
 
@@ -288,7 +289,7 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
     // i think, does it need to be the edges of each?
 
     const auto box2Edges = BoxEdges(box2);
-    const auto box1Corners = BoxCorners(box1);
+    const auto box1Edges = BoxEdges(box1);
 
     bool first = true;
     float minimumDistance;
@@ -308,11 +309,25 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
             minimumDistance = distance;
             first = false;
         }
+
+        if (minimumDistance <= 0.0f)
+        {
+            return 0.0f;
+        }
     }
-    // need to check the opposite too, and they may be closer
-    for (const auto& corner : box1Corners)
+    // need to check the opposite too, as they may be closer
+    for (const auto& edge : box1Edges)
     {
-        minimumDistance = std::min(Distance(ClosestPointToPoint(box2, corner), corner), minimumDistance);
+        const auto closestInBoxToEdge = ClosestPointToLine(box2, edge);
+        const auto closestPointOnEdgeToBox = ClosestPointOnLine(edge, closestInBoxToEdge);
+        const auto distance = Distance(closestInBoxToEdge, closestPointOnEdgeToBox);
+
+        minimumDistance = std::min(distance, minimumDistance);
+
+        if (minimumDistance <= 0.0f)
+        {
+            return 0.0f;
+        }
     }
 
     return minimumDistance;

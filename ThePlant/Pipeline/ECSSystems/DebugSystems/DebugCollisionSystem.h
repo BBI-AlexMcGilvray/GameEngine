@@ -115,13 +115,11 @@ private:
     // 2D
     Rendering::Mesh _circleMesh;
     Rendering::Mesh _rectangleMesh;
-    // what do we do for line2D? what about if it is infinite length?
 
     // 3D
     Rendering::Mesh _boxMesh;
     Rendering::Mesh _sphereMesh;
     // what do we do for planes? just use the relevant 2D mesh?
-    // what do we do for line3D? what about if it is infinite length?
 
     void _ApplyToArchetype(const std::vector<Collision::Collision>& allCollisions, const std::vector<EntityId>& entities, std::vector<WorldTransformComponent>& worldTransforms, std::vector<ColliderComponent>& colliderComponents) const
     {

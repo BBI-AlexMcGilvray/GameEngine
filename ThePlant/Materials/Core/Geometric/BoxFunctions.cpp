@@ -151,8 +151,9 @@ Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const ShapeOr
 // probably not the most efficient, but can deal with that later
 Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
+    Box effectiveBox = Box(EffectiveDimensions(box));
     ShapeOrientation<Line3D> counterRotatedLine = line;
-    counterRotatedLine.orientation.SetPosition(RotateVectorBy(counterRotatedLine.orientation.GetPosition() - box.orientation.GetPosition(), box.orientation.GetRotation().Inverse())); // must also counter-rotate the line origin
+    counterRotatedLine.orientation.SetPosition(RotateVectorBy(line.orientation.GetPosition() - box.orientation.GetPosition(), box.orientation.GetRotation().Inverse())); // must also counter-rotate the line origin
     counterRotatedLine.orientation.AdjustRotation(box.orientation.GetRotation().Inverse()); // must alter the line's direction
 
     const auto lineOriginToBox = box.orientation.GetPosition() - counterRotatedLine.orientation.GetPosition();
@@ -160,11 +161,13 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
     const auto linePointingToBox = Math::Dot(EffectiveDirection(counterRotatedLine), lineOriginToBox);
     if (linePointingToBox <= 0.0f) // pointing away/not at box, modified line origin will be closest
     {
-        return ClosestPointToPoint(box, counterRotatedLine.orientation.GetPosition());
+        const auto closestPointToLineOrigin = ClosestPointToPoint(effectiveBox, counterRotatedLine.orientation.GetPosition());
+        return box.orientation.GetPosition() + RotateVectorBy(closestPointToLineOrigin, box.orientation.GetRotation());
     }
 
     const auto boxMax = BoxMaxAtOrigin(box);
     const auto boxMin = BoxMinAtOrigin(box);
+    // <multiplier, line position>
     std::array<std::pair<float, Math::Float3>, 6> planeIntersections;
 
     const auto xMult_Min = LineMultiplierForPoint_X(counterRotatedLine, boxMin);
@@ -188,23 +191,24 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
     planeIntersections[4] = {zMult_Min, crossMinZPoint};
     planeIntersections[5] = {zMult_Max, crossMaxZPoint};
     
+    // <multiplier, distance between box and point>
     std::pair<float, Math::Float3> bestIntersection = planeIntersections[0];
-    Math::Float3 closestPointToBestIntersection = ClosestPointToPoint(box.shape, bestIntersection.second);
+    Math::Float3 closestPointToBestIntersection = ClosestPointToPoint(effectiveBox, bestIntersection.second);
     bool bestHitsBox = closestPointToBestIntersection == bestIntersection.second;
     for (const auto intersection : planeIntersections)
     {
         bool newBest = false;
 
-        const auto closestPointToCurrentIntersection = ClosestPointToPoint(box.shape, intersection.second);
+        const auto closestPointToCurrentIntersection = ClosestPointToPoint(effectiveBox, intersection.second);
         bool currentHitsBox = closestPointToCurrentIntersection == intersection.second;
 
         if (bestIntersection.first < 0.0f) // line must go backwards
         {
-            newBest = true; // best sucks, just replace it
+            newBest = true; // best can't hit box, just replace it
         }
         else if (intersection.first < 0.0f) // line must go backwards
         {
-            newBest = false; // don't replace if this one also sucks
+            newBest = false; // don't replace if this one can't hit the box
         }
         else
         {

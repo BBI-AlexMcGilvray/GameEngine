@@ -156,7 +156,7 @@ ShapeOrientation<Line3D> LineFromPoints(const Point3D& point1, const Point3D& po
 {
     const auto point1To2 = point2 - point1;
     const auto magnitude = Math::Magnitude(point1To2);
-    Transform origin(point1, Math::RotationBetweenVectors(point1To2, Math::Float3(1.0f, 0.0f, 0.0f)));
+    Transform origin(point1);
 
     return ShapeOrientation<Line3D>(origin, Line3D(point1To2 / magnitude, magnitude));
 }
