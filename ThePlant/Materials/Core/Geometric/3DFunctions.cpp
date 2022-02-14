@@ -264,7 +264,6 @@ float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>&
 
 float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
-    const auto closestPointToLine = ClosestPointToLine(box, line);
     return Distance(line, ShapeOrientation<Spot3D>(Transform(ClosestPointToLine(box, line)), Spot3D()));
 }
 
@@ -330,7 +329,7 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
         }
     }
 
-    return minimumDistance;
+    return std::max(0.0f, minimumDistance);
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
