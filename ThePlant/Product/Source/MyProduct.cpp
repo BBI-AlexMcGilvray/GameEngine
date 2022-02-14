@@ -40,25 +40,25 @@ namespace Product
         // _animated = Testing::SpawnAnimatedModel(); // (Animated model)
 
         // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
-        _leftPos = Core::Math::Float3(-4.0f, 4.0f, 0.0f);
-        _rightPos = Core::Math::Float3(4.0f, 4.0f, 0.0f);
+        _leftPos = Core::Math::Float3(-15.0f, 4.0f, 0.0f);
+        _rightPos = Core::Math::Float3(15.0f, 4.0f, 0.0f);
 
-        Core::Math::Float3 modifiedLeft = _leftPos;// + Core::Math::Float3(0.0f, -0.5f, 0.2f);
-        Core::Math::Float3 modifiedRight = _rightPos;// + Core::Math::Float3(0.0f, -0.5f, 0.2f);
+        Core::Math::Float3 modifiedLeft = _leftPos + Core::Math::Float3(2.0f, 0.0f, 0.0f);
+        Core::Math::Float3 modifiedRight = _rightPos + Core::Math::Float3(-2.0f, 0.0f, 0.0f);
         Core::Math::FQuaternion rotation1(0.0f, 0.0f, -0.707f, 0.707f); // pointing down (-90 rotation on z axis)
         Core::Math::FQuaternion rotation2(0.0f, 0.383f, 0.0f, 0.924f); // pointing horizontally in (90 rotation on y axis)
 
         _dir1 = true;
         _swapTime = Core::Second(5.0f);
         _currentSwap = _swapTime;
-        // _collider = Testing::SpawnCollider(Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
+        _collider = Testing::SpawnCollider(Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
         _trigger = Testing::SpawnTrigger(Core::Geometric::Box(), _rightPos, rotation2, 2.0f);
         
-        Testing::SpawnCollider(Core::Geometric::Box(), Math::Lerp(_leftPos, _rightPos, 0.5f));
-        // Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.3f));
+        Testing::SpawnCollider(Core::Geometric::Box(), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
+        Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(modifiedLeft, modifiedRight, 0.4f));
         // Testing::SpawnCollider(Core::Geometric::Line3D(1.0f), Math::Lerp(_leftPos, _rightPos, 0.50f) + Core::Math::Float3(0.0f, 0.0f, 0.2f), rotation2);
-        // Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(_leftPos, _rightPos, 0.25f)); // works with: spot3D, sphere
-        // Testing::SpawnCollider(Core::Geometric::Sphere(), Math::Lerp(_leftPos, _rightPos, 0.75f), Core::Math::FQuaternion(Core::Math::II()), 2.0f); // works with: sphere
+        Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(modifiedLeft, modifiedRight, 0.6f)); // works with: spot3D, sphere
+        Testing::SpawnCollider(Core::Geometric::Sphere(), Math::Lerp(modifiedLeft, modifiedRight, 0.8f), Core::Math::FQuaternion(Core::Math::II()), 2.0f); // works with: sphere
 
         // do planes last
         // const auto modifiedLeft = _leftPos - Core::Math::Float3(0.0f, -2.0f, 0.0f);
@@ -126,11 +126,11 @@ namespace Product
         // \testing
 
         // testing (Collision)
-        // auto& colliderPos = Application::ApplicationManager::AppECS().GetComponentFor<Application::PositionComponent>(_collider);
+        auto& colliderPos = Application::ApplicationManager::AppECS().GetComponentFor<Application::PositionComponent>(_collider);
         auto& triggerPos = Application::ApplicationManager::AppECS().GetComponentFor<Application::PositionComponent>(_trigger);
 
         _currentSwap -= dt;
-        // colliderPos = Math::Lerp(_dir1 ? _leftPos : _rightPos, _dir1 ? _rightPos : _leftPos, Duration(_currentSwap) / Duration(_swapTime));
+        colliderPos = Math::Lerp(_dir1 ? _leftPos : _rightPos, _dir1 ? _rightPos : _leftPos, Duration(_currentSwap) / Duration(_swapTime));
         triggerPos = Math::Lerp(_dir1 ? _rightPos : _leftPos, _dir1 ? _leftPos : _rightPos, Duration(_currentSwap) / Duration(_swapTime));
         if (_currentSwap <= Core::Second(0.0f))
         {
