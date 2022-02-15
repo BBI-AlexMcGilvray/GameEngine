@@ -5,10 +5,11 @@
 
 namespace Application {
 namespace UI {
-  class IMGUIManager
+namespace IMGUI {
+  class Manager
   {
     public:
-    IMGUIManager(const WindowManager& window, const GLContextManager& glContext);
+    Manager(const WindowManager& window, const GLContextManager& glContext);
 
     // need to allow for adding/removing of active IMGUI windows
     // IMGUI windows should have IMGUI widgets/fields to make them more customizable?
@@ -26,5 +27,6 @@ namespace UI {
       const WindowManager& _window;
       const GLContextManager& _glContext;
   };
+}// namespace IMGUI
 }// namespace UI
 }// namespace Application

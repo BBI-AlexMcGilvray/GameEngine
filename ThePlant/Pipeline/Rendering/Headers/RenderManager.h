@@ -5,6 +5,8 @@
 #include "Pipeline\Headers\GLContextManager.h"
 #include "Pipeline\Headers\WindowManager.h"
 
+#include "Pipeline/UI/IMGUI/Manager.h"
+
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/Camera.h"
@@ -53,15 +55,14 @@ namespace Rendering {
     Core::Ptr<WindowManager> _window;
 
     CameraManager _cameraManager;
+    std::unique_ptr<UI::IMGUI::Manager> _ui;
 
     void _RenderStart();
     void _RenderMiddle();
     void _RenderEnd();
   
-    // testing
     RenderFrame _renderFrame; // in the future, this can be a tripple buffer guarded by a mutex and be what is used for threading purposes
     Renderer _Renderer;
-    // \testing
   };
 }// namespace Rendering
 }// namespace Application

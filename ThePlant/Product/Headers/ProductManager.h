@@ -3,7 +3,6 @@
 #include "Core/Headers/PtrDefs.h"
 
 #include "Pipeline/Headers/ApplicationManager.h"
-#include "Pipeline/UI/IMGUI/IMGUIManager.h"
 
 #include "Product/Headers/MyProduct.h"
 
@@ -42,6 +41,5 @@ namespace Product
         Core::Ptr<Application::ApplicationManager> _pipeline;
         FixedStepTimeManager _time;
         MyProduct _myProduct;
-        Core::UniquePtr<Application::UI::IMGUIManager> _debugUI;
     };
 }

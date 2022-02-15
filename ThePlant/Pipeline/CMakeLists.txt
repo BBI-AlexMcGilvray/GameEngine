@@ -71,7 +71,7 @@ Source/WindowManager.cpp #
 StateSystem/Source/State.cpp #
 StateSystem/Source/StateManager.cpp #
 Time/Source/TimeManager.cpp #
-UI/IMGUI/IMGUIManager.cpp)
+UI/IMGUI/Manager.cpp)
 
 set(HEADER_FILES #
 Animation/Headers/Animation.h #
@@ -166,7 +166,7 @@ Rendering/Renderer.h #
 StateSystem/Headers/State.h #
 StateSystem/Headers/StateManager.h #
 Time/Headers/TimeManager.h #
-UI/IMGUI/IMGUIManager.h)
+UI/IMGUI/Manager.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Pipeline_Lib)
 

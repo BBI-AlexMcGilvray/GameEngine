@@ -199,7 +199,7 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Time\Source\TimeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\UI\IMGUI\IMGUIManager.cpp">
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\UI\IMGUI\Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

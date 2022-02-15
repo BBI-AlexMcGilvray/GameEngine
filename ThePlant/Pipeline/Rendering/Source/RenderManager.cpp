@@ -2,6 +2,8 @@
 
 #include "Core/Logging/Logger.h"
 
+#include "Pipeline/Headers/ApplicationManager.h"
+
 using namespace Core;
 using namespace Core::Math;
 using namespace Core::Functionality;
@@ -19,6 +21,8 @@ namespace Rendering {
   void RenderManager::Initialize(WindowManager &window, Color clearColor)
   {
     _window = &window;
+    _ui = std::make_unique<UI::IMGUI::Manager>(window, ApplicationManager::AppSDLManager().GetContextManager());
+    _ui->initialize();
 
     _initialColor = WHITE;
     _clearColor = clearColor;
@@ -30,23 +34,25 @@ namespace Rendering {
 
   void RenderManager::Start()
   {
-    
+    _ui->start();
   }
 
   void RenderManager::Render()
   {
     _RenderStart();
     _RenderMiddle();
+    _ui->update();
     _RenderEnd();
   }
 
   void RenderManager::End()
   {
+    _ui->end();
   }
 
   void RenderManager::CleanUp()
   {
-    
+    _ui->cleanUp();
   }
 
   void RenderManager::SetOpenGLAttributes()
