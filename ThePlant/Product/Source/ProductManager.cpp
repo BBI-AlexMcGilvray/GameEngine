@@ -6,6 +6,7 @@
 #include "Pipeline/ECSSystems/TransformSystem.h"
 #include "Pipeline/ECSSystems/RenderingSystem.h"
 #if DEBUG
+#include "Pipeline/Debugging/Profiling/Utils.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugBoneSystem.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugCollisionSystem.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugOctTreeSystem.h"
@@ -73,16 +74,22 @@ namespace Product
     {
         while (!_pipeline->quit())
         {
+            DEBUG_PROFILE_PUSH("Non-Delta-Time Update");
             _pipeline->Update();
+            DEBUG_PROFILE_POP("Non-Delta-Time Update");
 
             Core::Second dt = _time.Update();
             while (dt > 0_s) {
+                DEBUG_PROFILE_PUSH("Product-Delta-Time Update");
                 _myProduct.update(dt);
+                DEBUG_PROFILE_POP("Product-Delta-Time Update");
                 _pipeline->Update(dt);
                 dt = _time.GetAccumulatedTime();
             }
             // take a look at Unity's order of execution and work on cleaning up execution order
             //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
+
+            DEBUG_CLEAR_PROFILE();
         }
     }
 

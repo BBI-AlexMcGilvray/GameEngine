@@ -22,7 +22,7 @@ namespace Rendering {
   {
     _window = &window;
     _ui = std::make_unique<UI::IMGUI::Manager>(window, ApplicationManager::AppSDLManager().GetContextManager());
-    _ui->initialize();
+    _ui->Initialize();
 
     _initialColor = WHITE;
     _clearColor = clearColor;
@@ -34,25 +34,25 @@ namespace Rendering {
 
   void RenderManager::Start()
   {
-    _ui->start();
+    _ui->Start();
   }
 
   void RenderManager::Render()
   {
     _RenderStart();
     _RenderMiddle();
-    _ui->update();
+    _ui->Render();
     _RenderEnd();
   }
 
   void RenderManager::End()
   {
-    _ui->end();
+    _ui->End();
   }
 
   void RenderManager::CleanUp()
   {
-    _ui->cleanUp();
+    _ui->CleanUp();
   }
 
   void RenderManager::SetOpenGLAttributes()

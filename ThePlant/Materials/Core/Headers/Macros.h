@@ -144,3 +144,5 @@
 
 #define STRINGIFY(x) #x
 #define TO_STRING(x) STRINGIFY(x)
+
+#define SCOPE(X) {X}

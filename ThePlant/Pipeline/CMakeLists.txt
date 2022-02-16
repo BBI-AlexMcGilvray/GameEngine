@@ -13,7 +13,7 @@ Animation/Source/Keyframe.cpp #
 Animation/Source/SkeletonAnimation.cpp #
 Collision/CollisionManager.cpp #
 Collision/OctTree.cpp #
-Debugging/Source/Logging.cpp #
+Debugging/Profiling/Profiler.cpp #
 ECS/DataOriented/Systems/SystemManager.cpp #
 ECS/DataOriented/Archetype.cpp #
 ECS/DataOriented/ArchetypeManager.cpp #
@@ -67,11 +67,14 @@ Rendering/Renderer.cpp #
 Source/ApplicationManager.cpp #
 Source/GLContextManager.cpp #
 Source/SDL2Manager.cpp #
+Source/ServiceManager.cpp #
 Source/WindowManager.cpp #
 StateSystem/Source/State.cpp #
 StateSystem/Source/StateManager.cpp #
 Time/Source/TimeManager.cpp #
-UI/IMGUI/Manager.cpp)
+UI/IMGUI/Manager.cpp #
+UI/IMGUI/Windows/Examples.cpp #
+UI/IMGUI/Windows/Profiler.cpp)
 
 set(HEADER_FILES #
 Animation/Headers/Animation.h #
@@ -85,9 +88,8 @@ Animation/Headers/SkeletonAnimation.h #
 Collision/Collision.h #
 Collision/CollisionManager.h #
 Collision/OctTree.h #
-Debugging/Headers/Declarations.h #
-Debugging/Headers/Logging.h #
-Debugging/Headers/Macros.h 
+Debugging/Profiling/Profiler.h #
+Debugging/Profiling/Utils.h 
 ECS/DataOriented/Systems/System.h #
 ECS/DataOriented/Systems/SystemManager.h #
 ECS/DataOriented/Archetype.h #
@@ -129,6 +131,7 @@ Geometric/Headers/World.h #
 Headers/ApplicationManager.h #
 Headers/GLContextManager.h #
 Headers/SDL2Manager.h #
+Headers/ServiceManager.h #
 Headers/WindowManager.h #
 Input/Headers/InputController.h #
 Input/Headers/InputDefs.h #
@@ -166,7 +169,10 @@ Rendering/Renderer.h #
 StateSystem/Headers/State.h #
 StateSystem/Headers/StateManager.h #
 Time/Headers/TimeManager.h #
-UI/IMGUI/Manager.h)
+UI/IMGUI/Manager.h #
+UI/IMGUI/Window.h #
+UI/IMGUI/Windows/Examples.h #
+UI/IMGUI/Windows/Profiler.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Pipeline_Lib)
 

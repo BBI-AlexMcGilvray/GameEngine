@@ -45,9 +45,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/Collision.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/CollisionManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/OctTree.h"
-    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Debugging/Headers/Declarations.h"
-    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Debugging/Headers/Logging.h"
-    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Debugging/Headers/Macros.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Debugging/Profiling/Profiler.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Debugging/Profiling/Utils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECS/DataOriented/Systems/System.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECS/DataOriented/Systems/SystemManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECS/DataOriented/Archetype.h"
@@ -89,6 +88,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Headers/ApplicationManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Headers/GLContextManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Headers/SDL2Manager.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Headers/ServiceManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Headers/WindowManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Input/Headers/InputController.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Input/Headers/InputDefs.h"
@@ -127,6 +127,9 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/StateSystem/Headers/StateManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Time/Headers/TimeManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Manager.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Window.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Windows/Examples.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Windows/Profiler.h"
     )
 endif()
 

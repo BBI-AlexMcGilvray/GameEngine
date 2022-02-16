@@ -64,6 +64,7 @@ Headers/FlagEnum.h #
 Headers/Hash.h #
 Headers/Macros.h #
 Headers/PtrDefs.h #
+Headers/Service.h #
 Headers/TemplateDefs.h #
 Headers/TimeDefs.h #
 Headers/UtilityMacros.h #

@@ -1,6 +1,7 @@
 message("Configuring IMGUI")
 
 set(SOURCE_FILES #
+imgui_demo.cpp #
 imgui_draw.cpp #
 imgui_tables.cpp #
 imgui_widgets.cpp #

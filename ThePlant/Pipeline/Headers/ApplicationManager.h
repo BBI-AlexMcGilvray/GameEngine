@@ -6,6 +6,7 @@
 
 #include "Pipeline/Animation/Headers/AnimationManager.h"
 #include "Pipeline/Collision/CollisionManager.h"
+#include "Pipeline/Headers/ServiceManager.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/StateSystem/Headers/StateManager.h"
 #include "Pipeline/Input/Headers/InputManager.h"
@@ -83,6 +84,7 @@ private:
   RenderManager RenderSystem;
   ShaderManager _shaderManager;
   InputManager InputSystem;
+  ServiceManager _serviceManager;
   StateManager StateSystem;
 
   Delegate<> OnQuit;
