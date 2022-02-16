@@ -1,5 +1,7 @@
 #include "Pipeline/UI/IMGUI/Windows/Profiler.h"
 
+#include <format>
+
 #include "Core/Headers/Service.h"
 
 namespace Application {
@@ -55,17 +57,28 @@ void _UpdateDisplaySections(const Profiling::Profiler& profiler, Profiler& windo
     _UpdateDisplaySections(profiler.GetSections(), window.sections);
 }
 
-void _DrawSection(Profiler::DisplaySection& section)
+void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentDuration)
 {
-    if (section.unfolded = ImGui::TreeNode(section.tag.c_str(), "%s: %d", section.tag.c_str(), (section.end - section.start).count()))
+    const Core::Second sectionDuration = section.end - section.start;
+
+    ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * (sectionDuration / parentDuration));
+    ImGui::TableNextColumn();
     {
-        ImGui::Text("%d - %d", section.start, section.end);
-        for (auto& nestedSection : section.sections)
+        ImGui::Checkbox("Show", &(section.unfolded));
+        ImGui::Text("%s: %.5f ms", section.tag.c_str(), Core::Duration(sectionDuration) * 1000);
+        if (section.unfolded)
         {
-            _DrawSection(nestedSection);
+            if (ImGui::BeginTable(section.tag.c_str(), section.sections.size(), ImGuiTableFlags_Borders))
+            {
+                for (auto& nestedSection : section.sections)
+                {
+                    _DrawSection(nestedSection, sectionDuration);
+                }
+                ImGui::EndTable();
+            }
         }
-        ImGui::TreePop();
     }
+    ImGui::PopItemWidth();
 }
 
 void Profiler::Draw()
@@ -78,14 +91,28 @@ void Profiler::Draw()
         
         if (!sections.empty())
         {
-            for (auto& section : sections)
+            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0.0f, 0.0f));
+            if (ImGui::BeginTable("Profiler Data", sections.size(), ImGuiTableFlags_Borders))
             {
-                _DrawSection(section);
+                auto totalDuration = Core::Second(0.0);
+                for (auto& section : sections)
+                {
+                    ImGui::TableSetupColumn(section.tag.c_str());
+                    totalDuration += section.end - section.start;
+                }
+                ImGui::TableHeadersRow();
+                
+                for (auto& section : sections)
+                {
+                    _DrawSection(section, totalDuration);
+                }
+                ImGui::EndTable();
             }
+            ImGui::PopStyleVar(1);
         }
         else
         {
-            ImGui::Text("No sections profiled");
+            ImGui::Text("No profile data");
         }
     )
 }

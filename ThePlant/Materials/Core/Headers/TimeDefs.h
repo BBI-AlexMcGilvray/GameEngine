@@ -9,7 +9,7 @@ namespace Core {
 	*/
 
 using SteadyClock = std::chrono::steady_clock;// steady clock to track time application has been open
-using Second = std::chrono::duration<float>;// second based time duration, tracked as a float
+using Second = std::chrono::duration<double>;// second based time duration, tracked as a float
 using TimePoint = std::chrono::time_point<SteadyClock, Second>;// individual time points based on the clock we are using
 
 constexpr Second operator""_ms(long double t) { return Second(t / 1000.0); }
@@ -33,6 +33,6 @@ template<typename T, typename R>
 T Duration(std::chrono::duration<T, R> duration)
 {
   // amount, divided by the ratio (detail tracked)
-  return (T(duration.count()) / T(R::den));
+  return (T(duration.count() * R::num) / T(R::den));
 }
 }// namespace Core
