@@ -48,6 +48,12 @@ struct ServiceReference
     : _service(service)
     {}
 
+    ServiceReference(const ServiceReference&) = default;
+    ServiceReference(ServiceReference&&) = default;
+
+    ServiceReference& operator=(const ServiceReference&) = default;
+    ServiceReference& operator=(ServiceReference&&) = default;
+
     operator bool() const { return _service != nullptr; }
 
     // these aren't super pretty, but work

@@ -60,16 +60,29 @@ void _UpdateDisplaySections(const Profiling::Profiler& profiler, Profiler& windo
 void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentDuration)
 {
     const Core::Second sectionDuration = section.end - section.start;
+    float relativeDuration = sectionDuration / parentDuration;
 
-    ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * (sectionDuration / parentDuration));
     ImGui::TableNextColumn();
     {
-        ImGui::Checkbox("Show", &(section.unfolded));
-        ImGui::Text("%s: %.5f ms", section.tag.c_str(), Core::Duration(sectionDuration) * 1000);
-        if (section.unfolded)
+        ImGui::ProgressBar(relativeDuration);
+
+        if (section.sections.size() > 0)
         {
-            if (ImGui::BeginTable(section.tag.c_str(), section.sections.size(), ImGuiTableFlags_Borders))
+            section.unfolded = ImGui::CollapsingHeader("");
+            ImGui::SameLine();
+        }
+        ImGui::Text("%.3f ms", Core::Duration(sectionDuration) * 1000);
+
+        if (section.unfolded && section.sections.size() > 0)
+        {
+            if (ImGui::BeginTable(section.tag.c_str(), section.sections.size(), ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
             {
+                for (auto& nestedSection : section.sections)
+                {
+                    ImGui::TableSetupColumn(section.tag.c_str());
+                }
+                ImGui::TableHeadersRow();
+
                 for (auto& nestedSection : section.sections)
                 {
                     _DrawSection(nestedSection, sectionDuration);
@@ -78,7 +91,6 @@ void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentD
             }
         }
     }
-    ImGui::PopItemWidth();
 }
 
 void Profiler::Draw()
@@ -92,7 +104,7 @@ void Profiler::Draw()
         if (!sections.empty())
         {
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0.0f, 0.0f));
-            if (ImGui::BeginTable("Profiler Data", sections.size(), ImGuiTableFlags_Borders))
+            if (ImGui::BeginTable("Profiler Data", sections.size(), ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
             {
                 auto totalDuration = Core::Second(0.0);
                 for (auto& section : sections)
