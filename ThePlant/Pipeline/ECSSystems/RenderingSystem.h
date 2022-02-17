@@ -14,16 +14,19 @@ namespace Application {
 // do we want two systems (one for this, one that takes into account a color component)?
 // or should we instead have higher-level logic in here that checks each archetype (that matches the rest) for also the color component?
 // probably the second?
-struct MeshRenderingSystem : public ISystem
+struct MeshRenderingSystem : public System<MeshRenderingSystem>
 {
     MeshRenderingSystem(Rendering::RenderManager& renderManager)
-    : _renderManager(renderManager)
+    : System<MeshRenderingSystem>("MeshRenderingSystem")
+    , _renderManager(renderManager)
     {}
 
     Core::runtimeId_t GetSystem() const { return Core::GetTypeId<MeshRenderingSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<MaterialComponent, MeshComponent, WorldTransformComponent>();
 
         for (auto& archetype : affectedArchetypes)
@@ -59,19 +62,22 @@ private:
 };
 
 // should take values from world transform and writes to the array of transforms for the bones
-struct SkeletonUpdateSystem : public ISystem
+struct SkeletonUpdateSystem : public System<SkeletonUpdateSystem>
 {
     enum class TAG { CREATE };
 
     using BoneData = std::unordered_map<EntityId, std::pair<BoneComponent, WorldTransformComponent>>;
 
     SkeletonUpdateSystem(const TAG& tag)
+    : System<SkeletonUpdateSystem>("SkeletonUpdateSystem")
     {}
 
     Core::runtimeId_t GetSystem() const { return Core::GetTypeId<SkeletonUpdateSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         std::vector<Core::Ptr<Archetype>> skeletonArchetypes = archetypeManager.GetArchetypesContaining<SkeletonComponent>();
         // bones require the relative change in THEIR position to affect the mesh, NOT the world position/offset (otherwise animation would break moving any real distance)
         std::vector<Core::Ptr<Archetype>> boneArchetypes = archetypeManager.GetArchetypesContaining<BoneComponent, LocalTransformComponent>();
@@ -123,16 +129,19 @@ private:
     }
 };
 
-struct SkinnedMeshRenderingSystem : public ISystem
+struct SkinnedMeshRenderingSystem : public System<SkinnedMeshRenderingSystem>
 {
     SkinnedMeshRenderingSystem(Rendering::RenderManager& renderManager)
-    : _renderManager(renderManager)
+    : System<SkinnedMeshRenderingSystem>("SkinnedMeshRenderingSystem")
+    , _renderManager(renderManager)
     {}
 
     Core::runtimeId_t GetSystem() const { return Core::GetTypeId<SkinnedMeshRenderingSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+        
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<MaterialComponent, SkinnedMeshComponent, SkeletonComponent, WorldTransformComponent>();
 
         for (auto& archetype : affectedArchetypes)
@@ -182,7 +191,7 @@ SkinnedMeshRenderingSystem>
     : CompoundSystem<RenderingSystem,
         MeshRenderingSystem,
         SkeletonUpdateSystem,
-        SkinnedMeshRenderingSystem>(rendererManager, SkeletonUpdateSystem::TAG::CREATE, rendererManager)
+        SkinnedMeshRenderingSystem>("RenderingSystem", rendererManager, SkeletonUpdateSystem::TAG::CREATE, rendererManager)
     {}
     // maybe want custom logic to handle dependency for parallel execution?
 };

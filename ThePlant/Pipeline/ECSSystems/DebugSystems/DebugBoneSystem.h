@@ -16,7 +16,8 @@ namespace Application {
 struct DebugBoneSystem : public System<DebugBoneSystem>
 {
     DebugBoneSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
-    : _renderManager(renderManager)
+    : System<DebugBoneSystem>("DebugBoneSystem")
+    , _renderManager(renderManager)
     {
         _transformMaterial = CreateDefaultMaterial(shaderManager);
         _transformMesh = Rendering::CreatePyramid(100.0f, 25.0f);
@@ -24,6 +25,8 @@ struct DebugBoneSystem : public System<DebugBoneSystem>
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+        
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<WorldTransformComponent, BoneComponent>();
 
         for (auto& archetype : affectedArchetypes)

@@ -14,7 +14,8 @@ namespace Application {
 struct DebugTransformSystem : public System<DebugTransformSystem>
 {
     DebugTransformSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
-    : _renderManager(renderManager)
+    : System<DebugTransformSystem>("DebugTransformSystem")
+    , _renderManager(renderManager)
     {
         _transformMaterial = CreateDefaultMaterial(shaderManager);
         _transformMesh = Rendering::CreateSphere(0.5f); // not 1.0f because then it would be equal-to whatever it would be representing, should always be smalled
@@ -22,6 +23,8 @@ struct DebugTransformSystem : public System<DebugTransformSystem>
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<WorldTransformComponent>();
 
         for (auto& archetype : affectedArchetypes)

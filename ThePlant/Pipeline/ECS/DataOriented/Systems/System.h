@@ -3,22 +3,24 @@
 #include <set>
 #include <tuple>
 
-// testing
-#include "Materials/Core/Logging/Logger.h"
-// \testing
 #include "Materials/Core/IdTypes/RuntimeId.h"
 
+#include "Pipeline/Debugging/Profiling/Utils.h"
 #include "Pipeline/ECS/DataOriented/ArchetypeManager.h"
 
 namespace Application {
 struct ISystem
 {
-    ISystem() = default;
+    ISystem(const std::string& name)
+    : _name(name)
+    {}
 
     ISystem(const ISystem&) = delete;
     ISystem(ISystem&&) = delete;
     ISystem& operator=(const ISystem&) = delete;
     ISystem& operator=(ISystem&&) = delete;
+
+    const std::string& GetSystemName() const { return _name; }
 
     template <typename T>
     bool IsSystem() const { return (Core::GetTypeId<T>() == GetSystem()); }
@@ -42,6 +44,7 @@ struct ISystem
     const std::set<Core::runtimeId_t>& GetDependencies() const { return _dependencies; }
 
 private:
+    const std::string _name;
     std::set<Core::runtimeId_t> _dependencies;
 };
 
@@ -51,6 +54,10 @@ struct System : public ISystem
 {
     using ISystem::ISystem;
 
+    System(const std::string& name)
+    : ISystem(name)
+    {}
+
     Core::runtimeId_t GetSystem() const override
     {
         return Core::GetTypeId<SYSTEM>();
@@ -58,6 +65,8 @@ struct System : public ISystem
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<Ts...>();
 
         for (auto& archetype : affectedArchetypes)
@@ -78,6 +87,10 @@ struct System<SYSTEM> : public ISystem
 {
     using ISystem::ISystem;
 
+    System(const std::string& name)
+    : ISystem(name)
+    {}
+
     Core::runtimeId_t GetSystem() const override
     {
         return Core::GetTypeId<SYSTEM>();
@@ -91,12 +104,14 @@ struct CompoundSystem : public ISystem
 {
     using ISystem::ISystem;
 
-    CompoundSystem()
+    CompoundSystem(const std::string& name)
+    : ISystem(name)
     {}
 
     template <typename ...ARGS>
-    CompoundSystem(ARGS&& ...args)
-    : _nestedSystems(std::forward<ARGS>(args)...)
+    CompoundSystem(const std::string& name, ARGS&& ...args)
+    : ISystem(name)
+    , _nestedSystems(std::forward<ARGS>(args)...)
     {}
 
     Core::runtimeId_t GetSystem() const override
@@ -108,6 +123,8 @@ struct CompoundSystem : public ISystem
     // could just change the internal call to execute each as a task (with the same dependencies as the main system)
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         std::apply([&archetypeManager](const auto& ...args)
         {
             // all tuple elements are passed as arguemnts, hence the expression expansion logic

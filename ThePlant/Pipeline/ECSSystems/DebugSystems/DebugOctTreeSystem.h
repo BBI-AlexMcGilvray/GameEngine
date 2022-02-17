@@ -17,7 +17,8 @@ struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
     bool drawOccupiedOnly = true;
 
     DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
-    : _collisionManager(collisionManager)
+    : System<DebugOctTreeSystem>("DebugOctTreeSystem")
+    , _collisionManager(collisionManager)
     , _renderManager(renderManager)
     {
         _debugMaterial = Rendering::CreateDefaultMaterial(shaderManager);
@@ -26,6 +27,8 @@ struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         const Collision::OctTree& octTree = _collisionManager.GetOctTree();
         _DrawOctTreeNode(octTree);
     }

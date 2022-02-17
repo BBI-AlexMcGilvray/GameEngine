@@ -8,17 +8,22 @@
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/CameraUtils.h"
 
+#include "Pipeline/Debugging/Profiling/Utils.h"
+
 namespace Application {
-struct CameraSystem : public ISystem
+struct CameraSystem : public System<CameraSystem>
 {
     CameraSystem(Rendering::CameraManager& cameraManager)
-    : _cameraManager(cameraManager)
+    : System<CameraSystem>("CameraSystem")
+    , _cameraManager(cameraManager)
     {}
     
     Core::runtimeId_t GetSystem() const { return Core::GetTypeId<CameraSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<CameraComponent, WorldTransformComponent>();
 
         for (auto& archetype : affectedArchetypes)

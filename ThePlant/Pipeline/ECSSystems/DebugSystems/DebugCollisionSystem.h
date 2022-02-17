@@ -22,7 +22,8 @@ namespace Application
 struct DebugCollisionSystem : public System<DebugCollisionSystem>
 {
     DebugCollisionSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
-    : _collisionManager(collisionManager)
+    : System<DebugCollisionSystem>("DebugCollisionSystem")
+    , _collisionManager(collisionManager)
     , _renderManager(renderManager)
     , _meshGetter(*this)
     {
@@ -40,6 +41,8 @@ struct DebugCollisionSystem : public System<DebugCollisionSystem>
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<WorldTransformComponent, ColliderComponent>();
         const auto allCollisions = _collisionManager.GetAllCollisions(); // this calculates the collisions AGAIN, it should probably re-use a single calculation (we can cache the results somewhere? - collision manager)
 

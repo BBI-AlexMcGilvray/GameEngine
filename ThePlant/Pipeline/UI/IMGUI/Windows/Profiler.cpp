@@ -79,7 +79,7 @@ void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentD
             {
                 for (auto& nestedSection : section.sections)
                 {
-                    ImGui::TableSetupColumn(section.tag.c_str());
+                    ImGui::TableSetupColumn(nestedSection.tag.c_str());
                 }
                 ImGui::TableHeadersRow();
 

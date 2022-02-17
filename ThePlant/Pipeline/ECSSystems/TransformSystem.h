@@ -9,6 +9,10 @@
 namespace Application {
 struct LocalTransformResetSystem : public System<LocalTransformResetSystem, LocalTransformComponent>
 {
+    LocalTransformResetSystem()
+    : System<LocalTransformResetSystem, LocalTransformComponent>("LocalTransformResetSystem")
+    {}
+
     static void ApplyToArchetype(std::vector<LocalTransformComponent>& localTransforms)
     {
         for (auto& localTransform : localTransforms)
@@ -20,6 +24,10 @@ struct LocalTransformResetSystem : public System<LocalTransformResetSystem, Loca
 
 struct LocalTransformPositionSystem : public System<LocalTransformPositionSystem, LocalTransformComponent, PositionComponent>
 {
+    LocalTransformPositionSystem()
+    : System<LocalTransformPositionSystem, LocalTransformComponent, PositionComponent>("LocalTransformPositionSystem")
+    {}
+
     static void ApplyToArchetype(std::vector<LocalTransformComponent>& localTransforms, std::vector<PositionComponent>& positions)
     {
         DEBUG_ASSERT(localTransforms.size() == positions.size());
@@ -32,6 +40,10 @@ struct LocalTransformPositionSystem : public System<LocalTransformPositionSystem
 
 struct LocalTransformScaleSystem : public System<LocalTransformScaleSystem, LocalTransformComponent, ScaleComponent>
 {
+    LocalTransformScaleSystem()
+    : System<LocalTransformScaleSystem, LocalTransformComponent, ScaleComponent>("LocalTransformScaleSystem")
+    {}
+
     static void ApplyToArchetype(std::vector<LocalTransformComponent>& localTransforms, std::vector<ScaleComponent>& scales)
     {
         DEBUG_ASSERT(localTransforms.size() == scales.size());
@@ -44,6 +56,10 @@ struct LocalTransformScaleSystem : public System<LocalTransformScaleSystem, Loca
 
 struct LocalTransformRotationSystem : public System<LocalTransformRotationSystem, LocalTransformComponent, RotationComponent>
 {
+    LocalTransformRotationSystem()
+    : System<LocalTransformRotationSystem, LocalTransformComponent, RotationComponent>("LocalTransformRotationSystem")
+    {}
+
     static void ApplyToArchetype(std::vector<LocalTransformComponent>& localTransforms, std::vector<RotationComponent>& rotations)
     {
         DEBUG_ASSERT(localTransforms.size() == rotations.size());
@@ -56,6 +72,10 @@ struct LocalTransformRotationSystem : public System<LocalTransformRotationSystem
 
 struct WorldTransformResetSystem : public System<WorldTransformResetSystem, WorldTransformComponent>
 {
+    WorldTransformResetSystem()
+    : System<WorldTransformResetSystem, WorldTransformComponent>("WorldTransformResetSystem")
+    {}
+
     static void ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms)
     {
         for (auto& worldTransform : worldTransforms)
@@ -67,6 +87,10 @@ struct WorldTransformResetSystem : public System<WorldTransformResetSystem, Worl
 
 struct WorldTransformPositionSystem : public System<WorldTransformPositionSystem, WorldTransformComponent, PositionComponent>
 {
+    WorldTransformPositionSystem()
+    : System<WorldTransformPositionSystem, WorldTransformComponent, PositionComponent>("WorldTransformPositionSystem")
+    {}
+
     static void ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms, std::vector<PositionComponent>& positions)
     {
         DEBUG_ASSERT(worldTransforms.size() == positions.size());
@@ -79,6 +103,10 @@ struct WorldTransformPositionSystem : public System<WorldTransformPositionSystem
 
 struct WorldTransformScaleSystem : public System<WorldTransformScaleSystem, WorldTransformComponent, ScaleComponent>
 {
+    WorldTransformScaleSystem()
+    : System<WorldTransformScaleSystem, WorldTransformComponent, ScaleComponent>("WorldTransformScaleSystem")
+    {}
+
     static void ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms, std::vector<ScaleComponent>& scales)
     {
         DEBUG_ASSERT(worldTransforms.size() == scales.size());
@@ -91,6 +119,10 @@ struct WorldTransformScaleSystem : public System<WorldTransformScaleSystem, Worl
 
 struct WorldTransformRotationSystem : public System<WorldTransformRotationSystem, WorldTransformComponent, RotationComponent>
 {
+    WorldTransformRotationSystem()
+    : System<WorldTransformRotationSystem, WorldTransformComponent, RotationComponent>("WorldTransformRotationSystem")
+    {}
+
     static void ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms, std::vector<RotationComponent>& rotations)
     {
         DEBUG_ASSERT(worldTransforms.size() == rotations.size());
@@ -103,6 +135,10 @@ struct WorldTransformRotationSystem : public System<WorldTransformRotationSystem
 
 struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
 {
+    LocalToWorldTransformSystem()
+    : System<LocalToWorldTransformSystem>("LocalToWorldTransformSystem")
+    {}
+
     void Execute(ArchetypeManager& archetypeManager) const override
     {
         std::vector<Core::Ptr<const std::vector<EntityId>>> allEntities;
@@ -249,6 +285,19 @@ LocalTransformScaleSystem,
 LocalTransformRotationSystem,
 LocalToWorldTransformSystem>
 {
+    TransformSystem()
+    : CompoundSystem<TransformSystem,
+    WorldTransformResetSystem,
+    WorldTransformPositionSystem,
+    WorldTransformScaleSystem,
+    WorldTransformRotationSystem,
+    LocalTransformResetSystem,
+    LocalTransformPositionSystem,
+    LocalTransformScaleSystem,
+    LocalTransformRotationSystem,
+    LocalToWorldTransformSystem>("TransformSystem")
+    {}
+
     // maybe want custom logic to handle dependency for parallel execution?
 };
 }// namespace Application

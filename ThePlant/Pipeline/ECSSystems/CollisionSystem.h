@@ -19,11 +19,14 @@ namespace Application
 struct CollisionTreeBuildingSystem: public System<CollisionTreeBuildingSystem>
 {
     CollisionTreeBuildingSystem(Collision::OctTree& octTree)
-    : _octTree(octTree)
+    : System<CollisionTreeBuildingSystem>("CollisionTreeBuildingSystem")
+    , _octTree(octTree)
     {}
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         _octTree.ClearTree();
 
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<WorldTransformComponent, ColliderComponent>();
@@ -53,11 +56,14 @@ private:
 struct CollisionHandlingSystem : System<CollisionHandlingSystem>
 {
     CollisionHandlingSystem(Collision::CollisionManager& collisionManager)
-    : _collisionManager(collisionManager)
+    : System<CollisionHandlingSystem>("CollisionHandlingSystem")
+    , _collisionManager(collisionManager)
     {}
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+
         auto& allCollisions = _collisionManager.GetAllCollisions();
         const auto& allCollisionHandlgers = _collisionManager.GetAllCollisionHandlers();
 
@@ -86,7 +92,7 @@ CollisionHandlingSystem>
     CollisionSystem(Collision::CollisionManager& collisionManager)
     : CompoundSystem<CollisionSystem,
         CollisionTreeBuildingSystem,
-        CollisionHandlingSystem>(collisionManager.GetOctTree(), collisionManager)
+        CollisionHandlingSystem>("CollisionSystem", collisionManager.GetOctTree(), collisionManager)
     {}
 };
 } // namespace Application

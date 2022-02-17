@@ -12,9 +12,10 @@
     Core::Finally scopedProfilerFinally;    \
     WITH_SERVICE(Application::Profiling::Profiler)( \
         service->Push(X);  \
-        scopedProfilerFinally = Core::Finally([service]() mutable   \
+        const std::string& scopedProfilerTag = X;   \
+        scopedProfilerFinally = Core::Finally([service, scopedProfilerTag]() mutable   \
         {   \
-            service->Pop(X);   \
+            service->Pop(scopedProfilerTag);   \
         }); \
     )
 
@@ -22,9 +23,10 @@
     Core::Finally scopedProfilerFinally;    \
     WITH_DEBUG_SERVICE(Application::Profiling::Profiler)( \
         service->Push(X);  \
-        scopedProfilerFinally = Core::Finally([service]() mutable   \
+        const std::string& scopedProfilerTag = X;   \
+        scopedProfilerFinally = Core::Finally([service, scopedProfilerTag]() mutable   \
         {   \
-            service->Pop(X);   \
+            service->Pop(scopedProfilerTag);   \
         }); \
     )
 
