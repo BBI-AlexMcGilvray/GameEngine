@@ -57,34 +57,60 @@ void _UpdateDisplaySections(const Profiling::Profiler& profiler, Profiler& windo
     _UpdateDisplaySections(profiler.GetSections(), window.sections);
 }
 
+void _ResetDisplaySections(std::vector<Profiler::DisplaySection>& displaySections)
+{
+    for (auto& section : displaySections)
+    {
+        section.ignore = false;
+        _ResetDisplaySections(section.sections);
+    }
+}
+
 void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentDuration)
 {
     const Core::Second sectionDuration = section.end - section.start;
     float relativeDuration = sectionDuration / parentDuration;
 
+    size_t activeSections = 0;
+    for (auto& section : section.sections)
+    {
+        activeSections += section.ignore ? 0 : 1;
+    }
+
     ImGui::TableNextColumn();
     {
+        // section.ignore = ImGui::CollapsingHeader("Remove");
+        // ImGui::SameLine();
         ImGui::ProgressBar(relativeDuration);
 
-        if (section.sections.size() > 0)
+        if (activeSections > 0)
         {
             section.unfolded = ImGui::CollapsingHeader("");
             ImGui::SameLine();
         }
         ImGui::Text("%.3f ms", Core::Duration(sectionDuration) * 1000);
-
-        if (section.unfolded && section.sections.size() > 0)
+        if (section.unfolded && activeSections > 0)
         {
-            if (ImGui::BeginTable(section.tag.c_str(), section.sections.size(), ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
+            if (ImGui::BeginTable(section.tag.c_str(), activeSections, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
             {
                 for (auto& nestedSection : section.sections)
                 {
+                    if (nestedSection.ignore)
+                    {
+                        continue;
+                    }
+
                     ImGui::TableSetupColumn(nestedSection.tag.c_str());
                 }
                 ImGui::TableHeadersRow();
 
                 for (auto& nestedSection : section.sections)
                 {
+                    if (nestedSection.ignore)
+                    {
+                        continue;
+                    }
+
                     _DrawSection(nestedSection, sectionDuration);
                 }
                 ImGui::EndTable();
@@ -96,6 +122,11 @@ void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentD
 void Profiler::Draw()
 {
     ImGui::Checkbox("Update profiler", &update);
+    // ImGui::SameLine();
+    // if (ImGui::Button("Reset Profiler"))
+    // {
+    //     _ResetDisplaySections(sections);
+    // }
     
     WITH_DEBUG_SERVICE(Profiling::Profiler)
     (
@@ -103,19 +134,38 @@ void Profiler::Draw()
         
         if (!sections.empty())
         {
-            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0.0f, 0.0f));
-            if (ImGui::BeginTable("Profiler Data", sections.size(), ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
+            size_t activeSections = 0;
+            auto totalDuration = Core::Second(0.0);
+            for (auto& section : sections)
             {
-                auto totalDuration = Core::Second(0.0);
+                activeSections += section.ignore ? 0 : 1;
+                totalDuration += section.end - section.start;
+            }
+
+            ImGui::Text("Framerate: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::Text("Total Frame Time: %.3f",  Core::Duration(totalDuration) * 1000);
+
+            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0.0f, 0.0f));
+            if (activeSections > 0 && ImGui::BeginTable("Profiler Data", activeSections, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
+            {
                 for (auto& section : sections)
                 {
+                    if (section.ignore)
+                    {
+                        continue;
+                    }
+
                     ImGui::TableSetupColumn(section.tag.c_str());
-                    totalDuration += section.end - section.start;
                 }
                 ImGui::TableHeadersRow();
                 
                 for (auto& section : sections)
                 {
+                    if (section.ignore)
+                    {
+                        continue;
+                    }
+
                     _DrawSection(section, totalDuration);
                 }
                 ImGui::EndTable();

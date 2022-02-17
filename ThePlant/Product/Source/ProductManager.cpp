@@ -75,25 +75,7 @@ namespace Product
         while (!_pipeline->quit())
         {
             DEBUG_PROFILE_PUSH("Non-Delta-Time Update");
-            DEBUG_PROFILE_PUSH("Nested 1");
-            DEBUG_PROFILE_PUSH("Nested 2");
-            DEBUG_PROFILE_PUSH("Nested 3");
             _pipeline->Update();
-            DEBUG_PROFILE_POP("Nested 1");
-            DEBUG_PROFILE_POP("Nested 2");
-            DEBUG_PROFILE_POP("Nested 3");
-            {
-                DEBUG_PROFILE_SCOPE("SCOPED 1");
-            }
-            DEBUG_PROFILE_PUSH("Nested A");
-            DEBUG_PROFILE_PUSH("Nested B");
-            DEBUG_PROFILE_POP("Nested B");
-            DEBUG_PROFILE_PUSH("Nested C");
-            {
-                DEBUG_PROFILE_SCOPE("SCOPED 2");
-            }
-            DEBUG_PROFILE_POP("Nested C");
-            DEBUG_PROFILE_POP("Nested A");
             DEBUG_PROFILE_POP("Non-Delta-Time Update");
 
             Core::Second dt = _time.Update();

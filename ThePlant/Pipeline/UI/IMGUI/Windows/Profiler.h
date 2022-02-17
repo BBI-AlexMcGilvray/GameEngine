@@ -18,6 +18,7 @@ namespace IMGUI {
           Core::TimePoint end;
           std::vector<DisplaySection> sections;
           bool unfolded = false;
+          bool ignore = false;
 
           DisplaySection(const Profiling::Section& section)
           : tag(section.tag)

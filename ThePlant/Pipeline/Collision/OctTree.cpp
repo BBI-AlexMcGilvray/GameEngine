@@ -2,6 +2,8 @@
 
 #include "Core/Geometric/Functions.h"
 
+#include "Pipeline/Debugging/Profiling/Utils.h"
+
 namespace Application
 {
 namespace Collision
@@ -44,6 +46,8 @@ EntitySnapshot OctTreeNode::FindFirstEntity(const Core::Geometric::ShapeOrientat
 
 std::vector<EntitySnapshot> OctTreeNode::FindAllEntities(const Core::Geometric::ShapeOrientation3D& shape) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::FindAllEntities");
+
     std::vector<EntitySnapshot> entities;
     // not calling '_FindContainingNode' because we want EVERYTHING it may intersect with, so we may as well start from the top
     _FindAllEntities(entities, shape);
@@ -52,6 +56,7 @@ std::vector<EntitySnapshot> OctTreeNode::FindAllEntities(const Core::Geometric::
 
 void OctTreeNode::AddContent(const OctTreeContent& content)
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::AddContent");
 #if DEBUG
     VERIFY(_parent != nullptr || _Engulfs(content.shapeOrientation));// All content should exist WITHIN the topmost node
 #endif
@@ -62,6 +67,8 @@ void OctTreeNode::AddContent(const OctTreeContent& content)
 
 std::vector<Collision> OctTreeNode::AllCollisions() const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::AllCollisions");
+
     std::vector<IntermediaryCollision> intermediaryCollisions;
     _AllCollisions(intermediaryCollisions);
     return _CreateCollisions(intermediaryCollisions);
@@ -120,6 +127,8 @@ bool OctTreeNode::_Engulfs(const Core::Geometric::ShapeOrientation3D& shape) con
 // must be tied with the above
 OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape)
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_FindContainingNode");
+
     if (!_ChildrenExist())
     {
         return *this;
@@ -158,6 +167,8 @@ const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::Shape
 
 void OctTreeNode::_InsertContent(const OctTreeContent& content)
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_InsertContent");
+
     if (_content.empty() && !_ChildrenExist())
     {
         _StopGapContent(content);
@@ -188,6 +199,8 @@ void OctTreeNode::_StopGapContent(const OctTreeContent& content)
 
 void OctTreeNode::_RemoveStopGap()
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_RemoveStopGap");
+
     _stopGapped = false;
     OctTreeContent stopGappedContent = _content.back();
     _content.pop_back();
@@ -197,6 +210,8 @@ void OctTreeNode::_RemoveStopGap()
 
 void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_FindAllEntities");
+
     _InternalEntities(entities, shape);
 
     if (!_ChildrenExist())
@@ -219,6 +234,8 @@ void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const 
 
 void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_InternalEntities");
+
     for (const auto& content : _content)
     {
         if (Core::Geometric::Intersect(content.shapeOrientation, shape))
@@ -230,6 +247,8 @@ void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const
 
 void OctTreeNode::_EntitiesForAllContent(std::vector<EntitySnapshot>& entities) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_EntitiesForAllContent");
+
     for (const auto& content : _content)
     {
         entities.push_back(_ecs.GetTemporaryEntitySnapshot(content.entity));
@@ -248,6 +267,8 @@ void OctTreeNode::_EntitiesForAllContent(std::vector<EntitySnapshot>& entities) 
 
 void OctTreeNode::_AllCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_AllCollisions");
+
     _InternalCollisions(collisions);
     _CollisionsWithChildren(collisions);
     _ChildCollisions(collisions);
@@ -255,6 +276,8 @@ void OctTreeNode::_AllCollisions(std::vector<IntermediaryCollision>& collisions)
 
 void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_InternalCollisions");
+
     // edge case covering due to _content.size() - 1 in loop
     if (_content.size() == 0)
     {
@@ -275,6 +298,8 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
 
 void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& collisions) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_CollisionsWithChildren");
+
     if (!_ChildrenExist())
     {
         return;
@@ -284,11 +309,19 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
     {
         for (const auto& child : _children)
         {
-            if (Core::Geometric::Engulfs(_content[i].shapeOrientation, child->_this))
+            DEBUG_PROFILE_PUSH("Engulfs");
+            bool contentEngulfsChild = Core::Geometric::Engulfs(_content[i].shapeOrientation, child->_this);
+            DEBUG_PROFILE_POP("Engulfs");
+            if (contentEngulfsChild)
             {
                 child->_CollisionsWithAllContent(collisions, _content[i]);
+                continue;
             }
-            else if (Core::Geometric::Intersect(_content[i].shapeOrientation, child->_this))
+
+            DEBUG_PROFILE_PUSH("Intersect");
+            bool contentIntersectsChild = Core::Geometric::Intersect(_content[i].shapeOrientation, child->_this);
+            DEBUG_PROFILE_POP("Intersect");
+            if (contentIntersectsChild)
             {
                 child->_FindAllCollisions(collisions, _content[i]);
             }
@@ -298,6 +331,8 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
 
 void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_CollisionsWithAllContent");
+
     for (const auto& c : _content)
     {
         collisions.push_back(IntermediaryCollision(c.entity, content.entity));
@@ -316,6 +351,8 @@ void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& 
 
 void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_FindAllCollisions");
+
     for (const auto& c : _content)
     {
         if (Core::Geometric::Intersect(c.shapeOrientation, content.shapeOrientation))
@@ -358,6 +395,8 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
 
 void OctTreeNode::_ChildCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_ChildCollisions");
+
     if (!_ChildrenExist())
     {
         return;
@@ -371,6 +410,8 @@ void OctTreeNode::_ChildCollisions(std::vector<IntermediaryCollision>& collision
 
 std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<IntermediaryCollision>& intermediaryCollisions) const
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_CreateCollisions");
+    
     // this is to avoid creating multiple snapshots of the same entity
     // maybe we shouldn't do it? would need to be measured/timed
     std::unordered_map<EntityId, EntitySnapshot> snapshots;
