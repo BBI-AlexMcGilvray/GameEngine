@@ -2,7 +2,7 @@
 
 #include "Core/Geometric/Functions.h"
 
-#include "Pipeline/Debugging/Profiling/Utils.h"
+#include "Core/Debugging/Profiling/Utils.h"
 
 namespace Application
 {

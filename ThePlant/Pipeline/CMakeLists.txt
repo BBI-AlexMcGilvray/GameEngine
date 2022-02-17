@@ -13,7 +13,6 @@ Animation/Source/Keyframe.cpp #
 Animation/Source/SkeletonAnimation.cpp #
 Collision/CollisionManager.cpp #
 Collision/OctTree.cpp #
-Debugging/Profiling/Profiler.cpp #
 ECS/DataOriented/Systems/SystemManager.cpp #
 ECS/DataOriented/Archetype.cpp #
 ECS/DataOriented/ArchetypeManager.cpp #
@@ -88,8 +87,6 @@ Animation/Headers/SkeletonAnimation.h #
 Collision/Collision.h #
 Collision/CollisionManager.h #
 Collision/OctTree.h #
-Debugging/Profiling/Profiler.h #
-Debugging/Profiling/Utils.h 
 ECS/DataOriented/Systems/System.h #
 ECS/DataOriented/Systems/SystemManager.h #
 ECS/DataOriented/Archetype.h #

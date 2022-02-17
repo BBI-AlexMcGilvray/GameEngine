@@ -8,7 +8,7 @@
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/CameraUtils.h"
 
-#include "Pipeline/Debugging/Profiling/Utils.h"
+#include "Core/Debugging/Profiling/Utils.h"
 
 namespace Application {
 struct CameraSystem : public System<CameraSystem>

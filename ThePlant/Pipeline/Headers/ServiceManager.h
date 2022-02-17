@@ -2,7 +2,7 @@
 
 #include "Core/Headers/Service.h"
 
-#include "Pipeline/Debugging/Profiling/Profiler.h"
+#include "Core/Debugging/Profiling/Profiler.h"
 
 namespace Application {
 struct ServiceManager

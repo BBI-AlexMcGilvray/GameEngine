@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "Pipeline/Debugging/Profiling/Profiler.h"
+#include "Core/Debugging/Profiling/Profiler.h"
 #include "Pipeline/UI/IMGUI/Window.h"
 
 namespace Application {
@@ -14,28 +14,23 @@ namespace IMGUI {
         struct DisplaySection
         {
           std::string tag;
-          Core::TimePoint start;
-          Core::TimePoint end;
+          size_t calls;
+          Core::Second duration;
           std::vector<DisplaySection> sections;
           bool unfolded = false;
           bool ignore = false;
 
           DisplaySection(const Profiling::Section& section)
           : tag(section.tag)
-          , start(section.start)
-          , end(section.end)
-          {
-            for (const auto& nestedSection : section.sections)
-            {
-              sections.push_back(DisplaySection(nestedSection));
-            }
-          }
+          , duration(section.end - section.start)
+          , calls(1)
+          {}
 
           void Update(const Profiling::Section& section)
           {
             tag = section.tag;
-            start = section.start;
-            end = section.end;
+            duration += section.end - section.start;
+            calls += 1;
           }
         };
 

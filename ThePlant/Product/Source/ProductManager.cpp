@@ -6,7 +6,7 @@
 #include "Pipeline/ECSSystems/TransformSystem.h"
 #include "Pipeline/ECSSystems/RenderingSystem.h"
 #if DEBUG
-#include "Pipeline/Debugging/Profiling/Utils.h"
+#include "Core/Debugging/Profiling/Utils.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugBoneSystem.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugCollisionSystem.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugOctTreeSystem.h"

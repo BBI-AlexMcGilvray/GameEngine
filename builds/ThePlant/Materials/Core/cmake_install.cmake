@@ -37,6 +37,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Containers/CircularBuffer.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Debugging/Headers/Declarations.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Debugging/Headers/Macros.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Debugging/Profiling/Profiler.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Debugging/Profiling/Utils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Functionality/Headers/Event.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Functionality/Headers/Function.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Functionality/Headers/LockerBase.h"

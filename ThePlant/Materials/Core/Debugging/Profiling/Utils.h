@@ -5,7 +5,7 @@
 #include "Core/Headers/Service.h"
 #include "Core/Headers/Finally.h"
 
-#include "Pipeline/Debugging/Profiling/Profiler.h"
+#include "Core/Debugging/Profiling/Profiler.h"
 
 // ideally we find a way to ensure the below names are unique through some sort of incremental macro
 #define PROFILE_SCOPE(X)    \

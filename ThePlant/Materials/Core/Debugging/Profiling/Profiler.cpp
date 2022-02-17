@@ -1,4 +1,4 @@
-#include "Pipeline/Debugging/Profiling/Profiler.h"
+#include "Core/Debugging/Profiling/Profiler.h"
 
 namespace Application {
 namespace Profiling
@@ -12,6 +12,11 @@ void Profiler::Push(const std::string& tag)
 void Profiler::Pop(const std::string& tag)
 {
     Section popped = _stack.top();
+    if (popped.tag != tag)
+    {
+        CORE_THROW("Profiler", "Improper stacking push/pop sequence! " + tag + " != " + popped.tag);
+    }
+
     popped.end = _clock.now();
     _stack.pop();
 
@@ -32,7 +37,7 @@ const std::vector<Section> Profiler::GetSections() const
 
 void Profiler::Clear()
 {
-    VERIFY(_stack.empty());
+    VERIFY(_stack.empty(), "Still have item on stack: " + _stack.empty() ? "-" : _stack.top().tag);
     _sections.clear();
 }
 #endif

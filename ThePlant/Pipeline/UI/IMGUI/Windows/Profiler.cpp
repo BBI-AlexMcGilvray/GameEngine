@@ -29,11 +29,13 @@ void _UpdateDisplaySections(const std::vector<Profiling::Section>& sections, std
         else
         {
             displaySections.push_back(section);
+            existingSection = displaySections.end() - 1;
+            _UpdateDisplaySections(section.sections, existingSection->sections);
         }
     }
 
     // remove old sections
-    for (auto& iter = displaySections.rbegin(); iter != displaySections.rend(); ++iter)
+    for (auto& iter = displaySections.rbegin(); iter != displaySections.rend();)
     {
         auto newSection = std::find_if(sections.begin(), sections.end(), [tag = iter->tag](const auto& section)
         {
@@ -42,8 +44,22 @@ void _UpdateDisplaySections(const std::vector<Profiling::Section>& sections, std
 
         if (newSection == sections.end())
         {
-            displaySections.erase((iter + 1).base());
+            iter = std::make_reverse_iterator(displaySections.erase((iter + 1).base()));
         }
+        else
+        {
+            ++iter;
+        }
+    }
+}
+
+void _ResetDisplaySectionDurations(std::vector<Profiler::DisplaySection>& displaySections)
+{
+    for (auto& section : displaySections)
+    {
+        section.duration = Core::Second(0.0);
+        section.calls = 0;
+        _ResetDisplaySectionDurations(section.sections);
     }
 }
 
@@ -54,6 +70,7 @@ void _UpdateDisplaySections(const Profiling::Profiler& profiler, Profiler& windo
         return;
     }
 
+    _ResetDisplaySectionDurations(window.sections);
     _UpdateDisplaySections(profiler.GetSections(), window.sections);
 }
 
@@ -68,8 +85,7 @@ void _ResetDisplaySections(std::vector<Profiler::DisplaySection>& displaySection
 
 void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentDuration)
 {
-    const Core::Second sectionDuration = section.end - section.start;
-    float relativeDuration = sectionDuration / parentDuration;
+    float relativeDuration = section.duration / parentDuration;
 
     size_t activeSections = 0;
     for (auto& section : section.sections)
@@ -88,7 +104,7 @@ void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentD
             section.unfolded = ImGui::CollapsingHeader("");
             ImGui::SameLine();
         }
-        ImGui::Text("%.3f ms", Core::Duration(sectionDuration) * 1000);
+        ImGui::Text("[%i] %.3f ms", section.calls, Core::Duration(section.duration) * 1000);
         if (section.unfolded && activeSections > 0)
         {
             if (ImGui::BeginTable(section.tag.c_str(), activeSections, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
@@ -111,7 +127,7 @@ void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentD
                         continue;
                     }
 
-                    _DrawSection(nestedSection, sectionDuration);
+                    _DrawSection(nestedSection, section.duration);
                 }
                 ImGui::EndTable();
             }
@@ -139,7 +155,7 @@ void Profiler::Draw()
             for (auto& section : sections)
             {
                 activeSections += section.ignore ? 0 : 1;
-                totalDuration += section.end - section.start;
+                totalDuration += section.duration;
             }
 
             ImGui::Text("Framerate: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);

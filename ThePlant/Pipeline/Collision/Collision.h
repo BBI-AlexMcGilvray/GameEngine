@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Pipeline/Debugging/Profiling/Utils.h"
+#include "Core/Debugging/Profiling/Utils.h"
 
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 

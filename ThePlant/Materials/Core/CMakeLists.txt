@@ -1,6 +1,7 @@
 message("Configuring Core")
 
 set(SOURCE_FILES #
+Debugging/Profiling/Profiler.cpp #
 Functionality/Source/Scheduler.cpp #
 Geometric/2DFunctions.cpp #
 Geometric/3DFunctions.cpp #
@@ -33,6 +34,8 @@ set(HEADER_FILES #
 Containers/CircularBuffer.h #
 Debugging/Headers/Declarations.h #
 Debugging/Headers/Macros.h #
+Debugging/Profiling/Profiler.h #
+Debugging/Profiling/Utils.h 
 Functionality/Headers/Event.h #
 Functionality/Headers/Function.h #
 Functionality/Headers/LockerBase.h #

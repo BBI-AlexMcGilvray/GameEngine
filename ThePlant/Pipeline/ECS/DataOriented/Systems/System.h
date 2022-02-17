@@ -5,7 +5,7 @@
 
 #include "Materials/Core/IdTypes/RuntimeId.h"
 
-#include "Pipeline/Debugging/Profiling/Utils.h"
+#include "Core/Debugging/Profiling/Utils.h"
 #include "Pipeline/ECS/DataOriented/ArchetypeManager.h"
 
 namespace Application {

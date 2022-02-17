@@ -11,7 +11,7 @@
 #include "Pipeline/Animation/Headers/AnimationManager.h"
 #include "Pipeline/Animation/Headers/AnimationTargets.h"
 
-#include "Pipeline/Debugging/Profiling/Utils.h"
+#include "Core/Debugging/Profiling/Utils.h"
 
 namespace Application {
 struct SkeletonAnimationSystem  : public System<SkeletonAnimationSystem>
