@@ -1,5 +1,7 @@
 #include "Core/Geometric/BoxFunctions.h"
 
+#include "Core/Debugging/Profiling/Utils.h"
+
 #include "Core/Geometric/Transform.h"
 #include "Core/Geometric/Line3DFunctions.h"
 
@@ -151,6 +153,9 @@ Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const ShapeOr
 // probably not the most efficient, but can deal with that later
 Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
+    DEBUG_PROFILE_SCOPE("ClosestPointToLine(Box, Line3D)");
+
+    DEBUG_PROFILE_PUSH("Early Out");
     Box effectiveBox = Box(EffectiveDimensions(box));
     ShapeOrientation<Line3D> counterRotatedLine = line;
     counterRotatedLine.orientation.SetPosition(RotateVectorBy(line.orientation.GetPosition() - box.orientation.GetPosition(), box.orientation.GetRotation().Inverse())); // must also counter-rotate the line origin
@@ -162,9 +167,12 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
     if (linePointingToBox <= 0.0f) // pointing away/not at box, modified line origin will be closest
     {
         const auto closestPointToLineOrigin = ClosestPointToPoint(effectiveBox, counterRotatedLine.orientation.GetPosition());
+        DEBUG_PROFILE_POP("Early Out");
         return box.orientation.GetPosition() + RotateVectorBy(closestPointToLineOrigin, box.orientation.GetRotation());
     }
+    DEBUG_PROFILE_POP("Early Out");
 
+    DEBUG_PROFILE_PUSH("Option Gathering");
     const auto boxMax = BoxMaxAtOrigin(box);
     const auto boxMin = BoxMinAtOrigin(box);
     // <multiplier, line position>
@@ -190,7 +198,9 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
     const auto crossMaxZPoint = PointOnLine(counterRotatedLine, zMult_Max);
     planeIntersections[4] = {zMult_Min, crossMinZPoint};
     planeIntersections[5] = {zMult_Max, crossMaxZPoint};
+    DEBUG_PROFILE_POP("Option Gathering");
     
+    DEBUG_PROFILE_PUSH("Option Analysis");
     // <multiplier, distance between box and point>
     std::pair<float, Math::Float3> bestIntersection = planeIntersections[0];
     Math::Float3 closestPointToBestIntersection = ClosestPointToPoint(effectiveBox, bestIntersection.second);
@@ -226,8 +236,12 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
             bestHitsBox = currentHitsBox;
         }
     }
+    DEBUG_PROFILE_POP("Option Analysis");
 
-    return box.orientation.GetPosition() + RotateVectorBy(closestPointToBestIntersection, box.orientation.GetRotation());
+    {
+        DEBUG_PROFILE_SCOPE("Final Calculation");
+        return box.orientation.GetPosition() + RotateVectorBy(closestPointToBestIntersection, box.orientation.GetRotation());
+    }
 }
 } // namespace Geometric
 } // namespace Core

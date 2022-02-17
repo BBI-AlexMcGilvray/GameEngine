@@ -18,39 +18,31 @@ void _UpdateDisplaySections(const std::vector<Profiling::Section>& sections, std
             return (tag == displaySection.tag);
         });
 
-        if (existingSection != displaySections.end())
+        if (existingSection == displaySections.end())
         {
-            existingSection->Update(section);
-            if (existingSection->unfolded)
-            {
-                _UpdateDisplaySections(section.sections, existingSection->sections);
-            }
-        }
-        else
-        {
-            displaySections.push_back(section);
+            displaySections.push_back(Profiler::DisplaySection(section));
             existingSection = displaySections.end() - 1;
-            _UpdateDisplaySections(section.sections, existingSection->sections);
         }
+        
+        existingSection->Update(section);
+        _UpdateDisplaySections(section.sections, existingSection->sections);
     }
 
     // remove old sections
-    for (auto& iter = displaySections.rbegin(); iter != displaySections.rend();)
-    {
-        auto newSection = std::find_if(sections.begin(), sections.end(), [tag = iter->tag](const auto& section)
-        {
-            return (tag == section.tag);
-        });
+    // for (auto& iter = displaySections.end(); iter != displaySections.begin(); --iter)
+    // {
+    //     auto& actualIter = iter - 1;
 
-        if (newSection == sections.end())
-        {
-            iter = std::make_reverse_iterator(displaySections.erase((iter + 1).base()));
-        }
-        else
-        {
-            ++iter;
-        }
-    }
+    //     auto newSection = std::find_if(sections.begin(), sections.end(), [tag = actualIter->tag](const auto& section)
+    //     {
+    //         return (tag == section.tag);
+    //     });
+
+    //     if (newSection == sections.end())
+    //     {
+    //         displaySections.erase(actualIter);
+    //     }
+    // }
 }
 
 void _ResetDisplaySectionDurations(std::vector<Profiler::DisplaySection>& displaySections)

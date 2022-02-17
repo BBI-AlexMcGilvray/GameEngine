@@ -1,5 +1,7 @@
 #include "Core/Geometric/Line3DFunctions.h"
 
+#include "Core/Debugging/Profiling/Utils.h"
+
 #include "Core/Math/Headers/MathUtils.h"
 #include "Core/Math/Headers/VectorFunctions.h"
 #include "Core/Math/Headers/QuaternionFunctions.h"
@@ -91,6 +93,8 @@ Math::Float3 LineEndpoint(const ShapeOrientation<Line3D>& line)
 
 Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point)
 {
+    DEBUG_PROFILE_SCOPE("ClosestPointOnLine(Line3D, Point3D)");
+
     const Math::Float3 lineOrigin = line.orientation.GetPosition();
 
     const Math::Float3 originToPoint = point - lineOrigin;

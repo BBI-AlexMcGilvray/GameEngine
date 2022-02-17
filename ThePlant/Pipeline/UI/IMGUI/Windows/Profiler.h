@@ -22,13 +22,12 @@ namespace IMGUI {
 
           DisplaySection(const Profiling::Section& section)
           : tag(section.tag)
-          , duration(section.end - section.start)
-          , calls(1)
+          , duration(Core::Second(0.0))
+          , calls(0)
           {}
 
           void Update(const Profiling::Section& section)
           {
-            tag = section.tag;
             duration += section.end - section.start;
             calls += 1;
           }
