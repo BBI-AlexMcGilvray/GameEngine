@@ -1,5 +1,7 @@
 #include "Core/Geometric/Functions.h"
 
+#include "Core/Debugging/Profiling/Utils.h"
+
 namespace Core {
 namespace Geometric {
 namespace INTERNAL_HELPER {
@@ -84,6 +86,8 @@ float Distance(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& sha
 
 float Distance(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 {
+    DEBUG_PROFILE_SCOPE("Distance(Shape3D, Shape3D)");
+
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Distance(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
@@ -91,6 +95,8 @@ float Distance(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape
 
 float Distance(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
 {
+    DEBUG_PROFILE_SCOPE("Distance(Shape2D, Shape2D)");
+
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Distance(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
@@ -109,6 +115,8 @@ bool Engulfs(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape
 
 bool Engulfs(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 {
+    DEBUG_PROFILE_SCOPE("Engulfs(Shape3D, Shape3D)");
+
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Engulfs(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
@@ -116,6 +124,8 @@ bool Engulfs(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 
 bool Engulfs(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
 {
+    DEBUG_PROFILE_SCOPE("Engulfs(Shape2D, Shape2D)");
+
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Engulfs(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
@@ -133,6 +143,8 @@ bool Intersect(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& sha
 
 bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
+    DEBUG_PROFILE_SCOPE("Intersect(Shape3D, Shape3D)");
+
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation, precision), shape1.shape, shape2.shape);
@@ -140,6 +152,8 @@ bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape
 
 bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
+    DEBUG_PROFILE_SCOPE("Intersect(Shape2D, Shape2D)");
+
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation, precision), shape1.shape, shape2.shape);

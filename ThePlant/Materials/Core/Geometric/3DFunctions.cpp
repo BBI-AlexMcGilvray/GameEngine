@@ -386,6 +386,7 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
 
         if (minimumDistance <= 0.0f)
         {
+            DEBUG_PROFILE_POP("Box2HitsBox1");
             return 0.0f;
         }
     }
@@ -403,6 +404,7 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
 
         if (minimumDistance <= 0.0f)
         {
+            DEBUG_PROFILE_POP("Box1HitsBox2");
             return 0.0f;
         }
     }

@@ -99,12 +99,9 @@ void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentD
         // ImGui::SameLine();
         ImGui::ProgressBar(relativeDuration);
 
-        if (activeSections > 0)
-        {
-            section.unfolded = ImGui::CollapsingHeader("");
-            ImGui::SameLine();
-        }
-        ImGui::Text("[%i] %.3f ms", section.calls, Core::Duration(section.duration) * 1000);
+        section.unfolded = ImGui::CollapsingHeader("");
+        ImGui::SameLine();
+        ImGui::Text("[%i] %.3f ms -> %.3f ms/call", section.calls, Core::Duration(section.duration) * 1000, Core::Duration(section.duration) * 1000 / section.calls);
         if (section.unfolded && activeSections > 0)
         {
             if (ImGui::BeginTable(section.tag.c_str(), activeSections, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
