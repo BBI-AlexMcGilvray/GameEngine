@@ -33,6 +33,14 @@ namespace Geometric {
       VERIFY(infinite || length >= 0.0f);
     }
 
+    Line3D(const Math::Float3 &direction, bool infinite, const float& length)
+    : direction(Math::Normalize(direction))
+    , length(length)
+    , infinite(infinite)
+    {
+      VERIFY(infinite || length >= 0.0f);
+    }
+
     Line3D(const Line3D&) = default;
     Line3D(Line3D&&) = default;
     Line3D& operator=(const Line3D&) = default;

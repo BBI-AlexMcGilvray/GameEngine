@@ -12,12 +12,12 @@ void Profiler::Push(const std::string& tag)
 void Profiler::Pop(const std::string& tag)
 {
     Section popped = _stack.top();
+    popped.end = _clock.now();
+
     if (popped.tag != tag)
     {
         CORE_THROW("Profiler", "Improper stacking push/pop sequence! " + tag + " != " + popped.tag);
     }
-
-    popped.end = _clock.now();
     _stack.pop();
 
     if (_stack.empty())

@@ -355,25 +355,16 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
 {
     DEBUG_PROFILE_SCOPE("Distance(Box, Box)");
 
-    // the below is wrong, doesn't account for edge-edge contact. need to get all the EDGES of box 2 and check them for box1, then
-    // check corners of box1 against box 2
-    // i think, does it need to be the edges of each?
-
-    DEBUG_PROFILE_PUSH("BoxEdges");
     const auto box2Edges = BoxEdges(box2);
     const auto box1Edges = BoxEdges(box1);
-    DEBUG_PROFILE_POP("BoxEdges");
 
     bool first = true;
     float minimumDistance;
     // closest point from box1 to a box2 corner
-    DEBUG_PROFILE_PUSH("Box2HitsBox1");
     for (const auto& edge : box2Edges)
     {
-        const auto closestInBoxToEdge = ClosestPointToLine(box1, edge);
-        const auto closestPointOnEdgeToBox = ClosestPointOnLine(edge, closestInBoxToEdge);
-        const auto distance = Distance(closestInBoxToEdge, closestPointOnEdgeToBox);
-        
+        const auto distance = Distance(box1, edge);
+
         if (!first)
         {
             minimumDistance = std::min(distance, minimumDistance);
@@ -386,29 +377,22 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
 
         if (minimumDistance <= 0.0f)
         {
-            DEBUG_PROFILE_POP("Box2HitsBox1");
             return 0.0f;
         }
     }
-    DEBUG_PROFILE_POP("Box2HitsBox1");
 
     // need to check the opposite too, as they may be closer
-    DEBUG_PROFILE_PUSH("Box1HitsBox2");
     for (const auto& edge : box1Edges)
     {
-        const auto closestInBoxToEdge = ClosestPointToLine(box2, edge);
-        const auto closestPointOnEdgeToBox = ClosestPointOnLine(edge, closestInBoxToEdge);
-        const auto distance = Distance(closestInBoxToEdge, closestPointOnEdgeToBox);
+        const auto distance = Distance(box2, edge);
 
         minimumDistance = std::min(distance, minimumDistance);
 
         if (minimumDistance <= 0.0f)
         {
-            DEBUG_PROFILE_POP("Box1HitsBox2");
             return 0.0f;
         }
     }
-    DEBUG_PROFILE_POP("Box1HitsBox2");
 
     return std::max(0.0f, minimumDistance);
 }
@@ -466,20 +450,15 @@ bool Engulfs(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box
 {
     DEBUG_PROFILE_SCOPE("Engulfs(Box, Box)");
 
-    DEBUG_PROFILE_PUSH("BoxCorners");
     const auto boxCorners = BoxCorners(box2);
-    DEBUG_PROFILE_POP("BoxCorners");
-
-    DEBUG_PROFILE_PUSH("PointInBox");
+    
     for (const auto& corner : boxCorners)
     {
         if (!PointInBox(box1, corner))
         {
-            DEBUG_PROFILE_POP("PointInBox");
             return false;
         }
     }
-    DEBUG_PROFILE_POP("PointInBox");
 
     return true;
 }
