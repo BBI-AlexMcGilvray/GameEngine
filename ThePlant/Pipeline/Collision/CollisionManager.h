@@ -18,8 +18,10 @@ struct CollisionManager
 {
     CollisionManager(ECS& ecs, const Core::Math::Float3& worldSize);
 
+    // should only be called once per frame
+    void ResetCollisionCache();
     OctTree& GetOctTree();
-    std::vector<Collision> GetAllCollisions() const;
+    std::vector<Collision> GetAllCollisions();
 
     const std::vector<Core::Ptr<ICollisionHandler>> GetAllCollisionHandlers() const;
     
@@ -33,6 +35,10 @@ struct CollisionManager
 private:
     OctTree _octTree;
     std::unordered_map<Core::instanceId<ICollisionHandler>, std::unique_ptr<ICollisionHandler>, Core::instanceIdHasher<ICollisionHandler>> _handlers;
+    
+    // cache the collisions for the given frame
+    std::vector<Collision> _cachedCollisions;
+    bool _frameCached = false;
 };
 } // namespace Collision
 } // namespace Application

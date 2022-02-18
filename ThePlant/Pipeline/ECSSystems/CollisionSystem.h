@@ -64,6 +64,7 @@ struct CollisionHandlingSystem : System<CollisionHandlingSystem>
     {
         DEBUG_PROFILE_SCOPE(GetSystemName());
 
+        _collisionManager.ResetCollisionCache();
         auto& allCollisions = _collisionManager.GetAllCollisions();
         const auto& allCollisionHandlgers = _collisionManager.GetAllCollisionHandlers();
 

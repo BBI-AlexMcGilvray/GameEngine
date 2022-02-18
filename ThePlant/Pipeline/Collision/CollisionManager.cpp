@@ -8,14 +8,25 @@ CollisionManager::CollisionManager(ECS& ecs, const Core::Math::Float3& worldSize
 : _octTree(CreateOctTree(ecs, worldSize))
 {}
 
+void CollisionManager::ResetCollisionCache()
+{
+    _cachedCollisions.clear();
+    _frameCached = false;
+}
+
 OctTree& CollisionManager::GetOctTree()
 {
     return _octTree;
 }
 
-std::vector<Collision> CollisionManager::GetAllCollisions() const
+std::vector<Collision> CollisionManager::GetAllCollisions()
 {
-    return _octTree.AllCollisions();
+    if (!_frameCached)
+    {
+        _cachedCollisions = _octTree.AllCollisions();
+        _frameCached = true;
+    }
+    return _cachedCollisions;
 }
 
 const std::vector<Core::Ptr<ICollisionHandler>> CollisionManager::GetAllCollisionHandlers() const
