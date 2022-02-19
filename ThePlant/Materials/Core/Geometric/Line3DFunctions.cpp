@@ -136,17 +136,19 @@ Math::Float3 LineEndpoint(const ShapeOrientation<Line3D>& line)
     return line.orientation.GetPosition() + LineEndpoint(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length));
 }
 
-Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point)
+Math::Float3 ClosestPointOnLine(const Line3D& line, const Point3D& point)
 {
-    const Math::Float3 lineOrigin = line.orientation.GetPosition();
-
-    const Math::Float3 originToPoint = point - lineOrigin;
-    const Math::Float3 projectedOntoLine = Math::Project(originToPoint, EffectiveDirection(line));
-    const Math::Float3 closestPointOnLine = projectedOntoLine + lineOrigin;
+    const Math::Float3 projectedOntoLine = Math::Project(point, line.direction);
 
     // we know this is on the line since we projected it onto the line
-    const float lineMultiplier = AnyValidMultiplier(line, closestPointOnLine);
+    const float lineMultiplier = AnyValidMultiplier(line, projectedOntoLine);
     return PointOnLine(line, lineMultiplier);
+}
+
+Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point)
+{
+    const Math::Float3 adjustedPoint = point - line.orientation.GetPosition();
+    return line.orientation.GetPosition() + ClosestPointOnLine(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length), adjustedPoint);
 }
 
 Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)

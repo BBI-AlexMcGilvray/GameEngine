@@ -30,6 +30,7 @@ Math::Float3 PointOnLine(const ShapeOrientation<Line3D>& line, const float& mult
 Math::Float3 LineEndpoint(const Line3D& line);
 Math::Float3 LineEndpoint(const ShapeOrientation<Line3D>& line);
 
+Math::Float3 ClosestPointOnLine(const Line3D& line, const Point3D& point);
 Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point);
 Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot);
 // returns: <closest point on line 1, closest point on line 2>
