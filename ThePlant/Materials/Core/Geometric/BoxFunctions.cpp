@@ -153,34 +153,34 @@ Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const ShapeOr
 // probably not the most efficient, but can deal with that later
 Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
-    DEBUG_PROFILE_SCOPE("ClosestPointToLine(Box, Line3D)");
+    // DEBUG_PROFILE_SCOPE("ClosestPointToLine(Box, Line3D)");
     
-    DEBUG_PROFILE_PUSH("Early Out");
-    DEBUG_PROFILE_PUSH("Early Out Data");
+    // DEBUG_PROFILE_PUSH("Early Out");
+    // DEBUG_PROFILE_PUSH("Early Out Data");
     Box effectiveBox = Box(EffectiveDimensions(box));
     
-    DEBUG_PROFILE_PUSH("counter rotated line");
+    // DEBUG_PROFILE_PUSH("counter rotated line");
     ShapeOrientation<Line3D> counterRotatedLine = line;
     counterRotatedLine.orientation.position = RotateVectorBy(line.orientation.position - box.orientation.position, box.orientation.rotation.Inverse()); // must also counter-rotate the line origin
     counterRotatedLine.orientation.rotation = box.orientation.rotation.Inverse() * counterRotatedLine.orientation.rotation; // must alter the line's direction
     Line3D effectiveLine = Line3D(EffectiveDirection(counterRotatedLine), line.shape.infinite);
-    DEBUG_PROFILE_POP("counter rotated line");
+    // DEBUG_PROFILE_POP("counter rotated line");
 
-    DEBUG_PROFILE_PUSH("line pointing at box");
+    // DEBUG_PROFILE_PUSH("line pointing at box");
     const auto lineOriginToBox = box.orientation.position - counterRotatedLine.orientation.position;
 
     const auto linePointingToBox = Math::Dot(EffectiveDirection(counterRotatedLine), lineOriginToBox);
-    DEBUG_PROFILE_POP("line pointing at box");
-    DEBUG_PROFILE_POP("Early Out Data");
+    // DEBUG_PROFILE_POP("line pointing at box");
+    // DEBUG_PROFILE_POP("Early Out Data");
     if (linePointingToBox <= 0.0f) // pointing away/not at box, modified line origin will be closest
     {
         const auto closestPointToLineOrigin = ClosestPointToPoint(effectiveBox, counterRotatedLine.orientation.position);
-        DEBUG_PROFILE_POP("Early Out");
+        // DEBUG_PROFILE_POP("Early Out");
         return box.orientation.position + RotateVectorBy(closestPointToLineOrigin, box.orientation.rotation);
     }
-    DEBUG_PROFILE_POP("Early Out");
+    // DEBUG_PROFILE_POP("Early Out");
 
-    DEBUG_PROFILE_PUSH("Gather Data");
+    // DEBUG_PROFILE_PUSH("Gather Data");
     const auto boxMax = BoxMax(effectiveBox);
     const auto boxMin = BoxMin(effectiveBox);
     const auto maxRelativeToLine = boxMax - line.orientation.position;
@@ -208,9 +208,9 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
     const auto crossMaxZPoint = PointOnLine(effectiveLine, zMult_Max) + line.orientation.position;
     planeIntersections[4] = {zMult_Min, crossMinZPoint};
     planeIntersections[5] = {zMult_Max, crossMaxZPoint};
-    DEBUG_PROFILE_POP("Gather Data");
+    // DEBUG_PROFILE_POP("Gather Data");
     
-    DEBUG_PROFILE_PUSH("Analyze Data");
+    // DEBUG_PROFILE_PUSH("Analyze Data");
     // <multiplier, distance between box and point>
     std::pair<float, Math::Float3> bestIntersection = planeIntersections[0];
     Math::Float3 closestPointToBestIntersection = ClosestPointToPoint(effectiveBox, bestIntersection.second);
@@ -247,7 +247,7 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
         }
     }
 
-    DEBUG_PROFILE_POP("Analyze Data");
+    // DEBUG_PROFILE_POP("Analyze Data");
     return box.orientation.position + RotateVectorBy(closestPointToBestIntersection, box.orientation.rotation);
 }
 } // namespace Geometric

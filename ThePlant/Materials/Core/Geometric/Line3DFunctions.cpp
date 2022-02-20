@@ -203,7 +203,7 @@ std::pair<Core::Math::Float3, Core::Math::Float3> ClosestPointsBetweenLines(cons
 
 ShapeOrientation<Line3D> LineFromPoints(const Point3D& point1, const Point3D& point2)
 {
-    DEBUG_PROFILE_SCOPE("LineFromPoints");
+    // DEBUG_PROFILE_SCOPE("LineFromPoints");
     
     const auto point1To2 = point2 - point1;
     return ShapeOrientation<Line3D>(Orientation(point1), Line3D(point1To2, false));

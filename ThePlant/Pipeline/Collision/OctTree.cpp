@@ -127,7 +127,7 @@ bool OctTreeNode::_Engulfs(const Core::Geometric::ShapeOrientation3D& shape) con
 // must be tied with the above
 OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape)
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_FindContainingNode");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_FindContainingNode");
 
     if (!_ChildrenExist())
     {
@@ -167,7 +167,7 @@ const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::Shape
 
 void OctTreeNode::_InsertContent(const OctTreeContent& content)
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_InsertContent");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_InsertContent");
 
     if (_content.empty() && !_ChildrenExist())
     {
@@ -199,7 +199,7 @@ void OctTreeNode::_StopGapContent(const OctTreeContent& content)
 
 void OctTreeNode::_RemoveStopGap()
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_RemoveStopGap");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_RemoveStopGap");
 
     _stopGapped = false;
     OctTreeContent stopGappedContent = _content.back();
@@ -210,7 +210,7 @@ void OctTreeNode::_RemoveStopGap()
 
 void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_FindAllEntities");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_FindAllEntities");
 
     _InternalEntities(entities, shape);
 
@@ -234,7 +234,7 @@ void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const 
 
 void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_InternalEntities");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_InternalEntities");
 
     for (const auto& content : _content)
     {
@@ -247,7 +247,7 @@ void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const
 
 void OctTreeNode::_EntitiesForAllContent(std::vector<EntitySnapshot>& entities) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_EntitiesForAllContent");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_EntitiesForAllContent");
 
     for (const auto& content : _content)
     {
@@ -267,7 +267,7 @@ void OctTreeNode::_EntitiesForAllContent(std::vector<EntitySnapshot>& entities) 
 
 void OctTreeNode::_AllCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_AllCollisions");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_AllCollisions");
 
     _InternalCollisions(collisions);
     _CollisionsWithChildren(collisions);
@@ -276,7 +276,7 @@ void OctTreeNode::_AllCollisions(std::vector<IntermediaryCollision>& collisions)
 
 void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_InternalCollisions");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_InternalCollisions");
 
     // edge case covering due to _content.size() - 1 in loop
     if (_content.size() == 0)
@@ -298,7 +298,7 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
 
 void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& collisions) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_CollisionsWithChildren");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_CollisionsWithChildren");
 
     if (!_ChildrenExist())
     {
@@ -309,18 +309,23 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
     {
         for (const auto& child : _children)
         {
-            DEBUG_PROFILE_PUSH("Engulfs");
+            if (child->_content.empty())
+            {
+                continue;
+            }
+            
+            // DEBUG_PROFILE_PUSH("Engulfs");
             bool contentEngulfsChild = Core::Geometric::Engulfs(_content[i].shapeOrientation, child->_this);
-            DEBUG_PROFILE_POP("Engulfs");
+            // DEBUG_PROFILE_POP("Engulfs");
             if (contentEngulfsChild)
             {
                 child->_CollisionsWithAllContent(collisions, _content[i]);
                 continue;
             }
 
-            DEBUG_PROFILE_PUSH("Intersect");
+            // DEBUG_PROFILE_PUSH("Intersect");
             bool contentIntersectsChild = Core::Geometric::Intersect(_content[i].shapeOrientation, child->_this);
-            DEBUG_PROFILE_POP("Intersect");
+            // DEBUG_PROFILE_POP("Intersect");
             if (contentIntersectsChild)
             {
                 child->_FindAllCollisions(collisions, _content[i]);
@@ -331,7 +336,7 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
 
 void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_CollisionsWithAllContent");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_CollisionsWithAllContent");
 
     for (const auto& c : _content)
     {
@@ -351,7 +356,7 @@ void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& 
 
 void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_FindAllCollisions");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_FindAllCollisions");
 
     for (const auto& c : _content)
     {
@@ -395,7 +400,7 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
 
 void OctTreeNode::_ChildCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_ChildCollisions");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_ChildCollisions");
 
     if (!_ChildrenExist())
     {
@@ -410,7 +415,7 @@ void OctTreeNode::_ChildCollisions(std::vector<IntermediaryCollision>& collision
 
 std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<IntermediaryCollision>& intermediaryCollisions) const
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_CreateCollisions");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_CreateCollisions");
     
     // this is to avoid creating multiple snapshots of the same entity
     // maybe we shouldn't do it? would need to be measured/timed

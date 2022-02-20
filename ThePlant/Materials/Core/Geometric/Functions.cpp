@@ -86,7 +86,7 @@ float DistanceSqr(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& 
 
 float DistanceSqr(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Shape3D, Shape3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Shape3D, Shape3D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
@@ -95,7 +95,7 @@ float DistanceSqr(const ShapeOrientation3D& shape1, const ShapeOrientation3D& sh
 
 float DistanceSqr(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Shape2D, Shape2D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Shape2D, Shape2D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
@@ -115,7 +115,7 @@ bool Engulfs(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape
 
 bool Engulfs(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Shape3D, Shape3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Shape3D, Shape3D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
@@ -124,7 +124,7 @@ bool Engulfs(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 
 bool Engulfs(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Shape2D, Shape2D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Shape2D, Shape2D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
@@ -143,7 +143,7 @@ bool Intersect(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& sha
 
 bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
-    DEBUG_PROFILE_SCOPE("Intersect(Shape3D, Shape3D)");
+    // DEBUG_PROFILE_SCOPE("Intersect(Shape3D, Shape3D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
@@ -152,7 +152,7 @@ bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape
 
 bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
-    DEBUG_PROFILE_SCOPE("Intersect(Shape2D, Shape2D)");
+    // DEBUG_PROFILE_SCOPE("Intersect(Shape2D, Shape2D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies

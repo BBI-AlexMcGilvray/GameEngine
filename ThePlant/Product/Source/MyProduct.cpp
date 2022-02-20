@@ -37,7 +37,7 @@ namespace Product
 
         // testing
         // _static = Testing::SpawnStaticModel(); // (Static model)
-        // _animated = Testing::SpawnAnimatedModel(); // (Animated model)
+        _animated = Testing::SpawnAnimatedModel(); // (Animated model)
 
         // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
         _leftPos = Core::Math::Float3(-15.0f, 4.0f, 0.0f);
@@ -108,13 +108,13 @@ namespace Product
         _luaManager.update(dt);
 
         // testing (Animated model)
-        // ++frames;
-        // if (frames > 50 && !played)
-        // {
-        //     auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_animated);
-        //     Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
-        //     played = true;
-        // }
+        ++frames;
+        if (frames > 50 && !played)
+        {
+            auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_animated);
+            Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
+            played = true;
+        }
         // \testing
 
         // testing (Static model)

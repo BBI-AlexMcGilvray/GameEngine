@@ -17,14 +17,14 @@ namespace Geometric
 {
 float DistanceSqr(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spot3D>& spot2)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Spot3D, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Spot3D, Spot3D)");
 
     return Math::DistanceSqr(spot1.orientation.position, spot2.orientation.position);
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spot3D>& spot2)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Sot3D)");
 
     return spot1.orientation.position == spot2.orientation.position;
 }
@@ -44,7 +44,7 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Line3D
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Plane>& plane)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Plane)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Plane)");
 
     if (plane.shape.infinite)
     {
@@ -63,7 +63,7 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Plane>
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Sphere>& sphere)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Sphere)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Sphere)");
 
     if (sphere.shape.radius != 0.0f)
     {
@@ -75,7 +75,7 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Sphere
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Box>& box)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Box)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Box)");
 
     if (box.shape.dimensions != Core::Math::Float3(0.0f))
     {
@@ -87,14 +87,14 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Box>& 
 
 float DistanceSqr(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Line3D, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Line3D, Spot3D)");
 
     return Math::DistanceSqr(spot.orientation.position, ClosestPointOnLine(line, spot));
 }
 
 float DistanceSqr(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Line3D, Line3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Line3D, Line3D)");
 
     const auto closestPointsOnLines = ClosestPointsBetweenLines(line1, line2);
     return Math::DistanceSqr(closestPointsOnLines.first, closestPointsOnLines.second);
@@ -102,14 +102,14 @@ float DistanceSqr(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Spot3D)");
 
     return PointIsOnLine(line, spot.orientation.position);
 }
 
 bool Engulfs(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Line3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Line3D)");
 
     if (line1.shape.line != line2.shape.line)
     {
@@ -126,7 +126,7 @@ bool Engulfs(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Plane>& plane)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Plane)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Plane)");
 
     if (plane.shape.infinite || Math::Dot(EffectiveDirection(line), EffectiveNormal(plane)) != 0.0f)
     {
@@ -139,7 +139,7 @@ bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Plane>
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Sphere>& sphere)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Sphere)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Sphere)");
 
     if (sphere.shape.radius != 0.0f)
     {
@@ -151,7 +151,7 @@ bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Sphere
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Box>& box)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Box)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Box)");
 
     if (box.shape.dimensions != Core::Math::Float3(0.0f))
     {
@@ -163,7 +163,7 @@ bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Box>& 
 
 float DistanceSqr(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Plane, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Plane, Spot3D)");
 
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
@@ -171,7 +171,7 @@ float DistanceSqr(const ShapeOrientation<Plane>& plane, const ShapeOrientation<S
 
 float DistanceSqr(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Line3D>& line)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Plane, Line3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Plane, Line3D)");
 
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
@@ -179,7 +179,7 @@ float DistanceSqr(const ShapeOrientation<Plane>& plane, const ShapeOrientation<L
 
 float DistanceSqr(const ShapeOrientation<Plane>& plane1, const ShapeOrientation<Plane>& plane2)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Plane, Plane)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Plane, Plane)");
 
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
@@ -187,7 +187,7 @@ float DistanceSqr(const ShapeOrientation<Plane>& plane1, const ShapeOrientation<
 
 bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Plane, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Plane, Spot3D)");
 
     // do we care about case where spot is on plane?
     return false;
@@ -195,7 +195,7 @@ bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Spot3D
 
 bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Line3D>& line)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Plane, Line3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Plane, Line3D)");
 
     // do we care about case where line is on plane?
     return false;
@@ -203,7 +203,7 @@ bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Line3D
 
 bool Engulfs(const ShapeOrientation<Plane>& plane1, const ShapeOrientation<Plane>& plane2)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Plane, Plane)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Plane, Plane)");
 
     // do we care about case where plane2 is on plane1?
     return false;
@@ -211,7 +211,7 @@ bool Engulfs(const ShapeOrientation<Plane>& plane1, const ShapeOrientation<Plane
 
 bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Sphere>& sphere)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Plane, Sphere)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Plane, Sphere)");
 
     // do we care about case where sphere.origin is on plane && plane.radius == 0?
     return false;
@@ -219,7 +219,7 @@ bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Sphere
 
 bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Box>& box)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Plane, Box)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Plane, Box)");
 
     // do we care about case where box.origin is on plane && box.dimensions == 0?
     return false;
@@ -227,7 +227,7 @@ bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Box>& 
 
 float DistanceSqr(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Spot3D)");
 
     ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
     return DistanceSqr(sphereCenter, spot) - Math::sqr(EffectiveRadius(sphere));
@@ -235,7 +235,7 @@ float DistanceSqr(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation
 
 float DistanceSqr(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Line3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Line3D)");
 
     ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
     return DistanceSqr(line, sphereCenter) - Math::sqr(EffectiveRadius(sphere));
@@ -243,7 +243,7 @@ float DistanceSqr(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation
 
 float DistanceSqr(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Plane)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Plane)");
 
     ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
     return DistanceSqr(plane, sphereCenter) - Math::sqr(EffectiveRadius(sphere));
@@ -251,7 +251,7 @@ float DistanceSqr(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation
 
 float DistanceSqr(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Sphere)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Sphere)");
 
     ShapeOrientation<Spot3D> sphere2Center = { sphere2.orientation, Spot3D() };
     return DistanceSqr(sphere1, sphere2Center) - Math::sqr(EffectiveRadius(sphere1));
@@ -259,14 +259,14 @@ float DistanceSqr(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientatio
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Spot3D)");
 
     return DistanceSqr(sphere, spot) <= Math::sqr(sphere.shape.radius);
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Line3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Line3D)");
 
     if (line.shape.infinite)
     {
@@ -278,7 +278,7 @@ bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Plane)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Plane)");
 
     if (plane.shape.infinite)
     {
@@ -291,7 +291,7 @@ bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plan
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Sphere)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Sphere)");
 
     // can't contain if the sphere wouldn't even fit
     if (sphere1.shape.radius < sphere2.shape.radius)
@@ -304,7 +304,7 @@ bool Engulfs(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sph
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Box>& box)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Box)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Box)");
 
     const auto boxCorners = BoxCorners(box);
 
@@ -321,18 +321,18 @@ bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Box>
 
 float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Spot3D)");
 
-    DEBUG_PROFILE_PUSH("PointInBox");
+    // DEBUG_PROFILE_PUSH("PointInBox");
     if (PointInBox(box, spot))
     {
-        DEBUG_PROFILE_POP("PointInBox");
+        // DEBUG_PROFILE_POP("PointInBox");
         return 0.0f;
     }
-    DEBUG_PROFILE_POP("PointInBox");
+    // DEBUG_PROFILE_POP("PointInBox");
 
     {
-        DEBUG_PROFILE_SCOPE("Other");
+        // DEBUG_PROFILE_SCOPE("Other");
         const auto closestPoint = ClosestPointToPoint(box, spot);
         return DistanceSqr(closestPoint, spot.orientation.position);
     }
@@ -340,14 +340,14 @@ float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3
 
 float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Line3D)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Line3D)");
 
     return DistanceSqr(line, ShapeOrientation<Spot3D>(Orientation(ClosestPointToLine(box, line)), Spot3D()));
 }
 
 float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Plane)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Plane)");
 
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
@@ -358,14 +358,14 @@ float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane
 
 float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Sphere)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Sphere)");
 
     return DistanceSqr(box, ShapeOrientation<Spot3D>(sphere.orientation, Spot3D())) - Math::sqr(EffectiveRadius(sphere));
 }
 
 float DistanceSqr(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
 {
-    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Box)");
+    // DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Box)");
 
     auto boxEdges = BoxEdges(box2);
 
@@ -411,14 +411,14 @@ float DistanceSqr(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Box, Spot3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Box, Spot3D)");
 
     return PointInBox(box, spot);
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Box, Line3D)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Box, Line3D)");
 
     if (line.shape.infinite)
     {
@@ -430,7 +430,7 @@ bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& l
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Box, Plane)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Box, Plane)");
 
     if (plane.shape.infinite)
     {
@@ -443,7 +443,7 @@ bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& pl
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Box, Sphere)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Box, Sphere)");
 
     const auto sphereExtremes = SphereAxisExtremes(sphere, box.orientation.rotation.Inverse());
 
@@ -460,7 +460,7 @@ bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& s
 
 bool Engulfs(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
 {
-    DEBUG_PROFILE_SCOPE("Engulfs(Box, Box)");
+    // DEBUG_PROFILE_SCOPE("Engulfs(Box, Box)");
 
     const auto boxCorners = BoxCorners(box2);
     
