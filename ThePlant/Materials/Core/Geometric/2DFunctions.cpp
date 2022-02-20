@@ -13,12 +13,12 @@
 
 namespace Core {
 namespace Geometric {
-float Distance(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2)
+float DistanceSqr(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2)
 {
     VERIFY_2D(spot1);
     VERIFY_2D(spot2);
     
-    return Math::Distance(spot1.orientation.GetPosition(), spot2.orientation.GetPosition());
+    return Math::DistanceSqr(spot1.orientation.GetPosition(), spot2.orientation.GetPosition());
 }
 
 bool Engulfs(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2)
@@ -68,23 +68,23 @@ bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Rectan
     return spot.orientation.GetPosition() == rectangle.orientation.GetPosition();
 }
 
-float Distance(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)
+float DistanceSqr(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(circle);
     VERIFY_2D(spot);
 
     float spotToCenterSqr = Math::DistanceSqr(circle.orientation.GetPosition(), spot.orientation.GetPosition());
 
-    return std::max(0.0f, spotToCenterSqr - Math::sqr(circle.shape.radius));
+    return spotToCenterSqr - Math::sqr(circle.shape.radius);
 }
 
-float Distance(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
+float DistanceSqr(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
 {
     VERIFY_2D(circle1);
     VERIFY_2D(circle2);
 
     ShapeOrientation<Spot2D> circleCenter = { circle1.orientation, Spot2D() };
-    return std::max(0.0f, Distance(circle2, circleCenter) - circle1.shape.radius);
+    return DistanceSqr(circle2, circleCenter) - Math::sqr(circle1.shape.radius);
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)
@@ -92,7 +92,7 @@ bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot
     VERIFY_2D(circle);
     VERIFY_2D(spot);
 
-    return Distance(circle, spot) <= 0.0f;
+    return DistanceSqr(circle, spot) <= 0.0f;
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
@@ -100,7 +100,13 @@ bool Engulfs(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Cir
     VERIFY_2D(circle1);
     VERIFY_2D(circle2);
 
-    return (std::abs(Distance(circle1, ShapeOrientation<Spot2D>(circle2.orientation, Spot2D()))) + circle2.shape.radius) <= circle1.shape.radius;
+    // can't contain if the circle wouldn't even fit
+    if (circle1.shape.radius < circle2.shape.radius)
+    {
+        return false;
+    }
+
+    return DistanceSqr(circle1, ShapeOrientation<Spot2D>(circle2.orientation, Spot2D())) <= Math::sqr(circle1.shape.radius - circle2.shape.radius);
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Line2D>& line)
@@ -130,25 +136,25 @@ bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Rect
     return false;
 }
 
-float Distance(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot)
+float DistanceSqr(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(line);
     VERIFY_2D(spot);
 
     Math::Float2 closestPointOnLine = ClosestPointOnLine(line, spot);
-    return Math::Distance(spot.orientation.GetPosition().XY, closestPointOnLine);
+    return Math::DistanceSqr(spot.orientation.GetPosition().XY, closestPointOnLine);
 }
 
-float Distance(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circle>& circle)
+float DistanceSqr(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circle>& circle)
 {
     VERIFY_2D(line);
     VERIFY_2D(circle);
 
     ShapeOrientation<Spot2D> circleCenter = { circle.orientation, Spot2D() };
-    return std::max(0.0f, Distance(line, circleCenter) - circle.shape.radius);
+    return DistanceSqr(line, circleCenter) - Math::sqr(circle.shape.radius);
 }
 
-float Distance(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Line2D>& line2)
+float DistanceSqr(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Line2D>& line2)
 {
     VERIFY_2D(line1);
     VERIFY_2D(line2);
@@ -158,7 +164,7 @@ float Distance(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Lin
     modifiedLine2.orientation.AdjustRotation(line1.orientation.GetRotation().Inverse());
 
     const auto modifiedLine2EffectiveDirection = EffectiveDirection(modifiedLine2);
-    bool linesParallel = (std::abs(Math::DistanceSqr(line1.shape.direction, modifiedLine2EffectiveDirection)) <= Math::DEFAULT_PRECISION());
+    bool linesParallel = (line1.shape.direction == modifiedLine2EffectiveDirection);
     if (linesParallel)
     {
         // if line1 points to line2, use ClosestPointOnLine(line1, line2.origin)
@@ -208,7 +214,7 @@ bool Engulfs(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Rectan
     return false;
 }
 
-float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot)
+float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(rectangle);
     VERIFY_2D(spot);
@@ -219,28 +225,28 @@ float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientat
         return 0.0f;
     }
 
-    return Math::Distance(spot.orientation.GetPosition().XY, closestPointInRectangle);
+    return Math::DistanceSqr(spot.orientation.GetPosition().XY, closestPointInRectangle);
 }
 
-float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Circle>& circle)
+float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Circle>& circle)
 {
     VERIFY_2D(rectangle);
     VERIFY_2D(circle);
 
     ShapeOrientation<Spot2D> circleCenter = { circle.orientation, Spot2D() };
-    return std::max(0.0f, Distance(rectangle, circleCenter) - circle.shape.radius);
+    return DistanceSqr(rectangle, circleCenter) - Math::sqr(circle.shape.radius);
 }
 
-float Distance(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line)
+float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line)
 {
     VERIFY_2D(rectangle);
     VERIFY_2D(line);
 
     const Math::Float2 closestPoint = ClosestPointToLine(rectangle, line);
-    return Distance(line, { Transform(Math::Float3(closestPoint)), Spot2D() });
+    return DistanceSqr(line, { Transform(Math::Float3(closestPoint)), Spot2D() });
 }
 
-float Distance(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientation<Rectangle>& rectangle2)
+float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientation<Rectangle>& rectangle2)
 {
     VERIFY_2D(rectangle1);
     VERIFY_2D(rectangle2);

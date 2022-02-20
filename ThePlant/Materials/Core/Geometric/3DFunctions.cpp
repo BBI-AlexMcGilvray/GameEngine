@@ -15,11 +15,11 @@ namespace Core
 {
 namespace Geometric
 {
-float Distance(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spot3D>& spot2)
+float DistanceSqr(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spot3D>& spot2)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Spot3D, Spot3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Spot3D, Spot3D)");
 
-    return Math::Distance(spot1.orientation.GetPosition(), spot2.orientation.GetPosition());
+    return Math::DistanceSqr(spot1.orientation.GetPosition(), spot2.orientation.GetPosition());
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spot3D>& spot2)
@@ -85,19 +85,19 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Box>& 
     return spot.orientation.GetPosition() == box.orientation.GetPosition();
 }
 
-float Distance(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
+float DistanceSqr(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Line3D, Spot3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Line3D, Spot3D)");
 
-    return Math::Distance(spot.orientation.GetPosition(), ClosestPointOnLine(line, spot));
+    return Math::DistanceSqr(spot.orientation.GetPosition(), ClosestPointOnLine(line, spot));
 }
 
-float Distance(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
+float DistanceSqr(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Line3D, Line3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Line3D, Line3D)");
 
     const auto closestPointsOnLines = ClosestPointsBetweenLines(line1, line2);
-    return Math::Distance(closestPointsOnLines.first, closestPointsOnLines.second);
+    return Math::DistanceSqr(closestPointsOnLines.first, closestPointsOnLines.second);
 }
 
 bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
@@ -161,25 +161,25 @@ bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Box>& 
     return Engulfs(line, ShapeOrientation<Spot3D>(box.orientation, Spot3D()));
 }
 
-float Distance(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Spot3D>& spot)
+float DistanceSqr(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Plane, Spot3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Plane, Spot3D)");
 
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
-float Distance(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Line3D>& line)
+float DistanceSqr(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Line3D>& line)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Plane, Line3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Plane, Line3D)");
 
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
 }
 
-float Distance(const ShapeOrientation<Plane>& plane1, const ShapeOrientation<Plane>& plane2)
+float DistanceSqr(const ShapeOrientation<Plane>& plane1, const ShapeOrientation<Plane>& plane2)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Plane, Plane)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Plane, Plane)");
 
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
@@ -225,43 +225,43 @@ bool Engulfs(const ShapeOrientation<Plane>& plane, const ShapeOrientation<Box>& 
     return false;
 }
 
-float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot3D>& spot)
+float DistanceSqr(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Sphere, Spot3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Spot3D)");
 
     ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
-    return std::max(0.0f, Distance(sphereCenter, spot) - EffectiveRadius(sphere));
+    return DistanceSqr(sphereCenter, spot) - Math::sqr(EffectiveRadius(sphere));
 }
 
-float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
+float DistanceSqr(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Sphere, Line3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Line3D)");
 
     ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
-    return std::max(0.0f, Distance(line, sphereCenter) - EffectiveRadius(sphere));
+    return DistanceSqr(line, sphereCenter) - Math::sqr(EffectiveRadius(sphere));
 }
 
-float Distance(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
+float DistanceSqr(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Sphere, Plane)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Plane)");
 
     ShapeOrientation<Spot3D> sphereCenter = { sphere.orientation, Spot3D() };
-    return std::max(0.0f, Distance(plane, sphereCenter) - EffectiveRadius(sphere));
+    return DistanceSqr(plane, sphereCenter) - Math::sqr(EffectiveRadius(sphere));
 }
 
-float Distance(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
+float DistanceSqr(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sphere>& sphere2)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Sphere, Sphere)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Sphere)");
 
     ShapeOrientation<Spot3D> sphere2Center = { sphere2.orientation, Spot3D() };
-    return std::max(0.0f, Distance(sphere1, sphere2Center) - EffectiveRadius(sphere1));
+    return DistanceSqr(sphere1, sphere2Center) - Math::sqr(EffectiveRadius(sphere1));
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Spot3D>& spot)
 {
     DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Spot3D)");
 
-    return Distance(sphere, spot) <= sphere.shape.radius;
+    return DistanceSqr(sphere, spot) <= Math::sqr(sphere.shape.radius);
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line3D>& line)
@@ -293,7 +293,13 @@ bool Engulfs(const ShapeOrientation<Sphere>& sphere1, const ShapeOrientation<Sph
 {
     DEBUG_PROFILE_SCOPE("Engulfs(Sphere, Sphere)");
 
-    return (Distance(sphere1, sphere2) + EffectiveRadius(sphere2)) <= EffectiveRadius(sphere1);
+    // can't contain if the sphere wouldn't even fit
+    if (sphere1.shape.radius < sphere2.shape.radius)
+    {
+        return false;
+    }
+
+    return DistanceSqr(sphere1, sphere2) <= Math::sqr(EffectiveRadius(sphere1) - EffectiveRadius(sphere2));
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Box>& box)
@@ -313,9 +319,9 @@ bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Box>
     return true;
 }
 
-float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
+float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Box, Spot3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Spot3D)");
 
     if (PointInBox(box, spot))
     {
@@ -323,19 +329,19 @@ float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>&
     }
 
     const auto closestPoint = ClosestPointToPoint(box, spot);
-    return Distance(closestPoint, spot.orientation.GetPosition());
+    return DistanceSqr(closestPoint, spot.orientation.GetPosition());
 }
 
-float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
+float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Box, Line3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Line3D)");
 
-    return Distance(line, ShapeOrientation<Spot3D>(Transform(ClosestPointToLine(box, line)), Spot3D()));
+    return DistanceSqr(line, ShapeOrientation<Spot3D>(Transform(ClosestPointToLine(box, line)), Spot3D()));
 }
 
-float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
+float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Box, Plane)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Plane)");
 
     CORE_ERROR("3DFunctions", "Implementation Missing");
     return -1.0f;
@@ -344,26 +350,25 @@ float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& 
     // distance from box to that point
 }
 
-float Distance(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere)
+float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Box, Sphere)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Sphere)");
 
-    return std::max(0.0f, Distance(box, ShapeOrientation<Spot3D>(sphere.orientation, Spot3D())) - EffectiveRadius(sphere));
+    return DistanceSqr(box, ShapeOrientation<Spot3D>(sphere.orientation, Spot3D())) - Math::sqr(EffectiveRadius(sphere));
 }
 
-float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
+float DistanceSqr(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Box, Box)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Box)");
 
-    const auto box2Edges = BoxEdges(box2);
-    const auto box1Edges = BoxEdges(box1);
+    auto boxEdges = BoxEdges(box2);
 
     bool first = true;
     float minimumDistance;
     // closest point from box1 to a box2 corner
-    for (const auto& edge : box2Edges)
+    for (const auto& edge : boxEdges)
     {
-        const auto distance = Distance(box1, edge);
+        const auto distance = DistanceSqr(box1, edge);
 
         if (!first)
         {
@@ -381,10 +386,11 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
         }
     }
 
+    boxEdges = BoxEdges(box1);
     // need to check the opposite too, as they may be closer
-    for (const auto& edge : box1Edges)
+    for (const auto& edge : boxEdges)
     {
-        const auto distance = Distance(box2, edge);
+        const auto distance = DistanceSqr(box2, edge);
 
         minimumDistance = std::min(distance, minimumDistance);
 
@@ -394,7 +400,7 @@ float Distance(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& b
         }
     }
 
-    return std::max(0.0f, minimumDistance);
+    return minimumDistance;
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)

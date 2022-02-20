@@ -151,10 +151,10 @@ Math::Float2 ClosestPointToLine(const ShapeOrientation<Rectangle>& rectangle, co
     ShapeOrientation<Line2D> bottomdge(Transform(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f)));
     ShapeOrientation<Line2D> leftEdge(Transform(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f)));
     ShapeOrientation<Line2D> rightEdge(Transform(Math::Float3(rectMax.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f)));
-    const auto topEdgeDistance = Distance(modifiedLine, topEdge);
-    const auto bottomEdgeDistance = Distance(modifiedLine, bottomdge);
-    const auto leftEdgeDistance = Distance(modifiedLine, leftEdge);
-    const auto rightEdgeDistance = Distance(modifiedLine, rightEdge);
+    const auto topEdgeDistance = DistanceSqr(modifiedLine, topEdge);
+    const auto bottomEdgeDistance = DistanceSqr(modifiedLine, bottomdge);
+    const auto leftEdgeDistance = DistanceSqr(modifiedLine, leftEdge);
+    const auto rightEdgeDistance = DistanceSqr(modifiedLine, rightEdge);
 
     auto smallestDistance = [topEdgeDistance, bottomEdgeDistance, leftEdgeDistance, rightEdgeDistance](const auto& distance)
     {

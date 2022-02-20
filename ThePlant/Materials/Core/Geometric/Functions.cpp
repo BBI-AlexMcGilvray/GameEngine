@@ -5,10 +5,10 @@
 namespace Core {
 namespace Geometric {
 namespace INTERNAL_HELPER {
-    // given two variants, will call the appropriate Distance(...) method for the two types held by them respectively
-    struct ShapeVisitor_Distance
+    // given two variants, will call the appropriate DistanceSqr(...) method for the two types held by them respectively
+    struct ShapeVisitor_DistanceSqr
     {
-        ShapeVisitor_Distance(const Transform& transform1, const Transform& transform2)
+        ShapeVisitor_DistanceSqr(const Transform& transform1, const Transform& transform2)
         : transform1(transform1)
         , transform2(transform2)
         {}
@@ -16,7 +16,7 @@ namespace INTERNAL_HELPER {
         template <typename SHAPE1, typename SHAPE2>
         float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
-            return Distance(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
+            return DistanceSqr(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
         }
 
     private:
@@ -74,32 +74,32 @@ method, but that can wait - likely much more complex
     - yes
 */
 
-float Distance(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
+float DistanceSqr(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
 {
-    return Distance(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+    return DistanceSqr(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
 
-float Distance(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d)
+float DistanceSqr(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d)
 {
-    return Distance(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+    return DistanceSqr(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
 
-float Distance(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
+float DistanceSqr(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Shape3D, Shape3D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Shape3D, Shape3D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Distance(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return std::visit(INTERNAL_HELPER::ShapeVisitor_DistanceSqr(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
 }
 
-float Distance(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
+float DistanceSqr(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
 {
-    DEBUG_PROFILE_SCOPE("Distance(Shape2D, Shape2D)");
+    DEBUG_PROFILE_SCOPE("DistanceSqr(Shape2D, Shape2D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_Distance(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return std::visit(INTERNAL_HELPER::ShapeVisitor_DistanceSqr(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
 }
 
 bool Engulfs(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)

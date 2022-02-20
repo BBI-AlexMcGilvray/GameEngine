@@ -6,6 +6,10 @@
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/VectorFunctions.h"
 
+/*
+NOTE: We should have lines not have a length, just have the direction contain the length and a flag for infinite or not
+    - this way we don't need to worry about normalizing all directions passed in, and it makes scaling lines much simpler
+*/
 namespace Core {
 namespace Geometric {
   struct Line2D
