@@ -4,46 +4,21 @@
 
 #include "Core/Math/Headers/Vector3.h"
 
-/*
-NOTE: We should have lines not have a length, just have the direction contain the length and a flag for infinite or not
-    - this way we don't need to worry about normalizing all directions passed in, and it makes scaling lines much simpler
-*/
 namespace Core {
 namespace Geometric {
   struct Line3D
   {
-    Math::Float3 direction; // direction should always be normalized
-    float length;
+    Math::Float3 line;
     bool infinite;
 
     Line3D()
-    : Line3D(Math::Float3(1.0f, 0.0f, 0.0f))
+    : Line3D(Math::Float3(1.0f, 1.0f, 1.0f), false)
     {}
 
-    Line3D(const float& length)
-    : Line3D(Math::Float3(1.0f, 0.0f, 0.0f), length)
-    {}
-
-    Line3D(const Math::Float3 &direction)
-    : direction(Math::Normalize(direction))
-    , infinite(true)
-    {}
-
-    Line3D(const Math::Float3 &direction, const float& length)
-    : direction(Math::Normalize(direction))
-    , length(length)
-    , infinite(false)
-    {
-      VERIFY(infinite || length >= 0.0f);
-    }
-
-    Line3D(const Math::Float3 &direction, bool infinite, const float& length)
-    : direction(Math::Normalize(direction))
-    , length(length)
+    Line3D(const Math::Float3 &line, bool infinite)
+    : line(line)
     , infinite(infinite)
-    {
-      VERIFY(infinite || length >= 0.0f);
-    }
+    {}
 
     Line3D(const Line3D&) = default;
     Line3D(Line3D&&) = default;
@@ -52,8 +27,7 @@ namespace Geometric {
 
     bool operator==(const Line3D& other) const
     {
-      return direction == other.direction &&
-              (length == other.length || infinite == other.infinite);
+      return line == other.line && infinite == other.infinite;
     }
     bool operator!=(const Line3D& other) const { return !(*this == other); }
   };

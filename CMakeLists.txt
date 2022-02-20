@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.12.2)
 set(CMAKE_GENERATOR "Visual Studio 16 2019")
 
+# how the fuck do you set optimization levels?
+# set(CMAKE_CXX_FLAGS_RELEASE       "-O3 -DNDEBUG"            CACHE STRING "c++ Debug flags" )
+# set(CMAKE_C_FLAGS_RELEASE         "-O3 -DNDEBUG"            CACHE STRING "c Debug flags" )
+# set(CMAKE_CXX_FLAGS_DEBUG       "-O3 -DNDEBUG"            CACHE STRING "c++ Release flags" )
+# set(CMAKE_C_FLAGS_DEBUG         "-O3 -DNDEBUG"            CACHE STRING "c Release flags" )
+set(CMAKE_CXX_FLAGS       "${CMAKE_C_FLAGS} -fembed-bitcode -O3"            CACHE STRING "c++ Debug flags" )
+set(CMAKE_C_FLAGS         "${CMAKE_C_FLAGS} -fembed-bitcode -O3"            CACHE STRING "c Debug flags" )
+
 # Set the project name to the_plant
 project(the_plant VERSION 1.0.0 LANGUAGES CXX)
 include(cmake/ProjectSettings.cmake)

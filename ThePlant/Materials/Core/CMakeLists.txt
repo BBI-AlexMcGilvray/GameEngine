@@ -53,6 +53,7 @@ Geometric/Line2D.h #
 Geometric/Line2DFunctions.h #
 Geometric/Line3D.h #
 Geometric/Line3DFunctions.h #
+Geometric/Orientation.h #
 Geometric/Plane.h #
 Geometric/PlaneFunctions.h #
 Geometric/Rectangle.h #

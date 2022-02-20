@@ -47,7 +47,7 @@ private:
 
         for (size_t index = 0; index < worldTransforms.size(); ++index)
         {
-            Core::Geometric::ShapeOrientation3D colliderOrientation = { worldTransforms[index].transform, colliderComponents[index].shape };
+            Core::Geometric::ShapeOrientation3D colliderOrientation = { worldTransforms[index].transform.GetOrientation(), colliderComponents[index].shape };
             _octTree.AddContent({ colliderOrientation, entities[index] });
         }
     }

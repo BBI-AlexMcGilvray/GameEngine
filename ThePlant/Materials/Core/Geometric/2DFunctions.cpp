@@ -18,7 +18,7 @@ float DistanceSqr(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<
     VERIFY_2D(spot1);
     VERIFY_2D(spot2);
     
-    return Math::DistanceSqr(spot1.orientation.GetPosition(), spot2.orientation.GetPosition());
+    return Math::DistanceSqr(spot1.orientation.position, spot2.orientation.position);
 }
 
 bool Engulfs(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2)
@@ -26,7 +26,7 @@ bool Engulfs(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2
     VERIFY_2D(spot1);
     VERIFY_2D(spot2);
     
-    return spot1.orientation.GetPosition() == spot2.orientation.GetPosition();
+    return spot1.orientation.position == spot2.orientation.position;
 }
 
 bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Circle>& circle)
@@ -39,7 +39,7 @@ bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Circle
         return false;
     }
 
-    return spot.orientation.GetPosition() == circle.orientation.GetPosition();
+    return spot.orientation.position == circle.orientation.position;
 }
 
 bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Line2D>& line)
@@ -47,12 +47,12 @@ bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Line2D
     VERIFY_2D(spot);
     VERIFY_2D(line);
 
-    if (line.shape.infinite || line.shape.length != 0.0f)
+    if (line.shape.infinite || line.shape.line != Core::Math::Float2(0.0f))
     {
         return false;
     }
     
-    return spot.orientation.GetPosition() == line.orientation.GetPosition();
+    return spot.orientation.position == line.orientation.position;
 }
 
 bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Rectangle>& rectangle)
@@ -65,7 +65,7 @@ bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Rectan
         return false;
     }
     
-    return spot.orientation.GetPosition() == rectangle.orientation.GetPosition();
+    return spot.orientation.position == rectangle.orientation.position;
 }
 
 float DistanceSqr(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)
@@ -73,7 +73,7 @@ float DistanceSqr(const ShapeOrientation<Circle>& circle, const ShapeOrientation
     VERIFY_2D(circle);
     VERIFY_2D(spot);
 
-    float spotToCenterSqr = Math::DistanceSqr(circle.orientation.GetPosition(), spot.orientation.GetPosition());
+    float spotToCenterSqr = Math::DistanceSqr(circle.orientation.position, spot.orientation.position);
 
     return spotToCenterSqr - Math::sqr(circle.shape.radius);
 }
@@ -121,8 +121,8 @@ bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Line
 
     bool engulfsLineOrigin = Engulfs(circle, ShapeOrientation<Spot2D>(line.orientation, Spot2D()));
 
-    Transform lineEndOrientation = line.orientation;
-    lineEndOrientation.SetPosition(Math::Float3(LineEndpoint(line), 0.0f));
+    Orientation lineEndOrientation = line.orientation;
+    lineEndOrientation.position = Math::Float3(LineEndpoint(line), 0.0f);
     bool engulfsLineEnd = Engulfs(circle, ShapeOrientation<Spot2D>(lineEndOrientation, Spot2D()));
     return (engulfsLineOrigin && engulfsLineEnd);
 }
@@ -142,7 +142,7 @@ float DistanceSqr(const ShapeOrientation<Line2D>& line, const ShapeOrientation<S
     VERIFY_2D(spot);
 
     Math::Float2 closestPointOnLine = ClosestPointOnLine(line, spot);
-    return Math::DistanceSqr(spot.orientation.GetPosition().XY, closestPointOnLine);
+    return Math::DistanceSqr(spot.orientation.position.XY, closestPointOnLine);
 }
 
 float DistanceSqr(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circle>& circle)
@@ -160,11 +160,11 @@ float DistanceSqr(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<
     VERIFY_2D(line2);
 
     ShapeOrientation<Line2D> modifiedLine2 = line2;
-    modifiedLine2.orientation.AdjustPosition(line1.orientation.GetPosition());
-    modifiedLine2.orientation.AdjustRotation(line1.orientation.GetRotation().Inverse());
+    modifiedLine2.orientation.position += line1.orientation.position;
+    modifiedLine2.orientation.rotation = line1.orientation.rotation.Inverse() * modifiedLine2.orientation.rotation;
 
     const auto modifiedLine2EffectiveDirection = EffectiveDirection(modifiedLine2);
-    bool linesParallel = (line1.shape.direction == modifiedLine2EffectiveDirection);
+    bool linesParallel = (line1.shape.line == modifiedLine2EffectiveDirection);
     if (linesParallel)
     {
         // if line1 points to line2, use ClosestPointOnLine(line1, line2.origin)
@@ -225,7 +225,7 @@ float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrien
         return 0.0f;
     }
 
-    return Math::DistanceSqr(spot.orientation.GetPosition().XY, closestPointInRectangle);
+    return Math::DistanceSqr(spot.orientation.position.XY, closestPointInRectangle);
 }
 
 float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Circle>& circle)
@@ -243,7 +243,7 @@ float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrien
     VERIFY_2D(line);
 
     const Math::Float2 closestPoint = ClosestPointToLine(rectangle, line);
-    return DistanceSqr(line, { Transform(Math::Float3(closestPoint)), Spot2D() });
+    return DistanceSqr(line, { Orientation(Math::Float3(closestPoint)), Spot2D() });
 }
 
 float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientation<Rectangle>& rectangle2)
@@ -259,7 +259,7 @@ bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientatio
     VERIFY_2D(rectangle);
     VERIFY_2D(spot);
 
-    return PointInRectangle(rectangle, spot.orientation.GetPosition());
+    return PointInRectangle(rectangle, spot.orientation.position);
 }
 
 bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Circle>& circle)
@@ -287,8 +287,8 @@ bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientatio
 
     bool engulfsLineOrigin = Engulfs(rectangle, ShapeOrientation<Spot2D>(line.orientation, Spot2D()));
 
-    Transform lineEndOrientation = line.orientation;
-    lineEndOrientation.SetPosition(Math::Float3(LineEndpoint(line), 0.0f));
+    Orientation lineEndOrientation = line.orientation;
+    lineEndOrientation.position = Math::Float3(LineEndpoint(line), 0.0f);
     bool engulfsLineEnd = Engulfs(rectangle, ShapeOrientation<Spot2D>(lineEndOrientation, Spot2D()));
     return (engulfsLineOrigin && engulfsLineEnd);
 }

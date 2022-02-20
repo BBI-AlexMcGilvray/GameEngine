@@ -8,7 +8,7 @@ namespace INTERNAL_HELPER {
     // given two variants, will call the appropriate DistanceSqr(...) method for the two types held by them respectively
     struct ShapeVisitor_DistanceSqr
     {
-        ShapeVisitor_DistanceSqr(const Transform& transform1, const Transform& transform2)
+        ShapeVisitor_DistanceSqr(const Orientation& transform1, const Orientation& transform2)
         : transform1(transform1)
         , transform2(transform2)
         {}
@@ -20,14 +20,14 @@ namespace INTERNAL_HELPER {
         }
 
     private:
-        const Transform& transform1;
-        const Transform& transform2;
+        const Orientation& transform1;
+        const Orientation& transform2;
     };
 
     // given two variants, will call the appropriate Engulfs(...) method for the two types held by them respectively
     struct ShapeVisitor_Engulfs
     {
-        ShapeVisitor_Engulfs(const Transform& transform1, const Transform& transform2)
+        ShapeVisitor_Engulfs(const Orientation& transform1, const Orientation& transform2)
         : transform1(transform1)
         , transform2(transform2)
         {}
@@ -39,14 +39,14 @@ namespace INTERNAL_HELPER {
         }
 
     private:
-        const Transform& transform1;
-        const Transform& transform2;
+        const Orientation& transform1;
+        const Orientation& transform2;
     };
 
     // given two variants, will call the appropriate Intersect(...) method for the two types held by them respectively
     struct ShapeVisitor_Intersect
     {
-        ShapeVisitor_Intersect(const Transform& transform1, const Transform& transform2, const float& precision)
+        ShapeVisitor_Intersect(const Orientation& transform1, const Orientation& transform2, const float& precision)
         : transform1(transform1)
         , transform2(transform2)
         , _precision(precision)
@@ -59,8 +59,8 @@ namespace INTERNAL_HELPER {
         }
 
     private:
-        const Transform& transform1;
-        const Transform& transform2;
+        const Orientation& transform1;
+        const Orientation& transform2;
         const float _precision;
     };
 } // namespace INTERNAL_HELPER

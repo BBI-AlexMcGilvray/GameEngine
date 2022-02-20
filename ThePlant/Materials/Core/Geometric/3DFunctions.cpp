@@ -19,14 +19,14 @@ float DistanceSqr(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<
 {
     DEBUG_PROFILE_SCOPE("DistanceSqr(Spot3D, Spot3D)");
 
-    return Math::DistanceSqr(spot1.orientation.GetPosition(), spot2.orientation.GetPosition());
+    return Math::DistanceSqr(spot1.orientation.position, spot2.orientation.position);
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot1, const ShapeOrientation<Spot3D>& spot2)
 {
     DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Spot3D)");
 
-    return spot1.orientation.GetPosition() == spot2.orientation.GetPosition();
+    return spot1.orientation.position == spot2.orientation.position;
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Line3D>& line)
@@ -34,12 +34,12 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Line3D
     DEBUG_PROFILE_SCOPE("Engulfs(Spot3D, Line3D)");
 
     // do we care about case where spot == line.origin && line.length = 0?
-    if (line.shape.infinite || line.shape.length != 0.0f)
+    if (line.shape.infinite || line.shape.line != Core::Math::Float3(0.0f))
     {
         return false;
     }
     
-    return spot.orientation.GetPosition() == line.orientation.GetPosition();
+    return spot.orientation.position == line.orientation.position;
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Plane>& plane)
@@ -52,7 +52,7 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Plane>
     }
     
     // could be replaced with a 'IsPointOnPlane' check, though maybe this is cheaper
-    if (spot.orientation.GetPosition() != plane.orientation.GetPosition())
+    if (spot.orientation.position != plane.orientation.position)
     {
         return false;
     }
@@ -70,7 +70,7 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Sphere
         return false;
     }
     
-    return spot.orientation.GetPosition() == sphere.orientation.GetPosition();
+    return spot.orientation.position == sphere.orientation.position;
 }
 
 bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Box>& box)
@@ -82,14 +82,14 @@ bool Engulfs(const ShapeOrientation<Spot3D>& spot, const ShapeOrientation<Box>& 
         return false;
     }
 
-    return spot.orientation.GetPosition() == box.orientation.GetPosition();
+    return spot.orientation.position == box.orientation.position;
 }
 
 float DistanceSqr(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
 {
     DEBUG_PROFILE_SCOPE("DistanceSqr(Line3D, Spot3D)");
 
-    return Math::DistanceSqr(spot.orientation.GetPosition(), ClosestPointOnLine(line, spot));
+    return Math::DistanceSqr(spot.orientation.position, ClosestPointOnLine(line, spot));
 }
 
 float DistanceSqr(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
@@ -104,19 +104,19 @@ bool Engulfs(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D
 {
     DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Spot3D)");
 
-    return PointIsOnLine(line, spot.orientation.GetPosition());
+    return PointIsOnLine(line, spot.orientation.position);
 }
 
 bool Engulfs(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2)
 {
     DEBUG_PROFILE_SCOPE("Engulfs(Line3D, Line3D)");
 
-    if (line1.shape.direction != line2.shape.direction)
+    if (line1.shape.line != line2.shape.line)
     {
         return false;
     }
 
-    if (PointIsOnLine(line1, line2.orientation.GetPosition()))
+    if (PointIsOnLine(line1, line2.orientation.position))
     {
         return (line1.shape.infinite || (!line2.shape.infinite && PointIsOnLine(line1, LineEndpoint(line2))));
     }
@@ -273,7 +273,7 @@ bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Line
         return false;
     }
 
-    return PointIsInSphere(sphere, line.orientation.GetPosition()) && PointIsInSphere(sphere, LineEndpoint(line));
+    return PointIsInSphere(sphere, line.orientation.position) && PointIsInSphere(sphere, LineEndpoint(line));
 }
 
 bool Engulfs(const ShapeOrientation<Sphere>& sphere, const ShapeOrientation<Plane>& plane)
@@ -323,20 +323,26 @@ float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3
 {
     DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Spot3D)");
 
+    DEBUG_PROFILE_PUSH("PointInBox");
     if (PointInBox(box, spot))
     {
+        DEBUG_PROFILE_POP("PointInBox");
         return 0.0f;
     }
+    DEBUG_PROFILE_POP("PointInBox");
 
-    const auto closestPoint = ClosestPointToPoint(box, spot);
-    return DistanceSqr(closestPoint, spot.orientation.GetPosition());
+    {
+        DEBUG_PROFILE_SCOPE("Other");
+        const auto closestPoint = ClosestPointToPoint(box, spot);
+        return DistanceSqr(closestPoint, spot.orientation.position);
+    }
 }
 
 float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line)
 {
     DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Line3D)");
 
-    return DistanceSqr(line, ShapeOrientation<Spot3D>(Transform(ClosestPointToLine(box, line)), Spot3D()));
+    return DistanceSqr(line, ShapeOrientation<Spot3D>(Orientation(ClosestPointToLine(box, line)), Spot3D()));
 }
 
 float DistanceSqr(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
@@ -419,7 +425,7 @@ bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& l
         return false;
     }
 
-    return PointInBox(box, line.orientation.GetPosition()) && PointInBox(box, LineEndpoint(line));
+    return PointInBox(box, line.orientation.position) && PointInBox(box, LineEndpoint(line));
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane)
@@ -439,7 +445,7 @@ bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& s
 {
     DEBUG_PROFILE_SCOPE("Engulfs(Box, Sphere)");
 
-    const auto sphereExtremes = SphereAxisExtremes(sphere, box.orientation.GetRotation().Inverse());
+    const auto sphereExtremes = SphereAxisExtremes(sphere, box.orientation.rotation.Inverse());
 
     for (const auto& extreme : sphereExtremes)
     {

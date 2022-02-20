@@ -94,8 +94,8 @@ private:
     {
         Core::Math::Float3 operator()(const Core::Geometric::Box& box) const { return box.dimensions; }
         Core::Math::Float3 operator()(const Core::Geometric::Circle& circle) const { return Core::Math::Float3(circle.radius / 0.5f); }
-        Core::Math::Float3 operator()(const Core::Geometric::Line2D& line) const { return Core::Math::Float3(line.infinite ? RENDER_MAX : line.length); }
-        Core::Math::Float3 operator()(const Core::Geometric::Line3D& line) const { return Core::Math::Float3(line.infinite ? RENDER_MAX : line.length); }
+        Core::Math::Float3 operator()(const Core::Geometric::Line2D& line) const { return line.infinite ? Core::Math::Float3(RENDER_MAX) : Core::Math::Float3(line.line, 0.0f); }
+        Core::Math::Float3 operator()(const Core::Geometric::Line3D& line) const { return line.infinite ? Core::Math::Float3(RENDER_MAX) : line.line; }
         Core::Math::Float3 operator()(const Core::Geometric::Plane& plane) const { return (plane.infinite ? Core::Math::Float3(RENDER_MAX) : std::visit(*this, plane.shape)); }
         Core::Math::Float3 operator()(const Core::Geometric::Spot2D& point) const { return Core::Math::Float3(1.0f); }
         Core::Math::Float3 operator()(const Core::Geometric::Spot3D& point) const { return Core::Math::Float3(1.0f); }

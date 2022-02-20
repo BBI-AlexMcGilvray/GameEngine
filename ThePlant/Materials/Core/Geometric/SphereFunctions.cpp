@@ -10,16 +10,16 @@ namespace Geometric {
 float EffectiveRadius(const ShapeOrientation<Sphere>& sphere)
 {
 #ifdef DEBUG
-    const auto scale = sphere.orientation.GetScale();
+    const auto scale = sphere.orientation.scale;
     VERIFY((scale.X == scale.Y) && (scale.X == scale.Z)); // spheres must have a uniform scale
 #endif
 
-    return sphere.shape.radius * sphere.orientation.GetScale().X;
+    return sphere.shape.radius * sphere.orientation.scale.X;
 }
 
 float DistanceToPoint(const ShapeOrientation<Sphere>& sphere, const Point3D& point)
 {
-    return std::max(Distance(sphere.orientation.GetPosition(), point) - EffectiveRadius(sphere), 0.0f);
+    return std::max(Distance(sphere.orientation.position, point) - EffectiveRadius(sphere), 0.0f);
 }
 
 bool PointIsInSphere(const ShapeOrientation<Sphere>& sphere, const Point3D& point, const float& precision/* = Math::DEFAULT_PRECISION()*/)
@@ -31,19 +31,19 @@ std::array<Math::Float3, 6> SphereAxisExtremes(const ShapeOrientation<Sphere>& s
 {
     std::array<Math::Float3, 6> extremes;
 
-    extremes[0] = sphere.orientation.GetPosition() + (RotateVectorBy(Math::Float3(1.0f, 0.0f, 0.0f), axelRotation) * EffectiveRadius(sphere));
-    extremes[1] = sphere.orientation.GetPosition() + (RotateVectorBy(Math::Float3(-1.0f, 0.0f, 0.0f), axelRotation) * EffectiveRadius(sphere));
-    extremes[2] = sphere.orientation.GetPosition() + (RotateVectorBy(Math::Float3(0.0f, 1.0f, 0.0f), axelRotation) * EffectiveRadius(sphere));
-    extremes[3] = sphere.orientation.GetPosition() + (RotateVectorBy(Math::Float3(0.0f, -1.0f, 0.0f), axelRotation) * EffectiveRadius(sphere));
-    extremes[4] = sphere.orientation.GetPosition() + (RotateVectorBy(Math::Float3(0.0f, 0.0f, 1.0f), axelRotation) * EffectiveRadius(sphere));
-    extremes[5] = sphere.orientation.GetPosition() + (RotateVectorBy(Math::Float3(0.0f, 0.0f, -1.0f), axelRotation) * EffectiveRadius(sphere));
+    extremes[0] = sphere.orientation.position + (RotateVectorBy(Math::Float3(1.0f, 0.0f, 0.0f), axelRotation) * EffectiveRadius(sphere));
+    extremes[1] = sphere.orientation.position + (RotateVectorBy(Math::Float3(-1.0f, 0.0f, 0.0f), axelRotation) * EffectiveRadius(sphere));
+    extremes[2] = sphere.orientation.position + (RotateVectorBy(Math::Float3(0.0f, 1.0f, 0.0f), axelRotation) * EffectiveRadius(sphere));
+    extremes[3] = sphere.orientation.position + (RotateVectorBy(Math::Float3(0.0f, -1.0f, 0.0f), axelRotation) * EffectiveRadius(sphere));
+    extremes[4] = sphere.orientation.position + (RotateVectorBy(Math::Float3(0.0f, 0.0f, 1.0f), axelRotation) * EffectiveRadius(sphere));
+    extremes[5] = sphere.orientation.position + (RotateVectorBy(Math::Float3(0.0f, 0.0f, -1.0f), axelRotation) * EffectiveRadius(sphere));
 
     return extremes;
 }
 
 Math::Float3 CircumferencePointInDirection(const ShapeOrientation<Sphere>& sphere, const Core::Math::Float3& direction)
 {
-    return sphere.orientation.GetPosition() * Math::Normalize(direction) * EffectiveRadius(sphere);
+    return sphere.orientation.position * Math::Normalize(direction) * EffectiveRadius(sphere);
 }
 } // namespace Geometric
 } // namespace Core

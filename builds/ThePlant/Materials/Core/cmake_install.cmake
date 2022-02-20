@@ -56,6 +56,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/Line2DFunctions.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/Line3D.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/Line3DFunctions.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/Orientation.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/Plane.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/PlaneFunctions.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Geometric/Rectangle.h"

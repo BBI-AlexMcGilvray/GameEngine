@@ -22,7 +22,7 @@ OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& totalSize)
 OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& origin, const Core::Geometric::Box& box, const Core::Ptr<OctTreeNode> parent)
 : _ecs(ecs)
 , _parent(parent)
-, _this{ Core::Geometric::Transform(origin), box }
+, _this{ Core::Geometric::Orientation(origin), box }
 {}
 
 EntitySnapshot OctTreeNode::FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const
@@ -110,7 +110,7 @@ void OctTreeNode::_CreateChildren()
 
     for (size_t i = 0; i < NUMBER_OF_CHILDREN; ++i)
     {
-        Core::Math::Float3 childOrigin = _this.orientation.GetPosition();
+        Core::Math::Float3 childOrigin = _this.orientation.position;
         childOrigin.X += childOriginOffset.X * (i < 4 ? 1 : -1);
         childOrigin.Y += childOriginOffset.Y * (i < 2 || i > 5 ? 1 : -1);
         childOrigin.Z += childOriginOffset.Z * (i % 2 ? 1 : -1);

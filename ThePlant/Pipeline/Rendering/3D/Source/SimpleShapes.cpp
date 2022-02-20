@@ -7,7 +7,7 @@ namespace Rendering {
         Core::Math::Float3 normal = 0.0f;
         std::vector<SimpleVertexData> vertices = {
             { Core::Math::Float3(0.0f, 0.0f, 0.0f), normal },
-            { Core::Math::Float3(length, 0.0f, 0.0f), normal }
+            { Core::Math::Float3(length, length, length), normal }
         };
 
         return CreateMesh(vertices);

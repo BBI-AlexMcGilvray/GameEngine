@@ -31,7 +31,7 @@ bool PointInRectangle(const ShapeOrientation<Rectangle>& rectangle, const Point2
 {
     VERIFY_2D(rectangle);
 
-    Point2D modifiedPoint = Math::RotateVectorBy(Math::Float3(point, 0.0f), rectangle.orientation.GetRotation().Inverse()) - rectangle.orientation.GetPosition();
+    Point2D modifiedPoint = Math::RotateVectorBy(Math::Float3(point, 0.0f), rectangle.orientation.rotation.Inverse()) - rectangle.orientation.position;
     return PointInRectangle(rectangle.shape, modifiedPoint);
 }
 
@@ -43,7 +43,7 @@ Math::Float2 LastPointOnRectangleInDirection(const Rectangle& rectangle, const M
     const Math::Float2 topRight = RectangleMaxCenteredAt0(rectangle);
     const Math::Float2 bottomLeft = RectangleMinCenteredAt0(rectangle);
 
-    ShapeOrientation<Line2D> line = { Transform(), Line2D(direction) };
+    ShapeOrientation<Line2D> line = { Orientation(), Line2D(direction, true) };
 
     // closest side is the one with the smalled multiplier, we find that then calculate the point on the line
     const auto leftMultiplier = LineMultiplierForPoint_X(line, bottomLeft);
@@ -78,10 +78,10 @@ Math::Float2 LastPointOnRectangleInDirection(const ShapeOrientation<Rectangle>& 
 {
     VERIFY_2D(rectangle);
 
-    const Math::Float2 effectiveDirection = Math::RotateVectorBy(direction, rectangle.orientation.GetRotation().Inverse());
+    const Math::Float2 effectiveDirection = Math::RotateVectorBy(direction, rectangle.orientation.rotation.Inverse());
     
     const auto effectiveLastPoint = LastPointOnRectangleInDirection(rectangle.shape, effectiveDirection);
-    return rectangle.orientation.GetPosition().XY + Math::RotateVectorBy(effectiveLastPoint, rectangle.orientation.GetRotation());
+    return rectangle.orientation.position.XY + Math::RotateVectorBy(effectiveLastPoint, rectangle.orientation.rotation);
 }
 
 Math::Float2 ClosestPointToPoint(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot, const float& precision/* = Math::DEFAULT_PRECISION()*/)
@@ -90,14 +90,14 @@ Math::Float2 ClosestPointToPoint(const ShapeOrientation<Rectangle>& rectangle, c
     VERIFY_2D(spot);
 
     // offset the point by the inverse of the rectangle so calculation is simpler
-    const Math::Float2 modifiedPoint = Math::RotateVectorBy(spot.orientation.GetPosition(), rectangle.orientation.GetRotation().Inverse()).XY - rectangle.orientation.GetPosition().XY;
+    const Math::Float2 modifiedPoint = Math::RotateVectorBy(spot.orientation.position, rectangle.orientation.rotation.Inverse()).XY - rectangle.orientation.position.XY;
     if (PointInRectangle(rectangle.shape, modifiedPoint))
     { // point is INSIDE the rectangle
         return modifiedPoint;
     }
 
     // our modified point is relative to (0,0), so we can use it as the direction
-    return LastPointOnRectangleInDirection(rectangle, spot.orientation.GetPosition() - rectangle.orientation.GetPosition());
+    return LastPointOnRectangleInDirection(rectangle, spot.orientation.position - rectangle.orientation.position);
 }
 
 Math::Float2 ClosestPointToLine(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line, const float& precision/* = Math::DEFAULT_PRECISION()*/)
@@ -110,8 +110,8 @@ Math::Float2 ClosestPointToLine(const ShapeOrientation<Rectangle>& rectangle, co
 
     // offset the point by the inverse of the rectangle so calculation is simpler
     ShapeOrientation<Line2D> modifiedLine = line;
-    modifiedLine.orientation.AdjustPosition(rectangle.orientation.GetPosition() * -1.0f);
-    modifiedLine.orientation.AdjustRotation(rectangle.orientation.GetRotation().Inverse());
+    modifiedLine.orientation.position += rectangle.orientation.position * -1.0f;
+    modifiedLine.orientation.rotation = rectangle.orientation.rotation.Inverse() * modifiedLine.orientation.rotation;
 
     // if we touch the box, we either go through the sides, have every point IN the box, or all points are out of the box
     const auto xMultiplier_TopRight = LineMultiplierForPoint_X(modifiedLine, rectMax);
@@ -142,15 +142,15 @@ Math::Float2 ClosestPointToLine(const ShapeOrientation<Rectangle>& rectangle, co
         return pointOnLine_Bottom;
     }
 
-    if (PointInRectangle(rectangle.shape, modifiedLine.orientation.GetPosition())) // line is in rectangle
+    if (PointInRectangle(rectangle.shape, modifiedLine.orientation.position)) // line is in rectangle
     {
-        return modifiedLine.orientation.GetPosition();
+        return modifiedLine.orientation.position;
     }
 
-    ShapeOrientation<Line2D> topEdge(Transform(Math::Float3(rectMin.X, rectMax.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f)));
-    ShapeOrientation<Line2D> bottomdge(Transform(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f)));
-    ShapeOrientation<Line2D> leftEdge(Transform(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f)));
-    ShapeOrientation<Line2D> rightEdge(Transform(Math::Float3(rectMax.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f)));
+    ShapeOrientation<Line2D> topEdge(Orientation(Math::Float3(rectMin.X, rectMax.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f), true));
+    ShapeOrientation<Line2D> bottomdge(Orientation(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f), true));
+    ShapeOrientation<Line2D> leftEdge(Orientation(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f), true));
+    ShapeOrientation<Line2D> rightEdge(Orientation(Math::Float3(rectMax.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f), true));
     const auto topEdgeDistance = DistanceSqr(modifiedLine, topEdge);
     const auto bottomEdgeDistance = DistanceSqr(modifiedLine, bottomdge);
     const auto leftEdgeDistance = DistanceSqr(modifiedLine, leftEdge);

@@ -172,6 +172,7 @@ namespace Math {
     return rotationMatrix;
   }
 
+  // if RotateVectorBy can be optimized to avoid Normalize (square-root) calls, this probably can be to
   template<typename T, int A = 0>
   Quaternion<T> RotationBetweenVectors(Vector3<T> const &v1, Vector3<T> const &v2, const Axis<A> &fallbackAxis = XAxis())
   {
@@ -204,49 +205,18 @@ namespace Math {
 
     return rotation;
   }
-
-  // rotate vector
-  template<typename T>
-  Vector3<T> RotateNormalVectorBy(Vector3<T> const &v, Quaternion<T> const &q)
-  {
-    // conjugate of q
-    auto rotatedV = q;
-    rotatedV *= QuaternionFromVector(v);
-    rotatedV *= q.Inverse();
-
-    Vector3<T> rV = Normalize(Vector3<T>(rotatedV.X, rotatedV.Y, rotatedV.Z));
-
-    return rV;
-  }
-
-  template<typename T>
-  Vector2<T> RotateNormalVectorBy(Vector2<T> const &v, Quaternion<T> const &q)
-  {
-    return RotateNormalVectorBy(Vector3<T>(v), q).XY;
-  }
-
-  /*
-			NOTE: This function DOES preserve magnitude 
-		*/
+  
+  // Default rotation logic is just v' = q * v * (q^-1)
+  // but this is an optimization from: https://gamedev.stackexchange.com/questions/28395/rotating-vector3-by-a-quaternion
   template<typename T>
   Vector3<T> RotateVectorBy(Vector3<T> const &v, Quaternion<T> const &q)
   {
-    if (v == Vector3<T>(0.0f))
-    { // special case
-      return v;
-    }
+    Vector3<T> qVec(q.X, q.Y, q.Z);
+    T qScalar = q.W;
 
-    T vMagnitude = Magnitude(v);
-
-    // conjugate of q
-    auto rotatedV = q;
-    Quaternion<T> vAsQuaternion = QuaternionFromVector<T>(v);
-    rotatedV *= vAsQuaternion;
-    rotatedV *= q.Inverse();
-
-    Vector3<T> rV = Vector3<T>(rotatedV.X * vMagnitude, rotatedV.Y * vMagnitude, rotatedV.Z * vMagnitude);
-
-    return rV;
+    return (T(2) * Dot(qVec, v) * qVec)
+          + ((Math::sqr(qScalar) - Dot(qVec, qVec)) * v)
+          + (T(2) * qScalar * CrossProduct(qVec, v));
   }
 
   template<typename T>

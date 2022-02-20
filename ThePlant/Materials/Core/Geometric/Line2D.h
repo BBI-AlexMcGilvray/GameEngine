@@ -6,38 +6,21 @@
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/VectorFunctions.h"
 
-/*
-NOTE: We should have lines not have a length, just have the direction contain the length and a flag for infinite or not
-    - this way we don't need to worry about normalizing all directions passed in, and it makes scaling lines much simpler
-*/
 namespace Core {
 namespace Geometric {
   struct Line2D
   {
-    Math::Float2 direction; // direction should always be normalized
-    float length;
+    Math::Float2 line;
     bool infinite;
 
     Line2D()
-    : Line2D(Math::Float2(1.0f, 0.0f))
+    : Line2D(Math::Float2(1.0f, 1.0f), true)
     {}
 
-    Line2D(const float& length)
-    : Line2D(Math::Float2(1.0f, 0.0f), length)
+    Line2D(const Math::Float2 &line, bool infinite)
+    : line(line)
+    , infinite(infinite)
     {}
-
-    Line2D(const Math::Float2 &direction)
-    : direction(Math::Normalize(direction))
-    , infinite(true)
-    {}
-
-    Line2D(const Math::Float2 &direction, const float& length)
-    : direction(Math::Normalize(direction))
-    , length(length)
-    , infinite(false)
-    {
-      VERIFY(infinite || length >= 0.0f);
-    }
     
     Line2D(const Line2D&) = default;
     Line2D(Line2D&&) = default;
@@ -46,8 +29,7 @@ namespace Geometric {
 
     bool operator==(const Line2D& other) const
     {
-      return direction == other.direction &&
-              (length == other.length || infinite == other.infinite);
+      return line == other.line && infinite == other.infinite;
     }
     bool operator!=(const Line2D& other) const { return !(*this == other); }
   };

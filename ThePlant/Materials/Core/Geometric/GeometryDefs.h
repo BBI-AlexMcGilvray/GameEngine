@@ -12,7 +12,7 @@
 #include "Core/Geometric/Spot.h"
 #include "Core/Geometric/Rectangle.h"
 #include "Core/Geometric/Sphere.h"
-#include "Core/Geometric/Transform.h"
+#include "Core/Geometric/Orientation.h"
 
 namespace Core {
 namespace Geometric {    
@@ -31,12 +31,12 @@ namespace Geometric {
     template <typename SHAPE>
     struct ShapeOrientation
     {
-        Transform orientation;
+        Orientation orientation;
         SHAPE shape;
 
         ShapeOrientation() = default;
 
-        ShapeOrientation(const Transform& orientation, const SHAPE& shape)
+        ShapeOrientation(const Orientation& orientation, const SHAPE& shape)
         : orientation(orientation)
         , shape(shape)
         {}
@@ -86,7 +86,7 @@ namespace Geometric {
     using ShapeOrientation3D = ShapeOrientation<Shape3D>;
     
 #if DEBUG
-#define VERIFY_2D(SHAPE_ORIENTATION) VERIFY(SHAPE_ORIENTATION.orientation.GetPosition().Z == 0.0f); // we should also verify that the rotation maintains the x/y plane
+#define VERIFY_2D(SHAPE_ORIENTATION) VERIFY(SHAPE_ORIENTATION.orientation.position == 0.0f); // we should also verify that the rotation maintains the x/y plane
 #else
 #define VERIFY_2D(SHAPE_ORIENTATION)
 #endif

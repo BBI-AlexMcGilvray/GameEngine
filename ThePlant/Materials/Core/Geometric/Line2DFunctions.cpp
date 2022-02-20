@@ -9,21 +9,21 @@ Math::Float2 EffectiveDirection(const ShapeOrientation<Line2D>& line)
 {
     VERIFY_2D(line);
     
-    return Math::RotateNormalVectorBy(line.shape.direction, line.orientation.GetRotation()) * line.orientation.GetScale().XY;
+    return Math::RotateVectorBy(line.shape.line, line.orientation.rotation) * line.orientation.scale.XY;
 }
 
 float LineMultiplierForPoint_X(const ShapeOrientation<Line2D>& line, const Point2D& point)
 {
     VERIFY_2D(line);
 
-    return (point.X - line.orientation.GetPosition().X) / EffectiveDirection(line).X;
+    return (point.X - line.orientation.position.X) / EffectiveDirection(line).X;
 }
 
 float LineMultiplierForPoint_Y(const ShapeOrientation<Line2D>& line, const Point2D& point)
 {
     VERIFY_2D(line);
 
-    return (point.Y - line.orientation.GetPosition().Y) / EffectiveDirection(line).Y;
+    return (point.Y - line.orientation.position.Y) / EffectiveDirection(line).Y;
 }
 
 // overload to avoid calculating multipliers multiple times if known
@@ -43,11 +43,11 @@ Math::Float2 PointOnLine(const ShapeOrientation<Line2D>& line, const float& mult
 {
     VERIFY_2D(line);
 
-    const Math::Float2 lineOrigin = line.orientation.GetPosition().XY;
+    const Math::Float2 lineOrigin = line.orientation.position.XY;
 
     // direction is normalied, so multiplier can't be larger than length
-    auto minMultiplier = line.shape.infinite ? multiplier : std::min(multiplier, line.shape.length);
-    if (minMultiplier < 0) // point is 'behind' the line start
+    auto minMultiplier = line.shape.infinite ? multiplier : std::min(multiplier, 1.0f);
+    if (minMultiplier < 0.0f) // point is 'behind' the line start
     {
         return lineOrigin;
     }
@@ -57,7 +57,7 @@ Math::Float2 PointOnLine(const ShapeOrientation<Line2D>& line, const float& mult
 Math::Float2 LineEndpoint(const ShapeOrientation<Line2D>& line)
 {
     VERIFY(!line.shape.infinite, "Infinite lines do not have endpoints");
-    return PointOnLine(line, line.shape.length);
+    return PointOnLine(line, 1.0f);
 }
 
 Math::Float2 ClosestPointOnLine(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot)
@@ -65,8 +65,8 @@ Math::Float2 ClosestPointOnLine(const ShapeOrientation<Line2D>& line, const Shap
     VERIFY_2D(line);
     VERIFY_2D(spot);
 
-    const Math::Float2 lineOrigin = line.orientation.GetPosition().XY;
-    const Math::Float2 spotOrigin = spot.orientation.GetPosition().XY;
+    const Math::Float2 lineOrigin = line.orientation.position.XY;
+    const Math::Float2 spotOrigin = spot.orientation.position.XY;
 
     const Math::Float2 originToSpot = spotOrigin - lineOrigin;
     const auto projectedOntoLine = lineOrigin + Math::Project(originToSpot, EffectiveDirection(line));

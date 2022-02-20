@@ -5,6 +5,8 @@
 #include "Core/Math/Headers/Matrix3x3.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
+#include "Core/Geometric/Orientation.h"
+
 namespace Core {
 namespace Geometric {
   // Should we have an 'orientation' struct that holds position, rotation, and scale?
@@ -15,10 +17,12 @@ namespace Geometric {
     Transform();
     Transform(Core::Math::FQuaternion rotation, Core::Math::Float3 scale = Core::Math::Float3(1.0f));
     Transform(Core::Math::Float3 position, Core::Math::FQuaternion rotation = Core::Math::FQuaternion(), Core::Math::Float3 scale = Core::Math::Float3(1.0f));
-    Transform::Transform(const Core::Math::Float4x4& transformationMatrix);
+    Transform(const Orientation& orientation);
+    Transform(const Core::Math::Float4x4& transformationMatrix);
 
     Transform(const Transform &other);
     Transform &operator=(const Transform &other);
+    Transform& operator=(const Orientation& orientation);
     Transform& operator=(const Core::Math::Float4x4& transformationMatrix);
 
     void Reset();
@@ -26,6 +30,9 @@ namespace Geometric {
     // world-relative
     Core::Math::Float4x4 GetTransformationMatrix();
     Core::Math::Float4x4 GetInverseTransformationMatrix();
+
+    void SetOrientation(const Orientation& orientation);
+    Orientation& GetOrientation();
 
     // world-relative
     void SetPosition(const Core::Math::Float3 &position);
@@ -54,9 +61,7 @@ namespace Geometric {
     bool _rotationDirty;
 
     // world-relative
-    Core::Math::Float3 _position;
-    Core::Math::FQuaternion _rotation;
-    Core::Math::Float3 _scale;
+    Orientation _orientation;
 
     Core::Math::Float3x3 _rotationMatrix;
     Core::Math::Float4x4 _transformationMatrix;

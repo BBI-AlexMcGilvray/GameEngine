@@ -12,7 +12,7 @@ namespace Core {
 namespace Geometric {
 Math::Float3 EffectiveDimensions(const ShapeOrientation<Box>& box)
 {
-    return box.shape.dimensions * box.orientation.GetScale();
+    return box.shape.dimensions * box.orientation.scale;
 }
 
 bool PointInBox(const Box& box, const Point3D& point)
@@ -23,8 +23,8 @@ bool PointInBox(const Box& box, const Point3D& point)
 
 bool PointInBox(const ShapeOrientation<Box>& box, const Point3D& point)
 {
-    const auto relativeSpot = point - box.orientation.GetPosition();
-    const auto counterRotatedSpot = RotateVectorBy(relativeSpot, box.orientation.GetRotation().Inverse());
+    const auto relativeSpot = point - box.orientation.position;
+    const auto counterRotatedSpot = RotateVectorBy(relativeSpot, box.orientation.rotation.Inverse());
 
     const auto effectiveDimensions = EffectiveDimensions(box);
     return PointInBox(Box(effectiveDimensions), counterRotatedSpot);
@@ -32,7 +32,7 @@ bool PointInBox(const ShapeOrientation<Box>& box, const Point3D& point)
 
 bool PointInBox(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
-    return PointInBox(box, spot.orientation.GetPosition());
+    return PointInBox(box, spot.orientation.position);
 }
 
 Math::Float3 BoxMax(const Box& box)
@@ -64,15 +64,15 @@ std::array<Math::Float3, 8> BoxCorners(const ShapeOrientation<Box>& box)
     const auto min = BoxMinAtOrigin(box);
 
     // 'bottom'
-    corners[0] = box.orientation.GetPosition() + RotateVectorBy(min, box.orientation.GetRotation());
-    corners[1] = box.orientation.GetPosition() + RotateVectorBy(Math::Float3(max.X, min.Y, min.Z), box.orientation.GetRotation());
-    corners[2] = box.orientation.GetPosition() + RotateVectorBy(Math::Float3(min.X, min.Y, max.Z), box.orientation.GetRotation());
-    corners[3] = box.orientation.GetPosition() + RotateVectorBy(Math::Float3(max.X, min.Y, max.Z), box.orientation.GetRotation());
+    corners[0] = box.orientation.position + RotateVectorBy(min, box.orientation.rotation);
+    corners[1] = box.orientation.position + RotateVectorBy(Math::Float3(max.X, min.Y, min.Z), box.orientation.rotation);
+    corners[2] = box.orientation.position + RotateVectorBy(Math::Float3(min.X, min.Y, max.Z), box.orientation.rotation);
+    corners[3] = box.orientation.position + RotateVectorBy(Math::Float3(max.X, min.Y, max.Z), box.orientation.rotation);
     // 'top'
-    corners[4] = box.orientation.GetPosition() + RotateVectorBy(Math::Float3(min.X, max.Y, min.Z), box.orientation.GetRotation());
-    corners[5] = box.orientation.GetPosition() + RotateVectorBy(Math::Float3(max.X, max.Y, min.Z), box.orientation.GetRotation());
-    corners[6] = box.orientation.GetPosition() + RotateVectorBy(Math::Float3(min.X, max.Y, max.Z), box.orientation.GetRotation());
-    corners[7] = box.orientation.GetPosition() + RotateVectorBy(max, box.orientation.GetRotation());
+    corners[4] = box.orientation.position + RotateVectorBy(Math::Float3(min.X, max.Y, min.Z), box.orientation.rotation);
+    corners[5] = box.orientation.position + RotateVectorBy(Math::Float3(max.X, max.Y, min.Z), box.orientation.rotation);
+    corners[6] = box.orientation.position + RotateVectorBy(Math::Float3(min.X, max.Y, max.Z), box.orientation.rotation);
+    corners[7] = box.orientation.position + RotateVectorBy(max, box.orientation.rotation);
 
     return corners;
 }
@@ -108,8 +108,8 @@ std::array<ShapeOrientation<Line3D>, 12> BoxEdges(const ShapeOrientation<Box>& b
 // we always assume boxes are not rotated, instead rotated the other shape
 Math::Float3 LastPointOnBoxInDirection(const ShapeOrientation<Box>& box, const Math::Float3& direction)
 {
-    const Line3D lineInDirection(RotateVectorBy(direction, box.orientation.GetRotation().Inverse()));
-    ShapeOrientation<Line3D> lineOrientation(box.orientation.GetPosition(), lineInDirection);
+    const Line3D lineInDirection(RotateVectorBy(direction, box.orientation.rotation.Inverse()), true);
+    ShapeOrientation<Line3D> lineOrientation(box.orientation.position, lineInDirection);
 
     const auto boxMax = BoxMaxAtOrigin(box);
     const auto boxMin = BoxMinAtOrigin(box);
@@ -138,65 +138,79 @@ Math::Float3 ClosestPointToPoint(const Box& box, const Point3D& point)
 
 Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const Point3D& point)
 {
-    const auto relativeSpot = point - box.orientation.GetPosition();
-    const auto counterRotatedSpot = RotateVectorBy(relativeSpot, box.orientation.GetRotation().Inverse());
+    const auto relativeSpot = point - box.orientation.position;
+    const auto counterRotatedSpot = RotateVectorBy(relativeSpot, box.orientation.rotation.Inverse());
 
     auto closestRelativeSpot = ClosestPointToPoint(Box(EffectiveDimensions(box)), counterRotatedSpot);
-    return box.orientation.GetPosition() + RotateVectorBy(closestRelativeSpot, box.orientation.GetRotation());
+    return box.orientation.position + RotateVectorBy(closestRelativeSpot, box.orientation.rotation);
 }
 
 Math::Float3 ClosestPointToPoint(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)
 {
-    return ClosestPointToPoint(box, spot.orientation.GetPosition());
+    return ClosestPointToPoint(box, spot.orientation.position);
 }
 
 // probably not the most efficient, but can deal with that later
 Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOrientation<Line3D>& line, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
+    DEBUG_PROFILE_SCOPE("ClosestPointToLine(Box, Line3D)");
+    
+    DEBUG_PROFILE_PUSH("Early Out");
+    DEBUG_PROFILE_PUSH("Early Out Data");
     Box effectiveBox = Box(EffectiveDimensions(box));
     
+    DEBUG_PROFILE_PUSH("counter rotated line");
     ShapeOrientation<Line3D> counterRotatedLine = line;
-    counterRotatedLine.orientation.SetPosition(RotateVectorBy(line.orientation.GetPosition() - box.orientation.GetPosition(), box.orientation.GetRotation().Inverse())); // must also counter-rotate the line origin
-    counterRotatedLine.orientation.AdjustRotation(box.orientation.GetRotation().Inverse()); // must alter the line's direction
-    Line3D effectiveLine = Line3D(EffectiveDirection(counterRotatedLine));
+    counterRotatedLine.orientation.position = RotateVectorBy(line.orientation.position - box.orientation.position, box.orientation.rotation.Inverse()); // must also counter-rotate the line origin
+    counterRotatedLine.orientation.rotation = box.orientation.rotation.Inverse() * counterRotatedLine.orientation.rotation; // must alter the line's direction
+    Line3D effectiveLine = Line3D(EffectiveDirection(counterRotatedLine), line.shape.infinite);
+    DEBUG_PROFILE_POP("counter rotated line");
 
-    const auto lineOriginToBox = box.orientation.GetPosition() - counterRotatedLine.orientation.GetPosition();
+    DEBUG_PROFILE_PUSH("line pointing at box");
+    const auto lineOriginToBox = box.orientation.position - counterRotatedLine.orientation.position;
 
     const auto linePointingToBox = Math::Dot(EffectiveDirection(counterRotatedLine), lineOriginToBox);
+    DEBUG_PROFILE_POP("line pointing at box");
+    DEBUG_PROFILE_POP("Early Out Data");
     if (linePointingToBox <= 0.0f) // pointing away/not at box, modified line origin will be closest
     {
-        const auto closestPointToLineOrigin = ClosestPointToPoint(effectiveBox, counterRotatedLine.orientation.GetPosition());
-        return box.orientation.GetPosition() + RotateVectorBy(closestPointToLineOrigin, box.orientation.GetRotation());
+        const auto closestPointToLineOrigin = ClosestPointToPoint(effectiveBox, counterRotatedLine.orientation.position);
+        DEBUG_PROFILE_POP("Early Out");
+        return box.orientation.position + RotateVectorBy(closestPointToLineOrigin, box.orientation.rotation);
     }
+    DEBUG_PROFILE_POP("Early Out");
 
+    DEBUG_PROFILE_PUSH("Gather Data");
     const auto boxMax = BoxMax(effectiveBox);
     const auto boxMin = BoxMin(effectiveBox);
-    const auto maxRelativeToLine = boxMax - line.orientation.GetPosition();
-    const auto minRelativeToLine = boxMin - line.orientation.GetPosition();
+    const auto maxRelativeToLine = boxMax - line.orientation.position;
+    const auto minRelativeToLine = boxMin - line.orientation.position;
     // <multiplier, line position>
     std::array<std::pair<float, Math::Float3>, 6> planeIntersections;
 
     const auto xMult_Min = LineMultiplierForPoint_X(effectiveLine, minRelativeToLine);
     const auto xMult_Max = LineMultiplierForPoint_X(effectiveLine, maxRelativeToLine);
-    const auto crossMinXPoint = PointOnLine(effectiveLine, xMult_Min) + line.orientation.GetPosition();
-    const auto crossMaxXPoint = PointOnLine(effectiveLine, xMult_Max) + line.orientation.GetPosition();
+    const auto crossMinXPoint = PointOnLine(effectiveLine, xMult_Min) + line.orientation.position;
+    const auto crossMaxXPoint = PointOnLine(effectiveLine, xMult_Max) + line.orientation.position;
     planeIntersections[0] = {xMult_Min, crossMinXPoint};
     planeIntersections[1] = {xMult_Max, crossMaxXPoint};
     
     const auto yMult_Min = LineMultiplierForPoint_Y(effectiveLine, minRelativeToLine);
     const auto yMult_Max = LineMultiplierForPoint_Y(effectiveLine, maxRelativeToLine);
-    const auto crossMinYPoint = PointOnLine(effectiveLine, yMult_Min) + line.orientation.GetPosition();
-    const auto crossMaxYPoint = PointOnLine(effectiveLine, yMult_Max) + line.orientation.GetPosition();
+    const auto crossMinYPoint = PointOnLine(effectiveLine, yMult_Min) + line.orientation.position;
+    const auto crossMaxYPoint = PointOnLine(effectiveLine, yMult_Max) + line.orientation.position;
     planeIntersections[2] = {yMult_Min, crossMinYPoint};
     planeIntersections[3] = {yMult_Max, crossMaxYPoint};
     
     const auto zMult_Min = LineMultiplierForPoint_Z(effectiveLine, minRelativeToLine);
     const auto zMult_Max = LineMultiplierForPoint_Z(effectiveLine, maxRelativeToLine);
-    const auto crossMinZPoint = PointOnLine(effectiveLine, zMult_Min) + line.orientation.GetPosition();
-    const auto crossMaxZPoint = PointOnLine(effectiveLine, zMult_Max) + line.orientation.GetPosition();
+    const auto crossMinZPoint = PointOnLine(effectiveLine, zMult_Min) + line.orientation.position;
+    const auto crossMaxZPoint = PointOnLine(effectiveLine, zMult_Max) + line.orientation.position;
     planeIntersections[4] = {zMult_Min, crossMinZPoint};
     planeIntersections[5] = {zMult_Max, crossMaxZPoint};
+    DEBUG_PROFILE_POP("Gather Data");
     
+    DEBUG_PROFILE_PUSH("Analyze Data");
     // <multiplier, distance between box and point>
     std::pair<float, Math::Float3> bestIntersection = planeIntersections[0];
     Math::Float3 closestPointToBestIntersection = ClosestPointToPoint(effectiveBox, bestIntersection.second);
@@ -233,7 +247,8 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
         }
     }
 
-    return box.orientation.GetPosition() + RotateVectorBy(closestPointToBestIntersection, box.orientation.GetRotation());
+    DEBUG_PROFILE_POP("Analyze Data");
+    return box.orientation.position + RotateVectorBy(closestPointToBestIntersection, box.orientation.rotation);
 }
 } // namespace Geometric
 } // namespace Core

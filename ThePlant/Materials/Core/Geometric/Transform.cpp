@@ -25,6 +25,12 @@ namespace Geometric {
     _Dirty(true);
   }
 
+  Transform::Transform(const Orientation& orientation)
+  : _orientation(orientation)
+  {
+    _Dirty(true);
+  }
+
   Transform::Transform(const Float4x4& transformationMatrix)
   {
     _SetFromTransformationMatrix(transformationMatrix);
@@ -43,6 +49,14 @@ namespace Geometric {
     SetPosition(other.GetPosition());
     SetRotation(other.GetRotation());
     SetScale(other.GetScale());
+    _Dirty(true);
+
+    return *this;
+  }
+
+  Transform& Transform::operator=(const Orientation& orientation)
+  {
+    _orientation = orientation;
     _Dirty(true);
 
     return *this;
@@ -74,46 +88,56 @@ namespace Geometric {
     return Math::Inverse(GetTransformationMatrix());
   }
 
+  void Transform::SetOrientation(const Orientation& orientation)
+  {
+    _orientation = orientation;
+  }
+
+  Orientation& Transform::GetOrientation()
+  {
+    return _orientation;
+  }
+    
   void Transform::SetPosition(const Float3 &position)
   {
-    if (_position == position)
+    if (_orientation.position == position)
     {
       return;
     }
 
-    _position = position;
+    _orientation.position = position;
     _Dirty();
   }
 
   void Transform::AdjustPosition(const Float3 &movement)
   {
-    SetPosition(_position + movement);
+    SetPosition(_orientation.position + movement);
   }
 
   Float3 Transform::GetPosition() const
   {
-    return _position;
+    return _orientation.position;
   }
 
   void Transform::SetRotation(const FQuaternion &rotation)
   {
-    if (_rotation == rotation)
+    if (_orientation.rotation == rotation)
     {
       return;
     }
 
-    _rotation = rotation;
+    _orientation.rotation = rotation;
     _Dirty(true);
   }
 
   void Transform::AdjustRotation(const FQuaternion &rotation)
   {
-    SetRotation(rotation * _rotation);
+    SetRotation(rotation * _orientation.rotation);
   }
 
   FQuaternion Transform::GetRotation() const
   {
-    return _rotation;
+    return _orientation.rotation;
   }
 
   void Transform::SetScale(const float &scale)
@@ -123,37 +147,35 @@ namespace Geometric {
 
   void Transform::SetScale(const Float3 &scale)
   {
-    if (_scale == scale)
+    if (_orientation.scale == scale)
     {
       return;
     }
 
-    _scale = scale;
+    _orientation.scale = scale;
     _Dirty();
   }
 
   void Transform::AdjustScale(const float &scale)
   {
-    SetScale(_scale * scale);
+    SetScale(_orientation.scale * scale);
   }
 
   void Transform::AdjustScale(const Float3 &scale)
   {
-    SetScale(_scale * scale);
+    SetScale(_orientation.scale * scale);
   }
 
   Float3 Transform::GetScale() const
   {
-    return _scale;
+    return _orientation.scale;
   }
 
   bool Transform::IsDirty() const { return (_dirty || _rotationDirty); }
 
   bool Transform::operator==(const Transform& other) const
   {
-    return (_position == other._position
-          && _rotation == other._rotation
-          && _scale == other._scale);
+    return _orientation == other._orientation;
   }
   
   bool Transform::operator!=(const Transform& other) const
@@ -194,7 +216,7 @@ namespace Geometric {
       return;
     }
 
-    _rotationMatrix = CalculateRotationMatrix(_rotation);
+    _rotationMatrix = CalculateRotationMatrix(_orientation.rotation);
     _rotationDirty = false;
   }
 
@@ -207,17 +229,17 @@ namespace Geometric {
     _transformationMatrix = Float4x4(II{});
 
     // scale
-    _transformationMatrix.E1.X = _scale.X;
-    _transformationMatrix.E2.Y = _scale.Y;
-    _transformationMatrix.E3.Z = _scale.Z;
+    _transformationMatrix.E1.X = _orientation.scale.X;
+    _transformationMatrix.E2.Y = _orientation.scale.Y;
+    _transformationMatrix.E3.Z = _orientation.scale.Z;
 
     // rotation
     _transformationMatrix = Float4x4(_GetRotationMatrix(), Float4(0.0f, 0.0f, 0.0f, 1.0f)) * _transformationMatrix;
 
     // position
-    _transformationMatrix.E4.X = _position.X;
-    _transformationMatrix.E4.Y = _position.Y;
-    _transformationMatrix.E4.Z = _position.Z;
+    _transformationMatrix.E4.X = _orientation.position.X;
+    _transformationMatrix.E4.Y = _orientation.position.Y;
+    _transformationMatrix.E4.Z = _orientation.position.Z;
 
     _dirty = false;
   }

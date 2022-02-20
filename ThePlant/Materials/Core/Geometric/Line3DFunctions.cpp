@@ -10,8 +10,8 @@ namespace Core {
 namespace Geometric {
 Math::Float3 EffectiveDirection(const ShapeOrientation<Line3D>& line)
 {
-    auto effectiveDirection = Math::RotateNormalVectorBy(line.shape.direction, line.orientation.GetRotation());
-    return effectiveDirection * line.orientation.GetScale();
+    auto effectiveDirection = Math::RotateVectorBy(line.shape.line, line.orientation.rotation);
+    return effectiveDirection * line.orientation.scale;
 }
 
 float LineMultiplierForPoint_X(const Line3D& line, const Point3D& point)
@@ -21,7 +21,7 @@ float LineMultiplierForPoint_X(const Line3D& line, const Point3D& point)
         return 0.0f;
     }
 
-    return point.X / line.direction.X;
+    return point.X / line.line.X;
 }
 
 float LineMultiplierForPoint_Y(const Line3D& line, const Point3D& point)
@@ -31,7 +31,7 @@ float LineMultiplierForPoint_Y(const Line3D& line, const Point3D& point)
         return 0.0f;
     }
 
-    return point.Y / line.direction.Y;
+    return point.Y / line.line.Y;
 }
 
 float LineMultiplierForPoint_Z(const Line3D& line, const Point3D& point)
@@ -41,44 +41,44 @@ float LineMultiplierForPoint_Z(const Line3D& line, const Point3D& point)
         return 0.0f;
     }
 
-    return point.Z / line.direction.Z;
+    return point.Z / line.line.Z;
 }
 
 float AnyValidMultiplier(const Line3D& line, const Point3D& point)
 {
-    if (line.direction.X != 0.0f)
+    if (line.line.X != 0.0f)
     {
         return LineMultiplierForPoint_X(line, point);
     }
-    if (line.direction.Y != 0.0f)
+    if (line.line.Y != 0.0f)
     {
         return LineMultiplierForPoint_Y(line, point);
     }
-    if (line.direction.Z != 0.0f)
+    if (line.line.Z != 0.0f)
     {
         return LineMultiplierForPoint_Z(line, point);
     }
-    CORE_THROW("Line3DFunctions", "Line has no valid multipliers, direction == 0");
+    CORE_THROW("Line3DFunctions", "Line has no valid multipliers, line == 0");
 }
 
 float LineMultiplierForPoint_X(const ShapeOrientation<Line3D>& line, const Point3D& point)
 {
-    return LineMultiplierForPoint_X(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length), point - line.orientation.GetPosition());
+    return LineMultiplierForPoint_X(Line3D(EffectiveDirection(line), line.shape.infinite), point - line.orientation.position);
 }
 
 float LineMultiplierForPoint_Y(const ShapeOrientation<Line3D>& line, const Point3D& point)
 {
-    return LineMultiplierForPoint_Y(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length), point - line.orientation.GetPosition());
+    return LineMultiplierForPoint_Y(Line3D(EffectiveDirection(line), line.shape.infinite), point - line.orientation.position);
 }
 
 float LineMultiplierForPoint_Z(const ShapeOrientation<Line3D>& line, const Point3D& point)
 {
-    return LineMultiplierForPoint_Z(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length), point - line.orientation.GetPosition());
+    return LineMultiplierForPoint_Z(Line3D(EffectiveDirection(line), line.shape.infinite), point - line.orientation.position);
 }
 
 float AnyValidMultiplier(const ShapeOrientation<Line3D>& line, const Point3D& point)
 {
-    return AnyValidMultiplier(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length), point - line.orientation.GetPosition());
+    return AnyValidMultiplier(Line3D(EffectiveDirection(line), line.shape.infinite), point - line.orientation.position);
 }
 
 // overload to avoid calculating multipliers multiple times if known
@@ -95,7 +95,7 @@ bool PointIsOnLine(const Line3D& line, const Point3D& point, const float& precis
     for (size_t dimension = 0; dimension < point.Dimensions(); ++dimension)
     {
         // check for divide by 0 case
-        if (point[dimension] != 0.0f && line.direction[dimension] == 0.0f)
+        if (point[dimension] != 0.0f && line.line[dimension] == 0.0f)
         {
             return false;
         }
@@ -106,39 +106,39 @@ bool PointIsOnLine(const Line3D& line, const Point3D& point, const float& precis
 
 bool PointIsOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
-    return PointIsOnLine(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length), point - line.orientation.GetPosition());
+    return PointIsOnLine(Line3D(EffectiveDirection(line), line.shape.infinite), point - line.orientation.position);
 }
 
 Math::Float3 PointOnLine(const Line3D& line, const float& multiplier)
 {
     // direction is normalied, so multiplier can't be larger than length
-    auto minMultiplier = line.infinite ? multiplier : std::min(multiplier, line.length);
-    if (minMultiplier < 0) // point is 'behind' the line start
+    auto minMultiplier = line.infinite ? multiplier : std::min(multiplier, 1.0f);
+    if (minMultiplier < 0.0f) // point is 'behind' the line start
     {
         return 0.0f;
     }
-    return (line.direction * minMultiplier);
+    return (line.line * minMultiplier);
 }
 
 Math::Float3 PointOnLine(const ShapeOrientation<Line3D>& line, const float& multiplier)
 {
-    return line.orientation.GetPosition() + PointOnLine(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length), multiplier);
+    return line.orientation.position + PointOnLine(Line3D(EffectiveDirection(line), line.shape.infinite), multiplier);
 }
 
 Math::Float3 LineEndpoint(const Line3D& line)
 {
     VERIFY(!line.infinite, "Infinite lines do not have endpoints");
-    return PointOnLine(line, line.length);
+    return PointOnLine(line, 1.0f);
 }
 
 Math::Float3 LineEndpoint(const ShapeOrientation<Line3D>& line)
 {
-    return line.orientation.GetPosition() + LineEndpoint(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length));
+    return line.orientation.position + LineEndpoint(Line3D(EffectiveDirection(line), line.shape.infinite));
 }
 
 Math::Float3 ClosestPointOnLine(const Line3D& line, const Point3D& point)
 {
-    const Math::Float3 projectedOntoLine = Math::Project(point, line.direction);
+    const Math::Float3 projectedOntoLine = Math::Project(point, line.line);
 
     // we know this is on the line since we projected it onto the line
     const float lineMultiplier = AnyValidMultiplier(line, projectedOntoLine);
@@ -147,30 +147,30 @@ Math::Float3 ClosestPointOnLine(const Line3D& line, const Point3D& point)
 
 Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const Point3D& point)
 {
-    const Math::Float3 adjustedPoint = point - line.orientation.GetPosition();
-    return line.orientation.GetPosition() + ClosestPointOnLine(Line3D(EffectiveDirection(line), line.shape.infinite, line.shape.length), adjustedPoint);
+    const Math::Float3 adjustedPoint = point - line.orientation.position;
+    return line.orientation.position + ClosestPointOnLine(Line3D(EffectiveDirection(line), line.shape.infinite), adjustedPoint);
 }
 
 Math::Float3 ClosestPointOnLine(const ShapeOrientation<Line3D>& line, const ShapeOrientation<Spot3D>& spot)
 {
-    return ClosestPointOnLine(line, spot.orientation.GetPosition());
+    return ClosestPointOnLine(line, spot.orientation.position);
 }
 
 std::pair<Core::Math::Float3, Core::Math::Float3> ClosestPointsBetweenLines(const ShapeOrientation<Line3D>& line1, const ShapeOrientation<Line3D>& line2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
     const auto l1Dir = EffectiveDirection(line1);
     const auto l2Dir = EffectiveDirection(line2);
-    const auto o1ToO2 = line2.orientation.GetPosition() - line1.orientation.GetPosition();
-    const auto o2ToO1 = line1.orientation.GetPosition() - line2.orientation.GetPosition();
+    const auto o1ToO2 = line2.orientation.position - line1.orientation.position;
+    const auto o2ToO1 = line1.orientation.position - line2.orientation.position;
 
     const auto l1Xl2 = Math::CrossProduct(l1Dir, l2Dir);
     if (Math::Max(l1Xl2, Core::Math::Float3(precision)) == Core::Math::Float3(precision)) // lines are parallel (enough)
     {
         if (Math::Dot(l1Dir, o1ToO2) > 0.0f) // o1-----e1 o2-----e2
         {
-            return { ClosestPointOnLine(line1, ShapeOrientation<Spot3D>(line2.orientation, Spot3D())), line2.orientation.GetPosition() };
+            return { ClosestPointOnLine(line1, ShapeOrientation<Spot3D>(line2.orientation, Spot3D())), line2.orientation.position };
         }
-        return { line1.orientation.GetPosition(), ClosestPointOnLine(line2, ShapeOrientation<Spot3D>(line1.orientation, Spot3D())) };
+        return { line1.orientation.position, ClosestPointOnLine(line2, ShapeOrientation<Spot3D>(line1.orientation, Spot3D())) };
     }
 
     /*
@@ -206,10 +206,7 @@ ShapeOrientation<Line3D> LineFromPoints(const Point3D& point1, const Point3D& po
     DEBUG_PROFILE_SCOPE("LineFromPoints");
     
     const auto point1To2 = point2 - point1;
-    const auto magnitude = Math::Magnitude(point1To2);
-    Transform origin(point1);
-
-    return ShapeOrientation<Line3D>(origin, Line3D(point1To2 / magnitude, magnitude));
+    return ShapeOrientation<Line3D>(Orientation(point1), Line3D(point1To2, false));
 }
 } // namespace Geometric
 } // namespace Core
