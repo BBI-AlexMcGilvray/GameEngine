@@ -18,10 +18,10 @@ struct ArchetypeId
     : _archetypeId(archetypeId)
     {}
 
-    ArchetypeId(const ArchetypeId& other) = default;
-    ArchetypeId(ArchetypeId&& other) = default;
-    ArchetypeId& operator=(const ArchetypeId& other) = default;
-    ArchetypeId& operator=(ArchetypeId&& other) = default;
+    ArchetypeId(const ArchetypeId&) = default;
+    ArchetypeId(ArchetypeId&&) = default;
+    ArchetypeId& operator=(const ArchetypeId&) = default;
+    ArchetypeId& operator=(ArchetypeId&&) = default;
 
     bool IsValid() const
     {
@@ -74,9 +74,9 @@ struct EntityId
     : _entityId(entityId)
     {}
 
-    EntityId(const EntityId& other) = default;
-    EntityId(EntityId&& other) = default;
-    EntityId& operator=(const EntityId& other) = default;
+    EntityId(const EntityId&) = default;
+    EntityId(EntityId&&) = default;
+    EntityId& operator=(const EntityId&) = default;
     EntityId& operator=(EntityId&&) = default;
 
     bool IsValid() const
@@ -142,8 +142,8 @@ struct Entity
 
     // entities should only be moved.
     // we should only have one reference to it as the archetypes can be changed and it would be impossible to track otherwise
-    Entity(const Entity& other) = delete;
-    Entity& operator=(const Entity& other) = delete;
+    Entity(const Entity&) = delete;
+    Entity& operator=(const Entity&) = delete;
 
     const EntityId& GetEntityId() const
     {

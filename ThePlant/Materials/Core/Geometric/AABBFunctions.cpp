@@ -90,10 +90,12 @@ AABB BoundingFor(const Line3D& line)
 ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Line3D>& line)
 {
     const auto effectiveLine = EffectiveDirection(line);
+    const Math::Float3 absoluteLine(std::abs(effectiveLine.X), std::abs(effectiveLine.Y), std::abs(effectiveLine.Z));
+
     Orientation aabbOrientation = line.orientation;
     aabbOrientation.position -= effectiveLine * 0.5f; // need to center the AABB
 
-    return ShapeOrientation<AABB>(aabbOrientation, BoundingFor(Line3D(effectiveLine, line.shape.infinite)));
+    return ShapeOrientation<AABB>(aabbOrientation, BoundingFor(Line3D(absoluteLine, line.shape.infinite)));
 }
 
 AABB BoundingFor(const Plane& plane)

@@ -27,7 +27,8 @@ struct CollisionTreeBuildingSystem: public System<CollisionTreeBuildingSystem>
     {
         DEBUG_PROFILE_SCOPE(GetSystemName());
 
-        _octTree.ClearTree();
+        // we are not clearing statics by default, this way want to be a flag in the system in the future
+        _octTree.ClearTree(false);
 
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<WorldTransformComponent, ColliderComponent>();
 
@@ -48,7 +49,7 @@ private:
         for (size_t index = 0; index < worldTransforms.size(); ++index)
         {
             Core::Geometric::ShapeOrientation3D colliderOrientation = { worldTransforms[index].transform.GetOrientation(), colliderComponents[index].shape };
-            _octTree.AddContent({ colliderOrientation, entities[index] });
+            _octTree.AddContent(Collision::OctTreeContent(colliderOrientation, entities[index], false)); // we should either have the 'isStatic' flag in the collider components, or base it on if a 'velocity' component exists
         }
     }
 };

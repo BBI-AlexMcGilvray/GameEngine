@@ -54,11 +54,11 @@ namespace Product
         _collider = Testing::SpawnCollider(Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
         _trigger = Testing::SpawnTrigger(Core::Geometric::Box(), _rightPos, rotation2, 2.0f);
         
-        // Testing::SpawnCollider(Core::Geometric::Box(), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
-        // Testing::SpawnCollider(Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(modifiedLeft, modifiedRight, 0.4f));
-        // Testing::SpawnCollider(Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(_leftPos, _rightPos, 0.50f) + Core::Math::Float3(0.0f, 0.0f, 0.2f), rotation2);
-        // Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(modifiedLeft, modifiedRight, 0.6f)); // works with: spot3D, sphere
-        // Testing::SpawnCollider(Core::Geometric::Sphere(), Math::Lerp(modifiedLeft, modifiedRight, 0.8f), Core::Math::FQuaternion(Core::Math::II()), 2.0f); // works with: sphere
+        Testing::SpawnCollider(Core::Geometric::Box(), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
+        Testing::SpawnCollider(Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(modifiedLeft, modifiedRight, 0.4f));
+        Testing::SpawnCollider(Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(_leftPos, _rightPos, 0.50f) + Core::Math::Float3(0.0f, 0.0f, 0.2f), rotation2);
+        Testing::SpawnCollider(Core::Geometric::Spot3D(), Math::Lerp(modifiedLeft, modifiedRight, 0.6f)); // works with: spot3D, sphere
+        Testing::SpawnCollider(Core::Geometric::Sphere(), Math::Lerp(modifiedLeft, modifiedRight, 0.8f), Core::Math::FQuaternion(Core::Math::II()), 2.0f); // works with: sphere
 
         // do planes last
         // const auto modifiedLeft = _leftPos - Core::Math::Float3(0.0f, -2.0f, 0.0f);

@@ -20,15 +20,13 @@ namespace Collision
 {
 struct OctTreeContent
 {
-    const Core::Geometric::ShapeOrientation3D shapeOrientation;
-    const Core::Geometric::ShapeOrientation<Core::Geometric::AABB> boundingBox;
-    const EntityId entity; // content lasts a whole frame, can't hold snapshots
+    Core::Geometric::AABBShapeOrientation3D boundCollider;
+    EntityId entity; // content lasts a whole frame, can't hold snapshots
     bool isStatic;
 
     OctTreeContent() = delete;
     OctTreeContent(const Core::Geometric::ShapeOrientation3D& shapeOrientation, const EntityId& entity, bool isStatic)
-    : shapeOrientation(shapeOrientation)
-    , boundingBox(Core::Geometric::BoundingFor(shapeOrientation))
+    : boundCollider(shapeOrientation)
     , entity(entity)
     , isStatic(isStatic)
     {}
@@ -122,9 +120,10 @@ class OctTreeNode
         void _CreateChildren();
         bool _ChildrenExist() const { return (_children[0] != nullptr); } // either all are made, or none are
 
-        bool _Engulfs(const Core::Geometric::ShapeOrientation3D& data) const;
-        OctTreeNode& _FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape);
-        const OctTreeNode& _FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape) const;
+        bool _Engulfs(const Core::Geometric::AABBShapeOrientation3D& data) const;
+        bool _Intersects(const Core::Geometric::AABBShapeOrientation3D& data) const;
+        OctTreeNode& _FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape);
+        const OctTreeNode& _FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape) const;
         void _InsertContent(const OctTreeContent& content);
         void _StopGapContent(const OctTreeContent& content);
         void _RemoveStopGap();

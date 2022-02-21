@@ -27,10 +27,13 @@ OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& origin, const Core:
 
 EntitySnapshot OctTreeNode::FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const
 {
+    Core::Geometric::AABBShapeOrientation3D boundedShape(shape);
     const OctTreeNode& containingNode = _FindContainingNode(shape);
     for (const auto& content : containingNode._content)
     {
-        if (Core::Geometric::Intersect(content.shapeOrientation, shape))
+        // we may want to take these 'double check' intersect calls and move them to a generic method
+        // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
+        if (Core::Geometric::Intersect(content.boundCollider.boundingBox, boundedShape.boundingBox) && Core::Geometric::Intersect(content.boundCollider.shapeOrientation, boundedShape.shapeOrientation))
         {
             return _ecs.GetTemporaryEntitySnapshot(content.entity);
         }
@@ -117,15 +120,22 @@ void OctTreeNode::_CreateChildren()
     }
 }
 
-bool OctTreeNode::_Engulfs(const Core::Geometric::ShapeOrientation3D& shape) const
+bool OctTreeNode::_Engulfs(const Core::Geometric::AABBShapeOrientation3D& shape) const
 {
-    // this should be AABBs for optimization
-    // all OctTreeNode collision checks use AABB bounding boxes for optimization. then only content-content collisions are precise
-    return Core::Geometric::Intersect(_this, shape);
+    // we may want to take these 'double check' intersect calls and move them to a generic method
+    // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
+    return Core::Geometric::Engulfs(_this, shape.boundingBox); // && Core::Geometric::Engulfs(Core::Geometric::RemoveAA(_this), shape.shapeOrientation); // don't need the second for this purpose
+}
+
+bool OctTreeNode::_Intersects(const Core::Geometric::AABBShapeOrientation3D& shape) const
+{
+    // we may want to take these 'double check' intersect calls and move them to a generic method
+    // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
+    return Core::Geometric::Intersect(_this, shape.boundingBox);// && Core::Geometric::Intersect(Core::Geometric::RemoveAA(_this), shape.shapeOrientation); // don't need the second for this purpose
 }
 
 // must be tied with the above
-OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape)
+OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape)
 {
     DEBUG_PROFILE_SCOPE("OctTreeNode::_FindContainingNode");
 
@@ -146,7 +156,7 @@ OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrient
 }
 
 // must be tied with the above
-const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape) const
+const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape) const
 {
     if (!_ChildrenExist())
     {
@@ -182,7 +192,7 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
         _RemoveStopGap();
     }
     // insert the new content
-    auto& newContentContainer = _FindContainingNode(content.shapeOrientation);
+    auto& newContentContainer = _FindContainingNode(content.boundCollider);
     if (&newContentContainer == this)
     {
         _content.push_back(content);
@@ -204,7 +214,7 @@ void OctTreeNode::_RemoveStopGap()
     _stopGapped = false;
     OctTreeContent stopGappedContent = _content.back();
     _content.pop_back();
-    auto& stopGappedContainer = _FindContainingNode(stopGappedContent.shapeOrientation);
+    auto& stopGappedContainer = _FindContainingNode(stopGappedContent.boundCollider);
     stopGappedContainer._InsertContent(stopGappedContent); // now that the tree has been expanded, try to move the stop-gapped content down a layer
 }
 
@@ -238,8 +248,9 @@ void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const
 
     for (const auto& content : _content)
     {
-        // we may want to have everything in the oct tree be wrapped in a bounding box so we can check that first - though maybe only for 'heavier' checks (lines and boxes)
-        if (Core::Geometric::Intersect(content.shapeOrientation, shape.shapeOrientation))
+        // we may want to take these 'double check' intersect calls and move them to a generic method
+        // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
+        if (Core::Geometric::Intersect(content.boundCollider.boundingBox, shape.boundingBox) && Core::Geometric::Intersect(content.boundCollider.shapeOrientation, shape.shapeOrientation))
         {
             entities.push_back(_ecs.GetTemporaryEntitySnapshot(content.entity));
         }
@@ -289,8 +300,9 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
     {
         for (size_t j = i + 1; j < _content.size(); ++j)
         {
-            // we may want to have everything in the oct tree be wrapped in a bounding box so we can check that first - though maybe only for 'heavier' checks (lines and boxes)
-            if (Core::Geometric::Intersect(_content[i].shapeOrientation, _content[j].shapeOrientation))
+            // we may want to take these 'double check' intersect calls and move them to a generic method
+            // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
+            if (Core::Geometric::Intersect(_content[i].boundCollider.boundingBox, _content[j].boundCollider.boundingBox) && Core::Geometric::Intersect(_content[i].boundCollider.shapeOrientation, _content[j].boundCollider.shapeOrientation))
             {
                 collisions.push_back(IntermediaryCollision(_content[i].entity, _content[j].entity));
             }
@@ -316,19 +328,20 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
                 continue;
             }
             
-            // DEBUG_PROFILE_PUSH("Engulfs");
-            bool contentEngulfsChild = Core::Geometric::Engulfs(_content[i].boundingBox, child->_this);
-            // DEBUG_PROFILE_POP("Engulfs");
-            if (contentEngulfsChild)
+            if (Core::Geometric::Engulfs(_content[i].boundCollider.boundingBox, child->_this))
             {
-                child->_CollisionsWithAllContent(collisions, _content[i]);
+                if (Core::Geometric::Engulfs(_content[i].boundCollider.shapeOrientation, Core::Geometric::RemoveAA(child->_this)))
+                {
+                    child->_CollisionsWithAllContent(collisions, _content[i]);
+                }
+                else
+                {
+                    child->_FindAllCollisions(collisions, _content[i]);
+                }
                 continue;
             }
 
-            // DEBUG_PROFILE_PUSH("Intersect");
-            bool contentIntersectsChild = Core::Geometric::Intersect(_content[i].boundingBox, child->_this);
-            // DEBUG_PROFILE_POP("Intersect");
-            if (contentIntersectsChild)
+            if (Core::Geometric::Intersect(_content[i].boundCollider.boundingBox, child->_this))
             {
                 child->_FindAllCollisions(collisions, _content[i]);
             }
@@ -362,7 +375,9 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
 
     for (const auto& c : _content)
     {
-        if (Core::Geometric::Intersect(c.shapeOrientation, content.shapeOrientation))
+        // we may want to take these 'double check' intersect calls and move them to a generic method
+        // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
+        if (Core::Geometric::Intersect(c.boundCollider.boundingBox, content.boundCollider.boundingBox) && Core::Geometric::Intersect(c.boundCollider.shapeOrientation, content.boundCollider.shapeOrientation))
         {
             collisions.push_back(IntermediaryCollision(c.entity, content.entity));
         }
@@ -375,27 +390,34 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
 
     for (const auto& child : _children)
     {
-        if (Core::Geometric::Engulfs(content.boundingBox, child->_this))
+        if (Core::Geometric::Engulfs(content.boundCollider.boundingBox, child->_this))
         {
-            child->_CollisionsWithAllContent(collisions, content);
+            if (Core::Geometric::Engulfs(content.boundCollider.shapeOrientation, Core::Geometric::RemoveAA(child->_this)))
+            {
+                child->_CollisionsWithAllContent(collisions, content);
+            }
+            else
+            {
+                child->_FindAllCollisions(collisions, content);
+            }
         }
-        else if (Core::Geometric::Intersect(content.boundingBox, child->_this))
+        else if (Core::Geometric::Intersect(content.boundCollider.boundingBox, child->_this))
         {
             child->_FindAllCollisions(collisions, content);
         }
     #ifdef DEBUG // may want to remove this debug one confident in functionality/comment it out to avoid performance hits
-        else
-        {
-            // for debugging, get all children and explicitly check them. if any children are collided with but not checked throw an error
-            const auto allChildShapes = child->_DEBUG_AllChildShapes();
-            for (const auto& childShape : allChildShapes)
-            {
-                if (Core::Geometric::Intersect(content.shapeOrientation, childShape))
-                {
-                    CORE_THROW("OctTree", "An collision was missed due to OctTree not checking for collisions properly");
-                }
-            }
-        }
+        // else
+        // {
+        //     // for debugging, get all children and explicitly check them. if any children are collided with but not checked throw an error
+        //     const auto allChildShapes = child->_DEBUG_AllChildShapes();
+        //     for (const auto& childShape : allChildShapes)
+        //     {
+        //         if (Core::Geometric::Intersect(content.boundCollider.shapeOrientation, childShape))
+        //         {
+        //             CORE_THROW("OctTree", "An collision was missed due to OctTree not checking for collisions properly");
+        //         }
+        //     }
+        // }
     #endif
     }
 }
@@ -448,20 +470,28 @@ bool OctTreeNode::_ClearNode(bool clearStatics)
 {
     bool canDelete = true;
 
-    for (auto& child : _children)
+    if (_ChildrenExist())
     {
-        canDelete &= child->_ClearNode(clearStatics);
-    }
-    if (canDelete)
-    {
-        _children = { nullptr };
+        for (auto& child : _children)
+        {
+            canDelete &= child->_ClearNode(clearStatics);
+        }
+        if (canDelete)
+        {
+            _children = { nullptr };
+        }
     }
 
-    for (auto rIter = _content.rbegin(); rIter != _content.rend(); ++rIter)
+    if (_content.size() > 0)
     {
-        if (!rIter->isStatic || clearStatics)
+        for (size_t index = _content.size(); index > 0; --index)
         {
-            _content.erase((rIter + 1).base());
+            size_t trueIndex = index - 1;
+            const auto& content = _content[trueIndex];
+            if (!content.isStatic || clearStatics)
+            {
+                _content.erase(_content.begin() + trueIndex);
+            }
         }
     }
     
@@ -500,7 +530,7 @@ const std::vector<Core::Geometric::ShapeOrientation3D> OctTreeNode::_DEBUG_AllCh
         {
             for (const auto& content : child->_content)
             {
-                allChildShapes.push_back(content.shapeOrientation);
+                allChildShapes.push_back(content.boundCollider.shapeOrientation);
             }
 
             auto childShapes = child->_DEBUG_AllChildShapes();
