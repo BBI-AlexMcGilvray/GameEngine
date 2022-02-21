@@ -7,7 +7,6 @@
 namespace Core {
 namespace Geometric {
 
-  // CAN'T be rotated - at least not yet. keep it simple for now
   struct Box
   {
     Math::Float3 dimensions;

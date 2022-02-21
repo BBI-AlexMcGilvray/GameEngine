@@ -4,6 +4,8 @@
 
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/Vector3.h"
+#include "Core/Geometric/AABB.h"
+#include "Core/Geometric/AABR.h"
 #include "Core/Geometric/Box.h"
 #include "Core/Geometric/Circle.h"
 #include "Core/Geometric/Line2D.h"
@@ -19,8 +21,8 @@ namespace Geometric {
     using Point2D = Math::Float2;
     using Point3D = Math::Float3;
     // defined in Plane.h, maybe we want a '2DGeometryDefs.h' file to hold it and be referenced by both?
-    // using Shape2D = std::variant<Circle, Line2D, Spot2D, Rectangle>;
-    using Shape3D = std::variant<Box, Line3D, Plane, Spot3D, Sphere>;
+    // using Shape2D = std::variant<Circle, Line2D, Spot2D, Rectangle>; // does not contain AABR, AABRs currently used as optimization in oct trees
+    using Shape3D = std::variant<Box, Line3D, Plane, Spot3D, Sphere>; // does not contain AABB, AABBs currently used as optimization in oct trees
 
     template <typename SHAPE2D>
     Plane Shape2DAsPlane(const SHAPE2D& shape_2d)

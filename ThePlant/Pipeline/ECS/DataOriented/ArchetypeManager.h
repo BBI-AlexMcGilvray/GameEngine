@@ -151,6 +151,8 @@ public:
         return relevantArchetypes;
     }
 
+    // potential optimization: ForEachArchetypeContaining(METHOD) to avoid multiple pointer indirections and vector sizing/creation
+
 private:
     std::vector<Archetype> _archetypes;
 

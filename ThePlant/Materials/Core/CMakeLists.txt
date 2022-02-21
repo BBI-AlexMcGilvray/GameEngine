@@ -5,6 +5,8 @@ Debugging/Profiling/Profiler.cpp #
 Functionality/Source/Scheduler.cpp #
 Geometric/2DFunctions.cpp #
 Geometric/3DFunctions.cpp #
+Geometric/AABBFunctions.cpp #
+Geometric/AABRFunctions.cpp #
 Geometric/BoxFunctions.cpp #
 Geometric/CircleFunctions.cpp #
 Geometric/Functions.cpp #
@@ -43,6 +45,10 @@ Functionality/Headers/Scheduler.h #
 Functionality/Headers/Subscription.h #
 Geometric/2DFunctions.h #
 Geometric/3DFunctions.h #
+Geometric/AABB.h #
+Geometric/AABBFunctions.h #
+Geometric/AABR.h #
+Geometric/AABRFunctions.h #
 Geometric/Box.h #
 Geometric/BoxFunctions.h #
 Geometric/Circle.h #

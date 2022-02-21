@@ -22,7 +22,9 @@ struct Section
     Section(const std::string& tag, Core::SteadyClock& clock)
     : tag(tag)
     , start(clock.now())
-    {}
+    {
+        sections.reserve(4); // try to avoid moving the vector multiple times
+    }
 
     Section(const Section&) = default;
     Section(Section&&) = default;

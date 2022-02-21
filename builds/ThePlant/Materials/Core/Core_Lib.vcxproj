@@ -281,6 +281,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Functionality\Source\Scheduler.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\2DFunctions.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\3DFunctions.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\AABBFunctions.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\AABRFunctions.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\BoxFunctions.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\CircleFunctions.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\Functions.cpp" />

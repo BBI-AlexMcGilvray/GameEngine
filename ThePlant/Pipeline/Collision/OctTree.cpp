@@ -58,7 +58,7 @@ void OctTreeNode::AddContent(const OctTreeContent& content)
 {
     DEBUG_PROFILE_SCOPE("OctTreeNode::AddContent");
 #if DEBUG
-    VERIFY(_parent != nullptr || _Engulfs(content.shapeOrientation));// All content should exist WITHIN the topmost node
+    // VERIFY(_parent != nullptr || _Engulfs(content.shapeOrientation));// All content should exist WITHIN the topmost node
 #endif
 
     // debug logic to check if content already exists?
@@ -121,13 +121,15 @@ void OctTreeNode::_CreateChildren()
 
 bool OctTreeNode::_Engulfs(const Core::Geometric::ShapeOrientation3D& shape) const
 {
+    // this should be AABBs for optimization
+    // all OctTreeNode collision checks use AABB bounding boxes for optimization. then only content-content collisions are precise
     return Core::Geometric::Engulfs(_this, shape);
 }
 
 // must be tied with the above
 OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::ShapeOrientation3D& shape)
 {
-    // DEBUG_PROFILE_SCOPE("OctTreeNode::_FindContainingNode");
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_FindContainingNode");
 
     if (!_ChildrenExist())
     {
@@ -167,7 +169,7 @@ const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::Shape
 
 void OctTreeNode::_InsertContent(const OctTreeContent& content)
 {
-    // DEBUG_PROFILE_SCOPE("OctTreeNode::_InsertContent");
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_InsertContent");
 
     if (_content.empty() && !_ChildrenExist())
     {
@@ -199,7 +201,7 @@ void OctTreeNode::_StopGapContent(const OctTreeContent& content)
 
 void OctTreeNode::_RemoveStopGap()
 {
-    // DEBUG_PROFILE_SCOPE("OctTreeNode::_RemoveStopGap");
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_RemoveStopGap");
 
     _stopGapped = false;
     OctTreeContent stopGappedContent = _content.back();

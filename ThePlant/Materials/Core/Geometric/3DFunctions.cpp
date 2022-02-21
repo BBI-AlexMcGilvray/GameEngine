@@ -3,6 +3,7 @@
 #include "Core/Math/Headers/VectorFunctions.h"
 #include "Core/Math/Headers/QuaternionFunctions.h"
 
+#include "Core/Geometric/AABBFunctions.h"
 #include "Core/Geometric/Functions.h"
 #include "Core/Geometric/BoxFunctions.h"
 #include "Core/Geometric/Line3DFunctions.h"
@@ -473,6 +474,16 @@ bool Engulfs(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box
     }
 
     return true;
+}
+
+bool Intersect(const ShapeOrientation<AABB>& aabb1, const ShapeOrientation<AABB>& aabb2)
+{
+    std::pair<Math::Float3, Math::Float3> aabb1Extremes = AABBMinMax(aabb1);
+    std::pair<Math::Float3, Math::Float3> aabb2Extremes = AABBMinMax(aabb2);
+
+    return ((aabb1.shape.infinite.X || aabb2.shape.infinite.X) || (aabb1Extremes.first.X <= aabb2Extremes.second.X && aabb1Extremes.second.X >= aabb2Extremes.first.X)) &&
+            ((aabb1.shape.infinite.Y || aabb2.shape.infinite.Y) || (aabb1Extremes.first.Y <= aabb2Extremes.second.Y && aabb1Extremes.second.Y >= aabb2Extremes.first.Y)) &&
+            ((aabb1.shape.infinite.Z || aabb2.shape.infinite.Z) || (aabb1Extremes.first.Z <= aabb2Extremes.second.Z && aabb1Extremes.second.Z >= aabb2Extremes.first.Z));
 }
 } // namespace Geometric
 } // namespace Core

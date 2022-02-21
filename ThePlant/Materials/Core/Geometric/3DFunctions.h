@@ -56,5 +56,8 @@ NOTE: All DistanceSqr(...) methods return POSITIVE values
     bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Plane>& plane);
     bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Sphere>& sphere);
     bool Engulfs(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2);
+
+    // AABB - only against other AABBs for now as this is just used in oct trees for now
+    bool Intersect(const ShapeOrientation<AABB>& aabb1, const ShapeOrientation<AABB>& aabb2);
 }// namespace Geometric
 }// namespace Core

@@ -13,6 +13,12 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\3DFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\AABBFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\AABRFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Geometric\BoxFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
