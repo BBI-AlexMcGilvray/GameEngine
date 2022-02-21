@@ -58,17 +58,27 @@ std::pair<Math::Float3, Math::Float3> AABRMinMax(const ShapeOrientation<AABR>& a
     return { aabr.orientation.position + AABRMin(effectiveAABR), aabr.orientation.position + AABRMax(effectiveAABR) };
 }
 
-AABR AABRFor(const Spot2D& point)
+Rectangle RemoveAA(const AABR& aabr)
+{
+    return Rectangle(aabr.dimensions);
+}
+
+ShapeOrientation<Rectangle> RemoveAA(const ShapeOrientation<AABR>& aabr)
+{
+    return ShapeOrientation<Rectangle>(aabr.orientation, RemoveAA(aabr.shape));
+}
+
+AABR BoundingFor(const Spot2D& point)
 {
     return AABR(Math::Float2(0.0f));
 }
 
-ShapeOrientation<AABR> AABRFor(const ShapeOrientation<Spot2D>& point)
+ShapeOrientation<AABR> BoundingFor(const ShapeOrientation<Spot2D>& point)
 {
-    return ShapeOrientation<AABR>(point.orientation, AABRFor(point.shape));
+    return ShapeOrientation<AABR>(point.orientation, BoundingFor(point.shape));
 }
 
-AABR AABRFor(const Line2D& line)
+AABR BoundingFor(const Line2D& line)
 {
     if (line.infinite)
     {
@@ -79,32 +89,32 @@ AABR AABRFor(const Line2D& line)
     // return AABR(LineEndpoint(line)); // line is centered on 0 so this gives the full line dimensions, the line is properly centered by the 0.5 adjustment below
 }
 
-ShapeOrientation<AABR> AABRFor(const ShapeOrientation<Line2D>& line)
+ShapeOrientation<AABR> BoundingFor(const ShapeOrientation<Line2D>& line)
 {
     const auto effectiveLine = EffectiveDirection(line);
     Orientation aabbOrientation = line.orientation;
     aabbOrientation.position -= effectiveLine * 0.5f; // need to center the AABB
 
-    return ShapeOrientation<AABR>(aabbOrientation, AABRFor(Line2D(effectiveLine, line.shape.infinite)));
+    return ShapeOrientation<AABR>(aabbOrientation, BoundingFor(Line2D(effectiveLine, line.shape.infinite)));
 }
 
-AABR AABRFor(const Circle& circle)
+AABR BoundingFor(const Circle& circle)
 {
     return AABR(Math::Float2(circle.radius * 2.0f));
 }
 
-ShapeOrientation<AABR> AABRFor(const ShapeOrientation<Circle>& circle)
+ShapeOrientation<AABR> BoundingFor(const ShapeOrientation<Circle>& circle)
 {
     CORE_THROW("AABRFunctions", "Unfinished Implementation");
-    // return ShapeOrientation<AABR>(circle.orientation, AABRFor(EffectiveRadius(circle)));
+    // return ShapeOrientation<AABR>(circle.orientation, BoundingFor(EffectiveRadius(circle)));
 }
 
-AABR AABRFor(const Rectangle& rectangle)
+AABR BoundingFor(const Rectangle& rectangle)
 {
     return AABR(rectangle.dimensions);
 }
 
-ShapeOrientation<AABR> AABRFor(const ShapeOrientation<Rectangle>& rectangle)
+ShapeOrientation<AABR> BoundingFor(const ShapeOrientation<Rectangle>& rectangle)
 {
     CORE_THROW("AABRFunctions", "Unfinished Implementation");
     // const auto rectangleCorners = RectangleCorners(rectangle);
@@ -117,7 +127,7 @@ ShapeOrientation<AABR> AABRFor(const ShapeOrientation<Rectangle>& rectangle)
     // }
     // Math::Float2 fullDimensions = fullMax - fullMin;
 
-    // return ShapeOrientation<AABB>(rectangle.orientation, AABBFor(Rectangle(fullDimensions)));
+    // return ShapeOrientation<AABB>(rectangle.orientation, BoundingFor(Rectangle(fullDimensions)));
 }
 
 struct ShapeVisitor2D_AABR
@@ -125,7 +135,7 @@ struct ShapeVisitor2D_AABR
     template <typename SHAPE>
     AABR operator()(const SHAPE& shape) const
     {
-        return AABRFor(shape);
+        return BoundingFor(shape);
     }
 };
 
@@ -138,19 +148,19 @@ struct ShapeVisitor2D_ShapeOrientationAABR
     template <typename SHAPE>
     ShapeOrientation<AABR> operator()(const SHAPE& shape) const
     {
-        return AABRFor(ShapeOrientation<SHAPE>(transform, shape));
+        return BoundingFor(ShapeOrientation<SHAPE>(transform, shape));
     }
 
 private:
     const Orientation& transform;
 };
 
-AABR AABRFor(const Shape2D& shape)
+AABR BoundingFor(const Shape2D& shape)
 {
     return std::visit(ShapeVisitor2D_AABR(), shape);
 }
 
-ShapeOrientation<AABR> AABRFor(const ShapeOrientation2D& shape)
+ShapeOrientation<AABR> BoundingFor(const ShapeOrientation2D& shape)
 {
     return std::visit(ShapeVisitor2D_ShapeOrientationAABR(shape.orientation), shape.shape);
 }

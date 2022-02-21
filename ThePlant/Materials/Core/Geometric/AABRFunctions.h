@@ -18,15 +18,18 @@ namespace Geometric {
     std::pair<Math::Float3, Math::Float3> AABRMinMax(const AABR& aabr);
     std::pair<Math::Float3, Math::Float3> AABRMinMax(const ShapeOrientation<AABR>& aabr);
 
-    AABR AABRFor(const Spot2D& point);
-    ShapeOrientation<AABR> AABRFor(const ShapeOrientation<Spot2D>& point);
-    AABR AABRFor(const Line2D& line);
-    ShapeOrientation<AABR> AABRFor(const ShapeOrientation<Line2D>& line);
-    AABR AABRFor(const Circle& circle);
-    ShapeOrientation<AABR> AABRFor(const ShapeOrientation<Circle>& circle);
-    AABR AABRFor(const Rectangle& rectangle);
-    ShapeOrientation<AABR> AABRFor(const ShapeOrientation<Rectangle>& rectangle);
-    AABR AABRFor(const Shape2D& shape);
-    ShapeOrientation<AABR> AABRFor(const ShapeOrientation2D& shape);
+    Rectangle RemoveAA(const AABR& aabr);
+    ShapeOrientation<Rectangle> RemoveAA(const ShapeOrientation<AABR>& aabr);
+
+    AABR BoundingFor(const Spot2D& point);
+    ShapeOrientation<AABR> BoundingFor(const ShapeOrientation<Spot2D>& point);
+    AABR BoundingFor(const Line2D& line);
+    ShapeOrientation<AABR> BoundingFor(const ShapeOrientation<Line2D>& line);
+    AABR BoundingFor(const Circle& circle);
+    ShapeOrientation<AABR> BoundingFor(const ShapeOrientation<Circle>& circle);
+    AABR BoundingFor(const Rectangle& rectangle);
+    ShapeOrientation<AABR> BoundingFor(const ShapeOrientation<Rectangle>& rectangle);
+    AABR BoundingFor(const Shape2D& shape);
+    ShapeOrientation<AABR> BoundingFor(const ShapeOrientation2D& shape);
 } // namespace Geometric
 } // namespace Core

@@ -18,15 +18,20 @@ namespace Geometric {
     std::pair<Math::Float3, Math::Float3> AABBMinMax(const AABB& aabb);
     std::pair<Math::Float3, Math::Float3> AABBMinMax(const ShapeOrientation<AABB>& aabb);
 
-    AABB AABBFor(const Spot3D& point);
-    ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Spot3D>& point);
-    AABB AABBFor(const Line3D& line);
-    ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Line3D>& line);
-    AABB AABBFor(const Plane& plane);
-    ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Plane>& plane);
-    AABB AABBFor(const Sphere& sphere);
-    ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Sphere>& sphere);
-    AABB AABBFor(const Box& box);
-    ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Box>& box);
+    Box RemoveAA(const AABB& aabb);
+    ShapeOrientation<Box> RemoveAA(const ShapeOrientation<AABB>& aabb);
+
+    AABB BoundingFor(const Spot3D& point);
+    ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Spot3D>& point);
+    AABB BoundingFor(const Line3D& line);
+    ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Line3D>& line);
+    AABB BoundingFor(const Plane& plane);
+    ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Plane>& plane);
+    AABB BoundingFor(const Sphere& sphere);
+    ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Sphere>& sphere);
+    AABB BoundingFor(const Box& box);
+    ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Box>& box);
+    AABB BoundingFor(const Shape3D& shape);
+    ShapeOrientation<AABB> BoundingFor(const ShapeOrientation3D& shape);
 } // namespace Geometric
 } // namespace Core

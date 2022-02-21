@@ -485,5 +485,23 @@ bool Intersect(const ShapeOrientation<AABB>& aabb1, const ShapeOrientation<AABB>
             ((aabb1.shape.infinite.Y || aabb2.shape.infinite.Y) || (aabb1Extremes.first.Y <= aabb2Extremes.second.Y && aabb1Extremes.second.Y >= aabb2Extremes.first.Y)) &&
             ((aabb1.shape.infinite.Z || aabb2.shape.infinite.Z) || (aabb1Extremes.first.Z <= aabb2Extremes.second.Z && aabb1Extremes.second.Z >= aabb2Extremes.first.Z));
 }
+
+bool Engulfs(const ShapeOrientation<AABB>& aabb1, const ShapeOrientation<AABB>& aabb2)
+{
+    const auto& infinites1 = aabb1.shape.infinite;
+    const auto& infinites2 = aabb2.shape.infinite;
+    // if aabb2 is infinite where aabb1 is not, no way aabb1 can engulf it
+    if ((infinites2.X && !infinites1.X) || (infinites2.Y && !infinites1.Y) || (infinites2.Z && !infinites1.Z))
+    {
+        return false;
+    }
+
+    std::pair<Math::Float3, Math::Float3> aabb1Extremes = AABBMinMax(aabb1);
+    std::pair<Math::Float3, Math::Float3> aabb2Extremes = AABBMinMax(aabb2);
+
+    return (aabb2Extremes.first.X >= aabb1Extremes.first.X && aabb2Extremes.second.X <= aabb1Extremes.second.X) &&
+            (aabb2Extremes.first.Y >= aabb1Extremes.first.Y && aabb2Extremes.second.Y <= aabb1Extremes.second.Y) && 
+            (aabb2Extremes.first.Z >= aabb1Extremes.first.Z && aabb2Extremes.second.Z <= aabb1Extremes.second.Z);
+}
 } // namespace Geometric
 } // namespace Core

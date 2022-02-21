@@ -57,17 +57,27 @@ std::pair<Math::Float3, Math::Float3> AABBMinMax(const ShapeOrientation<AABB>& a
     return { aabb.orientation.position + AABBMin(effectiveAABB), aabb.orientation.position + AABBMax(effectiveAABB) };
 }
 
-AABB AABBFor(const Spot3D& point)
+Box RemoveAA(const AABB& aabb)
+{
+    return Box(aabb.dimensions);
+}
+
+ShapeOrientation<Box> RemoveAA(const ShapeOrientation<AABB>& aabb)
+{
+    return ShapeOrientation<Box>(aabb.orientation, RemoveAA(aabb.shape));
+}
+
+AABB BoundingFor(const Spot3D& point)
 {
     return AABB(Math::Float3(0.0f));
 }
 
-ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Spot3D>& point)
+ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Spot3D>& point)
 {
-    return ShapeOrientation<AABB>(point.orientation, AABBFor(point.shape));
+    return ShapeOrientation<AABB>(point.orientation, BoundingFor(point.shape));
 }
 
-AABB AABBFor(const Line3D& line)
+AABB BoundingFor(const Line3D& line)
 {
     if (line.infinite)
     {
@@ -77,16 +87,16 @@ AABB AABBFor(const Line3D& line)
     return AABB(LineEndpoint(line)); // line is centered on 0 so this gives the full line dimensions, the line is properly centered by the 0.5 adjustment below
 }
 
-ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Line3D>& line)
+ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Line3D>& line)
 {
     const auto effectiveLine = EffectiveDirection(line);
     Orientation aabbOrientation = line.orientation;
     aabbOrientation.position -= effectiveLine * 0.5f; // need to center the AABB
 
-    return ShapeOrientation<AABB>(aabbOrientation, AABBFor(Line3D(effectiveLine, line.shape.infinite)));
+    return ShapeOrientation<AABB>(aabbOrientation, BoundingFor(Line3D(effectiveLine, line.shape.infinite)));
 }
 
-AABB AABBFor(const Plane& plane)
+AABB BoundingFor(const Plane& plane)
 {
     if (plane.infinite)
     {
@@ -99,31 +109,31 @@ AABB AABBFor(const Plane& plane)
         return AABB(infiniteDirections);
     }
 
-    return AABB(AABRFor(plane.shape));
+    return AABB(BoundingFor(plane.shape));
 }
 
-ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Plane>& plane)
+ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Plane>& plane)
 {
-    // return ShapeOrientation<AABB>(plane.orientation, AABBFor(EffectivePlane(plane)));
+    // return ShapeOrientation<AABB>(plane.orientation, BoundingFor(EffectivePlane(plane)));
     CORE_THROW("AABBFunctions", "Unfinished Implementation");
 }
 
-AABB AABBFor(const Sphere& sphere)
+AABB BoundingFor(const Sphere& sphere)
 {
     return AABB(Core::Math::Float3(sphere.radius * 2.0f));
 }
 
-ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Sphere>& sphere)
+ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Sphere>& sphere)
 {
-    return ShapeOrientation<AABB>(sphere.orientation, AABBFor(Sphere(EffectiveRadius(sphere))));
+    return ShapeOrientation<AABB>(sphere.orientation, BoundingFor(Sphere(EffectiveRadius(sphere))));
 }
 
-AABB AABBFor(const Box& box)
+AABB BoundingFor(const Box& box)
 {
     return AABB(box.dimensions);
 }
 
-ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Box>& box)
+ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Box>& box)
 {
     const auto boxCorners = BoxCorners(box);
     Math::Float3 fullMin = boxCorners[0];
@@ -135,8 +145,43 @@ ShapeOrientation<AABB> AABBFor(const ShapeOrientation<Box>& box)
     }
     Math::Float3 fullDimensions = fullMax - fullMin;
 
-    return ShapeOrientation<AABB>(box.orientation, AABBFor(Box(fullDimensions)));
+    return ShapeOrientation<AABB>(box.orientation, BoundingFor(Box(fullDimensions)));
 }
 
+
+struct ShapeVisitor3D_AABB
+{
+    template <typename SHAPE>
+    AABB operator()(const SHAPE& shape) const
+    {
+        return BoundingFor(shape);
+    }
+};
+
+struct ShapeVisitor3D_ShapeOrientationAABB
+{
+    ShapeVisitor3D_ShapeOrientationAABB(const Orientation& transform)
+    : transform(transform)
+    {}
+
+    template <typename SHAPE>
+    ShapeOrientation<AABB> operator()(const SHAPE& shape) const
+    {
+        return BoundingFor(ShapeOrientation<SHAPE>(transform, shape));
+    }
+
+private:
+    const Orientation& transform;
+};
+
+AABB BoundingFor(const Shape3D& shape)
+{
+    return std::visit(ShapeVisitor3D_AABB(), shape);
+}
+
+ShapeOrientation<AABB> BoundingFor(const ShapeOrientation3D& shape)
+{
+    return std::visit(ShapeVisitor3D_ShapeOrientationAABB(shape.orientation), shape.shape);
+}
 } // namespace Geometric
 } // namespace Core

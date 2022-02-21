@@ -18,7 +18,13 @@ struct ServiceToken
     {
         if (_instance.use_count() > 1)
         {
-            CORE_THROW("ServiceToken", "Deleting service while a reference is still active");
+            try {
+                CORE_THROW("ServiceToken", "Deleting service while a reference is still active");
+            }
+            catch (...)
+            {
+                CORE_ERROR("ServiceToken", "Self-caught to avoid destructor warnings, but this is broken!");
+            }
         }
 
         _instance = nullptr;

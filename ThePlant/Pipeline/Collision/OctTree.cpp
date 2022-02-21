@@ -10,19 +10,19 @@ namespace Collision
 {
 struct OctTree_Constructor : public OctTreeNode
 {
-    OctTree_Constructor(ECS& ecs, const Core::Math::Float3& origin, const Core::Geometric::Box& box, const Core::Ptr<OctTreeNode> parent)
-    : OctTreeNode(ecs, origin, box, parent)
+    OctTree_Constructor(ECS& ecs, const Core::Math::Float3& origin, const Core::Geometric::AABB& aabb, const Core::Ptr<OctTreeNode> parent)
+    : OctTreeNode(ecs, origin, aabb, parent)
     {}
 };
 
 OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& totalSize)
-: OctTree(ecs, Core::Math::Float3(0.0f), Core::Geometric::Box(totalSize), nullptr)
+: OctTree(ecs, Core::Math::Float3(0.0f), Core::Geometric::AABB(totalSize), nullptr)
 {}
 
-OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& origin, const Core::Geometric::Box& box, const Core::Ptr<OctTreeNode> parent)
+OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& origin, const Core::Geometric::AABB& aabb, const Core::Ptr<OctTreeNode> parent)
 : _ecs(ecs)
 , _parent(parent)
-, _this{ Core::Geometric::Orientation(origin), box }
+, _this{ Core::Geometric::Orientation(origin), aabb }
 {}
 
 EntitySnapshot OctTreeNode::FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const
@@ -50,7 +50,7 @@ std::vector<EntitySnapshot> OctTreeNode::FindAllEntities(const Core::Geometric::
 
     std::vector<EntitySnapshot> entities;
     // not calling '_FindContainingNode' because we want EVERYTHING it may intersect with, so we may as well start from the top
-    _FindAllEntities(entities, shape);
+    _FindAllEntities(entities, Core::Geometric::AABBShapeOrientation3D(shape));
     return entities;
 }
 
@@ -74,11 +74,9 @@ std::vector<Collision> OctTreeNode::AllCollisions() const
     return _CreateCollisions(intermediaryCollisions);
 }
 
-void OctTreeNode::ClearTree()
+void OctTreeNode::ClearTree(bool clearStatics)
 {
-    _children = { nullptr }; // an efficiency may be to not clear the children, just progressively clear content (avoid constant allocations)
-    _content.clear();
-    _stopGapped = false;
+    _ClearNode(clearStatics);
 }
 
 #if DEBUG
@@ -87,7 +85,7 @@ const std::array<std::unique_ptr<OctTreeNode>, 8>& OctTreeNode::DEBUG_GetAllChil
     return _children;
 }
 
-const Core::Geometric::ShapeOrientation<Core::Geometric::Box>& OctTreeNode::DEBUG_GetBounds() const
+const Core::Geometric::ShapeOrientation<Core::Geometric::AABB>& OctTreeNode::DEBUG_GetBounds() const
 {
     return _this;
 }
@@ -105,8 +103,8 @@ void OctTreeNode::_CreateChildren()
         return;
     }
 
-    const Core::Geometric::Box childBox(_this.shape.dimensions * 0.5f);
-    const Core::Math::Float3 childOriginOffset = childBox.dimensions * 0.5f;
+    const Core::Geometric::AABB childBounds(_this.shape.dimensions * 0.5f);
+    const Core::Math::Float3 childOriginOffset = childBounds.dimensions * 0.5f;
 
     for (size_t i = 0; i < NUMBER_OF_CHILDREN; ++i)
     {
@@ -115,7 +113,7 @@ void OctTreeNode::_CreateChildren()
         childOrigin.Y += childOriginOffset.Y * (i < 2 || i > 5 ? 1 : -1);
         childOrigin.Z += childOriginOffset.Z * (i % 2 ? 1 : -1);
 
-        _children[i] = std::make_unique<OctTree_Constructor>(_ecs, childOrigin, childBox, this);
+        _children[i] = std::make_unique<OctTree_Constructor>(_ecs, childOrigin, childBounds, this);
     }
 }
 
@@ -123,7 +121,7 @@ bool OctTreeNode::_Engulfs(const Core::Geometric::ShapeOrientation3D& shape) con
 {
     // this should be AABBs for optimization
     // all OctTreeNode collision checks use AABB bounding boxes for optimization. then only content-content collisions are precise
-    return Core::Geometric::Engulfs(_this, shape);
+    return Core::Geometric::Intersect(_this, shape);
 }
 
 // must be tied with the above
@@ -210,7 +208,7 @@ void OctTreeNode::_RemoveStopGap()
     stopGappedContainer._InsertContent(stopGappedContent); // now that the tree has been expanded, try to move the stop-gapped content down a layer
 }
 
-void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const
+void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const
 {
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_FindAllEntities");
 
@@ -223,24 +221,25 @@ void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const 
 
     for (const auto& child : _children)
     {
-        if (Core::Geometric::Engulfs(shape, child->_this))
+        if (Core::Geometric::Engulfs(shape.boundingBox, child->_this) && Core::Geometric::Engulfs(shape.shapeOrientation, Core::Geometric::RemoveAA(child->_this)))
         {
             child->_EntitiesForAllContent(entities);
         }
-        else if (Core::Geometric::Intersect(shape, child->_this))
+        else if (Core::Geometric::Intersect(shape.boundingBox, child->_this))
         {
             child->_FindAllEntities(entities, shape);
         }
     }
 }
 
-void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::ShapeOrientation3D& shape) const
+void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const
 {
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_InternalEntities");
 
     for (const auto& content : _content)
     {
-        if (Core::Geometric::Intersect(content.shapeOrientation, shape))
+        // we may want to have everything in the oct tree be wrapped in a bounding box so we can check that first - though maybe only for 'heavier' checks (lines and boxes)
+        if (Core::Geometric::Intersect(content.shapeOrientation, shape.shapeOrientation))
         {
             entities.push_back(_ecs.GetTemporaryEntitySnapshot(content.entity));
         }
@@ -290,6 +289,7 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
     {
         for (size_t j = i + 1; j < _content.size(); ++j)
         {
+            // we may want to have everything in the oct tree be wrapped in a bounding box so we can check that first - though maybe only for 'heavier' checks (lines and boxes)
             if (Core::Geometric::Intersect(_content[i].shapeOrientation, _content[j].shapeOrientation))
             {
                 collisions.push_back(IntermediaryCollision(_content[i].entity, _content[j].entity));
@@ -317,7 +317,7 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
             }
             
             // DEBUG_PROFILE_PUSH("Engulfs");
-            bool contentEngulfsChild = Core::Geometric::Engulfs(_content[i].shapeOrientation, child->_this);
+            bool contentEngulfsChild = Core::Geometric::Engulfs(_content[i].boundingBox, child->_this);
             // DEBUG_PROFILE_POP("Engulfs");
             if (contentEngulfsChild)
             {
@@ -326,7 +326,7 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
             }
 
             // DEBUG_PROFILE_PUSH("Intersect");
-            bool contentIntersectsChild = Core::Geometric::Intersect(_content[i].shapeOrientation, child->_this);
+            bool contentIntersectsChild = Core::Geometric::Intersect(_content[i].boundingBox, child->_this);
             // DEBUG_PROFILE_POP("Intersect");
             if (contentIntersectsChild)
             {
@@ -375,11 +375,11 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
 
     for (const auto& child : _children)
     {
-        if (Core::Geometric::Engulfs(content.shapeOrientation, child->_this))
+        if (Core::Geometric::Engulfs(content.boundingBox, child->_this))
         {
             child->_CollisionsWithAllContent(collisions, content);
         }
-        else if (Core::Geometric::Intersect(content.shapeOrientation, child->_this))
+        else if (Core::Geometric::Intersect(content.boundingBox, child->_this))
         {
             child->_FindAllCollisions(collisions, content);
         }
@@ -442,6 +442,36 @@ std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<Intermed
     }
     
     return collisions;
+}
+
+bool OctTreeNode::_ClearNode(bool clearStatics)
+{
+    bool canDelete = true;
+
+    for (auto& child : _children)
+    {
+        canDelete &= child->_ClearNode(clearStatics);
+    }
+    if (canDelete)
+    {
+        _children = { nullptr };
+    }
+
+    for (auto rIter = _content.rbegin(); rIter != _content.rend(); ++rIter)
+    {
+        if (!rIter->isStatic || clearStatics)
+        {
+            _content.erase((rIter + 1).base());
+        }
+    }
+    
+    canDelete &= _content.empty();
+    if (canDelete)
+    {
+        _stopGapped = false;
+    }
+
+    return canDelete;
 }
 
 #ifdef DEBUG

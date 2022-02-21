@@ -66,12 +66,16 @@ namespace Geometric {
         {
             orientation = other.orientation;
             shape = other.shape;
+
+            return *this;
         }
         template <typename OTHER_SHAPE>
-        ShapeOrientation& operator=(ShapeOrientation<OTHER_SHAPE>&&)
+        ShapeOrientation& operator=(ShapeOrientation<OTHER_SHAPE>&& other)
         {
             orientation = std::move(other.orientation);
             shape = std::move(other.shape);
+
+            return *this;
         }
 
         bool operator==(const ShapeOrientation& other) const
@@ -86,6 +90,73 @@ namespace Geometric {
 
     using ShapeOrientation2D = ShapeOrientation<Shape2D>;
     using ShapeOrientation3D = ShapeOrientation<Shape3D>;
+
+    template <typename SHAPE, typename BOUNDING>
+    struct BoundedShapeOrientation
+    {
+        ShapeOrientation<SHAPE> shapeOrientation;
+        ShapeOrientation<BOUNDING> boundingBox;
+
+        BoundedShapeOrientation() = default;
+        BoundedShapeOrientation(const Orientation& orientation, const SHAPE& shape)
+        : BoundedShapeOrientation(shapeOrientation(orientation, shape))
+        {}
+        BoundedShapeOrientation(const ShapeOrientation<SHAPE>& shapeOrientation)
+        : shapeOrientation(shapeOrientation)
+        , boundingBox(BoundingFor(shapeOrientation))
+        {}
+
+        BoundedShapeOrientation(const BoundedShapeOrientation&) = default;
+        BoundedShapeOrientation(BoundedShapeOrientation&&) = default;
+        BoundedShapeOrientation& operator=(const BoundedShapeOrientation&) = default;
+        BoundedShapeOrientation& operator=(BoundedShapeOrientation&&) = default;
+
+        // to allow converting between applicable shapes
+        template <typename OTHER_SHAPE>
+        BoundedShapeOrientation(const BoundedShapeOrientation<OTHER_SHAPE, BOUNDING>& other)
+        {
+            shapeOrientation = other.shapeOrientation;
+            boundingBox = other.boundingBox;
+        }
+        template <typename OTHER_SHAPE>
+        BoundedShapeOrientation(BoundedShapeOrientation<OTHER_SHAPE, BOUNDING>&& other)
+        {
+            shapeOrientation = std::move(other.shapeOrientation);
+            boundingBox = std::move(other.boundingBox);
+        }
+        template <typename OTHER_SHAPE>
+        BoundedShapeOrientation& operator=(const BoundedShapeOrientation<OTHER_SHAPE, BOUNDING>& other)
+        {
+            shapeOrientation = other.shapeOrientation;
+            boundingBox = other.boundingBox;
+
+            return *this;
+        }
+        template <typename OTHER_SHAPE>
+        BoundedShapeOrientation& operator=(BoundedShapeOrientation<OTHER_SHAPE, BOUNDING>&&)
+        {
+            shapeOrientation = std::move(other.shapeOrientation);
+            boundingBox = std::move(other.boundingBox);
+
+            return *this;
+        }
+
+        bool operator==(const BoundedShapeOrientation& other) const
+        {
+            return shapeOrientation == other.shapeOrientation && boundingBox == other.boundingBox;
+        }
+        bool operator!=(const BoundedShapeOrientation& other) const
+        {
+            return !(*this == other);
+        }
+    };
+
+    template <typename SHAPE>
+    using AABBShapeOrientation = BoundedShapeOrientation<SHAPE, AABB>;
+    using AABBShapeOrientation3D = AABBShapeOrientation<Shape3D>;
+    template <typename SHAPE>
+    using AABRShapeOrientation = BoundedShapeOrientation<SHAPE, AABR>;
+    using AABRShapeOrientation2D = AABRShapeOrientation<Shape2D>;
     
 #if DEBUG
 #define VERIFY_2D(SHAPE_ORIENTATION) VERIFY(SHAPE_ORIENTATION.orientation.position == 0.0f); // we should also verify that the rotation maintains the x/y plane
