@@ -345,6 +345,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\ServiceManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Source\WindowManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\StateSystem\Source\State.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\StateSystem\Source\StateHelpers.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\StateSystem\Source\StateManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Time\Source\TimeManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\UI\IMGUI\Manager.cpp" />

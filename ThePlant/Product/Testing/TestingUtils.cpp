@@ -26,30 +26,30 @@ namespace Product
 {
 namespace Testing
 {
-    Application::Entity SpawnStaticModel()
+    Application::Entity SpawnStaticModel(Application::State& state)
     {
-        auto& assetManager = Application::ApplicationManager::AppAssetManager();
-        auto& ecs = Application::ApplicationManager::AppECS();
-        auto& shaderManager = Application::ApplicationManager::AppShaderManager();
+        auto& assetManager = state.AssetManager();
+        auto& ecs = state.ECS();
+        auto& shaderManager = state.ShaderManager();
 
         Application::Rendering::InitialStaticModelState initialMIState(Data::Ast.smdl.MI_0, Core::Geometric::Transform());
         return Application::Rendering::CreateModel(ecs, assetManager, shaderManager, initialMIState);
     }
 
-    Application::Entity SpawnAnimatedModel()
+    Application::Entity SpawnAnimatedModel(Application::State& state)
     {
-        auto& animationManager = Application::ApplicationManager::AppAnimationManager();
-        auto& assetManager = Application::ApplicationManager::AppAssetManager();
-        auto& ecs = Application::ApplicationManager::AppECS();
-        auto& shaderManager = Application::ApplicationManager::AppShaderManager();
+        auto& animationManager = state.AnimationManager();
+        auto& assetManager = state.AssetManager();
+        auto& ecs = state.ECS();
+        auto& shaderManager = state.ShaderManager();
 
         Application::Rendering::InitialAnimatedModelState initialWomanState(Data::Ast.amdl.Monk_1, Core::Geometric::Transform());
         return Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
     }
 
-    Application::Entity SpawnCollider(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::Entity SpawnCollider(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
-        auto& ecs = Application::ApplicationManager::AppECS();
+        auto& ecs = state.ECS();
 
         Application::EntityCreator creator;
         creator.AddComponent<Application::PositionComponent>(position);
@@ -61,9 +61,9 @@ namespace Testing
         return ecs.CreateEntity(creator);
     }
 
-    Application::Entity SpawnStaticCollider(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::Entity SpawnStaticCollider(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
-        auto& ecs = Application::ApplicationManager::AppECS();
+        auto& ecs = state.ECS();
 
         Application::EntityCreator creator;
         creator.AddComponent<Application::PositionComponent>(position);
@@ -75,9 +75,9 @@ namespace Testing
         return ecs.CreateEntity(creator);
     }
 
-    Application::Entity SpawnTrigger(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::Entity SpawnTrigger(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
-        auto& ecs = Application::ApplicationManager::AppECS();
+        auto& ecs = state.ECS();
 
         Application::EntityCreator creator;
         creator.AddComponent<Application::PositionComponent>(position);
@@ -89,9 +89,9 @@ namespace Testing
         return ecs.CreateEntity(creator);
     }
 
-    Application::Entity SpawnStaticTrigger(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::Entity SpawnStaticTrigger(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
-        auto& ecs = Application::ApplicationManager::AppECS();
+        auto& ecs = state.ECS();
 
         Application::EntityCreator creator;
         creator.AddComponent<Application::PositionComponent>(position);

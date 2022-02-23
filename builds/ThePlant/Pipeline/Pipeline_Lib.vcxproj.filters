@@ -193,6 +193,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\StateSystem\Source\State.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\StateSystem\Source\StateHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\StateSystem\Source\StateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

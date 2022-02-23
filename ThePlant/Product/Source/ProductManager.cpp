@@ -40,24 +40,6 @@ namespace Product
         _time.Initialize();
         _myProduct.initialize();
 
-        auto sdlManager = _pipeline->AppSDLManager();
-
-        // the below should probably be a part of the application's initialization (for the default systems at least)
-        _pipeline->AppECS().AddSystem<Application::AnimationSystem>(Application::ApplicationManager::AppAnimationManager());
-        _pipeline->AppECS().AddSystem<Application::TransformSystem>().AddDependency<Application::AnimationSystem>();
-        _pipeline->AppECS().AddSystem<Application::CollisionSystem>(_pipeline->AppCollisionManager()).AddDependency<Application::TransformSystem>();
-    #if DEBUG
-        _pipeline->AppECS().AddSystem<Application::DebugBoneSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::TransformSystem>();
-        _pipeline->AppECS().AddSystem<Application::DebugTransformSystem>(Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependency<Application::TransformSystem>();
-        _pipeline->AppECS().AddSystem<Application::DebugOctTreeSystem>(Application::ApplicationManager::AppCollisionManager(), Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependencies<Application::TransformSystem, Application::CollisionSystem>();
-        _pipeline->AppECS().AddSystem<Application::DebugCollisionSystem>(Application::ApplicationManager::AppCollisionManager(), Application::ApplicationManager::AppRenderManager(), Application::ApplicationManager::AppShaderManager()).AddDependencies<Application::TransformSystem, Application::CollisionSystem>();
-    #endif
-        _pipeline->AppECS().AddSystem<Application::CameraSystem>(Application::ApplicationManager::AppRenderManager().GetCameraManager()).AddDependency<Application::TransformSystem>();
-        auto& renderingSystem = _pipeline->AppECS().AddSystem<Application::RenderingSystem>(Application::ApplicationManager::AppRenderManager()).AddDependencies<Application::TransformSystem, Application::CameraSystem, Application::AnimationSystem>();
-    #if DEBUG
-        renderingSystem.AddDependencies<Application::DebugBoneSystem, Application::DebugTransformSystem>();
-    #endif
-
         return pipelineInitialized;
     }
 

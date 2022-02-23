@@ -3,9 +3,9 @@
 #include "Pipeline/Headers/ApplicationManager.h"
 
 namespace Application {
-State::State(ApplicationManager& applicationManager, const Core::Math::Float3& worldSize)
-  : _applicationManager(applicationManager)
-  , _collisionManager(_ecs, worldSize)
+State::State(Application::ApplicationManager& applicationManager, const Core::Math::Float3& worldSize)
+: _applicationManager(applicationManager)
+, _collisionManager(_ecs, worldSize)
 {}
 
 State::~State()
@@ -17,6 +17,7 @@ State::~State()
 }
 
 SDL2Manager& State::SDLManager() { return _applicationManager.AppSDLManager(); }
+Application::ApplicationManager& State::ApplicationManager() { return _applicationManager; }
 Animation::AnimationManager& State::AnimationManager() { return _applicationManager.AppAnimationManager(); }
 Collision::CollisionManager& State::CollisionManager() { return _collisionManager; }
 ECS& State::ECS() { return _ecs; }

@@ -8,6 +8,7 @@ set(SOURCE_FILES #
 Scripting/LuaManager.cpp #
 Source/CameraController.cpp #
 Source/MyProduct.cpp #
+Source/MyState.cpp #
 Source/ProductManager.cpp #
 Testing/TestingUtils.cpp)
 
@@ -15,6 +16,7 @@ set(HEADER_FILES #
 Scripting/LuaManager.h #
 Headers/CameraController.h #
 Headers/MyProduct.h #
+Headers/MyState.h #
 Headers/ProductManager.h #
 Testing/TestingUtils.h)
 

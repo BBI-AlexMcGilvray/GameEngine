@@ -59,7 +59,7 @@ void SetECSSystems(State& state, const ECSSystemFlags& systems)
 #if DEBUG
     SetOrRemoveSystem<RenderingSystem, TransformSystem, CameraSystem, AnimationSystem, DebugBoneSystem, DebugTransformSystem>(stateECS, systems, ECSSystem::RenderingSystem, state.RenderManager());
     SetOrRemoveSystem<DebugBoneSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugBoneSystem, state.RenderManager(), state.ShaderManager());
-    SetOrRemoveSystem<DebugOctTreeSystem, CollisionSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugCollisionSystem, state.CollisionManager(), state.RenderManager(), state.ShaderManager());
+    SetOrRemoveSystem<DebugCollisionSystem, CollisionSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugCollisionSystem, state.CollisionManager(), state.RenderManager(), state.ShaderManager());
     SetOrRemoveSystem<DebugOctTreeSystem, CollisionSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugOctTreeSystem, state.CollisionManager(), state.RenderManager(), state.ShaderManager());
     SetOrRemoveSystem<DebugTransformSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugTransformSystem, state.RenderManager(), state.ShaderManager());
 #else

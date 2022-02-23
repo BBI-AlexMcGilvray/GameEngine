@@ -69,6 +69,7 @@ Source/SDL2Manager.cpp #
 Source/ServiceManager.cpp #
 Source/WindowManager.cpp #
 StateSystem/Source/State.cpp #
+StateSystem/Source/StateHelpers.cpp #
 StateSystem/Source/StateManager.cpp #
 Time/Source/TimeManager.cpp #
 UI/IMGUI/Manager.cpp #
@@ -109,6 +110,7 @@ ECSSystems/CameraSystem.h #
 ECSSystems/CameraComponents.h #
 ECSSystems/CollisionComponents.h #
 ECSSystems/CollisionSystem.h #
+ECSSystems/ECSSystemUtils.h #
 ECSSystems/GeneralComponents.h #
 ECSSystems/RenderingComponents.h #
 ECSSystems/RenderingSystem.h #
@@ -164,6 +166,7 @@ Rendering/Mesh.h #
 Rendering/RenderContext.h #
 Rendering/Renderer.h #
 StateSystem/Headers/State.h #
+StateSystem/Headers/StateHelpers.h #
 StateSystem/Headers/StateManager.h #
 Time/Headers/TimeManager.h #
 UI/IMGUI/Manager.h #

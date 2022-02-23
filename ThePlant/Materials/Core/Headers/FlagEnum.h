@@ -49,7 +49,7 @@ public:
 
   bool AnyFlagSet() const
   {
-    return (int(_baseEnum) > 0);
+    return (enum_cast(_baseEnum) > 0);
   }
 
   bool HasAllFlags(const FlagEnum<T>& flags) const
@@ -88,7 +88,7 @@ public:
   }
   FlagEnum<T>& operator &=(const T& other)
   {
-    _baseEnum &= other;
+    _baseEnum = enum_cast<T>(enum_cast(_baseEnum) & enum_cast(other));
 
     return *this;
   }
@@ -104,7 +104,7 @@ public:
   }
   FlagEnum<T>& operator |=(const T& other)
   {
-    _baseEnum |= other;
+    _baseEnum = enum_cast<T>(enum_cast(_baseEnum) | enum_cast(other));
 
     return *this;
   }
@@ -120,7 +120,7 @@ public:
   }
   FlagEnum<T>& operator ^=(const T& other)
   {
-    _baseEnum ^= other;
+    _baseEnum = enum_cast<T>(enum_cast(_baseEnum) ^ enum_cast(other));
 
     return *this;
   }

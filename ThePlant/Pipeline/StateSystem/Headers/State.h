@@ -40,7 +40,7 @@ struct State
 {
   Core::Functionality::Event<> stateDeleted;
 
-  State(ApplicationManager& applicationManager, const Core::Math::Float3& worldSize);
+  State(Application::ApplicationManager& applicationManager, const Core::Math::Float3& worldSize);
   // we will need states to be data-driven, though maybe this is not the proper way to do it (instead, have a CreateState method or something)
   // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetName<State> state);
   // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetData<State> state);
@@ -48,6 +48,7 @@ struct State
   virtual ~State();
 
   SDL2Manager& SDLManager();
+  Application::ApplicationManager& ApplicationManager();
   Animation::AnimationManager& AnimationManager();
   Collision::CollisionManager& CollisionManager();
   ECS& ECS();
@@ -64,7 +65,7 @@ struct State
   virtual void CleanUp() {};
 
 private:
-  ApplicationManager& _applicationManager;
+  Application::ApplicationManager& _applicationManager;
   Application::ECS _ecs;
   Collision::CollisionManager _collisionManager;
 

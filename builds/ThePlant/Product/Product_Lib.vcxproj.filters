@@ -10,6 +10,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\MyProduct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\MyState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\ProductManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -35,13 +35,15 @@ namespace Application
         template <typename SYSTEM>
         void RemoveSystem()
         {
+            size_t index = 0;
             for (auto& system : _systems)
             {
                 if (system->IsSystem<SYSTEM>())
                 {
-                    _systems.erase(system);
+                    _systems.erase(_systems.begin() + index);
                     return;
                 }
+                ++index;
             }
         }
 

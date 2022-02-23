@@ -35,6 +35,19 @@ struct StateManager
     return newId;
   }
 
+  template <typename STATE, typename ...ARGS>
+  Core::instanceId<State> AddAndGoToState(ARGS&& ...args)
+  {
+    Core::instanceId<State> newId = GetInstanceId<State>();
+
+    _states.emplace(std::make_pair(newId, std::make_unique<STATE>(_applicationManager, std::forward<ARGS>(args)...)));
+    _GetState(newId).Initialize();
+
+    GoToState(newId);
+
+    return newId;
+  }
+
   void RemoveState(const Core::instanceId<State>& state);
 
   void GoToState(const Core::instanceId<State>& state);
