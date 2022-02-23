@@ -22,7 +22,7 @@ struct OctTreeContent
 {
     Core::Geometric::AABBShapeOrientation3D boundCollider;
     EntityId entity; // content lasts a whole frame, can't hold snapshots
-    bool isStatic;
+    bool isStatic; // we do not currently support a way to toggle isStatic for existing content - may not be needed?
 
     OctTreeContent() = delete;
     OctTreeContent(const Core::Geometric::ShapeOrientation3D& shapeOrientation, const EntityId& entity, bool isStatic)
@@ -61,13 +61,17 @@ class OctTreeNode
         // These just provide the entities that intersect with the provided shape
         EntitySnapshot FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const;
         std::vector<EntitySnapshot> FindAllEntities(const Core::Geometric::ShapeOrientation3D& shape) const;
+
+        bool ContainsEntity(const EntityId& entity, bool checkChildren) const;
     
         // to avoid having to repeatedly move stop-gapped content, the most efficient thing to do is to add content in order of descending size (biggest/least likely to be engulfed first)
         // so sort by Box[rotated > non-rotated]->Plane[infinite > finite]->Ray[infinite > finite]->Sphere[radius]->Point[-]
-        void AddContent(const OctTreeContent& content); // adds item, to a child if possible (may require the creation of a new child if an appropriate one doesn't exist)
+        // ----
         // If the item would be in multiple children at once, it remains in the parent - only put into child if it fits entirely within in
         // maybe only creating children if multiple children are added (so we don't have one child creating an excessive amount of children)
         //      ex: adding a 'point' could would create children until the box was just that specific point in space - that is not needed
+        void AddContent(const OctTreeContent& content);
+        void AddStaticContent(const OctTreeContent& content);
 
         // Collisions occur between two entities within the tree, nothing else
         std::vector<Collision> AllCollisions() const;

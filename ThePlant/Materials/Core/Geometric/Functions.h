@@ -251,5 +251,12 @@ bool Intersect(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& sha
 bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2, const float& precision = Math::DEFAULT_PRECISION());
 // general 2d -> general 2d
 bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2, const float& precision = Math::DEFAULT_PRECISION());
+
+// we may want to NOT use bounding boxes when the shapes don't warrant them (points, spheres) as that would be more efficient
+bool Intersect(const AABBShapeOrientation3D& boundedShape3D1, const AABBShapeOrientation3D& boundedShape3D2);
+bool Engulfs(const AABBShapeOrientation3D& boundedShape3D1, const AABBShapeOrientation3D& boundedShape3D2);
+bool Intersect(const AABRShapeOrientation2D& boundedShape2D1, const AABRShapeOrientation2D& boundedShape2D2);
+bool Engulfs(const AABRShapeOrientation2D& boundedShape2D1, const AABRShapeOrientation2D& boundedShape2D2);
+// deal with 2d->3d and 3d->2d and all the other combinations later
 } // namespace Geometric
 } // namespace Core

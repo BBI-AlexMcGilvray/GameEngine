@@ -32,15 +32,15 @@ struct ApplicationManager
   // should this be here? Currently exists for IMGUI, but maybe we want a UI manager or something and go through that for debug vs other ui?
   static SDL2Manager& AppSDLManager();
 
-  static AnimationManager &AppAnimationManager();
-  static Collision::CollisionManager &AppCollisionManager();
-  static RenderManager &AppRenderManager();
-  static ShaderManager& AppShaderManager();
-  static InputManager &AppInputManager();
+  static Animation::AnimationManager &AppAnimationManager();
+  // static Collision::CollisionManager &AppCollisionManager();
+  static Rendering::RenderManager &AppRenderManager();
+  static Rendering::ShaderManager& AppShaderManager();
+  static Input::InputManager &AppInputManager();
   static StateManager &AppStateManager();
   // could potentially break this up into longterm and shorterm asset managers for consistent behaviour
   static Data::AssetManager& AppAssetManager();
-  static ECS& AppECS();
+  // static ECS& AppECS();
 
 private:
   // to make sure that constructor can't be called except through static Application() method to get instance
@@ -58,7 +58,7 @@ public:
 
   bool quit()
   {
-    return Quit;
+    return _quit;
   }
 
   bool Initialize();
@@ -76,20 +76,20 @@ public:
 
 private:
   // Note: the below are in an order such that they should only _possibly_ know about what is above them (as it would need to be for constructors...)
-  SDL2Manager SDL;
+  SDL2Manager _sdl;
+  // ECS _ecsSystem;
   Data::AssetManager _assetManager;
-  ECS _ecsSystem;
-  Collision::CollisionManager _collisionManager;
-  AnimationManager AnimationSystem;
-  RenderManager RenderSystem;
-  ShaderManager _shaderManager;
-  InputManager InputSystem;
+  // Collision::CollisionManager _collisionManager;
+  Animation::AnimationManager _animationSystem;
+  Rendering::RenderManager _renderSystem;
+  Rendering::ShaderManager _shaderManager;
+  Input::InputManager _inputSystem;
   ServiceManager _serviceManager;
-  StateManager StateSystem;
+  StateManager _stateSystem;
 
-  Delegate<> OnQuit;
-  bool Quit = false;
+  Delegate<> _onQuit;
+  bool _quit = false;
 
-  static Core::UniquePtr<ApplicationManager> Instance;
+  static Core::UniquePtr<ApplicationManager> _instance;
 };
 }// namespace Application

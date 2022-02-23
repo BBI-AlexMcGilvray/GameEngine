@@ -41,6 +41,11 @@ struct ISystem
         return *this;
     }
 
+    ISystem& AddDependency()
+    {
+        return *this;
+    }
+
     const std::set<Core::runtimeId_t>& GetDependencies() const { return _dependencies; }
 
 private:

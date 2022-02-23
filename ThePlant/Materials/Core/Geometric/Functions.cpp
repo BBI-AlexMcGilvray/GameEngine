@@ -158,5 +158,45 @@ bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape
     // this should have the benefit of maintaining them as references as well, so we have less copies
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation, precision), shape1.shape, shape2.shape);
 }
+
+bool Intersect(const AABBShapeOrientation3D& boundedShape3D1, const AABBShapeOrientation3D& boundedShape3D2)
+{
+    if (!Intersect(boundedShape3D1.boundingBox, boundedShape3D2.boundingBox))
+    {
+        return false;
+    }
+
+    return Intersect(boundedShape3D1.shapeOrientation, boundedShape3D2.shapeOrientation);
+}
+
+bool Engulfs(const AABBShapeOrientation3D& boundedShape3D1, const AABBShapeOrientation3D& boundedShape3D2)
+{
+    if (!Engulfs(boundedShape3D1.boundingBox, boundedShape3D2.boundingBox))
+    {
+        return false;
+    }
+
+    return Engulfs(boundedShape3D1.shapeOrientation, boundedShape3D2.shapeOrientation);
+}
+
+bool Intersect(const AABRShapeOrientation2D& boundedShape2D1, const AABRShapeOrientation2D& boundedShape2D2)
+{
+    if (!Intersect(boundedShape2D1.boundingBox, boundedShape2D2.boundingBox))
+    {
+        return false;
+    }
+
+    return Intersect(boundedShape2D1.shapeOrientation, boundedShape2D2.shapeOrientation);
+}
+
+bool Engulfs(const AABRShapeOrientation2D& boundedShape2D1, const AABRShapeOrientation2D& boundedShape2D2)
+{
+    if (!Engulfs(boundedShape2D1.boundingBox, boundedShape2D2.boundingBox))
+    {
+        return false;
+    }
+
+    return Engulfs(boundedShape2D1.shapeOrientation, boundedShape2D2.shapeOrientation);
+}
 } // namespace Geometric
 } // namespace Core

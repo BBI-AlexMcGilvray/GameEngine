@@ -56,7 +56,21 @@ namespace Testing
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);
         creator.AddComponent<Application::WorldTransformComponent>();
-        creator.AddComponent<Application::ColliderComponent>(shape, false);
+        creator.AddComponent<Application::ColliderComponent>(shape, false, false);
+
+        return ecs.CreateEntity(creator);
+    }
+
+    Application::Entity SpawnStaticCollider(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    {
+        auto& ecs = Application::ApplicationManager::AppECS();
+
+        Application::EntityCreator creator;
+        creator.AddComponent<Application::PositionComponent>(position);
+        creator.AddComponent<Application::RotationComponent>(rotation);
+        creator.AddComponent<Application::ScaleComponent>(scale);
+        creator.AddComponent<Application::WorldTransformComponent>();
+        creator.AddComponent<Application::ColliderComponent>(shape, false, true);
 
         return ecs.CreateEntity(creator);
     }
@@ -70,7 +84,21 @@ namespace Testing
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);
         creator.AddComponent<Application::WorldTransformComponent>();
-        creator.AddComponent<Application::ColliderComponent>(shape, true);
+        creator.AddComponent<Application::ColliderComponent>(shape, true, false);
+
+        return ecs.CreateEntity(creator);
+    }
+
+    Application::Entity SpawnStaticTrigger(const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    {
+        auto& ecs = Application::ApplicationManager::AppECS();
+
+        Application::EntityCreator creator;
+        creator.AddComponent<Application::PositionComponent>(position);
+        creator.AddComponent<Application::RotationComponent>(rotation);
+        creator.AddComponent<Application::ScaleComponent>(scale);
+        creator.AddComponent<Application::WorldTransformComponent>();
+        creator.AddComponent<Application::ColliderComponent>(shape, true, true);
 
         return ecs.CreateEntity(creator);
     }

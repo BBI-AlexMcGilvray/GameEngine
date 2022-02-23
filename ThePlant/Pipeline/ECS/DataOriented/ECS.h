@@ -66,6 +66,8 @@ namespace Application
 
         template <typename SYSTEM, typename ...ARGS>
         ISystem& AddSystem(ARGS&& ...args) { return _systems.AddSystem<SYSTEM, ARGS...>(std::forward<ARGS>(args)...); }
+        template <typename SYSTEM>
+        void RemoveSystem() { _systems.RemoveSystem<SYSTEM>(); }
 
     private:
         ArchetypeManager _archetypes;

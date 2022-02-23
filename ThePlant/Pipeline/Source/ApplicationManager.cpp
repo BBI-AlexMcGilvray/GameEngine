@@ -3,50 +3,50 @@
 #include <iostream>
 
 namespace Application {
-Core::UniquePtr<ApplicationManager> ApplicationManager::Instance = nullptr;
+Core::UniquePtr<ApplicationManager> ApplicationManager::_instance = nullptr;
 
 Core::Ptr<ApplicationManager> ApplicationManager::Application()
 {
-  if (Instance == nullptr) {
-    Instance = MakeUnique<ApplicationManager>(ConstructorTag());
+  if (_instance == nullptr) {
+    _instance = MakeUnique<ApplicationManager>(ConstructorTag());
   }
 
-  return Instance.get();
+  return _instance.get();
 }
 
 SDL2Manager& ApplicationManager::AppSDLManager()
 {
-  return Application()->SDL;
+  return Application()->_sdl;
 }
 
-AnimationManager &ApplicationManager::AppAnimationManager()
+Animation::AnimationManager &ApplicationManager::AppAnimationManager()
 {
-  return Application()->AnimationSystem;
+  return Application()->_animationSystem;
 }
 
-Collision::CollisionManager &ApplicationManager::AppCollisionManager()
+// Collision::CollisionManager &ApplicationManager::AppCollisionManager()
+// {
+//   return Application()->_collisionManager;
+// }
+
+Rendering::RenderManager &ApplicationManager::AppRenderManager()
 {
-  return Application()->_collisionManager;
+  return Application()->_renderSystem;
 }
 
-RenderManager &ApplicationManager::AppRenderManager()
-{
-  return Application()->RenderSystem;
-}
-
-ShaderManager& ApplicationManager::AppShaderManager()
+Rendering::ShaderManager& ApplicationManager::AppShaderManager()
 {
   return Application()->_shaderManager;
 }
 
-InputManager &ApplicationManager::AppInputManager()
+Input::InputManager &ApplicationManager::AppInputManager()
 {
-  return Application()->InputSystem;
+  return Application()->_inputSystem;
 }
 
 StateManager &ApplicationManager::AppStateManager()
 {
-  return Application()->StateSystem;
+  return Application()->_stateSystem;
 }
 
 Data::AssetManager& ApplicationManager::AppAssetManager()
@@ -54,19 +54,20 @@ Data::AssetManager& ApplicationManager::AppAssetManager()
   return Application()->_assetManager;
 }
 
-ECS& ApplicationManager::AppECS()
-{
-  return Application()->_ecsSystem;
-}
+// ECS& ApplicationManager::AppECS()
+// {
+//   return Application()->_ecsSystem;
+// }
 
 ApplicationManager::ApplicationManager(ConstructorTag tag)
-  : _collisionManager(_ecsSystem, Core::Math::Float3(1024.0f)) // must be data driven somewhere instead (in the world?)
-  , _shaderManager(_assetManager)
-  , InputSystem(SDL), StateSystem(RenderSystem, InputSystem), OnQuit([this]() {
-      Quit = true;
+  // : _collisionManager(_ecsSystem, Core::Math::Float3(1024.0f)) // must be data driven somewhere instead (in the world?)
+  : _shaderManager(_assetManager)
+  , _inputSystem(_sdl)
+  , _stateSystem(*this)
+  , _onQuit([this]() {
+      _quit = true;
       return false;
-    }
-  , InputSystem.Quit)
+    }, _inputSystem.Quit)
 {
 }
 
@@ -82,7 +83,7 @@ void ApplicationManager::Run()
   Start();
   time.Start();
 
-  while (!Quit)
+  while (!_quit)
   {
     Update();
 
@@ -101,60 +102,56 @@ bool ApplicationManager::Initialize()
 {
   // possible we want to thread this to make it faster
 
-  if (!SDL.Initialize()) {
+  if (!_sdl.Initialize()) {
     return false;
   }
 
-  AnimationSystem.Initialize();
-  RenderSystem.Initialize(SDL.GetWindowManager());
-  InputSystem.initialize();
-  StateSystem.Initialize();
+  _animationSystem.Initialize();
+  _renderSystem.Initialize(_sdl.GetWindowManager());
+  _inputSystem.initialize();
 
   return true;
 }
 
 void ApplicationManager::Start()
 {
-  SDL.Start();
-  AnimationSystem.Start();
-  RenderSystem.Start();
-  InputSystem.start();
-  StateSystem.Start();
+  _sdl.Start();
+  _animationSystem.Start();
+  _renderSystem.Start();
+  _inputSystem.start();
 }
 
 void ApplicationManager::Update()
 {
-  InputSystem.update();
+  _inputSystem.update();
 }
 
 void ApplicationManager::Update(Core::Second dt)
 {
   // this may requried the dt passed in for time-reliant systems?
-  _ecsSystem.Update(); // either way, this can't be above as this is only once-per frame (or should be)
+  // _ecsSystem.Update(); // either way, this can't be above as this is only once-per frame (or should be)
 
   // update everything
-  StateSystem.Update(dt);
+  _stateSystem.Update(dt);
 
-  AnimationSystem.Update(dt);
-  RenderSystem.Render();
+  _animationSystem.Update(dt);
+  _renderSystem.Render();
 }
 
 void ApplicationManager::End()
 {
-  StateSystem.End();
-  InputSystem.end();
-  AnimationSystem.End();
-  RenderSystem.End();
-  SDL.End();
+  _inputSystem.end();
+  _animationSystem.End();
+  _renderSystem.End();
+  _sdl.End();
 }
 
 void ApplicationManager::CleanUp()
 {
   // possible we want to thread this to make it faster (since saving could be done)
-  StateSystem.CleanUp();
-  InputSystem.cleanUp();
-  RenderSystem.CleanUp();
-  AnimationSystem.CleanUp();
-  SDL.CleanUp();
+  _inputSystem.cleanUp();
+  _renderSystem.CleanUp();
+  _animationSystem.CleanUp();
+  _sdl.CleanUp();
 }
 }// namespace Application

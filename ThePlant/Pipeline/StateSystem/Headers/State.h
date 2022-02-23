@@ -1,33 +1,75 @@
 #pragma once
 
 #include "Core/Headers/TimeDefs.h"
+#include "Core/Functionality/Headers/Event.h"
 
-#include "Pipeline/Geometric/Headers/World.h"
-#include "Pipeline/GameSystem/Headers/GameSystemManager.h"
-#include "Pipeline/Input/Headers/InputManager.h"
-#include "Pipeline/Rendering/Headers/RenderManager.h"
+#include "Pipeline/Collision/CollisionManager.h"
+#include "Pipeline/ECS/DataOriented/ECS.h"
 
 using namespace Core;
 
+namespace Data
+{
+class AssetManager;
+}
+
 namespace Application {
+struct ApplicationManager;
+struct SDL2Manager;
+struct StateManager;
+
+namespace Animation
+{
+  class AnimationManager;
+}
+namespace Collision
+{
+  struct CollisionManager;
+}
+namespace Input
+{
+  struct InputManager;
+}
+namespace Rendering
+{
+  struct RenderManager;
+  class ShaderManager;
+}
+
 struct State
 {
-  Event<> StateDeleted;
+  Core::Functionality::Event<> stateDeleted;
 
-  State(Rendering::RenderManager &renderSystem, Input::InputManager &inputSystem);
+  State(ApplicationManager& applicationManager, const Core::Math::Float3& worldSize);
+  // we will need states to be data-driven, though maybe this is not the proper way to do it (instead, have a CreateState method or something)
   // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetName<State> state);
   // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetData<State> state);
 
-  Geometric::World& getHierarchy();
+  virtual ~State();
 
-  void Initialize();
-  void Start();
+  SDL2Manager& SDLManager();
+  Animation::AnimationManager& AnimationManager();
+  Collision::CollisionManager& CollisionManager();
+  ECS& ECS();
+  Rendering::RenderManager& RenderManager();
+  Rendering::ShaderManager& ShaderManager();
+  Input::InputManager& InputManager();
+  StateManager& StateManager();
+  Data::AssetManager& AssetManager();
+
+  virtual void Initialize() {};
+  virtual void Start() {};
   void Update(Second dt);
-  void End();
-  void CleanUp();
+  virtual void End() {};
+  virtual void CleanUp() {};
 
 private:
-  Core::UniquePtr<Geometric::World> Hierarchy;
-  GameSystem::GameSystemManager GameSystem;
+  ApplicationManager& _applicationManager;
+  Application::ECS _ecs;
+  Collision::CollisionManager _collisionManager;
+
+  // custom state types should override these to get their desired behaviours
+  virtual void _PreECSUpdate(Second dt) {};
+  virtual void _PostECSUpdate(Second dt) {};
 };
 }// namespace Application

@@ -42,5 +42,9 @@ bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientatio
 bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Circle>& circle);
 bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line);
 bool Engulfs(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientation<Rectangle>& rectangle2);
+
+// AABR - only against other AABBs for now as this is just used in oct trees for now
+bool Intersect(const ShapeOrientation<AABR>& aabr1, const ShapeOrientation<AABR>& aabr2);
+bool Engulfs(const ShapeOrientation<AABR>& aabr1, const ShapeOrientation<AABR>& aabr2);
 } // namespace Geometric
 } // namespace Core

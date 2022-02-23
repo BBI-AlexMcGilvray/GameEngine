@@ -7,6 +7,7 @@
 #include "Core/Math/Headers/Quaternion.h"
 #include "Core/Math/Headers/QuaternionFunctions.h"
 
+#include "Core/Geometric/AABRFunctions.h"
 #include "Core/Geometric/CircleFunctions.h"
 #include "Core/Geometric/Line2DFunctions.h"
 #include "Core/Geometric/RectangleFunctions.h"
@@ -301,6 +302,32 @@ bool Engulfs(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientati
     // check that all 4 corners of rect 2 and in rect 1
     CORE_ERROR("2DFunctions", "Implementation Missing");
     return false;
+}
+
+bool Intersect(const ShapeOrientation<AABR>& aabr1, const ShapeOrientation<AABR>& aabr2)
+{
+    std::pair<Math::Float2, Math::Float2> aabr1Extremes = AABRMinMax(aabr1);
+    std::pair<Math::Float2, Math::Float2> aabr2Extremes = AABRMinMax(aabr2);
+
+    return ((aabr1.shape.infinite.X || aabr2.shape.infinite.X) || (aabr1Extremes.first.X <= aabr2Extremes.second.X && aabr1Extremes.second.X >= aabr2Extremes.first.X)) &&
+            ((aabr1.shape.infinite.Y || aabr2.shape.infinite.Y) || (aabr1Extremes.first.Y <= aabr2Extremes.second.Y && aabr1Extremes.second.Y >= aabr2Extremes.first.Y));
+}
+
+bool Engulfs(const ShapeOrientation<AABR>& aabr1, const ShapeOrientation<AABR>& aabr2)
+{
+    const auto& infinites1 = aabr1.shape.infinite;
+    const auto& infinites2 = aabr2.shape.infinite;
+    // if aabb2 is infinite where aabb1 is not, no way aabb1 can engulf it
+    if ((infinites2.X && !infinites1.X) || (infinites2.Y && !infinites1.Y))
+    {
+        return false;
+    }
+
+    std::pair<Math::Float3, Math::Float3> aabr1Extremes = AABRMinMax(aabr1);
+    std::pair<Math::Float3, Math::Float3> aabr2Extremes = AABRMinMax(aabr2);
+
+    return (aabr2Extremes.first.X >= aabr1Extremes.first.X && aabr2Extremes.second.X <= aabr1Extremes.second.X) &&
+            (aabr2Extremes.first.Y >= aabr1Extremes.first.Y && aabr2Extremes.second.Y <= aabr1Extremes.second.Y);
 }
 } // namespace Geometric
 } // namespace Core

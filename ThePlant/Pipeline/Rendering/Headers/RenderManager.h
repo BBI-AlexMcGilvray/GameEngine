@@ -22,12 +22,9 @@
 #include "Core/Math/Headers/Color.h"
 
 namespace Application {
-struct State;
-
 namespace Rendering {
   struct RenderManager
   {
-    // should subscribe to StateManager::StateChanged to change active state automatically
     RenderManager();
 
     CameraManager& GetCameraManager();

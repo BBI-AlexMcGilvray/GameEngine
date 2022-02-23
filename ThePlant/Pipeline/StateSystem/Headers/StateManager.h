@@ -4,85 +4,49 @@
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
+#include "Core/IdTypes/InstanceId.h"
 
 #include "Core/Functionality/Headers/Event.h"
-
-#include "Pipeline/Input/Headers/InputManager.h"
-#include "Pipeline/Rendering/Headers/RenderManager.h"
 
 #include "Pipeline/StateSystem/Headers/State.h"
 
 using namespace Core;
 
 namespace Application {
+struct ApplicationManager;
+struct State;
+
 struct StateManager
 {
-  enum class SystemState {
-    Initialized,
-    Started,
-    Displaying,
-    Transitioning,
-    Ended,
-    Clean,
-    None
-  };
+  Core::Functionality::Event<> stateChanged;
 
-  enum class TransitionProcess {
-    PreEmptive,// state is added, but not gone to
-    Immediate,// state is added and gone to immediately
-    Transition,// state is added and transitioned to
-  };
+  StateManager(ApplicationManager& applicationManager);
 
-  enum class TransitionStyle {
-    FadeOut,
-    FadeIn,
-    FadeOutFadeIn
-  };
-
-  Event<> StateChanged;
-
-  // maybe this should be a transition manager or something? can be done later
-  struct StateTransitionInfo
-  {
-    TransitionProcess Process;
-    TransitionStyle Style;
-    Second Duration;
-
-    StateTransitionInfo(TransitionProcess process = TransitionProcess::Immediate, TransitionStyle style = TransitionStyle::FadeOut, Second duration = Second(0))
-      : Process(process), Style(style), Duration(duration)
-    {}
-  };
-
-  StateManager(Rendering::RenderManager &renderSystem, Input::InputManager &inputSystem);
-
-  void Initialize();
-  void Start();
   void Update(Second dt);
-  void End();
-  void CleanUp();
 
-  void PushState(StateTransitionInfo transitionInfo = StateTransitionInfo());
-  // void PushState(AssetData<State> state, StateTransitionInfo transitionInfo = StateTransitionInfo());
-  // void PushState(AsseName<State> state, StateTransitionInfo transitionInfo = StateTransitionInfo());
-  void GoToState(Ptr<State> state, StateTransitionInfo transitionInfo = StateTransitionInfo());
-  void PopState();
-  void RemoveState(Ptr<State> state);
+  template <typename STATE, typename ...ARGS>
+  Core::instanceId<State> AddState(ARGS&& ...args)
+  {
+    Core::instanceId<State> newId = GetInstanceId<State>();
 
-  SystemState CurrentSystemState() const;
+    _states.emplace(std::make_pair(newId, std::make_unique<STATE>(_applicationManager, std::forward<ARGS>(args)...)));
+    _GetState(newId).Initialize();
+
+    return newId;
+  }
+
+  void RemoveState(const Core::instanceId<State>& state);
+
+  void GoToState(const Core::instanceId<State>& state);
+
   State& GetActiveState() const;
 
 private:
-  void ChangeToState(Ptr<State> state);
+  ApplicationManager& _applicationManager;
 
-  // needs references to pass to states
-  Rendering::RenderManager &RenderSystem;
-  Input::InputManager &InputSystem;
+  std::unordered_map<Core::instanceId<State>, std::unique_ptr<State>, Core::instanceIdHasher<State>> _states;
+  Core::instanceId<State> _activeState;
 
-  std::vector<UniquePtr<State>> States;
-
-  SystemState CurrentState = SystemState::None;
-  StateTransitionInfo TransitionInfo;
-  Ptr<State> ActiveState = nullptr;
-  Ptr<State> PreviousState = nullptr;
+  State& _GetState(const Core::instanceId<State>& state) const;
 };
 }// namespace Application

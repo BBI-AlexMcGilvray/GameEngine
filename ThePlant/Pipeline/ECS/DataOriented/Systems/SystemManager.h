@@ -32,6 +32,19 @@ namespace Application
             return *result;
         }
 
+        template <typename SYSTEM>
+        void RemoveSystem()
+        {
+            for (auto& system : _systems)
+            {
+                if (system->IsSystem<SYSTEM>())
+                {
+                    _systems.erase(system);
+                    return;
+                }
+            }
+        }
+
     private:
         ArchetypeManager& _archetypeManager;
         std::vector<Core::UniquePtr<ISystem>> _systems;

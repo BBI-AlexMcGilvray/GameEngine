@@ -83,6 +83,9 @@
         "*.rh": "cpp",
         "filesystem": "cpp",
         "queue": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "string_view": "cpp",
+        "xthread": "cpp",
+        "xmemory0": "cpp"
     }
 }

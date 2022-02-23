@@ -1,46 +1,35 @@
 #include "Pipeline/StateSystem/Headers/State.h"
 
 #include "Pipeline/Headers/ApplicationManager.h"
+
 namespace Application {
-State::State(Rendering::RenderManager &renderSystem, Input::InputManager &inputSystem)
-  : Hierarchy(Core::MakeUnique<Geometric::World>(this)), GameSystem(this, renderSystem, inputSystem)
+State::State(ApplicationManager& applicationManager, const Core::Math::Float3& worldSize)
+  : _applicationManager(applicationManager)
+  , _collisionManager(_ecs, worldSize)
+{}
+
+State::~State()
 {
+  if (stateDeleted)
+  {
+    stateDeleted();
+  }
 }
 
-Geometric::World& State::getHierarchy()
-{
-  return *Hierarchy;
-}
-
-void State::Initialize()
-{
-  Hierarchy->Initialize();
-  GameSystem.Initialize();
-}
-
-void State::Start()
-{
-  // NEED TO SORT OUT THE ORDERING - start is when content start is called, systems should be set up by then
-  // and what about pre-loading other states? that needs to work in here too
-  Hierarchy->Start();
-  GameSystem.Start();
-}
+SDL2Manager& State::SDLManager() { return _applicationManager.AppSDLManager(); }
+Animation::AnimationManager& State::AnimationManager() { return _applicationManager.AppAnimationManager(); }
+Collision::CollisionManager& State::CollisionManager() { return _collisionManager; }
+ECS& State::ECS() { return _ecs; }
+Rendering::RenderManager& State::RenderManager() { return _applicationManager.AppRenderManager(); }
+Rendering::ShaderManager& State::ShaderManager() { return _applicationManager.AppShaderManager(); }
+Input::InputManager& State::InputManager() { return _applicationManager.AppInputManager(); }
+StateManager& State::StateManager() { return _applicationManager.AppStateManager(); }
+Data::AssetManager& State::AssetManager() { return _applicationManager.AppAssetManager(); }
 
 void State::Update(Second dt)
 {
-  Hierarchy->Update(dt);
-  GameSystem.Update(dt);
-}
-
-void State::End()
-{
-  Hierarchy->End();
-  GameSystem.End();
-}
-
-void State::CleanUp()
-{
-  Hierarchy->CleanUp();
-  GameSystem.CleanUp();
+  _PreECSUpdate(dt);
+  _ecs.Update();
+  _PostECSUpdate(dt);
 }
 }// namespace Application

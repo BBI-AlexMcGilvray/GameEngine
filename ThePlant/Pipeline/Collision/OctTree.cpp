@@ -31,9 +31,7 @@ EntitySnapshot OctTreeNode::FindFirstEntity(const Core::Geometric::ShapeOrientat
     const OctTreeNode& containingNode = _FindContainingNode(shape);
     for (const auto& content : containingNode._content)
     {
-        // we may want to take these 'double check' intersect calls and move them to a generic method
-        // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
-        if (Core::Geometric::Intersect(content.boundCollider.boundingBox, boundedShape.boundingBox) && Core::Geometric::Intersect(content.boundCollider.shapeOrientation, boundedShape.shapeOrientation))
+        if (Core::Geometric::Intersect(content.boundCollider, boundedShape))
         {
             return _ecs.GetTemporaryEntitySnapshot(content.entity);
         }
@@ -57,6 +55,31 @@ std::vector<EntitySnapshot> OctTreeNode::FindAllEntities(const Core::Geometric::
     return entities;
 }
 
+bool OctTreeNode::ContainsEntity(const EntityId& entity, bool checkChildren) const
+{
+    DEBUG_PROFILE_SCOPE("OctTreeNode::ContainsEntity");
+    for (const auto& content : _content)
+    {
+        if (content.entity == entity)
+        {
+            return true;
+        }
+    }
+
+    if (checkChildren && _ChildrenExist())
+    {
+        for (const auto& child : _children)
+        {
+            if (child->ContainsEntity(entity, checkChildren))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 void OctTreeNode::AddContent(const OctTreeContent& content)
 {
     DEBUG_PROFILE_SCOPE("OctTreeNode::AddContent");
@@ -66,6 +89,18 @@ void OctTreeNode::AddContent(const OctTreeContent& content)
 
     // debug logic to check if content already exists?
     _InsertContent(content);
+}
+
+void OctTreeNode::AddStaticContent(const OctTreeContent& content)
+{
+    DEBUG_PROFILE_SCOPE("OctTreeNode::AddStaticContent");
+    auto& container = _FindContainingNode(content.boundCollider);
+    if (container.ContainsEntity(content.entity, false))
+    {
+        return;
+    }
+
+    container.AddContent(content);
 }
 
 std::vector<Collision> OctTreeNode::AllCollisions() const
@@ -137,7 +172,7 @@ bool OctTreeNode::_Intersects(const Core::Geometric::AABBShapeOrientation3D& sha
 // must be tied with the above
 OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape)
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_FindContainingNode");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_FindContainingNode");
 
     if (!_ChildrenExist())
     {
@@ -177,7 +212,7 @@ const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::AABBS
 
 void OctTreeNode::_InsertContent(const OctTreeContent& content)
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_InsertContent");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_InsertContent");
 
     if (_content.empty() && !_ChildrenExist())
     {
@@ -209,7 +244,7 @@ void OctTreeNode::_StopGapContent(const OctTreeContent& content)
 
 void OctTreeNode::_RemoveStopGap()
 {
-    DEBUG_PROFILE_SCOPE("OctTreeNode::_RemoveStopGap");
+    // DEBUG_PROFILE_SCOPE("OctTreeNode::_RemoveStopGap");
 
     _stopGapped = false;
     OctTreeContent stopGappedContent = _content.back();
@@ -231,9 +266,16 @@ void OctTreeNode::_FindAllEntities(std::vector<EntitySnapshot>& entities, const 
 
     for (const auto& child : _children)
     {
-        if (Core::Geometric::Engulfs(shape.boundingBox, child->_this) && Core::Geometric::Engulfs(shape.shapeOrientation, Core::Geometric::RemoveAA(child->_this)))
+        if (Core::Geometric::Engulfs(shape.boundingBox, child->_this))
         {
-            child->_EntitiesForAllContent(entities);
+            if (Core::Geometric::Engulfs(shape.shapeOrientation, Core::Geometric::RemoveAA(child->_this)))
+            {
+                child->_EntitiesForAllContent(entities);
+            }
+            else
+            {
+                child->_FindAllEntities(entities, shape);
+            }
         }
         else if (Core::Geometric::Intersect(shape.boundingBox, child->_this))
         {
@@ -250,7 +292,7 @@ void OctTreeNode::_InternalEntities(std::vector<EntitySnapshot>& entities, const
     {
         // we may want to take these 'double check' intersect calls and move them to a generic method
         // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
-        if (Core::Geometric::Intersect(content.boundCollider.boundingBox, shape.boundingBox) && Core::Geometric::Intersect(content.boundCollider.shapeOrientation, shape.shapeOrientation))
+        if (Core::Geometric::Intersect(content.boundCollider, shape))
         {
             entities.push_back(_ecs.GetTemporaryEntitySnapshot(content.entity));
         }
@@ -302,7 +344,7 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
         {
             // we may want to take these 'double check' intersect calls and move them to a generic method
             // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
-            if (Core::Geometric::Intersect(_content[i].boundCollider.boundingBox, _content[j].boundCollider.boundingBox) && Core::Geometric::Intersect(_content[i].boundCollider.shapeOrientation, _content[j].boundCollider.shapeOrientation))
+            if (Core::Geometric::Intersect(_content[i].boundCollider, _content[j].boundCollider))
             {
                 collisions.push_back(IntermediaryCollision(_content[i].entity, _content[j].entity));
             }
@@ -377,7 +419,7 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
     {
         // we may want to take these 'double check' intersect calls and move them to a generic method
         // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
-        if (Core::Geometric::Intersect(c.boundCollider.boundingBox, content.boundCollider.boundingBox) && Core::Geometric::Intersect(c.boundCollider.shapeOrientation, content.boundCollider.shapeOrientation))
+        if (Core::Geometric::Intersect(c.boundCollider, content.boundCollider))
         {
             collisions.push_back(IntermediaryCollision(c.entity, content.entity));
         }
