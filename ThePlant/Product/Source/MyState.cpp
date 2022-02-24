@@ -8,6 +8,7 @@
 #include "Core/Math/Headers/UtilityFunctions.h"
 #include "Core/Math/Headers/MatrixFunctions.h"
 
+#include "Pipeline/ECSSystems/AnimationComponents.h"
 #include "Pipeline/ECSSystems/CameraComponents.h"
 #include "Pipeline/ECSSystems/ColliderComponents.h"
 
@@ -126,14 +127,14 @@ void MyState::_PostECSUpdate(Second dt)
     // ++frames;
     // if (frames > 50 && !played)
     // {
-    //     auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_animated);
+    //     auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_animated);
     //     Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
     //     played = true;
     // }
     // \testing
 
     // testing (Static model)
-    // Application::RotationComponent& entityRotationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::RotationComponent>(_static);
+    // Application::RotationComponent& entityRotationComponent = ECS().GetComponentFor<Application::RotationComponent>(_static);
     
     // FQuaternion entityRotation = entityRotationComponent.rotation;
     // FQuaternion newEntityRotation = Core::Math::LerpQuat(entityRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * entityRotation, Duration(dt));

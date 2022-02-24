@@ -40,7 +40,7 @@ void SetOrRemoveSystem(ECS& ecs, const ECSSystemFlags& systems, const ECSSystem&
 {
     if (GetSystemState(systems, system))
     {
-        ecs.AddSystem<SYSTEM>(std::forward<ARGS>(args)...);
+        ecs.AddSystem<SYSTEM>(std::forward<ARGS>(args)...).AddDependencies<DEPENDENCIES...>();
     }
     else
     {

@@ -94,13 +94,18 @@ void OctTreeNode::AddContent(const OctTreeContent& content)
 void OctTreeNode::AddStaticContent(const OctTreeContent& content)
 {
     DEBUG_PROFILE_SCOPE("OctTreeNode::AddStaticContent");
-    auto& container = _FindContainingNode(content.boundCollider);
-    if (container.ContainsEntity(content.entity, false))
-    {
-        return;
-    }
+    // auto& container = _FindContainingNode(content.boundCollider);
+    // if (container.ContainsEntity(content.entity, false))
+    // {
+    //     return;
+    // }
 
-    container.AddContent(content);
+    // container.AddContent(content);
+
+    // it is currently faster to just re-add the content to non-destroyed nodes rather than check for existance.
+    // likely the fastest way to is to just call AddStaticContent once for each instance
+    // but we need to a way to verify they are only added in once
+    AddContent(content);
 }
 
 std::vector<Collision> OctTreeNode::AllCollisions() const
@@ -524,18 +529,21 @@ bool OctTreeNode::_ClearNode(bool clearStatics)
         }
     }
 
+    bool containsStatic = false;
     if (_content.size() > 0)
     {
         for (size_t index = _content.size(); index > 0; --index)
         {
             size_t trueIndex = index - 1;
             const auto& content = _content[trueIndex];
-            if (!content.isStatic || clearStatics)
+            // if (!content.isStatic || clearStatics)
             {
+                containsStatic = content.isStatic;
                 _content.erase(_content.begin() + trueIndex);
             }
         }
     }
+    canDelete &= containsStatic;
     
     canDelete &= _content.empty();
     if (canDelete)

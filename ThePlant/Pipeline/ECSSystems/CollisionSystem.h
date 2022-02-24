@@ -76,9 +76,9 @@ struct CollisionHandlingSystem : System<CollisionHandlingSystem>
 
         _collisionManager.ResetCollisionCache();
         auto& allCollisions = _collisionManager.GetAllCollisions();
-        const auto& allCollisionHandlgers = _collisionManager.GetAllCollisionHandlers();
+        const auto& allCollisionHandlers = _collisionManager.GetAllCollisionHandlers();
 
-        for (auto& handler : allCollisionHandlgers)
+        for (auto& handler : allCollisionHandlers)
         {
             _HandleCollisions(*handler, allCollisions);
         }
