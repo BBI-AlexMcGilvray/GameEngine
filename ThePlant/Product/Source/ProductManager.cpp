@@ -2,6 +2,10 @@
 
 namespace Product
 {
+    ProductManager::ProductManager()
+    : _myProduct(_pipeline)
+    {}
+
     void ProductManager::run()
     {
         if (!_initialize()) {
@@ -19,11 +23,7 @@ namespace Product
 
     bool ProductManager::_initialize()
     {
-        // the creation of the Application should include the application name, default window size, ...
-        // maybe window info should just be a struct (camera?) - tbd
-        _pipeline = Application::ApplicationManager::Application();
-
-        bool pipelineInitialized = _pipeline->Initialize();
+        bool pipelineInitialized = _pipeline.Initialize();
         _time.Initialize();
         _myProduct.initialize();
 
@@ -32,7 +32,7 @@ namespace Product
 
     void ProductManager::_start()
     {
-        _pipeline->Start();
+        _pipeline.Start();
         _time.Start();
         _myProduct.start();
 
@@ -41,16 +41,16 @@ namespace Product
 
     void ProductManager::_update()
     {
-        while (!_pipeline->quit())
+        while (!_pipeline.quit())
         {
             DEBUG_PROFILE_SCOPE("ProductManager::Update");
             Core::Second dt = _time.Update();
             while (dt > 0_s) {
-                _pipeline->Update(dt);
+                _pipeline.Update(dt);
                 _myProduct.update(dt);
                 dt = _time.GetAccumulatedTime();
             }
-            _pipeline->Render(); // rendering takes up over half the frame, threading this would be huge!
+            _pipeline.Render(); // rendering takes up over half the frame, threading this would be huge!
             // take a look at Unity's order of execution and work on cleaning up execution order
             //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
 
@@ -64,13 +64,13 @@ namespace Product
     {
         _myProduct.end();
         _time.End();
-        _pipeline->End();   
+        _pipeline.End();   
     }
 
     void ProductManager::_cleanUp()
     {
         _myProduct.cleanUp();
         _time.CleanUp();
-        _pipeline->CleanUp();
+        _pipeline.CleanUp();
     }
 }

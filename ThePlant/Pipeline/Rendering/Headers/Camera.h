@@ -8,8 +8,6 @@
 #include "Core/Math/Headers/Matrix3x3.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
-#include "Pipeline/Geometric/Headers/HierarchyTransform.h"
-
 using namespace Core;
 using namespace Core::Math;
 

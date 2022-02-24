@@ -3,6 +3,7 @@
 #include <map>
 
 #include "Pipeline\Headers\GLContextManager.h"
+#include "Pipeline/Headers/SDL2Manager.h"
 #include "Pipeline\Headers\WindowManager.h"
 
 #include "Pipeline/UI/IMGUI/Manager.h"
@@ -29,7 +30,7 @@ namespace Rendering {
 
     CameraManager& GetCameraManager();
 
-    void Initialize(WindowManager &window, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
+    void Initialize(SDL2Manager& sdlManager, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();
 
     void QueueRender(const Context& context);

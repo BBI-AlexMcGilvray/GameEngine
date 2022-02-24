@@ -27,28 +27,18 @@ using namespace Core::Functionality;
 namespace Application {
 struct ApplicationManager
 {
-  static Core::Ptr<ApplicationManager> Application();
-
   // should this be here? Currently exists for IMGUI, but maybe we want a UI manager or something and go through that for debug vs other ui?
-  static SDL2Manager& AppSDLManager();
+  SDL2Manager& SDLManager();
 
-  static Animation::AnimationManager &AppAnimationManager();
-  static Rendering::RenderManager &AppRenderManager();
-  static Rendering::ShaderManager& AppShaderManager();
-  static Input::InputManager &AppInputManager();
-  static StateManager &AppStateManager();
+  Animation::AnimationManager &AnimationManager();
+  Rendering::RenderManager &RenderManager();
+  Rendering::ShaderManager& ShaderManager();
+  Input::InputManager &InputManager();
+  StateManager &StateManager();
   // could potentially break this up into longterm and shorterm asset managers for consistent behaviour
-  static Data::AssetManager& AppAssetManager();
+  Data::AssetManager& AssetManager();
 
-private:
-  // to make sure that constructor can't be called except through static Application() method to get instance
-  struct ConstructorTag
-  {
-    ConstructorTag() = default;
-  };
-
-public:
-  ApplicationManager(ConstructorTag tag);
+  ApplicationManager();
 
   // This should only be called in the Pipeline project
   // Otherwise, the lifetime methods should be called explicitly
@@ -70,18 +60,16 @@ public:
 
 private:
   // Note: the below are in an order such that they should only _possibly_ know about what is above them (as it would need to be for constructors...)
-  SDL2Manager _sdl;
+  Application::SDL2Manager _sdl;
   Data::AssetManager _assetManager;
   Animation::AnimationManager _animationSystem;
   Rendering::RenderManager _renderSystem;
   Rendering::ShaderManager _shaderManager;
   Input::InputManager _inputSystem;
-  ServiceManager _serviceManager;
-  StateManager _stateSystem;
+  Application::ServiceManager _serviceManager;
+  Application::StateManager _stateSystem;
 
   Delegate<> _onQuit;
   bool _quit = false;
-
-  static Core::UniquePtr<ApplicationManager> _instance;
 };
 }// namespace Application

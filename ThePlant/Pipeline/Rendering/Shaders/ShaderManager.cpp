@@ -38,7 +38,7 @@ namespace Rendering {
     // doing it this way could give us problems because we don't hold on to shared_ptrs that keep the data alive for shaders/fragmentshaders/vertexshaders
     // i think we want this to have a loop that goes over all shaders (to add them), locks all data when reached, and then releases them all when done
     auto shaderData = _assetManager.getAssetData(shader);
-    _shaders[shader] = CreateShader(shaderData);
+    _shaders[shader] = CreateShader(_assetManager, shaderData);
     return _shaders[shader];
   }
 

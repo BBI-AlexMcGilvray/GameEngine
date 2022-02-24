@@ -7,54 +7,42 @@
 #endif
 
 namespace Application {
-Core::UniquePtr<ApplicationManager> ApplicationManager::_instance = nullptr;
-
-Core::Ptr<ApplicationManager> ApplicationManager::Application()
+SDL2Manager& ApplicationManager::SDLManager()
 {
-  if (_instance == nullptr) {
-    _instance = MakeUnique<ApplicationManager>(ConstructorTag());
-  }
-
-  return _instance.get();
+  return _sdl;
 }
 
-SDL2Manager& ApplicationManager::AppSDLManager()
+Animation::AnimationManager &ApplicationManager::AnimationManager()
 {
-  return Application()->_sdl;
+  return _animationSystem;
 }
 
-Animation::AnimationManager &ApplicationManager::AppAnimationManager()
+Rendering::RenderManager &ApplicationManager::RenderManager()
 {
-  return Application()->_animationSystem;
+  return _renderSystem;
 }
 
-Rendering::RenderManager &ApplicationManager::AppRenderManager()
+Rendering::ShaderManager& ApplicationManager::ShaderManager()
 {
-  return Application()->_renderSystem;
+  return _shaderManager;
 }
 
-Rendering::ShaderManager& ApplicationManager::AppShaderManager()
+Input::InputManager &ApplicationManager::InputManager()
 {
-  return Application()->_shaderManager;
+  return _inputSystem;
 }
 
-Input::InputManager &ApplicationManager::AppInputManager()
+StateManager &ApplicationManager::StateManager()
 {
-  return Application()->_inputSystem;
+  return _stateSystem;
 }
 
-StateManager &ApplicationManager::AppStateManager()
+Data::AssetManager& ApplicationManager::AssetManager()
 {
-  return Application()->_stateSystem;
+  return _assetManager;
 }
 
-Data::AssetManager& ApplicationManager::AppAssetManager()
-{
-  return Application()->_assetManager;
-}
-
-ApplicationManager::ApplicationManager(ConstructorTag tag)
-  // : _collisionManager(_ecsSystem, Core::Math::Float3(1024.0f)) // must be data driven somewhere instead (in the world?)
+ApplicationManager::ApplicationManager()
   : _shaderManager(_assetManager)
   , _inputSystem(_sdl)
   , _stateSystem(*this)
@@ -100,12 +88,12 @@ bool ApplicationManager::Initialize()
 {
   // possible we want to thread this to make it faster
 
-  if (!_sdl.Initialize()) {
+  if (!_sdl.Initialize(*this)) {
     return false;
   }
 
   _animationSystem.Initialize();
-  _renderSystem.Initialize(_sdl.GetWindowManager());
+  _renderSystem.Initialize(_sdl);
   _inputSystem.initialize();
 
   return true;

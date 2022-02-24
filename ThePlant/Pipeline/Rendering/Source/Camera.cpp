@@ -9,8 +9,6 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
-using namespace Application::Geometric;
-
 namespace Application {
 namespace Rendering {
   Camera::Camera(const float &aspectRatio /* = 0.5f */)

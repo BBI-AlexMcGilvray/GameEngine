@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Data/Headers/AssetData.h"
+#include "Data/Headers/AssetManager.h"
 #include "Data/Rendering/Headers/ShaderData.h"
 
 #include "Pipeline/Rendering/OpenGL/Headers/GLShader.h"
@@ -75,7 +76,7 @@ namespace Rendering {
     }
   };
 
-  Shader CreateShader(const Data::AssetData<Data::Rendering::ShaderData>& data);
+  Shader CreateShader(Data::AssetManager& assetManager, const Data::AssetData<Data::Rendering::ShaderData>& data);
   Shader CreateDefaultShader();
 }// namespace Rendering
 }// namespace Application

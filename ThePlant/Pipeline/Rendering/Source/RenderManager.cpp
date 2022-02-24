@@ -18,10 +18,10 @@ namespace Rendering {
     return _cameraManager;
   }
 
-  void RenderManager::Initialize(WindowManager &window, Color clearColor)
+  void RenderManager::Initialize(SDL2Manager& sdlManager, Color clearColor)
   {
-    _window = &window;
-    _ui = std::make_unique<UI::IMGUI::Manager>(window, ApplicationManager::AppSDLManager().GetContextManager());
+    _window = &sdlManager.GetWindowManager();
+    _ui = std::make_unique<UI::IMGUI::Manager>(*_window, sdlManager.GetContextManager());
     _ui->Initialize();
 
     _initialColor = WHITE;

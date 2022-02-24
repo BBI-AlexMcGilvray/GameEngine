@@ -4,18 +4,18 @@
 #include "Core/Debugging/Profiling/Utils.h"
 #endif
 
-#include "Pipeline/Headers/ApplicationManager.h"
-
 #include "Product/Headers/MyState.h"
 
 namespace Product
 {
+    MyProduct::MyProduct(Application::ApplicationManager& application)
+    : _application(application)
+    {}
+
     void MyProduct::initialize()
     {
         _luaManager.initialize();
-
-        auto application = Application::ApplicationManager::Application();
-        application->AppStateManager().AddAndGoToState<MyState>();
+        _application.StateManager().AddAndGoToState<MyState>();
     }
 
     void MyProduct::start()

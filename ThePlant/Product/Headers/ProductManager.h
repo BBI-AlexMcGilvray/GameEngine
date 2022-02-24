@@ -29,6 +29,7 @@ namespace Product
     class ProductManager
     {
     public:
+        ProductManager();
         void run();
 
     private:
@@ -38,7 +39,7 @@ namespace Product
         void _end();
         void _cleanUp();
 
-        Core::Ptr<Application::ApplicationManager> _pipeline;
+        Application::ApplicationManager _pipeline;
         FixedStepTimeManager _time;
         MyProduct _myProduct;
     };
