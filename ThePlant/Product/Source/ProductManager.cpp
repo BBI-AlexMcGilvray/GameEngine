@@ -1,18 +1,5 @@
 #include "Product/Headers/ProductManager.h"
 
-#include "Pipeline/ECSSystems/AnimationSystem.h"
-#include "Pipeline/ECSSystems/CameraSystem.h"
-#include "Pipeline/ECSSystems/CollisionSystem.h"
-#include "Pipeline/ECSSystems/TransformSystem.h"
-#include "Pipeline/ECSSystems/RenderingSystem.h"
-#if DEBUG
-#include "Core/Debugging/Profiling/Utils.h"
-#include "Pipeline/ECSSystems/DebugSystems/DebugBoneSystem.h"
-#include "Pipeline/ECSSystems/DebugSystems/DebugCollisionSystem.h"
-#include "Pipeline/ECSSystems/DebugSystems/DebugOctTreeSystem.h"
-#include "Pipeline/ECSSystems/DebugSystems/DebugTransformSystem.h"
-#endif
-
 namespace Product
 {
     void ProductManager::run()
@@ -56,21 +43,19 @@ namespace Product
     {
         while (!_pipeline->quit())
         {
-            DEBUG_PROFILE_PUSH("Non-Delta-Time Update");
-            _pipeline->Update();
-            DEBUG_PROFILE_POP("Non-Delta-Time Update");
-
+            DEBUG_PROFILE_SCOPE("ProductManager::Update");
             Core::Second dt = _time.Update();
             while (dt > 0_s) {
-                DEBUG_PROFILE_PUSH("Product-Delta-Time Update");
-                _myProduct.update(dt);
-                DEBUG_PROFILE_POP("Product-Delta-Time Update");
                 _pipeline->Update(dt);
+                _myProduct.update(dt);
                 dt = _time.GetAccumulatedTime();
             }
+            _pipeline->Render(); // rendering takes up over half the frame, threading this would be huge!
             // take a look at Unity's order of execution and work on cleaning up execution order
             //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
 
+            // clear before final pop to not clear the final stack.
+            // however, this means that the displayed data is one frame behind
             DEBUG_CLEAR_PROFILE();
         }
     }

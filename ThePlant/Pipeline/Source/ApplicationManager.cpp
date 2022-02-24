@@ -2,6 +2,10 @@
 
 #include <iostream>
 
+#if DEBUG
+#include "Core/Debugging/Profiling/Utils.h"
+#endif
+
 namespace Application {
 Core::UniquePtr<ApplicationManager> ApplicationManager::_instance = nullptr;
 
@@ -23,11 +27,6 @@ Animation::AnimationManager &ApplicationManager::AppAnimationManager()
 {
   return Application()->_animationSystem;
 }
-
-// Collision::CollisionManager &ApplicationManager::AppCollisionManager()
-// {
-//   return Application()->_collisionManager;
-// }
 
 Rendering::RenderManager &ApplicationManager::AppRenderManager()
 {
@@ -53,11 +52,6 @@ Data::AssetManager& ApplicationManager::AppAssetManager()
 {
   return Application()->_assetManager;
 }
-
-// ECS& ApplicationManager::AppECS()
-// {
-//   return Application()->_ecsSystem;
-// }
 
 ApplicationManager::ApplicationManager(ConstructorTag tag)
   // : _collisionManager(_ecsSystem, Core::Math::Float3(1024.0f)) // must be data driven somewhere instead (in the world?)
@@ -85,13 +79,17 @@ void ApplicationManager::Run()
 
   while (!_quit)
   {
-    Update();
-
+    DEBUG_PROFILE_SCOPE("ApplicationManager::Run");
     Core::Second dt = time.Update();
     while (dt > 0_s) {
       Update(dt);
       dt = time.GetAccumulatedTime();
     }
+    Render();
+
+    // clear before final pop to not clear the final stack.
+    // however, this means that the displayed data is one frame behind
+    DEBUG_CLEAR_PROFILE();
   }
 
   End();
@@ -121,20 +119,17 @@ void ApplicationManager::Start()
   _inputSystem.start();
 }
 
-void ApplicationManager::Update()
-{
-  _inputSystem.update();
-}
-
 void ApplicationManager::Update(Core::Second dt)
 {
-  // this may requried the dt passed in for time-reliant systems?
-  // _ecsSystem.Update(); // either way, this can't be above as this is only once-per frame (or should be)
-
-  // update everything
-  _stateSystem.Update(dt);
-
+  DEBUG_PROFILE_SCOPE("ApplicationManager::Update");
+  _inputSystem.update();
   _animationSystem.Update(dt);
+  _stateSystem.Update(dt); // animations should be updated before the state (ecs)
+}
+
+void ApplicationManager::Render()
+{
+  DEBUG_PROFILE_SCOPE("ApplicationManager::Render");
   _renderSystem.Render();
 }
 

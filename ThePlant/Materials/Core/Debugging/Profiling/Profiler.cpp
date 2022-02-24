@@ -37,7 +37,7 @@ const std::vector<Section> Profiler::GetSections() const
 
 void Profiler::Clear()
 {
-    VERIFY(_stack.empty(), "Still have item on stack: " + _stack.empty() ? "-" : _stack.top().tag);
+    // VERIFY(_stack.empty(), "Still have item on stack: " + _stack.empty() ? "-" : _stack.top().tag);
     _sections.clear();
 }
 #endif

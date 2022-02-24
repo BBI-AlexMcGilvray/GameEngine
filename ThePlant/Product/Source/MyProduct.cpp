@@ -1,5 +1,9 @@
 #include "Product/Headers/MyProduct.h"
 
+#if DEBUG
+#include "Core/Debugging/Profiling/Utils.h"
+#endif
+
 #include "Pipeline/Headers/ApplicationManager.h"
 
 #include "Product/Headers/MyState.h"
@@ -21,6 +25,7 @@ namespace Product
 
     void MyProduct::update(Core::Second dt)
     {
+        DEBUG_PROFILE_SCOPE("MyProduct::Update");
         _luaManager.update(dt);
     }
 

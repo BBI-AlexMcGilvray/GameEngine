@@ -33,14 +33,12 @@ struct ApplicationManager
   static SDL2Manager& AppSDLManager();
 
   static Animation::AnimationManager &AppAnimationManager();
-  // static Collision::CollisionManager &AppCollisionManager();
   static Rendering::RenderManager &AppRenderManager();
   static Rendering::ShaderManager& AppShaderManager();
   static Input::InputManager &AppInputManager();
   static StateManager &AppStateManager();
   // could potentially break this up into longterm and shorterm asset managers for consistent behaviour
   static Data::AssetManager& AppAssetManager();
-  // static ECS& AppECS();
 
 private:
   // to make sure that constructor can't be called except through static Application() method to get instance
@@ -64,12 +62,8 @@ public:
   bool Initialize();
   void Start();
 
-  // update things that do not need time
-  // should only be called once a frame
-  void Update();
-  // update things that do need time
-  // can be called multiple times per frame (but total dt should not pass the frame dt)
   void Update(Core::Second dt);
+  void Render();
 
   void End();
   void CleanUp();
@@ -77,9 +71,7 @@ public:
 private:
   // Note: the below are in an order such that they should only _possibly_ know about what is above them (as it would need to be for constructors...)
   SDL2Manager _sdl;
-  // ECS _ecsSystem;
   Data::AssetManager _assetManager;
-  // Collision::CollisionManager _collisionManager;
   Animation::AnimationManager _animationSystem;
   Rendering::RenderManager _renderSystem;
   Rendering::ShaderManager _shaderManager;
