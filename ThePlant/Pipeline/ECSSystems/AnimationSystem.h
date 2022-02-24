@@ -34,7 +34,6 @@ struct SkeletonAnimationSystem  : public System<SkeletonAnimationSystem>
     }
 
     private:
-
         Animation::AnimationManager& _animationManager;
 
         void SkeletonAnimationSystem::_ApplyAnimations(Animation::AnimationManager& animationManager, Core::Ptr<Archetype> archetype) const;

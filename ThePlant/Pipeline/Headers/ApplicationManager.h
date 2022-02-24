@@ -32,7 +32,7 @@ struct ApplicationManager
 
   Animation::AnimationManager &AnimationManager();
   Rendering::RenderManager &RenderManager();
-  Rendering::ShaderManager& ShaderManager();
+  Rendering::ShaderManager& ShaderManager(); // this should be the material manager, and material manager should hold a shader manager (as materials need shaders)
   Input::InputManager &InputManager();
   StateManager &StateManager();
   // could potentially break this up into longterm and shorterm asset managers for consistent behaviour

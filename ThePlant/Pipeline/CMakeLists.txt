@@ -80,6 +80,7 @@ Animation/Headers/SkeletonAnimation.h #
 Collision/Collision.h #
 Collision/CollisionManager.h #
 Collision/OctTree.h #
+Collision/CollisionHandlers/DebugHandlers/DebugCollisionDisplay.h #
 ECS/DataOriented/Systems/System.h #
 ECS/DataOriented/Systems/SystemManager.h #
 ECS/DataOriented/Archetype.h #

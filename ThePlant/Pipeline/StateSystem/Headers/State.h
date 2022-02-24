@@ -64,7 +64,7 @@ struct State
   virtual void End() {};
   virtual void CleanUp() {};
 
-private:
+protected:
   Application::ApplicationManager& _applicationManager;
   Application::ECS _ecs;
   Collision::CollisionManager _collisionManager;

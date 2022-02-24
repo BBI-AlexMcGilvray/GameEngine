@@ -16,34 +16,41 @@ struct Collision
 
 struct ICollisionHandler
 {
-    ICollisionHandler(const std::string& name)
+    ICollisionHandler(const std::string& name, const TypeCollection& fromRequirements, const TypeCollection& toRequirements, bool applyToBoth)
     : _name(name)
+    , _fromRequirements(fromRequirements)
+    , _toRequirements(toRequirements)
+    , _applyToBoth(applyToBoth)
     {}
 
-    virtual const TypeCollection& GetFromRequirements() const = 0;
-    virtual const TypeCollection& GetToRequirements() const = 0;
+    template <typename T>
+    bool IsHandler() const { return (Core::GetTypeId<T>() == GetHandler()); }
+    virtual Core::runtimeId_t GetHandler() const = 0;
 
     void Handle(Collision& collision) const
     {
         DEBUG_PROFILE_SCOPE(_name);
 
-        const auto& fromRequirements = GetFromRequirements();
-        const auto& toRequirements = GetToRequirements();
-
         // need to try both permutations
-        if (collision.entity1.ContainsTypes(fromRequirements) && collision.entity2.ContainsTypes(toRequirements))
+        if (collision.entity1.ContainsTypes(_fromRequirements) && collision.entity2.ContainsTypes(_toRequirements))
         {
             _Apply(collision.entity1, collision.entity2);
         }
 
-        if (collision.entity2.ContainsTypes(fromRequirements) && collision.entity1.ContainsTypes(toRequirements))
+        if (_applyToBoth)
         {
-            _Apply(collision.entity2, collision.entity1);
+            if (collision.entity2.ContainsTypes(_fromRequirements) && collision.entity1.ContainsTypes(_toRequirements))
+            {
+                _Apply(collision.entity2, collision.entity1);
+            }
         }
     }
 
-private:
+protected:
     const std::string _name;
+    const TypeCollection _fromRequirements;
+    const TypeCollection _toRequirements;
+    const bool _applyToBoth;
 
     // handlers only need to worry about apply the logic from 'from' to 'to'
     // if the other permutation should get applied, it is handled above
@@ -53,14 +60,27 @@ private:
 template <typename HANDLER>
 struct CollisionHandler : public ICollisionHandler
 {
-    CollisionHandler(const std::string& name)
-    : ICollisionHandler(name)
+    CollisionHandler(const std::string& name, const TypeCollection& fromRequirements, const TypeCollection& toRequirements, bool applyToBoth)
+    : ICollisionHandler(name, fromRequirements, toRequirements, applyToBoth)
     {}
     
+    Core::runtimeId_t GetHandler() const override
+    {
+        return Core::GetTypeId<HANDLER>();
+    }
+};
+
+template <typename HANDLER>
+struct StaticCollisionHandler : public CollisionHandler<HANDLER>
+{
+    StaticCollisionHandler(const std::string& name, const TypeCollection& fromRequirements, const TypeCollection& toRequirements, bool applyToBoth)
+    : CollisionHandler<HANDLER>(name, fromRequirements, toRequirements, applyToBoth)
+    {}
+
 private:
     void _Apply(EntitySnapshot& from, EntitySnapshot& to) const override
     {
-        HANLDER::Handle(from, to);
+        HANDLER::ApplyCollision(from, to);
     }
 };
 } // namespace Collision

@@ -28,10 +28,25 @@ struct CollisionManager
     template <typename T, typename ...ARGS>
     Core::instanceId<ICollisionHandler> AddCollisionHandler(ARGS&& ...args)
     {
-        return AddCollisionHandler(std::make_unique<T>(std::forward<ARGS>(args)....));
+        return AddCollisionHandler(std::make_unique<T>(std::forward<ARGS>(args)...));
     }
     Core::instanceId<ICollisionHandler> AddCollisionHandler(std::unique_ptr<ICollisionHandler> handler);
 
+    template <typename T>
+    void RemoveSystem()
+    {
+        size_t index = 0;
+        for (auto& handler : _handlers)
+        {
+            if (handler->IsHandler<SYSTEM>())
+            {
+                _handlers.erase(_handlers.begin() + index);
+                return;
+            }
+            ++index;
+        }
+    }
+    
 private:
     OctTree _octTree;
     std::unordered_map<Core::instanceId<ICollisionHandler>, std::unique_ptr<ICollisionHandler>, Core::instanceIdHasher<ICollisionHandler>> _handlers;

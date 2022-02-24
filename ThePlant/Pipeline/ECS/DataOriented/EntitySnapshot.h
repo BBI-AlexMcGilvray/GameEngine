@@ -84,7 +84,7 @@ namespace Application
                 DEBUG_THROW("EntitySnapshot", "Requested type does not exist");
             }
 
-            return *(static_cast<Core::Ptr<T>(componentPtr));
+            return *(static_cast<Core::Ptr<T>>(componentPtr));
         }
 
         bool IsValid() const

@@ -8,6 +8,7 @@
 #include "Core/Math/Headers/UtilityFunctions.h"
 #include "Core/Math/Headers/MatrixFunctions.h"
 
+#include "Pipeline/Collision/CollisionHandlers/DebugHandlers/DebugCollisionDisplay.h"
 #include "Pipeline/ECSSystems/AnimationComponents.h"
 #include "Pipeline/ECSSystems/CameraComponents.h"
 #include "Pipeline/ECSSystems/ColliderComponents.h"
@@ -37,6 +38,9 @@ void MyState::Initialize()
     activeSystems |= Application::ECSSystem::DebugTransformSystem;
 #endif
     Application::SetECSSystems(*this, activeSystems);
+
+    // collision manager should have helpers like the above for systems
+    _collisionManager.AddCollisionHandler<Application::Collision::DebugCollisionDisplay>(RenderManager(), ShaderManager());
 
     // this will be data driven from the future
     // create camera
