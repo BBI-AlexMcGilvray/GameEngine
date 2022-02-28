@@ -8,6 +8,7 @@
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
 namespace Application {
@@ -181,17 +182,42 @@ private:
     }
 };
 
+struct CameraRenderingSystem : public System<CameraRenderingSystem>
+{
+    CameraRenderingSystem(Rendering::RenderManager& renderManager)
+    : System<CameraRenderingSystem>("CameraRenderingSystem")
+    , _renderManager(renderManager)
+    , _cameraManager(renderManager.GetCameraManager())
+    {}
+
+    void Execute(ArchetypeManager& archetypeManager) const override
+    {
+        DEBUG_PROFILE_SCOPE(GetSystemName());
+        
+        for (const auto& camera : _cameraManager.GetCameras())
+        {
+            _renderManager.QueueCamera(camera);
+        }
+    }
+
+private:
+    Rendering::RenderManager& _renderManager;
+    Rendering::CameraManager& _cameraManager;
+};
+
 // must be made dependent on the TransformSystem
 struct RenderingSystem : public CompoundSystem<RenderingSystem,
 MeshRenderingSystem,
 SkeletonUpdateSystem,
-SkinnedMeshRenderingSystem>
+SkinnedMeshRenderingSystem,
+CameraRenderingSystem>
 {
     RenderingSystem(Rendering::RenderManager& rendererManager)
     : CompoundSystem<RenderingSystem,
         MeshRenderingSystem,
         SkeletonUpdateSystem,
-        SkinnedMeshRenderingSystem>("RenderingSystem", rendererManager, SkeletonUpdateSystem::TAG::CREATE, rendererManager)
+        SkinnedMeshRenderingSystem,
+        CameraRenderingSystem>("RenderingSystem", rendererManager, SkeletonUpdateSystem::TAG::CREATE, rendererManager, rendererManager)
     {}
     // maybe want custom logic to handle dependency for parallel execution?
 };

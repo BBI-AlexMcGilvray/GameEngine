@@ -6,7 +6,14 @@
 #include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 
-using namespace Core;
+namespace Core
+{
+namespace Threading
+{
+class TaskManager;
+class ThreadManager;
+}
+}
 
 namespace Data
 {
@@ -47,6 +54,11 @@ struct State
 
   virtual ~State();
 
+  Core::Threading::ThreadManager& ThreadManager();
+  Core::Threading::TaskManager& TaskManager();
+
+  Data::AssetManager& AssetManager();
+
   SDL2Manager& SDLManager();
   Application::ApplicationManager& ApplicationManager();
   Animation::AnimationManager& AnimationManager();
@@ -56,11 +68,10 @@ struct State
   Rendering::ShaderManager& ShaderManager();
   Input::InputManager& InputManager();
   StateManager& StateManager();
-  Data::AssetManager& AssetManager();
 
   virtual void Initialize() {};
   virtual void Start() {};
-  void Update(Second dt);
+  void Update(Core::Second dt);
   virtual void End() {};
   virtual void CleanUp() {};
 
@@ -70,7 +81,7 @@ protected:
   Collision::CollisionManager _collisionManager;
 
   // custom state types should override these to get their desired behaviours
-  virtual void _PreECSUpdate(Second dt) {};
-  virtual void _PostECSUpdate(Second dt) {};
+  virtual void _PreECSUpdate(Core::Second dt) {};
+  virtual void _PostECSUpdate(Core::Second dt) {};
 };
 }// namespace Application

@@ -57,8 +57,17 @@ namespace Rendering {
     // maybe have this include the camera(s?) to use
     struct RenderFrame
     {
+        std::vector<Core::Math::Float4x4> cameras;
         std::vector<Context> contexts;
         std::vector<SkinnedContext> skinnedContexts;
+
+        RenderFrame() = default;
+        RenderFrame(RenderFrame&&) = default;
+        RenderFrame& operator=(RenderFrame&&) = default;
+        ~RenderFrame() = default;
+
+        RenderFrame(const RenderFrame&) = delete;
+        RenderFrame& operator=(const RenderFrame&) = delete;
     };
 }// namespace Rendering
 }// namespace Application

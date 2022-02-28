@@ -28,6 +28,11 @@ Networking/Source/NetworkProtocol.cpp #
 Networking/Source/Utils.cpp #
 Source/Exception.cpp #
 Source/Hash.cpp #
+Threading/TaskManager.cpp #
+Threading/TaskQueue.cpp #
+Threading/TaskSystem.cpp #
+Threading/Thread.cpp #
+Threading/ThreadManager.cpp #
 IdTypes/IncrementalId.cpp #
 IdTypes/RuntimeId.cpp #
 CoreUnitTests.cpp)
@@ -130,6 +135,12 @@ IdTypes/IncrementalId.h #
 IdTypes/InstanceId.h #
 IdTypes/RuntimeId.h #
 IdTypes/UUID.h #
+Threading/SafeTypes/TripleBuffer.h #
+Threading/TaskManager.h #
+Threading/TaskQueue.h #
+Threading/TaskSystem.h #
+Threading/Thread.h #
+Threading/ThreadManager.h #
 TypeSafety/NotNullPtr.h #
 TypeSafety/SafeVoidPtr.h #
 Versioning/SemanticVerion.h #

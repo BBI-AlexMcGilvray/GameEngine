@@ -15,6 +15,7 @@ struct ISystem
     : _name(name)
     {}
 
+    // may need to allow move constructors?
     ISystem(const ISystem&) = delete;
     ISystem(ISystem&&) = delete;
     ISystem& operator=(const ISystem&) = delete;

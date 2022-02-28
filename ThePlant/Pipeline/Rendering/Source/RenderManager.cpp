@@ -8,6 +8,8 @@ using namespace Core;
 using namespace Core::Math;
 using namespace Core::Functionality;
 
+// #define MULTITHREADED_RENDERING
+
 namespace Application {
 namespace Rendering {
   RenderManager::RenderManager()
@@ -18,7 +20,7 @@ namespace Rendering {
     return _cameraManager;
   }
 
-  void RenderManager::Initialize(SDL2Manager& sdlManager, Color clearColor)
+  void RenderManager::Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Color clearColor)
   {
     _window = &sdlManager.GetWindowManager();
     _ui = std::make_unique<UI::IMGUI::Manager>(*_window, sdlManager.GetContextManager());
@@ -30,24 +32,48 @@ namespace Rendering {
     // don't render everything, but set up the default state
     _RenderStart();
     _RenderEnd();
+
+    _rendering = true;
+    _renderThread = std::move(renderThread);
   }
 
   void RenderManager::Start()
   {
     _ui->Start();
+
+  #ifdef MULTITHREADED_RENDERING
+    _renderThread.SetTaskAndRun(std::packaged_task<void()>([this]
+    {
+      while (_rendering)
+      {
+        _RenderStart();
+        _RenderMiddle();
+        // _ui->Render(); // how can we get this to be multithreaded?
+        _RenderEnd();
+      }
+    }));
+  #endif
   }
 
   void RenderManager::Render()
   {
+    _renderFrames.WriteBuffer(std::move(_mainThreadRenderFrame));
+  #ifndef MULTITHREADED_RENDERING
     _RenderStart();
     _RenderMiddle();
     _ui->Render();
     _RenderEnd();
+  #endif
   }
 
-  void RenderManager::End()
+  void RenderManager::End(Core::Threading::ThreadManager& threadManager)
   {
     _ui->End();
+    _rendering = false;
+  #ifdef MULTITHREADED_RENDERING
+    _renderThread.Complete();
+  #endif
+    threadManager.ReturnThread(std::move(_renderThread));
   }
 
   void RenderManager::CleanUp()
@@ -99,17 +125,20 @@ namespace Rendering {
   }
 #endif
 
-  // testing
+  void RenderManager::QueueCamera(const Core::Math::Float4x4& camera)
+  {
+    _mainThreadRenderFrame.cameras.emplace_back(camera);
+  }
+
   void RenderManager::QueueRender(const Context& context)
   {
-    _renderFrame.contexts.emplace_back(context);
+    _mainThreadRenderFrame.contexts.emplace_back(context);
   }
 
   void RenderManager::QueueRender(const SkinnedContext& context)
   {
-    _renderFrame.skinnedContexts.emplace_back(context);
+    _mainThreadRenderFrame.skinnedContexts.emplace_back(context);
   }
-  // \testing
 
   void RenderManager::_RenderStart()
   {
@@ -120,17 +149,22 @@ namespace Rendering {
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   }
 
-  void _RenderFrameForCamera(Renderer& renderer, const Float4x4& camera, RenderFrame& renderFrame)
+  void _RenderFrameForCamera(Renderer& renderer, const Float4x4& camera, const RenderFrame& renderFrame)
   {
-    // NOTE: if we want shaders to get a delta time, we can provide that here by adding a field to the contexts (and providing a delta time)
-    for (auto& context : renderFrame.contexts)
+    // NOTES:
+    /*
+      - if we want shaders to get a delta time, we can provide that here by adding a field to the contexts (and providing a delta time)
+      - by not using 'const auto&' we are making a copy, we need to do this at the moment to include the camera matrix
+        - maybe the 'DrawMesh' call should just take in a camera matrix as well
+    */
+    for (auto context : renderFrame.contexts)
     {
       context.mvp = camera * context.mvp;
       renderer.SetShader(context.material.shader);
       renderer.DrawMesh(context);
     }
 
-    for (auto& context : renderFrame.skinnedContexts)
+    for (auto context : renderFrame.skinnedContexts)
     {
       context.context.mvp = camera * context.context.mvp;
       renderer.SetShader(context.context.material.shader);
@@ -141,20 +175,19 @@ namespace Rendering {
 
   void RenderManager::_RenderMiddle()
   {
+    const auto& frameData = _renderFrames.ReadBuffer();
+
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
-    for (auto& camera : _cameraManager.GetCameras())
+    for (auto& camera : frameData.cameras)
     {
-      _RenderFrameForCamera(_Renderer, camera, _renderFrame);
+      _RenderFrameForCamera(_Renderer, camera, frameData);
     }
-    _cameraManager.ClearCameras();
+
+    _renderFrames.ReturnBuffer(frameData);
   }
 
   void RenderManager::_RenderEnd()
-  {    
-    // delete queued contexts
-    _renderFrame.contexts.clear();
-    _renderFrame.skinnedContexts.clear();
-    
+  {        
     SDL_GL_SwapWindow(_window->GetWindow());
   }
 }// namespace Rendering

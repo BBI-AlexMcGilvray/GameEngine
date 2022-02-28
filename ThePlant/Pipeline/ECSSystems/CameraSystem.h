@@ -24,6 +24,8 @@ struct CameraSystem : public System<CameraSystem>
     {
         DEBUG_PROFILE_SCOPE(GetSystemName());
 
+        _cameraManager.ClearCameras();
+        
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<CameraComponent, WorldTransformComponent>();
 
         for (auto& archetype : affectedArchetypes)

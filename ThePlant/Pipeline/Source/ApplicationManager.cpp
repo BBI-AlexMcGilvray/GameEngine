@@ -7,6 +7,21 @@
 #endif
 
 namespace Application {
+Core::Threading::ThreadManager& ApplicationManager::ThreadManager()
+{
+  return _threadManager;
+}
+
+Core::Threading::TaskManager& ApplicationManager::TaskManager()
+{
+  return _taskManager;
+}
+
+Data::AssetManager& ApplicationManager::AssetManager()
+{
+  return _assetManager;
+}
+
 SDL2Manager& ApplicationManager::SDLManager()
 {
   return _sdl;
@@ -35,11 +50,6 @@ Input::InputManager &ApplicationManager::InputManager()
 StateManager &ApplicationManager::StateManager()
 {
   return _stateSystem;
-}
-
-Data::AssetManager& ApplicationManager::AssetManager()
-{
-  return _assetManager;
 }
 
 ApplicationManager::ApplicationManager()
@@ -93,7 +103,7 @@ bool ApplicationManager::Initialize()
   }
 
   _animationSystem.Initialize();
-  _renderSystem.Initialize(_sdl);
+  _renderSystem.Initialize(_sdl, _threadManager.GetThread());
   _inputSystem.initialize();
 
   return true;
@@ -125,7 +135,7 @@ void ApplicationManager::End()
 {
   _inputSystem.end();
   _animationSystem.End();
-  _renderSystem.End();
+  _renderSystem.End(_threadManager);
   _sdl.End();
 }
 

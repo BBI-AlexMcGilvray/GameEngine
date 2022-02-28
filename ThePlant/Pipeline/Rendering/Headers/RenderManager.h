@@ -1,6 +1,15 @@
 #pragma once
 
+#include <atomic>
 #include <map>
+
+#include "Core/Functionality/Headers/Subscription.h"
+#include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/TimeDefs.h"
+#include "Core/Math/Headers/Vector4.h"
+#include "Core/Math/Headers/Color.h"
+#include "Core/Threading/SafeTypes/TripleBuffer.h"
+#include "Core/Threading/Thread.h"
 
 #include "Pipeline\Headers\GLContextManager.h"
 #include "Pipeline/Headers/SDL2Manager.h"
@@ -14,14 +23,6 @@
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/Renderer.h"
 
-#include "Core/Functionality/Headers/Subscription.h"
-
-#include "Core/Headers/PtrDefs.h"
-#include "Core/Headers/TimeDefs.h"
-
-#include "Core/Math/Headers/Vector4.h"
-#include "Core/Math/Headers/Color.h"
-
 namespace Application {
 namespace Rendering {
   struct RenderManager
@@ -30,15 +31,16 @@ namespace Rendering {
 
     CameraManager& GetCameraManager();
 
-    void Initialize(SDL2Manager& sdlManager, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
+    void Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();
 
+    void QueueCamera(const Core::Math::Float4x4& camera);
     void QueueRender(const Context& context);
     void QueueRender(const SkinnedContext& context);
 
     void Render();
 
-    void End();
+    void End(Core::Threading::ThreadManager& threadManager);
     void CleanUp();
 
     void SetOpenGLAttributes();
@@ -59,7 +61,12 @@ namespace Rendering {
     void _RenderMiddle();
     void _RenderEnd();
   
-    RenderFrame _renderFrame; // in the future, this can be a tripple buffer guarded by a mutex and be what is used for threading purposes
+    RenderFrame _mainThreadRenderFrame; // in the future, this can be a tripple buffer guarded by a mutex and be what is used for threading purposes
+
+    Core::Threading::TripleBuffer<RenderFrame> _renderFrames;
+    std::atomic<bool> _rendering;
+    Core::Threading::Thread _renderThread;
+
     Renderer _Renderer;
   };
 }// namespace Rendering
