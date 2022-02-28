@@ -3,10 +3,12 @@
 #include <string>
 #include <vector>
 #include <stack>
+#include <unordered_map>
 
 #include "Core/Debugging/Headers/Macros.h"
 #include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Headers/TimeDefs.h"
+#include "Core/Threading/Thread.h"
 
 namespace Application {
 namespace Profiling
@@ -41,13 +43,22 @@ struct Profiler
     void Pop(const std::string& tag);
 
     const std::vector<Section> GetSections() const;
-    void Clear();
+    const std::vector<Section> GetSectionsThenClear();
+    void ClearSections();
     
 private:
     Core::SteadyClock _clock;
+
+    mutable std::mutex _sectionMutex;
     std::vector<Section> _sections;
 
-    std::stack<Section> _stack;
+    mutable std::mutex _stackMutex;
+    std::unordered_map<Core::Threading::ThreadId, std::stack<Section>> _threadStacks;
+
+    std::unique_lock<std::mutex> _LockSections() const;
+    std::unique_lock<std::mutex> _LockStacks() const;
+
+    void _AddSection(Section&& section);
 };
 #endif
 } // namespace Profiling

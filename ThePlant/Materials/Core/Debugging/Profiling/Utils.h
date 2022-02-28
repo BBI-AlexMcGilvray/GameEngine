@@ -67,5 +67,5 @@
 
 #define DEBUG_CLEAR_PROFILE() \
     WITH_DEBUG_SERVICE(Application::Profiling::Profiler)( \
-        service->Clear(); \
+        service->ClearSections(); \
     )

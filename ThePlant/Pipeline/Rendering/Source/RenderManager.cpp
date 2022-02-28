@@ -51,10 +51,10 @@ namespace Rendering {
     SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), nullptr);
     _renderThread.SetTaskAndRun(std::packaged_task<void()>([this]
     {
-      auto makeCurrentResult = SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), _sdlManager->GetContextManager().GetContext());
-      CORE_LOG("RenderManager", "Result: " + std::to_string(makeCurrentResult));
+      SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), _sdlManager->GetContextManager().GetContext());
       while (_rendering)
       {
+        DEBUG_PROFILE_SCOPE("Render Thread"); // this thread is currently locked at 13ms, apparently by sdl's vsync (see above)
         _RenderStart();
         _RenderMiddle();
         _ui->Render(); // how can we get this to be multithreaded?
@@ -153,6 +153,8 @@ namespace Rendering {
 
   void RenderManager::_RenderStart()
   {
+    DEBUG_PROFILE_SCOPE("_RenderStart");
+
     glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -168,6 +170,8 @@ namespace Rendering {
       - by not using 'const auto&' we are making a copy, we need to do this at the moment to include the camera matrix
         - maybe the 'DrawMesh' call should just take in a camera matrix as well
     */
+    DEBUG_PROFILE_SCOPE("_RenderFrameForCamera");
+
     for (auto context : renderFrame.contexts)
     {
       context.mvp = camera * context.mvp;
@@ -186,6 +190,8 @@ namespace Rendering {
 
   void RenderManager::_RenderMiddle()
   {
+    DEBUG_PROFILE_SCOPE("_RenderMiddle");
+
     const auto& frameData = _renderFrames.ReadBuffer();
 
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
@@ -199,6 +205,8 @@ namespace Rendering {
 
   void RenderManager::_RenderEnd()
   {        
+    DEBUG_PROFILE_SCOPE("_RenderEnd");
+    
     SDL_GL_SwapWindow(_sdlManager->GetWindowManager().GetWindow());
   }
 }// namespace Rendering

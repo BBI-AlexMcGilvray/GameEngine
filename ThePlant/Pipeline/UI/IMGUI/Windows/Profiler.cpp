@@ -55,7 +55,7 @@ void _ResetDisplaySectionDurations(std::vector<Profiler::DisplaySection>& displa
     }
 }
 
-void _UpdateDisplaySections(const Profiling::Profiler& profiler, Profiler& window)
+void _UpdateDisplaySections(Profiling::Profiler& profiler, Profiler& window)
 {
     if (!window.update)
     {
@@ -63,7 +63,7 @@ void _UpdateDisplaySections(const Profiling::Profiler& profiler, Profiler& windo
     }
 
     _ResetDisplaySectionDurations(window.sections);
-    _UpdateDisplaySections(profiler.GetSections(), window.sections);
+    _UpdateDisplaySections(profiler.GetSectionsThenClear(), window.sections);
 }
 
 void _ResetDisplaySections(std::vector<Profiler::DisplaySection>& displaySections)
@@ -141,14 +141,20 @@ void Profiler::Draw()
         {
             size_t activeSections = 0;
             auto totalDuration = Core::Second(0.0);
+            auto totalDurationPerFrame = Core::Second(0.0);
             for (auto& section : sections)
             {
                 activeSections += section.ignore ? 0 : 1;
                 totalDuration += section.duration;
+                if (section.sections.size() > 0)
+                {
+                    totalDurationPerFrame += section.duration / section.calls;
+                }
             }
 
             ImGui::Text("Framerate: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::Text("Total Frame Time: %.3f",  Core::Duration(totalDuration) * 1000);
+            ImGui::Text("Total Time: %.3f",  Core::Duration(totalDuration) * 1000);
+            ImGui::Text("Total Frame Time: %.3f",  Core::Duration(totalDurationPerFrame) * 1000);
 
             ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0.0f, 0.0f));
             if (activeSections > 0 && ImGui::BeginTable("Profiler Data", activeSections, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))

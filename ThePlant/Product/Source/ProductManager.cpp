@@ -53,10 +53,6 @@ namespace Product
             _pipeline.Render(); // rendering takes up over half the frame, threading this would be huge!
             // take a look at Unity's order of execution and work on cleaning up execution order
             //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
-
-            // clear before final pop to not clear the final stack.
-            // however, this means that the displayed data is one frame behind
-            DEBUG_CLEAR_PROFILE();
         }
     }
 
