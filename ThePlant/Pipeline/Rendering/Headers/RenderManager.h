@@ -52,7 +52,7 @@ namespace Rendering {
     Core::Math::Color _initialColor;
 
     Core::Math::Color _clearColor;
-    Core::Ptr<WindowManager> _window;
+    Core::Ptr<SDL2Manager> _sdlManager;
 
     CameraManager _cameraManager;
     std::unique_ptr<UI::IMGUI::Manager> _ui;

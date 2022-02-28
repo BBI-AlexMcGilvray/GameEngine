@@ -68,6 +68,13 @@ namespace Rendering {
 
         RenderFrame(const RenderFrame&) = delete;
         RenderFrame& operator=(const RenderFrame&) = delete;
+
+        void Clear()
+        {
+            cameras.clear();
+            contexts.clear();
+            skinnedContexts.clear();
+        }
     };
 }// namespace Rendering
 }// namespace Application

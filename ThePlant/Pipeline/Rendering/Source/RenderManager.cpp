@@ -8,7 +8,7 @@ using namespace Core;
 using namespace Core::Math;
 using namespace Core::Functionality;
 
-// #define MULTITHREADED_RENDERING
+#define MULTITHREADED_RENDERING
 
 namespace Application {
 namespace Rendering {
@@ -22,8 +22,8 @@ namespace Rendering {
 
   void RenderManager::Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Color clearColor)
   {
-    _window = &sdlManager.GetWindowManager();
-    _ui = std::make_unique<UI::IMGUI::Manager>(*_window, sdlManager.GetContextManager());
+    _sdlManager = &sdlManager;
+    _ui = std::make_unique<UI::IMGUI::Manager>(_sdlManager->GetWindowManager(), _sdlManager->GetContextManager());
     _ui->Initialize();
 
     _initialColor = WHITE;
@@ -33,7 +33,6 @@ namespace Rendering {
     _RenderStart();
     _RenderEnd();
 
-    _rendering = true;
     _renderThread = std::move(renderThread);
   }
 
@@ -41,14 +40,21 @@ namespace Rendering {
   {
     _ui->Start();
 
+    _rendering = true;
   #ifdef MULTITHREADED_RENDERING
+    // NOTE: Apparently opengl context is thread-specific. If we are using threaded rendering, then we need to create the opengl context on that thread
+    // https://stackoverflow.com/questions/21048927/initializing-opengl-context-in-another-thread-than-the-rendering
+    // https://gmane.comp.lib.sdl.narkive.com/WK0DM9bJ/sdl-opengl-context-and-threads
+    SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), nullptr);
     _renderThread.SetTaskAndRun(std::packaged_task<void()>([this]
     {
+      auto makeCurrentResult = SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), _sdlManager->GetContextManager().GetContext());
+      CORE_LOG("RenderManager", "Result: " + std::to_string(makeCurrentResult));
       while (_rendering)
       {
         _RenderStart();
         _RenderMiddle();
-        // _ui->Render(); // how can we get this to be multithreaded?
+        _ui->Render(); // how can we get this to be multithreaded?
         _RenderEnd();
       }
     }));
@@ -58,6 +64,8 @@ namespace Rendering {
   void RenderManager::Render()
   {
     _renderFrames.WriteBuffer(std::move(_mainThreadRenderFrame));
+    _mainThreadRenderFrame.Clear();
+
   #ifndef MULTITHREADED_RENDERING
     _RenderStart();
     _RenderMiddle();
@@ -188,7 +196,7 @@ namespace Rendering {
 
   void RenderManager::_RenderEnd()
   {        
-    SDL_GL_SwapWindow(_window->GetWindow());
+    SDL_GL_SwapWindow(_sdlManager->GetWindowManager().GetWindow());
   }
 }// namespace Rendering
 }// namespace Application

@@ -26,16 +26,18 @@ struct TripleBuffer
 
     void WriteBuffer(T&& data)
     {
-        T& buffer = _LockAndGetOldestNonLockedBuffer();
+        BufferData& buffer = _LockAndGetOldestNonLockedBuffer();
 
-        buffer = std::move(data);
-        ReturnBuffer(buffer);
+        buffer.SetData(std::move(data));
+
+        auto lock = _GetLock();
+        buffer.ReturnData(buffer.GetLockedData());
     }
 
     // any 'read' buffers must be returned when done
     const T& ReadBuffer() const
     {
-        return _LockAndGetNewestNonLockedBuffer();
+        return _LockAndGetNewestNonLockedBuffer().GetData();
     }
 
     void ReturnBuffer(const T& buffer)
@@ -60,6 +62,7 @@ private:
         BufferData(Core::SteadyClock& clock)
         : _clock(clock)
         , _locked(false)
+        , _lastUpdateTime(_clock.now())
         {}
 
         bool IsLocked() const { return _locked; }
@@ -69,9 +72,16 @@ private:
             return now - _lastUpdateTime;
         }
 
-        T& GetData()
+        const T& GetData() const
         {
             _Lock();
+
+            return _buffer;
+        }
+
+        const T& GetLockedData() const
+        {
+            _LockMustBe(true);
 
             return _buffer;
         }
@@ -86,7 +96,7 @@ private:
             _Lock();
 
             std::swap(data, _buffer);
-            _lastUdateTime = _clock.now();
+            _lastUpdateTime = _clock.now();
         }
 
         void ReturnData(const T& data)
@@ -104,11 +114,11 @@ private:
         Core::SteadyClock& _clock;
 
         // no internal mutex as it is always handled by TripleBuffer
-        bool _locked;
+        mutable bool _locked;
         T _buffer;
         Core::TimePoint _lastUpdateTime;
 
-        void _Lock()
+        void _Lock() const
         {
             _LockMustBe(false);
             _locked = true;
@@ -134,7 +144,7 @@ private:
         return std::unique_lock(_mutex);
     }
 
-    T& _LockAndGetOldestNonLockedBuffer() const
+    BufferData& _LockAndGetOldestNonLockedBuffer() const
     {
         auto lock = _GetLock();
         Core::TimePoint now = _clock.now();
@@ -149,7 +159,7 @@ private:
             if (!buffer.IsLocked())
             {
                 auto timeSince = buffer.TimeSinceLastUpdate(now);
-                if (!found || timeSince < longestTimeSinceUpdate)
+                if (!found || timeSince > longestTimeSinceUpdate)
                 {
                     found = true;
                     oldestNonLocked = index;
@@ -164,10 +174,10 @@ private:
             CORE_THROW("TripleBuffer", "Some buffer must be available");
         }
 
-        return _buffers[oldestNonLocked].GetData();
+        return _buffers[oldestNonLocked];
     }
 
-    const T& _LockAndGetNewestNonLockedBuffer() const
+    const BufferData& _LockAndGetNewestNonLockedBuffer() const
     {
         auto lock = _GetLock();
         Core::TimePoint now = _clock.now();
@@ -182,7 +192,7 @@ private:
             if (!buffer.IsLocked())
             {
                 auto timeSince = buffer.TimeSinceLastUpdate(now);
-                if (!found || timeSince > longestTimeSinceUpdate)
+                if (!found || timeSince < longestTimeSinceUpdate)
                 {
                     found = true;
                     newestNonLocked = index;
@@ -197,7 +207,7 @@ private:
             CORE_THROW("TripleBuffer", "Some buffer must be available");
         }
 
-        return _buffers[newestNonLocked].GetData();
+        return _buffers[newestNonLocked];
     }
 };
 } // namespace Threading
