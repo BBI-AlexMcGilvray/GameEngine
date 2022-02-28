@@ -45,6 +45,9 @@ namespace Rendering {
     // NOTE: Apparently opengl context is thread-specific. If we are using threaded rendering, then we need to create the opengl context on that thread
     // https://stackoverflow.com/questions/21048927/initializing-opengl-context-in-another-thread-than-the-rendering
     // https://gmane.comp.lib.sdl.narkive.com/WK0DM9bJ/sdl-opengl-context-and-threads
+    // Additional note:
+    //    - seems sdl uses vsync automatically. either way it seems that the true frame rate is not being displayed by IMGUI due to using GPU calls
+    //        - may want our own timers to know 'render thread' frame rate and 'game logic' frame rate
     SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), nullptr);
     _renderThread.SetTaskAndRun(std::packaged_task<void()>([this]
     {
