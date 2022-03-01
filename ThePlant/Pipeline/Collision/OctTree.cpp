@@ -345,6 +345,14 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
 
     for (size_t i = 0; i < _content.size() - 1; ++i)
     {
+        if (_content[i].isStatic)
+        {
+            // don't check for static items, they will be hit when we check with other items
+            // though we still need to check if they collide with content in child nodes
+            // NOTE: this does mean that two static items will never collide with one another
+            continue;
+        }
+
         for (size_t j = i + 1; j < _content.size(); ++j)
         {
             // we may want to take these 'double check' intersect calls and move them to a generic method

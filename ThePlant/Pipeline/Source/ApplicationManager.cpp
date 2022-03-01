@@ -120,9 +120,9 @@ void ApplicationManager::Start()
 void ApplicationManager::Update(Core::Second dt)
 {
   DEBUG_PROFILE_SCOPE("ApplicationManager::Update");
-  _inputSystem.update();
+  _inputSystem.update(); // inputs first to ensure up-to-date state
   _animationSystem.Update(dt);
-  _stateSystem.Update(dt); // animations should be updated before the state (ecs)
+  _stateSystem.Update(dt); // animations must be updated before the state (ecs)
 }
 
 void ApplicationManager::Render()
