@@ -30,6 +30,33 @@ namespace Geometric {
         return Plane(Math::Float3(0.0f, 0.0f, 1.0f), shape_2d);
     }
 
+    struct Intersection
+    {
+        bool intersect;
+        Point3D point;
+
+        Intersection()
+        : Intersection(false, Point3D(0.0f, 0.0f, 0.0f))
+        {}
+
+        Intersection(const bool& intersect, const Point3D& point)
+        : intersect(intersect)
+        , point(point)
+        {}
+
+        Intersection(const Intersection&) = default;
+        Intersection(Intersection&&) = default;
+        Intersection& operator=(const Intersection&) = default;
+        Intersection& operator=(Intersection&&) = default;
+        ~Intersection() = default;
+
+        bool operator==(const Intersection& other)
+        {
+            return intersect == other.intersect && point == other.point;
+        }
+        bool operator!=(const Intersection& other) { return !(*this == other); }
+    };
+
     template <typename SHAPE>
     struct ShapeOrientation
     {

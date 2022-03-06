@@ -30,12 +30,12 @@ private:
     Rendering::Mesh _collisionPointMesh;
     Rendering::RenderManager& _renderManager;
 
-    void _Apply(EntitySnapshot& from, EntitySnapshot& to) const override
+    void _Apply(const Core::Geometric::Point3D& collisionPoint, EntitySnapshot& from, EntitySnapshot& to) const override
     {
         const Core::Geometric::Transform& fromTransform = from.GetComponent<WorldTransformComponent>().transform;
         const Core::Geometric::Transform& toTransform = to.GetComponent<WorldTransformComponent>().transform;
         
-        Core::Geometric::Transform middlePointTransform((fromTransform.GetPosition() + toTransform.GetPosition()) * 0.5f);
+        Core::Geometric::Transform middlePointTransform(collisionPoint);
         middlePointTransform.SetScale(0.25f); // debug system, just needs to be visible
 
         Rendering::Context context = {

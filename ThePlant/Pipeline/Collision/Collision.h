@@ -12,6 +12,7 @@ struct Collision
 {
     EntitySnapshot entity1;
     EntitySnapshot entity2;
+    const Core::Math::Float3 collisionPoint;
 };
 
 struct ICollisionHandler
@@ -34,14 +35,14 @@ struct ICollisionHandler
         // need to try both permutations
         if (collision.entity1.ContainsTypes(_fromRequirements) && collision.entity2.ContainsTypes(_toRequirements))
         {
-            _Apply(collision.entity1, collision.entity2);
+            _Apply(collision.collisionPoint, collision.entity1, collision.entity2);
         }
 
         if (_applyToBoth)
         {
             if (collision.entity2.ContainsTypes(_fromRequirements) && collision.entity1.ContainsTypes(_toRequirements))
             {
-                _Apply(collision.entity2, collision.entity1);
+                _Apply(collision.collisionPoint, collision.entity2, collision.entity1);
             }
         }
     }
@@ -54,7 +55,7 @@ protected:
 
     // handlers only need to worry about apply the logic from 'from' to 'to'
     // if the other permutation should get applied, it is handled above
-    virtual void _Apply(EntitySnapshot& from, EntitySnapshot& to) const = 0;
+    virtual void _Apply(const Core::Geometric::Point3D& collisionPoint, EntitySnapshot& from, EntitySnapshot& to) const = 0;
 };
 
 template <typename HANDLER>
@@ -78,9 +79,9 @@ struct StaticCollisionHandler : public CollisionHandler<HANDLER>
     {}
 
 private:
-    void _Apply(EntitySnapshot& from, EntitySnapshot& to) const override
+    void _Apply(const Core::Geometric::Point3D& collisionPoint, EntitySnapshot& from, EntitySnapshot& to) const override
     {
-        HANDLER::ApplyCollision(from, to);
+        HANDLER::ApplyCollision(collisionPoint, from, to);
     }
 };
 } // namespace Collision

@@ -43,7 +43,23 @@ std::array<Math::Float3, 6> SphereAxisExtremes(const ShapeOrientation<Sphere>& s
 
 Math::Float3 CircumferencePointInDirection(const ShapeOrientation<Sphere>& sphere, const Core::Math::Float3& direction)
 {
+    // possible to avoid this normalization? possibly using ratios (though that likely requires a sqrt as well)
     return sphere.orientation.position * Math::Normalize(direction) * EffectiveRadius(sphere);
+}
+
+Math::Float3 ClosestPointToPoint(const ShapeOrientation<Sphere>& sphere, const Point3D& point)
+{
+    const auto sphereToPoint = point - sphere.orientation.position;
+    const auto sphereToSpotMagnitudeSqr = Math::MagnitudeSqr(sphereToPoint);
+    
+    Point3D closestSpotInSphere = sphere.orientation.position + sphereToPoint;
+    if (sphereToSpotMagnitudeSqr > Math::sqr(sphere.shape.radius))
+    {
+        // this results in a normalization... would be nice to avoid it
+        closestSpotInSphere = CircumferencePointInDirection(sphere, sphereToPoint);
+    }
+
+    return closestSpotInSphere;
 }
 } // namespace Geometric
 } // namespace Core

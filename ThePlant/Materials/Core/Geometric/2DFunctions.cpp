@@ -14,12 +14,12 @@
 
 namespace Core {
 namespace Geometric {
-float DistanceSqr(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2)
 {
     VERIFY_2D(spot1);
     VERIFY_2D(spot2);
     
-    return Math::DistanceSqr(spot1.orientation.position, spot2.orientation.position);
+    return { spot1.orientation.position, spot2.orientation.position };
 }
 
 bool Engulfs(const ShapeOrientation<Spot2D>& spot1, const ShapeOrientation<Spot2D>& spot2)
@@ -69,23 +69,51 @@ bool Engulfs(const ShapeOrientation<Spot2D>& spot, const ShapeOrientation<Rectan
     return spot.orientation.position == rectangle.orientation.position;
 }
 
-float DistanceSqr(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(circle);
     VERIFY_2D(spot);
 
-    float spotToCenterSqr = Math::DistanceSqr(circle.orientation.position, spot.orientation.position);
+    const auto circleToSpot = spot.orientation.position - circle.orientation.position;
+    const auto circleToSpotMagnitudeSqr = Math::MagnitudeSqr(circleToSpot);
+    
+    Point3D closestSpotInCircle = circle.orientation.position + circleToSpot;
+    if (circleToSpotMagnitudeSqr > Math::sqr(circle.shape.radius))
+    {
+        closestSpotInCircle = circle.orientation.position + (circleToSpot * std::sqrt(Math::sqr(circle.shape.radius) / circleToSpotMagnitudeSqr));
+    }
 
-    return spotToCenterSqr - Math::sqr(circle.shape.radius);
+    return { closestSpotInCircle, spot.orientation.position };
 }
 
-float DistanceSqr(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
 {
     VERIFY_2D(circle1);
     VERIFY_2D(circle2);
 
-    ShapeOrientation<Spot2D> circleCenter = { circle1.orientation, Spot2D() };
-    return DistanceSqr(circle2, circleCenter) - Math::sqr(circle1.shape.radius);
+    const auto middlePoint = (circle1.orientation.position + circle2.orientation.position) * 0.5f;
+
+    // the below should be a utility method
+    const auto circle1ToMiddle = middlePoint - circle1.orientation.position;
+    const auto circle1ToSpotMagnitudeSqr = Math::MagnitudeSqr(circle1ToMiddle);
+    
+    Point3D closestSpotInCircle1 = circle1.orientation.position + circle1ToMiddle;
+    if (circle1ToSpotMagnitudeSqr > Math::sqr(circle1.shape.radius))
+    {
+        closestSpotInCircle1 = circle1.orientation.position + (circle1ToMiddle * std::sqrt(Math::sqr(circle1.shape.radius) / circle1ToSpotMagnitudeSqr));
+    }
+
+    // the below should be a utility method
+    const auto circle2ToMiddle = middlePoint - circle2.orientation.position;
+    const auto circle2ToSpotMagnitudeSqr = Math::MagnitudeSqr(circle2ToMiddle);
+    
+    Point3D closestSpotInCircle2 = circle2.orientation.position + circle2ToMiddle;
+    if (circle2ToSpotMagnitudeSqr > Math::sqr(circle2.shape.radius))
+    {
+        closestSpotInCircle2 = circle2.orientation.position + (circle2ToMiddle * std::sqrt(Math::sqr(circle2.shape.radius) / circle2ToSpotMagnitudeSqr));
+    }
+
+    return { closestSpotInCircle1, closestSpotInCircle2 };
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot2D>& spot)
@@ -93,7 +121,9 @@ bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Spot
     VERIFY_2D(circle);
     VERIFY_2D(spot);
 
-    return DistanceSqr(circle, spot) <= 0.0f;
+    const auto closestPoints = ClosestPoints(circle, spot);
+
+    return Math::DistanceSqr(closestPoints.first, closestPoints.second) <= 0.0f;
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Circle>& circle2)
@@ -107,7 +137,9 @@ bool Engulfs(const ShapeOrientation<Circle>& circle1, const ShapeOrientation<Cir
         return false;
     }
 
-    return DistanceSqr(circle1, ShapeOrientation<Spot2D>(circle2.orientation, Spot2D())) <= Math::sqr(circle1.shape.radius - circle2.shape.radius);
+    const auto closestPoints = ClosestPoints(circle1, circle2);
+
+    return Math::DistanceSqr(closestPoints.first, closestPoints.second) <= 0.0f;
 }
 
 bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Line2D>& line)
@@ -137,25 +169,26 @@ bool Engulfs(const ShapeOrientation<Circle>& circle, const ShapeOrientation<Rect
     return false;
 }
 
-float DistanceSqr(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(line);
     VERIFY_2D(spot);
 
     Math::Float2 closestPointOnLine = ClosestPointOnLine(line, spot);
-    return Math::DistanceSqr(spot.orientation.position.XY, closestPointOnLine);
+
+    return { closestPointOnLine, spot.orientation.position };
 }
 
-float DistanceSqr(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circle>& circle)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Circle>& circle)
 {
     VERIFY_2D(line);
     VERIFY_2D(circle);
 
-    ShapeOrientation<Spot2D> circleCenter = { circle.orientation, Spot2D() };
-    return DistanceSqr(line, circleCenter) - Math::sqr(circle.shape.radius);
+    Math::Float2 closestPointOnLine = ClosestPointOnLine(line, ShapeOrientation<Spot2D>(circle.orientation, Spot2D()));
+    return ClosestPoints(circle, ShapeOrientation<Spot2D>(Orientation(closestPointOnLine), Spot2D()));
 }
 
-float DistanceSqr(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Line2D>& line2)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<Line2D>& line2)
 {
     VERIFY_2D(line1);
     VERIFY_2D(line2);
@@ -176,7 +209,7 @@ float DistanceSqr(const ShapeOrientation<Line2D>& line1, const ShapeOrientation<
     // lines are guaranteed to intersect, calculate where then calculate closest point on each line to that point
     // then give distance between the closest points on each line
     CORE_ERROR("2DFunctions", "Incomplete Implementation");
-    return 1.0f;
+    return { line1.orientation.position, line2.orientation.position };
 }
 
 bool Engulfs(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Spot2D>& spot)
@@ -215,7 +248,7 @@ bool Engulfs(const ShapeOrientation<Line2D>& line, const ShapeOrientation<Rectan
     return false;
 }
 
-float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot)
 {
     VERIFY_2D(rectangle);
     VERIFY_2D(spot);
@@ -223,36 +256,38 @@ float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrien
     const Math::Float2 closestPointInRectangle = ClosestPointToPoint(rectangle, spot);
     if (PointInRectangle(rectangle, closestPointInRectangle))
     {
-        return 0.0f;
+        return { spot.orientation.position, spot.orientation.position };
     }
 
-    return Math::DistanceSqr(spot.orientation.position.XY, closestPointInRectangle);
+    return { closestPointInRectangle, closestPointInRectangle };
 }
 
-float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Circle>& circle)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Circle>& circle)
 {
     VERIFY_2D(rectangle);
     VERIFY_2D(circle);
 
-    ShapeOrientation<Spot2D> circleCenter = { circle.orientation, Spot2D() };
-    return DistanceSqr(rectangle, circleCenter) - Math::sqr(circle.shape.radius);
+    const auto closestPointToCircle = ClosestPointToPoint(rectangle, ShapeOrientation<Spot2D>(circle.orientation, Spot2D()));
+    return ClosestPoints(circle, ShapeOrientation<Spot2D>(Orientation(closestPointToCircle), Spot2D()));
 }
 
-float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Line2D>& line)
 {
     VERIFY_2D(rectangle);
     VERIFY_2D(line);
 
     const Math::Float2 closestPoint = ClosestPointToLine(rectangle, line);
-    return DistanceSqr(line, { Orientation(Math::Float3(closestPoint)), Spot2D() });
+    return ClosestPoints(line, { Orientation(Math::Float3(closestPoint)), Spot2D() });
 }
 
-float DistanceSqr(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientation<Rectangle>& rectangle2)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientation<Rectangle>& rectangle2)
 {
     VERIFY_2D(rectangle1);
     VERIFY_2D(rectangle2);
 
-    return 1.0f;
+    CORE_ERROR("2DFunctions", "Incomplete Implementation");
+
+    return { rectangle1.orientation.position, rectangle2.orientation.position };
 }
 
 bool Engulfs(const ShapeOrientation<Rectangle>& rectangle, const ShapeOrientation<Spot2D>& spot)
@@ -304,13 +339,18 @@ bool Engulfs(const ShapeOrientation<Rectangle>& rectangle1, const ShapeOrientati
     return false;
 }
 
-bool Intersect(const ShapeOrientation<AABR>& aabr1, const ShapeOrientation<AABR>& aabr2)
+Intersection Intersect(const ShapeOrientation<AABR>& aabr1, const ShapeOrientation<AABR>& aabr2)
 {
     std::pair<Math::Float2, Math::Float2> aabr1Extremes = AABRMinMax(aabr1);
     std::pair<Math::Float2, Math::Float2> aabr2Extremes = AABRMinMax(aabr2);
 
-    return ((aabr1.shape.infinite.X || aabr2.shape.infinite.X) || (aabr1Extremes.first.X <= aabr2Extremes.second.X && aabr1Extremes.second.X >= aabr2Extremes.first.X)) &&
-            ((aabr1.shape.infinite.Y || aabr2.shape.infinite.Y) || (aabr1Extremes.first.Y <= aabr2Extremes.second.Y && aabr1Extremes.second.Y >= aabr2Extremes.first.Y));
+    const bool xIntersect = (aabr1.shape.infinite.X || aabr2.shape.infinite.X) || (aabr1Extremes.first.X <= aabr2Extremes.second.X && aabr1Extremes.second.X >= aabr2Extremes.first.X);
+    const float xValue = std::max(std::min((aabr2Extremes.second.X + aabr1Extremes.first.X) * 0.5f, aabr1Extremes.second.X), aabr2Extremes.first.X);
+
+    const bool yIntersect = (aabr1.shape.infinite.Y || aabr2.shape.infinite.Y) || (aabr1Extremes.first.Y <= aabr2Extremes.second.Y && aabr1Extremes.second.Y >= aabr2Extremes.first.Y);
+    const float yValue = std::max(std::min((aabr2Extremes.second.Y + aabr1Extremes.first.Y) * 0.5f, aabr1Extremes.second.Y), aabr2Extremes.first.Y);
+
+    return Intersection(xIntersect && yIntersect, Point3D(xValue, yValue, 0.0f));
 }
 
 bool Engulfs(const ShapeOrientation<AABR>& aabr1, const ShapeOrientation<AABR>& aabr2)

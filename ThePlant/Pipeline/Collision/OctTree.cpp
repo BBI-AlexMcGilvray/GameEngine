@@ -357,9 +357,9 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
         {
             // we may want to take these 'double check' intersect calls and move them to a generic method
             // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
-            if (Core::Geometric::Intersect(_content[i].boundCollider, _content[j].boundCollider))
+            if (Core::Geometric::Intersection intersection = Core::Geometric::Intersect(_content[i].boundCollider, _content[j].boundCollider); intersection.intersect)
             {
-                collisions.push_back(IntermediaryCollision(_content[i].entity, _content[j].entity));
+                collisions.push_back(IntermediaryCollision(_content[i].entity, _content[j].entity, intersection.point));
             }
         }
     }
@@ -410,7 +410,8 @@ void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& 
 
     for (const auto& c : _content)
     {
-        collisions.push_back(IntermediaryCollision(c.entity, content.entity));
+        // when engulfed, use the position of the object being engulfed
+        collisions.push_back(IntermediaryCollision(c.entity, content.entity, c.boundCollider.shapeOrientation.orientation.position));
     }
 
     if (!_ChildrenExist())
@@ -432,9 +433,9 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
     {
         // we may want to take these 'double check' intersect calls and move them to a generic method
         // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
-        if (Core::Geometric::Intersect(c.boundCollider, content.boundCollider))
+        if (Core::Geometric::Intersection intersection = Core::Geometric::Intersect(c.boundCollider, content.boundCollider); intersection.intersect)
         {
-            collisions.push_back(IntermediaryCollision(c.entity, content.entity));
+            collisions.push_back(IntermediaryCollision(c.entity, content.entity, intersection.point));
         }
     }
 
@@ -515,7 +516,7 @@ std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<Intermed
     collisions.reserve(intermediaryCollisions.size());
     for (const auto& intermediaryCollision : intermediaryCollisions)
     {
-        collisions.emplace_back<Collision>({ snapshots[intermediaryCollision.entity1], snapshots[intermediaryCollision.entity2] });
+        collisions.emplace_back<Collision>({ snapshots[intermediaryCollision.entity1], snapshots[intermediaryCollision.entity2], intermediaryCollision.collisionPoint });
     }
     
     return collisions;

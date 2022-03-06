@@ -5,18 +5,18 @@
 namespace Core {
 namespace Geometric {
 namespace INTERNAL_HELPER {
-    // given two variants, will call the appropriate DistanceSqr(...) method for the two types held by them respectively
-    struct ShapeVisitor_DistanceSqr
+    // given two variants, will call the appropriate ClosestPoints(...) method for the two types held by them respectively
+    struct ShapeVisitor_ClosestPoints
     {
-        ShapeVisitor_DistanceSqr(const Orientation& transform1, const Orientation& transform2)
+        ShapeVisitor_ClosestPoints(const Orientation& transform1, const Orientation& transform2)
         : transform1(transform1)
         , transform2(transform2)
         {}
 
         template <typename SHAPE1, typename SHAPE2>
-        float operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
+        std::pair<Point3D, Point3D> operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
-            return DistanceSqr(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
+            return ClosestPoints(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2));
         }
 
     private:
@@ -53,7 +53,7 @@ namespace INTERNAL_HELPER {
         {}
 
         template <typename SHAPE1, typename SHAPE2>
-        bool operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
+        Intersection operator()(const SHAPE1& shape1, const SHAPE2& shape2) const
         {
             return Intersect(ShapeOrientation<SHAPE1>(transform1, shape1), ShapeOrientation<SHAPE2>(transform2, shape2), _precision);
         }
@@ -74,32 +74,32 @@ method, but that can wait - likely much more complex
     - yes
 */
 
-float DistanceSqr(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
 {
-    return DistanceSqr(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+    return ClosestPoints(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
 
-float DistanceSqr(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d)
 {
-    return DistanceSqr(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
+    return ClosestPoints(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)));
 }
 
-float DistanceSqr(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2)
 {
-    // DEBUG_PROFILE_SCOPE("DistanceSqr(Shape3D, Shape3D)");
+    // DEBUG_PROFILE_SCOPE("ClosestPoints(Shape3D, Shape3D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_DistanceSqr(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return std::visit(INTERNAL_HELPER::ShapeVisitor_ClosestPoints(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
 }
 
-float DistanceSqr(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
+std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
 {
     // DEBUG_PROFILE_SCOPE("DistanceSqr(Shape2D, Shape2D)");
 
     // since the '.shape' is the variant, we need to pass the transforms along in the visitor
     // this should have the benefit of maintaining them as references as well, so we have less copies
-    return std::visit(INTERNAL_HELPER::ShapeVisitor_DistanceSqr(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
+    return std::visit(INTERNAL_HELPER::ShapeVisitor_ClosestPoints(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
 }
 
 bool Engulfs(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d)
@@ -131,17 +131,17 @@ bool Engulfs(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2)
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Engulfs(shape1.orientation, shape2.orientation), shape1.shape, shape2.shape);
 }
 
-bool Intersect(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d, const float& precision/* = Math::DEFAULT_PRECISION()*/)
+Intersection Intersect(const ShapeOrientation3D& shape_3d, const ShapeOrientation2D& shape_2d, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
     return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)), precision);
 }
 
-bool Intersect(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d, const float& precision/* = Math::DEFAULT_PRECISION()*/)
+Intersection Intersect(const ShapeOrientation2D& shape_2d, const ShapeOrientation3D& shape_3d, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
     return Intersect(shape_3d, ShapeOrientation3D(shape_2d.orientation, Shape2DAsPlane(shape_2d.shape)), precision);
 }
 
-bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
+Intersection Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
     // DEBUG_PROFILE_SCOPE("Intersect(Shape3D, Shape3D)");
 
@@ -150,7 +150,7 @@ bool Intersect(const ShapeOrientation3D& shape1, const ShapeOrientation3D& shape
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation, precision), shape1.shape, shape2.shape);
 }
 
-bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
+Intersection Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape2, const float& precision/* = Math::DEFAULT_PRECISION()*/)
 {
     // DEBUG_PROFILE_SCOPE("Intersect(Shape2D, Shape2D)");
 
@@ -159,11 +159,11 @@ bool Intersect(const ShapeOrientation2D& shape1, const ShapeOrientation2D& shape
     return std::visit(INTERNAL_HELPER::ShapeVisitor_Intersect(shape1.orientation, shape2.orientation, precision), shape1.shape, shape2.shape);
 }
 
-bool Intersect(const AABBShapeOrientation3D& boundedShape3D1, const AABBShapeOrientation3D& boundedShape3D2)
+Intersection Intersect(const AABBShapeOrientation3D& boundedShape3D1, const AABBShapeOrientation3D& boundedShape3D2)
 {
-    if (!Intersect(boundedShape3D1.boundingBox, boundedShape3D2.boundingBox))
+    if (Intersection intersection = Intersect(boundedShape3D1.boundingBox, boundedShape3D2.boundingBox); !intersection.intersect)
     {
-        return false;
+        return Intersection();
     }
 
     return Intersect(boundedShape3D1.shapeOrientation, boundedShape3D2.shapeOrientation);
@@ -179,11 +179,11 @@ bool Engulfs(const AABBShapeOrientation3D& boundedShape3D1, const AABBShapeOrien
     return Engulfs(boundedShape3D1.shapeOrientation, boundedShape3D2.shapeOrientation);
 }
 
-bool Intersect(const AABRShapeOrientation2D& boundedShape2D1, const AABRShapeOrientation2D& boundedShape2D2)
+Intersection Intersect(const AABRShapeOrientation2D& boundedShape2D1, const AABRShapeOrientation2D& boundedShape2D2)
 {
-    if (!Intersect(boundedShape2D1.boundingBox, boundedShape2D2.boundingBox))
+    if (Intersection intersection = Intersect(boundedShape2D1.boundingBox, boundedShape2D2.boundingBox); !intersection.intersect)
     {
-        return false;
+        return Intersection();
     }
 
     return Intersect(boundedShape2D1.shapeOrientation, boundedShape2D2.shapeOrientation);

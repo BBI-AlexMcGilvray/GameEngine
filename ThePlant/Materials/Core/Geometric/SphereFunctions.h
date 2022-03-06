@@ -16,5 +16,6 @@ bool PointIsInSphere(const ShapeOrientation<Sphere>& sphere, const Point3D& poin
 std::array<Math::Float3, 6> SphereAxisExtremes(const ShapeOrientation<Sphere>& sphere, const Math::FQuaternion& axelRotation);
 
 Math::Float3 CircumferencePointInDirection(const ShapeOrientation<Sphere>& sphere, const Core::Math::Float3& direction);
+Math::Float3 ClosestPointToPoint(const ShapeOrientation<Sphere>& sphere, const Point3D& point);
 } // namespace Geometric
 } // namespace Core

@@ -8,6 +8,30 @@
 
 namespace Application
 {
+struct VelocityComponent
+{
+    Core::Math::Float3 velocity;
+
+    VelocityComponent() = default;
+    VelocityComponent(const VelocityComponent&) = default;
+    VelocityComponent(VelocityComponent&&) = default;
+    VelocityComponent& operator=(const VelocityComponent&) = default;
+    VelocityComponent& operator=(VelocityComponent&&) = default;
+
+    VelocityComponent(const float& velocity)
+    : velocity(velocity)
+    {}
+
+    bool operator==(const VelocityComponent& other) const
+    {
+        return velocity == other.velocity;
+    }
+    bool operator !=(const VelocityComponent& other) const { return !(*this == other); }
+};
+
+// not using an acceleration component at the moment, keeping it simple
+// plus, how would that play with different accelerations? clear them all then set each frame? gross, deal with it if needed
+
 // used to denote it respects physics
 struct PhysicsComponent
 {
@@ -36,6 +60,7 @@ struct RigidBodyComponent
     float elasticity = 0.0;
     float friction = 0.5f; // when on surface
     float drag = 0.5f; // always
+    float mass = 1.0f
 
     RigidBodyComponent() = default;
     RigidBodyComponent(const RigidBodyComponent&) = default;

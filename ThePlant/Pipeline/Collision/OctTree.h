@@ -93,11 +93,13 @@ class OctTreeNode
         {
             const EntityId entity1;
             const EntityId entity2;
+            const Core::Math::Float3 collisionPoint;
 
             IntermediaryCollision() = delete;
-            IntermediaryCollision(const EntityId& entity1, const EntityId& entity2)
+            IntermediaryCollision(const EntityId& entity1, const EntityId& entity2, const Core::Math::Float3& collisionPoint)
             : entity1(entity1)
             , entity2(entity2)
+            , collisionPoint(collisionPoint)
             {}
 
             IntermediaryCollision(IntermediaryCollision&&) = default;
