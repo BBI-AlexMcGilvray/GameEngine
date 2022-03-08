@@ -2,6 +2,8 @@
 
 #include "Core/Debugging/Profiling/Utils.h"
 
+#include "Core/Geometric/GeometryDefs.h"
+
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 
 namespace Application
@@ -12,7 +14,7 @@ struct Collision
 {
     EntitySnapshot entity1;
     EntitySnapshot entity2;
-    const Core::Math::Float3 collisionPoint;
+    const Core::Geometric::Point3D collisionPoint;
 };
 
 struct ICollisionHandler

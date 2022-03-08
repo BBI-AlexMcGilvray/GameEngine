@@ -151,10 +151,15 @@ Math::Float2 ClosestPointToLine(const ShapeOrientation<Rectangle>& rectangle, co
     ShapeOrientation<Line2D> bottomdge(Orientation(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(1.0f, 0.0f), true));
     ShapeOrientation<Line2D> leftEdge(Orientation(Math::Float3(rectMin.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f), true));
     ShapeOrientation<Line2D> rightEdge(Orientation(Math::Float3(rectMax.X, rectMin.Y, 0.0f)), Line2D(Math::Float2(0.0f, 1.0f), true));
-    const auto topEdgeDistance = DistanceSqr(modifiedLine, topEdge);
-    const auto bottomEdgeDistance = DistanceSqr(modifiedLine, bottomdge);
-    const auto leftEdgeDistance = DistanceSqr(modifiedLine, leftEdge);
-    const auto rightEdgeDistance = DistanceSqr(modifiedLine, rightEdge);
+
+    const auto closestToTopEdge = ClosestPoints(modifiedLine, topEdge);
+    const auto topEdgeDistance = DistanceSqr(closestToTopEdge.first, closestToTopEdge.second);
+    const auto closestToBottomEdge = ClosestPoints(modifiedLine, bottomdge);
+    const auto bottomEdgeDistance = DistanceSqr(closestToBottomEdge.first, closestToBottomEdge.second);
+    const auto closestToLeftEdge = ClosestPoints(modifiedLine, leftEdge);
+    const auto leftEdgeDistance = DistanceSqr(closestToLeftEdge.first, closestToLeftEdge.second);
+    const auto closestToRightEdge = ClosestPoints(modifiedLine, rightEdge);
+    const auto rightEdgeDistance = DistanceSqr(closestToRightEdge.first, closestToRightEdge.second);
 
     auto smallestDistance = [topEdgeDistance, bottomEdgeDistance, leftEdgeDistance, rightEdgeDistance](const auto& distance)
     {

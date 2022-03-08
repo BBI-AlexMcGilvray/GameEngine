@@ -59,8 +59,8 @@ class OctTreeNode
         OctTreeNode& operator=(const OctTreeNode&) = delete;
 
         // These just provide the entities that intersect with the provided shape
-        EntitySnapshot FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const;
-        std::vector<EntitySnapshot> FindAllEntities(const Core::Geometric::ShapeOrientation3D& shape) const;
+        std::pair<EntitySnapshot, Core::Geometric::Point3D> FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const;
+        std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>> FindAllEntities(const Core::Geometric::ShapeOrientation3D& shape) const;
 
         bool ContainsEntity(const EntityId& entity, bool checkChildren) const;
     
@@ -127,16 +127,16 @@ class OctTreeNode
         bool _ChildrenExist() const { return (_children[0] != nullptr); } // either all are made, or none are
 
         bool _Engulfs(const Core::Geometric::AABBShapeOrientation3D& data) const;
-        bool _Intersects(const Core::Geometric::AABBShapeOrientation3D& data) const;
+        Core::Geometric::Intersection _Intersects(const Core::Geometric::AABBShapeOrientation3D& data) const;
         OctTreeNode& _FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape);
         const OctTreeNode& _FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape) const;
         void _InsertContent(const OctTreeContent& content);
         void _StopGapContent(const OctTreeContent& content);
         void _RemoveStopGap();
 
-        void _FindAllEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const;
-        void _InternalEntities(std::vector<EntitySnapshot>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const;
-        void _EntitiesForAllContent(std::vector<EntitySnapshot>& entities) const;
+        void _FindAllEntities(std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const;
+        void _InternalEntities(std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const;
+        void _EntitiesForAllContent(std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>>& entities) const;
 
         void _AllCollisions(std::vector<IntermediaryCollision>& collisions) const;
         void _InternalCollisions(std::vector<IntermediaryCollision>& collisions) const;
