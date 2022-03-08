@@ -372,7 +372,9 @@ std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Box>& box1, con
     auto boxEdges = BoxEdges(box2);
 
     bool first = true;
-    std::pair<Point3D, Point3D> minimumPoints;
+
+    std::vector<std::pair<Point3D, Point3D>> touchingPoints;
+    std::pair<Point3D, Point3D> nearestPoints;
     float minimumDistanceSqr;
     // closest point from box1 to a box2 corner
     for (const auto& edge : boxEdges)
@@ -380,24 +382,21 @@ std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Box>& box1, con
         const auto closestPoints = ClosestPoints(box1, edge);
         const auto distanceSqr = DistanceSqr(closestPoints.first, closestPoints.second);
 
-        if (!first)
+        if (first)
         {
-            minimumDistanceSqr = std::min(distanceSqr, minimumDistanceSqr);
-            if (minimumDistanceSqr == distanceSqr)
-            {
-                minimumPoints = closestPoints;
-            }
-        }
-        else
-        {
-            minimumPoints = closestPoints;
             minimumDistanceSqr = distanceSqr;
+            nearestPoints = closestPoints;
             first = false;
         }
-
-        if (minimumDistanceSqr <= 0.0f)
+        else if (distanceSqr < minimumDistanceSqr)
         {
-            return closestPoints;
+            nearestPoints = closestPoints;
+            minimumDistanceSqr = distanceSqr;
+        }
+
+        if (distanceSqr <= 0.0f)
+        {
+            touchingPoints.push_back(nearestPoints);
         }
     }
 
@@ -408,19 +407,33 @@ std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Box>& box1, con
         const auto closestPoints = ClosestPoints(box2, edge);
         const auto distanceSqr = DistanceSqr(closestPoints.first, closestPoints.second);
 
-        minimumDistanceSqr = std::min(distanceSqr, minimumDistanceSqr);
-        if (minimumDistanceSqr == distanceSqr)
+        if (distanceSqr < minimumDistanceSqr)
         {
-            minimumPoints = closestPoints;
+            nearestPoints = closestPoints;
+            minimumDistanceSqr = distanceSqr;
         }
 
-        if (minimumDistanceSqr <= 0.0f)
+        if (distanceSqr <= 0.0f)
         {
-            return closestPoints;
+            touchingPoints.push_back(nearestPoints);
         }
     }
 
-    return minimumPoints;
+    if (touchingPoints.empty())
+    {
+        return nearestPoints;
+    }
+
+    Point3D averagePoint1(0.0f);
+    Point3D averagePoint2(0.0f);
+    for (const auto& point : touchingPoints)
+    {
+        averagePoint1 += point.first;
+        averagePoint2 += point.second;
+    }
+
+    const float touchingPointCount = static_cast<float>(touchingPoints.size());
+    return { averagePoint1 / touchingPointCount, averagePoint2 / touchingPointCount };
 }
 
 bool Engulfs(const ShapeOrientation<Box>& box, const ShapeOrientation<Spot3D>& spot)

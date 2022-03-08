@@ -69,10 +69,10 @@ void MyState::Initialize()
     Core::Math::FQuaternion rotation2(0.0f, 0.383f, 0.0f, 0.924f); // pointing horizontally in (90 rotation on y axis)
 
     _dir1 = true;
-    _swapTime = Core::Second(5.0f);
+    _swapTime = Core::Second(15.0f);
     _currentSwap = _swapTime;
     _collider = Testing::SpawnCollider(*this, Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
-    _trigger = Testing::SpawnTrigger(*this, Core::Geometric::Box(), _rightPos, rotation2, 2.0f);
+    // _trigger = Testing::SpawnTrigger(*this, Core::Geometric::Box(), _rightPos, rotation2, 2.0f);
     
     Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
     Testing::SpawnStaticCollider(*this, Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(modifiedLeft, modifiedRight, 0.4f));
@@ -147,11 +147,11 @@ void MyState::_PostECSUpdate(Second dt)
 
     // testing (Collision)
     auto& colliderPos = ECS().GetComponentFor<Application::PositionComponent>(_collider);
-    auto& triggerPos = ECS().GetComponentFor<Application::PositionComponent>(_trigger);
+    // auto& triggerPos = ECS().GetComponentFor<Application::PositionComponent>(_trigger);
 
     _currentSwap -= dt;
     colliderPos = Math::Lerp(_dir1 ? _leftPos : _rightPos, _dir1 ? _rightPos : _leftPos, Duration(_currentSwap) / Duration(_swapTime));
-    triggerPos = Math::Lerp(_dir1 ? _rightPos : _leftPos, _dir1 ? _leftPos : _rightPos, Duration(_currentSwap) / Duration(_swapTime));
+    // triggerPos = Math::Lerp(_dir1 ? _rightPos : _leftPos, _dir1 ? _leftPos : _rightPos, Duration(_currentSwap) / Duration(_swapTime));
     if (_currentSwap <= Core::Second(0.0f))
     {
         _dir1 = !_dir1;

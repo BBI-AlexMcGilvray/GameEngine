@@ -36,7 +36,7 @@ private:
         const Core::Geometric::Transform& toTransform = to.GetComponent<WorldTransformComponent>().transform;
         
         Core::Geometric::Transform middlePointTransform(collisionPoint);
-        middlePointTransform.SetScale(0.25f); // debug system, just needs to be visible
+        middlePointTransform.SetScale(1.0f); // debug system, just needs to be visible
 
         Rendering::Context context = {
             _collisionPointMaterial,

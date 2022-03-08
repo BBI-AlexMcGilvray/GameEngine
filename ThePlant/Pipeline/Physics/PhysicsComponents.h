@@ -60,7 +60,7 @@ struct RigidBodyComponent
     float elasticity = 0.0;
     float friction = 0.5f; // when on surface
     float drag = 0.5f; // always
-    float mass = 1.0f
+    float mass = 1.0f;
 
     RigidBodyComponent() = default;
     RigidBodyComponent(const RigidBodyComponent&) = default;
