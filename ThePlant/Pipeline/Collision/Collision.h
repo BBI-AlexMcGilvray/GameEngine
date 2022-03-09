@@ -34,13 +34,15 @@ struct ICollisionHandler
     {
         DEBUG_PROFILE_SCOPE(_name);
 
-        // need to try both permutations
+        // need to try both permutations if the first doesn't work, otherwise we only do both if desired
+        bool applied = false;
         if (collision.entity1.ContainsTypes(_fromRequirements) && collision.entity2.ContainsTypes(_toRequirements))
         {
             _Apply(collision.collisionPoint, collision.entity1, collision.entity2);
+            applied = true;
         }
 
-        if (_applyToBoth)
+        if (!applied || _applyToBoth)
         {
             if (collision.entity2.ContainsTypes(_fromRequirements) && collision.entity1.ContainsTypes(_toRequirements))
             {
