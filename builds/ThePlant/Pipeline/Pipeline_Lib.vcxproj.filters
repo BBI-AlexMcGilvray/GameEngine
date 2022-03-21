@@ -184,6 +184,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\UI\IMGUI\Windows\Examples.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\UI\IMGUI\Windows\MemoryTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\UI\IMGUI\Windows\Profiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -2,6 +2,8 @@ message("Configuring Core")
 
 set(SOURCE_FILES #
 Debugging/Profiling/Profiler.cpp #
+Debugging/Memory/CustomAllocator.cpp #
+Debugging/Memory/MemoryTracker.cpp #
 Functionality/Source/Scheduler.cpp #
 Geometric/2DFunctions.cpp #
 Geometric/3DFunctions.cpp #
@@ -41,6 +43,8 @@ set(HEADER_FILES #
 Containers/CircularBuffer.h #
 Debugging/Headers/Declarations.h #
 Debugging/Headers/Macros.h #
+Debugging/Memory/InternalUtils/Utils.h #
+Debugging/Memory/MemoryTracker.h #
 Debugging/Profiling/Profiler.h #
 Debugging/Profiling/Utils.h 
 Functionality/Headers/Event.h #

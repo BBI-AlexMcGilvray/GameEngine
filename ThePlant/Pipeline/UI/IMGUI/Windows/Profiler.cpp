@@ -8,7 +8,7 @@ namespace Application {
 namespace UI {
 namespace IMGUI {
 
-void _UpdateDisplaySections(const std::vector<Profiling::Section>& sections, std::vector<Profiler::DisplaySection>& displaySections)
+void _UpdateDisplaySections(const std::vector<Core::Profiling::Section>& sections, std::vector<Profiler::DisplaySection>& displaySections)
 {
     // copy remaining sections over
     for (const auto& section : sections)
@@ -55,7 +55,7 @@ void _ResetDisplaySectionDurations(std::vector<Profiler::DisplaySection>& displa
     }
 }
 
-void _UpdateDisplaySections(Profiling::Profiler& profiler, Profiler& window)
+void _UpdateDisplaySections(Core::Profiling::Profiler& profiler, Profiler& window)
 {
     if (!window.update)
     {
@@ -133,7 +133,7 @@ void Profiler::Draw()
     //     _ResetDisplaySections(sections);
     // }
     
-    WITH_DEBUG_SERVICE(Profiling::Profiler)
+    WITH_DEBUG_SERVICE(Core::Profiling::Profiler)
     (
         _UpdateDisplaySections(*service, *this);
         

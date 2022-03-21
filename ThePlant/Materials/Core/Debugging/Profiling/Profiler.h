@@ -10,18 +10,18 @@
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Threading/Thread.h"
 
-namespace Application {
+namespace Core {
 namespace Profiling
 {
 #if DEBUG
 struct Section
 {
     std::string tag;
-    Core::TimePoint start;
-    Core::TimePoint end;
+    TimePoint start;
+    TimePoint end;
     std::vector<Section> sections;
 
-    Section(const std::string& tag, Core::SteadyClock& clock)
+    Section(const std::string& tag, SteadyClock& clock)
     : tag(tag)
     , start(clock.now())
     {
@@ -47,13 +47,13 @@ struct Profiler
     void ClearSections();
     
 private:
-    Core::SteadyClock _clock;
+    SteadyClock _clock;
 
     mutable std::mutex _sectionMutex;
     std::vector<Section> _sections;
 
     mutable std::mutex _stackMutex;
-    std::unordered_map<Core::Threading::ThreadId, std::stack<Section>> _threadStacks;
+    std::unordered_map<Threading::ThreadId, std::stack<Section>> _threadStacks;
 
     std::unique_lock<std::mutex> _LockSections() const;
     std::unique_lock<std::mutex> _LockStacks() const;
@@ -62,4 +62,4 @@ private:
 };
 #endif
 } // namespace Profiling
-}// namespace Application
+}// namespace Core

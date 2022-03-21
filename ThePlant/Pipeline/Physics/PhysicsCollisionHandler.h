@@ -43,7 +43,7 @@ private:
         const auto fromCollisionDirection = collisionPoint - fromTransform.transform.GetPosition();
         const auto toCollisionDirection = collisionPoint - toTransform.transform.GetPosition();
 
-        Core::Math::Float3 netCollisionVelocity = toToContact + fromToContact
+        Core::Math::Float3 netCollisionVelocity = toToContact + fromToContact; // we only need to 'balance' the direct-collision velocity. but how?
 
         // the premise below is that the velocity 'parallel' to the contact plane (defined the the normal) is not affected
         // only the velocity 'perpendicular' to the plane is affected

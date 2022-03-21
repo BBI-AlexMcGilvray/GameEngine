@@ -35,6 +35,9 @@ namespace Rendering {
       return CreateVertexShader(data->shaderCode);
   }
 
+  // problem: this is created via the memory tracker (it is instantiated after the tracker is assigned)
+  // but it is not destroyed until program end (static), so the tracker is not around at that point...
+  // either need to not have the string be static (create a local FragmentShader instead), or have it be untracked
   FragmentShader CreateDefaultFragmentShader()
   {
       static const std::string defaultShaderCode = R"(

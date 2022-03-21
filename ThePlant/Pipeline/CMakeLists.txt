@@ -66,6 +66,7 @@ StateSystem/Source/StateManager.cpp #
 Time/Source/TimeManager.cpp #
 UI/IMGUI/Manager.cpp #
 UI/IMGUI/Windows/Examples.cpp #
+UI/IMGUI/Windows/MemoryTracker.cpp #
 UI/IMGUI/Windows/Profiler.cpp)
 
 set(HEADER_FILES #
@@ -157,6 +158,7 @@ Time/Headers/TimeManager.h #
 UI/IMGUI/Manager.h #
 UI/IMGUI/Window.h #
 UI/IMGUI/Windows/Examples.h #
+UI/IMGUI/Windows/MemoryTracker.h #
 UI/IMGUI/Windows/Profiler.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Pipeline_Lib)

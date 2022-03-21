@@ -1,6 +1,6 @@
 #include "Core/Debugging/Profiling/Profiler.h"
 
-namespace Application {
+namespace Core {
 namespace Profiling
 {
 #if DEBUG
@@ -78,4 +78,4 @@ void Profiler::_AddSection(Section&& section)
 }
 #endif
 } // namespace Profiling
-}// namespace Application
+}// namespace Core

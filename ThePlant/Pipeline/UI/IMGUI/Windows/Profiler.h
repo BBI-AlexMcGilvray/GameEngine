@@ -20,13 +20,13 @@ namespace IMGUI {
           bool unfolded = false;
           bool ignore = false;
 
-          DisplaySection(const Profiling::Section& section)
+          DisplaySection(const Core::Profiling::Section& section)
           : tag(section.tag)
           , duration(Core::Second(0.0))
           , calls(0)
           {}
 
-          void Update(const Profiling::Section& section)
+          void Update(const Core::Profiling::Section& section)
           {
             duration += section.end - section.start;
             calls += 1;

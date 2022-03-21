@@ -4,6 +4,12 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Debugging\Profiling\Profiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Debugging\Memory\CustomAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Debugging\Memory\MemoryTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Functionality\Source\Scheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -66,6 +66,10 @@ struct ApplicationManager
   void CleanUp();
 
 private:
+  // must be first so that it is destroyed last and created first to track all properly
+  // otherwise something could be made with it that persists after this is destroyed, which would error when we try to destroy that object
+  Application::ServiceManager _serviceManager;
+
   // Note: the below are in an order such that they should only _possibly_ know about what is above them (as it would need to be for constructors...)
   Core::Threading::ThreadManager _threadManager;
   Core::Threading::TaskManager _taskManager;
@@ -77,7 +81,6 @@ private:
   Rendering::RenderManager _renderSystem;
   Rendering::ShaderManager _shaderManager;
   Input::InputManager _inputSystem;
-  Application::ServiceManager _serviceManager;
   Application::StateManager _stateSystem;
 
   Delegate<> _onQuit;
