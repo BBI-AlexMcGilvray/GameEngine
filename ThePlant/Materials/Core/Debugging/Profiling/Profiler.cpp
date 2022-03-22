@@ -1,4 +1,5 @@
 #include "Core/Debugging/Profiling/Profiler.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Core {
 namespace Profiling

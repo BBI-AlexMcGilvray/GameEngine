@@ -2,7 +2,7 @@
 
 #include <thread>
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 #include "Core/Threading/Thread.h"
 
 namespace Core {

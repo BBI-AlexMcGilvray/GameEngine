@@ -1,6 +1,6 @@
 #include "Factory/Headers/ExportData.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Core/Headers/Hash.h"
 

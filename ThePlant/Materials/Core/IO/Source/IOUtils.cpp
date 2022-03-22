@@ -7,7 +7,7 @@
 #include <stringapiset.h>
 
 #include "Core/Debugging/Headers/Macros.h"
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Core {
 namespace IO {

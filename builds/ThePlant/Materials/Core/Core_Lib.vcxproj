@@ -277,6 +277,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Debugging\Headers\Macros.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Debugging\Profiling\Profiler.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Debugging\Memory\CustomAllocator.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\Debugging\Memory\MemoryTracker.cpp" />

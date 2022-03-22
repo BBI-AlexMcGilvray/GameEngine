@@ -1,6 +1,6 @@
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/Rendering/OpenGL/Headers/ShaderUtils.h"
 

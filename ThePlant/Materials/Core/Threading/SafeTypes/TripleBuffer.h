@@ -5,7 +5,7 @@
 
 #include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Headers/TimeDefs.h"
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Core
 {

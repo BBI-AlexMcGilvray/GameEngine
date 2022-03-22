@@ -11,7 +11,7 @@
 #include "Data/Headers/AssetExceptions.h"
 #include "Data/Headers/SerializationUtils.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Data {
 // Should be made/held by whatever is using it (Pipeline -> ApplicationManager) where it can THEN be a singleton

@@ -1,6 +1,6 @@
 #include "Pipeline/Animation/Headers/Animator.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Application {
 namespace Animation {

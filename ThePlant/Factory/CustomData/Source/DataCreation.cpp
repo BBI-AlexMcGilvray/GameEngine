@@ -1,6 +1,6 @@
 #include "Factory/CustomData/Headers/DataCreation.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Core/Headers/Hash.h"
 #include "Core/IO/Headers/IOUtils.h"

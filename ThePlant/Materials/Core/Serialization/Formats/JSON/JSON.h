@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Core/Headers/UtilityMacros.h"
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 #include "Core/Reflection/type_traits.h"
 #include "Core/Serialization/type_traits.h"
 

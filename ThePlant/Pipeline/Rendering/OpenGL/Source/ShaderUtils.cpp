@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Materials/Core/Logging/Logger.h"
+#include "Materials/Core/Logging/LogFunctions.h"
 
 using namespace std;
 

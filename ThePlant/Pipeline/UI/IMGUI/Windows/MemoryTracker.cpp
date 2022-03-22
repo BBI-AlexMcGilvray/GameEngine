@@ -10,13 +10,10 @@ namespace IMGUI {
 
 void MemoryTracker::Draw()
 {
-    if (ImGui::Button("Update Memory"))
-    {
-        WITH_DEBUG_SERVICE(Core::Memory::MemoryTracker)
-        (
-            _currentMemoryInfo = service->Info();
-        )
-    }
+    WITH_DEBUG_SERVICE(Core::Memory::MemoryTracker)
+    (
+        _currentMemoryInfo = service->Info();
+    )
     
     ImGui::Text(_currentMemoryInfo.c_str());
 }

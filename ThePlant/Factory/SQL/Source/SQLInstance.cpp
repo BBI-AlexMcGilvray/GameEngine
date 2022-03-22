@@ -2,7 +2,7 @@
 
 #include "Factory/SQL/Headers/SQLInstance.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Data
 {

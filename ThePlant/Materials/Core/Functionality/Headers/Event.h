@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 #include "Core/Functionality/Headers/Function.h"
 #include "Core/Headers/PtrDefs.h"
 

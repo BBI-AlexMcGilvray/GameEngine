@@ -1,5 +1,7 @@
 #include "Core/Geometric/RectangleFunctions.h"
 
+#include "Core/Logging/LogFunctions.h"
+
 #include "Core/Geometric/2DFunctions.h"
 #include "Core/Geometric/Transform.h"
 #include "Core/Geometric/Line2DFunctions.h"

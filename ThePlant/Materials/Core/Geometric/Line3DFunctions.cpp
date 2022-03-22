@@ -1,6 +1,7 @@
 #include "Core/Geometric/Line3DFunctions.h"
 
 #include "Core/Debugging/Profiling/Utils.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Core/Math/Headers/MathUtils.h"
 #include "Core/Math/Headers/VectorFunctions.h"

@@ -11,6 +11,7 @@
 #include "Core/Geometric/SphereFunctions.h"
 
 #include "Core/Debugging/Profiling/Utils.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Core
 {

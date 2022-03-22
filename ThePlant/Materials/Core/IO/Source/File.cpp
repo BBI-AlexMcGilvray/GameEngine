@@ -1,6 +1,7 @@
 #include "Core/IO/Headers/File.h"
 
 #include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Core {
 namespace IO {

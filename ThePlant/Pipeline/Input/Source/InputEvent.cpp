@@ -1,6 +1,6 @@
 #include "Pipeline/Input/Headers/InputEvent.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Application {
 namespace Input {

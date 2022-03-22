@@ -4,7 +4,7 @@
 
 #include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Debugging/Headers/Macros.h"
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Core {
 template <typename T>
@@ -50,10 +50,6 @@ private:
 template <typename T>
 struct ServiceReference
 {
-    ServiceReference(std::shared_ptr<Service<T>>& service)
-    : _service(service)
-    {}
-
     ServiceReference(const ServiceReference&) = default;
     ServiceReference(ServiceReference&&) = default;
 
@@ -67,21 +63,39 @@ struct ServiceReference
     T& operator*() { return _service->_service; }
 
 private:
+    template <typename T>
+    friend class Service;
+
+    ServiceReference(std::shared_ptr<Service<T>>& service)
+    : _service(service)
+    {}
+
     std::shared_ptr<Service<T>> _service;
 };
 
 template <typename T>
 class Service
 {
+    struct ConstructionTag{};
+
 public:
-    Service() = default;
+    template <typename ...ARGS>
+    Service(ConstructionTag tag, ARGS ...args)
+    : _service(std::forward<ARGS>(args)...)
+    {}
+
+    Service(const Service&) = default;
+    Service(Service&&) = default;
+
+    Service& operator=(const Service&) = default;
+    Service& operator=(Service&&) = default;
 
     template <typename ...ARGS>
     static ServiceToken<T> Set(ARGS ...args)
     {
         VERIFY(_instance.expired(), "Overriding an already-set service!");
 
-        std::shared_ptr<Service<T>> instance = std::make_shared<Service<T>>(std::forward<ARGS>(args)...);
+        std::shared_ptr<Service<T>> instance = std::make_shared<Service<T>>(ConstructionTag(), std::forward<ARGS>(args)...);
         _instance = instance;
         return ServiceToken<T>(std::move(instance));
     }
@@ -95,12 +109,6 @@ private:
     friend struct ServiceReference<T>;
 
     inline static std::weak_ptr<Service<T>> _instance;
-
-    template <typename ...ARGS>
-    Service(ARGS ...args)
-    {
-        _service(std::forward<ARGS>(args)...);
-    }
 
     T _service;
 };

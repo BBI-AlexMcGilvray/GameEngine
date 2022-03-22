@@ -6,7 +6,7 @@
 #include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 #include "Pipeline/ECS/ObjectOriented/Headers/ComponentPtr.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/PtrDefs.h"

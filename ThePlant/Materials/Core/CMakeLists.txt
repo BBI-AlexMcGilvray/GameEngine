@@ -1,6 +1,7 @@
 message("Configuring Core")
 
 set(SOURCE_FILES #
+Debugging/Headers/Macros.cpp #
 Debugging/Profiling/Profiler.cpp #
 Debugging/Memory/CustomAllocator.cpp #
 Debugging/Memory/MemoryTracker.cpp #
@@ -94,6 +95,7 @@ IO/Headers/IODefs.h #
 IO/Headers/IOUtils.h #
 Logging/ConsoleLogger.h #
 Logging/ILogger.h #
+Logging/LogFunctions.h #
 Logging/Logger.h #
 Math/Headers/Axis.h #
 Math/Headers/Basis.h #

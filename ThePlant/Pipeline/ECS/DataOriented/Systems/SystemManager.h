@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Materials/Core/Headers/PtrDefs.h"
-#include "Materials/Core/Logging/Logger.h"
+#include "Materials/Core/Logging/LogFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/ArchetypeManager.h"
 #include "Pipeline/ECS/DataOriented/Systems/System.h"

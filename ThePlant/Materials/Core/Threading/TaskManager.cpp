@@ -1,6 +1,6 @@
 #include "Core/Threading/TaskManager.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 namespace Core {
 namespace Threading {

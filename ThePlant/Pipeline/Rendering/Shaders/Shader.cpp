@@ -7,7 +7,7 @@ namespace Application {
 namespace Rendering {
   VertexShader CreateDefaultVertexShader()
   {
-      static const std::string defaultShaderCode = R"(
+    const std::string defaultShaderCode = R"(
         #version 450 core
 			
         // values per vertex
@@ -27,7 +27,7 @@ namespace Rendering {
             gl_Position = MVP * vec4(vPosition, 1.0);
         }
       )";
-      return CreateVertexShader(defaultShaderCode);
+    return CreateVertexShader(std::move(defaultShaderCode));
   }
 
   VertexShader CreateVertexShader(const Data::AssetData<Data::Rendering::VertexShaderData>& data)
@@ -40,7 +40,7 @@ namespace Rendering {
   // either need to not have the string be static (create a local FragmentShader instead), or have it be untracked
   FragmentShader CreateDefaultFragmentShader()
   {
-      static const std::string defaultShaderCode = R"(
+    const std::string defaultShaderCode = R"(
         #version 450 core
 			
         layout(location = 0) out vec4 fColor;
@@ -55,7 +55,7 @@ namespace Rendering {
             fColor = Color;
         }
       )";
-      return CreateFragmentShader(defaultShaderCode);
+    return CreateFragmentShader(std::move(defaultShaderCode));
   }
 
   FragmentShader CreateFragmentShader(const Data::AssetData<Data::Rendering::FragmentShaderData>& data)

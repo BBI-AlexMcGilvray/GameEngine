@@ -7,19 +7,9 @@
 
 #include "Core/Headers/Macros.h"
 #include "Core/Debugging/Headers/Declarations.h"
-#include "Core/Logging/Logger.h"
 
 namespace Core {
-inline bool VerifyCondition(bool condition, std::string conditionString, std::string callInfo)
-{
-  bool result = condition;
-
-  if (GLOBAL_EXPLICIT && !result && conditionString != "") {
-    Logging::Log("VERIFYING", conditionString + "; " + callInfo);
-  }
-
-  return result;
-}
+bool VerifyCondition(bool condition, std::string conditionString, std::string callInfo);
 
 #if DEBUG
 

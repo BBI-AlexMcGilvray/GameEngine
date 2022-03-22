@@ -6,7 +6,7 @@
 
 #include "Materials/Core/Debugging/Headers/Macros.h"
 #include "Materials/Core/IdTypes/RuntimeId.h"
-#include "Materials/Core/Logging/Logger.h"
+#include "Materials/Core/Logging/LogFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"
 

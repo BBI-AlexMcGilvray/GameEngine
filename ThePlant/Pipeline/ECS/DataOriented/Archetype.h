@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 #include "Core/IdTypes/RuntimeId.h"
 
 #include "Pipeline/ECS/DataOriented/Component.h"

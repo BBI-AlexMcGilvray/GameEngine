@@ -3,7 +3,7 @@
 #include <unordered_map>
 
 #include "Core/Headers/type_traits.h"
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/Component.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"

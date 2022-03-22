@@ -1,6 +1,7 @@
 #include "Core/Geometric/2DFunctions.h"
 
 #include "Core/Debugging/Headers/Macros.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/VectorFunctions.h"

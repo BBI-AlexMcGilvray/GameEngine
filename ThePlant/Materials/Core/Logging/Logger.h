@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/Service.h"
 
 namespace Core {
 namespace Logging {
@@ -21,7 +22,10 @@ void ThrowException(const std::string& tag, const std::string& message);
 template <typename E, typename MESSAGE>
 void ThrowException(const std::string& tag, const MESSAGE& message)
 {
-  Logger::Instance()->ThrowException<E>(tag, std::string(message));
+  WITH_SERVICE(Logger)
+  (
+    service->ThrowException<E>(tag, std::string(message));
+  )
 }
 
 template <typename E, typename MESSAGE>
@@ -33,21 +37,20 @@ void ThrowException(const char* tag, const MESSAGE& message)
 template <typename E, typename ...Args>
 void ThrowException(Args ...args)
 {
-  Logger::Instance()->ThrowException<E>(std::forward<Args>(args)...);
+  WITH_SERVICE(Logger)
+  (
+    service->ThrowException<E>(std::forward<Args>(args)...);
+  )
 }
 
 bool AddImplementation(std::shared_ptr<ILogger> implementation);
 void RemoveImplementation(std::shared_ptr<ILogger> implementation);
 
 class Logger : public ILogger
-{
-private: 
-  struct ConstructorTag{};
-  
+{  
 public:
-  static Logger *Instance();
-
-  Logger(ConstructorTag tag);
+  struct ServiceOnlyConstructionTag{};
+  Logger(ServiceOnlyConstructionTag tag);
 
   void Log(const std::string& tag, const std::string& message) override;
   void LogWarning(const std::string& tag, const std::string& message) override;
@@ -71,34 +74,8 @@ public:
   void RemoveImplementation(std::shared_ptr<ILogger> implementation);
 
 private:
-  static std::unique_ptr<Logger> _instance;
-
   std::mutex _implementationsMutex;
   std::vector<std::shared_ptr<ILogger>> _implementations;
 };
 }// namespace Logging
 }//namespace Core
-
-#if DEBUG
-
-#define DEBUG_LOG(tag, message) Core::Logging::Log(tag, message)
-#define DEBUG_WARNING(tag, message) Core::Logging::LogWarning(tag, message)
-#define DEBUG_ERROR(tag, message) Core::Logging::LogError(tag, message)
-#define DEBUG_THROW(tag, message) Core::Logging::ThrowException(tag, message); throw
-#define DEBUG_THROW_EXCEPTION(type, ...) Core::Logging::ThrowException<type>(__VA_ARGS__); throw
-
-#else // !DEBUG
-
-#define DEBUG_LOG(tag, message)
-#define DEBUG_WARNING(tag, message)
-#define DEBUG_ERROR(tag, message)
-#define DEBUG_THROW(tag, message) 
-#define DEBUG_THROW_EXCEPTION(type, ...)
-
-#endif
-
-#define CORE_LOG(tag, message) Core::Logging::Log(tag, message)
-#define CORE_WARNING(tag, message) Core::Logging::LogWarning(tag, message)
-#define CORE_ERROR(tag, message) Core::Logging::LogError(tag, message)
-#define CORE_THROW(tag, message) Core::Logging::ThrowException(tag, message); throw
-#define CORE_THROW_EXCEPTION(type, ...) Core::Logging::ThrowException<type>(__VA_ARGS__); throw

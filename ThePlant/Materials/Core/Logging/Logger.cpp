@@ -9,24 +9,62 @@
 
 namespace Core {
 namespace Logging {
-void Log(const std::string& tag, const std::string& message) { Logger::Instance()->Log(tag, message); }
-void LogWarning(const std::string& tag, const std::string& message) { Logger::Instance()->LogWarning(tag, message); }
-void LogError(const std::string& tag, const std::string& message) { Logger::Instance()->LogError(tag, message); }
-void ThrowException(const std::string& tag, const std::string& message) { Logger::Instance()->ThrowException(tag, message); }
-
-bool AddImplementation(std::shared_ptr<ILogger> implementation) { return Logger::Instance()->AddImplementation(implementation); }
-void RemoveImplementation(std::shared_ptr<ILogger> implementation) { Logger::Instance()->RemoveImplementation(implementation); }
-
-// member functinos
-std::unique_ptr<Logger> Logger::_instance = nullptr;
-
-Logger *Logger::Instance()
+void Log(const std::string& tag, const std::string& message)
 {
-  if (_instance.get() == nullptr) {
-    _instance = std::make_unique<Logger>(ConstructorTag{});
-  }
+  WITH_SERVICE(Logger)
+  (
+    service->Log(tag, message);
+  )
+}
 
-  return _instance.get();
+void LogWarning(const std::string& tag, const std::string& message)
+{
+  WITH_SERVICE(Logger)
+  (
+    service->LogWarning(tag, message);
+  )
+}
+
+void LogError(const std::string& tag, const std::string& message)
+{
+  WITH_SERVICE(Logger)
+  (
+    service->LogError(tag, message);
+  )
+}
+
+void ThrowException(const std::string& tag, const std::string& message)
+{
+  WITH_SERVICE(Logger)
+  (
+    service->ThrowException(tag, message);
+  )
+}
+
+bool AddImplementation(std::shared_ptr<ILogger> implementation)
+{
+  WITH_SERVICE(Logger)
+  (
+    return service->AddImplementation(implementation);
+  )
+
+  return false;
+}
+
+void RemoveImplementation(std::shared_ptr<ILogger> implementation)
+{
+  WITH_SERVICE(Logger)
+  (
+    service->RemoveImplementation(implementation);
+  )
+}
+
+// member functions
+Logger::Logger(ServiceOnlyConstructionTag tag)
+{
+#if _DEBUG
+  AddImplementation(Core::MakeShared<ConsoleLogger>());
+#endif
 }
 
 void Logger::Log(const std::string& tag, const std::string& message)
@@ -99,13 +137,6 @@ void Logger::RemoveImplementation(std::shared_ptr<ILogger> implementation)
     }
   }
   _implementationsMutex.unlock();
-}
-
-Logger::Logger(ConstructorTag tag)
-{
-#if _DEBUG
-  AddImplementation(Core::MakeShared<ConsoleLogger>());
-#endif
 }
 }// namespace Logging
 }//namespace Core

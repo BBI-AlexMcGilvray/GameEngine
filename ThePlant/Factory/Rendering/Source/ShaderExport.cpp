@@ -2,7 +2,7 @@
 
 #include "Core/Headers/Hash.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Core/IO/Headers/Folder.h"
 #include "Core/IO/Headers/IOUtils.h"

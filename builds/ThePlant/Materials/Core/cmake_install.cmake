@@ -88,6 +88,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/IO/Headers/IOUtils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Logging/ConsoleLogger.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Logging/ILogger.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Logging/LogFunctions.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Logging/Logger.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Axis.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Math/Headers/Basis.h"

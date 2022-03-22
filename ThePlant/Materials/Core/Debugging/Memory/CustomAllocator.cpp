@@ -2,7 +2,7 @@
 
 #include "Core/Debugging/Memory/MemoryTracker.h"
 #include "Core/Headers/Service.h"
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 /******************
  * NOTE: THIS IS INCLUDED BY DEFAULT BY BEING A .cpp FILE AND BEING LINKED TO

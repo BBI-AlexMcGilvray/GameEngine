@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 #include "Core/Math/Headers/MathDefs.h"
 
 #include "Pipeline/Collision/CollisionManager.h"

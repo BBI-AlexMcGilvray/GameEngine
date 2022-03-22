@@ -1,6 +1,6 @@
 #include "Pipeline\Rendering\Headers\RenderManager.h"
 
-#include "Core/Logging/Logger.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/Headers/ApplicationManager.h"
 

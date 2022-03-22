@@ -1,5 +1,7 @@
 #include "Core/Geometric/AABRFunctions.h"
 
+#include "Core/Logging/LogFunctions.h"
+
 #include "Core/Math/Headers/VectorFunctions.h"
 #include "Core/Math/Headers/QuaternionFunctions.h"
 
