@@ -101,18 +101,18 @@ namespace Rendering {
     // we are going to use double buffering (this only sets a 23bit Z buffer)
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+    // SDL_GL_CONTEXT_PROFILE_CORE uses only the newer version, deprecated functions are disabled
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  }
+
+  void RenderManager::SetOpenGLState()
+  {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     // facing and culling
     glEnable(GL_CULL_FACE);
-    glFrontFace(GL_CW);
+    glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
-
-    // the FRONT_AND_BACK may be the render issue cause?
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);// turns off wireframe mode
-
-    // SDL_GL_CONTEXT_PROFILE_CORE uses only the newer version, deprecated functions are disabled
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   }
 
 #if DEBUG
@@ -157,9 +157,6 @@ namespace Rendering {
 
     glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // to render lines of triangles in mesh and both front and back
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   }
 
   void _RenderFrameForCamera(Renderer& renderer, const Float4x4& camera, const RenderFrame& renderFrame)

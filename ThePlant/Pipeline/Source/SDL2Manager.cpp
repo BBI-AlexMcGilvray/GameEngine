@@ -25,6 +25,7 @@ bool SDL2Manager::Initialize(ApplicationManager& applicationManager)
     std::cout << "Failed to initialize GLContent!" << std::endl;
     return false;
   }
+  applicationManager.RenderManager().SetOpenGLState();
 
 #if DEBUG
   // This is just to verify that our attributes are being set to what we want them to be

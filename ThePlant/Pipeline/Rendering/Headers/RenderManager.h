@@ -43,10 +43,13 @@ namespace Rendering {
     void End(Core::Threading::ThreadManager& threadManager);
     void CleanUp();
 
+    // must be called BEFORE openGL context is created
     void SetOpenGLAttributes();
 #if DEBUG
     void VerifyOpenGLAttributes();
 #endif
+    // must be called AFTER openGL context is created
+    void SetOpenGLState();
 
   private:
     Core::Math::Color _initialColor;
