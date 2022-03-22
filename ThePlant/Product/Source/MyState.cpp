@@ -56,7 +56,7 @@ void MyState::Initialize()
     inputManager->addReceiver(&_cameraController);
 
     // testing
-    // _static = Testing::SpawnStaticModel(*this); // (Static model)
+    _static = Testing::SpawnStaticModel(*this); // (Static model)
     // _animated = Testing::SpawnAnimatedModel(*this); // (Animated model)
 
     // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))

@@ -90,6 +90,11 @@ public:
     Service& operator=(const Service&) = default;
     Service& operator=(Service&&) = default;
 
+    ~Service()
+    {
+        _instance.reset();
+    }
+
     template <typename ...ARGS>
     static ServiceToken<T> Set(ARGS ...args)
     {

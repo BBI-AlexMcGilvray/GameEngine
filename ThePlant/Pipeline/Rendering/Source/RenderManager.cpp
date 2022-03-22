@@ -102,7 +102,7 @@ namespace Rendering {
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_GREATER);
+    glDepthFunc(GL_LEQUAL);
     // facing and culling
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW);
