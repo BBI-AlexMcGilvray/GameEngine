@@ -1,5 +1,6 @@
 #include "Pipeline/Rendering/3D/Headers/Skeleton.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Geometric/Transform.h"
 #include "Core/Math/Headers/MatrixFunctions.h"
 
@@ -67,6 +68,7 @@ namespace Rendering {
 
   std::vector<std::pair<Core::Hash, Application::EntityId>> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, Core::Geometric::Transform& parentTransform, BoneCreationHelper::BoneCreationData& creationData)
   {
+    SCOPED_MEMORY_CATEGORY("ECS");
     std::vector<std::pair<Core::Hash, Application::EntityId>> bones;
 
     const Data::Rendering::SkeletonBoneData& boneData = skeletonData->bones[boneIndex];

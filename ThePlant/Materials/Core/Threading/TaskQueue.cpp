@@ -1,5 +1,7 @@
 #include "Core/Threading/TaskQueue.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 namespace Core {
 namespace Threading {
 std::unique_lock<std::mutex> TaskQueue::QueueLock() const
@@ -32,6 +34,7 @@ void TaskQueue::ClearQueue(std::condition_variable& block) const
 
 std::future<void> TaskQueue::QueueTask(std::packaged_task<void()>&& task, std::condition_variable& block) const
 {
+    SCOPED_MEMORY_CATEGORY("Threading");
     auto lock = QueueLock();
     _tasks.push(std::move(task));
     std::future<void> handle = _tasks.back().get_future();

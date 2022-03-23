@@ -3,9 +3,11 @@
 #include <stdexcept>
 #include <unordered_map>
 
-#include "Materials/Core/Headers/PtrDefs.h"
-#include "Materials/Core/IdTypes/RuntimeId.h"
-#include "Materials/Data/Rendering/Headers/SkeletonAnimationData.h"
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+#include "Core/Headers/PtrDefs.h"
+#include "Core/IdTypes/RuntimeId.h"
+
+#include "Data/Rendering/Headers/SkeletonAnimationData.h"
 
 #include "Pipeline/Animation/Headers/AnimationCurve.h"
 
@@ -100,6 +102,7 @@ namespace Animation {
 
         void AddChannel(const Channel<TYPE>& channel)
         {
+            SCOPED_MEMORY_CATEGORY("Animation");
             auto existingChannelIter = _GetMemberChannel(channel.Member());
             if (existingChannelIter != _channels.end())
             {

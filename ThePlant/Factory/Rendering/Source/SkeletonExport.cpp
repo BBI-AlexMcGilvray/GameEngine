@@ -5,6 +5,7 @@
 
 #include "Core/Headers/Hash.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 #include "Core/IO/Headers/File.h"
@@ -69,6 +70,7 @@ namespace Data
 
 		void FillInSkeletonData(std::vector<Data::Rendering::SkeletonBoneData>& skeletonData, Core::Ptr<const aiMesh> mesh, Core::Ptr<ExportNode> skeletonNode)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			skeletonData.push_back(CreateSkeletonBoneData(skeletonNode, mesh));
 
 			for (uint i = 0; i < skeletonNode->mNumChildren; i++)
@@ -79,6 +81,7 @@ namespace Data
 
 		Core::Serialization::Format::JSON SerializeSkeleton(Ptr<const aiScene> scene, uint meshIndex, std::string name)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			Data::Rendering::SkeletonData skeletonData;
 			
 			Core::Ptr<const aiNode> rootNode = scene->mRootNode;

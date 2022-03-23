@@ -5,6 +5,7 @@
 
 #include "Core/Headers/Hash.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 #include "Core/IO/Headers/File.h"
@@ -66,6 +67,7 @@ namespace Data
 
 		void FillInScaleFrameData(std::vector<Data::Rendering::ScaleFrameData>& scaleFrameData, const aiVectorKey& scaleKey, double ticksPerSecond)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			Data::Rendering::ScaleFrameData scaleFrame;
 
 			scaleFrame.time = Core::Second(scaleKey.mTime / ticksPerSecond);
@@ -76,6 +78,7 @@ namespace Data
 
 		void FillInRotationFrameData(std::vector<Data::Rendering::RotationFrameData>& rotationFrameData, const aiQuatKey& rotationKey, double ticksPerSecond)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			Data::Rendering::RotationFrameData rotationFrame;
 
 			rotationFrame.time = Core::Second(rotationKey.mTime / ticksPerSecond);
@@ -86,6 +89,7 @@ namespace Data
 
 		void FillInPositionFrameData(std::vector<Data::Rendering::PositionFrameData>& positionFrameData, const aiVectorKey& positionKey, double ticksPerSecond)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			Data::Rendering::PositionFrameData positionFrame;
 
 			positionFrame.time = Core::Second(positionKey.mTime / ticksPerSecond);
@@ -96,6 +100,7 @@ namespace Data
 
 		void FillInBoneAnimationData(std::vector<Data::Rendering::BoneAnimationData>& boneAnimations, Core::Ptr<const aiNodeAnim> channel, double ticksPerSecond)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			Data::Rendering::BoneAnimationData boneAnimationData;
 
 			boneAnimationData.name = std::string(channel->mNodeName.C_Str());

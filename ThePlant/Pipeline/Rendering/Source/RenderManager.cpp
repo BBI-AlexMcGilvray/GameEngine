@@ -40,6 +40,7 @@ namespace Rendering {
 
   void RenderManager::Start()
   {
+    SCOPED_MEMORY_CATEGORY("Rendering");
     _ui->Start();
 
     _rendering = true;
@@ -140,16 +141,19 @@ namespace Rendering {
 
   void RenderManager::QueueCamera(const Core::Math::Float4x4& camera)
   {
+    SCOPED_MEMORY_CATEGORY("Rendering");
     _mainThreadRenderFrame.cameras.emplace_back(camera);
   }
 
   void RenderManager::QueueRender(const Context& context)
   {
+    SCOPED_MEMORY_CATEGORY("Rendering");
     _mainThreadRenderFrame.contexts.emplace_back(context);
   }
 
   void RenderManager::QueueRender(const SkinnedContext& context)
   {
+    SCOPED_MEMORY_CATEGORY("Rendering");
     _mainThreadRenderFrame.skinnedContexts.emplace_back(context);
   }
 

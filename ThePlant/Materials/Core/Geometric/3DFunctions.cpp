@@ -10,6 +10,7 @@
 #include "Core/Geometric/PlaneFunctions.h"
 #include "Core/Geometric/SphereFunctions.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Debugging/Profiling/Utils.h"
 #include "Core/Logging/LogFunctions.h"
 
@@ -368,6 +369,7 @@ std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Box>& box, cons
 
 std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Box>& box1, const ShapeOrientation<Box>& box2)
 {
+    SCOPED_MEMORY_CATEGORY("Geometry");
     // DEBUG_PROFILE_SCOPE("DistanceSqr(Box, Box)");
 
     auto boxEdges = BoxEdges(box2);

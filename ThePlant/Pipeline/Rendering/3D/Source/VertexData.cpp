@@ -1,5 +1,7 @@
 #include "Pipeline/Rendering/3D/Headers/VertexData.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Pipeline/Rendering/3D/Headers/Skeleton.h"
 
 namespace Application
@@ -8,6 +10,8 @@ namespace Application
     {
         std::vector<SimpleVertexData> createRuntimeData(const Data::Rendering::SimpleMeshData& meshData)
         {
+            SCOPED_MEMORY_CATEGORY("Rendering");
+
             std::vector<SimpleVertexData> runtimeData;
             runtimeData.reserve(meshData.vertexCount);
 
@@ -26,6 +30,8 @@ namespace Application
 
         std::vector<VertexData> createRuntimeData(const Data::Rendering::StaticMeshData& meshData)
         {
+            SCOPED_MEMORY_CATEGORY("Rendering");
+
             std::vector<VertexData> runtimeData;
             runtimeData.reserve(meshData.vertexCount);
 
@@ -44,6 +50,8 @@ namespace Application
 
         std::vector<AnimatedVertexData> createExplicitRuntimeData(const Data::Rendering::AnimatedMeshData& meshData)
         {
+            SCOPED_MEMORY_CATEGORY("Rendering");
+            
             std::vector<AnimatedVertexData> runtimeData;
             runtimeData.reserve(meshData.vertexCount);
 
@@ -62,6 +70,8 @@ namespace Application
 
         SkinnedVertexData SkinToSkeleton(const AnimatedVertexData& vertexData, const Data::Rendering::SkeletonData& skeleton)
         {
+            SCOPED_MEMORY_CATEGORY("Rendering");
+
             SkinnedVertexData result(vertexData);
             for (size_t index = 0; index < vertexData.boneName.size(); ++index)
             {
@@ -76,6 +86,8 @@ namespace Application
 
         std::vector<SkinnedVertexData> createRuntimeData(const std::vector<AnimatedVertexData>& animatedData, const Data::Rendering::SkeletonData& skeleton)
         {
+            SCOPED_MEMORY_CATEGORY("Rendering");
+
             std::vector<SkinnedVertexData> runtimeData;
             runtimeData.reserve(animatedData.size());
 

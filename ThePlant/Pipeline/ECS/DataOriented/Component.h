@@ -150,6 +150,7 @@ struct ComponentList : public IComponentList
 
     void AddComponent(T value)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         _components.emplace_back(std::move(value));
     }
 

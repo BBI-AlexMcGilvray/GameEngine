@@ -115,6 +115,7 @@ struct Archetype
     EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity) { return GetTemporaryEntitySnapshot(entity.GetEntityId()); }
     EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         const auto entityIndex = _GetEntityIndex(entity);
 
         std::vector<std::unique_ptr<ITemporaryComponentRef>> componentRefs;
@@ -147,6 +148,7 @@ private:
     template <typename ...Ts>
     void _AddEntity(const Entity& entity, Ts&& ...args)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         _entities.emplace_back(entity.GetEntityId());
         _AddComponent(std::forward<Ts>(args)...);
     }
@@ -238,6 +240,7 @@ Archetype CreateArchetype()
 template <typename ...Ts>
 Archetype CreateArchetypeFrom_Add(const Archetype& basis)
 {
+    SCOPED_MEMORY_CATEGORY("ECS");
     std::vector<std::unique_ptr<IComponentList>> components = CollectIComponentLists<Ts...>();
     for (auto& copyingComponent : basis._components)
     {
@@ -250,6 +253,7 @@ Archetype CreateArchetypeFrom_Add(const Archetype& basis)
 template <typename ...Ts>
 Archetype CreateArchetypeFrom_Remove(const Archetype& basis)
 {
+    SCOPED_MEMORY_CATEGORY("ECS");
     std::vector<std::unique_ptr<IComponentList>> components;
     for (auto& copyingComponent : basis._components)
     {

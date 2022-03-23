@@ -109,6 +109,7 @@ void Logger::ThrowException(const std::string& tag, const std::string& message)
 
 bool Logger::AddImplementation(std::shared_ptr<ILogger> implementation)
 {
+  SCOPED_MEMORY_CATEGORY("Logger");
   bool add = true;
   _implementationsMutex.lock();
   {

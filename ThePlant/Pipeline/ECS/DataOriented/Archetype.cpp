@@ -1,5 +1,7 @@
 #include "Pipeline/ECS/DataOriented/Archetype.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 namespace Application {
 Archetype::Archetype(Archetype&& other)
 : _id(std::move(other._id))
@@ -102,6 +104,7 @@ Archetype::Archetype(Constructor, const Core::IncrementalId& id, const TypeColle
 : _id(id)
 , _types(types)
 {
+    SCOPED_MEMORY_CATEGORY("ECS");
     for (auto& component : components)
     {
         _components.emplace(component->ComponentType(), std::move(component));
@@ -110,6 +113,7 @@ Archetype::Archetype(Constructor, const Core::IncrementalId& id, const TypeColle
 
 void Archetype::_AddEntity(const Entity& entity)
 {
+    SCOPED_MEMORY_CATEGORY("ECS");
     _entities.emplace_back(entity.GetEntityId());
     for (auto& component : _components)
     {

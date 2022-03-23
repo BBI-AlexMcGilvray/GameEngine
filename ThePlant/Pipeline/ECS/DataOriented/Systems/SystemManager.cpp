@@ -26,6 +26,7 @@ namespace Application
     // probably a way to optimize while taking into account the current state of the sorted systems
     void SystemManager::_OrderSetForDependencies()
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         std::vector<Core::UniquePtr<ISystem>> sortedSystems;
         
         auto dependenciesSorted = [&sortedSystems, this](const std::set<Core::runtimeId_t>& dependencies)

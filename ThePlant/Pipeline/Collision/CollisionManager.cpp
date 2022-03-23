@@ -31,6 +31,7 @@ std::vector<Collision> CollisionManager::GetAllCollisions()
 
 const std::vector<Core::Ptr<ICollisionHandler>> CollisionManager::GetAllCollisionHandlers() const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     std::vector<Core::Ptr<ICollisionHandler>> allHandlers;
 
     for (auto& handler : _handlers)
@@ -43,6 +44,7 @@ const std::vector<Core::Ptr<ICollisionHandler>> CollisionManager::GetAllCollisio
 
 Core::instanceId<ICollisionHandler> CollisionManager::AddCollisionHandler(std::unique_ptr<ICollisionHandler> handler)
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     auto handlerId = Core::GetInstanceId<ICollisionHandler>();
 
     _handlers.emplace(handlerId, std::move(handler));

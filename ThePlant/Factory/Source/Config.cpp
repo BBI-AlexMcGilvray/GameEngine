@@ -1,5 +1,7 @@
 #include "Factory/Headers/Config.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 namespace Data
 {
     Config::Config(Core::IO::File& file)
@@ -42,6 +44,7 @@ namespace Data
 
     void Config::setValue(const std::string& key, const std::string& value)
     {
+        SCOPED_MEMORY_CATEGORY("Config");
         _data.emplace(key, value);
     }
 }

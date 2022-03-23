@@ -10,6 +10,7 @@
 
 #include "Core/Headers/Hash.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 #include "Core/IO/Headers/Folder.h"
@@ -92,6 +93,7 @@ namespace Data
 
 		void ConvertFilesForScene(Config& config, Ptr<File> directAssets, Ptr<File> sceneFile, std::string sceneName, std::vector<std::pair<ModelType, std::string>>& models, std::vector<std::pair<ModelType, std::string>>& meshes, std::vector<std::string>& materials, std::vector<std::string>& skeletons, std::vector<std::string>& skeletonAnimations)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			CORE_LOG(SCENE_CONVERSION, "Converting files for <<" + sceneFile->GetFullPath() + ">>");
 			// this process preset also INCLUDES the flag to make all faces based on triangles
 			std::string fullPathCopy = sceneFile->GetFullPath();

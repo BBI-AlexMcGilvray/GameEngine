@@ -42,6 +42,7 @@ struct ChildComponent
 
     void AddChild(const EntityId& entity)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
     #if DEBUG
         if (_HasChild(entity))
         {

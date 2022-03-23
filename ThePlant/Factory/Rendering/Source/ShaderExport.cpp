@@ -2,6 +2,7 @@
 
 #include "Core/Headers/Hash.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 #include "Core/IO/Headers/Folder.h"
@@ -114,6 +115,7 @@ namespace Data
 
         void ExportShadersInFolder(Config& config, Core::Ptr<Core::IO::File> directAssets, std::string folder)
         {
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			std::vector<std::string> shaders;
 
 			// in the future, this should likely also reference a database that is used to get specific file locations

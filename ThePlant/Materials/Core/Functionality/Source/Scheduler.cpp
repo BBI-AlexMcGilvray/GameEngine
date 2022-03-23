@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 namespace Core {
 namespace Functionality {
   void SchedulerBase::Update(Second dt)
@@ -24,6 +26,7 @@ namespace Functionality {
 
   void SchedulerBase::Add(VoidFunction<Second> func, Second key)
   {
+    SCOPED_MEMORY_CATEGORY("Scheduler");
     _scheduledFunctions.emplace_back(key, func);
     _Dirty();
   }

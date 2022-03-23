@@ -93,6 +93,7 @@ namespace Data
 
 		void ExportDataForType(Ptr<SQLInstance> db, UniquePtr<DataType> type, Ptr<File> directAssets)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			CORE_LOG(CUSTOM_DATA, "Starting to export data with type: " + type->Name);
 
 			FilePath exportTo = { GetCWD() + "Resources/ExportedAssets/CustomData/", "" };

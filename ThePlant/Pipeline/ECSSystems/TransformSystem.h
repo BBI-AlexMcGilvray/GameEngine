@@ -141,6 +141,7 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         std::vector<Core::Ptr<const std::vector<EntityId>>> allEntities;
         std::vector<Core::Ptr<std::vector<WorldTransformComponent>>> allWorldTransforms;
         std::vector<Core::Ptr<std::vector<LocalTransformComponent>>> allLocalTransforms;

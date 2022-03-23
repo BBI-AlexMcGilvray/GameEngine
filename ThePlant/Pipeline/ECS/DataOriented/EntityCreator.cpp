@@ -5,6 +5,7 @@
 namespace Application {
     TypeCollection EntityCreator::GetArchetype() const
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         std::vector<Core::runtimeId_t> types;
         for (auto& componentCreator : _componentCreators)
         {
@@ -16,6 +17,7 @@ namespace Application {
 
     Archetype EntityCreator::CreateArchetype() const
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         std::vector<std::unique_ptr<IComponentList>> components;
         for (auto& componentCreator : _componentCreators)
         {

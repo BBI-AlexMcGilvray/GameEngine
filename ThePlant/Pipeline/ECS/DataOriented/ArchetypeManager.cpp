@@ -7,6 +7,7 @@
 namespace Application {
 Entity ArchetypeManager::CreateEntity(const EntityCreator& creator)
 {
+    SCOPED_MEMORY_CATEGORY("ECS");
     auto& archetype = creator.GetArchetype();
     if (!_HasArchetype(archetype))
     {

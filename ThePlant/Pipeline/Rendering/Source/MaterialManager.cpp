@@ -1,5 +1,7 @@
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 using namespace Core;
 
 namespace Application {
@@ -32,6 +34,7 @@ namespace Rendering {
 
   Core::instanceId<Material> MaterialManager::AddMaterial(const Material& material)
   {
+    SCOPED_MEMORY_CATEGORY("Rendering");
     Core::instanceId<Material> newId = GetInstanceId<Material>();
 
     _materials.emplace(std::make_pair(newId, material));
@@ -41,6 +44,7 @@ namespace Rendering {
 
   Core::instanceId<Material> MaterialManager::AddMaterial(Material&& material)
   {
+    SCOPED_MEMORY_CATEGORY("Rendering");
     Core::instanceId<Material> newId = GetInstanceId<Material>();
 
     _materials.emplace(std::make_pair(newId, std::move(material)));

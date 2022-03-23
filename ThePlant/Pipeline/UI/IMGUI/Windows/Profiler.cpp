@@ -2,6 +2,7 @@
 
 #include <format>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/Service.h"
 
 namespace Application {
@@ -10,6 +11,7 @@ namespace IMGUI {
 
 void _UpdateDisplaySections(const std::vector<Core::Profiling::Section>& sections, std::vector<Profiler::DisplaySection>& displaySections)
 {
+    SCOPED_MEMORY_CATEGORY("IMGUI");
     // copy remaining sections over
     for (const auto& section : sections)
     {
@@ -77,6 +79,7 @@ void _ResetDisplaySections(std::vector<Profiler::DisplaySection>& displaySection
 
 void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentDuration)
 {
+    SCOPED_MEMORY_CATEGORY("IMGUI");
     float relativeDuration = section.duration / parentDuration;
 
     size_t activeSections = 0;
@@ -126,6 +129,7 @@ void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentD
 
 void Profiler::Draw()
 {
+    SCOPED_MEMORY_CATEGORY("IMGUI");
     ImGui::Checkbox("Update profiler", &update);
     // ImGui::SameLine();
     // if (ImGui::Button("Reset Profiler"))

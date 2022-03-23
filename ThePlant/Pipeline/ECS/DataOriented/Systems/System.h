@@ -5,7 +5,9 @@
 
 #include "Materials/Core/IdTypes/RuntimeId.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Debugging/Profiling/Utils.h"
+
 #include "Pipeline/ECS/DataOriented/ArchetypeManager.h"
 
 namespace Application {
@@ -38,6 +40,7 @@ struct ISystem
     template <typename T>
     ISystem& AddDependency()
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         _dependencies.emplace(Core::GetTypeId<T>());
         return *this;
     }

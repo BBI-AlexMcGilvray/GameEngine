@@ -28,6 +28,7 @@ enum Style {
 namespace {
   std::string NodeSpace(Style style)
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     std::string result;
 
     switch (style) {
@@ -44,6 +45,7 @@ namespace {
 
   std::string ElementSpace(Style style, int depth)
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     std::string result;
 
     switch (style) {
@@ -62,6 +64,7 @@ namespace {
 
   std::string WrapString(const std::string &str)
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     return "\"" + str + "\"";
   }
 }// namespace
@@ -97,6 +100,7 @@ struct JSONData : public JSONNode
 
   std::string ToString(Style style, int depth) const override
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     return "null";
   }
 };
@@ -170,6 +174,7 @@ struct JSONData<std::string, void> : public JSONNode
 
   std::string ToString(Style style, int depth) const override
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     return WrapString(_data);
   }
 
@@ -200,6 +205,7 @@ struct JSONData<T, std::void_t<decltype(std::to_string(std::declval<T>()))>> : p
 
   std::string ToString(Style style, int depth) const override
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     return std::to_string(_data);
   }
 
@@ -260,6 +266,7 @@ struct JSONObject : public JSONNode
 
   std::string ToString(Style style, int depth) const override
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     std::string str = NodeSpace(style) + ElementSpace(style, depth) + "{" + NodeSpace(style);
 
     depth += 1;
@@ -297,6 +304,7 @@ struct JSONArray : public JSONNode
 
   void AddElement(std::shared_ptr<JSONNode> element)
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     _elements.push_back(move(element));
   }
 
@@ -312,6 +320,7 @@ struct JSONArray : public JSONNode
 
   std::string ToString(Style style, int depth) const override
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     std::string str = NodeSpace(style) + ElementSpace(style, depth) + "[" + NodeSpace(style);
 
     depth += 1;
@@ -549,6 +558,7 @@ struct JSON
 
   std::string ToString(Style style) const
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
     return _data->ToString(style, 0);
   }
 

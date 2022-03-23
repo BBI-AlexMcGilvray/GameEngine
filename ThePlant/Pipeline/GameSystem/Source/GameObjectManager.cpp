@@ -1,5 +1,7 @@
 #include "Pipeline/GameSystem/Headers/GameObjectManager.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Pipeline/GameSystem/Headers/GameObjectBase.h"
 
 namespace Application {
@@ -21,6 +23,7 @@ namespace GameSystem {
 
   void GameObjectManager::AddGameObject(SharedPtr<GameObjectBase> gameObject)
   {
+    SCOPED_MEMORY_CATEGORY("GameObject_OO");
     GameObjects.push_back(move(gameObject));
   }
 

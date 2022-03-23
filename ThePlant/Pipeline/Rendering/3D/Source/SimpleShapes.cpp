@@ -1,9 +1,13 @@
 #include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 namespace Application {
 namespace Rendering {
     Mesh CreateLine(const float& length)
     {
+        SCOPED_MEMORY_CATEGORY("Rendering");
+
         Core::Math::Float3 normal = 0.0f;
         std::vector<SimpleVertexData> vertices = {
             { Core::Math::Float3(0.0f, 0.0f, 0.0f), normal },
@@ -24,6 +28,8 @@ namespace Rendering {
 
     Mesh CreateBox(const Core::Math::Float3& min, const Core::Math::Float3& max)
     {
+        SCOPED_MEMORY_CATEGORY("Rendering");
+
         std::vector<Core::Math::Float3> corners;
         corners.reserve(8);
         corners.push_back(Core::Math::Float3(min.X, min.Y, min.Z));
@@ -82,6 +88,8 @@ namespace Rendering {
 
     Mesh CreatePyramid(const float& height, const float& sideLength)
     {
+        SCOPED_MEMORY_CATEGORY("Rendering");
+
         const float halfSideLength = sideLength * 0.5f;
 
         std::vector<Core::Math::Float3> corners;
@@ -122,6 +130,8 @@ namespace Rendering {
 
     Mesh CreateSphere(const float& radius)
     {
+        SCOPED_MEMORY_CATEGORY("Rendering");
+        
         // http://en.wikipedia.org/wiki/Icosahedron
         //(0, +/-1, +/-t)
         //(+/-1, +/-t, 0)

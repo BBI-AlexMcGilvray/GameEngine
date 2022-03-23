@@ -3,6 +3,8 @@
 #include <array>
 #include <vector>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Pipeline/Animation/Headers/ChannelTypes.h"
 #include "Pipeline/Animation/Headers/AnimationTargets.h"
 #include "Pipeline/Animation/Headers/SkeletonAnimation.h"
@@ -11,6 +13,7 @@ namespace Application {
 namespace Animation {
     std::array<AnimationCurve, 3> CreatePositionAnimationCurves(const std::vector<Data::Rendering::PositionFrameData>& positionFrames)
     {
+        SCOPED_MEMORY_CATEGORY("Animation");
         std::array<std::vector<Keyframe>, 3> keyframes;
 
         for (const auto& frame : positionFrames)
@@ -27,6 +30,7 @@ namespace Animation {
 
     void AddPositionChannels(Animation& skeletonAnimation, const Core::Hash& target, const std::vector<Data::Rendering::PositionFrameData>& positionFrames)
     {
+        SCOPED_MEMORY_CATEGORY("Animation");
         std::array<AnimationCurve, 3> positionCurves = CreatePositionAnimationCurves(positionFrames);
 
         Channel_Float3 positionX(&Core::Math::Float3::X, positionCurves[0]);
@@ -38,6 +42,7 @@ namespace Animation {
 
     std::array<AnimationCurve, 3> CreateScaleAnimationCurves(const std::vector<Data::Rendering::ScaleFrameData>& scaleFrames)
     {
+        SCOPED_MEMORY_CATEGORY("Animation");
         std::array<std::vector<Keyframe>, 3> keyframes;
 
         for (const auto& frame : scaleFrames)
@@ -54,6 +59,7 @@ namespace Animation {
 
     void AddScaleChannels(Animation& skeletonAnimation, const Core::Hash& target, const std::vector<Data::Rendering::ScaleFrameData>& scaleFrames)
     {
+        SCOPED_MEMORY_CATEGORY("Animation");
         std::array<AnimationCurve, 3> scaleCurves = CreateScaleAnimationCurves(scaleFrames);
 
         Channel_Float3 scaleX(&Core::Math::Float3::X, scaleCurves[0]);
@@ -65,6 +71,7 @@ namespace Animation {
 
     std::array<AnimationCurve, 4> CreateRotationAnimationCurves(const std::vector<Data::Rendering::RotationFrameData>& rotationFrames)
     {
+        SCOPED_MEMORY_CATEGORY("Animation");
         std::array<std::vector<Keyframe>, 4> keyframes;
 
         for (const auto& frame : rotationFrames)
@@ -82,6 +89,7 @@ namespace Animation {
 
     void AddRotationChannels(Animation& skeletonAnimation, const Core::Hash& target, const std::vector<Data::Rendering::RotationFrameData>& rotationFrames)
     {
+        SCOPED_MEMORY_CATEGORY("Animation");
         std::array<AnimationCurve, 4> rotationCurves = CreateRotationAnimationCurves(rotationFrames);
 
         Channel_FQuat rotationX(&Core::Math::FQuaternion::X, rotationCurves[0]);
@@ -94,6 +102,7 @@ namespace Animation {
 
     Animation CreateAnimation(Data::AssetManager& assetManager, const Data::AssetName<Data::Rendering::SkeletonAnimationData>& asset)
     {
+        SCOPED_MEMORY_CATEGORY("Animation");
         Data::AssetData<Data::Rendering::SkeletonAnimationData> assetData = assetManager.getAssetData(asset);
 
         Animation skeletonAnimation(Core::HashValue(assetData->name), assetData->duration);

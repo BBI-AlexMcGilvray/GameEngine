@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Pipeline/ECS/DataOriented/Archetype.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
@@ -44,6 +46,7 @@ public:
     template <typename ...Ts>
     void AddComponentsTo(Entity& entity)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         Archetype& oldArchetype = _GetArchetype(entity.GetArchetypeId());
         TypeCollection newArchetypeType = AddToCollection<Ts...>(oldArchetype.GetArchetype());
         if (!_HasArchetype(newArchetypeType))
@@ -58,6 +61,7 @@ public:
     template <typename ...Ts>
     void AddComponentsTo(Entity& entity, Ts&& ...args)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         Archetype& oldArchetype = _GetArchetype(entity.GetArchetypeId());
         TypeCollection newArchetypeType = AddToCollection<Ts...>(oldArchetype.GetArchetype());
         if (!_HasArchetype(newArchetypeType))
@@ -74,6 +78,7 @@ public:
     template <typename ...Ts>
     void RemoveComponentsFrom(Entity& entity)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         Archetype& oldArchetype = _GetArchetype(entity.GetArchetypeId());
         TypeCollection newArchetypeType = RemoveFromCollection<Ts...>(oldArchetype.GetArchetype());
         if (!_HasArchetype(newArchetypeType))
@@ -88,6 +93,7 @@ public:
     template <typename ...Ts>
     Entity CreateEntity()
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         if (!_HasArchetype<Ts...>())
         {
             _archetypes.emplace_back(CreateArchetype<Ts...>());
@@ -120,6 +126,7 @@ public:
     template <typename ...Ts>
     Entity CreateEntity(const std::tuple<Ts...>& components)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         if (!_HasArchetype<Ts...>())
         {
             _archetypes.emplace_back(CreateArchetype<Ts...>());
@@ -136,6 +143,7 @@ public:
     template <typename ...Ts>
     std::vector<Core::Ptr<Archetype>> GetArchetypesContaining()
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         TypeCollection types = CollectTypes<Ts...>();
 
         std::vector<Core::Ptr<Archetype>> relevantArchetypes;

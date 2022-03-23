@@ -1,5 +1,7 @@
 #include "Pipeline/Animation/Headers/AnimationManager.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Pipeline/Animation/Headers/SkeletonAnimation.h"
 
 namespace Application {
@@ -33,6 +35,7 @@ namespace Animation {
 
   Core::instanceId<Animator> AnimationManager::CreateAnimator(Data::AssetManager& assetManager, const std::vector<Data::AssetName<Data::Rendering::SkeletonAnimationData>>& animations)
   {
+    SCOPED_MEMORY_CATEGORY("Animation");
     Core::instanceId<Animator> newAnimatorId = Core::GetInstanceId<Animator>();
 
     Animator newAnimator;

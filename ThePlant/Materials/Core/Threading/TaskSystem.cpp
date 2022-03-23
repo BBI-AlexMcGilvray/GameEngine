@@ -1,5 +1,7 @@
 #include "Core/Threading/TaskSystem.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 namespace Core {
 namespace Threading {
 TaskSystem::~TaskSystem()
@@ -11,6 +13,7 @@ TaskSystem::~TaskSystem()
 
 void TaskSystem::AddThreads(ThreadManager& threadManager, int threadCount)
 {
+    SCOPED_MEMORY_CATEGORY("Threading");
     for (int i = 0; i < threadCount; ++i)
     {
         _threads.emplace_back(threadManager.GetThread());

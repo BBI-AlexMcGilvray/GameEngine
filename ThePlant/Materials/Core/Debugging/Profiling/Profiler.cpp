@@ -1,4 +1,6 @@
 #include "Core/Debugging/Profiling/Profiler.h"
+
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 namespace Core {
@@ -7,6 +9,7 @@ namespace Profiling
 #if DEBUG
 void Profiler::Push(const std::string& tag)
 {
+    SCOPED_MEMORY_CATEGORY("Profiler");
     auto lock = _LockStacks();
     auto thisThread = std::this_thread::get_id();
     auto& thisStack = _threadStacks[thisThread];
@@ -17,6 +20,7 @@ void Profiler::Push(const std::string& tag)
 
 void Profiler::Pop(const std::string& tag)
 {
+    SCOPED_MEMORY_CATEGORY("Profiler");
     auto lock = _LockStacks();
     auto thisThread = std::this_thread::get_id();
     auto& thisStack = _threadStacks[thisThread];
@@ -49,6 +53,7 @@ const std::vector<Section> Profiler::GetSections() const
 
 const std::vector<Section> Profiler::GetSectionsThenClear()
 {
+    SCOPED_MEMORY_CATEGORY("Profiler");
     auto lock = _LockSections();
     std::vector<Section> sections = _sections;
     _sections.clear();
@@ -74,6 +79,7 @@ std::unique_lock<std::mutex> Profiler::_LockStacks() const
 
 void Profiler::_AddSection(Section&& section)
 {
+    SCOPED_MEMORY_CATEGORY("Profiler");
     auto lock = _LockSections();
     _sections.emplace_back(std::move(section));
 }

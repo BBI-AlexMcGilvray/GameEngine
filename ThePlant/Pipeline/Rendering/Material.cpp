@@ -1,6 +1,8 @@
 #include "Pipeline/Rendering/Material.h"
 
-#include "Materials/Data/Rendering/Headers/MaterialData.h"
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
+#include "Data/Rendering/Headers/MaterialData.h"
 
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
@@ -14,7 +16,8 @@ namespace Rendering {
 
       template<typename FieldData>
       void operator()(FieldData f)
-      {          
+      {  
+        SCOPED_MEMORY_CATEGORY("Rendering");        
         _context.emplace(std::make_pair<std::string, ShaderVariant>(std::string(f.name()), f.get()));
       }
 

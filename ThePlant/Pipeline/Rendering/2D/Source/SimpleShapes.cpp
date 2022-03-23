@@ -1,5 +1,6 @@
 #include "Pipeline/Rendering/2D/Headers/SimpleShapes.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Math/Headers/UtilityFunctions.h"
 
 namespace Application {
@@ -14,6 +15,7 @@ namespace Rendering {
 
     Mesh CreateRectangle(const Core::Math::Float2& min, const Core::Math::Float2& max)
     {
+        SCOPED_MEMORY_CATEGORY("Rendering");
         std::vector<SimpleVertexData> vertices;
 
         vertices.push_back({ Core::Math::Float3{ min.X, min.Y, 0.0f }, Core::Math::Float3{ 0.0f } });
@@ -29,6 +31,7 @@ namespace Rendering {
 
     Mesh CreateCircle(const float& radius)
     {
+        SCOPED_MEMORY_CATEGORY("Rendering");
         std::vector<SimpleVertexData> vertices;
 
         Core::Math::Float2 center(0.0f);

@@ -219,6 +219,7 @@ const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::AABBS
 
 void OctTreeNode::_InsertContent(const OctTreeContent& content)
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_InsertContent");
 
     if (_content.empty() && !_ChildrenExist())
@@ -245,6 +246,7 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
 
 void OctTreeNode::_StopGapContent(const OctTreeContent& content)
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     _content.push_back(content);
     _stopGapped = true;
 }
@@ -293,6 +295,7 @@ void OctTreeNode::_FindAllEntities(std::vector<std::pair<EntitySnapshot, Core::G
 
 void OctTreeNode::_InternalEntities(std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_InternalEntities");
 
     for (const auto& content : _content)
@@ -308,6 +311,7 @@ void OctTreeNode::_InternalEntities(std::vector<std::pair<EntitySnapshot, Core::
 
 void OctTreeNode::_EntitiesForAllContent(std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>>& entities) const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_EntitiesForAllContent");
 
     for (const auto& content : _content)
@@ -337,6 +341,7 @@ void OctTreeNode::_AllCollisions(std::vector<IntermediaryCollision>& collisions)
 
 void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_InternalCollisions");
 
     // edge case covering due to _content.size() - 1 in loop
@@ -408,6 +413,7 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
 
 void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_CollisionsWithAllContent");
 
     for (const auto& c : _content)
@@ -429,6 +435,7 @@ void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& 
 
 void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_FindAllCollisions");
 
     for (const auto& c : _content)
@@ -497,6 +504,7 @@ void OctTreeNode::_ChildCollisions(std::vector<IntermediaryCollision>& collision
 
 std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<IntermediaryCollision>& intermediaryCollisions) const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_CreateCollisions");
     
     // this is to avoid creating multiple snapshots of the same entity
@@ -583,6 +591,7 @@ size_t OctTreeNode::_DEBUG_NumberOfContentIncludingChildren() const
 
 const std::vector<Core::Geometric::ShapeOrientation3D> OctTreeNode::_DEBUG_AllChildShapes() const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     std::vector<Core::Geometric::ShapeOrientation3D> allChildShapes;
 
     if (_ChildrenExist())

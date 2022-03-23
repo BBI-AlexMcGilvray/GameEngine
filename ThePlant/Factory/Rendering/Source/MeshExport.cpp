@@ -7,6 +7,7 @@
 
 #include "Core/Headers/Hash.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 #include "Core/IO/Headers/File.h"
@@ -46,6 +47,7 @@ namespace Data
 		
 		void FillPositionData(std::vector<Core::Math::Float3>& positions, const aiMesh* mesh)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			positions.reserve(mesh->mNumVertices);
 			
 			Core::Math::Float3 currentPosition;
@@ -64,6 +66,7 @@ namespace Data
 		
 		void FillNormalData(std::vector<Core::Math::Float3>& normals, const aiMesh* mesh)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			normals.reserve(mesh->mNumVertices);
 			
 			Core::Math::Float3 currentNormal;
@@ -82,6 +85,7 @@ namespace Data
 		
 		void FillUVData(std::vector<Core::Math::Float2>& uvs, const aiMesh* mesh)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			// this should be changed to handle multiple textures, and the saving of each one's data
 			if (!mesh->HasTextureCoords(0))
 			{
@@ -151,6 +155,7 @@ namespace Data
 
 		void FillIndicesData(std::vector<Core::Math::Uint3>& indices, uint& numVertices, const aiMesh* mesh)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			indices.reserve(mesh->mNumFaces);
 			
 			uint vertexCount = 0;

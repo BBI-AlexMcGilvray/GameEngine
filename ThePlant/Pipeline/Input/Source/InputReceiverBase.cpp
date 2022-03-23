@@ -1,6 +1,6 @@
-#pragma once
-
 #include "Pipeline/Input/Headers/InputReceiverBase.h"
+
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 
 namespace Application {
 namespace Input {
@@ -11,6 +11,7 @@ namespace Input {
 
   void ParentInputReceiver::addChild(Ptr<IInputReceiver> receiver)
   {
+    SCOPED_MEMORY_CATEGORY("Input");
     _children.push_back(receiver);
   }
 

@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/type_traits.h"
 #include "Core/Logging/LogFunctions.h"
 
@@ -25,6 +26,7 @@ namespace Application
 
         EntitySnapshot(const EntitySnapshot& other)
         {
+            SCOPED_MEMORY_CATEGORY("ECS");
             _entity = other._entity;
 
             for (const auto& component : other._componentReferences)
@@ -34,6 +36,7 @@ namespace Application
         }
         EntitySnapshot& operator=(const EntitySnapshot& other)
         {
+            SCOPED_MEMORY_CATEGORY("ECS");
             _entity = other._entity;
             
             for (const auto& component : other._componentReferences)
