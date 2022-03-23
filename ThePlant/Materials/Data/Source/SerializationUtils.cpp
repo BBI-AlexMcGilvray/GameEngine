@@ -14,6 +14,7 @@ namespace Core::Serialization::Format
 
     std::shared_ptr<JSONNode> serialize(const Core::Second& time)
     {
+      SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<JSONDecimal> json = std::make_shared<JSONDecimal>();
 
       json->SetData(time.count());
@@ -33,6 +34,7 @@ namespace Core::Serialization::Format
 
     std::shared_ptr<JSONNode> serialize(const Core::Hash& hash)
     {
+      SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<JSONNumber> json = std::make_shared<JSONNumber>();
 
       json->SetData(static_cast<long long>(static_cast<uint>(hash)));
@@ -52,6 +54,7 @@ namespace Core::Serialization::Format
 
     std::shared_ptr<JSONNode> serialize(const Core::runtimeId_t& runtimeId)
     {
+      SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<JSONNumber> json = std::make_shared<JSONNumber>();
 
       json->SetData(runtimeId);

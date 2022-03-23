@@ -6,6 +6,8 @@
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/TimeDefs.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Pipeline/Animation/Headers/Channel.h"
 
 namespace Application {
@@ -35,6 +37,8 @@ namespace Animation {
     template <typename T, typename ATTRIBUTE>
     void AddObjectChannel(const Core::Hash& target, const std::vector<Channel<T>>& channels)
     {
+      SCOPED_MEMORY_CATEGORY("Animation");
+
       std::unique_ptr<ObjectChannel<T>> newObjectChannel = std::make_unique<ObjectChannel<T>>();
       for (auto& channel : channels)
       {

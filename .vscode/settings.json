@@ -88,6 +88,7 @@
         "xthread": "cpp",
         "xmemory0": "cpp",
         "resumable": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "xxatomic": "cpp"
     }
 }

@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Core/Headers/PtrDefs.h"
 #include "Core/IdTypes/RuntimeId.h"
 
@@ -57,6 +59,7 @@ struct ComponentCreator : public IComponentCreator
 
     std::unique_ptr<IComponentList> CreateComponentList() const override
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         return std::make_unique<ComponentList<T>>();
     }
 
@@ -87,6 +90,7 @@ struct EntityCreator
     template <typename T, typename ...ARGS>
     void AddComponent(ARGS&& ...args)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         _componentCreators.emplace_back(std::make_unique<ComponentCreator<T>>(T(std::forward<ARGS>(args)...)));
     }
 

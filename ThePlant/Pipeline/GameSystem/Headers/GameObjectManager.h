@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
@@ -20,6 +21,7 @@ namespace GameSystem {
     template<typename T, typename... Ts>
     SharedPtr<T> AddGameObject(Ts &&...args)
     {
+      SCOPED_MEMORY_CATEGORY("GameObject_OO");
       T newGameObject = MakeShared<T>(Forward<Ts>(args)...);
 
       AddGameObject(newGameObject);

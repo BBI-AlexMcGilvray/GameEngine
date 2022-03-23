@@ -2,6 +2,7 @@
 
 #include "Core/Serialization/Formats/JSON/JSON.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Math/Headers/Color.h"
@@ -41,6 +42,7 @@ namespace Core::Serialization::Format
 
     inline std::shared_ptr<JSONNode> serialize(const ::Data::Rendering::AnimationBehaviour& animationBehaviour)
     {
+      SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<JSONString> json = std::make_shared<JSONString>();
 
       json->SetData(::Data::Rendering::to_string(animationBehaviour));
@@ -63,6 +65,7 @@ namespace Core::Serialization::Format
     template <typename T>
     inline std::shared_ptr<JSONNode> serialize(const Data::AssetName<T>& asset)
     {
+      SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<JSONNumber> json = std::make_shared<JSONNumber>();
 
       json->SetData(static_cast<long long>(static_cast<uint>(Core::Hash(asset))));
@@ -88,6 +91,7 @@ namespace Core::Serialization::Format
     template <>
     inline std::shared_ptr<JSONNode> serialize<void>(const Data::AssetName<void>& asset)
     {
+      SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<JSONObject> json = std::make_shared<JSONObject>();
       
       json->AddElement("name", serialize(asset.getName()));

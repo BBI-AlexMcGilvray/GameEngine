@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 #include "Core/IdTypes/InstanceId.h"
@@ -27,6 +29,8 @@ struct StateManager
   template <typename STATE, typename ...ARGS>
   Core::instanceId<State> AddState(ARGS&& ...args)
   {
+    SCOPED_MEMORY_CATEGORY("State");
+
     Core::instanceId<State> newId = GetInstanceId<State>();
 
     _states.emplace(std::make_pair(newId, std::make_unique<STATE>(_applicationManager, std::forward<ARGS>(args)...)));
@@ -38,6 +42,7 @@ struct StateManager
   template <typename STATE, typename ...ARGS>
   Core::instanceId<State> AddAndGoToState(ARGS&& ...args)
   {
+    SCOPED_MEMORY_CATEGORY("State");
     Core::instanceId<State> newId = GetInstanceId<State>();
 
     _states.emplace(std::make_pair(newId, std::make_unique<STATE>(_applicationManager, std::forward<ARGS>(args)...)));

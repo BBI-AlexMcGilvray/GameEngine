@@ -7,6 +7,9 @@
 #include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Debugging/Memory/InternalUtils/Utils.h"
 
+// testing
+#include "Core/Threading/Thread.h"
+
 namespace Core
 {
 namespace Memory
@@ -17,21 +20,27 @@ class MemoryTracker
 private:
     static constexpr inline size_t _ERROR_ID = 0;
 
+    // testing
+    static inline std::atomic<uint64_t> allocationIndex = 0;
+
     struct MemoryHeader
     {
+        const uint64_t allocation; // testing
         const size_t categoryId;
         const size_t size;
-        const uint8_t flag = std::numeric_limits<uint8_t>::max();
+        const uint8_t flag = static_cast<uint8_t>(0) - 1; // not using numeric_limits because max() is a windows macro and conflicts
 
         MemoryHeader(const size_t& categoryId, const size_t& size)
         : categoryId(categoryId)
         , size(size)
+        , allocation(++allocationIndex) // testing
         {}
     };
 
     struct CategoryInfo
     {
         size_t size = 0;
+        size_t highWatermark = 0;
         size_t count = 0;
         const size_t categoryId;
 
@@ -72,10 +81,9 @@ class ScopedMemoryCategory
 {
     public:
         ScopedMemoryCategory(const UntrackedString& category)
-        : _category(category)
-        , _previousCategory(MemoryTracker::current_category)
+        : _previousCategory(MemoryTracker::current_category)
         {
-            MemoryTracker::current_category = _category;
+            MemoryTracker::current_category = category;
         }
 
         ~ScopedMemoryCategory()
@@ -84,15 +92,8 @@ class ScopedMemoryCategory
         }
 
     private:
-        const UntrackedString _category;
         const UntrackedString _previousCategory;
 };
 #endif
 } // namespace Memory
 } // namespace Core
-
-#if DEBUG
-#define SCOPED_MEMORY_CATEGORY(CATEGORY) Core::Memory::ScopedMemoryCategory _scoped_memory_category(CATEGORY);
-#else
-#define SCOPED_MEMORY_CATEGORY(CATEGORY)
-#endif

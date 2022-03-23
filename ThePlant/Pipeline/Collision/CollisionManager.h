@@ -10,6 +10,8 @@
 #include "Pipeline/Collision/OctTree.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 namespace Application
 {
 namespace Collision
@@ -28,6 +30,7 @@ struct CollisionManager
     template <typename T, typename ...ARGS>
     Core::instanceId<ICollisionHandler> AddCollisionHandler(ARGS&& ...args)
     {
+        SCOPED_MEMORY_CATEGORY("Collision");
         return AddCollisionHandler(std::make_unique<T>(std::forward<ARGS>(args)...));
     }
     Core::instanceId<ICollisionHandler> AddCollisionHandler(std::unique_ptr<ICollisionHandler> handler);

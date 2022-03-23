@@ -3,6 +3,7 @@
 #include "Core/Geometric/Functions.h"
 
 #include "Core/Debugging/Profiling/Utils.h"
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 
 namespace Application
 {
@@ -156,6 +157,7 @@ void OctTreeNode::_CreateChildren()
         childOrigin.Y += childOriginOffset.Y * (i < 2 || i > 5 ? 1 : -1);
         childOrigin.Z += childOriginOffset.Z * (i % 2 ? 1 : -1);
 
+        SCOPED_MEMORY_CATEGORY("Collision");
         _children[i] = std::make_unique<OctTree_Constructor>(_ecs, childOrigin, childBounds, this);
     }
 }

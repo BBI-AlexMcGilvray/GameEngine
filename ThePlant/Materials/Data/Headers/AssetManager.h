@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/IO/Headers/IOUtils.h"
 #include "Core/Serialization/Formats/JSON/JSON.h"
 #include "Core/Serialization/Serialization.h"
@@ -72,6 +73,7 @@ private:
     template <typename T>
     SharedPtr<const T> _loadAsset(const AssetName<T>& asset)
     {
+        SCOPED_MEMORY_CATEGORY("Assets");
         File assetFile = OpenFileI(_getFilePath(asset));
 
         std::string assetData = assetFile.GetFullText();

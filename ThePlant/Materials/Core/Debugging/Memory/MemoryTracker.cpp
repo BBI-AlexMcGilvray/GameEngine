@@ -1,5 +1,8 @@
 #include "Core/Debugging/Memory/MemoryTracker.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+#include "Core/Logging/LogFunctions.h"
+
 namespace Core
 {
 namespace Memory
@@ -15,27 +18,33 @@ Ptr<void> MemoryTracker::Allocate(size_t size)
         throw std::bad_alloc();
     }
 
+    size_t currentId;
     {   // make sure category name exists and is mapped to id
         const auto lock = std::lock_guard(_mutex);
         if (_categoryToId.find(current_category) == _categoryToId.end())
         {
             _categoryToId.emplace(current_category, ++_currentId);
         }
-        _currentId = _categoryToId[current_category];
+        currentId = _categoryToId[current_category];
     }
     
     MemoryHeader* header = static_cast<MemoryHeader*>(allocated);
-    MemoryHeader headerInfo(_currentId, size);
+    MemoryHeader headerInfo(currentId, size);
     memcpy(header, &headerInfo, sizeof(MemoryHeader));
 
     {   // create and update category info
         const auto lock = std::lock_guard(_mutex);
-        if (_categories.find(_currentId) == _categories.end())
+        if (_categories.find(currentId) == _categories.end())
         {
-            _categories.emplace(_currentId, CategoryInfo(_currentId));
+            _categories.emplace(currentId, CategoryInfo(currentId));
         }
-        CategoryInfo& info = _categories[_currentId];
+
+        CategoryInfo& info = _categories[currentId];
         info.size += size;
+        if (info.size > info.highWatermark)
+        {
+            info.highWatermark = info.size;
+        }
         info.count += 1;
     }
 
@@ -61,6 +70,7 @@ void MemoryTracker::Deallocate(Ptr<void> memory)
     }
     catch(...) // we accessed invalid memory
     {
+        DEBUG_THROW("MemoryTracker", "Trying to deallocate memory we did not allocate");
         // deallocating memory that doesn't have a header
         free(memory);
         return;
@@ -68,6 +78,7 @@ void MemoryTracker::Deallocate(Ptr<void> memory)
     
     if (header->flag != std::numeric_limits<uint8_t>::max()) // wasn't made by us?
     {
+        DEBUG_THROW("MemoryTracker", "Trying to deallocate memory it doesn't look like we allocated");
         // deallocating memory that doesn't seem to be made by up
         free(memory);
         return;
@@ -78,7 +89,8 @@ void MemoryTracker::Deallocate(Ptr<void> memory)
 
 const std::string MemoryTracker::Info()
 {
-    SCOPED_MEMORY_CATEGORY("info");
+    SCOPED_MEMORY_CATEGORY("Info");
+    
     const auto lock = std::lock_guard(_mutex);
 
     std::string info = "";
@@ -92,7 +104,7 @@ const std::string MemoryTracker::Info()
             if (mapping.second == category.second.categoryId)
             {
                 found = true;
-                info += std::string(mapping.first) + ": " + std::to_string(category.second.size) + " (" + std::to_string(category.second.count) + ")";
+                info += std::string(mapping.first) + ": " + std::to_string(category.second.size) + " / " + std::to_string(category.second.highWatermark) + " (" + std::to_string(category.second.count) + ")";
                 info += '\n';
                 break;
             }

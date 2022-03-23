@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include <memory>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Core/IdTypes/InstanceId.h"
 
 #include "Pipeline/Headers/WindowManager.h"
@@ -34,6 +36,7 @@ namespace IMGUI {
     template <typename T, typename ...ARGS>
     Core::instanceId<Window> AddWindow(ARGS ...args)
     {
+      SCOPED_MEMORY_CATEGORY("IMGUI");
       Core::instanceId<Window> newId = Core::GetInstanceId<Window>();
 
       _windows.emplace(std::make_pair(newId, std::make_unique<T>(std::forward<ARGS>(args)...)));

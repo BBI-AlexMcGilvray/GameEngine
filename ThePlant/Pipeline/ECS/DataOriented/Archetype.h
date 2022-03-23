@@ -9,6 +9,8 @@
 #include "Core/Logging/LogFunctions.h"
 #include "Core/IdTypes/RuntimeId.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Pipeline/ECS/DataOriented/Component.h"
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
@@ -207,6 +209,7 @@ namespace TUPLE_HELPERS
     inline typename std::enable_if<I < sizeof...(Tp), void>::type
     create_unique_ptrs(std::tuple<Tp...>& t)
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         std::get<I>(t) = std::make_unique<decltype(std::get<I>(t))>();
         create_unique_ptrs<I + 1, Tp...>(t);
     }
@@ -215,6 +218,7 @@ namespace TUPLE_HELPERS
 template <typename ...Ts>
 std::vector<std::unique_ptr<IComponentList>> CollectIComponentLists()
 {
+    SCOPED_MEMORY_CATEGORY("ECS");
     std::tuple<std::unique_ptr<ComponentList<Ts>>...> instances(std::make_unique<ComponentList<Ts>>()...);
     // TUPLE_HELPERS::create_unique_ptrs(instances);
 

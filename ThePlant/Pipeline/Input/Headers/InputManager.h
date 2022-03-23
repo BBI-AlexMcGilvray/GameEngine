@@ -6,6 +6,7 @@
 
 #include "Pipeline/Input/Headers/InputController.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Functionality/Headers/Event.h"
 
@@ -36,6 +37,7 @@ namespace Input {
     template <typename T, typename ...Args>
     void setInputController(Args... args)
     {
+			SCOPED_MEMORY_CATEGORY("Input");
       setInputController(MakeUnique<T>(std::forward<Args>(args)...));
     }
     void setInputController(UniquePtr<IInputController> controller);

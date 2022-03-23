@@ -1,11 +1,13 @@
 #include "Pipeline/Input/Headers/InputEvent.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 namespace Application {
 namespace Input {
   UniquePtr<const InputEventBase> createInputEvent(const SDL_Event &sdlEvent)
   {
+    SCOPED_MEMORY_CATEGORY("Input");
     /*
     Should we be using 'now', or should we be using sdlEvent.key.timestamp?
     */

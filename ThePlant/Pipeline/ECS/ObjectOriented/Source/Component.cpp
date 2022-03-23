@@ -1,5 +1,7 @@
 #include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Pipeline/ECS/ObjectOriented/Headers/ComponentPtr.h"
 #include "Pipeline/ECS/ObjectOriented/Headers/Entity.h"
 
@@ -75,6 +77,7 @@ void IComponent::CleanUp()
 
 std::shared_ptr<ComponentControlBlock> IComponent::GetControlBlock()
 {
+  SCOPED_MEMORY_CATEGORY("Component_OO");
   if (_controlBlock == nullptr)
   {
     _controlBlock = std::make_shared<ComponentControlBlock>(*this);

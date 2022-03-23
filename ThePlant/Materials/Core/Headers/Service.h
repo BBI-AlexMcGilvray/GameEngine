@@ -4,6 +4,7 @@
 
 #include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Debugging/Headers/Macros.h"
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 namespace Core {
@@ -98,6 +99,7 @@ public:
     template <typename ...ARGS>
     static ServiceToken<T> Set(ARGS ...args)
     {
+        SCOPED_MEMORY_CATEGORY("Service");
         VERIFY(_instance.expired(), "Overriding an already-set service!");
 
         std::shared_ptr<Service<T>> instance = std::make_shared<Service<T>>(ConstructionTag(), std::forward<ARGS>(args)...);

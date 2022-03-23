@@ -1,5 +1,6 @@
 #include "Pipeline\Rendering\Headers\RenderManager.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/Headers/ApplicationManager.h"
@@ -22,6 +23,7 @@ namespace Rendering {
 
   void RenderManager::Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Color clearColor)
   {
+    SCOPED_MEMORY_CATEGORY("Rendering");
     _sdlManager = &sdlManager;
     _ui = std::make_unique<UI::IMGUI::Manager>(_sdlManager->GetWindowManager(), _sdlManager->GetContextManager());
     _ui->Initialize();

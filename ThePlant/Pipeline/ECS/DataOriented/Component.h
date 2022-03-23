@@ -4,9 +4,11 @@
 #include <stdexcept>
 #include <vector>
 
-#include "Materials/Core/Debugging/Headers/Macros.h"
-#include "Materials/Core/IdTypes/RuntimeId.h"
-#include "Materials/Core/Logging/LogFunctions.h"
+#include "Core/Debugging/Headers/Macros.h"
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
+#include "Core/IdTypes/RuntimeId.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"
 
@@ -64,6 +66,7 @@ struct TemporaryComponentRef : public ITemporaryComponentRef
     Core::runtimeId_t GetComponentType() const override { return Core::GetTypeId<T>(); }
     std::unique_ptr<ITemporaryComponentRef> CreateCopy() const override
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         return std::make_unique<TemporaryComponentRef<T>>(_component);
     }
 
@@ -136,6 +139,7 @@ struct ComponentList : public IComponentList
 
     std::unique_ptr<IComponentList> CreateEmptyCopy() const override 
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         return std::make_unique<ComponentList<T>>();
     }
 
@@ -171,6 +175,7 @@ struct ComponentList : public IComponentList
 
     std::unique_ptr<ITemporaryComponentRef> GetTemporaryComponentRef(const size_t& index) override
     {
+        SCOPED_MEMORY_CATEGORY("ECS");
         return std::make_unique<TemporaryComponentRef<T>>(_ComponentAt(index));
     }
 

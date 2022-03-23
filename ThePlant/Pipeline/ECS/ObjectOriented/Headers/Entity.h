@@ -6,6 +6,7 @@
 #include "Pipeline/ECS/ObjectOriented/Headers/Component.h"
 #include "Pipeline/ECS/ObjectOriented/Headers/ComponentPtr.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 #include "Core/Headers/Hash.h"
@@ -27,6 +28,7 @@ struct EntityBase
   template<typename T, typename... Ts>//, Templates::is_component<T>>
   ComponentPtr<T> AddComponent(Ts &&...args)
   {
+		SCOPED_MEMORY_CATEGORY("ECS");
     return AddComponent<T>(Core::MakeUnique<T>(*this, std::forward<Ts>(args)...));
   }
 
@@ -46,6 +48,7 @@ struct EntityBase
   template<typename T, typename... Ts>//, Templates::is_component<T>>
   ComponentPtr<T> AddComponentAndInitialize(Ts &&...args)
   {
+    SCOPED_MEMORY_CATEGORY("ECS");
     return AddComponentAndInitialize<T>(Core::MakeUnique<T>(*this, Forward<Ts>(args)...));
   }
 

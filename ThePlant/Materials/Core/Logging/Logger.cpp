@@ -3,6 +3,7 @@
 #include <exception>
 
 #if _DEBUG
+  #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
   #include "Core/Headers/PtrDefs.h"
   #include "Core/Logging/ConsoleLogger.h"
 #endif
@@ -63,6 +64,7 @@ void RemoveImplementation(std::shared_ptr<ILogger> implementation)
 Logger::Logger(ServiceOnlyConstructionTag tag)
 {
 #if _DEBUG
+  SCOPED_MEMORY_CATEGORY("Logger");
   AddImplementation(Core::MakeShared<ConsoleLogger>());
 #endif
 }

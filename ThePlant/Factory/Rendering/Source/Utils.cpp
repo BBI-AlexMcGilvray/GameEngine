@@ -4,6 +4,7 @@
 
 #include "Core/Headers/Hash.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Debugging/Headers/Macros.h"
 
 #include "Core/IO/Headers/File.h"
@@ -100,6 +101,7 @@ namespace Data
 
 		Core::UniquePtr<ExportNode> CreateExportSkeletonForMesh(Core::Ptr<const aiNode> rootNode, Core::uint meshIndex)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			Core::Ptr<const aiNode> meshRoot = FindRootNodeForMesh(rootNode, meshIndex);
 
 			Core::UniquePtr<ExportNode> exportSkeleton = Core::MakeUnique<ExportNode>(meshRoot);

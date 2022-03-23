@@ -2,6 +2,7 @@
 
 #include "Factory/SQL/Headers/SQLInstance.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
 
 namespace Data
@@ -56,6 +57,7 @@ namespace Data
 
 		bool SQLInstance::Query(std::string sqlCall, BoolFunction<Ptr<void>, std::vector<std::string>, std::vector<std::string>> rowOperation, Ptr<void> forwardedInfo)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			CORE_LOG(SQL_INSTANCE, "Querying <" + DBPath.GetFullPath() + ">");
 
 			if (State != DBState::Open)

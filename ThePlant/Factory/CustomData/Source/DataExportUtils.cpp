@@ -1,5 +1,7 @@
 #include "Factory/CustomData/Headers/DataExportUtils.h"
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+
 #include "Factory/Headers/ExportException.h"
 
 namespace Data
@@ -8,6 +10,7 @@ namespace Data
 	{
 		UniquePtr<DataType> CreateType(std::string sql)
 		{
+			SCOPED_MEMORY_CATEGORY("DataExport");
 			auto typeName = TableName(sql);
 			UniquePtr<DataType> NewType = MakeUnique<DataType>(typeName, Acronym(typeName));
 

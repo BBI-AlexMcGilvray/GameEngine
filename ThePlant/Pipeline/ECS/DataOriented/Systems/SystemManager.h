@@ -2,8 +2,9 @@
 
 #include <vector>
 
-#include "Materials/Core/Headers/PtrDefs.h"
-#include "Materials/Core/Logging/LogFunctions.h"
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+#include "Core/Headers/PtrDefs.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/ArchetypeManager.h"
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
@@ -20,6 +21,7 @@ namespace Application
         template <typename SYSTEM, typename ...ARGS>
         ISystem& AddSystem(ARGS ...args)
         {
+			SCOPED_MEMORY_CATEGORY("ECS");
             if (_HasSystem<SYSTEM>())
             {
                 DEBUG_THROW("SystemManager", "Adding system that already exists! Systems must be unique");

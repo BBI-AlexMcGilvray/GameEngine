@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/UtilityMacros.h"
 #include "Core/Logging/LogFunctions.h"
 #include "Core/Reflection/type_traits.h"
@@ -343,6 +344,7 @@ struct JSON
 
     std::shared_ptr<JSONNode> Write(const Object &obj)
     { // may need to make this only use the 'approved' json data types (JSONNumber, JSONDecimal, JSONString) - but can be handled later
+      SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<object_json_type> writtenObj = std::make_shared<object_json_type>();
       writtenObj->SetData(obj);
       return writtenObj;
@@ -390,6 +392,7 @@ struct JSON
 
     std::shared_ptr<JSONNode> Write(const Object &obj)
     {
+      SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<JSONObject> writtenObj = std::make_shared<JSONObject>();
 
       reflector::visit_all(obj, field_writer(writtenObj));
@@ -407,6 +410,7 @@ struct JSON
     // ** https://en.cppreference.com/w/cpp/types/std::void_t
     std::shared_ptr<JSONNode> Write(const Object &obj)
     {
+      SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<JSONArray> writtenObj = std::make_shared<JSONArray>();
 
       for (const auto &elem : obj) {
@@ -552,6 +556,8 @@ struct JSON
   // could likely be cleaned up
   void Parse(const std::string &json)
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
+
     std::vector<std::shared_ptr<JSONNode>> activeStack;
     std::shared_ptr<JSONNode> active = nullptr;
     bool inQuotes = false;
@@ -756,6 +762,8 @@ private:
 
   std::shared_ptr<JSONNode> TokenToJSONNode(const std::string &token)
   {
+    SCOPED_MEMORY_CATEGORY("JSON");
+
     size_t readCharCount = 0;
 
     try
