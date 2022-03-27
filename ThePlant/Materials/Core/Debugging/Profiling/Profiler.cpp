@@ -8,12 +8,19 @@ namespace Profiling
 {
 #if DEBUG
 void Profiler::Push(const std::string& tag)
-{
+{    
     SCOPED_MEMORY_CATEGORY("Profiler");
+
     auto lock = _LockStacks();
     auto thisThread = std::this_thread::get_id();
     auto& thisStack = _threadStacks[thisThread];
     lock.unlock();
+
+    if (!collectData)
+    {
+        thisStack = std::stack<Section>(); // not collecting data, clear this thread
+        return;
+    }
 
     thisStack.push(Section(tag, _clock));
 }
@@ -25,6 +32,12 @@ void Profiler::Pop(const std::string& tag)
     auto thisThread = std::this_thread::get_id();
     auto& thisStack = _threadStacks[thisThread];
     lock.unlock();
+
+    if (thisStack.empty())
+    {
+        // can't error here if collectData == true because it is threaded and could be false positive
+        return;
+    }
 
     Section popped = thisStack.top();
     popped.end = _clock.now();

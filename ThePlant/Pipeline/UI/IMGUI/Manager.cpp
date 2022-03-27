@@ -77,7 +77,12 @@ namespace IMGUI
         {            
             auto& actualWindow = *(window.second);
 
+            bool previousDraw = actualWindow.draw;
             ImGui::Checkbox(actualWindow.GetName().c_str(), &(actualWindow.draw));
+            if (previousDraw != actualWindow.draw)
+            {
+                actualWindow.OnDrawChange();
+            }
         }
         ImGui::End();
     }

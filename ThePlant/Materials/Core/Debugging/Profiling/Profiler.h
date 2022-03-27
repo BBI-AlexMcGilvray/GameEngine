@@ -37,6 +37,10 @@ struct Section
 
 struct Profiler
 {
+    // if we collect data but never clear it, the memory increases forever
+    // profiler window is currently the only place that sets this
+    std::atomic<bool> collectData = false;
+
     Profiler() = default;
 
     void Push(const std::string& tag);

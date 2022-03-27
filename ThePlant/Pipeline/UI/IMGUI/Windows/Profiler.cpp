@@ -127,6 +127,14 @@ void _DrawSection(Profiler::DisplaySection& section, const Core::Second& parentD
     }
 }
 
+void Profiler::OnDrawChange()
+{
+    WITH_DEBUG_SERVICE(Core::Profiling::Profiler)
+    (
+        service->collectData = draw;
+    )
+}
+
 void Profiler::Draw()
 {
     SCOPED_MEMORY_CATEGORY("IMGUI");

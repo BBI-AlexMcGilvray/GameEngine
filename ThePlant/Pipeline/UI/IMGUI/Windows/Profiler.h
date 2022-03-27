@@ -40,6 +40,7 @@ namespace IMGUI {
         : Window("Profiler")
         {}
 
+        void OnDrawChange() override;
         void Draw() override;
   };
 }// namespace IMGUI

@@ -19,6 +19,7 @@ namespace IMGUI {
 
         const std::string& GetName() const { return _name; }
 
+        virtual void OnDrawChange() {}
         virtual void Draw() = 0;
 
       private:
