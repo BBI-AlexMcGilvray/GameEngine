@@ -144,32 +144,4 @@ struct CompoundSystem : public ISystem
 private:
     std::tuple<NESTED...> _nestedSystems;
 };
-
-/*
-template <typename SYSTEM, typename ...Ts>
-struct DeltaTimeSystem : public ISystem
-{
-    DeltaTimeSystem(ArchetypeManager& archetypeManager, TimeManager& timeManager)
-    : ISystem(archetypeManager)
-    {}
-
-    void Execute()
-    {
-        std::vector<Archetype*> affectedArchetypes = _archetypeManager.GetArchetypesContaining<Ts...>();
-
-        for (auto& archetype : affectedArchetypes)
-        {
-            _ApplyToArchetype(archetype);
-        }
-    }
-
-private:
-    TimeManager& _timeManager;
-    
-    void _ApplyToArchetype(Archetype* archetype)
-    {
-        SYSTEM::_ApplyToArchetype(archetype, _timeManager.GetDeltaTime());
-    }
-};
-*/
 }// namespace Application

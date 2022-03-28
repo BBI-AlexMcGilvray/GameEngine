@@ -35,8 +35,8 @@ namespace Time {
     void End();
     void CleanUp();
 
-    Second GetDeltaTime();
-    Second GetTimeSpan();
+    Second GetDeltaTime() const;
+    Second GetTimeSpan() const;
 
   private:
     SteadyClock Clock;
@@ -54,7 +54,7 @@ namespace Time {
 
     Second Update() override;
 
-    Second GetAccumulatedTime();
+    Second GetAccumulatedTime() const;
 
   private:
     Second Accumulator = 0_s;

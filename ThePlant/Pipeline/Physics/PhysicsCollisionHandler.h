@@ -49,6 +49,8 @@ private:
         // only the velocity 'perpendicular' to the plane is affected
         // but the below does not take into account 'additive' velocity/etc
         // also, should friction be taken into account momentarily? probably not...
+        // probably want to just give momentum from one to the other to make it easier
+        // and if they are going in the same direction, have further ones gets bumped further
         if (fromVelocity != nullptr)
         {
             const auto fromToContact = Core::Math::Project(fromVelocity->velocity, fromCollisionDirection);
