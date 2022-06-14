@@ -80,7 +80,7 @@ Geometric/Transform.h #
 Headers/AllCore.h #
 Headers/CoreDefs.h #
 Headers/Exception.h #
-Headers/FlagEnum.h #
+Headers/BitmaskEnum.h #
 Headers/Hash.h #
 Headers/Macros.h #
 Headers/PtrDefs.h #

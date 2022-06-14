@@ -1,0 +1,202 @@
+#pragma once
+
+#include <type_traits>
+
+template<typename T, typename = std::enable_if<std::is_enum<T>::value>>
+std::underlying_type_t<T> enum_cast(const T &e)
+{
+  return static_cast<std::underlying_type_t<T>>(e);
+}
+
+template<typename T, typename = std::enable_if<!std::is_enum<T>::value>>
+T enum_cast(const std::underlying_type_t<T> &i)
+{
+  return static_cast<T>(i);
+}
+
+template<typename T, typename enabled = void>
+struct BitmaskEnum
+{
+};
+
+template<typename T>
+struct BitmaskEnum<T, typename std::enable_if<std::is_enum<T>::value>::type>
+{
+private:
+  using raw_type = std::underlying_type_t<T>;
+
+public:
+  BitmaskEnum()
+    : _baseEnum(enum_cast<T>(0))
+  {
+  }
+
+  BitmaskEnum(const T &baseEnum)
+    : _baseEnum(baseEnum)
+  {
+  }
+
+  BitmaskEnum(const BitmaskEnum<T> &other)
+    : _baseEnum(other._baseEnum)
+  {
+  }
+
+  BitmaskEnum<T> &operator=(const BitmaskEnum<T> &other)
+  {
+    _baseEnum = other._baseEnum;
+
+    return *this;
+  }
+
+  BitmaskEnum<T> &operator=(const T &other)
+  {
+    _baseEnum = other;
+
+    return *this;
+  }
+
+  bool AnyFlagSet() const
+  {
+    return (enum_cast(_baseEnum) > 0);
+  }
+
+  bool HasAllFlags(const BitmaskEnum<T> &flags) const
+  {
+    return HasAllFlags(flags._baseEnum);
+  }
+
+  bool HasAllFlags(const T &flags) const
+  {
+    T masked = enum_cast<T>(enum_cast(_baseEnum) & enum_cast(flags));
+    return (masked == flags);
+  }
+
+  bool AtLeastOneFlag(const BitmaskEnum<T> &flags) const
+  {
+    return AtLeastOneFlag(flags._baseEnum);
+  }
+
+  bool AtLeastOneFlag(const T &flags) const
+  {
+    raw_type masked = enum_cast(_baseEnum) & enum_cast(flags);
+    return (masked > 0);
+  }
+
+  operator T()
+  {
+    return _baseEnum;
+  }
+
+  BitmaskEnum<T> operator&(const BitmaskEnum<T> &other) const
+  {
+    return ((*this) & other._baseEnum);
+  }
+  BitmaskEnum<T> operator&(const T &other) const
+  {
+    return BitmaskEnum<T>(enum_cast<T>(enum_cast(_baseEnum) & enum_cast(other)));
+  }
+  BitmaskEnum<T> &operator&=(const BitmaskEnum<T> &other)
+  {
+    return (*this &= other._baseEnum);
+  }
+  BitmaskEnum<T> &operator&=(const T &other)
+  {
+    _baseEnum = enum_cast<T>(enum_cast(_baseEnum) & enum_cast(other));
+
+    return *this;
+  }
+
+  BitmaskEnum<T> operator|(const BitmaskEnum<T> &other) const
+  {
+    return ((*this) | other._baseEnum);
+  }
+  BitmaskEnum<T> operator|(const T &other) const
+  {
+    return BitmaskEnum<T>(enum_cast<T>(enum_cast(_baseEnum) | enum_cast(other)));
+  }
+  BitmaskEnum<T> &operator|=(const BitmaskEnum<T> &other)
+  {
+    return (*this |= other._baseEnum);
+  }
+  BitmaskEnum<T> &operator|=(const T &other)
+  {
+    _baseEnum = enum_cast<T>(enum_cast(_baseEnum) | enum_cast(other));
+
+    return *this;
+  }
+
+  BitmaskEnum<T> operator^(const BitmaskEnum<T> &other) const
+  {
+    return ((*this) ^ other._baseEnum);
+  }
+  BitmaskEnum<T> operator^(const T &other) const
+  {
+    return BitmaskEnum<T>(enum_cast<T>(enum_cast(_baseEnum) ^ enum_cast(other)));
+  }
+  BitmaskEnum<T> &operator^=(const BitmaskEnum<T> &other)
+  {
+    return (*this ^= other._baseEnum);
+  }
+  BitmaskEnum<T> &operator^=(const T &other)
+  {
+    _baseEnum = enum_cast<T>(enum_cast(_baseEnum) ^ enum_cast(other));
+
+    return *this;
+  }
+
+  BitmaskEnum<T> operator~() const
+  {
+    raw_type opposite = ~enum_cast(_baseEnum);
+    return BitmaskEnum<T>(enum_cast<T>(opposite));
+  }
+
+  bool operator==(const BitmaskEnum<T> &other) const
+  {
+    return (*this == other._baseEnum);
+  }
+  bool operator==(const T &other) const
+  {
+    return _baseEnum == other;
+  }
+
+  bool operator!=(const BitmaskEnum<T> &other) const
+  {
+    return !(*this == other);
+  }
+  bool operator!=(const T &other) const
+  {
+    return !(*this == other);
+  }
+
+private:
+  T _baseEnum;
+};
+
+template<typename T>
+BitmaskEnum<T> operator&(const T &t, const BitmaskEnum<T> &f)
+{
+  return f & t;
+}
+
+// this is useful, put it in later
+// template<typename T>
+// BitmaskEnum<T> operator|(const T &t1, const T &t2)
+// {
+//   return t1 | BitmaskEnum<T>(t2);
+// }
+template<typename T>
+BitmaskEnum<T> operator|(const T &t, const BitmaskEnum<T> &f)
+{
+  return f | t;
+}
+
+template<typename T>
+BitmaskEnum<T> operator^(const T &t1, const T &t2)
+{
+  return t1 ^ BitmaskEnum<T>(t2);
+}
+template<typename T>
+BitmaskEnum<T> operator^(const T &t, const BitmaskEnum<T> &f)
+{
+  return f ^ t;
+}

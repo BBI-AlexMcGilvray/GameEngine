@@ -34,12 +34,12 @@ namespace Time {
   {
   }
 
-  Second TimeManager::GetDeltaTime()
+  Second TimeManager::GetDeltaTime() const
   {
     return (CurrentTick - PreviousTick);
   }
 
-  Second TimeManager::GetTimeSpan()
+  Second TimeManager::GetTimeSpan() const
   {
     return (CurrentTick - InitialTime);
   }

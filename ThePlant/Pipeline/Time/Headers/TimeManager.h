@@ -54,7 +54,7 @@ namespace Time {
 
     Second Update() override;
 
-    Second GetAccumulatedTime() const;
+    Second GetAccumulatedTime();
 
   private:
     Second Accumulator = 0_s;
