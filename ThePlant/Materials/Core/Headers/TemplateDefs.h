@@ -1,51 +1,22 @@
-// #pragma once
+#pragma once
 
-// #include <cstdlib>
-// #include <type_traits>
-// #include <utility>
+#include <type_traits>
+#include <string>
 
-// namespace Core {
-// template<typename T>
-// constexpr decltype(auto) Forward(std::remove_reference_t<T> &&t) noexcept
-// {
-//   return std::forward<T>(t);
-// }
-
-// template<typename T>
-// constexpr decltype(auto) Forward(std::remove_reference_t<T> &t) noexcept
-// {
-//   return std::forward<T>(t);
-// }
-
-// /*
-// 	// in C++17
-// 	template <typename T>
-// 	using Not = std::negation<T>;
-
-// 	template <typename ...Ts>
-// 	using And = std::conjunction<Ts...>;
-
-// 	template <typename ...Ts>
-// 	using Or = std::disjunction<Ts...>;
-// 	*/
-
-// template<bool B, typename T = void>
-// using EnableIf = std::enable_if<B, T>;
-
-// template<typename T1, typename T2>
-// using IsSame = std::is_same<T1, T2>;
-
-// /* DOES NOT WORK (can we get it to?)
-// 	template <typename T1, typename ...Ts>
-// 	using AllSame = IsSame<T1, Ts...>;
-// 	*/
-
-// template<typename T1, typename T2>
-// using IsBaseOf = std::is_base_of<T1, T2>;
-
-// template<typename T1, typename T2>
-// using EqualToValue = typename EnableIf<IsSame<T1, T2>::value>;
-
-// template<typename T1, typename T2>
-// using EqualToType = typename EnableIf<IsSame<T1, T2>::type>;
-// }// namespace Core
+namespace Core {
+template<typename T>
+constexpr std::string_view TemplateTypeAsString() noexcept
+{
+    #if defined __clang__ || defined __GNUC__
+    constexpr std::string_view pretty_function{ __PRETTY_FUNCTION__ }; //returns "auto Util::TemplateToConstexprStr() [Type = MyClass]"
+    constexpr auto first = pretty_function.find_first_not_of(' ', pretty_function.find_first_of(' ', pretty_function.find_first_of('=') + 1) + 1);
+    constexpr auto value = pretty_function.substr(first, pretty_function.find_last_of(']') - first);
+    #else
+    constexpr std::string_view pretty_function{ __FUNCSIG__ }; //returns "auto __cdecl Util::TemplateToConstexprStr<class T>(void) noexcept"
+    constexpr auto first = pretty_function.find_first_not_of(' ', pretty_function.find_first_of(' ', pretty_function.find_first_of('<') + 1) + 1);
+    constexpr auto value = pretty_function.substr(first, pretty_function.find_last_of('>') - first);
+    #endif
+    constexpr auto str = value.data();
+    return str;
+}
+}// namespace Core
