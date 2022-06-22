@@ -18,51 +18,53 @@ namespace Collision
 struct RigidBodyCollision : public CollisionHandler<RigidBodyCollision>
 {
     RigidBodyCollision()
-    : CollisionHandler<RigidBodyCollision>("RigidBodyCollision", CollectTypes<WorldTransformComponent, RigidBodyComponent>(), CollectTypes<VelocityComponent, WorldTransformComponent, RigidBodyComponent>(), false)
+    : CollisionHandler<RigidBodyCollision>("RigidBodyCollision", CollectTypes<RigidBodyComponent>(), CollectTypes<VelocityComponent, RigidBodyComponent>(), false)
     {} // don't need to handle both separately as this is an identical calculation
 
 private:
+    // notes:
+    /*
+    * https://www.nuclear-power.com/laws-of-conservation/law-of-conservation-of-energy/conservation-of-momentum-and-energy-in-collisions/
+    * https://study.com/skill/learn/how-to-solve-for-the-final-velocity-of-an-elastic-1d-collision-explanation.html
+    */
     void _Apply(const Core::Geometric::Point3D& collisionPoint, EntitySnapshot& from, EntitySnapshot& to) const override
     {
         Core::Ptr<VelocityComponent> fromVelocity = from.HasComponent<VelocityComponent>() ? &from.GetComponent<VelocityComponent>() : nullptr;
-        const WorldTransformComponent& fromTransform = from.GetComponent<WorldTransformComponent>();
         const RigidBodyComponent& fromRigidBody = from.GetComponent<RigidBodyComponent>();
 
         VelocityComponent& toVelocity = to.GetComponent<VelocityComponent>();
-        const WorldTransformComponent& toTransform = to.GetComponent<WorldTransformComponent>();
         const RigidBodyComponent& toRigidBody = to.GetComponent<RigidBodyComponent>();
 
-        const auto totalMass = fromRigidBody.mass + toRigidBody.mass;
+        // lazy inelastic collisions: calculate elastic collision then multiply results by the conservation ratio
+        const auto conservationRatio = fromRigidBody.elasticity * toRigidBody.elasticity;
 
-        const auto fromEnergy = Core::Math::sqr(fromVelocity != nullptr ? fromVelocity->velocity : 0.0f) * fromRigidBody.mass * 0.5f;
-        const auto toEnergy = (toVelocity.velocity * toVelocity.velocity) * toRigidBody.mass * 0.5f;
-        const auto totalEnergy = fromEnergy + toEnergy;
-        const auto finalEnergy = totalEnergy * fromRigidBody.elasticity * toRigidBody.elasticity;
-
-        // need to use these to determine the new direction (but how)
-        const auto fromCollisionDirection = collisionPoint - fromTransform.transform.GetPosition();
-        const auto toCollisionDirection = collisionPoint - toTransform.transform.GetPosition();
-
-        Core::Math::Float3 netCollisionVelocity = toToContact + fromToContact; // we only need to 'balance' the direct-collision velocity. but how?
-
-        // the premise below is that the velocity 'parallel' to the contact plane (defined the the normal) is not affected
-        // only the velocity 'perpendicular' to the plane is affected
-        // but the below does not take into account 'additive' velocity/etc
-        // also, should friction be taken into account momentarily? probably not...
-        // probably want to just give momentum from one to the other to make it easier
-        // and if they are going in the same direction, have further ones gets bumped further
-        if (fromVelocity != nullptr)
+        if (fromVelocity == nullptr)
         {
-            const auto fromToContact = Core::Math::Project(fromVelocity->velocity, fromCollisionDirection);
-            const auto fromAlongContact = fromVelocity->velocity - fromToContact;
-            const auto fromFinalVelocity = fromAlongContact - (fromToContact * fromRigidBody.elasticity * toRigidBody.elasticity);
-            fromVelocity->velocity = fromFinalVelocity;
+            // from is not moving (immovable object) so the 'to' is just directly reflected
+            toVelocity.velocity = toVelocity.velocity * -1.0f * conservationRatio;
+            return;
         }
 
-        const auto toToContact = Core::Math::Project(toVelocity.velocity, toCollisionDirection);
-        const auto toAlongContact = toVelocity.velocity - toToContact;
-        const auto toFinalVelocity = toAlongContact - (toToContact * fromRigidBody.elasticity * toRigidBody.elasticity);
-        toVelocity.velocity = toFinalVelocity * (toRigidBody.mass / totalMass);
+        /*
+        * v2' = [(m1 * v1) + (v2 * [m2 - ([m1 / 2] * [1 + (m2 / m1)])])] / [m2 + ([m1 / 2] * [1 - (m2 / m1)])]
+        * v1' = v2' + v2 - v1
+        * 
+        * using to = 2
+        * and from = 1
+        */
+       const auto m1 = fromRigidBody.mass;
+       const auto& v1 = fromVelocity->velocity;
+       const auto m2 = toRigidBody.mass;
+       const auto& v2 = toVelocity.velocity;
+       const auto m2_over_m1 = m2 / m1;
+       const auto numerator = (v1 * m1) + (v2 * (m2 - ((m1 / 2.0f) * (1 + m2_over_m1))));
+       const auto denominator = m2 + ((m1 / 2.0f) * (1 - m2_over_m1));
+
+       const auto v2Final = numerator / denominator;
+       const auto v1Final = v2Final + v2 - v1;
+
+       fromVelocity->velocity = v1Final * conservationRatio;
+       toVelocity.velocity = v2Final * conservationRatio;
     }
 };
 } // namespace Collision
