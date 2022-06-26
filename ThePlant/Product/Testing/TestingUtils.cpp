@@ -59,7 +59,8 @@ namespace Testing
         creator.AddComponent<Application::WorldTransformComponent>();
         creator.AddComponent<Application::ColliderComponent>(shape, false, false);
         creator.AddComponent<Application::VelocityComponent>(velocity);
-        creator.AddComponent<Application::RigidBodyComponent>(1.0f, 0.0f, 0.0f);
+        creator.AddComponent<Application::RigidBodyComponent>(1.0f, 0.0f, 0.0f, 1.0f);
+        creator.AddComponent<Application::PhysicsComponent>(1.0f, 100.0f);
 
         return ecs.CreateEntity(creator);
     }
@@ -74,7 +75,7 @@ namespace Testing
         creator.AddComponent<Application::ScaleComponent>(scale);
         creator.AddComponent<Application::WorldTransformComponent>();
         creator.AddComponent<Application::ColliderComponent>(shape, false, true);
-        creator.AddComponent<Application::RigidBodyComponent>(1.0f, 0.0f, 0.0f);
+        creator.AddComponent<Application::RigidBodyComponent>(1.0f, 0.0f, 0.0f, 1.0f);
 
         return ecs.CreateEntity(creator);
     }

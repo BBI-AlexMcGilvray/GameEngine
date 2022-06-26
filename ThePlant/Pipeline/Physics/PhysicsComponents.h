@@ -36,6 +36,7 @@ struct VelocityComponent
 struct PhysicsComponent
 {
     float gravityRatio = 1.0f;
+    float maxVelocity = 100.0f;
 
     PhysicsComponent() = default;
     PhysicsComponent(const PhysicsComponent&) = default;
@@ -43,13 +44,14 @@ struct PhysicsComponent
     PhysicsComponent& operator=(const PhysicsComponent&) = default;
     PhysicsComponent& operator=(PhysicsComponent&&) = default;
 
-    PhysicsComponent(const float& gravityRatio)
+    PhysicsComponent(const float& gravityRatio, const float& maxVelocity)
     : gravityRatio(gravityRatio)
+    , maxVelocity(maxVelocity)
     {}
 
     bool operator==(const PhysicsComponent& other) const
     {
-        return gravityRatio == other.gravityRatio;
+        return gravityRatio == other.gravityRatio && maxVelocity == other.maxVelocity;
     }
     bool operator !=(const PhysicsComponent& other) const { return !(*this == other); }
 };
@@ -57,9 +59,11 @@ struct PhysicsComponent
 // used to treat as a 'physical' object
 struct RigidBodyComponent
 {
-    float elasticity = 0.0;
+    float elasticity = 0.0; // [0, 1]
     float friction = 0.5f; // when on surface
-    float drag = 0.5f; // always
+
+    // always
+    float drag = 0.5f; // [0, 1]
     float mass = 1.0f;
 
     RigidBodyComponent() = default;
@@ -68,15 +72,16 @@ struct RigidBodyComponent
     RigidBodyComponent& operator=(const RigidBodyComponent&) = default;
     RigidBodyComponent& operator=(RigidBodyComponent&&) = default;
 
-    RigidBodyComponent(const float& elasticity, const float& friction, const float& drag)
+    RigidBodyComponent(const float& elasticity, const float& friction, const float& drag, const float& mass)
     : elasticity(elasticity)
     , friction(friction)
     , drag(drag)
+    , mass(mass)
     {}
 
     bool operator==(const RigidBodyComponent& other) const
     {
-        return elasticity == other.elasticity && friction == other.friction && drag == other.drag;
+        return elasticity == other.elasticity && friction == other.friction && drag == other.drag && mass == other.mass;
     }
     bool operator !=(const RigidBodyComponent& other) const { return !(*this == other); }
 };

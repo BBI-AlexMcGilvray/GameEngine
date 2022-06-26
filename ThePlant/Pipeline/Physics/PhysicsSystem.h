@@ -4,6 +4,8 @@
 
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Debugging/Profiling/Utils.h"
+#include "Core/Math/Headers/MathUtils.h"
+#include "Core/Math/Headers/VectorFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/Systems/DeltaTimeSystem.h"
 
@@ -48,13 +50,21 @@ private:
         DEBUG_ASSERT(physics.size() == velocities.size());
         for (size_t index = 0; index < physics.size(); ++index)
         {
-            auto additionalVelocity = physicsSettings.gravity * (physics[index].gravityRatio * static_cast<float>(Core::Duration(deltaTime)));
+            PhysicsComponent& physicsComponent = physics[index];
+            VelocityComponent& velocityComponent = velocities[index];
+
+            auto additionalVelocity = physicsSettings.gravity * (physicsComponent.gravityRatio * static_cast<float>(Core::Duration(deltaTime)));
             if (rigidBodies != nullptr)
             {
-                additionalVelocity *= (*rigidBodies)[index].drag;
+                additionalVelocity *= (1.0f - (*rigidBodies)[index].drag);
             }
 
-            velocities[index].velocity += additionalVelocity;
+            velocityComponent.velocity += additionalVelocity;
+
+            // not the most 'realistic', but trying to not make it super expensive
+            Core::Math::Float3 signs = { velocityComponent.velocity.X >= 0.0f ? 1.0f : -1.0f, velocityComponent.velocity.Y >= 0.0f ? 1.0f : -1.0f, velocityComponent.velocity.Z >= 0.0f ? 1.0f : -1.0f };
+            velocityComponent.velocity = Core::Math::Min(Core::Math::Abs(velocityComponent.velocity), std::abs(physicsComponent.maxVelocity)); // cap out each direction separately
+            velocityComponent.velocity *= signs;
         }
     }
 };

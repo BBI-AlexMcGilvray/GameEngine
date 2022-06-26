@@ -83,6 +83,18 @@ namespace Math {
   }
 
   template<typename T, int D>
+  VectorA<T, D> Abs(VectorA<T, D> const &v)
+  {
+    VectorA<T, D> absV;
+
+    for (int i = 0; i < D; i++) {
+      absV[i] = std::abs(v[i]);
+    }
+
+    return absV;
+  }
+
+  template<typename T, int D>
   VectorA<T, D> Min(VectorA<T, D> const &v, T d)
   {
     VectorA<T, D> minV;
