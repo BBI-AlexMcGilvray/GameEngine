@@ -18,7 +18,7 @@ struct VelocityComponent
     VelocityComponent& operator=(const VelocityComponent&) = default;
     VelocityComponent& operator=(VelocityComponent&&) = default;
 
-    VelocityComponent(const float& velocity)
+    VelocityComponent(const Core::Math::Float3& velocity)
     : velocity(velocity)
     {}
 

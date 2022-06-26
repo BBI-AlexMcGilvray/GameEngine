@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "Pipeline/Time/Headers/TimeSettings.h"
+
 #if DEBUG
 #include "Core/Debugging/Profiling/Utils.h"
 #endif
@@ -15,6 +17,11 @@ Core::Threading::ThreadManager& ApplicationManager::ThreadManager()
 Core::Threading::TaskManager& ApplicationManager::TaskManager()
 {
   return _taskManager;
+}
+  
+Time::TimeSystem& ApplicationManager::TimeSystem()
+{
+  return _timeSystem;
 }
 
 Data::AssetManager& ApplicationManager::AssetManager()
@@ -53,7 +60,8 @@ StateManager &ApplicationManager::StateManager()
 }
 
 ApplicationManager::ApplicationManager()
-  : _shaderManager(_assetManager)
+  : _timeSystem(Application::Time::FIXED_60FPS)
+  , _shaderManager(_assetManager)
   , _inputSystem(_sdl)
   , _stateSystem(*this)
   , _onQuit([this]() {
@@ -65,23 +73,20 @@ ApplicationManager::ApplicationManager()
 
 void ApplicationManager::Run()
 {
-  FixedStepTimeManager time;
   if (!Initialize()) {
     std::cout << "Failed to initialize application" << std::endl;
     return;
   }
-  time.Initialize();
 
   Start();
-  time.Start();
 
   while (!_quit)
   {
     DEBUG_PROFILE_SCOPE("ApplicationManager::Run");
-    Core::Second dt = time.Update();
-    while (dt > 0_s) {
+    _timeSystem.Update();
+    while (_timeSystem.TakeFixedStep()) {
+      Core::Second dt = _timeSystem.GetDeltaTime();
       Update(dt);
-      dt = time.GetAccumulatedTime();
     }
     Render();
 
@@ -102,6 +107,7 @@ bool ApplicationManager::Initialize()
     return false;
   }
 
+  _timeSystem.Initialize();
   _animationSystem.Initialize();
   _renderSystem.Initialize(_sdl, _threadManager.GetThread());
   _inputSystem.initialize();
@@ -111,6 +117,7 @@ bool ApplicationManager::Initialize()
 
 void ApplicationManager::Start()
 {
+  _timeSystem.Start();
   _sdl.Start();
   _animationSystem.Start();
   _renderSystem.Start();

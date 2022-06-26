@@ -13,8 +13,8 @@
 namespace Application {
 struct PhysicsSystem : public DeltaTimeSystem<PhysicsSystem>
 {
-    PhysicsSystem(const Time::TimeManager& timeManager, Physics::Settings& physicsSettings)
-    : DeltaTimeSystem<PhysicsSystem>("PhysicsSystem", timeManager)
+    PhysicsSystem(const Time::TimeSystem& timeSystem, Physics::Settings& physicsSettings)
+    : DeltaTimeSystem<PhysicsSystem>("PhysicsSystem", timeSystem)
     , _physicsSettings(physicsSettings)
     {}
 
@@ -48,7 +48,7 @@ private:
         DEBUG_ASSERT(physics.size() == velocities.size());
         for (size_t index = 0; index < physics.size(); ++index)
         {
-            auto additionalVelocity = physicsSettings.gravity * (physics[index].gravityRatio *  Core::Duration(deltaTime));
+            auto additionalVelocity = physicsSettings.gravity * (physics[index].gravityRatio * static_cast<float>(Core::Duration(deltaTime)));
             if (rigidBodies != nullptr)
             {
                 additionalVelocity *= (*rigidBodies)[index].drag;

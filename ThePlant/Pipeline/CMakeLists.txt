@@ -64,6 +64,7 @@ StateSystem/Source/State.cpp #
 StateSystem/Source/StateHelpers.cpp #
 StateSystem/Source/StateManager.cpp #
 Time/Source/TimeManager.cpp #
+Time/Source/TimeSystem.cpp #
 UI/IMGUI/Manager.cpp #
 UI/IMGUI/Windows/Examples.cpp #
 UI/IMGUI/Windows/MemoryTracker.cpp #
@@ -155,6 +156,8 @@ StateSystem/Headers/State.h #
 StateSystem/Headers/StateHelpers.h #
 StateSystem/Headers/StateManager.h #
 Time/Headers/TimeManager.h #
+Time/Headers/TimeSettings.h #
+Time/Headers/TimeSystem.h #
 UI/IMGUI/Manager.h #
 UI/IMGUI/Window.h #
 UI/IMGUI/Windows/Examples.h #

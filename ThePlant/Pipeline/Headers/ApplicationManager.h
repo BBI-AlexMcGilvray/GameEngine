@@ -15,7 +15,7 @@
 #include "Pipeline/Input/Headers/InputManager.h"
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
-#include "Pipeline/Time/Headers/TimeManager.h"
+#include "Pipeline/Time/Headers/TimeSystem.h"
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Functionality/Headers/Event.h"
@@ -23,7 +23,6 @@
 using namespace Application::Animation;
 using namespace Application::Input;
 using namespace Application::Rendering;
-using namespace Application::Time;
 
 using namespace Core::Functionality;
 
@@ -32,6 +31,8 @@ struct ApplicationManager
 {
   Core::Threading::ThreadManager& ThreadManager();
   Core::Threading::TaskManager& TaskManager();
+  
+  Time::TimeSystem& TimeSystem();
 
   // could potentially break this up into longterm and shorterm asset managers for consistent behaviour
   Data::AssetManager& AssetManager();
@@ -70,6 +71,7 @@ private:
   // otherwise something could be made with it that persists after this is destroyed, which would error when we try to destroy that object
   Application::ServiceManager _serviceManager;
 
+  Time::TimeSystem _timeSystem;
   // Note: the below are in an order such that they should only _possibly_ know about what is above them (as it would need to be for constructors...)
   Core::Threading::ThreadManager _threadManager;
   Core::Threading::TaskManager _taskManager;

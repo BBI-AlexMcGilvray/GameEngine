@@ -24,7 +24,6 @@ namespace Product
     bool ProductManager::_initialize()
     {
         bool pipelineInitialized = _pipeline.Initialize();
-        _time.Initialize();
         _myProduct.initialize();
 
         return pipelineInitialized;
@@ -33,7 +32,6 @@ namespace Product
     void ProductManager::_start()
     {
         _pipeline.Start();
-        _time.Start();
         _myProduct.start();
 
         // for now, this is where we can put in test code
@@ -41,16 +39,23 @@ namespace Product
 
     void ProductManager::_update()
     {
+        Application::Time::TimeSystem& timeSystem = _pipeline.TimeSystem();
+        timeSystem.Initialize(); // HACK: need to do this here due to first frame being too long
         while (!_pipeline.quit())
         {
             DEBUG_PROFILE_SCOPE("ProductManager::Update");
-            Core::Second dt = _time.Update();
-            while (dt > 0_s) {
+            timeSystem.Update();
+            while (timeSystem.TakeFixedStep()) {
+                Core::Second dt = timeSystem.GetDeltaTime();
                 _pipeline.Update(dt);
                 _myProduct.update(dt);
-                dt = _time.GetAccumulatedTime();
+            // #ifdef MULTITHREADED_RENDERING // NOTE: not actually used due to current location of define
+                _pipeline.Render(); // when threaded, this pushes the current buffer to the next thread, if we only did it once we would duplicate render data per frame
+            // #endif
             }
-            _pipeline.Render(); // rendering takes up over half the frame, threading this would be huge!
+        // #ifndef MULTITHREADED_RENDERING // NOTE: not actually used due to current location of define - need to fix, bottom should NOT be commented
+            // _pipeline.Render(); // if rendering is not threaded, then we only render once per frame (otherwise waste time)
+        // #endif
             // take a look at Unity's order of execution and work on cleaning up execution order
             //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
         }
@@ -59,14 +64,12 @@ namespace Product
     void ProductManager::_end()
     {
         _myProduct.end();
-        _time.End();
         _pipeline.End();   
     }
 
     void ProductManager::_cleanUp()
     {
         _myProduct.cleanUp();
-        _time.CleanUp();
         _pipeline.CleanUp();
     }
 }

@@ -10,7 +10,7 @@
 
 #include "Pipeline/ECS/DataOriented/ArchetypeManager.h"
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
-#include "Pipeline/Time/Headers/TimeManager.h"
+#include "Pipeline/Time/Headers/TimeSystem.h"
 
 namespace Application {
 // holds boiler plate code that is the same for all systems before forwarding to the specific handling for the system
@@ -18,32 +18,37 @@ namespace Application {
 //      - may be going to deep, one step at a time, handle the situations as they arrise
 struct IDeltaTimeSystem : public ISystem
 {
-    IDeltaTimeSystem(const std::string& name, const Time::TimeManager& timeManager)
+    IDeltaTimeSystem(const std::string& name, const Time::TimeSystem& timeSystem)
     : ISystem(name)
-    , _timeManager(timeManager)
+    , _timeSystem(timeSystem)
     {}
 
     void Execute(ArchetypeManager& archetypeManager) const final
     {
-        DeltaTimeExecute(_timeManager.GetDeltaTime(), archetypeManager);
+        DeltaTimeExecute(_timeSystem.GetDeltaTime(), archetypeManager);
     }
 
     virtual void DeltaTimeExecute(const Core::Second& time, ArchetypeManager& archetypeManager) const = 0;
 
 private:
-    const Time::TimeManager& _timeManager;
+    const Time::TimeSystem& _timeSystem;
 };
 
 template <typename SYSTEM, typename ...Ts>
 struct DeltaTimeSystem : public IDeltaTimeSystem
 {
-    DeltaTimeSystem(const std::string& name, const Time::TimeManager& timeManager)
-    : IDeltaTimeSystem(name, timeManager)
+    DeltaTimeSystem(const std::string& name, const Time::TimeSystem& timeSystem)
+    : IDeltaTimeSystem(name, timeSystem)
     {}
+
+    Core::runtimeId_t GetSystem() const override
+    {
+        return Core::GetTypeId<SYSTEM>();
+    }
 
     void DeltaTimeExecute(const Core::Second& time, ArchetypeManager& archetypeManager) const override
     {
-        std::vector<Archetype*> affectedArchetypes = _archetypeManager.GetArchetypesContaining<Ts...>();
+        std::vector<Archetype*> affectedArchetypes = archetypeManager.GetArchetypesContaining<Ts...>();
 
         for (auto& archetype : affectedArchetypes)
         {
@@ -61,10 +66,10 @@ private:
 template <typename SYSTEM>
 struct DeltaTimeSystem<SYSTEM> : public IDeltaTimeSystem
 {
-    using ISystem::ISystem;
+    using IDeltaTimeSystem::IDeltaTimeSystem;
 
-    DeltaTimeSystem(const std::string& name, Time::TimeManager& timeManager)
-    : IDeltaTimeSystem(name, timeManager)
+    DeltaTimeSystem(const std::string& name, Time::TimeSystem& timeSystem)
+    : IDeltaTimeSystem(name, timeSystem)
     {}
 
     Core::runtimeId_t GetSystem() const override
@@ -78,16 +83,16 @@ struct DeltaTimeSystem<SYSTEM> : public IDeltaTimeSystem
 template <typename SYSTEM, typename ...NESTED>
 struct CompoundDeltaTimeSystem : public IDeltaTimeSystem
 {
-    using ISystem::ISystem;
+    using IDeltaTimeSystem::IDeltaTimeSystem;
 
-    CompoundDeltaTimeSystem(const std::string& name, Time::TimeManager& timeManager)
-    : IDeltaTimeSystem(name, timeManager)
+    CompoundDeltaTimeSystem(const std::string& name, Time::TimeSystem& timeSystem)
+    : IDeltaTimeSystem(name, timeSystem)
     {}
 
     template <typename ...ARGS>
-    CompoundDeltaTimeSystem(const std::string& name, Time::TimeManager& timeManager, ARGS&& ...args)
-    : IDeltaTimeSystem(name, timeManager)
-    , _nestedSystems({timeManager, std::forward<ARGS>(args)}, ...) // this may not work if the nested systems have constructors with more than 1 argument (or if not all types are provided an argument)
+    CompoundDeltaTimeSystem(const std::string& name, Time::TimeSystem& timeSystem, ARGS&& ...args)
+    : IDeltaTimeSystem(name, timeSystem)
+    , _nestedSystems({timeSystem, std::forward<ARGS>(args)}, ...) // this may not work if the nested systems have constructors with more than 1 argument (or if not all types are provided an argument)
     {}
 
     Core::runtimeId_t GetSystem() const override

@@ -7,6 +7,8 @@
 #include "Pipeline/ECSSystems/CollisionSystem.h"
 #include "Pipeline/ECSSystems/TransformSystem.h"
 #include "Pipeline/ECSSystems/RenderingSystem.h"
+#include "Pipeline/Physics/PhysicsSystem.h"
+#include "Pipeline/Physics/VelocitySystem.h"
 #if DEBUG
 #include "Core/Debugging/Profiling/Utils.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugBoneSystem.h"
@@ -53,10 +55,12 @@ void SetECSSystems(State& state, const ECSSystemFlags& systems)
     ECS& stateECS = state.ECS();
 
     SetOrRemoveSystem<AnimationSystem>(stateECS, systems, ECSSystem::AnimationSystem, state.AnimationManager());
+    SetOrRemoveSystem<PhysicsSystem>(stateECS, systems, ECSSystem::PhysicsSystem, state.TimeSystem(), state.PhysicsSettings());
+    SetOrRemoveSystem<VelocitySystem>(stateECS, systems, ECSSystem::VelocitySystem, state.TimeSystem());
+    SetOrRemoveSystem<TransformSystem, AnimationSystem, PhysicsSystem, VelocitySystem>(stateECS, systems, ECSSystem::TransformSystem);
     SetOrRemoveSystem<CameraSystem, TransformSystem>(stateECS, systems, ECSSystem::CameraSystem, state.RenderManager().GetCameraManager());
     SetOrRemoveSystem<CollisionSystem, TransformSystem>(stateECS, systems, ECSSystem::CollisionSystem, state.CollisionManager());
     SetOrRemoveSystem<RenderingSystem, TransformSystem, CameraSystem, AnimationSystem>(stateECS, systems, ECSSystem::RenderingSystem, state.RenderManager());
-    SetOrRemoveSystem<TransformSystem, AnimationSystem>(stateECS, systems, ECSSystem::TransformSystem);
 #if DEBUG
     SetOrRemoveSystem<DebugBoneSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugBoneSystem, state.RenderManager(), state.ShaderManager());
     SetOrRemoveSystem<DebugCollisionSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugCollisionSystem, state.CollisionManager(), state.RenderManager(), state.ShaderManager());

@@ -48,7 +48,7 @@ namespace Math {
         };
         T W;
       };
-      std::array<T, 4> XYZW;
+      std::array<T, 4> XYZW = {0};
     };
 
     Quaternion()

@@ -119,6 +119,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/StateSystem/Headers/StateHelpers.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/StateSystem/Headers/StateManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Time/Headers/TimeManager.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Time/Headers/TimeSettings.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Time/Headers/TimeSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Manager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Window.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Windows/Examples.h"

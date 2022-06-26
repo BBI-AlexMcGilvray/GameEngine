@@ -5,6 +5,7 @@
 
 #include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
+#include "Pipeline/Physics/PhysicsSettings.h"
 
 namespace Core
 {
@@ -24,6 +25,11 @@ namespace Application {
 struct ApplicationManager;
 struct SDL2Manager;
 struct StateManager;
+
+namespace Time
+{
+  struct TimeSystem;
+}
 
 namespace Animation
 {
@@ -47,7 +53,7 @@ struct State
 {
   Core::Functionality::Event<> stateDeleted;
 
-  State(Application::ApplicationManager& applicationManager, const Core::Math::Float3& worldSize);
+  State(Application::ApplicationManager& applicationManager, const Core::Math::Float3& worldSize, const Application::Physics::Settings& physicsSettings);
   // we will need states to be data-driven, though maybe this is not the proper way to do it (instead, have a CreateState method or something)
   // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetName<State> state);
   // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetData<State> state);
@@ -56,6 +62,8 @@ struct State
 
   Core::Threading::ThreadManager& ThreadManager();
   Core::Threading::TaskManager& TaskManager();
+  
+  Application::Time::TimeSystem& TimeSystem();
 
   Data::AssetManager& AssetManager();
 
@@ -64,6 +72,7 @@ struct State
   Animation::AnimationManager& AnimationManager();
   Collision::CollisionManager& CollisionManager();
   ECS& ECS();
+  Application::Physics::Settings& PhysicsSettings();
   Rendering::RenderManager& RenderManager();
   Rendering::ShaderManager& ShaderManager();
   Input::InputManager& InputManager();
@@ -79,6 +88,7 @@ protected:
   Application::ApplicationManager& _applicationManager;
   Application::ECS _ecs;
   Collision::CollisionManager _collisionManager;
+  Application::Physics::Settings _physicsSettings;
 
   // custom state types should override these to get their desired behaviours
   virtual void _PreECSUpdate(Core::Second dt) {};

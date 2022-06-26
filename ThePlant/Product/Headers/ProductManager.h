@@ -40,7 +40,6 @@ namespace Product
         void _cleanUp();
 
         Application::ApplicationManager _pipeline;
-        FixedStepTimeManager _time;
         MyProduct _myProduct;
     };
 }

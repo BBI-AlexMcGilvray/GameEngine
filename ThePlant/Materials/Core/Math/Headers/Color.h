@@ -23,7 +23,7 @@ namespace Math {
         };
         float A;
       };
-      std::array<float, 4> RGBA;
+      std::array<float, 4> RGBA = {0, 0, 0, 1};
     };
 
     constexpr Color()

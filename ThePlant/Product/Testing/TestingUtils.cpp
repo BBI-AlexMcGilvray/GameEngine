@@ -10,6 +10,7 @@
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
+#include "Pipeline/Physics/PhysicsComponents.h"
 
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
@@ -47,7 +48,7 @@ namespace Testing
         return Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
     }
 
-    Application::Entity SpawnCollider(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::Entity SpawnCollider(Application::State& state, const Core::Math::Float3& velocity, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
         auto& ecs = state.ECS();
 
@@ -57,6 +58,8 @@ namespace Testing
         creator.AddComponent<Application::ScaleComponent>(scale);
         creator.AddComponent<Application::WorldTransformComponent>();
         creator.AddComponent<Application::ColliderComponent>(shape, false, false);
+        creator.AddComponent<Application::VelocityComponent>(velocity);
+        creator.AddComponent<Application::RigidBodyComponent>(1.0f, 0.0f, 0.0f);
 
         return ecs.CreateEntity(creator);
     }
@@ -71,11 +74,12 @@ namespace Testing
         creator.AddComponent<Application::ScaleComponent>(scale);
         creator.AddComponent<Application::WorldTransformComponent>();
         creator.AddComponent<Application::ColliderComponent>(shape, false, true);
+        creator.AddComponent<Application::RigidBodyComponent>(1.0f, 0.0f, 0.0f);
 
         return ecs.CreateEntity(creator);
     }
 
-    Application::Entity SpawnTrigger(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::Entity SpawnTrigger(Application::State& state, const Core::Math::Float3& velocity, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
         auto& ecs = state.ECS();
 
@@ -85,7 +89,7 @@ namespace Testing
         creator.AddComponent<Application::ScaleComponent>(scale);
         creator.AddComponent<Application::WorldTransformComponent>();
         creator.AddComponent<Application::ColliderComponent>(shape, true, false);
-
+        creator.AddComponent<Application::VelocityComponent>(velocity);
         return ecs.CreateEntity(creator);
     }
 

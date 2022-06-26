@@ -8,10 +8,10 @@ namespace Time {
 
   void TimeManager::Initialize()
   {
-    InitialTime = Clock.now();
+    initialTime = Clock.now();
 
-    PreviousTick = InitialTime;
-    CurrentTick = InitialTime;
+    previousTick = initialTime;
+    currentTick = initialTime;
   }
 
   void TimeManager::Start()
@@ -20,8 +20,8 @@ namespace Time {
 
   Second TimeManager::Update()
   {
-    PreviousTick = CurrentTick;
-    CurrentTick = Clock.now();
+    previousTick = currentTick;
+    currentTick = Clock.now();
 
     return GetDeltaTime();
   }
@@ -36,44 +36,12 @@ namespace Time {
 
   Second TimeManager::GetDeltaTime() const
   {
-    return (CurrentTick - PreviousTick);
+    return (currentTick - previousTick);
   }
 
   Second TimeManager::GetTimeSpan() const
   {
-    return (CurrentTick - InitialTime);
-  }
-
-  // Fixed Time Step
-  FixedStepTimeManager::FixedStepTimeManager(Second maxStepSize)
-    : MaxStepSize(maxStepSize)
-  {
-  }
-
-  Second FixedStepTimeManager::Update()
-  {
-    auto timePassed = TimeManager::Update();
-
-    if (timePassed > MaxStepSize) {
-      Accumulator += (timePassed - MaxStepSize);
-      timePassed = MaxStepSize;
-    }
-
-    return timePassed;
-  }
-
-  Second FixedStepTimeManager::GetAccumulatedTime()
-  {
-    if (Accumulator > MaxStepSize) {
-      Accumulator -= MaxStepSize;
-
-      return MaxStepSize;
-    }
-
-    auto accumulatedTime = Accumulator;
-    Accumulator = 0_s;
-
-    return accumulatedTime;
+    return (currentTick - initialTime);
   }
 }// namespace Time
 }// namespace Application

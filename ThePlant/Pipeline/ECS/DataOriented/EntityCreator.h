@@ -88,10 +88,12 @@ struct EntityCreator
     Entity CreateEntity(Archetype& archetype) const;
 
     template <typename T, typename ...ARGS>
-    void AddComponent(ARGS&& ...args)
+    EntityCreator& AddComponent(ARGS&& ...args)
     {
         SCOPED_MEMORY_CATEGORY("ECS");
         _componentCreators.emplace_back(std::make_unique<ComponentCreator<T>>(T(std::forward<ARGS>(args)...)));
+
+        return *this; // to allow 'chaining'
     }
 
     template <typename T>

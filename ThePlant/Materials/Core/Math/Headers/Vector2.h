@@ -15,7 +15,7 @@ namespace Math {
         T X;
         T Y;
       };
-      std::array<T, 2> XY;
+      std::array<T, 2> XY = {0};
     };
 
     VectorA()

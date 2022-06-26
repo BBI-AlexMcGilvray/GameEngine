@@ -22,7 +22,7 @@ namespace Math {
         };
         T Z;
       };
-      std::array<T, 3> XYZ;
+      std::array<T, 3> XYZ = {0};
     };
 
     VectorA()
