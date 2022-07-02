@@ -36,14 +36,14 @@ struct CollisionManager
     Core::instanceId<ICollisionHandler> AddCollisionHandler(std::unique_ptr<ICollisionHandler> handler);
 
     template <typename T>
-    void RemoveSystem()
+    void RemoveCollisionHandler()
     {
         size_t index = 0;
         for (auto& handler : _handlers)
         {
-            if (handler->IsHandler<SYSTEM>())
+            if (handler.second->IsHandler<T>())
             {
-                _handlers.erase(_handlers.begin() + index);
+                _handlers.erase(handler.first);
                 return;
             }
             ++index;

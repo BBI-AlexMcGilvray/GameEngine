@@ -2,6 +2,7 @@
 
 #include "Core/Debugging/Headers/Declarations.h"
 
+#include "Pipeline/Physics/PhysicsCollisionHandler.h"
 #include "Pipeline/ECSSystems/AnimationSystem.h"
 #include "Pipeline/ECSSystems/CameraSystem.h"
 #include "Pipeline/ECSSystems/CollisionSystem.h"
@@ -11,6 +12,7 @@
 #include "Pipeline/Physics/VelocitySystem.h"
 #if DEBUG
 #include "Core/Debugging/Profiling/Utils.h"
+#include "Pipeline/Collision/CollisionHandlers/DebugHandlers/DebugCollisionDisplay.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugBoneSystem.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugCollisionSystem.h"
 #include "Pipeline/ECSSystems/DebugSystems/DebugOctTreeSystem.h"
@@ -66,6 +68,46 @@ void SetECSSystems(State& state, const ECSSystemFlags& systems)
     SetOrRemoveSystem<DebugCollisionSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugCollisionSystem, state.CollisionManager(), state.RenderManager(), state.ShaderManager());
     SetOrRemoveSystem<DebugOctTreeSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugOctTreeSystem, state.CollisionManager(), state.RenderManager(), state.ShaderManager());
     SetOrRemoveSystem<DebugTransformSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugTransformSystem, state.RenderManager(), state.ShaderManager());
+#endif
+}
+
+void SetCollisionHandlerState(CollisionHandlerFlags& handlers, const CollisionHandler& handler, const bool& active)
+{
+    if (active)
+    {
+        handlers |= handler;
+    }
+    else
+    {
+        handlers ^= handler;
+    }
+}
+
+bool GetCollisionHandlerState(const CollisionHandlerFlags& handlers, const CollisionHandler& handler)
+{
+    return handlers.AtLeastOneFlag(handler);
+}
+
+template <typename HANDLER, typename ...ARGS>
+void SetOrRemoveCollisionHandler(Collision::CollisionManager& collisionManager, const CollisionHandlerFlags& handlers, const CollisionHandler& handler, ARGS&& ...args)
+{
+    if (GetCollisionHandlerState(handlers, handler))
+    {
+        collisionManager.AddCollisionHandler<HANDLER>(std::forward<ARGS>(args)...);// collision handlers do not have dependencies (should they?) .AddDependencies<DEPENDENCIES...>();
+    }
+    else
+    {
+        collisionManager.RemoveCollisionHandler<HANDLER>();
+    }
+}
+
+void SetCollisionHandlers(State& state, const CollisionHandlerFlags& handlers)
+{
+    Collision::CollisionManager& collisionManager = state.CollisionManager();
+
+    SetOrRemoveCollisionHandler<Collision::RigidBodyCollision>(collisionManager, handlers, CollisionHandler::RigidBodyCollision);
+#if DEBUG
+    SetOrRemoveCollisionHandler<Collision::DebugCollisionDisplay>(collisionManager, handlers, CollisionHandler::DebugCollisionDisplay, state.RenderManager(), state.ShaderManager());
 #endif
 }
 }// namespace Application

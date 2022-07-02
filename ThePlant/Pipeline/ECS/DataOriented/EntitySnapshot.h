@@ -76,7 +76,10 @@ namespace Application
             return HasComponent(Core::GetTypeId<T>());
         }
 
-        bool HasComponent(const Core::runtimeId_t& componentId) const;
+        bool HasComponent(const Core::runtimeId_t& componentId) const
+        {
+            return (_GetComponentFor(componentId) != nullptr);
+        }
 
         template <typename T>
         T& GetComponent()
@@ -109,7 +112,7 @@ namespace Application
                 }
             }
 
-            DEBUG_THROW("EntitySnapshot", "Requested type does not exist");
+            return nullptr; // throws due to null should have handled in caller
         }
     };
 } // namespace Application

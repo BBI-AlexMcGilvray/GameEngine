@@ -42,8 +42,12 @@ void MyState::Initialize()
 #endif
     Application::SetECSSystems(*this, activeSystems);
 
-    // collision manager should have helpers like the above for systems
-    _collisionManager.AddCollisionHandler<Application::Collision::DebugCollisionDisplay>(RenderManager(), ShaderManager());
+    Application::CollisionHandlerFlags activeCollisionHandlers;
+    activeCollisionHandlers |= Application::CollisionHandler::RigidBodyCollision;
+#if DEBUG
+    activeCollisionHandlers |= Application::CollisionHandler::DebugCollisionDisplay;
+#endif
+    Application::SetCollisionHandlers(*this, activeCollisionHandlers);
 
     // this will be data driven from the future
     // create camera

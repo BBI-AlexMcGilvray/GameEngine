@@ -4,6 +4,9 @@
 
 namespace Application
 {
+// may be beneficial to use a struct to map enum->type to potentially limit mistakes. could do a constexpr for loop for the enum values as well
+// that would help ensure all enum values are covered
+
 enum class ECSSystem
 {
     AnimationSystem = 1 << 0,
@@ -19,6 +22,15 @@ enum class ECSSystem
     DebugCollisionSystem = 1 << 29,
     DebugOctTreeSystem = 1 << 28,
     DebugTransformSystem = 1 << 27
+#endif
+};
+
+enum class CollisionHandler
+{
+    RigidBodyCollision = 1 << 0
+#if DEBUG // Debug system only after this
+    , // to continue list above
+    DebugCollisionDisplay = 1 << 30
 #endif
 };
 } // namespace Application

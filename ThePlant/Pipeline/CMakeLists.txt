@@ -105,7 +105,6 @@ ECSSystems/CameraSystem.h #
 ECSSystems/CameraComponents.h #
 ECSSystems/CollisionComponents.h #
 ECSSystems/CollisionSystem.h #
-ECSSystems/ECSSystemUtils.h #
 ECSSystems/GeneralComponents.h #
 ECSSystems/RenderingComponents.h #
 ECSSystems/RenderingSystem.h #
@@ -124,6 +123,11 @@ Input/Headers/InputDefs.h #
 Input/Headers/InputEvent.h #
 Input/Headers/InputManager.h #
 Input/Headers/InputReceiverBase.h #
+Physics/PhysicsCollisionHandler.h #
+Physics/PhysicsComponents.h #
+Physics/PhysicsSettings.h #
+Physics/PhysicsSystem.h #
+Physics/VelocitySystem.h #
 Rendering/2D/Headers/SimpleShapes.h #
 Rendering/2D/Headers/Image.h #
 Rendering/2D/Headers/Sprite.h #
@@ -155,6 +159,7 @@ Rendering/Renderer.h #
 StateSystem/Headers/State.h #
 StateSystem/Headers/StateHelpers.h #
 StateSystem/Headers/StateManager.h #
+StateSystem/Headers/ECSSystemUtils.h #
 Time/Headers/TimeManager.h #
 Time/Headers/TimeSettings.h #
 Time/Headers/TimeSystem.h #

@@ -6,6 +6,7 @@
 #include "Core/Geometric/GeometryDefs.h"
 
 #include "Pipeline/Collision/Collision.h"
+#include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/Physics/PhysicsComponents.h"
 
