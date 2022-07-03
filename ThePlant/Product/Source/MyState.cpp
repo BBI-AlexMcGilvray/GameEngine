@@ -63,8 +63,8 @@ void MyState::Initialize()
     inputManager->addReceiver(&_cameraController);
 
     // testing
-    _static = Testing::SpawnStaticModel(*this); // (Static model)
-    // _animated = Testing::SpawnAnimatedModel(*this); // (Animated model)
+    // _static = Testing::SpawnStaticModel(*this);
+    // _animated = Testing::SpawnAnimatedModel(*this);
 
     // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
     _leftPos = Core::Math::Float3(-15.0f, 4.0f, 0.0f);
@@ -79,13 +79,24 @@ void MyState::Initialize()
     _swapTime = Core::Second(15.0f);
     _currentSwap = _swapTime;
     _collider = Testing::SpawnCollider(*this, Core::Math::Float3(5.0f, 0.0f, 0.0f), Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
-    _trigger = Testing::SpawnTrigger(*this, Core::Math::Float3(-5.0f, 0.0f, 0.0f), Core::Geometric::Box(), _rightPos, rotation2, 2.0f);
+    // _trigger = Testing::SpawnTrigger(*this, Core::Math::Float3(-5.0f, 0.0f, 0.0f), Core::Geometric::Box(), _rightPos, rotation2, 2.0f);
     
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(modifiedLeft, modifiedRight, 0.4f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(_leftPos, _rightPos, 0.50f) + Core::Math::Float3(0.0f, 0.0f, 0.2f), rotation2);
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Spot3D(), Math::Lerp(modifiedLeft, modifiedRight, 0.6f)); // works with: spot3D, sphere
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Sphere(), Math::Lerp(modifiedLeft, modifiedRight, 0.8f), Core::Math::FQuaternion(Core::Math::II()), 2.0f); // works with: sphere
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(modifiedLeft, modifiedRight, 0.4f));
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(_leftPos, _rightPos, 0.50f) + Core::Math::Float3(0.0f, 0.0f, 0.2f), rotation2);
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Spot3D(), Math::Lerp(modifiedLeft, modifiedRight, 0.6f)); // works with: spot3D, sphere
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Sphere(), Math::Lerp(modifiedLeft, modifiedRight, 0.8f), Core::Math::FQuaternion(Core::Math::II()), 2.0f); // works with: sphere, rotation2, 2.0f);
+    
+    // surrounding box
+    /*
+    * For some reason the sphere disappears on collision... why?
+    */
+    Core::Math::Float3 boundaryLeft = _leftPos + Core::Math::Float3(-2.0f, 0.0f, 0.0f);
+    Core::Math::Float3 boundaryRight = _rightPos + Core::Math::Float3(2.0f, 0.0f, 0.0f);
+    Core::Math::Float3 boundaryBottom = (_leftPos + _rightPos) * 0.5f - Core::Math::Float3(0.0f, 5.0f, 0.0f);
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryLeft, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 10.0f, 1.0f));
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryRight, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 10.0f, 1.0f));
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBottom, Core::Math::FQuaternion(), Core::Math::Float3(40.0f, 1.0f, 1.0f));
 
     // need to spawn some stuff to test the collision system
     // also, the physics collision handler is not working
@@ -153,20 +164,6 @@ void MyState::_PostECSUpdate(Second dt)
     // FQuaternion entityRotation = entityRotationComponent.rotation;
     // FQuaternion newEntityRotation = Core::Math::LerpQuat(entityRotation, FQuaternion(0.0f, 0.1f, 0.0f, 0.9f) * entityRotation, Duration(dt));
     // entityRotationComponent.rotation = newEntityRotation;
-    // \testing
-
-    // testing (Collision)
-    // auto& colliderPos = ECS().GetComponentFor<Application::PositionComponent>(_collider);
-    // auto& triggerPos = ECS().GetComponentFor<Application::PositionComponent>(_trigger);
-
-    // _currentSwap -= dt;
-    // colliderPos = Math::Lerp(_dir1 ? _leftPos : _rightPos, _dir1 ? _rightPos : _leftPos, Duration(_currentSwap) / Duration(_swapTime));
-    // triggerPos = Math::Lerp(_dir1 ? _rightPos : _leftPos, _dir1 ? _leftPos : _rightPos, Duration(_currentSwap) / Duration(_swapTime));
-    // if (_currentSwap <= Core::Second(0.0f))
-    // {
-    //     _dir1 = !_dir1;
-    //     _currentSwap = _swapTime;
-    // }
     // \testing
 }
 }

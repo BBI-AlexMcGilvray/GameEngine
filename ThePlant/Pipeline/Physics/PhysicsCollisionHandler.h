@@ -46,10 +46,26 @@ private:
         const auto toCollisionVelocity = Core::Math::Project(toVelocity.velocity, toToCollision);
         const auto toPersistingVelocity = toVelocity.velocity - toCollisionVelocity;
 
+        /*
+        * Seems like the reason this happens is because the toToCollision is 0 -> projection breaks -> velocity = NAN (which then propogates to breaking the position etc)
+        *   This seems to be because of the explicit -1 multiplication below, so if the collision lasts multiple frames, it flips back and forth, and if it results in net-downward movement, eventually the distance is 0
+        * Also a problem with the collision point being the sphere CENTER (?) for some reason
+        */
+
         if (fromVelocity == nullptr)
         {
+            // if we are bouncing away but still 'touching', just ignore
+            if (Core::Math::Dot(toVelocity.velocity, toToCollision) < 0.0f)
+            {
+                return;
+            }
+
             // from is not moving (immovable object) so the 'to' is just directly reflected
             toVelocity.velocity = toPersistingVelocity + (toCollisionVelocity * -1.0f * conservationRatio);
+            if (toVelocity != toVelocity)
+            {
+                DEBUG_THROW("PhysicsCollisionHandler", "velocity is NAN");
+            }
             return;
         }
 
@@ -76,6 +92,11 @@ private:
 
         const auto v2Final = numerator / denominator;
         const auto v1Final = v2Final + v2 - v1;
+
+        if (denominator == 0.0f)
+        {
+            DEBUG_THROW("PhysicsCollisionHandler", "Dividing by zero");
+        }
 
         fromVelocity->velocity = fromPersistingVelocity + (v1Final * conservationRatio);
         toVelocity.velocity = toPersistingVelocity + (v2Final * conservationRatio);
