@@ -86,7 +86,10 @@ void MyState::Initialize()
     // Testing::SpawnStaticCollider(*this, Core::Geometric::Line3D(Core::Math::Float3(1.0f, 0.0f, 0.0f), false), Math::Lerp(_leftPos, _rightPos, 0.50f) + Core::Math::Float3(0.0f, 0.0f, 0.2f), rotation2);
     // Testing::SpawnStaticCollider(*this, Core::Geometric::Spot3D(), Math::Lerp(modifiedLeft, modifiedRight, 0.6f)); // works with: spot3D, sphere
     // Testing::SpawnStaticCollider(*this, Core::Geometric::Sphere(), Math::Lerp(modifiedLeft, modifiedRight, 0.8f), Core::Math::FQuaternion(Core::Math::II()), 2.0f); // works with: sphere, rotation2, 2.0f);
-    
+    /*
+    * Try spawning a bunch of balls randomly with random speeds within the 'box' (maybe need a lid?)
+    */
+
     // surrounding box
     /*
     * For some reason the sphere disappears on collision... why?

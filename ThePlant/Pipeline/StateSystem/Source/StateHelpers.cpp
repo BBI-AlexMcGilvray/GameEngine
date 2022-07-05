@@ -57,8 +57,8 @@ void SetECSSystems(State& state, const ECSSystemFlags& systems)
     ECS& stateECS = state.ECS();
 
     SetOrRemoveSystem<AnimationSystem>(stateECS, systems, ECSSystem::AnimationSystem, state.AnimationManager());
-    SetOrRemoveSystem<PhysicsSystem>(stateECS, systems, ECSSystem::PhysicsSystem, state.TimeSystem(), state.PhysicsSettings());
     SetOrRemoveSystem<VelocitySystem>(stateECS, systems, ECSSystem::VelocitySystem, state.TimeSystem());
+    SetOrRemoveSystem<PhysicsSystem, VelocitySystem>(stateECS, systems, ECSSystem::PhysicsSystem, state.TimeSystem(), state.PhysicsSettings());
     SetOrRemoveSystem<TransformSystem, AnimationSystem, PhysicsSystem, VelocitySystem>(stateECS, systems, ECSSystem::TransformSystem);
     SetOrRemoveSystem<CameraSystem, TransformSystem>(stateECS, systems, ECSSystem::CameraSystem, state.RenderManager().GetCameraManager());
     SetOrRemoveSystem<CollisionSystem, TransformSystem>(stateECS, systems, ECSSystem::CollisionSystem, state.CollisionManager());

@@ -50,6 +50,7 @@ private:
         * Seems like the reason this happens is because the toToCollision is 0 -> projection breaks -> velocity = NAN (which then propogates to breaking the position etc)
         *   This seems to be because of the explicit -1 multiplication below, so if the collision lasts multiple frames, it flips back and forth, and if it results in net-downward movement, eventually the distance is 0
         * Also a problem with the collision point being the sphere CENTER (?) for some reason
+        * Also, why are we losing velocity with 1.0f elasticity?
         */
 
         if (fromVelocity == nullptr)
@@ -62,6 +63,10 @@ private:
 
             // from is not moving (immovable object) so the 'to' is just directly reflected
             toVelocity.velocity = toPersistingVelocity + (toCollisionVelocity * -1.0f * conservationRatio);
+            if (conservationRatio == 1.0f)
+            {
+                VERIFY(Core::Math::MagnitudeSqr(toVelocity.velocity) == Core::Math::MagnitudeSqr(toCollisionVelocity + toPersistingVelocity), "These should be equal");
+            }
             if (toVelocity != toVelocity)
             {
                 DEBUG_THROW("PhysicsCollisionHandler", "velocity is NAN");
