@@ -49,8 +49,8 @@ private:
         /*
         * Seems like the reason this happens is because the toToCollision is 0 -> projection breaks -> velocity = NAN (which then propogates to breaking the position etc)
         *   This seems to be because of the explicit -1 multiplication below, so if the collision lasts multiple frames, it flips back and forth, and if it results in net-downward movement, eventually the distance is 0
-        * Also a problem with the collision point being the sphere CENTER (?) for some reason
-        * Also, why are we losing velocity with 1.0f elasticity?
+        * for some reason they can get stuck together - probably due to the fact that we _may_ check intersection once they are already 'inside', causing them to intersect for multiple frames
+        * and jitter back and forth as a result. probably need to provide the 'collision points' independent of each other (instead of the middle) so they each think they are bouncing off their edge
         */
 
         if (fromVelocity == nullptr)
