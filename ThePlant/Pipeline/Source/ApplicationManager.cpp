@@ -84,15 +84,22 @@ void ApplicationManager::Run()
   {
     DEBUG_PROFILE_SCOPE("ApplicationManager::Run");
     _timeSystem.Update();
-    while (_timeSystem.TakeFixedStep()) {
+    while (_timeSystem.TakeFixedStep() && !quit()) { // checking quit here as well to enforce responsiveness (otherwise we don't quit until timesteps are caught up)
       Core::Second dt = _timeSystem.GetDeltaTime();
       Update(dt);
+    // #ifdef MULTITHREADED_RENDERING // NOTE: not actually used due to current location of define
+        Render(); // when threaded, this pushes the current buffer to the next thread, if we only did it once we would duplicate render data per frame
+    // #endif
     }
-    Render();
+  // #ifndef MULTITHREADED_RENDERING // NOTE: not actually used due to current location of define - need to fix, bottom should NOT be commented
+      // Render(); // if rendering is not threaded, then we only render once per frame (otherwise waste time)
+  // #endif
+      // take a look at Unity's order of execution and work on cleaning up execution order
+      //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
 
     // clear before final pop to not clear the final stack.
     // however, this means that the displayed data is one frame behind
-    DEBUG_CLEAR_PROFILE();
+    DEBUG_CLEAR_PROFILE(); // needed?
   }
 
   End();

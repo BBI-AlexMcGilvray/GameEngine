@@ -65,7 +65,9 @@ private:
             toVelocity.velocity = toPersistingVelocity + (toCollisionVelocity * -1.0f * conservationRatio);
             if (conservationRatio == 1.0f)
             {
-                VERIFY(Core::Math::MagnitudeSqr(toVelocity.velocity) == Core::Math::MagnitudeSqr(toCollisionVelocity + toPersistingVelocity), "These should be equal");
+                const auto oldMagnitudeSqr = Core::Math::MagnitudeSqr(toCollisionVelocity + toPersistingVelocity);
+                const auto newMagnitudeSqr = Core::Math::MagnitudeSqr(toVelocity.velocity);
+                VERIFY(std::abs(oldMagnitudeSqr - newMagnitudeSqr) < 0.05f, "These should be equal (enough) but " + std::to_string(newMagnitudeSqr) + " != " + std::to_string(oldMagnitudeSqr));
             }
             if (toVelocity != toVelocity)
             {

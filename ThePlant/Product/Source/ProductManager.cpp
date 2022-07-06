@@ -45,7 +45,7 @@ namespace Product
         {
             DEBUG_PROFILE_SCOPE("ProductManager::Update");
             timeSystem.Update();
-            while (timeSystem.TakeFixedStep()) {
+            while (timeSystem.TakeFixedStep() && !_pipeline.quit()) { // checking quit here as well to enforce responsiveness (otherwise we don't quit until timesteps are caught up)
                 Core::Second dt = timeSystem.GetDeltaTime();
                 _pipeline.Update(dt);
                 _myProduct.update(dt);
@@ -58,6 +58,10 @@ namespace Product
         // #endif
             // take a look at Unity's order of execution and work on cleaning up execution order
             //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
+                    
+            // clear before final pop to not clear the final stack.
+            // however, this means that the displayed data is one frame behind
+            DEBUG_CLEAR_PROFILE(); // needed?
         }
     }
 
