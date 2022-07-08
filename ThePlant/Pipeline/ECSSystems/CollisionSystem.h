@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Pipeline/Collision/Collision.h"
+#include "Pipeline/Collision/Collisions.h"
+#include "Pipeline/Collision/CollisionHandler.h"
 #include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/Collision/OctTree.h"
 
@@ -87,7 +88,7 @@ struct CollisionHandlingSystem : System<CollisionHandlingSystem>
 private:
     Collision::CollisionManager& _collisionManager;
 
-    void _HandleCollisions(const Collision::ICollisionHandler& handler, std::vector<Collision::Collision>& allCollisions) const
+    void _HandleCollisions(const Collision::ICollisionHandler& handler, std::vector<Collision::StatefulCollision>& allCollisions) const
     {
         for (auto& collision : allCollisions)
         {

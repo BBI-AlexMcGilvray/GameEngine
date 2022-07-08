@@ -6,9 +6,11 @@
 
 #include "Core/IdTypes/InstanceId.h"
 
-#include "Pipeline/Collision/Collision.h"
+#include "Pipeline/Collision/Collisions.h"
+#include "Pipeline/Collision/CollisionHandler.h"
 #include "Pipeline/Collision/OctTree.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
+#include "Pipeline/ECS/DataOriented/IDs.h"
 
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 
@@ -23,7 +25,7 @@ struct CollisionManager
     // should only be called once per frame
     void ResetCollisionCache();
     OctTree& GetOctTree();
-    std::vector<Collision> GetAllCollisions();
+    std::vector<StatefulCollision> GetAllCollisions();
 
     const std::vector<Core::Ptr<ICollisionHandler>> GetAllCollisionHandlers() const;
     
@@ -51,12 +53,16 @@ struct CollisionManager
     }
     
 private:
+    ECS& _ecs;
     OctTree _octTree;
     std::unordered_map<Core::instanceId<ICollisionHandler>, std::unique_ptr<ICollisionHandler>, Core::instanceIdHasher<ICollisionHandler>> _handlers;
     
     // cache the collisions for the given frame
-    std::vector<Collision> _cachedCollisions;
+    std::vector<StatefulCollision> _cachedCollisions;
+    std::unordered_map<EntityId, std::vector<EntityId>> _existingCollisions;
     bool _frameCached = false;
+
+    std::vector<StatefulCollision> _HandleCollisionStates(std::vector<Collision> collisions);
 };
 } // namespace Collision
 } // namespace Application

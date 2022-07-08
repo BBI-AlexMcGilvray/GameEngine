@@ -5,7 +5,8 @@
 #include "Core/Math/Headers/VectorFunctions.h"
 #include "Core/Geometric/GeometryDefs.h"
 
-#include "Pipeline/Collision/Collision.h"
+#include "Pipeline/Collision/Collisions.h"
+#include "Pipeline/Collision/CollisionHandler.h"
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/Physics/PhysicsComponents.h"
@@ -19,7 +20,7 @@ namespace Collision
 struct RigidBodyCollision : public CollisionHandler<RigidBodyCollision>
 {
     RigidBodyCollision()
-    : CollisionHandler<RigidBodyCollision>("RigidBodyCollision", CollectTypes<WorldTransformComponent, RigidBodyComponent>(), CollectTypes<VelocityComponent, WorldTransformComponent, RigidBodyComponent>(), false)
+    : CollisionHandler<RigidBodyCollision>("RigidBodyCollision", BitmaskEnum<CollisionState>(CollisionState::Initial), CollectTypes<WorldTransformComponent, RigidBodyComponent>(), CollectTypes<VelocityComponent, WorldTransformComponent, RigidBodyComponent>(), false)
     {} // don't need to handle both separately as this is an identical calculation
 
 private:
@@ -28,7 +29,7 @@ private:
     * https://www.nuclear-power.com/laws-of-conservation/law-of-conservation-of-energy/conservation-of-momentum-and-energy-in-collisions/
     * https://study.com/skill/learn/how-to-solve-for-the-final-velocity-of-an-elastic-1d-collision-explanation.html
     */
-    void _Apply(const Core::Geometric::Point3D& collisionPoint, EntitySnapshot& from, EntitySnapshot& to) const override
+    void _Apply(const CollisionState collisionState, const Core::Geometric::Point3D& collisionPoint, EntitySnapshot& from, EntitySnapshot& to) const override
     {
         Core::Ptr<VelocityComponent> fromVelocity = from.HasComponent<VelocityComponent>() ? &from.GetComponent<VelocityComponent>() : nullptr;
         const WorldTransformComponent& fromTransform = from.GetComponent<WorldTransformComponent>();

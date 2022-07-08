@@ -89,9 +89,10 @@ void MyState::Initialize()
     /*
     * Try spawning a bunch of balls randomly with random speeds within the 'box' (maybe need a lid?)
     */
-    for (int i = 0; i < 10; ++i)
+    int numSpawned = 5;
+    for (int i = 0; i < numSpawned; ++i)
     {
-        Core::Math::Float3 position = Math::Lerp(modifiedLeft, modifiedRight, float(i) / 10.0f);
+        Core::Math::Float3 position = Math::Lerp(modifiedLeft, modifiedRight, float(i) / static_cast<float>(numSpawned));
         Core::Math::Float3 velocity(float(i), 0.0f, 0.0f);
         Testing::SpawnCollider(*this, velocity, Core::Geometric::Sphere(), position);
     }
@@ -102,9 +103,11 @@ void MyState::Initialize()
     */
     Core::Math::Float3 boundaryLeft = _leftPos + Core::Math::Float3(-2.0f, 0.0f, 0.0f);
     Core::Math::Float3 boundaryRight = _rightPos + Core::Math::Float3(2.0f, 0.0f, 0.0f);
-    Core::Math::Float3 boundaryBottom = (_leftPos + _rightPos) * 0.5f - Core::Math::Float3(0.0f, 5.0f, 0.0f);
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryLeft, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 10.0f, 1.0f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryRight, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 10.0f, 1.0f));
+    Core::Math::Float3 boundaryTop = (_leftPos + _rightPos) * 0.5f + Core::Math::Float3(0.0f, 10.0f, 0.0f);
+    Core::Math::Float3 boundaryBottom = (_leftPos + _rightPos) * 0.5f - Core::Math::Float3(0.0f, 10.0f, 0.0f);
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryLeft, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 20.0f, 1.0f));
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryRight, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 20.0f, 1.0f));
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryTop, Core::Math::FQuaternion(), Core::Math::Float3(40.0f, 1.0f, 1.0f));
     Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBottom, Core::Math::FQuaternion(), Core::Math::Float3(40.0f, 1.0f, 1.0f));
 
     // need to spawn some stuff to test the collision system
@@ -143,8 +146,8 @@ void MyState::Initialize()
 
 void MyState::Start()
 {
-    // auto& animationComponent = Application::ApplicationManager::AppECS().GetComponentFor<Application::AnimatorComponent>(_woman);
-    // Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).PlayAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Idle);    
+    // auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_woman);
+    // Application::ApplicationManager::AnimationManager().GetAnimator(animationComponent.animatorId).PlayAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Idle);    
 }
 
 void MyState::End() {};
@@ -162,7 +165,7 @@ void MyState::_PostECSUpdate(Second dt)
     // if (frames > 50 && !played)
     // {
     //     auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_animated);
-    //     Application::ApplicationManager::AppAnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
+    //     AnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
     //     played = true;
     // }
     // \testing

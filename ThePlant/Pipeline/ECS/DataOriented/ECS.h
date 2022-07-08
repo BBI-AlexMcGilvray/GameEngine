@@ -57,6 +57,9 @@ namespace Application
         template <typename ...Ts>
         Entity CreateEntity(const std::tuple<Ts...>& components) { return _archetypes.CreateEntity(components); }
 
+        // this needs add the entity to a list that will be removed at the end of the frame
+        // same should be done to changes to an entity, so you can say 'add component' or 'remove component' and all changes will be stored
+        // and applied at once to limit the amount of entity movement
         void RemoveEntity(const Entity& entity) { _archetypes.RemoveEntity(entity); }
         
         EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity) { return _archetypes.GetTemporaryEntitySnapshot(entity); }

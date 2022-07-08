@@ -124,7 +124,7 @@ private:
     Rendering::Mesh _sphereMesh;
     // what do we do for planes? just use the relevant 2D mesh?
 
-    void _ApplyToArchetype(const std::vector<Collision::Collision>& allCollisions, const std::vector<EntityId>& entities, std::vector<WorldTransformComponent>& worldTransforms, std::vector<ColliderComponent>& colliderComponents) const
+    void _ApplyToArchetype(const std::vector<Collision::StatefulCollision>& allCollisions, const std::vector<EntityId>& entities, std::vector<WorldTransformComponent>& worldTransforms, std::vector<ColliderComponent>& colliderComponents) const
     {
         VERIFY(worldTransforms.size() == colliderComponents.size());
         for (size_t index = 0; index < worldTransforms.size(); ++index)

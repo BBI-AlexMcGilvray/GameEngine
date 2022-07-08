@@ -79,7 +79,8 @@ Animation/Headers/Channel.h #
 Animation/Headers/ChannelTypes.h #
 Animation/Headers/Keyframe.h #
 Animation/Headers/SkeletonAnimation.h #
-Collision/Collision.h #
+Collision/Collisions.h #
+Collision/CollisionHandler.h #
 Collision/CollisionManager.h #
 Collision/OctTree.h #
 Collision/CollisionHandlers/DebugHandlers/DebugCollisionDisplay.h #

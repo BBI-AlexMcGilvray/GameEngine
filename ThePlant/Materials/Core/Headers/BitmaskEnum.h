@@ -36,6 +36,12 @@ public:
   {
   }
 
+  template <typename ...ARGS>
+  BitmaskEnum(const T &val, ARGS ...others)
+  {
+    SetFlags(val, others...);
+  }
+
   BitmaskEnum(const BitmaskEnum<T> &other)
     : _baseEnum(other._baseEnum)
   {
@@ -81,6 +87,32 @@ public:
     raw_type masked = enum_cast(_baseEnum) & enum_cast(flags);
     return (masked > 0);
   }
+
+  void SetFlags(const T& flag)
+  {
+    _baseEnum = flag;
+  }
+
+  template <typename ...ARGS>
+  void SetFlags(const T& flag, const ARGS& ...args)
+  {
+    SetFlags(flag);
+    TurnOnFlags(args...);
+  }
+
+  void TurnOnFlags(const T& flag)
+  {
+    *this |= flag;
+  }
+
+  template <typename ...ARGS>
+  void TurnOnFlags(const T& flag, const ARGS& ...args)
+  {
+    *this |= flag;
+    TurnOnFlags(args...);
+  }
+
+  // need a TurnOffFlags function and a ToggleFlags function
 
   operator T()
   {
