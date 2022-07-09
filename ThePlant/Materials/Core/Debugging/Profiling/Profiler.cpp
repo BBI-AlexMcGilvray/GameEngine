@@ -50,7 +50,7 @@ void Profiler::Pop(const std::string& tag)
 
     if (thisStack.empty())
     {
-        _AddSection(std::move(popped));
+        _AddThreadSection(thisThread, std::move(popped));
     }
     else
     {
@@ -58,26 +58,26 @@ void Profiler::Pop(const std::string& tag)
     }
 }
 
-const std::vector<Section> Profiler::GetSections() const
+const std::unordered_map<Threading::ThreadId, std::vector<Section>> Profiler::GetThreadSections() const
 {
     auto lock = _LockSections();
-    return _sections;
+    return _threadSections;
 }
 
-const std::vector<Section> Profiler::GetSectionsThenClear()
+const std::unordered_map<Threading::ThreadId, std::vector<Section>> Profiler::GetThreadSectionsThenClear()
 {
     SCOPED_MEMORY_CATEGORY("Profiler");
     auto lock = _LockSections();
-    std::vector<Section> sections = _sections;
-    _sections.clear();
+    std::unordered_map<Threading::ThreadId, std::vector<Section>> threadSections = _threadSections;
+    _threadSections.clear();
 
-    return sections;
+    return threadSections;
 }
 
 void Profiler::ClearSections()
 {
     auto lock = _LockSections();
-    _sections.clear();
+    _threadSections.clear();
 }
 
 std::unique_lock<std::mutex> Profiler::_LockSections() const
@@ -90,11 +90,11 @@ std::unique_lock<std::mutex> Profiler::_LockStacks() const
     return std::unique_lock(_stackMutex);
 }
 
-void Profiler::_AddSection(Section&& section)
+void Profiler::_AddThreadSection(Threading::ThreadId thread, Section&& section)
 {
     SCOPED_MEMORY_CATEGORY("Profiler");
     auto lock = _LockSections();
-    _sections.emplace_back(std::move(section));
+    _threadSections[thread].emplace_back(std::move(section));
 }
 #endif
 } // namespace Profiling

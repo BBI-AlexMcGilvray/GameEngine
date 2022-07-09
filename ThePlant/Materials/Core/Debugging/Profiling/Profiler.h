@@ -46,15 +46,15 @@ struct Profiler
     void Push(const std::string& tag);
     void Pop(const std::string& tag);
 
-    const std::vector<Section> GetSections() const;
-    const std::vector<Section> GetSectionsThenClear();
+    const std::unordered_map<Threading::ThreadId, std::vector<Section>> GetThreadSections() const;
+    const std::unordered_map<Threading::ThreadId, std::vector<Section>> GetThreadSectionsThenClear();
     void ClearSections();
     
 private:
     SteadyClock _clock;
 
     mutable std::mutex _sectionMutex;
-    std::vector<Section> _sections;
+    std::unordered_map<Threading::ThreadId, std::vector<Section>> _threadSections;
 
     mutable std::mutex _stackMutex;
     std::unordered_map<Threading::ThreadId, std::stack<Section>> _threadStacks;
@@ -62,7 +62,7 @@ private:
     std::unique_lock<std::mutex> _LockSections() const;
     std::unique_lock<std::mutex> _LockStacks() const;
 
-    void _AddSection(Section&& section);
+    void _AddThreadSection(Threading::ThreadId thread, Section&& section);
 };
 #endif
 } // namespace Profiling

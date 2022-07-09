@@ -78,7 +78,7 @@ void MyState::Initialize()
     _dir1 = true;
     _swapTime = Core::Second(15.0f);
     _currentSwap = _swapTime;
-    // _collider = Testing::SpawnCollider(*this, Core::Math::Float3(5.0f, 0.0f, 0.0f), Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
+    _collider = Testing::SpawnCollider(*this, Core::Math::Float3(5.0f, 0.0f, 0.0f), Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
     // _trigger = Testing::SpawnTrigger(*this, Core::Math::Float3(-5.0f, 0.0f, 0.0f), Core::Geometric::Box(), _rightPos, rotation2, 2.0f);
     
     // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
@@ -89,7 +89,7 @@ void MyState::Initialize()
     /*
     * Try spawning a bunch of balls randomly with random speeds within the 'box' (maybe need a lid?)
     */
-    int numSpawned = 0;
+    int numSpawned = 5;
     for (int i = 0; i < numSpawned; ++i)
     {
         Core::Math::Float3 position = Math::Lerp(modifiedLeft, modifiedRight, float(i) / static_cast<float>(numSpawned));

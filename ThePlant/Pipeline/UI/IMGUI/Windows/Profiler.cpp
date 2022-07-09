@@ -32,33 +32,46 @@ void _UpdateDisplaySections(const std::vector<Core::Profiling::Section>& section
 
     // we need to only remove things if the section has been updated (ideally only at the top level for threads)
     // remove old sections
-    // for (auto iter = displaySections.begin(); iter != displaySections.end();)
-    // {
-    //     auto newSection = std::find_if(sections.begin(), sections.end(), [tag = iter->tag](const auto& section)
-    //     {
-    //         return (tag == section.tag);
-    //     });
-
-    //     if (newSection == sections.end())
-    //     {
-    //         iter = displaySections.erase(iter);
-    //     }
-    //     else
-    //     {
-    //         ++iter;
-    //     }
-    // }
-}
-
-void _ResetDisplaySectionDurations(std::vector<Profiler::DisplaySection>& displaySections)
-{
-    for (auto& section : displaySections)
+    for (auto iter = displaySections.begin(); iter != displaySections.end();)
     {
-        section.duration = Core::Second(0.0);
-        section.calls = 0;
-        _ResetDisplaySectionDurations(section.sections);
+        auto newSection = std::find_if(sections.begin(), sections.end(), [tag = iter->tag](const auto& section)
+        {
+            return (tag == section.tag);
+        });
+
+        if (newSection == sections.end())
+        {
+            iter = displaySections.erase(iter);
+        }
+        else
+        {
+            ++iter;
+        }
     }
 }
+
+void _UpdateThreadDisplaySections(const std::unordered_map<Core::Threading::ThreadId, std::vector<Core::Profiling::Section>>& threadSections, std::unordered_map<Core::Threading::ThreadId, std::vector<Profiler::DisplaySection>>& displayThreadSections)
+{
+    SCOPED_MEMORY_CATEGORY("IMGUI");
+    // copy remaining sections over
+    for (auto& threadSection : threadSections)
+    {
+        const auto& sections = threadSection.second;
+        auto& displaySections = displayThreadSections[threadSection.first];
+
+        _UpdateDisplaySections(sections, displaySections);
+    }
+}
+
+// void _ResetDisplaySectionDurations(std::unordered_map<Core::Threading::ThreadId, std::vector<DisplaySection>>& displaySections)
+// {
+//     for (auto& section : displaySections)
+//     {
+//         section.duration = Core::Second(0.0);
+//         section.calls = 0;
+//         _ResetDisplaySectionDurations(section.sections);
+//     }
+// }
 
 void _UpdateDisplaySections(Core::Profiling::Profiler& profiler, Profiler& window)
 {
@@ -67,8 +80,8 @@ void _UpdateDisplaySections(Core::Profiling::Profiler& profiler, Profiler& windo
         return;
     }
 
-    _ResetDisplaySectionDurations(window.sections);
-    _UpdateDisplaySections(profiler.GetSectionsThenClear(), window.sections);
+    // _ResetDisplaySectionDurations(window.threadSections);
+    _UpdateThreadDisplaySections(profiler.GetThreadSectionsThenClear(), window.threadSections);
 }
 
 void _ResetDisplaySections(std::vector<Profiler::DisplaySection>& displaySections)
@@ -152,55 +165,61 @@ void Profiler::Draw()
     (
         _UpdateDisplaySections(*service, *this);
         
-        if (!sections.empty())
+        for (auto& threadSection : threadSections)
         {
-            size_t activeSections = 0;
-            auto totalDuration = Core::Second(0.0);
-            auto totalDurationPerFrame = Core::Second(0.0);
-            for (auto& section : sections)
+            auto& sections = threadSection.second;
+            if (!sections.empty())
             {
-                activeSections += section.ignore ? 0 : 1;
-                totalDuration += section.duration;
-                if (section.sections.size() > 0)
-                {
-                    totalDurationPerFrame += section.duration / section.calls;
-                }
-            }
-
-            ImGui::Text("Framerate: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-            ImGui::Text("Total Time: %.3f",  Core::Duration(totalDuration) * 1000);
-            ImGui::Text("Total Frame Time: %.3f",  Core::Duration(totalDurationPerFrame) * 1000);
-
-            ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0.0f, 0.0f));
-            if (activeSections > 0 && ImGui::BeginTable("Profiler Data", activeSections, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
-            {
+                size_t activeSections = 0;
+                auto totalDuration = Core::Second(0.0);
+                auto totalDurationPerFrame = Core::Second(0.0);
                 for (auto& section : sections)
                 {
-                    if (section.ignore)
+                    activeSections += section.ignore ? 0 : 1;
+                    totalDuration += section.duration;
+                    if (section.sections.size() > 0)
                     {
-                        continue;
+                        totalDurationPerFrame += section.duration / section.calls;
                     }
-
-                    ImGui::TableSetupColumn(section.tag.c_str());
                 }
-                ImGui::TableHeadersRow();
-                
-                for (auto& section : sections)
+
+                ImGui::Text("Framerate: %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+                ImGui::Text("Total Time: %.3f",  Core::Duration(totalDuration) * 1000);
+                ImGui::Text("Total Frame Time: %.3f",  Core::Duration(totalDurationPerFrame) * 1000);
+
+                ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(0.0f, 0.0f));
+                size_t threadIdHash = std::hash<Core::Threading::ThreadId>()(threadSection.first);
+                std::string tableName = "Profiler Data - Thread " + std::to_string(threadIdHash);
+                if (activeSections > 0 && ImGui::BeginTable(tableName.c_str(), activeSections, ImGuiTableFlags_Borders | ImGuiTableFlags_Resizable))
                 {
-                    if (section.ignore)
+                    for (auto& section : sections)
                     {
-                        continue;
-                    }
+                        if (section.ignore)
+                        {
+                            continue;
+                        }
 
-                    _DrawSection(section, totalDuration);
+                        ImGui::TableSetupColumn(section.tag.c_str());
+                    }
+                    ImGui::TableHeadersRow();
+                    
+                    for (auto& section : sections)
+                    {
+                        if (section.ignore)
+                        {
+                            continue;
+                        }
+
+                        _DrawSection(section, totalDuration);
+                    }
+                    ImGui::EndTable();
                 }
-                ImGui::EndTable();
+                ImGui::PopStyleVar(1);
             }
-            ImGui::PopStyleVar(1);
-        }
-        else
-        {
-            ImGui::Text("No profile data");
+            else
+            {
+                ImGui::Text("No profile data");
+            }
         }
     )
 }

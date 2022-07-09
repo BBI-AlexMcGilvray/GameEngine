@@ -3,6 +3,8 @@
 #include <vector>
 
 #include "Core/Debugging/Profiling/Profiler.h"
+#include "Core/Threading/Thread.h"
+
 #include "Pipeline/UI/IMGUI/Window.h"
 
 namespace Application {
@@ -34,7 +36,7 @@ namespace IMGUI {
         };
 
         bool update = true;
-        std::vector<DisplaySection> sections;
+        std::unordered_map<Core::Threading::ThreadId, std::vector<DisplaySection>> threadSections;
 
         Profiler()
         : Window("Profiler")
