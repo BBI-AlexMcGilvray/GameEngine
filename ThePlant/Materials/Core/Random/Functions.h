@@ -1,11 +1,11 @@
 #pragma once
 
-#define _USE_MATH_DEFINES// remove once we use our own pi from Core
+#include "Core/Math/Headers/MathDefs.h"
 #include "Core/Random/Random.h"
 #include <cmath>
 #include <type_traits>
 
-namespace Core::Random {
+namespace Core {
 // returns between 0 and max
 template<typename T>
 auto LessThan(Random &random, const T &max) -> typename std::enable_if<!std::is_floating_point<T>::value, T>::type
@@ -52,7 +52,7 @@ T NormalDistribution(Random &random)
   T r1 = InRange<T>(random, T(0), T(1));
   T r2 = InRange<T>(random, T(0), T(1));
 
-  return std::sqrt(T(-2) * log(r1)) * std::cos(T(2) * T(M_PI) * r2);
+  return std::sqrt(T(-2) * log(r1)) * std::cos(T(2) * T(PI_D) * r2);
 }
 
 // http://dspguide.com/ch2/6.htm
@@ -61,4 +61,4 @@ T NormalDistribution(Random &random, const T &mean, const T &standardDeviation)
 {
   return (NormalDistribution<T>(random) * standardDeviation) + mean;
 }
-}// namespace Core::Random
+}// namespace Core

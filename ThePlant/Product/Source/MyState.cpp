@@ -6,6 +6,8 @@
 #include "Pipeline/Physics/PhysicsSettings.h"
 
 // testing
+#include "Core/Random/Random.h"
+#include "Core/Random/Functions.h"
 #include "Core/Math/Headers/UtilityFunctions.h"
 #include "Core/Math/Headers/MatrixFunctions.h"
 
@@ -67,8 +69,8 @@ void MyState::Initialize()
     // _animated = Testing::SpawnAnimatedModel(*this);
 
     // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
-    _leftPos = Core::Math::Float3(-15.0f, 4.0f, 0.0f);
-    _rightPos = Core::Math::Float3(15.0f, 4.0f, 0.0f);
+    _leftPos = Core::Math::Float3(-15.0f, 4.0f, -5.0f);
+    _rightPos = Core::Math::Float3(15.0f, 4.0f, -5.0f);
 
     Core::Math::Float3 modifiedLeft = _leftPos + Core::Math::Float3(2.0f, 0.0f, 0.0f);
     Core::Math::Float3 modifiedRight = _rightPos + Core::Math::Float3(-2.0f, 0.0f, 0.0f);
@@ -78,7 +80,7 @@ void MyState::Initialize()
     _dir1 = true;
     _swapTime = Core::Second(15.0f);
     _currentSwap = _swapTime;
-    _collider = Testing::SpawnCollider(*this, Core::Math::Float3(5.0f, 0.0f, 0.0f), Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
+    // _collider = Testing::SpawnCollider(*this, Core::Math::Float3(5.0f, 0.0f, 0.0f), Core::Geometric::Sphere(), _leftPos, rotation1, 2.0f);
     // _trigger = Testing::SpawnTrigger(*this, Core::Math::Float3(-5.0f, 0.0f, 0.0f), Core::Geometric::Box(), _rightPos, rotation2, 2.0f);
     
     // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), Math::Lerp(modifiedLeft, modifiedRight, 0.2f));
@@ -89,11 +91,12 @@ void MyState::Initialize()
     /*
     * Try spawning a bunch of balls randomly with random speeds within the 'box' (maybe need a lid?)
     */
-    int numSpawned = 5;
+    Core::Random rand;
+    int numSpawned = 1;
     for (int i = 0; i < numSpawned; ++i)
     {
-        Core::Math::Float3 position = Math::Lerp(modifiedLeft, modifiedRight, float(i) / static_cast<float>(numSpawned));
-        Core::Math::Float3 velocity(float(i), 0.0f, 0.0f);
+        Core::Math::Float3 position = Math::Lerp(_leftPos, _rightPos, float(i) / static_cast<float>(numSpawned));
+        Core::Math::Float3 velocity(Core::InRange(rand, -5.0f, 5.0f), Core::InRange(rand, -5.0f, 5.0f), 0.0f);
         Testing::SpawnCollider(*this, velocity, Core::Geometric::Sphere(), position);
     }
 
@@ -103,8 +106,8 @@ void MyState::Initialize()
     */
     Core::Math::Float3 boundaryLeft = _leftPos + Core::Math::Float3(-2.0f, 0.0f, 0.0f);
     Core::Math::Float3 boundaryRight = _rightPos + Core::Math::Float3(2.0f, 0.0f, 0.0f);
-    Core::Math::Float3 boundaryTop = (_leftPos + _rightPos) * 0.5f + Core::Math::Float3(0.0f, 10.0f, 0.0f);
-    Core::Math::Float3 boundaryBottom = (_leftPos + _rightPos) * 0.5f - Core::Math::Float3(0.0f, 10.0f, 0.0f);
+    Core::Math::Float3 boundaryTop = Core::Math::Float3((_leftPos + _rightPos).XY * 0.5f, _leftPos.Z) + Core::Math::Float3(0.0f, 10.0f, 0.0f);
+    Core::Math::Float3 boundaryBottom = Core::Math::Float3((_leftPos + _rightPos).XY * 0.5f, _leftPos.Z) - Core::Math::Float3(0.0f, 10.0f, 0.0f);
     Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryLeft, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 20.0f, 1.0f));
     Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryRight, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 20.0f, 1.0f));
     Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryTop, Core::Math::FQuaternion(), Core::Math::Float3(40.0f, 1.0f, 1.0f));

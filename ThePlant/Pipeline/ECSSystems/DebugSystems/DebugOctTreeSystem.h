@@ -14,7 +14,7 @@ namespace Application
 {
 struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
 {
-    bool drawOccupiedOnly = false;
+    bool drawOccupiedOnly = true;
 
     DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
     : System<DebugOctTreeSystem>("DebugOctTreeSystem")
