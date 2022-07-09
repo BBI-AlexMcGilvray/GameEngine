@@ -9,9 +9,22 @@ namespace Application {
 namespace UI {
 namespace IMGUI {
 
+void _ResetDisplaySectionDurations(std::vector<Profiler::DisplaySection>& displaySections)
+{
+    for (auto& section : displaySections)
+    {
+        section.duration = Core::Second(0.0);
+        section.calls = 0;
+        _ResetDisplaySectionDurations(section.sections);
+    }
+}
+
 void _UpdateDisplaySections(const std::vector<Core::Profiling::Section>& sections, std::vector<Profiler::DisplaySection>& displaySections)
 {
     SCOPED_MEMORY_CATEGORY("IMGUI");
+
+    _ResetDisplaySectionDurations(displaySections);
+
     // copy remaining sections over
     for (const auto& section : sections)
     {
@@ -63,16 +76,6 @@ void _UpdateThreadDisplaySections(const std::unordered_map<Core::Threading::Thre
     }
 }
 
-// void _ResetDisplaySectionDurations(std::unordered_map<Core::Threading::ThreadId, std::vector<DisplaySection>>& displaySections)
-// {
-//     for (auto& section : displaySections)
-//     {
-//         section.duration = Core::Second(0.0);
-//         section.calls = 0;
-//         _ResetDisplaySectionDurations(section.sections);
-//     }
-// }
-
 void _UpdateDisplaySections(Core::Profiling::Profiler& profiler, Profiler& window)
 {
     if (!window.update)
@@ -80,7 +83,6 @@ void _UpdateDisplaySections(Core::Profiling::Profiler& profiler, Profiler& windo
         return;
     }
 
-    // _ResetDisplaySectionDurations(window.threadSections);
     _UpdateThreadDisplaySections(profiler.GetThreadSectionsThenClear(), window.threadSections);
 }
 

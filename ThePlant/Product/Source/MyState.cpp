@@ -145,9 +145,7 @@ void MyState::Initialize()
 }
 
 void MyState::Start()
-{
-    // auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_woman);
-    // Application::ApplicationManager::AnimationManager().GetAnimator(animationComponent.animatorId).PlayAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Idle);    
+{ 
 }
 
 void MyState::End() {};
