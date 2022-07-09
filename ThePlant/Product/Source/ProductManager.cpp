@@ -41,6 +41,9 @@ namespace Product
     {
         Application::Time::TimeSystem& timeSystem = _pipeline.TimeSystem();
         timeSystem.Initialize(); // HACK: need to do this here due to first frame being too long
+        
+        // take a look at Unity's order of execution and work on cleaning up execution order
+        //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
         while (!_pipeline.quit())
         {
             DEBUG_PROFILE_SCOPE("ProductManager::Update");
@@ -56,12 +59,6 @@ namespace Product
         // #ifndef MULTITHREADED_RENDERING // NOTE: not actually used due to current location of define - need to fix, bottom should NOT be commented
             // _pipeline.Render(); // if rendering is not threaded, then we only render once per frame (otherwise waste time)
         // #endif
-            // take a look at Unity's order of execution and work on cleaning up execution order
-            //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
-                    
-            // clear before final pop to not clear the final stack.
-            // however, this means that the displayed data is one frame behind
-            DEBUG_CLEAR_PROFILE(); // needed?
         }
     }
 

@@ -30,19 +30,22 @@ void _UpdateDisplaySections(const std::vector<Core::Profiling::Section>& section
         _UpdateDisplaySections(section.sections, existingSection->sections);
     }
 
+    // we need to only remove things if the section has been updated (ideally only at the top level for threads)
     // remove old sections
-    // for (auto& iter = displaySections.end(); iter != displaySections.begin(); --iter)
+    // for (auto iter = displaySections.begin(); iter != displaySections.end();)
     // {
-    //     auto& actualIter = iter - 1;
-
-    //     auto newSection = std::find_if(sections.begin(), sections.end(), [tag = actualIter->tag](const auto& section)
+    //     auto newSection = std::find_if(sections.begin(), sections.end(), [tag = iter->tag](const auto& section)
     //     {
     //         return (tag == section.tag);
     //     });
 
     //     if (newSection == sections.end())
     //     {
-    //         displaySections.erase(actualIter);
+    //         iter = displaySections.erase(iter);
+    //     }
+    //     else
+    //     {
+    //         ++iter;
     //     }
     // }
 }

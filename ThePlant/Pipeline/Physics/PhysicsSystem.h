@@ -11,6 +11,7 @@
 
 #include "Pipeline/Physics/PhysicsComponents.h"
 #include "Pipeline/Physics/PhysicsSettings.h"
+#include "Pipeline/ECSSystems/TransformComponents.h"
 
 namespace Application {
 struct PhysicsSystem : public DeltaTimeSystem<PhysicsSystem>
@@ -29,7 +30,7 @@ struct PhysicsSystem : public DeltaTimeSystem<PhysicsSystem>
     {
         DEBUG_PROFILE_SCOPE(GetSystemName());
         
-        std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<PhysicsComponent, VelocityComponent>();
+        std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<PhysicsComponent, VelocityComponent, PositionComponent>();
 
         for (auto& archetype : affectedArchetypes)
         {
@@ -45,8 +46,8 @@ private:
     {
         std::vector<PhysicsComponent>& physics = archetype.GetComponents<PhysicsComponent>();
         std::vector<VelocityComponent>& velocities = archetype.GetComponents<VelocityComponent>();
+        std::vector<PositionComponent>& positions = archetype.GetComponents<PositionComponent>();
         Core::Ptr<std::vector<RigidBodyComponent>> rigidBodies = archetype.HasComponent<RigidBodyComponent>() ? &(archetype.GetComponents<RigidBodyComponent>()) : nullptr;
-        Core::Ptr<std::vector<PositionComponent>> positions = archetype.HasComponent<PositionComponent>() ? &(archetype.GetComponents<PositionComponent>()) : nullptr;
 
         DEBUG_ASSERT(physics.size() == velocities.size());
         for (size_t index = 0; index < physics.size(); ++index)
@@ -60,12 +61,11 @@ private:
                 additionalVelocity *= (1.0f - (*rigidBodies)[index].drag);
             }
 
-            if (positions != nullptr)
             {   // ne need to take gravity's impact on the position into account, but can't do it in the VelocitySystem
                 // this means we should do velocity then physics!
                 // based on d = v*t + (1/2)*a*(t^2)
                 // this is not perfect - diverges slowly based on floating point error - but is fine for our purposes
-                (*positions)[index].position += physicsSettings.gravity * (physicsComponent.gravityRatio * Core::Math::sqr(static_cast<float>(Core::Duration(deltaTime))) * 0.5f);
+                positions[index].position += physicsSettings.gravity * (physicsComponent.gravityRatio * Core::Math::sqr(static_cast<float>(Core::Duration(deltaTime))) * 0.5f);
             }
 
             velocityComponent.velocity += additionalVelocity;

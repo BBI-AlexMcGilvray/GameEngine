@@ -228,14 +228,18 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
         return;
     }
 
+    PROFILE_PUSH("_CreateChildren");
     _CreateChildren();
+    PROFILE_POP("_CreateChildren");
 
     if (_stopGapped)
     {
         _RemoveStopGap();
     }
     // insert the new content
+    PROFILE_PUSH("_FindContainingNode");
     auto& newContentContainer = _FindContainingNode(content.boundCollider);
+    PROFILE_POP("_FindContainingNode");
     if (&newContentContainer == this)
     {
         _content.push_back(content);
@@ -507,8 +511,10 @@ std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<Intermed
     SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_CreateCollisions");
     
-    // this is to avoid creating multiple snapshots of the same entity
-    // maybe we shouldn't do it? would need to be measured/timed
+    // NOTE: The below needs to be tested!
+    // EntitySnapshot is not the lightest thing to create, so create these first
+    // Then we can create a map of EntityId->EntitySnapshot for all the entities that are in a collision
+    // That way we can re-use the EntitySnapshots and avoid the duplicated effort
     std::unordered_map<EntityId, EntitySnapshot> snapshots;
     for (const auto& intermediaryCollision : intermediaryCollisions)
     {

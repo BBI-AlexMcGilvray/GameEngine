@@ -62,7 +62,7 @@
 
 #define CLEAR_PROFILE() \
     WITH_SERVICE(Core::Profiling::Profiler)( \
-        service->Clear(); \
+        service->ClearSections(); \
     )
 
 #define DEBUG_CLEAR_PROFILE() \

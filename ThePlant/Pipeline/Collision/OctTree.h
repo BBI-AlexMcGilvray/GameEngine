@@ -86,9 +86,7 @@ class OctTreeNode
 
     private:
         static constexpr size_t NUMBER_OF_CHILDREN = 8;
-        // EntitySnapshot is not the lightest thing to create, so create these first
-        // Then we can create a map of EntityId->EntitySnapshot for all the entities that are in a collision
-        // That way we can re-use the EntitySnapshots and avoid the duplicated effort
+
         struct IntermediaryCollision
         {
             const EntityId entity1;
@@ -141,7 +139,7 @@ class OctTreeNode
         void _AllCollisions(std::vector<IntermediaryCollision>& collisions) const;
         void _InternalCollisions(std::vector<IntermediaryCollision>& collisions) const;
         void _CollisionsWithChildren(std::vector<IntermediaryCollision>& collisions) const;
-        void _CollisionsWithAllContent(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const; // if we know the data collides with everything, quickly return all collisions
+        void _CollisionsWithAllContent(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const;
         void _FindAllCollisions(std::vector<IntermediaryCollision>& collisions, const OctTreeContent& content) const;
         void _ChildCollisions(std::vector<IntermediaryCollision>& collisions) const;
 

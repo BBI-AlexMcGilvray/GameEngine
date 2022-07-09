@@ -50,7 +50,9 @@ namespace Time {
       _ApplyFutureSettings();
       
       _stepPreviousTick = _stepCurrentTick;
-      _stepCurrentTick = std::min(_stepPreviousTick + Second(_timeSettings.maxTimeStep), _timeManager.currentTick);
+
+      const auto maxTimeStep = Second(_timeSettings.maxTimeStep);
+      _stepCurrentTick = std::min(_stepPreviousTick + maxTimeStep, _timeManager.currentTick);
       return true;
     }
 
