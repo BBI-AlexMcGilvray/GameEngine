@@ -50,15 +50,29 @@ private:
         for (size_t index = 0; index < worldTransforms.size(); ++index)
         {
             Core::Geometric::ShapeOrientation3D colliderOrientation = { worldTransforms[index].transform.GetOrientation(), colliderComponents[index].shape };
-            Collision::OctTreeContent content(colliderOrientation, entities[index], colliderComponents[index].isStatic);
 
-            if (colliderComponents[index].isStatic)
+            switch (colliderComponents[index].state)
             {
-                _octTree.AddStaticContent(content);
-            }
-            else
-            {
-                _octTree.AddContent(content); // may want to have a debug system to check that isStatic is not true if there are certain components (ex: velocity)
+                case ColliderState::Static_Dirty:
+                {
+                    colliderComponents[index].state = ColliderState::Static_Placed;
+                    Collision::OctTreeContent content(colliderOrientation, entities[index], colliderComponents[index].state);
+
+                    _octTree.AddStaticContent(content);
+                    break;
+                }
+                case ColliderState::Dynamic:
+                {
+                    Collision::OctTreeContent content(colliderOrientation, entities[index], colliderComponents[index].state);
+                    
+                    _octTree.AddContent(content);   // may want to have a debug system to check that isStatic is not true if there are certain components (ex: velocity)
+                    break;
+                }
+                case ColliderState::Static_Placed:
+                default:
+                {
+                    break;
+                }
             }
         }
     }

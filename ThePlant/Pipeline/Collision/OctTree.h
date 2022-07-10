@@ -22,13 +22,13 @@ struct OctTreeContent
 {
     Core::Geometric::AABBShapeOrientation3D boundCollider;
     EntityId entity; // content lasts a whole frame, can't hold snapshots
-    bool isStatic; // we do not currently support a way to toggle isStatic for existing content - may not be needed?
+    ColliderState state;
 
     OctTreeContent() = delete;
-    OctTreeContent(const Core::Geometric::ShapeOrientation3D& shapeOrientation, const EntityId& entity, bool isStatic)
+    OctTreeContent(const Core::Geometric::ShapeOrientation3D& shapeOrientation, const EntityId& entity, ColliderState state)
     : boundCollider(shapeOrientation)
     , entity(entity)
-    , isStatic(isStatic)
+    , state(state)
     {}
 
     OctTreeContent(const OctTreeContent&) = default;

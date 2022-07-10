@@ -106,8 +106,16 @@ std::vector<StatefulCollision> CollisionManager::_HandleCollisionStates(std::vec
         snapshots[completedCollision->first] = _ecs.GetTemporaryEntitySnapshot(completedCollision->first);
     }
 
+    // debug
+    size_t existingCollisionsCount = _existingCollisions.size();
+    size_t completedCollisionIndex = 0; 
+    // \debug
     for (auto completedCollision = _existingCollisions.begin(); completedCollision != _existingCollisions.end();)
     {
+        // debug
+        ++completedCollisionIndex;
+        // \debug
+
         EntityId entity1 = completedCollision->first;
 
         for (const auto& entity2 : completedCollision->second)

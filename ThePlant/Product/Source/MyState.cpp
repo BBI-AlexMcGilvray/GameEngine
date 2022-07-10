@@ -92,11 +92,11 @@ void MyState::Initialize()
     * Try spawning a bunch of balls randomly with random speeds within the 'box' (maybe need a lid?)
     */
     Core::Random rand;
-    int numSpawned = 1;
+    int numSpawned = 10;
     for (int i = 0; i < numSpawned; ++i)
     {
         Core::Math::Float3 position = Math::Lerp(_leftPos, _rightPos, float(i) / static_cast<float>(numSpawned));
-        Core::Math::Float3 velocity(Core::InRange(rand, -5.0f, 5.0f), Core::InRange(rand, -5.0f, 5.0f), 0.0f);
+        Core::Math::Float3 velocity(Core::InRange(rand, -1.0f, 1.0f), Core::InRange(rand, -1.0f, 1.0f), 0.0f);
         Testing::SpawnCollider(*this, velocity, Core::Geometric::Sphere(), position);
     }
 

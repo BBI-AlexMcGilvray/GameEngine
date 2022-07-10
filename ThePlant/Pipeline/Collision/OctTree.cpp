@@ -95,17 +95,6 @@ void OctTreeNode::AddContent(const OctTreeContent& content)
 void OctTreeNode::AddStaticContent(const OctTreeContent& content)
 {
     DEBUG_PROFILE_SCOPE("OctTreeNode::AddStaticContent");
-    // auto& container = _FindContainingNode(content.boundCollider);
-    // if (container.ContainsEntity(content.entity, false))
-    // {
-    //     return;
-    // }
-
-    // container.AddContent(content);
-
-    // it is currently faster to just re-add the content to non-destroyed nodes rather than check for existance.
-    // likely the fastest way to is to just call AddStaticContent once for each instance
-    // but we need to a way to verify they are only added in once
     AddContent(content);
 }
 
@@ -120,6 +109,8 @@ std::vector<Collision> OctTreeNode::AllCollisions() const
 
 void OctTreeNode::ClearTree(bool clearStatics)
 {
+    DEBUG_PROFILE_SCOPE("OctTreeNode::ClearTree");
+
     _ClearNode(clearStatics);
 }
 
@@ -239,18 +230,19 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
         return;
     }
 
-    PROFILE_PUSH("_CreateChildren");
+    DEBUG_PROFILE_PUSH("_CreateChildren");
     _CreateChildren();
-    PROFILE_POP("_CreateChildren");
+    DEBUG_PROFILE_POP("_CreateChildren");
 
     if (_stopGapped)
     {
         _RemoveStopGap();
     }
+    
     // insert the new content
-    PROFILE_PUSH("_FindContainingNode");
+    DEBUG_PROFILE_PUSH("_FindContainingNode");
     auto& newContentContainer = _FindContainingNode(content.boundCollider);
-    PROFILE_POP("_FindContainingNode");
+    DEBUG_PROFILE_POP("_FindContainingNode");
     if (&newContentContainer == this)
     {
         _content.push_back(content);
@@ -288,6 +280,7 @@ void OctTreeNode::_FindAllEntities(std::vector<std::pair<EntitySnapshot, Core::G
         return;
     }
 
+    // review this and similar logic - does it make sense?
     for (const auto& child : _children)
     {
         if (Core::Geometric::Engulfs(shape.boundingBox, child->_this))
@@ -367,7 +360,7 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
 
     for (size_t i = 0; i < _content.size() - 1; ++i)
     {
-        if (_content[i].isStatic)
+        if (_content[i].state == ColliderState::Static_Placed)
         {
             // don't check for static items, they will be hit when we check with other items
             // though we still need to check if they collide with content in child nodes
@@ -565,21 +558,19 @@ bool OctTreeNode::_ClearNode(bool clearStatics)
         }
     }
 
-    bool containsStatic = false;
     if (_content.size() > 0)
     {
         for (size_t index = _content.size(); index > 0; --index)
         {
             size_t trueIndex = index - 1;
             const auto& content = _content[trueIndex];
-            // if (!content.isStatic || clearStatics)
+            bool isStatic = content.state == ColliderState::Static_Placed;
+            if (!isStatic || clearStatics)
             {
-                containsStatic = content.isStatic;
                 _content.erase(_content.begin() + trueIndex);
             }
         }
     }
-    canDelete &= containsStatic;
     
     canDelete &= _content.empty();
     if (canDelete)

@@ -16,11 +16,18 @@ namespace Application
     - or when inserting the Static_Dirty component we search and remove the existing one, since it would not be the case most of the time?
         - but then any case where multiple items are dirtied would result in a significantly heavier frame
 */
+enum class ColliderState
+{
+    Dynamic,
+    Static_Dirty,
+    Static_Placed
+};
+
 struct ColliderComponent
 {
     Core::Geometric::Shape3D shape;
     bool trigger;
-    bool isStatic;
+    ColliderState state;
 
     ColliderComponent() = default;
     ColliderComponent(const ColliderComponent&) = default;
@@ -28,15 +35,15 @@ struct ColliderComponent
     ColliderComponent& operator=(const ColliderComponent&) = default;
     ColliderComponent& operator=(ColliderComponent&&) = default;
 
-    ColliderComponent(const Core::Geometric::Shape3D& shape, const bool& trigger, const bool& isStatic)
+    ColliderComponent(const Core::Geometric::Shape3D& shape, const bool& trigger, const ColliderState& state)
     : shape(shape)
     , trigger(trigger)
-    , isStatic(isStatic)
+    , state(state)
     {}
 
     bool operator==(const ColliderComponent& other) const
     {
-        return shape == other.shape && trigger == other.trigger && isStatic == other.isStatic;
+        return shape == other.shape && trigger == other.trigger && state == other.state;
     }
     bool operator !=(const ColliderComponent& other) const { return !(*this == other); }
 };
