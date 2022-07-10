@@ -48,6 +48,11 @@ namespace Product
         {
             DEBUG_PROFILE_SCOPE("ProductManager::Update");
             timeSystem.Update();
+            // NOTE: the physics step is too expensive at the moment to do everything in 60 (or 30) fps
+            // we either need to lift the cap (which causes the below to break as 'TakeFixedStep' always returns false)
+            // or we need to differentiate between capped and uncapped systems (though that won't help at the moment due to the main cost being a fixed step...)
+            // threading the different systems may help? unsure
+            // ** the above also applied to ApplicationManager::Run
             while (timeSystem.TakeFixedStep() && !_pipeline.quit()) { // checking quit here as well to enforce responsiveness (otherwise we don't quit until timesteps are caught up)
                 Core::Second dt = timeSystem.GetDeltaTime();
                 _pipeline.Update(dt);
