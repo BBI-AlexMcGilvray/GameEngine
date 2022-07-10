@@ -122,10 +122,11 @@ class OctTreeNode
 
     private:
         void _CreateChildren();
-        bool _ChildrenExist() const { return (_children[0] != nullptr); } // either all are made, or none are
+        inline bool _ChildrenExist() const { return (_children[0] != nullptr); } // either all are made, or none are
 
         bool _Engulfs(const Core::Geometric::AABBShapeOrientation3D& data) const;
         Core::Geometric::Intersection _Intersects(const Core::Geometric::AABBShapeOrientation3D& data) const;
+        size_t _IndexForDirection(const Core::Math::Float3& direction) const;
         OctTreeNode& _FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape);
         const OctTreeNode& _FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape) const;
         void _InsertContent(const OctTreeContent& content);

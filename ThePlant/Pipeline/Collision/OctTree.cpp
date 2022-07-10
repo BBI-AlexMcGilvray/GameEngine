@@ -142,6 +142,8 @@ const std::vector<OctTreeContent>& OctTreeNode::DEBUG_GetAllContent() const
 
 void OctTreeNode::_CreateChildren()
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
+
     if ( _ChildrenExist())
     {
         return;
@@ -152,13 +154,14 @@ void OctTreeNode::_CreateChildren()
 
     for (size_t i = 0; i < NUMBER_OF_CHILDREN; ++i)
     {
-        Core::Math::Float3 childOrigin = _this.orientation.position;
-        childOrigin.X += childOriginOffset.X * (i < 4 ? 1 : -1);
-        childOrigin.Y += childOriginOffset.Y * (i < 2 || i > 5 ? 1 : -1);
-        childOrigin.Z += childOriginOffset.Z * (i % 2 ? 1 : -1);
+        Core::Math::Float3 childDirection(0.0f);
+        childDirection.X += childOriginOffset.X * (i < 4 ? 1 : -1); // [0, 3] are x > 0
+        childDirection.Y += childOriginOffset.Y * (i < 2 || (i > 3 && i < 6) ? 1 : -1); // [0, 1] and [4, 5] are y > 0
+        childDirection.Z += childOriginOffset.Z * (i % 2 ? 1 : -1); // even numbers are z > 0
 
-        SCOPED_MEMORY_CATEGORY("Collision");
-        _children[i] = std::make_unique<OctTree_Constructor>(_ecs, childOrigin, childBounds, this);
+        Core::Math::Float3 childOrigin = _this.orientation.position + childDirection;
+
+        _children[_IndexForDirection(childDirection)] = std::make_unique<OctTree_Constructor>(_ecs, childOrigin, childBounds, this);
     }
 }
 
@@ -176,6 +179,17 @@ Core::Geometric::Intersection OctTreeNode::_Intersects(const Core::Geometric::AA
     return Core::Geometric::Intersect(_this, shape.boundingBox);// && Core::Geometric::Intersect(Core::Geometric::RemoveAA(_this), shape.shapeOrientation); // don't need the second for this purpose
 }
 
+size_t OctTreeNode::_IndexForDirection(const Core::Math::Float3& direction) const
+{
+    // at this level, we know the shape is engulfed by _this_ node, so just check the one that could possibly hold the shape (the one the shape's center is is)
+
+    size_t index = direction.X > 0.0f ? 0 : 4; // [0, 3] are x > 0
+    index += direction.Y > 0.0f ? 0 : 2; // [0, 1] and [4, 5] are y > 0
+    index += direction.Z > 0.0f ? 0 : 1; // even numbers are z > 0
+
+    return index;
+}
+
 // must be tied with the above
 OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::AABBShapeOrientation3D& shape)
 {
@@ -186,12 +200,11 @@ OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::AABBShapeOr
         return *this;
     }
 
-    for (auto& child : _children)
+    const auto direction = shape.shapeOrientation.orientation.position - _this.orientation.position;
+    const auto& likelyContainingChild = _children[_IndexForDirection(direction)];
+    if (likelyContainingChild->_Engulfs(shape))
     {
-        if (child->_Engulfs(shape))
-        {
-            return child->_FindContainingNode(shape);
-        }
+        return likelyContainingChild->_FindContainingNode(shape);
     }
 
     return *this;
@@ -205,13 +218,11 @@ const OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::AABBS
         return *this;
     }
 
-    Core::Ptr<OctTreeNode> onlyContaining = nullptr;
-    for (auto& child : _children)
+    const auto direction = shape.shapeOrientation.orientation.position - _this.orientation.position;
+    const auto& likelyContainingChild = _children[_IndexForDirection(direction)];
+    if (likelyContainingChild->_Engulfs(shape))
     {
-        if (child->_Engulfs(shape))
-        {
-            return child->_FindContainingNode(shape);
-        }
+        return likelyContainingChild->_FindContainingNode(shape);
     }
 
     return *this;
