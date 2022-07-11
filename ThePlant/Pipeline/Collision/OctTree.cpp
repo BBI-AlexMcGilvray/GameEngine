@@ -360,16 +360,17 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
 
     for (size_t i = 0; i < _content.size() - 1; ++i)
     {
-        if (_content[i].state == ColliderState::Static_Placed)
-        {
-            // don't check for static items, they will be hit when we check with other items
-            // though we still need to check if they collide with content in child nodes
-            // NOTE: this does mean that two static items will never collide with one another
-            continue;
-        }
+        // we need to iterate over statics too, since they are kept and will be the first elements in the vector, so wouldn't be checked otherwise
+        bool firstIsStatic = (_content[i].state == ColliderState::Static_Placed);
 
         for (size_t j = i + 1; j < _content.size(); ++j)
         {
+            if (firstIsStatic && _content[j].state == ColliderState::Static_Placed)
+            {
+                // 2 static colliders do not count as 'colliding' as it would never end
+                continue;
+            }
+
             // we may want to take these 'double check' intersect calls and move them to a generic method
             // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
             if (Core::Geometric::Intersection intersection = Core::Geometric::Intersect(_content[i].boundCollider, _content[j].boundCollider); intersection.intersect)
@@ -485,7 +486,7 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
         //     const auto allChildShapes = child->_DEBUG_AllChildShapes();
         //     for (const auto& childShape : allChildShapes)
         //     {
-        //         if (Core::Geometric::Intersect(content.boundCollider.shapeOrientation, childShape))
+        //         if (const auto intersection = Core::Geometric::Intersect(content.boundCollider.shapeOrientation, childShape); intersection.intersect)
         //         {
         //             CORE_THROW("OctTree", "An collision was missed due to OctTree not checking for collisions properly");
         //         }
@@ -558,7 +559,8 @@ bool OctTreeNode::_ClearNode(bool clearStatics)
         }
     }
 
-    if (_content.size() > 0)
+    bool hasContent = _content.size() > 0;
+    if (hasContent)
     {
         for (size_t index = _content.size(); index > 0; --index)
         {
@@ -572,7 +574,8 @@ bool OctTreeNode::_ClearNode(bool clearStatics)
         }
     }
     
-    canDelete &= _content.empty();
+    // the below also helps us avoid inserting the same object several times due to false stop-gaps!
+    canDelete &= hasContent && _content.empty(); // only delete the node if it goes 2 frames without content (to avoid reallocating for the same stuff)
     if (canDelete)
     {
         _stopGapped = false;
