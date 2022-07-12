@@ -224,6 +224,8 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
     SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_InsertContent");
 
+    ++_totalContentCount;
+
     if (_content.empty() && !_ChildrenExist())
     {
         _StopGapContent(content);
@@ -394,7 +396,7 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
     {
         for (const auto& child : _children)
         {
-            if (child->_content.empty())
+            if (child->_totalContentCount == 0)
             {
                 continue;
             }
@@ -464,6 +466,11 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
 
     for (const auto& child : _children)
     {
+        if (child->_totalContentCount == 0)
+        {
+            continue;
+        }
+        
         if (Core::Geometric::Engulfs(content.boundCollider.boundingBox, child->_this))
         {
             if (Core::Geometric::Engulfs(content.boundCollider.shapeOrientation, Core::Geometric::RemoveAA(child->_this)))
@@ -543,15 +550,17 @@ std::vector<Collision> OctTreeNode::_CreateCollisions(const std::vector<Intermed
     return collisions;
 }
 
-bool OctTreeNode::_ClearNode(bool clearStatics)
+uint32_t OctTreeNode::_ClearNode(bool clearStatics)
 {
+    _totalContentCount = 0;
     bool canDelete = true;
 
     if (_ChildrenExist())
     {
         for (auto& child : _children)
         {
-            canDelete &= child->_ClearNode(clearStatics);
+            _totalContentCount += child->_ClearNode(clearStatics);
+            canDelete &= (_totalContentCount == 0);
         }
         if (canDelete)
         {
@@ -571,17 +580,21 @@ bool OctTreeNode::_ClearNode(bool clearStatics)
             {
                 _content.erase(_content.begin() + trueIndex);
             }
+            else
+            {
+                ++_totalContentCount;
+            }
         }
     }
     
     // the below also helps us avoid inserting the same object several times due to false stop-gaps!
-    canDelete &= hasContent && _content.empty(); // only delete the node if it goes 2 frames without content (to avoid reallocating for the same stuff)
+    canDelete &= !hasContent && _content.empty(); // only delete the node if it goes 2 frames without content (to avoid reallocating for the same stuff)
     if (canDelete)
-    {
+    {   // this is what saves us from stop-gapping repeatedly
         _stopGapped = false;
     }
 
-    return canDelete;
+    return _totalContentCount;
 }
 
 #ifdef DEBUG

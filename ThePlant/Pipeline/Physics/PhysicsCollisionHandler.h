@@ -43,7 +43,11 @@ private:
         const auto conservationRatio = fromRigidBody.elasticity * toRigidBody.elasticity;
         
         // the portion of the velocity that contributes to the 'head-on' collision is treated as a point collision, the rest is unaffected
-        const auto toToCollision = collisionPoint - toTransform.transform.GetPosition();
+        auto toToCollision = collisionPoint - toTransform.transform.GetPosition();
+        if (toToCollision == Core::Math::Float3(0.0f)) // HACK! Find out why this is even necessary instead!
+        {
+            toToCollision = toVelocity.velocity; // HACK! we're just assuming the velocity was 100% on to 'teleport inside the other collider'
+        }
         const auto toCollisionVelocity = Core::Math::Project(toVelocity.velocity, toToCollision);
         const auto toPersistingVelocity = toVelocity.velocity - toCollisionVelocity;
 
