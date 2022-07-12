@@ -71,7 +71,7 @@ bool OctTreeNode::ContainsEntity(const EntityId& entity, bool checkChildren) con
     {
         for (const auto& child : _children)
         {
-            if (child->ContainsEntity(entity, checkChildren))
+            if (child->_LeadsToContent() && child->ContainsEntity(entity, checkChildren))
             {
                 return true;
             }
@@ -285,6 +285,11 @@ void OctTreeNode::_FindAllEntities(std::vector<std::pair<EntitySnapshot, Core::G
     // review this and similar logic - does it make sense?
     for (const auto& child : _children)
     {
+        if (!child->_LeadsToContent())
+        {
+            continue;
+        }
+
         if (Core::Geometric::Engulfs(shape.boundingBox, child->_this))
         {
             if (Core::Geometric::Engulfs(shape.shapeOrientation, Core::Geometric::RemoveAA(child->_this)))
@@ -336,6 +341,11 @@ void OctTreeNode::_EntitiesForAllContent(std::vector<std::pair<EntitySnapshot, C
 
     for (const auto& child : _children)
     {
+        if (!child->_LeadsToContent())
+        {
+            continue;
+        }
+
         child->_EntitiesForAllContent(entities);
     }
 }
@@ -396,7 +406,7 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
     {
         for (const auto& child : _children)
         {
-            if (child->_totalContentCount == 0)
+            if (!child->_LeadsToContent())
             {
                 continue;
             }
@@ -440,6 +450,11 @@ void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& 
 
     for (const auto& child : _children)
     {
+        if (!child->_LeadsToContent())
+        {
+            continue;
+        }
+
         child->_CollisionsWithAllContent(collisions, content);
     }
 }
@@ -466,7 +481,7 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
 
     for (const auto& child : _children)
     {
-        if (child->_totalContentCount == 0)
+        if (!child->_LeadsToContent())
         {
             continue;
         }
@@ -514,6 +529,11 @@ void OctTreeNode::_ChildCollisions(std::vector<IntermediaryCollision>& collision
 
     for (const auto& child : _children)
     {
+        if (!child->_LeadsToContent())
+        {
+            continue;
+        }
+        
         child->_AllCollisions(collisions);
     }
 }
@@ -610,6 +630,7 @@ size_t OctTreeNode::_DEBUG_NumberOfContentIncludingChildren() const
         }
     }
 
+    VERIFY(totalCount == _totalContentCount, "If these aren't equal then we have a big problem, this is what _totalContentCount is supposed to do!");
     return totalCount;
 }
 

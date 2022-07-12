@@ -124,6 +124,7 @@ class OctTreeNode
     private:
         void _CreateChildren();
         inline bool _ChildrenExist() const { return (_children[0] != nullptr); } // either all are made, or none are
+        inline bool _LeadsToContent() const { return _totalContentCount != 0; }
 
         bool _Engulfs(const Core::Geometric::AABBShapeOrientation3D& data) const;
         Core::Geometric::Intersection _Intersects(const Core::Geometric::AABBShapeOrientation3D& data) const;
