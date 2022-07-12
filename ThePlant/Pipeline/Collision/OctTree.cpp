@@ -470,7 +470,7 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
         {
             continue;
         }
-        
+
         if (Core::Geometric::Engulfs(content.boundCollider.boundingBox, child->_this))
         {
             if (Core::Geometric::Engulfs(content.boundCollider.shapeOrientation, Core::Geometric::RemoveAA(child->_this)))

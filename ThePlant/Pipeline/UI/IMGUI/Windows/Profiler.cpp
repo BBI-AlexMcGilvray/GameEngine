@@ -23,8 +23,6 @@ void _UpdateDisplaySections(const std::vector<Core::Profiling::Section>& section
 {
     SCOPED_MEMORY_CATEGORY("IMGUI");
 
-    _ResetDisplaySectionDurations(displaySections);
-
     // copy remaining sections over
     for (const auto& section : sections)
     {
@@ -72,6 +70,7 @@ void _UpdateThreadDisplaySections(const std::unordered_map<Core::Threading::Thre
         const auto& sections = threadSection.second;
         auto& displaySections = displayThreadSections[threadSection.first];
 
+        _ResetDisplaySectionDurations(displaySections);
         _UpdateDisplaySections(sections, displaySections);
     }
 }
