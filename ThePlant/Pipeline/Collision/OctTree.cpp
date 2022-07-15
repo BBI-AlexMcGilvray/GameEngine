@@ -5,6 +5,8 @@
 #include "Core/Debugging/Profiling/Utils.h"
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 
+#define DOUBLE_CHECK_COLLISIONS 0
+
 namespace Application
 {
 namespace Collision
@@ -355,6 +357,7 @@ void OctTreeNode::_EntitiesForAllContent(std::vector<std::pair<EntitySnapshot, C
 
 void OctTreeNode::_AllCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_AllCollisions");
 
     _InternalCollisions(collisions);
@@ -398,6 +401,7 @@ void OctTreeNode::_InternalCollisions(std::vector<IntermediaryCollision>& collis
 
 void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& collisions) const
 {
+    SCOPED_MEMORY_CATEGORY("Collision");
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_CollisionsWithChildren");
 
     if (!_ChildrenExist())
@@ -445,6 +449,11 @@ void OctTreeNode::_CollisionsWithAllContent(std::vector<IntermediaryCollision>& 
 
     for (const auto& c : _content)
     {
+        if (content.state == ColliderState::Static_Placed && c.state == ColliderState::Static_Placed)
+        {
+            continue;
+        }
+
         // when engulfed, use the position of the object being engulfed
         collisions.push_back(IntermediaryCollision(c.entity, content.entity, c.boundCollider.shapeOrientation.orientation.position));
     }
@@ -472,6 +481,11 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
 
     for (const auto& c : _content)
     {
+        if (content.state == ColliderState::Static_Placed && c.state == ColliderState::Static_Placed)
+        {
+            continue;
+        }
+
         // we may want to take these 'double check' intersect calls and move them to a generic method
         // particularly to NOT use bounding boxes when the shapes don't warrant them (points, spheres)
         if (Core::Geometric::Intersection intersection = Core::Geometric::Intersect(c.boundCollider, content.boundCollider); intersection.intersect)
@@ -507,7 +521,7 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
         {
             child->_FindAllCollisions(collisions, content);
         }
-    #ifdef DEBUG // may want to remove this debug one confident in functionality/comment it out to avoid performance hits
+    #ifdef DOUBLE_CHECK_COLLISIONS // may want to remove this debug one confident in functionality/comment it out to avoid performance hits
         // else
         // {
         //     // for debugging, get all children and explicitly check them. if any children are collided with but not checked throw an error
@@ -526,7 +540,7 @@ void OctTreeNode::_FindAllCollisions(std::vector<IntermediaryCollision>& collisi
 
 void OctTreeNode::_ChildCollisions(std::vector<IntermediaryCollision>& collisions) const
 {
-    // DEBUG_PROFILE_SCOPE("OctTreeNode::_ChildCollisions");
+    DEBUG_PROFILE_SCOPE("OctTreeNode::_ChildCollisions");
 
     if (!_ChildrenExist())
     {

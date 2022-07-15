@@ -92,12 +92,12 @@ void MyState::Initialize()
     * Try spawning a bunch of balls randomly with random speeds within the 'box' (maybe need a lid?)
     */
     Core::Random rand;
-    int numSpawned = 100; // i don't see why this shouldn't be able to be 50-100
+    int numSpawned = 200; // i don't see why this shouldn't be able to be 50-100
     for (int i = 0; i < numSpawned; ++i)
     {
         Core::Math::Float3 position = Math::Lerp(_leftPos, _rightPos, float(i) / static_cast<float>(numSpawned));
         Core::Math::Float3 velocity(Core::InRange(rand, -50.0f, 50.0f), Core::InRange(rand, -50.0f, 50.0f), Core::InRange(rand, -50.0f, 50.0f));
-        Testing::SpawnCollider(*this, velocity, Core::Geometric::Sphere(5.0f), position);
+        Testing::SpawnCollider(*this, velocity, Core::Geometric::Sphere(1.0f), position);
     }
 
     // surrounding box
@@ -114,8 +114,8 @@ void MyState::Initialize()
     Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryRight, Core::Math::FQuaternion(), Core::Math::Float3(10.0f, 500.0f, 500.0f));
     Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryTop, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 10.0f, 500.0f));
     Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBottom, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 10.0f, 500.0f));
-    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryFront, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 500.0f, 10.0f));
-    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBack, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 500.0f, 10.0f));
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryFront, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 500.0f, 10.0f));
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBack, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 500.0f, 10.0f));
 
     // need to spawn some stuff to test the collision system
     // also, the physics collision handler is not working
