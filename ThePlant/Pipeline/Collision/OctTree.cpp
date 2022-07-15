@@ -98,6 +98,7 @@ void OctTreeNode::AddStaticContent(const OctTreeContent& content)
     AddContent(content);
 }
 
+// why is this still so slow... is it because the tree isn't being used at the moment? -> definitely sped up SIGNIFICANTLY by the tree!
 std::vector<Collision> OctTreeNode::AllCollisions() const
 {
     DEBUG_PROFILE_SCOPE("OctTreeNode::AllCollisions");
@@ -143,6 +144,7 @@ void OctTreeNode::_CreateChildren()
     const Core::Geometric::AABB childBounds(_this.shape.dimensions * 0.5f);
     const Core::Math::Float3 childOriginOffset = childBounds.dimensions * 0.5f;
 
+    // double check this math?
     for (size_t i = 0; i < NUMBER_OF_CHILDREN; ++i)
     {
         Core::Math::Float3 childDirection(0.0f);
@@ -193,8 +195,9 @@ OctTreeNode& OctTreeNode::_FindContainingNode(const Core::Geometric::AABBShapeOr
 
     const auto direction = shape.shapeOrientation.orientation.position - _this.orientation.position;
     const auto& likelyContainingChild = _children[_IndexForDirection(direction)];
+    // if we keep track of the last node holding an object was in we could go through that list? it shouldn't be this expensive... -> maybe because it is a debug build?
     if (likelyContainingChild->_Engulfs(shape))
-    {
+    {   // this can go quite deep, likely contributing to the overall cost... how can we make it stop early?
         return likelyContainingChild->_FindContainingNode(shape);
     }
 
@@ -402,6 +405,9 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
         return;
     }
 
+    // instead of going down the whole tree for each object, it is probably better to go down the tree and gather a collection of 'possible objects' to check intersections with
+    // this way we traverse the tree once instead of going up and down several times
+    // worth trying anyways, but i wonder why that would be faster - maybe just jumping around in memory less?
     for (size_t i = 0; i < _content.size(); ++i)
     {
         for (const auto& child : _children)

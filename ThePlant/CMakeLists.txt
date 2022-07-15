@@ -5,6 +5,14 @@ option(PRODUCT "Enable product" ON) # the game
 # this is needed if we want to link to GLEW statically
 add_compile_definitions(GLEW_STATIC)
 
+message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+        message(STATUS "DEBUG BUILD!")
+endif()
+if (CMAKE_BUILD_TYPE EQUAL "RELEASE")
+        message(STATUS "RELEASE BUILD!")
+endif()
+
 # all options rely on Materials and Pipeline
 add_subdirectory(Materials)
 add_subdirectory(Pipeline)
@@ -76,14 +84,22 @@ if (PRODUCT)
     PRIVATE build_options
             build_warnings)
 
+  SET(COPY_EXE
+        ${CMAKE_COMMAND} -E copy
+        "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product.exe"
+        "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product/Product.exe")
+  SET(COPY_PDB
+        ${CMAKE_COMMAND} -E copy
+        "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product.pdb"
+        "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product/Product.pdb")
+  SET(COPY_RESOURCES
+        ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Exported"
+        "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product/Resources")
+        
   add_custom_command(TARGET Product POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product.exe"
-                "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product/Product.exe"
-        COMMAND ${CMAKE_COMMAND} -E copy
-                "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product.pdb"
-                "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product/Product.pdb"
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Exported"
-                "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/Product/Resources")
+        COMMAND "${COPY_EXE}"
+        COMMAND "$<$<OR:$<CONFIG:RELWITHDEBINFO>,$<CONFIG:DEBUG>>:${COPY_PDB}>"
+        COMMAND "${COPY_RESOURCES}"
+        COMMAND_EXPAND_LISTS)
 endif()

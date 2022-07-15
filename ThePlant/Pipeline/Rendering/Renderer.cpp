@@ -182,6 +182,7 @@ namespace Rendering {
     }
   }
 
+#ifdef DEBUG
   void Renderer::_ResetTrackingInfo() const
   {
     _trackingInfo = TrackingInfo();
@@ -194,5 +195,6 @@ namespace Rendering {
     CORE_LOG(TAG, "modelsDrawn = " + std::to_string(_trackingInfo.modelsDrawn));
     CORE_LOG(TAG, "skinnedModelsDrawn = " + std::to_string(_trackingInfo.skinnedModelsDrawn));
   }
+#endif
 }// namespace Rendering
 }// namespace Application

@@ -42,7 +42,6 @@ CoreUnitTests.cpp)
 
 set(HEADER_FILES #
 Containers/CircularBuffer.h #
-Debugging/Headers/Declarations.h #
 Debugging/Headers/Macros.h #
 Debugging/Memory/InternalUtils/Utils.h #
 Debugging/Memory/MemoryTracker.h #

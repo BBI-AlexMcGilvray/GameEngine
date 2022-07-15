@@ -23,12 +23,10 @@ namespace Data
 
     void AssetManager::unlockAsset(const AssetName<void>& asset)
     {
-    #if _DEBUG
         if (_lockedAssets.find(asset) == _lockedAssets.end())
         {
             DEBUG_THROW_EXCEPTION(InvalidAssetOperation, TAG, "Unlocking asset that is not locked - verify logic");
         }
-    #endif
         _lockedAssets.erase(asset);
     }
 

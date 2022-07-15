@@ -1,0 +1,10 @@
+^D:\CODING\VISUALSTUDIOS\APPLICATION\THEPLANT\MATERIALS\DEPENDENCIES\GLEW-2.2.0\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/Coding/VisualStudios/Application -BD:/Coding/VisualStudios/Application/builds --check-stamp-file D:/Coding/VisualStudios/Application/builds/ThePlant/Materials/Dependencies/GLEW-2.2.0/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

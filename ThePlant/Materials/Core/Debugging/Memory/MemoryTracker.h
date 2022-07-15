@@ -4,7 +4,6 @@
 #include <string>
 
 #include "Core/Headers/PtrDefs.h"
-#include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Debugging/Memory/InternalUtils/Utils.h"
 
 // testing
@@ -14,7 +13,6 @@ namespace Core
 {
 namespace Memory
 {
-#if DEBUG
 class MemoryTracker
 {
 private:
@@ -94,6 +92,5 @@ class ScopedMemoryCategory
     private:
         const UntrackedString _previousCategory;
 };
-#endif
 } // namespace Memory
 } // namespace Core

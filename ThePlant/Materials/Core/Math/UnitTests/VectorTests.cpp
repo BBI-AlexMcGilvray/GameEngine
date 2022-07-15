@@ -7,8 +7,6 @@
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Vector4.h"
 
-#define GLOBAL_EXPLICIT 1
-
 namespace Core {
 namespace Math {
   bool RunVectorTests()

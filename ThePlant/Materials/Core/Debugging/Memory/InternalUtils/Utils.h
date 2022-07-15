@@ -2,13 +2,10 @@
 
 #include <unordered_map>
 
-#include "Core/Debugging/Headers/Declarations.h"
-
 namespace Core
 {
 namespace Memory
 {
-#if DEBUG
 template <typename T>
 struct SimpleUntrackedAllocator
 {
@@ -44,6 +41,5 @@ struct SimpleUntrackedAllocator
 template <typename KEY, typename VALUE>
 using UntrackedMap = std::unordered_map<KEY, VALUE, std::hash<KEY>, std::equal_to<KEY>, SimpleUntrackedAllocator<std::pair<const KEY, VALUE>>>;
 using UntrackedString = std::basic_string<char, std::char_traits<char>, SimpleUntrackedAllocator<char>>;
-#endif
 } // namespace Memory
 } // namespace Core

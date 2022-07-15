@@ -1,0 +1,31 @@
+
+{
+	"shaderCode" : "#version 450 core
+			
+// values per vertex
+layout(location = 0) in vec3 vPosition;
+layout(location = 1) in vec3 vNormal;
+
+// Values that stay constant for the whole mesh
+uniform mat4 MVP;
+uniform vec4 modColor;
+
+// values to return to fragment shader
+out vec4 Color;
+out smooth float CameraFacingRatio;
+
+void main()
+{
+    vec3 facingCamera = vec3(0.0, 0.0, -1.0);
+    vec3 rotatedNormal = vec3(MVP * vec4(vNormal, 0.0));
+    float dotProduct = dot(rotatedNormal, facingCamera);
+
+    // the below can be used to outline characters based on normal
+    CameraFacingRatio = (dotProduct * dotProduct) / dot(rotatedNormal, rotatedNormal);
+
+    Color = modColor * CameraFacingRatio;
+    
+    gl_Position = MVP * vec4(vPosition, 1.0);
+}
+"
+}

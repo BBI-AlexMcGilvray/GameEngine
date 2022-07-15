@@ -13,21 +13,11 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/ThePlant/",
             "environment": [],
-            "console": "externalTerminal"
+            "console": "externalTerminal",
+            "preLaunchTask": "Build_Debug_Factory"
         },
         {
-            "name": "Pipeline",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/builds/ThePlant/Debug/Pipeline/Pipeline.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/builds/ThePlant/Debug/Pipeline/",
-            "environment": [],
-            "console": "externalTerminal"
-        },
-        {
-            "name": "Product",
+            "name": "Debug_Product",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/builds/ThePlant/Debug/Product/Product.exe",
@@ -35,7 +25,32 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/builds/ThePlant/Debug/Product/",
             "environment": [],
-            "console": "externalTerminal"
+            "console": "externalTerminal",
+            "preLaunchTask": "Build_Debug_Product"
+        },
+        {
+            "name": "RelWithDebInfo_Product",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/builds/ThePlant/RelWithDebInfo/Product/Product.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/builds/ThePlant/RelWithDebInfo/Product/",
+            "environment": [],
+            "console": "externalTerminal",
+            "preLaunchTask": "Build_RelWithDebInfo_Product"
+        },
+        {
+            "name": "Release_Product",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/builds/ThePlant/Release/Product/Product.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/builds/ThePlant/Release/Product/",
+            "environment": [],
+            "console": "externalTerminal",
+            "preLaunchTask": "Build_Release_Product"
         }
     ],
     "setupCommands": [

@@ -1,8 +1,6 @@
 #include "Pipeline/Rendering/OpenGL/Headers/GLMappedBuffer.h"
 
-#if _DEBUG
-#include "Core/Debugging/Headers/Macros.h"
-#endif
+#include "Core/Logging/LogFunctions.h"
 
 namespace Application {
 namespace Rendering {
@@ -25,12 +23,9 @@ namespace Rendering {
     }
 
     _mappedBuffer = glMapBuffer(Type, accessType);
-#if DEBUG
     if (_mappedBuffer == nullptr) {
-      //LOG("Failed to assign mapped buffer");
-      std::cout << "Failed to assign mapped buffer, glError: " << glGetError() << std::endl;
+      DEBUG_LOG("GLMappedBuffer", "Failed to assign mapped buffer, glError: " + glGetError());
     }
-#endif
   }
 
   void GLMappedBuffer::Assign(Core::Ptr<void> data, Core::size dataSize, bool internalHandling)
@@ -38,12 +33,9 @@ namespace Rendering {
     if (_mappedBuffer != nullptr) {
       memcpy(_mappedBuffer, data, dataSize);
     }
-#if DEBUG
     else {
-      //LOG("No buffer to assign to");
-      std::cout << "No buffer to assign to, glError: " << glGetError() << std::endl;
+      DEBUG_LOG("GLMappedBuffer", "No buffer to assign to, glError: " + glGetError());
     }
-#endif
   }
 
   bool GLMappedBuffer::Unmap(bool internalHandling) const

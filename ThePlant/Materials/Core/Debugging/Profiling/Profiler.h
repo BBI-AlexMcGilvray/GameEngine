@@ -6,14 +6,12 @@
 #include <unordered_map>
 
 #include "Core/Debugging/Headers/Macros.h"
-#include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Threading/Thread.h"
 
 namespace Core {
 namespace Profiling
 {
-#if DEBUG
 struct Section
 {
     std::string tag;
@@ -64,6 +62,5 @@ private:
 
     void _AddThreadSection(Threading::ThreadId thread, Section&& section);
 };
-#endif
 } // namespace Profiling
 }// namespace Core

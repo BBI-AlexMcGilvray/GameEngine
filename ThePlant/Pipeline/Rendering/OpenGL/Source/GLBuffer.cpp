@@ -1,8 +1,5 @@
 #include "Pipeline/Rendering/OpenGL/Headers/GLBuffer.h"
 
-#if _DEBUG
-#include "Core/Debugging/Headers/Macros.h"
-#endif
 namespace Application {
 namespace Rendering {
   GLBuffer::GLBuffer()

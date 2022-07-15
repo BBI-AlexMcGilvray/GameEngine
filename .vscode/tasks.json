@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+    {
+        "label": "Build_Release_Product",
+        "command": ".\\Scripts\\CreateProduct",
+        "args": ["Release"],
+        "type": "shell"
+    },
+    {
+        "label": "Build_RelWithDebInfo_Product",
+        "command": ".\\Scripts\\CreateProduct",
+        "args": ["RelWithDebInfo"],
+        "type": "shell"
+    },
+    {
+        "label": "Build_Debug_Product",
+        "command": ".\\Scripts\\CreateProduct",
+        "args": ["Debug"],
+        "type": "shell"
+    },
+    {
+        "label": "Build_Debug_Factory",
+        "command": ".\\Scripts\\CreateFactory",
+        "args": ["Debug"],
+        "type": "shell"
+    }
+    ]
+}

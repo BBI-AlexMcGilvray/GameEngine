@@ -6,8 +6,6 @@
 #include "Core/Math/Headers/Matrix3x3.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
-#define GLOBAL_EXPLICIT 1
-
 namespace Core {
 namespace Math {
   bool RunMatrixTests()

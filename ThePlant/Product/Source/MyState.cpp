@@ -23,7 +23,7 @@
 namespace Product
 {
 MyState::MyState(Application::ApplicationManager& applicationManager)
-: Application::State(applicationManager, 1024.0f, Application::Physics::Settings())
+: Application::State(applicationManager, 512.0f, Application::Physics::Settings())
 {}
 
 void MyState::Initialize()
@@ -55,7 +55,7 @@ void MyState::Initialize()
     // create camera
     Core::Geometric::Transform cameraTransform;
     Application::CameraComponent camera(1280.0f / 1080.0f, Core::Math::Float3(0.0f, 0.0f, 0.0f));
-    auto cameraComponents = std::make_tuple<Application::CameraComponent, Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent>(std::move(camera), cameraTransform, Core::Math::Float3(0.0f, 0.0f, 20.0f), Core::Math::FQuaternion(Core::Math::II()));
+    auto cameraComponents = std::make_tuple<Application::CameraComponent, Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent>(std::move(camera), cameraTransform, Core::Math::Float3(0.0f, 0.0f, 200.0f), Core::Math::FQuaternion(Core::Math::II()));
     _camera = ECS().CreateEntity(cameraComponents);
 
     // create camera controller
@@ -69,11 +69,11 @@ void MyState::Initialize()
     // _animated = Testing::SpawnAnimatedModel(*this);
 
     // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
-    _leftPos = Core::Math::Float3(-15.0f, 4.0f, -5.0f);
-    _rightPos = Core::Math::Float3(15.0f, 4.0f, -5.0f);
+    _leftPos = Core::Math::Float3(-200.0f, 0.0f, 0.0f);
+    _rightPos = Core::Math::Float3(200.0f, 0.0f, 0.0f);
 
-    Core::Math::Float3 modifiedLeft = _leftPos + Core::Math::Float3(2.0f, 0.0f, 0.0f);
-    Core::Math::Float3 modifiedRight = _rightPos + Core::Math::Float3(-2.0f, 0.0f, 0.0f);
+    Core::Math::Float3 modifiedLeft = _leftPos + Core::Math::Float3(20.0f, 0.0f, 0.0f);
+    Core::Math::Float3 modifiedRight = _rightPos + Core::Math::Float3(-20.0f, 0.0f, 0.0f);
     Core::Math::FQuaternion rotation1(0.0f, 0.0f, -0.707f, 0.707f); // pointing down (-90 rotation on z axis)
     Core::Math::FQuaternion rotation2(0.0f, 0.383f, 0.0f, 0.924f); // pointing horizontally in (90 rotation on y axis)
 
@@ -92,26 +92,30 @@ void MyState::Initialize()
     * Try spawning a bunch of balls randomly with random speeds within the 'box' (maybe need a lid?)
     */
     Core::Random rand;
-    int numSpawned = 5;
+    int numSpawned = 100; // i don't see why this shouldn't be able to be 50-100
     for (int i = 0; i < numSpawned; ++i)
     {
         Core::Math::Float3 position = Math::Lerp(_leftPos, _rightPos, float(i) / static_cast<float>(numSpawned));
-        Core::Math::Float3 velocity(Core::InRange(rand, -1.0f, 1.0f), Core::InRange(rand, -1.0f, 1.0f), 0.0f);
-        Testing::SpawnCollider(*this, velocity, Core::Geometric::Sphere(), position);
+        Core::Math::Float3 velocity(Core::InRange(rand, -50.0f, 50.0f), Core::InRange(rand, -50.0f, 50.0f), Core::InRange(rand, -50.0f, 50.0f));
+        Testing::SpawnCollider(*this, velocity, Core::Geometric::Sphere(5.0f), position);
     }
 
     // surrounding box
     /*
     * For some reason the sphere disappears on collision... why?
     */
-    Core::Math::Float3 boundaryLeft = _leftPos + Core::Math::Float3(-2.0f, 0.0f, 0.0f);
-    Core::Math::Float3 boundaryRight = _rightPos + Core::Math::Float3(2.0f, 0.0f, 0.0f);
-    Core::Math::Float3 boundaryTop = Core::Math::Float3((_leftPos + _rightPos).XY * 0.5f, _leftPos.Z) + Core::Math::Float3(0.0f, 10.0f, 0.0f);
-    Core::Math::Float3 boundaryBottom = Core::Math::Float3((_leftPos + _rightPos).XY * 0.5f, _leftPos.Z) - Core::Math::Float3(0.0f, 10.0f, 0.0f);
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryLeft, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 20.0f, 1.0f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryRight, Core::Math::FQuaternion(), Core::Math::Float3(1.0f, 20.0f, 1.0f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryTop, Core::Math::FQuaternion(), Core::Math::Float3(40.0f, 1.0f, 1.0f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBottom, Core::Math::FQuaternion(), Core::Math::Float3(40.0f, 1.0f, 1.0f));
+    Core::Math::Float3 boundaryLeft = _leftPos + Core::Math::Float3(-10.0f, 0.0f, 0.0f);
+    Core::Math::Float3 boundaryRight = _rightPos + Core::Math::Float3(10.0f, 0.0f, 0.0f);
+    Core::Math::Float3 boundaryTop = Core::Math::Float3((_leftPos + _rightPos).XY * 0.5f, _leftPos.Z) + Core::Math::Float3(0.0f, 200.0f, 0.0f);
+    Core::Math::Float3 boundaryBottom = Core::Math::Float3((_leftPos + _rightPos).XY * 0.5f, _leftPos.Z) - Core::Math::Float3(0.0f, 200.0f, 0.0f);
+    Core::Math::Float3 boundaryFront(0.0f, 0.0f, 200.0f);
+    Core::Math::Float3 boundaryBack(0.0f, 0.0f, -200.0f);
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryLeft, Core::Math::FQuaternion(), Core::Math::Float3(10.0f, 500.0f, 500.0f));
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryRight, Core::Math::FQuaternion(), Core::Math::Float3(10.0f, 500.0f, 500.0f));
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryTop, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 10.0f, 500.0f));
+    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBottom, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 10.0f, 500.0f));
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryFront, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 500.0f, 10.0f));
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBack, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 500.0f, 10.0f));
 
     // need to spawn some stuff to test the collision system
     // also, the physics collision handler is not working

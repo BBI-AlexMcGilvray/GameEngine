@@ -112,7 +112,7 @@ struct Hash
     return !(*this == other);
   }
 
-// if _DEBUG? should maintain type-safety otherwise
+// if DEBUG? should maintain type-safety otherwise
   constexpr operator uint() const
   {
     return _hash;

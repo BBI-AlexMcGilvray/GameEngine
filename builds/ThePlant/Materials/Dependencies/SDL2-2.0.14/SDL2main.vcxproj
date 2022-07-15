@@ -93,11 +93,11 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\src\video\khronos;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -128,13 +128,13 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\src\video\khronos;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -165,13 +165,13 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\src\video\khronos;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -203,11 +203,11 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;USING_GENERATED_CONFIG_H;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\src\video\khronos;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>

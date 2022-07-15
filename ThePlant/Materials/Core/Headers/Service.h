@@ -2,7 +2,6 @@
 
 #include <memory>
 
-#include "Core/Debugging/Headers/Declarations.h"
 #include "Core/Debugging/Headers/Macros.h"
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Logging/LogFunctions.h"
@@ -51,6 +50,7 @@ private:
 template <typename T>
 struct ServiceReference
 {
+    ServiceReference() = default;
     ServiceReference(const ServiceReference&) = default;
     ServiceReference(ServiceReference&&) = default;
 
@@ -71,7 +71,7 @@ private:
     : _service(service)
     {}
 
-    std::shared_ptr<Service<T>> _service;
+    std::shared_ptr<Service<T>> _service = nullptr;
 };
 
 template <typename T>
@@ -137,6 +137,8 @@ private:
 #else
 #define SET_DEBUG_SERVICE(TYPE, ...) Core::ServiceToken<TYPE>()
 #define GET_DEBUG_SERVICE(TYPE) nullptr
-#define IF_DEBUG_SERVICE(TYPE)
-#define WITH_DEBUG_SERVICE(TYPE)
+#define IF_DEBUG_SERVICE(TYPE) if (Core::ServiceReference<TYPE> service = Core::ServiceReference<TYPE>())
+#define WITH_DEBUG_SERVICE(TYPE)    \
+    IF_DEBUG_SERVICE(TYPE)  \
+    SCOPE
 #endif

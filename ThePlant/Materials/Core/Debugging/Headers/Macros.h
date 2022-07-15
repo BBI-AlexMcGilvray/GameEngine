@@ -6,7 +6,6 @@
 #include <string> 
 
 #include "Core/Headers/Macros.h"
-#include "Core/Debugging/Headers/Declarations.h"
 
 namespace Core {
 bool VerifyCondition(bool condition, std::string conditionString, std::string callInfo);
@@ -31,6 +30,7 @@ bool VerifyCondition(bool condition, std::string conditionString, std::string ca
 
 #else // !DEBUG
 
+#define VERIFY(...) true
 #define DEBUG_ASSERT(...)
 
 #endif

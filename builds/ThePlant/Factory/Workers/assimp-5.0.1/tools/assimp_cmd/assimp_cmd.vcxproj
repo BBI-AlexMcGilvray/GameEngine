@@ -100,11 +100,11 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;EBUG:FULL;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;EBUG:FULL;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;EBUG:FULL;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;EBUG:FULL;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\tools\assimp_cmd;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -157,13 +157,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\tools\assimp_cmd;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -216,13 +216,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\tools\assimp_cmd;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -276,11 +276,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\tools\assimp_cmd;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>

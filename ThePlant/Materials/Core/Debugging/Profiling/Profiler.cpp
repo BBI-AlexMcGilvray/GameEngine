@@ -6,7 +6,6 @@
 namespace Core {
 namespace Profiling
 {
-#if DEBUG
 void Profiler::Push(const std::string& tag)
 {    
     SCOPED_MEMORY_CATEGORY("Profiler");
@@ -96,6 +95,5 @@ void Profiler::_AddThreadSection(Threading::ThreadId thread, Section&& section)
     auto lock = _LockSections();
     _threadSections[thread].emplace_back(std::move(section));
 }
-#endif
 } // namespace Profiling
 }// namespace Core

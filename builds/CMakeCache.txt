@@ -123,9 +123,6 @@ Assimp_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application/ThePlant/Factory/Wo
 //number to use for magic backgrounding signal or 'OFF'
 BACKGROUNDING_SIGNAL:STRING=OFF
 
-//Build documentation
-BUILD_DOC:BOOL=OFF
-
 //Build documentation using Doxygen.
 BUILD_DOCS:BOOL=OFF
 
@@ -422,26 +419,11 @@ DIRECTX:BOOL=ON
 //Support the disk writer audio driver
 DISKAUDIO:BOOL=ON
 
-//Dot tool for use with Doxygen
-DOXYGEN_DOT_EXECUTABLE:FILEPATH=DOXYGEN_DOT_EXECUTABLE-NOTFOUND
-
-//Doxygen documentation generation tool (http://www.doxygen.org)
-DOXYGEN_EXECUTABLE:FILEPATH=DOXYGEN_EXECUTABLE-NOTFOUND
-
 //Support the dummy audio driver
 DUMMYAUDIO:BOOL=ON
 
-//Path to a file.
-DirectX_D3D11_INCLUDE_DIR:PATH=C:/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um
-
 //Path to a library.
-DirectX_D3D11_LIBRARY:FILEPATH=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64/d3d11.lib
-
-//Path to a library.
-DirectX_D3DCOMPILER_LIBRARY:FILEPATH=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64/d3dcompiler.lib
-
-//Path to a library.
-DirectX_D3DX11_LIBRARY:FILEPATH=DirectX_D3DX11_LIBRARY-NOTFOUND
+DirectX_D3DCOMPILER_LIBRARY:FILEPATH=DirectX_D3DCOMPILER_LIBRARY-NOTFOUND
 
 //Path to a library.
 DirectX_D3DX9_LIBRARY:FILEPATH=DirectX_D3DX9_LIBRARY-NOTFOUND
@@ -450,10 +432,10 @@ DirectX_D3DX9_LIBRARY:FILEPATH=DirectX_D3DX9_LIBRARY-NOTFOUND
 DirectX_DXERR_LIBRARY:FILEPATH=DirectX_DXERR_LIBRARY-NOTFOUND
 
 //Path to a library.
-DirectX_DXGI_LIBRARY:FILEPATH=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64/dxgi.lib
+DirectX_DXGI_LIBRARY:FILEPATH=DirectX_DXGI_LIBRARY-NOTFOUND
 
 //Path to a library.
-DirectX_DXGUID_LIBRARY:FILEPATH=C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64/dxguid.lib
+DirectX_DXGUID_LIBRARY:FILEPATH=DirectX_DXGUID_LIBRARY-NOTFOUND
 
 //x
 DirectX_INCLUDE_DIR:PATH=DirectX_INCLUDE_DIR-NOTFOUND
@@ -497,9 +479,6 @@ FUSIONSOUND:BOOL=OFF
 
 //Use gcc builtin atomics
 GCC_ATOMICS:BOOL=OFF
-
-//Git command line client
-GIT_EXECUTABLE:FILEPATH=C:/Program Files/Git/cmd/git.exe
 
 //Use HIDAPI for low level joystick drivers
 HIDAPI:BOOL=ON
@@ -592,14 +571,8 @@ LUA_CPATH:STRING=LUA_CPATH
 //gives the maximum size for the description of the source.
 LUA_IDSIZE:STRING=60
 
-//Path to a file.
-LUA_INCLUDE_DIR:PATH=LUA_INCLUDE_DIR-NOTFOUND
-
 //Environment variable for initial script.
 LUA_INIT:STRING=LUA_INIT
-
-//Path to a library.
-LUA_LIBRARY:FILEPATH=LUA_LIBRARY-NOTFOUND
 
 //Environment variable to use as package.path.
 LUA_PATH:STRING=LUA_PATH
@@ -610,12 +583,6 @@ LUA_USE_RELATIVE_LOADLIB:BOOL=ON
 
 //Windows specific build.
 LUA_WIN:BOOL=ON
-
-//Value Computed by CMake
-LuaCpp_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application/builds/ThePlant/Product/Dependencies/luacpp/Source
-
-//Value Computed by CMake
-LuaCpp_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application/ThePlant/Product/Dependencies/luacpp/Source
 
 //Use MMX assembly routines
 MMX:BOOL=ON
@@ -947,9 +914,6 @@ the_plant_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application/builds
 //Value Computed by CMake
 the_plant_SOURCE_DIR:STATIC=D:/Coding/VisualStudios/Application
 
-//Path to a program.
-valgrind:FILEPATH=valgrind-NOTFOUND
-
 //Value Computed by CMake
 zlib_BINARY_DIR:STATIC=D:/Coding/VisualStudios/Application/builds/ThePlant/Factory/Workers/assimp-5.0.1/contrib/zlib
 
@@ -1141,18 +1105,8 @@ CURSES_FORM_LIBRARY-ADVANCED:INTERNAL=1
 CURSES_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CURSES_NCURSES_LIBRARY
 CURSES_NCURSES_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: DOXYGEN_DOT_EXECUTABLE
-DOXYGEN_DOT_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: DOXYGEN_EXECUTABLE
-DOXYGEN_EXECUTABLE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: DirectX_D3D11_INCLUDE_DIR
-DirectX_D3D11_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: DirectX_D3D11_LIBRARY
-DirectX_D3D11_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DirectX_D3DCOMPILER_LIBRARY
 DirectX_D3DCOMPILER_LIBRARY-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: DirectX_D3DX11_LIBRARY
-DirectX_D3DX11_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DirectX_D3DX9_LIBRARY
 DirectX_D3DX9_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: DirectX_DXERR_LIBRARY
@@ -1171,8 +1125,6 @@ DirectX_PREFIX_PATH_INT_CHECK:INTERNAL=C:/apps_x86/Microsoft DirectX SDK*;C:/Pro
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[opengl32][c ][v()]
 //Details about finding PythonInterp
 FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python37_64/python.exe][v3.7.8()]
-//ADVANCED property for variable: GIT_EXECUTABLE
-GIT_EXECUTABLE-ADVANCED:INTERNAL=1
 //Have include audioclient.h
 HAVE_AUDIOCLIENT_H:INTERNAL=1
 //Have include d3d11_1.h

@@ -101,11 +101,11 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Product\..;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\..;D:\Coding\VisualStudios\Application\ThePlant\Materials;D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\..;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\Includes;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\glew-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\GLEW-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Dependencies\IMGUI;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Dependencies\IMGUI\..;D:\Coding\VisualStudios\Application\ThePlant\Product\Supplies\..;D:\Coding\VisualStudios\Application\ThePlant\Product\Dependencies\sol2-3.2.3\include;D:\Coding\VisualStudios\Application\ThePlant\Product\Dependencies\lua\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -161,13 +161,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Product\..;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\..;D:\Coding\VisualStudios\Application\ThePlant\Materials;D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\..;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\Includes;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\glew-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\GLEW-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Dependencies\IMGUI;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Dependencies\IMGUI\..;D:\Coding\VisualStudios\Application\ThePlant\Product\Supplies\..;D:\Coding\VisualStudios\Application\ThePlant\Product\Dependencies\sol2-3.2.3\include;D:\Coding\VisualStudios\Application\ThePlant\Product\Dependencies\lua\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -182,8 +182,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Message></Message>
       <Command>setlocal
 "C:\Program Files\CMake\bin\cmake.exe" -E copy D:/Coding/VisualStudios/Application/builds/ThePlant/Release/Product.exe D:/Coding/VisualStudios/Application/builds/ThePlant/Release/Product/Product.exe
-if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E copy D:/Coding/VisualStudios/Application/builds/ThePlant/Release/Product.pdb D:/Coding/VisualStudios/Application/builds/ThePlant/Release/Product/Product.pdb
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E copy_directory D:/Coding/VisualStudios/Application/ThePlant/Resources/Exported D:/Coding/VisualStudios/Application/builds/ThePlant/Release/Product/Resources
 if %errorlevel% neq 0 goto :cmEnd
@@ -223,13 +221,13 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Product\..;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\..;D:\Coding\VisualStudios\Application\ThePlant\Materials;D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\..;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\Includes;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\glew-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\GLEW-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Dependencies\IMGUI;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Dependencies\IMGUI\..;D:\Coding\VisualStudios\Application\ThePlant\Product\Supplies\..;D:\Coding\VisualStudios\Application\ThePlant\Product\Dependencies\sol2-3.2.3\include;D:\Coding\VisualStudios\Application\ThePlant\Product\Dependencies\lua\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -244,8 +242,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Message></Message>
       <Command>setlocal
 "C:\Program Files\CMake\bin\cmake.exe" -E copy D:/Coding/VisualStudios/Application/builds/ThePlant/MinSizeRel/Product.exe D:/Coding/VisualStudios/Application/builds/ThePlant/MinSizeRel/Product/Product.exe
-if %errorlevel% neq 0 goto :cmEnd
-"C:\Program Files\CMake\bin\cmake.exe" -E copy D:/Coding/VisualStudios/Application/builds/ThePlant/MinSizeRel/Product.pdb D:/Coding/VisualStudios/Application/builds/ThePlant/MinSizeRel/Product/Product.pdb
 if %errorlevel% neq 0 goto :cmEnd
 "C:\Program Files\CMake\bin\cmake.exe" -E copy_directory D:/Coding/VisualStudios/Application/ThePlant/Resources/Exported D:/Coding/VisualStudios/Application/builds/ThePlant/MinSizeRel/Product/Resources
 if %errorlevel% neq 0 goto :cmEnd
@@ -286,11 +282,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_MEAN_AND_LEAN;VC_EXTRALEAN;_CRT_SECURE_NO_WARNINGS;GLEW_NO_GLU;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Product\..;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\..;D:\Coding\VisualStudios\Application\ThePlant\Materials;D:\Coding\VisualStudios\Application\ThePlant\Materials\Core\..;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\Includes;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\glew-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\SDL2-2.0.14\include;D:\Coding\VisualStudios\Application\ThePlant\Materials\Dependencies\GLEW-2.2.0\include;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Dependencies\IMGUI;D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Dependencies\IMGUI\..;D:\Coding\VisualStudios\Application\ThePlant\Product\Supplies\..;D:\Coding\VisualStudios\Application\ThePlant\Product\Dependencies\sol2-3.2.3\include;D:\Coding\VisualStudios\Application\ThePlant\Product\Dependencies\lua\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>

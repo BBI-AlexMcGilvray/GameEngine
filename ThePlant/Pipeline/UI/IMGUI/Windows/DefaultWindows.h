@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Core/Debugging/Headers/Declarations.h"
-
 #include "Pipeline/UI/IMGUI/Manager.h"
 
 #include "Pipeline/UI/IMGUI/Windows/Examples.h"

@@ -1,13 +1,19 @@
 cmake_minimum_required(VERSION 3.12.2)
 set(CMAKE_GENERATOR "Visual Studio 16 2019")
 
-# how the fuck do you set optimization levels?
-# set(CMAKE_CXX_FLAGS_RELEASE       "-O3 -DNDEBUG"            CACHE STRING "c++ Debug flags" )
-# set(CMAKE_C_FLAGS_RELEASE         "-O3 -DNDEBUG"            CACHE STRING "c Debug flags" )
-# set(CMAKE_CXX_FLAGS_DEBUG       "-O3 -DNDEBUG"            CACHE STRING "c++ Release flags" )
-# set(CMAKE_C_FLAGS_DEBUG         "-O3 -DNDEBUG"            CACHE STRING "c Release flags" )
-set(CMAKE_CXX_FLAGS       "-fembed-bitcode -O3"            CACHE STRING "c++ Debug flags" )
-set(CMAKE_C_FLAGS         "-fembed-bitcode -O3"            CACHE STRING "c Debug flags" )
+# ThePlant preprocessor definitions
+# defaults for the different configs are:
+#   ALL: /DWIN32 /D_WINDOWS /W3 /GR /EHsc
+#   RELEASE: /MD /O2 /Ob2 /DNDEBUG
+#   RELWITHDEBINFO: /MD /Zi /O2 /Ob1 /DNDEBUG
+#   DEBUG: /MDd /Zi /Ob0 /Od /RTC1
+add_compile_definitions(GLOBAL_EXPLICIT
+    MULTITHREADED_RENDERING
+    $<$<CONFIG:RELEASE>:RELEASE>
+    $<$<OR:$<CONFIG:RELWITHDEBINFO>,$<CONFIG:DEBUG>>:DEBUG>
+    $<$<CONFIG:DEBUG>:GLOBAL_EXPLICIT>
+)
+#   - make sure all have the ability to set breakpoints and can be launched from visual studio!
 
 # Set the project name to the_plant
 project(the_plant VERSION 1.0.0 LANGUAGES CXX)

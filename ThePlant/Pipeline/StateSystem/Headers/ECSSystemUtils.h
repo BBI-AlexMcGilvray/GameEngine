@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Core/Debugging/Headers/Declarations.h"
-
 namespace Application
 {
 // may be beneficial to use a struct to map enum->type to potentially limit mistakes. could do a constexpr for loop for the enum values as well

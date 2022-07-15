@@ -1,0 +1,17 @@
+
+{
+	"shaderCode" : "#version 450 core
+			
+layout(location = 0) out vec4 fColor;
+
+// values passed from vertex shader
+in vec4 Color;
+
+// Values that stay constant for the whole mesh
+
+void main()
+{
+    fColor = Color;
+}
+"
+}

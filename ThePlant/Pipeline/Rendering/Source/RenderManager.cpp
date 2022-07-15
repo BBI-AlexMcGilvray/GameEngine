@@ -9,8 +9,6 @@ using namespace Core;
 using namespace Core::Math;
 using namespace Core::Functionality;
 
-#define MULTITHREADED_RENDERING
-
 namespace Application {
 namespace Rendering {
   RenderManager::RenderManager()

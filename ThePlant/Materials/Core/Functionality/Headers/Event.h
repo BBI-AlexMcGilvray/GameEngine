@@ -43,11 +43,10 @@ namespace Functionality {
         _previous->_next = _next;
       }
       if (_next != nullptr) {
-#if _DEBUG
         if (_previous == nullptr) {
-          CORE_LOG("EVENT", "Removing an event where all delegates were not removed!");
-        } else
-#endif
+          DEBUG_LOG("EVENT", "Removing an event where all delegates were not removed!");
+        }
+        else
         {
           _next->_previous = _previous;
         }
