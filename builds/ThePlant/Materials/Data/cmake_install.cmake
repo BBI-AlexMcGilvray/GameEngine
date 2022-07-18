@@ -36,6 +36,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/Data_Lib" TYPE FILE FILES
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetExceptions.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetLocation.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetLocationMapping.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetMacros.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetName.h"

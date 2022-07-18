@@ -31,6 +31,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Rendering\Source\TextureData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Source\AssetLocationMapping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Source\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

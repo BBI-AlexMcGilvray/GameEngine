@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <variant>
 #include <vector>
 
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
@@ -362,7 +363,7 @@ struct JSON
 
   // custom type writer
   // template <typename Object> // WHY IS THIS NOT WORKING?
-  // struct object_writer_visitor<Object, std::void_t<decltype(&Object::serialize)>> // class has deserialize method
+  // struct object_writer_visitor<Object, std::void_t<decltype(&Object::serialize)>> // class has serialize method
   // {
   //   std::shared_ptr<JSONNode> Write(const Object& target)
   //   {
@@ -371,11 +372,80 @@ struct JSON
   // };
   
   template <typename Object>
-  struct object_writer_visitor<Object, std::void_t<decltype(serialize(std::declval<const Object&>()))>> // if there is a deserialize method that takes class reference
+  struct object_writer_visitor<Object, std::void_t<decltype(serialize(std::declval<const Object&>()))>> // if there is a serialize method that takes class reference
   {
-    std::shared_ptr<JSONNode> Write(const Object& target)
+    std::shared_ptr<JSONNode> Write(const Object& obj)
     {
-      return serialize(target);
+      return serialize(obj);
+    }
+  };
+  
+  template <typename Object>
+  struct object_writer_visitor<Object, typename std::enable_if<is_specialization_of<raw_type_t<Object>, std::variant>::value>::type> // if the object is a variant
+  {
+    struct variant_writer_visitor
+    {
+      template <typename T>
+      std::shared_ptr<JSONNode> operator()(const T& val)
+      {
+        return object_writer_visitor<raw_type_t<T>>().Write(val);
+      }
+    };
+
+    std::shared_ptr<JSONNode> Write(const Object& obj)
+    {
+      std::shared_ptr<JSONObject> json = std::make_shared<JSONObject>();
+
+      json->AddElement("index", object_writer_visitor<int>().Write(static_cast<int>(obj.index())));
+      json->AddElement("value", std::visit(variant_writer_visitor(), obj));
+
+      return json;
+    }
+  };
+  
+  template <typename Object>
+  struct object_writer_visitor<Object, typename std::enable_if<is_specialization_of<Object, std::pair>::value>::type> // if the object is a pair
+  {
+    std::shared_ptr<JSONNode> Write(const Object& obj)
+    {
+      std::shared_ptr<JSONObject> json = std::make_shared<JSONObject>();
+
+      json->AddElement("first", object_writer_visitor<raw_type_t<decltype(std::declval<Object>().first)>>().Write(obj.first));
+      json->AddElement("second", object_writer_visitor<raw_type_t<decltype(std::declval<Object>().second)>>().Write(obj.second));
+
+      return json;
+    }
+  };
+  
+  template <typename Object>
+  struct object_writer_visitor<Object, typename std::enable_if<is_specialization_of<Object, std::tuple>::value>::type> // if the object is a tuple
+  {
+    template <int INDEX>
+    struct tuple_index_writer
+    {
+      static void Write(std::shared_ptr<JSONObject> json, const Object& tuple)
+      {
+        json->AddElement(object_writer_visitor<std::tuple_element<INDEX, Object>>(std::get<INDEX>(tuple)), std::to_string(INDEX));
+        tuple_index_writer<INDEX - 1>::Write(json, tuple);
+      }
+    };
+    
+    template <>
+    struct tuple_index_writer<0>
+    {
+      static void Write(std::shared_ptr<JSONObject> json, const Object& tuple)
+      {
+        json->AddElement(object_writer_visitor<std::tuple_element<0, Object>>(std::get<0>(tuple)), std::to_string(0));
+      }
+    };
+
+    std::shared_ptr<JSONNode> Write(const Object& obj)
+    {
+      std::shared_ptr<JSONObject> json = std::make_shared<JSONObject>();
+
+      tuple_index_writer<std::tuple_size<Object> - 1>::Write(json, obj);
+
+      return json;
     }
   };
 
@@ -423,7 +493,7 @@ struct JSON
       std::shared_ptr<JSONArray> writtenObj = std::make_shared<JSONArray>();
 
       for (const auto &elem : obj) {
-        writtenObj->AddElement(object_writer_visitor<raw_type_t<decltype(std::declval<Object>()[0])>>().Write(elem));
+        writtenObj->AddElement(object_writer_visitor<raw_type_t<decltype(*(std::declval<Object>().begin()))>>().Write(elem));
       }
 
       return writtenObj;
@@ -462,6 +532,111 @@ struct JSON
     void Read(Object& target, std::shared_ptr<JSONNode> node)
     {
       deserialize(target, node);
+    }
+  };
+  
+  template <typename Object>
+  struct object_reader_visitor<Object, typename std::enable_if<is_specialization_of<Object, std::variant>::value>::type> // if the object is a variant
+  {
+    template <typename VARIANT, int INDEX>
+    struct variant_reader_by_index
+    {
+      static void ReadIndex(VARIANT& variant, int index, std::shared_ptr<JSONNode> node)
+      {
+        if (index == INDEX)
+        {
+          using used_alternative = std::variant_alternative<INDEX, VARIANT>::type;
+          used_alternative usedValue;
+          object_reader_visitor<used_alternative>().Read(usedValue, node);
+
+          variant = usedValue;
+          return;
+        }
+        
+        return variant_reader_by_index<VARIANT, INDEX - 1>::ReadIndex(variant, index, node);
+      }
+    };
+
+    template <typename VARIANT>
+    struct variant_reader_by_index<VARIANT, 0>
+    {
+      static void ReadIndex(VARIANT& variant, int index, std::shared_ptr<JSONNode> node)
+      {
+        if (index == 0)
+        {
+          using used_alternative = std::variant_alternative<0, VARIANT>::type;
+          used_alternative usedValue;
+          object_reader_visitor<used_alternative>().Read(usedValue, node);
+
+          variant = usedValue;
+          return;
+        }
+        
+        throw;
+      }
+    };
+
+    void Read(Object& target, std::shared_ptr<JSONNode> node)
+    {
+      JSONObject *obj = dynamic_cast<JSONObject *>(node.get());
+      if (obj == nullptr) {
+        throw;
+      }
+
+      int index;
+      object_reader_visitor<int>().Read(index, obj->GetElement("index"));
+
+      variant_reader_by_index<Object, std::variant_size_v<Object> - 1>::ReadIndex(target, index, obj->GetElement("value"));
+    }
+  };
+
+  template <typename Object>
+  struct object_reader_visitor<Object, typename std::enable_if<is_specialization_of<Object, std::pair>::value>::type> // if the object is a pair
+  {
+    void Read(Object& target, std::shared_ptr<JSONNode> node)
+    {
+      JSONObject *obj = dynamic_cast<JSONObject *>(node.get());
+      if (obj == nullptr) {
+        throw;
+      }
+      
+      // HACK: when using pairs in things like maps, the first element is const - and we cant have that
+      typedef raw_type_t<decltype(std::declval<Object>().first)> first_type;
+      object_reader_visitor<first_type>().Read(const_cast<first_type&>(target.first), obj->GetElement("first"));
+      object_reader_visitor<raw_type_t<decltype(std::declval<Object>().second)>>().Read(target.second, obj->GetElement("second"));
+    }
+  };
+  
+  template <typename Object>
+  struct object_reader_visitor<Object, typename std::enable_if<is_specialization_of<Object, std::tuple>::value>::type> // if the object is a tuple
+  {
+    template <int INDEX>
+    struct tuple_index_reader
+    {
+      static void Read(const Object& tuple, std::shared_ptr<JSONObject> json)
+      {
+        object_reader_visitor<raw_type_t<std::tuple_element<INDEX, Object>>>().Read(std::get<INDEX>(tuple), std::to_string(INDEX));
+        tuple_index_reader<INDEX - 1>::Read(tuple, json);
+      }
+    };
+    
+    template <>
+    struct tuple_index_reader<0>
+    {
+      static void Read(const Object& tuple, std::shared_ptr<JSONObject> json)
+      {
+        object_reader_visitor<raw_type_t<std::tuple_element<0, Object>>>().Read(std::get<0>(tuple), std::to_string(0));
+      }
+    };
+
+    void Read(Object& target, std::shared_ptr<JSONNode> node)
+    {
+      JSONObject *obj = dynamic_cast<JSONObject *>(node.get());
+      if (obj == nullptr) {
+        throw;
+      }
+
+      tuple_index_writer<std::tuple_size<Object> - 1>::Read(target, obj);
     }
   };
 
@@ -503,12 +678,18 @@ struct JSON
     // may also want to reference https://en.cppreference.com/w/cpp/named_req/SequenceContainer
 
   private:
-    template <typename RESIZEABLE>
-    void resize(RESIZEABLE& resizeable, size_t newSize) { resizeable.resize(newSize); }
+    // template <typename RESERVABLE>
+    // void reserve(RESERVABLE& reservable, size_t newSize)
+    // {
+    //   if constexpr (std::is_void<std::enable_if<decltype(std::declval<RESERVABLE>().reserve(size_t))>::type>::value)
+    //   {
+    //     reservable.reserve(newSize);
+    //   }
+    // }
 
-    // std::arrays can't be resized
-    template <typename T, size_t SIZE>
-    void resize(std::array<T, SIZE>& nonresizeable, size_t newSize) { assert(SIZE >= newSize); /*, "expected size and actual size must match");*/ } // need a DEBUG_ASSERT (and others) macro
+    // // std::arrays can't be resized
+    // template <typename T, size_t SIZE>
+    // void reserve(std::array<T, SIZE>& nonreservable, size_t newSize) { assert(SIZE >= newSize); /*, "expected size and actual size must match");*/ } // need a DEBUG_ASSERT (and others) macro
 
   public:
     void Read(Object& target, std::shared_ptr<JSONNode> node)
@@ -518,11 +699,14 @@ struct JSON
         throw;
       }
 
-      resize(target, arr->Count());
+      // this would be a nice optimization, but not working at the moment
+      // reserve(target, arr->Count());
 
-      typedef raw_type_t<decltype(std::declval<Object>()[0])> index_type;
+      typedef raw_type_t<decltype(std::declval<Object>())>::value_type index_type;
       for (int i = 0; i < arr->Count(); i++) {
-        object_reader_visitor<index_type>().Read(target[i], arr->GetElement(i));
+        auto newElement = index_type{};
+        object_reader_visitor<index_type>().Read(newElement, arr->GetElement(i));
+        target.insert(target.end(), newElement); // this makes it work for vectors and maps, but likely makes maps less performant
       }
     }
   };

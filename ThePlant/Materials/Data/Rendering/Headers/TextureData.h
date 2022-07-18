@@ -37,7 +37,7 @@ namespace Rendering {
     (Normal)(= 6),
     (Shininess)(= 7),
     (Opacity)(= 8),
-    (Displaecment)(= 9),
+    (Displacement)(= 9),
     (Lightmap)(= 10)
   );
 

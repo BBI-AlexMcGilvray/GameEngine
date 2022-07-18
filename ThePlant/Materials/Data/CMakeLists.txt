@@ -13,12 +13,15 @@ Rendering/Source/SkeletonData.cpp #
 Rendering/Source/StaticMeshData.cpp #
 Rendering/Source/StaticModelData.cpp #
 Rendering/Source/TextureData.cpp #
+Source/AssetLocationMapping.cpp #
 Source/AssetManager.cpp #
 Source/SerializationUtils.cpp)
 
 set(HEADER_FILES #
 Headers/AssetData.h #
 Headers/AssetExceptions.h #
+Headers/AssetLocation.h #
+Headers/AssetLocationMapping.h #
 Headers/AssetMacros.h #
 Headers/AssetManager.h #
 Headers/AssetName.h #

@@ -89,11 +89,13 @@ ENUM(MyEnum, int,
 Ideally 'meta_TYPE' is more well defined via some template, or having it pass into/specialize a containing templated struct.
 This would allow a common interface to use namespaced types without users needing to _know_ that 'meta_TYPE' is a defined type
 */
+
+// NOTE: Macro will currently only work with < 15 values! if more are needed, macros (Macros.h) will need to be udpates!
 #define ENUM(TYPE, BASE, ...)                                                                                          \
   enum class TYPE : BASE {                                                                                             \
     FOR_EACH(ENUM_VALUE_INDIRECT, __VA_ARGS__)                                                                         \
   };                                                                                                                   \
-  struct meta_TYPE                                                                                                     \
+  struct meta_ ## TYPE                                                                                                     \
   {                                                                                                                    \
     using meta_data = meta::enum_meta<TYPE, EVAL(REPEAT(VA_NUM_ARGS(__VA_ARGS__), ENUM_META_VALUE_INDIRECT, TYPE, __VA_ARGS__))>; \
                                                                                                                        \
@@ -135,7 +137,7 @@ This would allow a common interface to use namespaced types without users needin
       return "INVALID";                                                                     \
     }                                                                                       \
   }/* to_string can be constexpr in std20+*/                                                \
-  inline TYPE from_string(const std::string& str)                                           \
+  inline void from_string(const std::string& str, TYPE& toEnum)                             \
   {                                                                                         \
     EVAL(REPEAT(VA_NUM_ARGS(__VA_ARGS__), ENUM_FROM_STRING_INDIRECT, TYPE, __VA_ARGS__))    \
     throw; /* invalid string value - make this nicer */                                     \
@@ -157,5 +159,6 @@ This would allow a common interface to use namespaced types without users needin
 #define ENUM_FROM_STRING(i, TYPE, VALUE)           \
   if (OBSTRUCT(TO_STRING)(TYPE::NAME(VALUE)))      \
   {                                                \
-    return TYPE::NAME(VALUE);                      \
+    toEnum = TYPE::NAME(VALUE);                    \
+    return;                                        \
   }

@@ -2,8 +2,8 @@
 
 // Reference: https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression
 // Core Elements
-#define VA_NUM_ARGS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, N, ...) N
-#define VA_NUM_ARGS(...) VA_NUM_ARGS_HELPER(__VA_ARGS__, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
+#define VA_NUM_ARGS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, N, ...) N
+#define VA_NUM_ARGS(...) VA_NUM_ARGS_HELPER(__VA_ARGS__, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
 
 // allow for obfuscation of ## operator
 #define CAT(a, ...) PRIMITIVE_CAT(a, __VA_ARGS__)
@@ -31,7 +31,13 @@
 #define INC_6 7
 #define INC_7 8
 #define INC_8 9
-#define INC_9 9
+#define INC_9 10
+#define INC_10 11
+#define INC_11 12
+#define INC_12 13
+#define INC_13 14
+#define INC_14 15
+#define INC_15 16
 
 #define DEC(x) PRIMITIVE_CAT(DEC_, x)
 #define DEC_0 0
@@ -44,6 +50,12 @@
 #define DEC_7 6
 #define DEC_8 7
 #define DEC_9 8
+#define DEC_10 9
+#define DEC_11 10
+#define DEC_12 11
+#define DEC_13 12
+#define DEC_14 13
+#define DEC_15 14
 
 #define CHECK_N(x, n, ...) n
 #define CHECK(...) CHECK_N(__VA_ARGS__, 0, )
@@ -141,6 +153,12 @@
 #define ARG_7(X, ...) ARG_6(__VA_ARGS__)
 #define ARG_8(X, ...) ARG_7(__VA_ARGS__)
 #define ARG_9(X, ...) ARG_8(__VA_ARGS__)
+#define ARG_10(X, ...) ARG_9(__VA_ARGS__)
+#define ARG_11(X, ...) ARG_10(__VA_ARGS__)
+#define ARG_12(X, ...) ARG_11(__VA_ARGS__)
+#define ARG_13(X, ...) ARG_12(__VA_ARGS__)
+#define ARG_14(X, ...) ARG_13(__VA_ARGS__)
+#define ARG_15(X, ...) ARG_14(__VA_ARGS__)
 
 #define STRINGIFY(x) #x
 #define TO_STRING(x) STRINGIFY(x)
