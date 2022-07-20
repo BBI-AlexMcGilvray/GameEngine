@@ -6,6 +6,11 @@
 
 namespace Core {
 namespace Functionality {
+/*
+* NOTE: Rewrite this whole thing to use the 'new' Delegate type in Delegate.h
+*     * plus, you know, this is all probably terrible
+*/
+
   template<typename... Ts>
   struct EventDelegate
   {    
