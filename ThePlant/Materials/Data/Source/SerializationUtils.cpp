@@ -86,4 +86,27 @@ namespace Core::Serialization::Format
 
       return static_cast<std::shared_ptr<JSONObject>>(json);
     }
+
+    void deserialize(Core::IO::FilePath& filePath, std::shared_ptr<JSONNode> json)
+    {
+      JSONObject* data = dynamic_cast<JSONObject*>(json.get());
+      if (data == nullptr) {
+        throw;
+      }
+      
+      using object_json_type = typename Core::Serialization::Format::json_type<std::string>::type;
+
+      filePath.File = dynamic_cast<object_json_type*>(data->GetElement("file").get())->GetData();
+      filePath.Path = dynamic_cast<object_json_type*>(data->GetElement("path").get())->GetData();
+    }
+
+    std::shared_ptr<JSONNode> serialize(const Core::IO::FilePath& filePath)
+    {
+      Core::Serialization::Format::JSON json;
+
+      SerializeTo(json, filePath.File, "file");
+      SerializeTo(json, filePath.Path, "path");
+
+      return static_cast<std::shared_ptr<JSONObject>>(json);
+    }
 }

@@ -184,32 +184,32 @@ struct json_reader<Object, std::void_t<std::enable_if_t<is_visitable<Object>::va
 };
 
 // array type writer
-template<typename Object>
-struct json_reader<Object, std::void_t<typename std::enable_if<(is_specialization_of<Object, std::map>::value || is_specialization_of<Object, std::unordered_map>::value)>::type>>
-{
-    // better way to verify we can iterate over object: http://www.shital.com/p/writing-generic-container-function-in-c11/
-    // may also want to reference https://en.cppreference.com/w/cpp/named_req/SequenceContainer
+// template<typename Object>
+// struct json_reader<Object, std::void_t<typename std::enable_if<(is_specialization_of<Object, std::map>::value || is_specialization_of<Object, std::unordered_map>::value)>::type>>
+// {
+//     // better way to verify we can iterate over object: http://www.shital.com/p/writing-generic-container-function-in-c11/
+//     // may also want to reference https://en.cppreference.com/w/cpp/named_req/SequenceContainer
 
-    private:
-    template <typename T, size_t SIZE>
-    void size_assert(std::array<T, SIZE>& nonreservable, size_t newSize) { assert(SIZE >= newSize); /*, "expected size and actual size must match");*/ }
+//     private:
+//     template <typename T, size_t SIZE>
+//     void size_assert(std::array<T, SIZE>& nonreservable, size_t newSize) { assert(SIZE >= newSize); /*, "expected size and actual size must match");*/ }
 
-    public:
-    void Read(Object& target, std::shared_ptr<JSONNode> node)
-    {
-        JSONArray *arr = dynamic_cast<JSONArray *>(node.get());
-        if (arr == nullptr) {
-            throw;
-        }
+//     public:
+//     void Read(Object& target, std::shared_ptr<JSONNode> node)
+//     {
+//         JSONArray *arr = dynamic_cast<JSONArray *>(node.get());
+//         if (arr == nullptr) {
+//             throw;
+//         }
 
-        typedef raw_type_t<decltype(std::declval<Object>())>::value_type index_type;
-        for (int i = 0; i < arr->Count(); i++) {
-            auto newElement = index_type{};
-            json_reader<index_type>().Read(newElement, arr->GetElement(i));
-            target.insert(target.end(), newElement);
-        }
-    }
-};
+//         typedef raw_type_t<decltype(std::declval<Object>())>::value_type index_type;
+//         for (int i = 0; i < arr->Count(); i++) {
+//             auto newElement = index_type{};
+//             json_reader<index_type>().Read(newElement, arr->GetElement(i));
+//             target.insert(target.end(), newElement);
+//         }
+//     }
+// };
 
 // iterable type writer
 template<typename Object>
@@ -217,19 +217,33 @@ struct json_reader<Object, std::void_t<typename std::enable_if<is_iterable<Objec
 {
     // better way to verify we can iterate over object: http://www.shital.com/p/writing-generic-container-function-in-c11/
     // may also want to reference https://en.cppreference.com/w/cpp/named_req/SequenceContainer
+private:
+    using index_type = typename raw_type_t<decltype(std::declval<Object>())>::value_type;
 
-    private:
-    template <typename RESIZABLE>
-    void resize(RESIZABLE& resizable, size_t newSize)
+    // template <typename RESIZABLE>
+    // void resize(RESIZABLE& resizable, size_t newSize)
+    // {
+    //     if constexpr (decltype(std::declval<RESIZABLE>().resize(size_t))) // this will work if we find a way to 'if constexpr' the existence of the resize method (or reserve if we are inserting)
+    //     resizable.resize(newSize);
+    // }
+
+    // // // std::arrays can't be resized
+    // template <typename T, size_t SIZE>
+    // void resize(std::array<T, SIZE>& arr, size_t newSize) { assert(SIZE >= newSize); /*, "expected size and actual size must match");*/ }
+
+    template <typename INSERTABLE>
+    void insert(INSERTABLE& target, index_type&& item, int index)
     {
-        resizable.resize(newSize);
+        target.insert(target.end(), item);
+    }
+    
+    template <typename T, size_t SIZE>
+    void insert(std::array<T, SIZE>& target, index_type&& item, int index)
+    {
+        target[index] = std::move(item);
     }
 
-    // // std::arrays can't be resized
-    template <typename T, size_t SIZE>
-    void resize(std::array<T, SIZE>& arr, size_t newSize) { assert(SIZE >= newSize); /*, "expected size and actual size must match");*/ }
-
-    public:
+public:
     void Read(Object& target, std::shared_ptr<JSONNode> node)
     {
         JSONArray *arr = dynamic_cast<JSONArray *>(node.get());
@@ -238,10 +252,13 @@ struct json_reader<Object, std::void_t<typename std::enable_if<is_iterable<Objec
         }
 
         // this would be a nice optimization, but not working at the moment
-        resize(target, arr->Count());
+        // resize(target, arr->Count());
 
+        typedef raw_type_t<decltype(std::declval<Object>())>::value_type index_type;
         for (int i = 0; i < arr->Count(); i++) {
-            json_reader<index_type>().Read(target[i], arr->GetElement(i));
+            auto newElement = index_type{};
+            json_reader<index_type>().Read(newElement, arr->GetElement(i));
+            insert(target, std::move(newElement), i);
         }
     }
 };

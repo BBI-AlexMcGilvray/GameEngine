@@ -11,6 +11,7 @@
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/Quaternion.h"
 #include "Core/Serialization/Serialization.h"
+#include "Core/IO/Headers/IODefs.h"
 
 #include "Data/Headers/AssetName.h"
 #include "Data/Rendering/Headers/SkeletonAnimationData.h"
@@ -28,6 +29,9 @@ namespace Core::Serialization::Format
 
     void deserialize(Core::Math::Color& color, std::shared_ptr<JSONNode> json);
     std::shared_ptr<JSONNode> serialize(const Core::Math::Color& color);
+
+    void deserialize(Core::IO::FilePath& filePath, std::shared_ptr<JSONNode> json);
+    std::shared_ptr<JSONNode> serialize(const Core::IO::FilePath& filePath);
 
     // Ideally we find a way to make this generic for all enums that could be handled by it
     inline void deserialize(::Data::Rendering::AnimationBehaviour& animationBehaviour, std::shared_ptr<JSONNode> json)
@@ -208,29 +212,6 @@ namespace Core::Serialization::Format
       SerializeTo(json, quaternion.Y, "y");
       SerializeTo(json, quaternion.Z, "z");
       SerializeTo(json, quaternion.W, "w");
-
-      return static_cast<std::shared_ptr<JSONObject>>(json);
-    }
-
-    void deserialize(Core::IO::FilePath& filePath, std::shared_ptr<JSONNode> json)
-    {
-      JSONObject* data = dynamic_cast<JSONObject*>(json.get());
-      if (data == nullptr) {
-        throw;
-      }
-      
-      using object_json_type = typename Core::Serialization::Format::json_type<std::string>::type;
-
-      filePath.File = dynamic_cast<object_json_type*>(data->GetElement("file").get())->GetData();
-      filePath.Path = dynamic_cast<object_json_type*>(data->GetElement("path").get())->GetData();
-    }
-
-    std::shared_ptr<JSONNode> serialize(const Core::IO::FilePath& filePath)
-    {
-      Core::Serialization::Format::JSON json;
-
-      SerializeTo(json, filePath.File, "file");
-      SerializeTo(json, filePath.Path, "path");
 
       return static_cast<std::shared_ptr<JSONObject>>(json);
     }

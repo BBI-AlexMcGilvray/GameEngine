@@ -134,6 +134,9 @@ Reflection/ReflectableClasses.h #
 Reflection/type_traits.h #
 Serialization/Formats/Binary/Binary.h #
 Serialization/Formats/JSON/JSON.h #
+Serialization/Formats/JSON/JSONTypes.h #
+Serialization/Formats/JSON/Readers/BasicReaders.h #
+Serialization/Formats/JSON/Writers/BasicWriters.h #
 Serialization/Serialization.h #
 Serialization/type_traits.h #
 IdTypes/IncrementalId.h #
