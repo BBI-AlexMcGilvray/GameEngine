@@ -73,6 +73,8 @@ private:
     template <typename T>
     SharedPtr<const T> _loadAsset(const AssetName<T>& asset)
     {
+        // update this to use AssetLocationMapping (verify it works)
+        // for starters it can be kinda hacky, then we can start working on the Factory and this at the same time
         SCOPED_MEMORY_CATEGORY("Assets");
         File assetFile = OpenFileI(_getFilePath(asset));
 
