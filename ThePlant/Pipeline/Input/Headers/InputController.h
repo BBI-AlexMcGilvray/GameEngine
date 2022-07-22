@@ -3,6 +3,7 @@
 #include "InputEvent.h"
 
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/TimeDefs.h"
 
 #include "Pipeline/Input/Headers/InputReceiverBase.h"
 
@@ -22,7 +23,7 @@ namespace Input {
     virtual void initialize() {}
     virtual void cleanUp() {}
 
-    virtual void handleInput(UniquePtr<const InputEventBase> inputEvent) const = 0;
+    virtual void handleInput(Core::Second dt, UniquePtr<const InputEventBase> inputEvent) = 0;
 
     // all controllers should be able to add/remove receivers
     // the receivers live elsewhere though, should be non_null_ptrs
@@ -35,7 +36,7 @@ namespace Input {
   public:
     ParentInputReceiver& getReceiver();
 
-    void handleInput(UniquePtr<const InputEventBase> inputEvent) const override;
+    void handleInput(Core::Second dt, UniquePtr<const InputEventBase> inputEvent) override;
     
     void addReceiver(Ptr<IInputReceiver> receiver) override;
     void removeReceiver(Ptr<IInputReceiver> receiver) override;

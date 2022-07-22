@@ -28,9 +28,9 @@ namespace Input {
     _controller = std::move(controller);
   }
 
-  void InputManager::update()
+  void InputManager::update(Core::Second dt)
   {
-    _pollSDL();
+    _PollSDL(dt);
   }
 
   void InputManager::end()
@@ -42,36 +42,40 @@ namespace Input {
     // have controller mapping save any changes made during gameplay (?)
   }
 
-  void InputManager::_pollSDL()
+  void InputManager::_PollSDL(Core::Second dt)
   {
-    // this loop should probably be in the InputManager
     SDL_Event event;
     while (_SDL.Poll(event)) {
       switch (event.type) {
-      case SDL_QUIT: {
-        // send a quit event
-        Quit();
-        break;
-      }
-      case SDL_WINDOWEVENT: {
-        // pass event to SDLWindowManager to handle resizing
-        break;
-      }
-      default: {
-        if (_controller != nullptr) {
-          auto createdEvent = createInputEvent(event); // creating it here so we can do the below check and avoid calling based on null (unhandled) event types
-          if (createdEvent != nullptr)
-          {
-            _controller->handleInput(std::move(createdEvent));
-          }
+        case SDL_QUIT: {
+          // send a quit event
+          Quit();
+          break;
         }
-        else
-        {
-          DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered");
+        case SDL_WINDOWEVENT: {
+          // pass event to SDLWindowManager to handle resizing
+          break;
         }
-        break;
+        default: {
+          _HandleEvent(dt, std::move(event));
+          break;
+        }
       }
+    }
+  }
+
+  void InputManager::_HandleEvent(Core::Second dt, SDL_Event&& event) const
+  {
+    if (_controller != nullptr) {
+      auto createdEvent = createInputEvent(event); // creating it here so we can do the below check and avoid calling based on null (unhandled) event types
+      if (createdEvent != nullptr)
+      {
+        _controller->handleInput(dt, std::move(createdEvent));
       }
+    }
+    else
+    {
+      DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered");
     }
   }
 }// namespace Input

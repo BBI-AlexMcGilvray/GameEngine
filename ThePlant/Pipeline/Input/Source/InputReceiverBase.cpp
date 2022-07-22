@@ -23,11 +23,11 @@ namespace Input {
     }
   }
 
-  bool ParentInputReceiver::handleInput(Ptr<InputEventBase const> event) const
+  bool ParentInputReceiver::handleInput(Core::Second dt, Ptr<InputEventBase const> event)
   {
     for (auto& child : _children)
     {
-      if (child->handleInput(event))
+      if (child->handleInput(dt, event))
       {
         return true;
       }

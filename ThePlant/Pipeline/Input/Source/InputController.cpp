@@ -9,9 +9,9 @@ namespace Input {
       return _receiver;
     }
 
-    void DefaultInputController::handleInput(UniquePtr<const InputEventBase> inputEvent) const
+    void DefaultInputController::handleInput(Core::Second dt, UniquePtr<const InputEventBase> inputEvent)
     {
-      _receiver.handleInput(inputEvent.get());
+      _receiver.handleInput(dt, inputEvent.get());
     }
 
     void DefaultInputController::addReceiver(Ptr<IInputReceiver> receiver)

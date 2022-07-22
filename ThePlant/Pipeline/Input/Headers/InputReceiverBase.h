@@ -5,6 +5,7 @@
 #include "InputEvent.h"
 
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/TimeDefs.h"
 
 namespace Application {
 namespace Input {
@@ -17,7 +18,7 @@ namespace Input {
     virtual void initialize() {}
     virtual void cleanUp() {}
 
-    virtual bool handleInput(Ptr<const InputEventBase> event) const = 0;
+    virtual bool handleInput(Core::Second dt, Ptr<const InputEventBase> event) = 0;
   };
 
   /*
@@ -38,7 +39,7 @@ namespace Input {
     void addChild(Ptr<IInputReceiver> receiver);
     void removeChild(Ptr<IInputReceiver> receiver);
 
-    bool handleInput(Ptr<const InputEventBase> event) const override;
+    bool handleInput(Core::Second dt, Ptr<const InputEventBase> event) override;
 
   private:
     std::vector<Ptr<IInputReceiver>> _children;

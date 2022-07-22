@@ -43,7 +43,6 @@ private:
         DEBUG_ASSERT(cameras.size() == transforms.size());
         for (size_t index = 0; index < cameras.size(); ++index)
         {
-            Rendering::LookAt(transforms[index].transform, cameras[index].targetPosition);
             cameraManager.AddCamera(CalculateTransformationMatrix(cameras[index].camera, transforms[index].transform));
         }
     }

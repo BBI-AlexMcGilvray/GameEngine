@@ -6,7 +6,6 @@ namespace Application {
 struct CameraComponent
 {
     Rendering::Camera camera;
-    Core::Math::Float3 targetPosition;
 
     CameraComponent() = default;
     CameraComponent(const CameraComponent&) = default;
@@ -14,14 +13,13 @@ struct CameraComponent
     CameraComponent& operator=(const CameraComponent&) = default;
     CameraComponent& operator=(CameraComponent&&) = default;
 
-    CameraComponent(const Rendering::Camera& camera, const Core::Math::Float3& targetPosition)
+    CameraComponent(const Rendering::Camera& camera)
     : camera(camera)
-    , targetPosition(targetPosition)
     {}
 
     bool operator==(const CameraComponent& other) const
     {
-        return camera == other.camera && targetPosition == other.targetPosition;
+        return camera == other.camera;
     }
     bool operator !=(const CameraComponent& other) const { return !(*this == other); }
 };

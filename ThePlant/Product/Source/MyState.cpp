@@ -53,9 +53,8 @@ void MyState::Initialize()
 
     // this will be data driven from the future
     // create camera
-    Core::Geometric::Transform cameraTransform;
-    Application::CameraComponent camera(1280.0f / 1080.0f, Core::Math::Float3(0.0f, 0.0f, 0.0f));
-    auto cameraComponents = std::make_tuple<Application::CameraComponent, Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent>(std::move(camera), cameraTransform, Core::Math::Float3(0.0f, 0.0f, 200.0f), Core::Math::FQuaternion(Core::Math::II()));
+    Application::CameraComponent camera(1280.0f / 1080.0f);
+    auto cameraComponents = std::make_tuple<Application::CameraComponent, Application::WorldTransformComponent, Application::PositionComponent, Application::RotationComponent>(std::move(camera), Core::Geometric::Transform(), Core::Math::Float3(0.0f, 0.0f, 200.0f), Core::Math::FQuaternion(Core::Math::II()));
     _camera = ECS().CreateEntity(cameraComponents);
 
     // create camera controller

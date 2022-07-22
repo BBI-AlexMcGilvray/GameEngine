@@ -8,6 +8,7 @@
 
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/PtrDefs.h"
+#include "Core/Headers/TimeDefs.h"
 #include "Core/Functionality/Headers/Event.h"
 
 using namespace Core::Functionality;
@@ -41,7 +42,7 @@ namespace Input {
       setInputController(MakeUnique<T>(std::forward<Args>(args)...));
     }
     void setInputController(UniquePtr<IInputController> controller);
-    void update();
+    void update(Core::Second dt);
 
     void end();
     void cleanUp();
@@ -50,7 +51,8 @@ namespace Input {
     const SDL2Manager &_SDL;
     UniquePtr<IInputController> _controller;
 
-    virtual void _pollSDL();
+    void _PollSDL(Core::Second dt);
+    void _HandleEvent(Core::Second dt, SDL_Event&&) const;
   };
 }// namespace Input
 }// namespace Application

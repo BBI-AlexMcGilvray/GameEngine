@@ -2,10 +2,9 @@
 
 #include "Core/Math/Headers/MathUtils.h"
 #include "Core/Math/Headers/MatrixFunctions.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/Rendering/Headers/Camera.h"
-
-#include "Core/Debugging/Headers/Macros.h"
 
 using namespace Core;
 
@@ -74,6 +73,7 @@ namespace Rendering {
 
   void LookAt(Core::Geometric::Transform& cameraTransform, const Float3& position)
   {
+    CORE_THROW("CameraUtils", "This function is broken! we need the rotation component (and position component... or just a snapshot?)");
     auto newDirection = Normalize(position - cameraTransform.GetPosition());
 
     LookInDirection(cameraTransform, newDirection);
@@ -81,6 +81,7 @@ namespace Rendering {
 
   void LookInDirection(Core::Geometric::Transform& cameraTransform, const Float3& direction)
   {
+    CORE_THROW("CameraUtils", "This function is broken! we need the rotation component (... or just a snapshot?)");
     cameraTransform.SetRotation(RotationBetweenVectors(Camera::defaultDirection, direction));
   }
 }// namespace Rendering
