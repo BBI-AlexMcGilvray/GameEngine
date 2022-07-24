@@ -18,7 +18,7 @@ namespace Input {
           Core::TimePoint(Core::SteadyClock::now()),
           sdlEvent.key.windowID,
           getKeyboardButton(sdlEvent.key.keysym.sym),
-          getButtonState(sdlEvent.key.type));
+          getButtonState(sdlEvent.key.state));
     }
     case SDL_MOUSEMOTION: {
       return MakeUnique<InputEvent<MouseMovedData>>(InputEventType::MouseMovedEvent,

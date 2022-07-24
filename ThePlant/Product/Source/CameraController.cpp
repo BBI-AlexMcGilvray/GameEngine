@@ -2,6 +2,10 @@
 
 #include "Core/Math/Headers/QuaternionFunctions.h"
 #include "Core/Math/Headers/UtilityFunctions.h"
+// debug
+#include "Core/Math/Headers/VectorFunctions.h"
+#include "Core/Math/Headers/QuaternionFunctions.h"
+// \debug
 
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/ECSSystems/CameraComponents.h"
@@ -74,27 +78,22 @@ namespace Product
             positionComponent.position -= UP * _moveSpeed * dt;
         }
 
-        // // Problem: delta x/y are with respect to pixels, we need relative to resoluion (i.e. as a percent)
-        // // how can we do this?
-        // auto actualEvent = static_cast<Core::Ptr<const Application::Input::InputEvent<Application::Input::MouseMovedData>>>(event);
+        if (_inputManager->GetState<Application::Input::ButtonState>(Application::Input::MouseButton::Left) == Application::Input::ButtonState::Down)
+        {
+            const auto& mouseAxis = _inputManager->GetState<Application::Input::AxisState>(Application::Input::MouseAxis::Position);
 
-        // int deltaX = actualEvent->data.deltaX * _lookSpeed * deltaTime;
-        // int deltaY = actualEvent->data.deltaY * _lookSpeed * deltaTime;
+            float deltaX = mouseAxis.delta.X * _lookSpeed * dt;
 
-        // if (deltaX != 0)
-        // {
-        //     CORE_LOG("CameraController", "deltaX = " + deltaX);
-        // }
-        // if (deltaY != 0)
-        // {
-        //     CORE_LOG("CameraController", "deltaY = " + deltaY);
-        // }
+            rotationComponent.rotation = rotationComponent.rotation * Core::Math::LerpQuat(Core::Math::FQuaternion(), LOOK_LEFT, deltaX);// * rotationComponent.rotation;
+        }
+        if (_inputManager->GetState<Application::Input::ButtonState>(Application::Input::MouseButton::Right) == Application::Input::ButtonState::Down)
+        {
+            const auto& mouseAxis = _inputManager->GetState<Application::Input::AxisState>(Application::Input::MouseAxis::Position);
 
-        // bool positiveX = deltaX > 0;
-        // rotationComponent.rotation = Core::Math::LerpQuat(Core::Math::FQuaternion(), positiveX ? LOOK_RIGHT : LOOK_LEFT, actualEvent->data.deltaX) * rotationComponent.rotation;
+            float deltaY = mouseAxis.delta.Y * _lookSpeed * dt;
 
-        // bool positiveY = deltaY > 0;
-        // rotationComponent.rotation = Core::Math::LerpQuat(Core::Math::FQuaternion(), positiveX ? LOOK_UP : LOOK_RIGHT, actualEvent->data.deltaX) * rotationComponent.rotation;
+            rotationComponent.rotation = rotationComponent.rotation * Core::Math::LerpQuat(Core::Math::FQuaternion(), LOOK_UP, -deltaY);// * rotationComponent.rotation;
+        }
     }
 
     bool CameraController::handleInput(Ptr<const Application::Input::InputEventBase> event)

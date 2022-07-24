@@ -5,10 +5,10 @@ namespace Input {
   ButtonState getButtonState(uint sdlState)
   {
     switch (sdlState) {
-    case SDL_KEYUP: {
+    case SDL_RELEASED: {
       return ButtonState::Up;
     }
-    case SDL_KEYDOWN: {
+    case SDL_PRESSED: {
       return ButtonState::Down;
     }
 

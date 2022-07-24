@@ -19,10 +19,10 @@ namespace Product
         static inline const Core::Math::Float3 UP = Core::Math::Float3(0.0f, 1.0f, 0.0f);
         static inline const Core::Math::Float3 FORWARD = Core::Math::Float3(0.0f, 0.0f, 1.0f);
 
-        static inline const Core::Math::FQuaternion LOOK_RIGHT = Core::Math::FQuaternion(Core::Math::FDeg(90.0f), Core::Math::FDeg(0.0f), Core::Math::FDeg(0.0f));
-        static inline const Core::Math::FQuaternion LOOK_LEFT = Core::Math::FQuaternion(Core::Math::FDeg(-90.0f), Core::Math::FDeg(0.0f), Core::Math::FDeg(0.0f));
-        static inline const Core::Math::FQuaternion LOOK_UP = Core::Math::FQuaternion(Core::Math::FDeg(0.0f), Core::Math::FDeg(90.0f), Core::Math::FDeg(0.0f));
-        static inline const Core::Math::FQuaternion LOOK_DOWN = Core::Math::FQuaternion(Core::Math::FDeg(0.0f), Core::Math::FDeg(-90.0f), Core::Math::FDeg(0.0f));
+        static inline const Core::Math::FQuaternion LOOK_RIGHT = Core::Math::FQuaternion(Core::Math::FDeg(0.0f), Core::Math::FDeg(90.0f), Core::Math::FDeg(0.0f));
+        static inline const Core::Math::FQuaternion LOOK_LEFT = Core::Math::FQuaternion(Core::Math::FDeg(0.0f), Core::Math::FDeg(-90.0f), Core::Math::FDeg(0.0f));
+        static inline const Core::Math::FQuaternion LOOK_UP = Core::Math::FQuaternion(Core::Math::FDeg(90.0f), Core::Math::FDeg(0.0f), Core::Math::FDeg(0.0f));
+        static inline const Core::Math::FQuaternion LOOK_DOWN = Core::Math::FQuaternion(Core::Math::FDeg(-90.0f), Core::Math::FDeg(0.0f), Core::Math::FDeg(0.0f));
 
     public:
         CameraController() = default;

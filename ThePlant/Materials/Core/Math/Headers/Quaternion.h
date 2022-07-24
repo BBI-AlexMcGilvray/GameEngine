@@ -77,19 +77,23 @@ namespace Math {
     // from euler angles
     Quaternion(Deg<T> x, Deg<T> y, Deg<T> z)
     {
-      T cosX = cos(x / T(2));
-      T sinX = sin(x / T(2));
+      Rad<T> rx(x);
+      Rad<T> ry(y);
+      Rad<T> rz(z);
 
-      T cosY = cos(y / T(2));
-      T sinY = sin(y / T(2));
+      T cosX = cos(rx / T(2));
+      T sinX = sin(rx / T(2));
 
-      T cosZ = cos(z / T(2));
-      T sinZ = cos(z / T(2));
+      T cosY = cos(ry / T(2));
+      T sinY = sin(ry / T(2));
+
+      T cosZ = cos(rz / T(2));
+      T sinZ = sin(rz / T(2));
 
       W = (cosX * cosY * cosZ) + (sinX * sinY * sinZ);
-      X = (cosX * sinY * cosZ) + (sinX * cosY * sinZ);
-      Y = (sinY * cosY * cosZ) + (cosX * sinY * sinZ);
-      Z = (cosX * cosY * sinZ) + (sinX * sinY * cosZ);
+      X = (sinX * cosY * cosZ) - (cosX * sinY * sinZ);
+      Y = (cosX * sinY * cosZ) + (sinX * cosY * sinZ);
+      Z = (cosX * cosY * sinZ) - (sinX * sinY * cosZ);
     }
 
     template<int A>
