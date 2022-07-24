@@ -87,6 +87,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Input/Headers/InputEvent.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Input/Headers/InputManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Input/Headers/InputReceiverBase.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Input/Headers/InputState.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Input/Headers/InputStateTracker.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Physics/PhysicsCollisionHandler.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Physics/PhysicsComponents.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Physics/PhysicsSettings.h"

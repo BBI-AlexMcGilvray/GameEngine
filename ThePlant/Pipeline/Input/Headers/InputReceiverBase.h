@@ -18,7 +18,8 @@ namespace Input {
     virtual void initialize() {}
     virtual void cleanUp() {}
 
-    virtual bool handleInput(Core::Second dt, Ptr<const InputEventBase> event) = 0;
+    virtual void Update(Core::Second deltaTime) = 0;
+    virtual bool handleInput(Ptr<const InputEventBase> event) = 0;
   };
 
   /*
@@ -39,7 +40,8 @@ namespace Input {
     void addChild(Ptr<IInputReceiver> receiver);
     void removeChild(Ptr<IInputReceiver> receiver);
 
-    bool handleInput(Core::Second dt, Ptr<const InputEventBase> event) override;
+    void Update(Core::Second deltaTime) override;
+    bool handleInput(Ptr<const InputEventBase> event) override;
 
   private:
     std::vector<Ptr<IInputReceiver>> _children;

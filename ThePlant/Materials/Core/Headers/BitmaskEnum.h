@@ -2,17 +2,7 @@
 
 #include <type_traits>
 
-template<typename T, typename = std::enable_if<std::is_enum<T>::value>>
-std::underlying_type_t<T> enum_cast(const T &e)
-{
-  return static_cast<std::underlying_type_t<T>>(e);
-}
-
-template<typename T, typename = std::enable_if<!std::is_enum<T>::value>>
-T enum_cast(const std::underlying_type_t<T> &i)
-{
-  return static_cast<T>(i);
-}
+#include "Core/Headers/EnumUtils.h"
 
 template<typename T, typename enabled = void>
 struct BitmaskEnum
@@ -27,7 +17,7 @@ private:
 
 public:
   BitmaskEnum()
-    : _baseEnum(enum_cast<T>(0))
+    : _baseEnum(Core::enum_cast<T>(0))
   {
   }
 
@@ -63,7 +53,7 @@ public:
 
   bool AnyFlagSet() const
   {
-    return (enum_cast(_baseEnum) > 0);
+    return (Core::enum_cast(_baseEnum) > 0);
   }
 
   bool HasAllFlags(const BitmaskEnum<T> &flags) const
@@ -73,7 +63,7 @@ public:
 
   bool HasAllFlags(const T &flags) const
   {
-    T masked = enum_cast<T>(enum_cast(_baseEnum) & enum_cast(flags));
+    T masked = Core::enum_cast<T>(Core::enum_cast(_baseEnum) & Core::enum_cast(flags));
     return (masked == flags);
   }
 
@@ -84,7 +74,7 @@ public:
 
   bool AtLeastOneFlag(const T &flags) const
   {
-    raw_type masked = enum_cast(_baseEnum) & enum_cast(flags);
+    raw_type masked = Core::enum_cast(_baseEnum) & Core::enum_cast(flags);
     return (masked > 0);
   }
 
@@ -125,7 +115,7 @@ public:
   }
   BitmaskEnum<T> operator&(const T &other) const
   {
-    return BitmaskEnum<T>(enum_cast<T>(enum_cast(_baseEnum) & enum_cast(other)));
+    return BitmaskEnum<T>(Core::enum_cast<T>(Core::enum_cast(_baseEnum) & Core::enum_cast(other)));
   }
   BitmaskEnum<T> &operator&=(const BitmaskEnum<T> &other)
   {
@@ -133,7 +123,7 @@ public:
   }
   BitmaskEnum<T> &operator&=(const T &other)
   {
-    _baseEnum = enum_cast<T>(enum_cast(_baseEnum) & enum_cast(other));
+    _baseEnum = Core::enum_cast<T>(Core::enum_cast(_baseEnum) & Core::enum_cast(other));
 
     return *this;
   }
@@ -144,7 +134,7 @@ public:
   }
   BitmaskEnum<T> operator|(const T &other) const
   {
-    return BitmaskEnum<T>(enum_cast<T>(enum_cast(_baseEnum) | enum_cast(other)));
+    return BitmaskEnum<T>(Core::enum_cast<T>(Core::enum_cast(_baseEnum) | Core::enum_cast(other)));
   }
   BitmaskEnum<T> &operator|=(const BitmaskEnum<T> &other)
   {
@@ -152,7 +142,7 @@ public:
   }
   BitmaskEnum<T> &operator|=(const T &other)
   {
-    _baseEnum = enum_cast<T>(enum_cast(_baseEnum) | enum_cast(other));
+    _baseEnum = Core::enum_cast<T>(Core::enum_cast(_baseEnum) | Core::enum_cast(other));
 
     return *this;
   }
@@ -163,7 +153,7 @@ public:
   }
   BitmaskEnum<T> operator^(const T &other) const
   {
-    return BitmaskEnum<T>(enum_cast<T>(enum_cast(_baseEnum) ^ enum_cast(other)));
+    return BitmaskEnum<T>(Core::enum_cast<T>(Core::enum_cast(_baseEnum) ^ Core::enum_cast(other)));
   }
   BitmaskEnum<T> &operator^=(const BitmaskEnum<T> &other)
   {
@@ -171,15 +161,15 @@ public:
   }
   BitmaskEnum<T> &operator^=(const T &other)
   {
-    _baseEnum = enum_cast<T>(enum_cast(_baseEnum) ^ enum_cast(other));
+    _baseEnum = Core::enum_cast<T>(Core::enum_cast(_baseEnum) ^ Core::enum_cast(other));
 
     return *this;
   }
 
   BitmaskEnum<T> operator~() const
   {
-    raw_type opposite = ~enum_cast(_baseEnum);
-    return BitmaskEnum<T>(enum_cast<T>(opposite));
+    raw_type opposite = ~Core::enum_cast(_baseEnum);
+    return BitmaskEnum<T>(Core::enum_cast<T>(opposite));
   }
 
   bool operator==(const BitmaskEnum<T> &other) const

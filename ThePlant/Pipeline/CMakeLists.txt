@@ -124,6 +124,8 @@ Input/Headers/InputDefs.h #
 Input/Headers/InputEvent.h #
 Input/Headers/InputManager.h #
 Input/Headers/InputReceiverBase.h #
+Input/Headers/InputState.h #
+Input/Headers/InputStateTracker.h #
 Physics/PhysicsCollisionHandler.h #
 Physics/PhysicsComponents.h #
 Physics/PhysicsSettings.h #

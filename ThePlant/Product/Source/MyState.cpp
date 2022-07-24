@@ -58,8 +58,8 @@ void MyState::Initialize()
     _camera = ECS().CreateEntity(cameraComponents);
 
     // create camera controller
-    _cameraController = CameraController(ECS(), _camera.GetEntityId());
     Application::Input::InputManager& inputManager = InputManager();
+    _cameraController = CameraController(inputManager, ECS(), _camera.GetEntityId());
     inputManager.setInputController<Application::Input::DefaultInputController>();
     inputManager->addReceiver(&_cameraController);
 

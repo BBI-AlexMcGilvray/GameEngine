@@ -5,6 +5,8 @@
 #include "Pipeline/Headers/SDL2Manager.h"
 
 #include "Pipeline/Input/Headers/InputController.h"
+#include "Pipeline/Input/Headers/InputEvent.h"
+#include "Pipeline/Input/Headers/InputState.h"
 
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/PtrDefs.h"
@@ -42,17 +44,30 @@ namespace Input {
       setInputController(MakeUnique<T>(std::forward<Args>(args)...));
     }
     void setInputController(UniquePtr<IInputController> controller);
-    void update(Core::Second dt);
+    void update(Core::Second deltaTime);
 
     void end();
     void cleanUp();
 
+    template <typename STATE_TYPE, typename TRACKER_INPUT>
+    const STATE_TYPE& GetState(const TRACKER_INPUT& input) const
+    {
+      return _state.GetState<STATE_TYPE>(input);
+    }
+
   private:
     const SDL2Manager &_SDL;
     UniquePtr<IInputController> _controller;
+    MouseAndKeyboardState _state;
 
     void _PollSDL(Core::Second dt);
-    void _HandleEvent(Core::Second dt, SDL_Event&&) const;
+    void _HandleEvent(SDL_Event&&);
+    void _UpdateState(const InputEventBase& event);
   };
+
+  // the above should be an InputControllerManager
+  // then we need the InputManager to have an InputControllerManager and an InputState
+  //    - update polls events + updates the input state, THEN we iterate over the controllers and update them
+  //    * do we need controllers? or just receivers... go over the logic split again
 }// namespace Input
 }// namespace Application

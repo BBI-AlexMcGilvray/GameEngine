@@ -23,7 +23,8 @@ namespace Input {
     virtual void initialize() {}
     virtual void cleanUp() {}
 
-    virtual void handleInput(Core::Second dt, UniquePtr<const InputEventBase> inputEvent) = 0;
+    virtual void Update(Core::Second deltaTime) = 0;
+    virtual void handleInput(UniquePtr<const InputEventBase> inputEvent) = 0;
 
     // all controllers should be able to add/remove receivers
     // the receivers live elsewhere though, should be non_null_ptrs
@@ -36,7 +37,8 @@ namespace Input {
   public:
     ParentInputReceiver& getReceiver();
 
-    void handleInput(Core::Second dt, UniquePtr<const InputEventBase> inputEvent) override;
+    void Update(Core::Second deltaTime) override;
+    void handleInput(UniquePtr<const InputEventBase> inputEvent) override;
     
     void addReceiver(Ptr<IInputReceiver> receiver) override;
     void removeReceiver(Ptr<IInputReceiver> receiver) override;

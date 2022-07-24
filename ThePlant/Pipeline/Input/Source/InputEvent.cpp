@@ -12,7 +12,8 @@ namespace Input {
     Should we be using 'now', or should we be using sdlEvent.key.timestamp?
     */
     switch (sdlEvent.type) {
-    case SDL_KEYDOWN: {
+    case SDL_KEYDOWN:
+    case SDL_KEYUP: {
       return MakeUnique<InputEvent<KeyboardButtonData>>(InputEventType::KeyboardEvent,
           Core::TimePoint(Core::SteadyClock::now()),
           sdlEvent.key.windowID,

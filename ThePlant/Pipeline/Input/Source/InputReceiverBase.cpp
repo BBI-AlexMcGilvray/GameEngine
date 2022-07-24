@@ -23,11 +23,19 @@ namespace Input {
     }
   }
 
-  bool ParentInputReceiver::handleInput(Core::Second dt, Ptr<InputEventBase const> event)
+  void ParentInputReceiver::Update(Core::Second deltaTime)
   {
     for (auto& child : _children)
     {
-      if (child->handleInput(dt, event))
+      child->Update(deltaTime);
+    }
+  }
+
+  bool ParentInputReceiver::handleInput(Ptr<InputEventBase const> event)
+  {
+    for (auto& child : _children)
+    {
+      if (child->handleInput(event))
       {
         return true;
       }

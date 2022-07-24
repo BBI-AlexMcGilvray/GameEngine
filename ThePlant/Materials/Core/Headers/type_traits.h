@@ -4,7 +4,6 @@
 #include <utility>
 #include <variant>
 
-namespace Core {
 template <typename TYPE, int INDEX, typename ...ALL_TYPES>
 struct type_index_check {};
 
@@ -34,4 +33,8 @@ struct is_in_variant<T, std::variant<VARIANT_TYPES...>>
   : public std::disjunction<std::is_same<T, VARIANT_TYPES>...>
 {};
 
-} // namespace Core
+template <typename T, template <typename ...> typename TEMPLATE>
+struct is_specialization_of : std::false_type{};
+
+template <template <typename ...> typename TEMPLATE, typename ...ARGS>
+struct is_specialization_of<TEMPLATE<ARGS...>, TEMPLATE> : std::true_type{};

@@ -34,10 +34,20 @@ namespace Input {
     Middle,
     Right,
     SideOne,
-    SideTwo
+    SideTwo,
+
+    Count
   };
 
   MouseButton getMouseButton(uint sdlMouseButton);
+
+  enum class MouseAxis {
+    Undetermined,
+    Position,
+    Wheel,
+    
+    Count
+  };
 
   enum class KeyboardButton {
     Undetermined,
@@ -142,7 +152,9 @@ namespace Input {
     Button_Shift_Left,
     Button_Shift_Right,
     Button_Space,
-    Button_Tab
+    Button_Tab,
+
+    Count
   };
 
   KeyboardButton getKeyboardButton(SDL_Keycode sdlKeyCode);
