@@ -71,6 +71,10 @@ namespace Application
         ISystem& AddSystem(ARGS&& ...args) { return _systems.AddSystem<SYSTEM, ARGS...>(std::forward<ARGS>(args)...); }
         template <typename SYSTEM>
         void RemoveSystem() { _systems.RemoveSystem<SYSTEM>(); }
+        
+    #if DEBUG
+        std::vector<Core::Ptr<ISystem>> GetCurrentSystems() { return _systems.GetCurrentSystems(); }
+    #endif
 
     private:
         ArchetypeManager _archetypes;

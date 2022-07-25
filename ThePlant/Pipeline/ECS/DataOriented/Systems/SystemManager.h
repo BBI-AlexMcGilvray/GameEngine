@@ -49,6 +49,20 @@ namespace Application
             }
         }
 
+    #if DEBUG
+        std::vector<Core::Ptr<ISystem>> GetCurrentSystems()
+        {
+            std::vector<Core::Ptr<ISystem>> currentSystems;
+
+            for (auto& system : _systems)
+            {
+                currentSystems.push_back(system.get());
+            }
+
+            return currentSystems;
+        }
+    #endif
+
     private:
         ArchetypeManager& _archetypeManager;
         std::vector<Core::UniquePtr<ISystem>> _systems;

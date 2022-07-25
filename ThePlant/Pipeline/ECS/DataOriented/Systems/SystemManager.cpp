@@ -19,6 +19,12 @@ namespace Application
 
         for (auto& system : _systems)
         {
+        #if DEBUG
+            if (!system->active)
+            {
+                continue;
+            }
+        #endif
             system->Execute(_archetypeManager);
         }
     }

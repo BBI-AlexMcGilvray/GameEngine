@@ -13,6 +13,11 @@
 namespace Application {
 struct ISystem
 {
+#if DEBUG
+    bool active = true;
+    const std::string& GetName() { return _name; }
+#endif
+
     ISystem(const std::string& name)
     : _name(name)
     {}
@@ -28,6 +33,7 @@ struct ISystem
     template <typename T>
     bool IsSystem() const { return (Core::GetTypeId<T>() == GetSystem()); }
     virtual Core::runtimeId_t GetSystem() const = 0;
+
     virtual void Execute(ArchetypeManager& archetypeManager) const = 0;
     
     template <typename ...Ts>

@@ -65,7 +65,7 @@ void MyState::Initialize()
 
     // testing
     // _static = Testing::SpawnStaticModel(*this);
-    // _animated = Testing::SpawnAnimatedModel(*this);
+    _animated = Testing::SpawnAnimatedModel(*this);
 
     // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
     _leftPos = Core::Math::Float3(-200.0f, 0.0f, 0.0f);
@@ -165,13 +165,13 @@ void MyState::_PreECSUpdate(Second dt) {};
 void MyState::_PostECSUpdate(Second dt)
 {
     // testing (Animated model)
-    // ++frames;
-    // if (frames > 50 && !played)
-    // {
-    //     auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_animated);
-    //     AnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
-    //     played = true;
-    // }
+    ++frames;
+    if (frames > 50 && !played)
+    {
+        auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_animated);
+        AnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
+        played = true;
+    }
     // \testing
 
     // testing (Static model)

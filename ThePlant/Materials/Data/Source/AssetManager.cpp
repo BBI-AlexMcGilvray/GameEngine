@@ -68,4 +68,17 @@ namespace Data
     {
         return _lockedAssets.find(asset) != _lockedAssets.end();
     }
+
+    // debug
+    void AssetManager::_AddUsedAssetLocation(const AssetName<void>& asset, const Core::IO::FilePath& filePath)
+    {
+        // AssetLocation location = { IndividualFile { filePath } };
+        // _assetLocations.SetAssetLocation(asset, location);
+    }
+
+    void AssetManager::_SaveAssetPaths() const
+    {
+
+    }
+    // \debug
 } // namespace Data

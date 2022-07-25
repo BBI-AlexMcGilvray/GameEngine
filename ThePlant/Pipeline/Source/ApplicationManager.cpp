@@ -60,7 +60,8 @@ StateManager &ApplicationManager::StateManager()
 }
 
 ApplicationManager::ApplicationManager()
-  : _timeSystem(Application::Time::FIXED_30FPS)
+  : _serviceManager(*this)
+  , _timeSystem(Application::Time::FIXED_30FPS)
   , _shaderManager(_assetManager)
   , _inputSystem(_sdl)
   , _stateSystem(*this)

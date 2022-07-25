@@ -10,6 +10,7 @@
 #include "Data/Headers/AssetName.h"
 #include "Data/Headers/AssetData.h"
 #include "Data/Headers/AssetExceptions.h"
+#include "Data/Headers/AssetLocationMapping.h"
 #include "Data/Headers/SerializationUtils.h"
 
 #include "Core/Logging/LogFunctions.h"
@@ -64,6 +65,7 @@ public:
     }
 
 private:
+    AssetLocationMapping _assetLocations; // debug for now
     std::unordered_map<AssetName<void>, WeakPtr<const void>, AssetNameHasher<void>> _assets;
     std::unordered_map<AssetName<void>, SharedPtr<const void>, AssetNameHasher<void>> _lockedAssets;
 
@@ -76,7 +78,11 @@ private:
         // update this to use AssetLocationMapping (verify it works)
         // for starters it can be kinda hacky, then we can start working on the Factory and this at the same time
         SCOPED_MEMORY_CATEGORY("Assets");
-        File assetFile = OpenFileI(_getFilePath(asset));
+        const auto assetPath = _getFilePath(asset);
+        File assetFile = OpenFileI(assetPath);
+        // debug
+        _AddUsedAssetLocation(asset, assetPath);
+        // \debug
 
         std::string assetData = assetFile.GetFullText();
 
@@ -99,5 +105,10 @@ private:
     {
         return FilePath{ GetCWD() + AssetType<T>::GetPath(), to_string(asset) + AssetType<T>::GetFileType() };
     }
+
+    // debug
+    void _AddUsedAssetLocation(const AssetName<void>& asset, const Core::IO::FilePath& filePath);
+    void _SaveAssetPaths() const;
+    // \debug
 };
 } // namespace Data
