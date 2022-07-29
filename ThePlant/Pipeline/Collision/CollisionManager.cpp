@@ -65,8 +65,8 @@ std::vector<StatefulCollision> CollisionManager::_HandleCollisionStates(std::vec
 
     for (auto& collision : collisions)
     {
-        EntityId entity1 = collision.entity1.GetEntity();
-        EntityId entity2 = collision.entity2.GetEntity();
+        EntityId entity1 = collision.entity1.GetEntityId();
+        EntityId entity2 = collision.entity2.GetEntityId();
 
         CollisionState state = CollisionState::Initial;
 

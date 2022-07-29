@@ -36,12 +36,12 @@ struct Archetype
     Archetype(Archetype&& other);
     Archetype& operator=(Archetype&& other);
 
-    Entity AddEntity();
+    EntityId AddEntity();
 
     template <typename ...Ts>
-    Entity AddEntity(Ts&& ...args)
+    EntityId AddEntity(Ts&& ...args)
     {
-        Entity newEntity(GetId());
+        EntityId newEntity(Core::GetInstanceId<EntityId>());
 
         _AddEntity(newEntity, std::forward<Ts>(args)...);
         
@@ -49,19 +49,19 @@ struct Archetype
     }
 
     template <typename ...Ts>
-    Entity AddEntity(const std::tuple<Ts...>& components)
+    EntityId AddEntity(const std::tuple<Ts...>& components)
     {
-        Entity newEntity(GetId());
+        EntityId newEntity(Core::GetInstanceId<EntityId>());
 
         _AddEntityFromTuple(newEntity, components, std::index_sequence_for<Ts...>());
 
         return newEntity;
     }
 
-    void TransferEntityTo(Entity& entity, Archetype& destination);
+    void TransferEntityTo(EntityId& entity, Archetype& destination);
 
     bool HasEntity(const EntityId& entity) const;
-    void RemoveEntity(const Entity& entity);
+    void RemoveEntity(const EntityId& entity);
 
     template <typename T>
     bool HasComponent() const
@@ -72,17 +72,6 @@ struct Archetype
     bool HasComponent(const Core::runtimeId_t& componentId) const;
 
     const std::vector<EntityId>& GetEntities() const;
-
-    template <typename T>
-    T& GetComponentFor(const Entity& entity)
-    {
-        if (entity.GetArchetypeId() != GetId())
-        {
-            throw std::invalid_argument("entity does not have valid archetype id");
-        }
-
-        return GetComponentFor<T>(entity.GetEntityId());
-    }
 
     template <typename T>
     T& GetComponentFor(const EntityId& entity)
@@ -100,19 +89,18 @@ struct Archetype
     }
 
     template <typename T>
-    void SetComponentFor(const Entity& entity, T value)
+    void SetComponentFor(const EntityId& entity, T value)
     {
-        GetComponentAt<T>(_GetEntityIndex(entity.GetEntityId())) = value;
+        GetComponentAt<T>(_GetEntityIndex(entity)) = value;
     }
 
     template <typename T, typename ...Ts>
-    void SetComponentFor(const Entity& entity, T value, Ts ...args)
+    void SetComponentFor(const EntityId& entity, T value, Ts ...args)
     {
         SetComponentFor(entity, std::forward<T>(value));
         SetComponentFor(entity, std::forward<Ts>(args)...);
     }
 
-    EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity) { return GetTemporaryEntitySnapshot(entity.GetEntityId()); }
     EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity)
     {
         SCOPED_MEMORY_CATEGORY("ECS");
@@ -124,7 +112,8 @@ struct Archetype
             componentRefs.push_back(component.second->GetTemporaryComponentRef(entityIndex));
         }
 
-        return EntitySnapshot(entity, std::move(componentRefs));
+        Entity fullEntity(entity, GetId());
+        return EntitySnapshot(fullEntity, std::move(componentRefs));
     }
 
     bool ContainsTypes(const TypeCollection& types) const;
@@ -141,20 +130,20 @@ private:
     std::unordered_map<Core::runtimeId_t, std::unique_ptr<IComponentList>> _components;
     
     enum class Constructor { TAG };
-    Archetype(Constructor, const Core::IncrementalId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components);
+    Archetype(Constructor, const ArchetypeInstanceId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components);
 
-    void _AddEntity(const Entity& entity);
+    void _AddEntity(const EntityId& entity);
 
     template <typename ...Ts>
-    void _AddEntity(const Entity& entity, Ts&& ...args)
+    void _AddEntity(const EntityId& entity, Ts&& ...args)
     {
         SCOPED_MEMORY_CATEGORY("ECS");
-        _entities.emplace_back(entity.GetEntityId());
+        _entities.emplace_back(entity);
         _AddComponent(std::forward<Ts>(args)...);
     }
 
     template <typename Tuple, int ...Is>
-    void _AddEntityFromTuple(const Entity& entity, const Tuple& components, std::index_sequence<Is...>)
+    void _AddEntityFromTuple(const EntityId& entity, const Tuple& components, std::index_sequence<Is...>)
     {
         _AddEntity(entity, std::get<Is>(components)...);
     }
@@ -234,7 +223,7 @@ Archetype CreateArchetype()
 {
     std::vector<std::unique_ptr<IComponentList>> components = CollectIComponentLists<Ts...>();
 
-    return Archetype(Archetype::Constructor::TAG, GetIncrementalId(), CollectTypes<Ts...>(), std::move(components));
+    return Archetype(Archetype::Constructor::TAG, Core::GetInstanceId<ArchetypeId>(), CollectTypes<Ts...>(), std::move(components));
 }
 
 template <typename ...Ts>
@@ -247,7 +236,7 @@ Archetype CreateArchetypeFrom_Add(const Archetype& basis)
         components.emplace_back(copyingComponent.second->CreateEmptyCopy());
     }
     
-    return Archetype(Archetype::Constructor::TAG, GetIncrementalId(), AddToCollection<Ts...>(basis.GetArchetype()), std::move(components));
+    return Archetype(Archetype::Constructor::TAG, Core::GetInstanceId<ArchetypeId>(), AddToCollection<Ts...>(basis.GetArchetype()), std::move(components));
 }
 
 template <typename ...Ts>
@@ -271,6 +260,6 @@ Archetype CreateArchetypeFrom_Remove(const Archetype& basis)
         }
     }
 
-    return Archetype(Archetype::Constructor::TAG, GetIncrementalId(), RemoveFromCollection<Ts...>(basis.GetArchetype()), std::move(components));
+    return Archetype(Archetype::Constructor::TAG, Core::GetInstanceId<ArchetypeId>(), RemoveFromCollection<Ts...>(basis.GetArchetype()), std::move(components));
 }
 }// namespace Application

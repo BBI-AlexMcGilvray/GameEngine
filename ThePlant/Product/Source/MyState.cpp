@@ -59,13 +59,13 @@ void MyState::Initialize()
 
     // create camera controller
     Application::Input::InputManager& inputManager = InputManager();
-    _cameraController = CameraController(inputManager, ECS(), _camera.GetEntityId());
+    _cameraController = CameraController(inputManager, ECS(), _camera);
     inputManager.setInputController<Application::Input::DefaultInputController>();
     inputManager->addReceiver(&_cameraController);
 
     // testing
     // _static = Testing::SpawnStaticModel(*this);
-    _animated = Testing::SpawnAnimatedModel(*this);
+    // _animated = Testing::SpawnAnimatedModel(*this);
 
     // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
     _leftPos = Core::Math::Float3(-200.0f, 0.0f, 0.0f);
@@ -91,7 +91,7 @@ void MyState::Initialize()
     * Try spawning a bunch of balls randomly with random speeds within the 'box' (maybe need a lid?)
     */
     Core::Random rand;
-    int numSpawned = 200; // i don't see why this shouldn't be able to be 50-100
+    int numSpawned = 5;
     for (int i = 0; i < numSpawned; ++i)
     {
         Core::Math::Float3 position = Math::Lerp(_leftPos, _rightPos, float(i) / static_cast<float>(numSpawned));
@@ -165,13 +165,14 @@ void MyState::_PreECSUpdate(Second dt) {};
 void MyState::_PostECSUpdate(Second dt)
 {
     // testing (Animated model)
-    ++frames;
-    if (frames > 50 && !played)
-    {
-        auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_animated);
-        AnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Run);
-        played = true;
-    }
+    // ++frames;
+    // if (frames > 50 && !played)
+    // {
+    //     auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_animated);
+    //     // animation issue seems to be an issue with the animation, or an issue with one of the play modes (loop/boomerang/...?)
+    //     AnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Walk);
+    //     played = true;
+    // }
     // \testing
 
     // testing (Static model)

@@ -20,7 +20,7 @@ struct IComponentCreator
 {
     virtual Core::runtimeId_t ComponentType() const = 0;
     virtual std::unique_ptr<IComponentList> CreateComponentList() const = 0;
-    virtual void CreateComponent(Archetype& archetype, const Entity& entity) const = 0;
+    virtual void CreateComponent(Archetype& archetype, const EntityId& entity) const = 0;
 
     template <typename T>
     const T& ComponentValue()
@@ -63,7 +63,7 @@ struct ComponentCreator : public IComponentCreator
         return std::make_unique<ComponentList<T>>();
     }
 
-    void CreateComponent(Archetype& archetype, const Entity& entity) const override
+    void CreateComponent(Archetype& archetype, const EntityId& entity) const override
     {
         archetype.GetComponentFor<T>(entity) = _component;
     }
@@ -85,7 +85,7 @@ struct EntityCreator
     Archetype CreateArchetype() const;
     // given the archetype that matches this entity, create the entity within it
     // (ArchetypeManager will use the GetArchetype method - and then potentially the CreateArchetype method - to determine what is passed in here)
-    Entity CreateEntity(Archetype& archetype) const;
+    EntityId CreateEntity(Archetype& archetype) const;
 
     template <typename T, typename ...ARGS>
     EntityCreator& AddComponent(ARGS&& ...args)

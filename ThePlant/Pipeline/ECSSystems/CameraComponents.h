@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/IdTypes/IncrementalId.h"
+
 #include "Pipeline/Rendering/Headers/Camera.h"
 
 namespace Application {

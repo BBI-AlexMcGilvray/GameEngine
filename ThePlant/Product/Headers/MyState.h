@@ -27,16 +27,16 @@ struct MyState : public Application::State
     void CleanUp() override;
 
 private:
-    Application::Entity _camera;
+    Application::EntityId _camera;
 
     CameraController _cameraController;
 
     // testing
-    Application::Entity _static;
-    Application::Entity _animated;
+    Application::EntityId _static;
+    Application::EntityId _animated;
 
-    Application::Entity _collider;
-    Application::Entity _trigger;
+    Application::EntityId _collider;
+    Application::EntityId _trigger;
 
     bool _dir1;
     Core::Second _swapTime;

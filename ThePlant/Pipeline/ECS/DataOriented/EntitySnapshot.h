@@ -14,7 +14,7 @@ namespace Application
 {
     struct EntitySnapshot
     {
-        EntitySnapshot(const EntityId& entity, std::vector<std::unique_ptr<ITemporaryComponentRef>>&& components)
+        EntitySnapshot(const Entity& entity, std::vector<std::unique_ptr<ITemporaryComponentRef>>&& components)
         : _entity(entity)
         {
             _componentReferences = std::move(components);
@@ -45,9 +45,9 @@ namespace Application
             }
         }
 
-        EntityId GetEntity() const
+        EntityId GetEntityId() const
         {
-            return _entity;
+            return _entity.GetEntityId();
         }
 
         bool ContainsTypes(const TypeCollection& types) const
@@ -99,7 +99,7 @@ namespace Application
         }
 
     private:
-        EntityId _entity;
+        Entity _entity;
         std::vector<std::unique_ptr<ITemporaryComponentRef>> _componentReferences;
 
         void* _GetComponentFor(const Core::runtimeId_t& type) const

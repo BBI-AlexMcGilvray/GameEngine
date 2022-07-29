@@ -135,7 +135,7 @@ private:
 
             const bool inCollision = std::find_if(allCollisions.begin(), allCollisions.end(), [&allCollisions, &entities, index](const auto& collision)
             {
-                return (collision.entity1.GetEntity() == entities[index] || collision.entity2.GetEntity() == entities[index]);
+                return (collision.entity1.GetEntityId() == entities[index] || collision.entity2.GetEntityId() == entities[index]);
             }) != allCollisions.end();
 
             Core::Math::Color colliderColor = colliderComponents[index].trigger ? Core::Math::BLUE : Core::Math::YELLOW;

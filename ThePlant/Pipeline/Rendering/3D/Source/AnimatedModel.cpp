@@ -33,7 +33,7 @@ namespace Rendering {
   , parent(parent)
   {}
 
-  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, Animation::AnimationManager& animationManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState)
+  EntityId CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, Animation::AnimationManager& animationManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState)
   {
     Data::AssetData<Data::Rendering::AnimatedModelData> assetData = assetManager.getAssetData(modelState.asset);
     
@@ -77,9 +77,9 @@ namespace Rendering {
       creator.AddComponent<AnimatorComponent>(animatorId);
     }
 
-    Entity model = ecsSystem.CreateEntity(creator);
+    EntityId model = ecsSystem.CreateEntity(creator);
 
-    InitialSkeletonState skeletonState = InitialSkeletonState(assetData->skeleton, model.GetEntityId(), ecsSystem.GetComponentFor<AnimatorComponent>(model).animatorId);
+    InitialSkeletonState skeletonState = InitialSkeletonState(assetData->skeleton, model, ecsSystem.GetComponentFor<AnimatorComponent>(model).animatorId);
     CreateSkeleton(ecsSystem, assetManager, skeletonState, ecsSystem.GetComponentFor<SkeletonComponent>(model));
 
     return model;

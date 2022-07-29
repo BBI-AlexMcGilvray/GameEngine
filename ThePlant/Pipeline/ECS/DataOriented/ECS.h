@@ -42,9 +42,9 @@ namespace Application
         void RemoveComponentsFrom(Entity& entity) { _archetypes.RemoveComponentsFrom(entity); }
 
         template <typename ...Ts>
-        Entity CreateEntity() { return _archetypes.CreateEntity(); }
+        EntityId CreateEntity() { return _archetypes.CreateEntity(); }
 
-        Entity CreateEntity(const EntityCreator& creator) { return _archetypes.CreateEntity(creator); }
+        EntityId CreateEntity(const EntityCreator& creator) { return _archetypes.CreateEntity(creator); }
         /*
          NOTE: This consumes the calls when using anything (ex: above method)
             - either need to use different names, or just use the tuple constructor below (since we require constructed values anyways)
@@ -55,7 +55,7 @@ namespace Application
         // Entity CreateEntity(Ts&& ...args) { return _archetypes.CreateEntity<Ts...>(std::forward<Ts>(args)...); }
         
         template <typename ...Ts>
-        Entity CreateEntity(const std::tuple<Ts...>& components) { return _archetypes.CreateEntity(components); }
+        EntityId CreateEntity(const std::tuple<Ts...>& components) { return _archetypes.CreateEntity(components); }
 
         // this needs add the entity to a list that will be removed at the end of the frame
         // same should be done to changes to an entity, so you can say 'add component' or 'remove component' and all changes will be stored

@@ -63,7 +63,7 @@ namespace Rendering {
       creator.AddComponent<AnimationComponent>(creationData.animatorId, Core::HashValue(boneData.name));
     }
 
-    return ecsSystem.CreateEntity(creator).GetEntityId();
+    return ecsSystem.CreateEntity(creator);
   }
 
   std::vector<std::pair<Core::Hash, Application::EntityId>> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, Core::Geometric::Transform& parentTransform, BoneCreationHelper::BoneCreationData& creationData)

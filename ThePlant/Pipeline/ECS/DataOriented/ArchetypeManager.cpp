@@ -5,7 +5,7 @@
 #include "Pipeline/ECS/DataOriented/EntityCreator.h"
 
 namespace Application {
-Entity ArchetypeManager::CreateEntity(const EntityCreator& creator)
+EntityId ArchetypeManager::CreateEntity(const EntityCreator& creator)
 {
     SCOPED_MEMORY_CATEGORY("ECS");
     auto& archetype = creator.GetArchetype();
@@ -23,7 +23,12 @@ void ArchetypeManager::RemoveEntity(const Entity& entity)
     {
         return;
     }
-    _GetArchetype(entity.GetArchetypeId()).RemoveEntity(entity);
+    _GetArchetype(entity.GetArchetypeId()).RemoveEntity(entity.GetEntityId());
+}
+
+void ArchetypeManager::RemoveEntity(const EntityId& entity)
+{
+    _GetArchetype(entity).RemoveEntity(entity);
 }
         
 EntitySnapshot ArchetypeManager::GetTemporaryEntitySnapshot(const Entity& entity)

@@ -24,12 +24,12 @@ namespace Application {
             components.emplace_back(componentCreator->CreateComponentList());
         }
 
-        return Archetype(Archetype::Constructor::TAG, Core::GetIncrementalId(), GetArchetype(), std::move(components));
+        return Archetype(Archetype::Constructor::TAG, Core::GetInstanceId<ArchetypeId>(), GetArchetype(), std::move(components));
     }
 
-    Entity EntityCreator::CreateEntity(Archetype& archetype) const
+    EntityId EntityCreator::CreateEntity(Archetype& archetype) const
     {
-        Entity entity = archetype.AddEntity();
+        EntityId entity = archetype.AddEntity();
 
         for (auto& componentCreator : _componentCreators)
         {

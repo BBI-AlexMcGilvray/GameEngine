@@ -63,6 +63,23 @@ struct instanceId
     return !(*this == other);
   }
 
+  bool operator<(const instanceId<ID_TYPE>& other) const
+  {
+      return _id < other._id;
+  }
+  bool operator<=(const instanceId<ID_TYPE>& other) const
+  {
+      return !(other < *this);
+  }
+  bool operator>(const instanceId<ID_TYPE>& other) const
+  {
+      return !(*this <= other);
+  }
+  bool operator>=(const instanceId<ID_TYPE>& other) const
+  {
+      return !(*this < other);
+  }
+
 protected:
   enum Constructor {
     NEW

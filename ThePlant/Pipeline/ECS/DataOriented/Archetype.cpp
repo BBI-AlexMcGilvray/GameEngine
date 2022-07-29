@@ -20,16 +20,16 @@ Archetype& Archetype::operator=(Archetype&& other)
     return *this;
 }
 
-Entity Archetype::AddEntity()
+EntityId Archetype::AddEntity()
 {
-    Entity newEntity(GetId());
+    EntityId newEntity(Core::GetInstanceId<EntityId>());
 
     _AddEntity(newEntity);
     
     return newEntity;
 }
 
-void Archetype::TransferEntityTo(Entity& entity, Archetype& destination)
+void Archetype::TransferEntityTo(EntityId& entity, Archetype& destination)
 {
     destination._AddEntity(entity);
     for (auto & component : _components)
@@ -38,10 +38,8 @@ void Archetype::TransferEntityTo(Entity& entity, Archetype& destination)
         {
             continue;
         }
-        component.second->MoveEntityTo(_GetEntityIndex(entity.GetEntityId()), *(destination._components[component.first])); // this removes the entity from 'component'
+        component.second->MoveEntityTo(_GetEntityIndex(entity), *(destination._components[component.first])); // this removes the entity from 'component'
     }
-    
-    entity._SetArchetypeId(destination.GetId());
 }
 
 bool Archetype::HasEntity(const EntityId& entity) const
@@ -57,9 +55,9 @@ bool Archetype::HasEntity(const EntityId& entity) const
     return false;
 }
 
-void Archetype::RemoveEntity(const Entity& entity)
+void Archetype::RemoveEntity(const EntityId& entity)
 {
-    size_t entityIndex = _GetEntityIndex(entity.GetEntityId());
+    size_t entityIndex = _GetEntityIndex(entity);
     for (auto& component : _components)
     {
         component.second->RemoveComponentAt(entityIndex);
@@ -100,7 +98,7 @@ bool Archetype::IsArchetype(const TypeCollection& types) const
 const ArchetypeId& Archetype::GetId() const { return _id; }
 const TypeCollection& Archetype::GetArchetype() const { return _types; }
 
-Archetype::Archetype(Constructor, const Core::IncrementalId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components)
+Archetype::Archetype(Constructor, const ArchetypeInstanceId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components)
 : _id(id)
 , _types(types)
 {
@@ -111,10 +109,10 @@ Archetype::Archetype(Constructor, const Core::IncrementalId& id, const TypeColle
     }
 }
 
-void Archetype::_AddEntity(const Entity& entity)
+void Archetype::_AddEntity(const EntityId& entity)
 {
     SCOPED_MEMORY_CATEGORY("ECS");
-    _entities.emplace_back(entity.GetEntityId());
+    _entities.emplace_back(entity);
     for (auto& component : _components)
     {
         component.second->AddComponent();

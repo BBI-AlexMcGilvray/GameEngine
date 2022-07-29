@@ -33,7 +33,7 @@ public:
     template <typename T>
     T& GetComponentFor(const Entity& entity)
     {
-        return _GetArchetype(entity.GetArchetypeId()).GetComponentFor<T>(entity);
+        return _GetArchetype(entity.GetArchetypeId()).GetComponentFor<T>(entity.GetEntityId());
     }
 
     template <typename T>
@@ -54,7 +54,7 @@ public:
             _archetypes.emplace_back(CreateArchetypeFrom_Add<Ts...>(oldArchetype));
         }
         Archetype& newArchetype = _GetArchetype(newArchetypeType);
-        oldArchetype.TransferEntityTo(entity, newArchetype);
+        oldArchetype.TransferEntityTo(entity.GetEntityId(), newArchetype);
     }
 
     // must provide an argument for each component type provided
@@ -70,9 +70,9 @@ public:
         }
 
         Archetype& newArchetype = _GetArchetype(newArchetypeType);
-        oldArchetype.TransferEntityTo(entity, newArchetype);
+        oldArchetype.TransferEntityTo(entity.GetEntityId(), newArchetype);
 
-        newArchetype.SetComponentFor(entity, std::forward<Ts>(args)...);
+        newArchetype.SetComponentFor(entity.GetEntityId(), std::forward<Ts>(args)...);
     }
 
     template <typename ...Ts>
@@ -86,24 +86,24 @@ public:
             _archetypes.emplace_back(CreateArchetypeFrom_Remove<Ts...>(oldArchetype));
         }
         Archetype& newArchetype = _GetArchetype(newArchetypeType);
-        oldArchetype.TransferEntityTo(entity, newArchetype);
+        oldArchetype.TransferEntityTo(entity.GetEntityId(), newArchetype);
     }
 
     // create entity
     template <typename ...Ts>
-    Entity CreateEntity()
+    EntityId CreateEntity()
     {
         SCOPED_MEMORY_CATEGORY("ECS");
         if (!_HasArchetype<Ts...>())
         {
             _archetypes.emplace_back(CreateArchetype<Ts...>());
-            return Entity(_GetArchetype<Ts...>().AddEntity());
+            return _GetArchetype<Ts...>().AddEntity();
         }
 
-        return Entity(_GetArchetype<Ts...>().AddEntity());
+        return _GetArchetype<Ts...>().AddEntity();
     }
 
-    Entity CreateEntity(const EntityCreator& creator);
+    EntityId CreateEntity(const EntityCreator& creator);
 
     /*
         NOTE: This consumes the calls when using anything (ex: above method)
@@ -124,7 +124,7 @@ public:
     // }
         
     template <typename ...Ts>
-    Entity CreateEntity(const std::tuple<Ts...>& components)
+    EntityId CreateEntity(const std::tuple<Ts...>& components)
     {
         SCOPED_MEMORY_CATEGORY("ECS");
         if (!_HasArchetype<Ts...>())
@@ -132,10 +132,11 @@ public:
             _archetypes.emplace_back(CreateArchetype<Ts...>());
         }
         
-        return Entity(_GetArchetype<Ts...>().AddEntity(components));
+        return _GetArchetype<Ts...>().AddEntity(components);
     }
 
     void RemoveEntity(const Entity& entity);
+    void RemoveEntity(const EntityId& entity);
         
     EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity);
     EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity);

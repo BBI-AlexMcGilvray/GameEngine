@@ -1,20 +1,21 @@
 #pragma once
 
-#include "Core/IdTypes/IncrementalId.h"
 #include "Core/IdTypes/RuntimeId.h"
+#include "Core/IdTypes/InstanceId.h"
 
 namespace Application {
 struct ArchetypeId;
 template <>
 struct ::std::hash<ArchetypeId>;
 
+using ArchetypeInstanceId = Core::instanceId<ArchetypeId>;
 struct ArchetypeId
 {
     friend struct ::std::hash<ArchetypeId>;
 
     ArchetypeId() = default;
 
-    ArchetypeId(const Core::IncrementalId& archetypeId)
+    ArchetypeId(const ArchetypeInstanceId& archetypeId)
     : _archetypeId(archetypeId)
     {}
 
@@ -57,20 +58,21 @@ struct ArchetypeId
     // explicit operator const IncrementalId() const { return _archetypeId; }
 
 private:
-    Core::IncrementalId _archetypeId;
+    ArchetypeInstanceId _archetypeId;
 };
 
 struct EntityId;
 template <>
 struct ::std::hash<EntityId>;
 
+using EntityInstanceId = Core::instanceId<EntityId>;
 struct EntityId
 {
     friend struct ::std::hash<EntityId>;
 
     EntityId() = default;
 
-    EntityId(const Core::IncrementalId& entityId)
+    EntityId(const EntityInstanceId& entityId)
     : _entityId(entityId)
     {}
 
@@ -113,7 +115,7 @@ struct EntityId
     // explicit operator const IncrementalId() const { return _entityId; }
 
 private:
-    Core::IncrementalId _entityId;
+    EntityInstanceId _entityId;
 };
 
 struct Entity
@@ -122,28 +124,21 @@ struct Entity
     
     Entity() = default;
     
-    Entity(const ArchetypeId& archetypeId)
-    : _entityId(Core::GetIncrementalId())
+    Entity(const EntityId& entityId, const ArchetypeId& archetypeId)
+    : _entityId(entityId)
     , _archetypeId(archetypeId)
     {}
 
-    Entity(Entity&& other)
-    : _entityId(std::move(other._entityId))
-    , _archetypeId(std::move(other._archetypeId))
+    Entity(const ArchetypeId& archetypeId)
+    : _entityId(Core::GetInstanceId<EntityId>())
+    , _archetypeId(archetypeId)
     {}
 
-    Entity& operator=(Entity&& other)
-    {
-        _entityId = std::move(other._entityId);
-        _archetypeId = std::move(other._archetypeId);
-
-        return *this;
-    }
-
-    // entities should only be moved.
-    // we should only have one reference to it as the archetypes can be changed and it would be impossible to track otherwise
-    Entity(const Entity&) = delete;
-    Entity& operator=(const Entity&) = delete;
+    // since entities will only be accessed by snapshot and all changes will be delayed, shouldn't be an issue copying entities
+    Entity(Entity&& other) = default;
+    Entity(const Entity&) = default;
+    Entity& operator=(Entity&& other) = default;
+    Entity& operator=(const Entity&) = default;
 
     const EntityId& GetEntityId() const
     {
@@ -173,11 +168,6 @@ struct Entity
 private:
     EntityId _entityId;
     ArchetypeId _archetypeId;
-
-    void _SetArchetypeId(const ArchetypeId& archetypeId)
-    {
-        _archetypeId = archetypeId;
-    }
 };
 }// namespace Application
 
@@ -190,7 +180,7 @@ struct std::hash<Application::ArchetypeId>
     }
 
 private:
-    std::hash<Core::IncrementalId> _hasher;
+    Core::instanceIdHasher<Application::ArchetypeId> _hasher;
 };
 
 template <>
@@ -202,5 +192,5 @@ struct std::hash<Application::EntityId>
     }
 
 private:
-    std::hash<Core::IncrementalId> _hasher;
+    Core::instanceIdHasher<Application::EntityId> _hasher;
 };

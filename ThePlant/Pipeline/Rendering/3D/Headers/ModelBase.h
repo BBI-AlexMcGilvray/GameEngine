@@ -39,7 +39,7 @@ namespace Rendering {
     InitialStaticModelState(const Data::AssetName<Data::Rendering::StaticModelData>& asset, const Core::Geometric::Transform& localTransform, const EntityId& parent);
   };
 
-  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialModelState& modelState);
-  Entity CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState);
+  EntityId CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialModelState& modelState);
+  EntityId CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState);
 }// namespace Rendering
 }// namespace Application

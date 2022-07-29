@@ -24,8 +24,9 @@ struct ServiceManager
     ServiceManager(ApplicationManager& application);
 
 private:
+    Core::ServiceToken<Core::Memory::MemoryTracker> _memory; // must be first!
+
     Core::ServiceToken<ApplicationWrapper> _application;
-    Core::ServiceToken<Core::Memory::MemoryTracker> _memory;
     Core::ServiceToken<Core::Profiling::Profiler> _profiler;
 
     Core::ServiceToken<Core::Logging::Logger> _logger;
