@@ -72,6 +72,13 @@ struct EntityChanger
         }
 
         _components = RemoveFromCollection<T>(_components);
+        if (auto iter = std::find(_componentCreators.begin(), _componentCreators.end(), [](const auto& creator)
+        {
+            return creator->ComponentType() == Core::GetTypeId<T>();
+        }; iter != _componentCreators.end()))
+        {
+            _componentCreators.erase(iter);
+        }
         _changes |= EntityChange::ComponentRemoved;
     }
 

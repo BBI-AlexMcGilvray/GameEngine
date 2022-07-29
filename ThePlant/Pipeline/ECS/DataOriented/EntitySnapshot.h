@@ -7,7 +7,7 @@
 #include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/Component.h"
-#include "Pipeline/ECS/DataOriented/ComponentCreator.h"
+// #include "Pipeline/ECS/DataOriented/ComponentCreator.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 

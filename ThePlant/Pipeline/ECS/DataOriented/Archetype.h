@@ -18,9 +18,6 @@
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
 namespace Application {
-struct EntityCreator;
-struct EntityChanger;
-
 struct Archetype
 {
     template <typename ...Ts>

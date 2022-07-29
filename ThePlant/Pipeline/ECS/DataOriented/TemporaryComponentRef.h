@@ -44,7 +44,7 @@ struct ITemporaryComponentRef
         return *static_cast<Core::Ptr<T>>(_GetPtrToComponent());
     }
 
-    // virtual std::unique_ptr<IComponentCreator> GetComponentCreator() const = 0;
+    virtual std::unique_ptr<IComponentCreator> GetComponentCreator() const = 0;
 
 private:
     virtual Core::Ptr<void> _GetPtrToComponent() const = 0;
@@ -71,10 +71,10 @@ struct TemporaryComponentRef : public ITemporaryComponentRef
         return std::make_unique<TemporaryComponentRef<T>>(_component);
     }
 
-    // virtual std::unique_ptr<IComponentCreator> GetComponentCreator() const override
-    // {
-    //     return std::make_unique<ComponentCreator<T>>();
-    // }
+    virtual std::unique_ptr<IComponentCreator> GetComponentCreator() const override
+    {
+        return std::make_unique<ComponentCreator<T>>();
+    }
 
 private:
     T& _component;

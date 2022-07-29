@@ -15,8 +15,6 @@
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
 namespace Application {
-struct EntityCreator;
-
 struct EntityCreator
 {
     // get the representation of the desired archetype
