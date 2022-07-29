@@ -1,25 +1,16 @@
 #include "Pipeline/ECS/DataOriented/EntityChanger.h"
 
 namespace Application {
-    EntityChanger::EntityChanger(EntitySnapshot&& snapshot)
-    : _entity(std::move(snapshot.GetEntity()))
+    EntityChanger::EntityChanger(const EntitySnapshot& snapshot)
+    : _entity(std::move(snapshot._entity))
+    , _components(snapshot.ComponentTypes())
     {
-        // iterate over snapshot's types and add them all here as compoentCreators
+        // _componentCreators = snapshot.GetComponentCreators();
     }
 
-    TypeCollection EntityChanger::GetFinalArchetype() const
-    {
-        SCOPED_MEMORY_CATEGORY("ECS");
-        std::vector<Core::runtimeId_t> types;
-        for (auto& componentCreator : _componentCreators)
-        {
-            types.emplace_back(componentCreator->ComponentType());
-        }
+    const TypeCollection& EntityChanger::GetFinalArchetype() const { return _components; }
 
-        return TypeCollection(std::move(types));
-    }
-
-    Archetype EntityChanger::CreateFinalArchetype() const
+    Archetype EntityChanger::CreateArchetype() const
     {
         SCOPED_MEMORY_CATEGORY("ECS");
         std::vector<std::unique_ptr<IComponentList>> components;
@@ -28,19 +19,15 @@ namespace Application {
             components.emplace_back(componentCreator->CreateComponentList());
         }
 
-        return Archetype(Archetype::Constructor::TAG, Core::GetIncrementalId(), GetFinalArchetype(), std::move(components));
+        return Archetype(Archetype::Constructor::TAG, Core::GetInstanceId<ArchetypeId>(), GetFinalArchetype(), std::move(components));
     }
 
-    Entity EntityChanger::ApplyChanges(Archetype& archetype) const
+    void EntityChanger::CreateNewComponents(Archetype& archetype) const
     {
-        Entity entity = archetype.AddEntity();
-
-        for (auto& componentCreator : _componentCreators)
+        for (auto& creater : _componentCreators)
         {
-            componentCreator->CreateComponent(archetype, entity);
+            creater->CreateComponent(archetype, _entity.GetEntityId());
         }
-
-        return entity;
     }
 
     BitmaskEnum<EntityChange> EntityChanger::GetChanges() const

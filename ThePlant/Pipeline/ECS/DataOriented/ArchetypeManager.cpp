@@ -45,6 +45,27 @@ EntitySnapshot ArchetypeManager::GetTemporaryEntitySnapshot(const EntityId& enti
     return _GetArchetype(entity).GetTemporaryEntitySnapshot(entity);
 }
 
+void ArchetypeManager::ApplyChanges()
+{
+    SCOPED_MEMORY_CATEGORY("ECS");
+    for (auto& entityChange : _entityChanges)
+    {
+        auto& entityChanger = entityChange.second;
+
+        Archetype& oldArchetype = _GetArchetype(entityChanger.GetFinalArchetype());
+        TypeCollection newArchetypeType = entityChanger.GetFinalArchetype();
+        if (!_HasArchetype(newArchetypeType))
+        {
+            _archetypes.emplace_back(entityChanger.CreateArchetype());
+        }
+
+        Archetype& newArchetype = _GetArchetype(newArchetypeType);
+        oldArchetype.TransferEntityTo(entityChange.first, newArchetype);
+
+        entityChanger.CreateNewComponents(newArchetype);
+    }
+}
+
 bool ArchetypeManager::_HasArchetype(const TypeCollection& archetypeTypes) const
 {
     for (auto& archetype : _archetypes)

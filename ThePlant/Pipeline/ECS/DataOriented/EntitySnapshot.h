@@ -7,16 +7,27 @@
 #include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/Component.h"
+#include "Pipeline/ECS/DataOriented/ComponentCreator.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
 namespace Application
 {
+    struct EntityChanger;
+
     struct EntitySnapshot
     {
         EntitySnapshot(const Entity& entity, std::vector<std::unique_ptr<ITemporaryComponentRef>>&& components)
         : _entity(entity)
         {
+            std::vector<Core::runtimeId_t> componentTypes;
+            componentTypes.reserve(components.size());
+            for (const auto& component : components)
+            {
+                componentTypes.push_back(component->GetComponentType());
+            }
+            _componentTypes = TypeCollection(std::move(componentTypes));
+
             _componentReferences = std::move(components);
         }
 
@@ -34,6 +45,7 @@ namespace Application
                 _componentReferences.emplace_back(component->CreateCopy());
             }
         }
+
         EntitySnapshot& operator=(const EntitySnapshot& other)
         {
             SCOPED_MEMORY_CATEGORY("ECS");
@@ -49,6 +61,21 @@ namespace Application
         {
             return _entity.GetEntityId();
         }
+
+        const TypeCollection& ComponentTypes() const { return _componentTypes; }
+
+        // std::vector<std::unique_ptr<IComponentCreator>> GetComponentCreators() const
+        // {
+        //     std::vector<std::unique_ptr<IComponentCreator>> creators;
+        //     creators.reserve(_componentTypes.Types().size());
+
+        //     for (const auto& componentReference : _componentReferences)
+        //     {
+        //         creators.push_back(componentReference->GetComponentCreator());
+        //     }
+
+        //     return creators;
+        // }
 
         bool ContainsTypes(const TypeCollection& types) const
         {
@@ -99,7 +126,10 @@ namespace Application
         }
 
     private:
+        friend struct EntityChanger;
+
         Entity _entity;
+        TypeCollection _componentTypes;
         std::vector<std::unique_ptr<ITemporaryComponentRef>> _componentReferences;
 
         void* _GetComponentFor(const Core::runtimeId_t& type) const

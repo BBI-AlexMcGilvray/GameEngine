@@ -5,6 +5,7 @@
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 
 #include "Pipeline/ECS/DataOriented/Archetype.h"
+#include "Pipeline/ECS/DataOriented/EntityChanger.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
@@ -141,6 +142,8 @@ public:
     EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity);
     EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity);
 
+    void ApplyChanges();
+
     template <typename ...Ts>
     std::vector<Core::Ptr<Archetype>> GetArchetypesContaining()
     {
@@ -164,6 +167,7 @@ public:
 
 private:
     std::vector<Archetype> _archetypes;
+    std::unordered_map<EntityId, EntityChanger> _entityChanges;
 
     template <typename ...Ts>
     bool _HasArchetype()

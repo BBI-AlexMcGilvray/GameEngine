@@ -288,6 +288,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\Systems\SystemManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\Archetype.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\ArchetypeManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\EntityChanger.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\EntityCreator.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\ObjectOriented\Source\Component.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\ObjectOriented\Source\Entity.cpp" />

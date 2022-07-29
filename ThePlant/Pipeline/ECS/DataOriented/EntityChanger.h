@@ -12,7 +12,7 @@
 
 #include "Pipeline/ECS/DataOriented/Archetype.h"
 #include "Pipeline/ECS/DataOriented/Component.h"
-#include "Pipeline/ECS/DataOriented/EntityCreator.h"
+#include "Pipeline/ECS/DataOriented/ComponentCreator.h"
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
@@ -20,8 +20,8 @@
 namespace Application {
 enum class EntityChange
 {
-    AddComponent,
-    RemoveComponent,
+    ComponentAdded,
+    ComponentRemoved,
     Delete
 };
 
@@ -33,51 +33,53 @@ enum class EntityChange
 // This means we should move entities less often (-> performance gains) and all changes are made NEXT frame (less worrying about weird knock-ons of ordering)
 struct EntityChanger
 {
-    EntityChanger(EntitySnapshot&& snapshot);
+    EntityChanger(const EntitySnapshot& snapshot);
+
+    const EntityId& GetEntity() const { return _entity.GetEntityId(); }
+    const ArchetypeId& GetArchetype() const { return _entity.GetArchetypeId(); }
 
     // get the representation of the desired archetype
-    TypeCollection GetFinalArchetype() const;
-    // if the archetype does not exist, this will create one
-    Archetype CreateFinalArchetype() const;
-    // given the archetype that matches this entity, create the entity within it
-    // (ArchetypeManager will use the GetArchetype method - and then potentially the CreateArchetype method - to determine what is passed in here)
-    Entity ApplyChanges(Archetype& archetype) const;
+    const TypeCollection& GetFinalArchetype() const;
+    Archetype CreateArchetype() const;
+    void CreateNewComponents(Archetype& archetype) const;
 
     BitmaskEnum<EntityChange> GetChanges() const;
 
+    // no way to save an entity from being deleted, that should be handled by the systems/components
     void DeleteEntity();
 
     template <typename T, typename ...ARGS>
-    EntityCreator& AddComponent(ARGS&& ...args)
+    EntityChanger& AddComponent(ARGS&& ...args)
     {
         SCOPED_MEMORY_CATEGORY("ECS");
-        _componentCreators.emplace_back(std::make_unique<ComponentCreator<T>>(T(std::forward<ARGS>(args)...)));
+        if (_components.Has(Core::GetTypeId<T>()))
+        {
+            DEBUG_THROW("EntityChanger", "Adding component that already exists!");
+        }
 
-        _changes |= EntityChange::AddComponent;
+        _components = AddToCollection<T>(_components);
+        _componentCreators.emplace_back(std::make_unique<ComponentCreator<T>>(T(std::forward<ARGS>(args)...)));
+        _changes |= EntityChange::ComponentAdded;
         return *this; // to allow 'chaining'
     }
 
     template <typename T>
-    EntityCreator& RemoveComponent()
+    EntityChanger& RemoveComponent()
     {
-        for (auto& iter = _componentCreators.begin(); iter != _componentCreators.end(); ++iter)
+        if (!_components.HasType(Core::GetTypeId<T>()))
         {
-            if (iter->GetComponentType() == Core::GetTypeId<T>())
-            {
-                _componentCreators.erase(iter);
-
-                _changes |= EntityChange::RemoveComponent;
-                return *this;
-            }
+            DEBUG_THROW("EntityChanger", "Removing component that doesn't exist");
         }
 
-        throw std::invalid_argument("trying to remove a component that does not exist for the given entity");
+        _components = RemoveFromCollection<T>(_components);
+        _changes |= EntityChange::ComponentRemoved;
     }
 
 private:
-// should definitely be possible for this to be an entity (maybe even entity snapshots can have entity, since we wont change archetypes until the end)
     Entity _entity; // this means _nothing_ except snapshots and this should be using Entity, everything else should use EntityId
     BitmaskEnum<EntityChange> _changes;
+    TypeCollection _components;
     std::vector<std::unique_ptr<IComponentCreator>> _componentCreators;
+    // NOTE: we need to replace the ArchetypeManager::Add/RemoveComponent calls to redirect to create/update an instance of this class
 };
 } // namespace Application

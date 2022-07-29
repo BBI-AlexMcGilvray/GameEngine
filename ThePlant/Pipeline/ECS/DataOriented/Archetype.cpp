@@ -29,7 +29,7 @@ EntityId Archetype::AddEntity()
     return newEntity;
 }
 
-void Archetype::TransferEntityTo(EntityId& entity, Archetype& destination)
+void Archetype::TransferEntityTo(const EntityId& entity, Archetype& destination)
 {
     destination._AddEntity(entity);
     for (auto & component : _components)

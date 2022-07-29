@@ -16,6 +16,7 @@ Collision/OctTree.cpp #
 ECS/DataOriented/Systems/SystemManager.cpp #
 ECS/DataOriented/Archetype.cpp #
 ECS/DataOriented/ArchetypeManager.cpp #
+ECS/DataOriented/EntityChanger.cpp #
 ECS/DataOriented/EntityCreator.cpp #
 ECS/ObjectOriented/Source/Component.cpp #
 ECS/ObjectOriented/Source/Entity.cpp #
@@ -90,9 +91,13 @@ ECS/DataOriented/Systems/SystemManager.h #
 ECS/DataOriented/Archetype.h #
 ECS/DataOriented/ArchetypeManager.h #
 ECS/DataOriented/Component.h #
+ECS/DataOriented/ComponentCreator.h #
 ECS/DataOriented/ECS.h #
+ECS/DataOriented/EntityChanger.h #
 ECS/DataOriented/EntityCreator.h #
+ECS/DataOriented/EntitySnapshot.h #
 ECS/DataOriented/IDs.h #
+ECS/DataOriented/TemporaryComponentRef.h #
 ECS/DataOriented/TypeCollection.h #
 ECS/ObjectOriented/Headers/Component.h #
 ECS/ObjectOriented/Headers/ComponentPtr.h #

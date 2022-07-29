@@ -14,10 +14,12 @@
 #include "Pipeline/ECS/DataOriented/Component.h"
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
+#include "Pipeline/ECS/DataOriented/TemporaryComponentRef.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
 namespace Application {
 struct EntityCreator;
+struct EntityChanger;
 
 struct Archetype
 {
@@ -29,6 +31,7 @@ struct Archetype
     friend Archetype CreateArchetypeFrom_Remove(const Archetype& basis);
 
     friend struct EntityCreator;
+    friend struct EntityChanger;
 
     Archetype(const Archetype&) = delete;
     Archetype& operator=(const Archetype&) = delete;
@@ -58,7 +61,7 @@ struct Archetype
         return newEntity;
     }
 
-    void TransferEntityTo(EntityId& entity, Archetype& destination);
+    void TransferEntityTo(const EntityId& entity, Archetype& destination);
 
     bool HasEntity(const EntityId& entity) const;
     void RemoveEntity(const EntityId& entity);
@@ -101,7 +104,7 @@ struct Archetype
         SetComponentFor(entity, std::forward<Ts>(args)...);
     }
 
-    EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity)
+    EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity) const
     {
         SCOPED_MEMORY_CATEGORY("ECS");
         const auto entityIndex = _GetEntityIndex(entity);

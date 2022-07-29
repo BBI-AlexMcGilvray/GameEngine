@@ -28,7 +28,7 @@ struct TypeCollection
 
     friend struct EntityCreator;
 
-    TypeCollection() = delete;
+    TypeCollection() = default;
 
     TypeCollection(std::vector<Core::runtimeId_t>&& types)
     {
@@ -69,6 +69,11 @@ struct TypeCollection
     const std::vector<Core::runtimeId_t>& Types() const
     {
         return _types;
+    }
+
+    bool HasType(const Core::runtimeId_t& type) const
+    {
+        return std::find(_types.begin(), _types.end(), type) != _types.end();
     }
 
     bool operator==(const TypeCollection& other) const
