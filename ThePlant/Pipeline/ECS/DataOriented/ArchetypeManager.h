@@ -5,7 +5,7 @@
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 
 #include "Pipeline/ECS/DataOriented/Archetype.h"
-#include "Pipeline/ECS/DataOriented/EntityChanger.h"
+#include "Pipeline/ECS/DataOriented/EntityHandler.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
@@ -43,6 +43,7 @@ public:
         return _GetArchetype(entity).GetComponentFor<T>(entity);
     }
 
+    // NOTE: these should also all return a reference (to the entity handler(?) to allow chaining)
     // need a way for this to take in a value for the new components
     template <typename ...Ts>
     void AddComponentsTo(Entity& entity)
@@ -104,7 +105,9 @@ public:
         return _GetArchetype<Ts...>().AddEntity();
     }
 
-    EntityId CreateEntity(const EntityCreator& creator);
+    // this should queue the handler (and check that the associated entity and archetype are not set)
+    // they should also return the EntityHandler so more updates can be made this frame? EntityId return is mandatory though
+    EntityId CreateEntity(const EntityHandler& creator);
 
     /*
         NOTE: This consumes the calls when using anything (ex: above method)
@@ -167,7 +170,7 @@ public:
 
 private:
     std::vector<Archetype> _archetypes;
-    std::unordered_map<EntityId, EntityChanger> _entityChanges;
+    std::unordered_map<EntityId, EntityHandler> _entityChanges;
 
     template <typename ...Ts>
     bool _HasArchetype()
@@ -176,9 +179,7 @@ private:
 
         return _HasArchetype(types);
     }
-
     bool _HasArchetype(const TypeCollection& archetypeTypes) const;
-
     bool _HasArchetype(const ArchetypeId& archetypeId) const;
 
     template <typename ...Ts>
@@ -188,11 +189,12 @@ private:
 
         return _GetArchetype(types);
     }
-
     Archetype& _GetArchetype(const TypeCollection& archetypeTypes);
-
     Archetype& _GetArchetype(const ArchetypeId& archetypeId);
-
     Archetype& _GetArchetype(const EntityId& entity);
+
+    // methods for ACTUALLY doing the entity changes
+    // void _RemoveEntity(const Entity& entity);
+    // void _RemoveEntity(const EntityId& entity);
 };
 }// namespace Application

@@ -5,7 +5,7 @@
 #include "Core/Math/Headers/MatrixFunctions.h"
 
 #include "Pipeline/Animation/Headers/Animator.h"
-#include "Pipeline/ECS/DataOriented/EntityCreator.h"
+#include "Pipeline/ECS/DataOriented/EntityHandler.h"
 #include "Pipeline/ECSSystems/AnimationComponents.h"
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
@@ -37,7 +37,7 @@ namespace Rendering {
 
   EntityId CreateBone(ECS& ecsSystem, const Data::Rendering::SkeletonBoneData& boneData, const EntityId& parent, Core::Geometric::Transform& parentTransform, BoneCreationHelper::BoneCreationData& creationData)
   {
-    EntityCreator creator;
+    EntityHandler creator;
 
     Core::Geometric::Transform bindTransform(boneData.position, boneData.rotation, boneData.scale);
     Core::Geometric::Transform localTransform = parentTransform.GetInverseTransformationMatrix() * bindTransform.GetTransformationMatrix();

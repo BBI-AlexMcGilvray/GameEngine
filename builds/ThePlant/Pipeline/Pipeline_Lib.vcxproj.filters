@@ -34,10 +34,7 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\ArchetypeManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\EntityChanger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\EntityCreator.cpp">
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\DataOriented\EntityHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\ECS\ObjectOriented\Source\Component.cpp">

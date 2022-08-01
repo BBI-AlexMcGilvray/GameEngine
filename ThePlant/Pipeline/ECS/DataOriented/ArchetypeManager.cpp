@@ -2,10 +2,10 @@
 
 #include <stdexcept>
 
-#include "Pipeline/ECS/DataOriented/EntityCreator.h"
+#include "Pipeline/ECS/DataOriented/EntityHandler.h"
 
 namespace Application {
-EntityId ArchetypeManager::CreateEntity(const EntityCreator& creator)
+EntityId ArchetypeManager::CreateEntity(const EntityHandler& creator)
 {
     SCOPED_MEMORY_CATEGORY("ECS");
     auto& archetype = creator.GetArchetype();
@@ -14,7 +14,8 @@ EntityId ArchetypeManager::CreateEntity(const EntityCreator& creator)
         _archetypes.emplace_back(creator.CreateArchetype());
     }
 
-    return creator.CreateEntity(_GetArchetype(archetype));
+    auto& entityArchetype = _GetArchetype(archetype);
+    creator.CreateEntity(entityArchetype, entityArchetype.AddEntity());
 }
 
 void ArchetypeManager::RemoveEntity(const Entity& entity)
@@ -50,7 +51,13 @@ void ArchetypeManager::ApplyChanges()
     SCOPED_MEMORY_CATEGORY("ECS");
     for (auto& entityChange : _entityChanges)
     {
+        const auto& entity = entityChange.first;
         auto& entityChanger = entityChange.second;
+
+        if (entityChanger.GetChanges().HasAllFlags(EntityChange::Deleted))
+        {
+            RemoveEntity(entity);
+        }
 
         Archetype& oldArchetype = _GetArchetype(entityChanger.GetFinalArchetype());
         TypeCollection newArchetypeType = entityChanger.GetFinalArchetype();
@@ -60,7 +67,7 @@ void ArchetypeManager::ApplyChanges()
         }
 
         Archetype& newArchetype = _GetArchetype(newArchetypeType);
-        oldArchetype.TransferEntityTo(entityChange.first, newArchetype);
+        oldArchetype.TransferEntityTo(entity, newArchetype);
 
         entityChanger.CreateNewComponents(newArchetype);
     }

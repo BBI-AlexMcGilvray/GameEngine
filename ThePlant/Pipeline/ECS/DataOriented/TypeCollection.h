@@ -7,7 +7,7 @@
 #include "Core/IdTypes/RuntimeId.h"
 
 namespace Application {
-struct EntityCreator;
+struct EntityHandler;
 struct TypeCollection;
 
 template <typename ...Ts>
@@ -26,7 +26,7 @@ struct TypeCollection
     template <typename ...Ts>
     friend TypeCollection RemoveFromCollection(const TypeCollection& collection);
 
-    friend struct EntityCreator;
+    friend struct EntityHandler;
 
     TypeCollection() = default;
 

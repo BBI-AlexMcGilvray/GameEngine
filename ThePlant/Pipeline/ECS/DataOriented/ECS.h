@@ -44,7 +44,7 @@ namespace Application
         template <typename ...Ts>
         EntityId CreateEntity() { return _archetypes.CreateEntity(); }
 
-        EntityId CreateEntity(const EntityCreator& creator) { return _archetypes.CreateEntity(creator); }
+        EntityId CreateEntity(const EntityHandler& creator) { return _archetypes.CreateEntity(creator); }
         /*
          NOTE: This consumes the calls when using anything (ex: above method)
             - either need to use different names, or just use the tuple constructor below (since we require constructed values anyways)

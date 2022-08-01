@@ -28,7 +28,7 @@ struct Archetype
     friend Archetype CreateArchetypeFrom_Remove(const Archetype& basis);
 
     friend struct EntityCreator;
-    friend struct EntityChanger;
+    friend struct EntityHandler;
 
     Archetype(const Archetype&) = delete;
     Archetype& operator=(const Archetype&) = delete;

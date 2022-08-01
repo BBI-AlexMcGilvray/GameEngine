@@ -1,6 +1,6 @@
 #include "Pipeline/Rendering/3D/Headers/ModelBase.h"
 
-#include "Pipeline/ECS/DataOriented/EntityCreator.h"
+#include "Pipeline/ECS/DataOriented/EntityHandler.h"
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
@@ -51,7 +51,7 @@ namespace Rendering {
   {
     Data::AssetData<Data::Rendering::SimpleModelData> assetData = assetManager.getAssetData(modelState.asset);
     
-    EntityCreator creator;
+    EntityHandler creator;
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
     creator.AddComponent<MeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
     creator.AddComponent<WorldTransformComponent>(Transform());
@@ -84,7 +84,7 @@ namespace Rendering {
   {
     Data::AssetData<Data::Rendering::StaticModelData> assetData = assetManager.getAssetData(modelState.asset);
     
-    EntityCreator creator;
+    EntityHandler creator;
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
     creator.AddComponent<MeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
     creator.AddComponent<WorldTransformComponent>(Transform());

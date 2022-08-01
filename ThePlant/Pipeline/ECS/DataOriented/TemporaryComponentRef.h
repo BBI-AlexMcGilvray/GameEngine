@@ -44,8 +44,6 @@ struct ITemporaryComponentRef
         return *static_cast<Core::Ptr<T>>(_GetPtrToComponent());
     }
 
-    virtual std::unique_ptr<IComponentCreator> GetComponentCreator() const = 0;
-
 private:
     virtual Core::Ptr<void> _GetPtrToComponent() const = 0;
 };
@@ -69,11 +67,6 @@ struct TemporaryComponentRef : public ITemporaryComponentRef
     {
         SCOPED_MEMORY_CATEGORY("ECS");
         return std::make_unique<TemporaryComponentRef<T>>(_component);
-    }
-
-    virtual std::unique_ptr<IComponentCreator> GetComponentCreator() const override
-    {
-        return std::make_unique<ComponentCreator<T>>();
     }
 
 private:

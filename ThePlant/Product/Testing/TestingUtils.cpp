@@ -2,7 +2,7 @@
 
 #include "Pipeline/Headers/ApplicationManager.h"
 
-#include "Pipeline/ECS/DataOriented/EntityCreator.h"
+#include "Pipeline/ECS/DataOriented/EntityHandler.h"
 
 #include "Pipeline/ECSSystems/AnimationComponents.h"
 #include "Pipeline/ECSSystems/CameraComponents.h"
@@ -52,7 +52,15 @@ namespace Testing
     {
         auto& ecs = state.ECS();
 
-        Application::EntityCreator creator;
+        /*
+        * possible better paradigm:
+            - CreateEntity returns an EntityHandler that is implicitly castable to EntityId
+            - EntityHandler should NOT be publicly default constructable
+            - no move/copy constructors (i.e. the only things that can create and hold them is ArchetypeManager)
+            - so they can ONLY be held by reference -> enforces the short lifetime and how they are used
+        myEntity = ecs.CreateEntity().AddComponent<Application::PositionComponent>(position).[add all component here];
+        */
+        Application::EntityHandler creator;
         creator.AddComponent<Application::PositionComponent>(position);
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);
@@ -69,7 +77,7 @@ namespace Testing
     {
         auto& ecs = state.ECS();
 
-        Application::EntityCreator creator;
+        Application::EntityHandler creator;
         creator.AddComponent<Application::PositionComponent>(position);
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);
@@ -84,7 +92,7 @@ namespace Testing
     {
         auto& ecs = state.ECS();
 
-        Application::EntityCreator creator;
+        Application::EntityHandler creator;
         creator.AddComponent<Application::PositionComponent>(position);
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);
@@ -98,7 +106,7 @@ namespace Testing
     {
         auto& ecs = state.ECS();
 
-        Application::EntityCreator creator;
+        Application::EntityHandler creator;
         creator.AddComponent<Application::PositionComponent>(position);
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);

@@ -7,14 +7,14 @@
 #include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/Component.h"
-// #include "Pipeline/ECS/DataOriented/ComponentCreator.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/ECS/DataOriented/TypeCollection.h"
 
 namespace Application
 {
-    struct EntityChanger;
+    struct EntityHandler;
 
+    // we should be able to add/remove components and delete entities from here -> needs access to ArchetypeManager!
     struct EntitySnapshot
     {
         EntitySnapshot(const Entity& entity, std::vector<std::unique_ptr<ITemporaryComponentRef>>&& components)
@@ -63,19 +63,6 @@ namespace Application
         }
 
         const TypeCollection& ComponentTypes() const { return _componentTypes; }
-
-        // std::vector<std::unique_ptr<IComponentCreator>> GetComponentCreators() const
-        // {
-        //     std::vector<std::unique_ptr<IComponentCreator>> creators;
-        //     creators.reserve(_componentTypes.Types().size());
-
-        //     for (const auto& componentReference : _componentReferences)
-        //     {
-        //         creators.push_back(componentReference->GetComponentCreator());
-        //     }
-
-        //     return creators;
-        // }
 
         bool ContainsTypes(const TypeCollection& types) const
         {
@@ -126,7 +113,7 @@ namespace Application
         }
 
     private:
-        friend struct EntityChanger;
+        friend struct EntityHandler;
 
         Entity _entity;
         TypeCollection _componentTypes;

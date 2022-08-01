@@ -4,7 +4,7 @@
 #include "Core/Math/Headers/Quaternion.h"
 
 #include "Pipeline/Animation/Headers/Animator.h"
-#include "Pipeline/ECS/DataOriented/EntityCreator.h"
+#include "Pipeline/ECS/DataOriented/EntityHandler.h"
 #include "Pipeline/ECSSystems/AnimationComponents.h"
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
@@ -39,7 +39,7 @@ namespace Rendering {
     
     Data::AssetData<Data::Rendering::SkeletonData> skeletonData = assetManager.getAssetData(assetData->skeleton);
 
-    EntityCreator creator;
+    EntityHandler creator;
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
     creator.AddComponent<SkinnedMeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh), skeletonData));
     creator.AddComponent<WorldTransformComponent>(Core::Geometric::Transform());
