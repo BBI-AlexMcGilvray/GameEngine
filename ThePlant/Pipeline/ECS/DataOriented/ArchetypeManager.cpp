@@ -26,6 +26,7 @@ void ArchetypeManager::ApplyChanges()
     {
         _ApplyHandler(entityChange.second);
     }
+    _entityChanges.clear();
 }
 
 bool ArchetypeManager::_HasArchetype(const TypeCollection& archetypeTypes) const
@@ -120,6 +121,7 @@ void ArchetypeManager::_ApplyHandler(const EntityHandler& handler)
     if (handler.GetChanges().HasAllFlags(EntityChange::Deleted))
     {
         _RemoveEntity(entity);
+        return;
     }
 
     TypeCollection newArchetypeType = handler.GetFinalArchetype();
@@ -134,6 +136,10 @@ void ArchetypeManager::_ApplyHandler(const EntityHandler& handler)
     {
         Archetype& oldArchetype = _GetArchetype(handler.GetArchetype());
         oldArchetype.TransferEntityTo(entity, newArchetype);
+    }
+    else
+    {
+        newArchetype.AddEntity(entity);
     }
 
     handler.CreateNewComponents(newArchetype);

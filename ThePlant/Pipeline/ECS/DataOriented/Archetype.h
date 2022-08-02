@@ -38,6 +38,7 @@ struct Archetype
     void TransferEntityTo(const EntityId& entity, Archetype& destination);
 
     bool HasEntity(const EntityId& entity) const;
+    void AddEntity(const EntityId& entity);
     void RemoveEntity(const EntityId& entity);
 
     template <typename T>
@@ -108,8 +109,6 @@ private:
     
     enum class Constructor { TAG };
     Archetype(Constructor, const ArchetypeInstanceId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components);
-
-    void _AddEntity(const EntityId& entity);
 
     template <typename T>
     void _AddComponent(T value)

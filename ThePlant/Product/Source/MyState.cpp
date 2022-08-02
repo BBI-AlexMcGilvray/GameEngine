@@ -151,12 +151,12 @@ void MyState::Initialize()
 
         ~~Plane do later
     */
+
+    ECS().ApplyChanges(); // make sure the initial entities are created before continuing
     // \testing
 }
 
-void MyState::Start()
-{ 
-}
+void MyState::Start() {};
 
 void MyState::End() {};
 void MyState::CleanUp() {};

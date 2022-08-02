@@ -43,7 +43,12 @@ namespace Application
 
         void RemoveEntity(const EntityId& entity) { return _archetypes.RemoveEntity(entity); }
 
-        void Update() { _systems.Update(); }
+        void ApplyChanges() { _archetypes.ApplyChanges(); }
+        void Update()
+        {
+            _systems.Update();
+            _archetypes.ApplyChanges();
+        }
 
         template <typename SYSTEM, typename ...ARGS>
         ISystem& AddSystem(ARGS&& ...args) { return _systems.AddSystem<SYSTEM, ARGS...>(std::forward<ARGS>(args)...); }

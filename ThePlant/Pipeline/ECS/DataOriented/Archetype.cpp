@@ -22,7 +22,7 @@ Archetype& Archetype::operator=(Archetype&& other)
 
 void Archetype::TransferEntityTo(const EntityId& entity, Archetype& destination)
 {
-    destination._AddEntity(entity);
+    destination.AddEntity(entity);
     for (auto & component : _components)
     {
         if (!destination.HasComponent(component.first))
@@ -44,6 +44,16 @@ bool Archetype::HasEntity(const EntityId& entity) const
     }
 
     return false;
+}
+
+void Archetype::AddEntity(const EntityId& entity)
+{
+    SCOPED_MEMORY_CATEGORY("ECS");
+    _entities.emplace_back(entity);
+    for (auto& component : _components)
+    {
+        component.second->AddComponent();
+    }
 }
 
 void Archetype::RemoveEntity(const EntityId& entity)
@@ -97,16 +107,6 @@ Archetype::Archetype(Constructor, const ArchetypeInstanceId& id, const TypeColle
     for (auto& component : components)
     {
         _components.emplace(component->ComponentType(), std::move(component));
-    }
-}
-
-void Archetype::_AddEntity(const EntityId& entity)
-{
-    SCOPED_MEMORY_CATEGORY("ECS");
-    _entities.emplace_back(entity);
-    for (auto& component : _components)
-    {
-        component.second->AddComponent();
     }
 }
 }// namespace Application
