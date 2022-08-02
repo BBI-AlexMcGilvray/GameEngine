@@ -49,7 +49,7 @@ struct EntityHandler
 
     // get the representation of the desired archetype
     const TypeCollection& GetFinalArchetype() const { return _components; }
-    Archetype CreateArchetype() const;
+    Archetype CreateArchetype(Core::Ptr<Archetype> oldArchetype) const;
     void CreateNewComponents(Archetype& archetype) const;
 
     BitmaskEnum<EntityChange> GetChanges() const { return _changes; }

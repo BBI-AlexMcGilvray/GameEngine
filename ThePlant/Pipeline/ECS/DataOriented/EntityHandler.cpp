@@ -14,17 +14,31 @@ namespace Application {
         // fille _componentCreators with those needed to match the current archetype!
     }
 
-    Archetype EntityHandler::CreateArchetype() const
+    Archetype EntityHandler::CreateArchetype(Core::Ptr<Archetype> oldArchetype) const
     {
         SCOPED_MEMORY_CATEGORY("ECS");
+        TypeCollection finalArchetype = GetFinalArchetype();
         std::vector<std::unique_ptr<IComponentList>> components;
+
+        if (oldArchetype != nullptr)
+        {   // need to get the component lists of the right type from the old archetype
+            auto oldComponentLists = oldArchetype->_GetComponentListCopies();
+            for (auto& oldComponentList : oldComponentLists)
+            {
+                if (finalArchetype.HasType(oldComponentList->ComponentType()))
+                {
+                    components.push_back(std::move(oldComponentList));
+                }
+            }
+        }
+
+        // we know the component list types for the new components, handle new ones here
         for (auto& componentCreator : _componentCreators)
         {
             components.emplace_back(componentCreator->CreateComponentList());
         }
-        DEBUG_THROW("EntityHandler", "This component list is not complete, we need to get the applicable ones from the initial archetype as well");
 
-        return Archetype(Archetype::Constructor::TAG, Core::GetInstanceId<ArchetypeId>(), GetFinalArchetype(), std::move(components));
+        return Archetype(Archetype::Constructor::TAG, Core::GetInstanceId<ArchetypeId>(), finalArchetype, std::move(components));
     }
 
     void EntityHandler::CreateNewComponents(Archetype& archetype) const

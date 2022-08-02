@@ -124,18 +124,23 @@ void ArchetypeManager::_ApplyHandler(const EntityHandler& handler)
         return;
     }
 
+    Core::Ptr<Archetype> oldArchetype = nullptr;
+    if (!handler.GetChanges().HasAllFlags(EntityChange::Created))
+    {
+        oldArchetype = &_GetArchetype(handler.GetArchetype());
+    }
+
     TypeCollection newArchetypeType = handler.GetFinalArchetype();
     if (!_HasArchetype(newArchetypeType))
     {
-        _archetypes.emplace_back(handler.CreateArchetype());
+        _archetypes.emplace_back(handler.CreateArchetype(oldArchetype));
     }
     Archetype& newArchetype = _GetArchetype(newArchetypeType);
 
     // only transfer if it already existed
-    if (!handler.GetChanges().HasAllFlags(EntityChange::Created))
+    if (oldArchetype != nullptr)
     {
-        Archetype& oldArchetype = _GetArchetype(handler.GetArchetype());
-        oldArchetype.TransferEntityTo(entity, newArchetype);
+        oldArchetype->TransferEntityTo(entity, newArchetype);
     }
     else
     {

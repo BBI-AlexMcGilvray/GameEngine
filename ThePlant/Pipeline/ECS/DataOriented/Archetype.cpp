@@ -108,5 +108,21 @@ Archetype::Archetype(Constructor, const ArchetypeInstanceId& id, const TypeColle
     {
         _components.emplace(component->ComponentType(), std::move(component));
     }
+#if DEBUG
+    VERIFY(ContainsTypes(_types), "Archtypes must be created with all components for the listed types");
+#endif
+}
+
+std::vector<std::unique_ptr<IComponentList>> Archetype::_GetComponentListCopies() const
+{
+    std::vector<std::unique_ptr<IComponentList>> copies;
+    copies.reserve(_components.size());
+    
+    for (const auto& component : _components)
+    {
+        copies.push_back(component.second->CreateEmptyCopy());
+    }
+
+    return copies;
 }
 }// namespace Application

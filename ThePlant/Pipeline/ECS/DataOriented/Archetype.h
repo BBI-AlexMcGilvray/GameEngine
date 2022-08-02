@@ -135,6 +135,8 @@ private:
 
         throw std::invalid_argument("entity does not exist in this archetype");
     }
+
+    std::vector<std::unique_ptr<IComponentList>> _GetComponentListCopies() const;
 };
 
 // 'for each' helper should be written for tuples, same as below but takes in a std::function
