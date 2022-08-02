@@ -34,22 +34,28 @@ enum class EntityChange
 // This means we should move entities less often (-> performance gains) and all changes are made NEXT frame (less worrying about weird knock-ons of ordering)
 struct EntityHandler
 {
-    EntityHandler();
-    EntityHandler(const EntitySnapshot& snapshot);
+    ~EntityHandler() = default;
 
+    // deleted/private constructors to enforce reference-only access
+    EntityHandler(const EntityHandler&) = delete;
+    EntityHandler& operator=(const EntityHandler&) = delete;
+    // move only as there should only be one copy
+    EntityHandler(EntityHandler&&) = default;
+    EntityHandler& operator=(EntityHandler&&) = default;
+
+    operator EntityId() const { return GetEntity(); }
     const EntityId& GetEntity() const { return _entity.GetEntityId(); }
     const ArchetypeId& GetArchetype() const { return _entity.GetArchetypeId(); }
 
     // get the representation of the desired archetype
-    const TypeCollection& GetFinalArchetype() const;
+    const TypeCollection& GetFinalArchetype() const { return _components; }
     Archetype CreateArchetype() const;
-    void CreateEntity(Archetype& archetype, const EntityId& entity) const;
     void CreateNewComponents(Archetype& archetype) const;
 
-    BitmaskEnum<EntityChange> GetChanges() const;
+    BitmaskEnum<EntityChange> GetChanges() const { return _changes; }
 
     // no way to save an entity from being deleted, that should be handled by the systems/components
-    void DeleteEntity();
+    void DeleteEntity() { _changes |= EntityChange::Deleted; }
 
     template <typename T, typename ...ARGS>
     EntityHandler& AddComponent(ARGS&& ...args)
@@ -83,6 +89,8 @@ struct EntityHandler
             _componentCreators.erase(iter);
         }
         _changes |= EntityChange::ComponentRemoved;
+
+        return *this;
     }
 
 private:
@@ -91,5 +99,10 @@ private:
     TypeCollection _components;
     std::vector<std::unique_ptr<IComponentCreator>> _componentCreators;
     // NOTE: we need to replace the ArchetypeManager::Add/RemoveComponent calls to redirect to create/update an instance of this class
+    
+    friend class ArchetypeManager;
+    EntityHandler() = default; // needed to be held in map
+    EntityHandler(const EntityId newEntity);
+    EntityHandler(const EntitySnapshot& snapshot);
 };
 } // namespace Application

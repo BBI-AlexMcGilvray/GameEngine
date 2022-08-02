@@ -1,7 +1,5 @@
 #include "Pipeline/UI/IMGUI/Windows/Profiler.h"
 
-#include <format>
-
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/Service.h"
 

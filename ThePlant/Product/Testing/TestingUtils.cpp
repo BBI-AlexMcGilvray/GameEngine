@@ -52,15 +52,7 @@ namespace Testing
     {
         auto& ecs = state.ECS();
 
-        /*
-        * possible better paradigm:
-            - CreateEntity returns an EntityHandler that is implicitly castable to EntityId
-            - EntityHandler should NOT be publicly default constructable
-            - no move/copy constructors (i.e. the only things that can create and hold them is ArchetypeManager)
-            - so they can ONLY be held by reference -> enforces the short lifetime and how they are used
-        myEntity = ecs.CreateEntity().AddComponent<Application::PositionComponent>(position).[add all component here];
-        */
-        Application::EntityHandler creator;
+        Application::EntityHandler& creator = ecs.CreateEntity();
         creator.AddComponent<Application::PositionComponent>(position);
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);
@@ -70,14 +62,14 @@ namespace Testing
         creator.AddComponent<Application::RigidBodyComponent>(1.0f, 0.0f, 0.0f, 1.0f);
         creator.AddComponent<Application::PhysicsComponent>(1.0f, 100.0f);
 
-        return ecs.CreateEntity(creator);
+        return creator;
     }
 
     Application::EntityId SpawnStaticCollider(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
         auto& ecs = state.ECS();
 
-        Application::EntityHandler creator;
+        Application::EntityHandler& creator = ecs.CreateEntity();
         creator.AddComponent<Application::PositionComponent>(position);
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);
@@ -85,35 +77,36 @@ namespace Testing
         creator.AddComponent<Application::ColliderComponent>(shape, false, Application::ColliderState::Static_Dirty);
         creator.AddComponent<Application::RigidBodyComponent>(1.0f, 0.0f, 0.0f, 1.0f);
 
-        return ecs.CreateEntity(creator);
+        return creator;
     }
 
     Application::EntityId SpawnTrigger(Application::State& state, const Core::Math::Float3& velocity, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
         auto& ecs = state.ECS();
 
-        Application::EntityHandler creator;
+        Application::EntityHandler& creator = ecs.CreateEntity();
         creator.AddComponent<Application::PositionComponent>(position);
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);
         creator.AddComponent<Application::WorldTransformComponent>();
         creator.AddComponent<Application::ColliderComponent>(shape, true, Application::ColliderState::Dynamic);
         creator.AddComponent<Application::VelocityComponent>(velocity);
-        return ecs.CreateEntity(creator);
+
+        return creator;
     }
 
     Application::EntityId SpawnStaticTrigger(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
         auto& ecs = state.ECS();
 
-        Application::EntityHandler creator;
+        Application::EntityHandler& creator = ecs.CreateEntity();
         creator.AddComponent<Application::PositionComponent>(position);
         creator.AddComponent<Application::RotationComponent>(rotation);
         creator.AddComponent<Application::ScaleComponent>(scale);
         creator.AddComponent<Application::WorldTransformComponent>();
         creator.AddComponent<Application::ColliderComponent>(shape, true, Application::ColliderState::Static_Dirty);
 
-        return ecs.CreateEntity(creator);
+        return creator;
     }
 } // namespace Testing
 } // namespace Product

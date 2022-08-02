@@ -5,33 +5,6 @@
 #include "Pipeline/ECS/DataOriented/EntityHandler.h"
 
 namespace Application {
-EntityId ArchetypeManager::CreateEntity(const EntityHandler& creator)
-{
-    SCOPED_MEMORY_CATEGORY("ECS");
-    auto& archetype = creator.GetArchetype();
-    if (!_HasArchetype(archetype))
-    {
-        _archetypes.emplace_back(creator.CreateArchetype());
-    }
-
-    auto& entityArchetype = _GetArchetype(archetype);
-    creator.CreateEntity(entityArchetype, entityArchetype.AddEntity());
-}
-
-void ArchetypeManager::RemoveEntity(const Entity& entity)
-{
-    if (!_HasArchetype(entity.GetArchetypeId()))
-    {
-        return;
-    }
-    _GetArchetype(entity.GetArchetypeId()).RemoveEntity(entity.GetEntityId());
-}
-
-void ArchetypeManager::RemoveEntity(const EntityId& entity)
-{
-    _GetArchetype(entity).RemoveEntity(entity);
-}
-        
 EntitySnapshot ArchetypeManager::GetTemporaryEntitySnapshot(const Entity& entity)
 {
     if (!_HasArchetype(entity.GetArchetypeId()))
@@ -51,25 +24,7 @@ void ArchetypeManager::ApplyChanges()
     SCOPED_MEMORY_CATEGORY("ECS");
     for (auto& entityChange : _entityChanges)
     {
-        const auto& entity = entityChange.first;
-        auto& entityChanger = entityChange.second;
-
-        if (entityChanger.GetChanges().HasAllFlags(EntityChange::Deleted))
-        {
-            RemoveEntity(entity);
-        }
-
-        Archetype& oldArchetype = _GetArchetype(entityChanger.GetFinalArchetype());
-        TypeCollection newArchetypeType = entityChanger.GetFinalArchetype();
-        if (!_HasArchetype(newArchetypeType))
-        {
-            _archetypes.emplace_back(entityChanger.CreateArchetype());
-        }
-
-        Archetype& newArchetype = _GetArchetype(newArchetypeType);
-        oldArchetype.TransferEntityTo(entity, newArchetype);
-
-        entityChanger.CreateNewComponents(newArchetype);
+        _ApplyHandler(entityChange.second);
     }
 }
 
@@ -136,5 +91,56 @@ Archetype& ArchetypeManager::_GetArchetype(const EntityId& entity)
     }
 
     throw std::invalid_argument("archetype does not exist within manager");
+}
+
+void ArchetypeManager::_CreateEntityHandler(const EntityId& entity, EntityState state)
+{
+    _entityChanges.emplace(entity, (state == EntityState::New) ? EntityHandler(entity) : EntityHandler(GetTemporaryEntitySnapshot(entity)));
+}
+
+EntityHandler& ArchetypeManager::_GetEntityHandler(const EntityId& entity, EntityState state)
+{
+    if (_entityChanges.find(entity) == _entityChanges.end())
+    {
+        _CreateEntityHandler(entity, state);
+    }
+    else
+    {
+        VERIFY(state != EntityState::New, "If we are making a new one, it should not exist!");
+    }
+
+    return _entityChanges.at(entity);
+}
+
+
+void ArchetypeManager::_ApplyHandler(const EntityHandler& handler)
+{
+    EntityId entity = handler.GetEntity();
+
+    if (handler.GetChanges().HasAllFlags(EntityChange::Deleted))
+    {
+        _RemoveEntity(entity);
+    }
+
+    TypeCollection newArchetypeType = handler.GetFinalArchetype();
+    if (!_HasArchetype(newArchetypeType))
+    {
+        _archetypes.emplace_back(handler.CreateArchetype());
+    }
+    Archetype& newArchetype = _GetArchetype(newArchetypeType);
+
+    // only transfer if it already existed
+    if (!handler.GetChanges().HasAllFlags(EntityChange::Created))
+    {
+        Archetype& oldArchetype = _GetArchetype(handler.GetArchetype());
+        oldArchetype.TransferEntityTo(entity, newArchetype);
+    }
+
+    handler.CreateNewComponents(newArchetype);
+}
+
+void ArchetypeManager::_RemoveEntity(const EntityId& entity)
+{
+    _GetArchetype(entity).RemoveEntity(entity);
 }
 }// namespace Application

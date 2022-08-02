@@ -20,15 +20,6 @@ Archetype& Archetype::operator=(Archetype&& other)
     return *this;
 }
 
-EntityId Archetype::AddEntity()
-{
-    EntityId newEntity(Core::GetInstanceId<EntityId>());
-
-    _AddEntity(newEntity);
-    
-    return newEntity;
-}
-
 void Archetype::TransferEntityTo(const EntityId& entity, Archetype& destination)
 {
     destination._AddEntity(entity);

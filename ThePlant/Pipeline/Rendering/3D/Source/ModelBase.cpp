@@ -51,7 +51,8 @@ namespace Rendering {
   {
     Data::AssetData<Data::Rendering::SimpleModelData> assetData = assetManager.getAssetData(modelState.asset);
     
-    EntityHandler creator;
+    EntityHandler& creator = ecsSystem.CreateEntity();
+
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
     creator.AddComponent<MeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
     creator.AddComponent<WorldTransformComponent>(Transform());
@@ -77,14 +78,15 @@ namespace Rendering {
       creator.AddComponent<RotationComponent>(modelState.transform.GetRotation());
     }
 
-    return ecsSystem.CreateEntity(creator);
+    return creator;
   }
 
   EntityId CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState)
   {
     Data::AssetData<Data::Rendering::StaticModelData> assetData = assetManager.getAssetData(modelState.asset);
     
-    EntityHandler creator;
+    EntityHandler& creator = ecsSystem.CreateEntity();
+
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
     creator.AddComponent<MeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
     creator.AddComponent<WorldTransformComponent>(Transform());
@@ -110,7 +112,7 @@ namespace Rendering {
       creator.AddComponent<RotationComponent>(modelState.transform.GetRotation());
     }
 
-    return ecsSystem.CreateEntity(creator);
+    return creator;
   }
 }// namespace Rendering
 }// namespace Application

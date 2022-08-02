@@ -1,7 +1,5 @@
 #include "Pipeline/UI/IMGUI/Windows/SystemTracker.h"
 
-#include <format>
-
 #include "Core/Headers/Service.h"
 
 #include "Pipeline/Headers/ServiceManager.h"

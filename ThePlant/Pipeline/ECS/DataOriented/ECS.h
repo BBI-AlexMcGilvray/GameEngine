@@ -21,49 +21,27 @@ namespace Application
         // we need all calls that ArchetypeManager and SystemManager have and forward to them respectively
         template <typename T>
         bool HasComponent(const Entity& entity) { return _archetypes.HasComponent<T>(entity); }
-        
         template <typename T>
         bool HasComponent(const EntityId& entity) { return _archetypes.HasComponent<T>(entity); }
 
         template <typename T>
         T& GetComponentFor(const Entity& entity) { return _archetypes.GetComponentFor<T>(entity); }
-
         template <typename T>
         T& GetComponentFor(const EntityId& entity) { return _archetypes.GetComponentFor<T>(entity); }
-
-        template <typename ...Ts>
-        void AddComponentsTo(Entity& entity) { _archetypes.AddComponentsTo<Ts...>(entity); }
-
-        // must provide an argument for each component type provided
-        template <typename ...Ts>
-        void AddComponentsTo(Entity& entity, Ts&& ...args) { _archetypes.AddComponentsTo<Ts...>(entity, std::forward<Ts>(args)...); }
-
-        template <typename ...Ts>
-        void RemoveComponentsFrom(Entity& entity) { _archetypes.RemoveComponentsFrom(entity); }
-
-        template <typename ...Ts>
-        EntityId CreateEntity() { return _archetypes.CreateEntity(); }
-
-        EntityId CreateEntity(const EntityHandler& creator) { return _archetypes.CreateEntity(creator); }
-        /*
-         NOTE: This consumes the calls when using anything (ex: above method)
-            - either need to use different names, or just use the tuple constructor below (since we require constructed values anyways)
-            - or we need to find a way for this to NOT consume other calls
-        */
-        // must provide an argument for each component type provided
-        // template <typename ...Ts>
-        // Entity CreateEntity(Ts&& ...args) { return _archetypes.CreateEntity<Ts...>(std::forward<Ts>(args)...); }
         
-        template <typename ...Ts>
-        EntityId CreateEntity(const std::tuple<Ts...>& components) { return _archetypes.CreateEntity(components); }
-
-        // this needs add the entity to a list that will be removed at the end of the frame
-        // same should be done to changes to an entity, so you can say 'add component' or 'remove component' and all changes will be stored
-        // and applied at once to limit the amount of entity movement
-        void RemoveEntity(const Entity& entity) { _archetypes.RemoveEntity(entity); }
-        
+        // if multiple components are to be accessed for an entity, this is better that calling the above for each component   
         EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity) { return _archetypes.GetTemporaryEntitySnapshot(entity); }
         EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity) { return _archetypes.GetTemporaryEntitySnapshot(entity); }
+
+        template <typename T, typename ...ARGS>
+        EntityHandler& AddComponent(const EntityId& entity, ARGS&& ...args) { return _archetypes.AddComponent<T>(std::forward<ARGS>(args)...); }
+
+        template <typename T>
+        EntityHandler& RemoveComponent(const EntityId& entity) { return _archetypes.RemoveComponent<T>(); }
+
+        EntityHandler& CreateEntity() { return _archetypes.CreateEntity(); }
+
+        void RemoveEntity(const EntityId& entity) { return _archetypes.RemoveEntity(entity); }
 
         void Update() { _systems.Update(); }
 

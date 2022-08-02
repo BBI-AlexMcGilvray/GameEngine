@@ -27,7 +27,6 @@ struct Archetype
     template <typename ...Ts>
     friend Archetype CreateArchetypeFrom_Remove(const Archetype& basis);
 
-    friend struct EntityCreator;
     friend struct EntityHandler;
 
     Archetype(const Archetype&) = delete;
@@ -35,28 +34,6 @@ struct Archetype
 
     Archetype(Archetype&& other);
     Archetype& operator=(Archetype&& other);
-
-    EntityId AddEntity();
-
-    template <typename ...Ts>
-    EntityId AddEntity(Ts&& ...args)
-    {
-        EntityId newEntity(Core::GetInstanceId<EntityId>());
-
-        _AddEntity(newEntity, std::forward<Ts>(args)...);
-        
-        return newEntity;
-    }
-
-    template <typename ...Ts>
-    EntityId AddEntity(const std::tuple<Ts...>& components)
-    {
-        EntityId newEntity(Core::GetInstanceId<EntityId>());
-
-        _AddEntityFromTuple(newEntity, components, std::index_sequence_for<Ts...>());
-
-        return newEntity;
-    }
 
     void TransferEntityTo(const EntityId& entity, Archetype& destination);
 
@@ -133,20 +110,6 @@ private:
     Archetype(Constructor, const ArchetypeInstanceId& id, const TypeCollection& types, std::vector<std::unique_ptr<IComponentList>>&& components);
 
     void _AddEntity(const EntityId& entity);
-
-    template <typename ...Ts>
-    void _AddEntity(const EntityId& entity, Ts&& ...args)
-    {
-        SCOPED_MEMORY_CATEGORY("ECS");
-        _entities.emplace_back(entity);
-        _AddComponent(std::forward<Ts>(args)...);
-    }
-
-    template <typename Tuple, int ...Is>
-    void _AddEntityFromTuple(const EntityId& entity, const Tuple& components, std::index_sequence<Is...>)
-    {
-        _AddEntity(entity, std::get<Is>(components)...);
-    }
 
     template <typename T>
     void _AddComponent(T value)

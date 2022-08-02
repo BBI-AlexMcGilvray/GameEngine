@@ -1,7 +1,5 @@
 #include "Pipeline/UI/IMGUI/Windows/MemoryTracker.h"
 
-#include <format>
-
 #include "Core/Headers/Service.h"
 
 namespace Application {

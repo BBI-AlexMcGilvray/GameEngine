@@ -42,108 +42,49 @@ public:
     {
         return _GetArchetype(entity).GetComponentFor<T>(entity);
     }
-
-    // NOTE: these should also all return a reference (to the entity handler(?) to allow chaining)
-    // need a way for this to take in a value for the new components
-    template <typename ...Ts>
-    void AddComponentsTo(Entity& entity)
-    {
-        SCOPED_MEMORY_CATEGORY("ECS");
-        Archetype& oldArchetype = _GetArchetype(entity.GetArchetypeId());
-        TypeCollection newArchetypeType = AddToCollection<Ts...>(oldArchetype.GetArchetype());
-        if (!_HasArchetype(newArchetypeType))
-        {
-            _archetypes.emplace_back(CreateArchetypeFrom_Add<Ts...>(oldArchetype));
-        }
-        Archetype& newArchetype = _GetArchetype(newArchetypeType);
-        oldArchetype.TransferEntityTo(entity.GetEntityId(), newArchetype);
-    }
-
-    // must provide an argument for each component type provided
-    template <typename ...Ts>
-    void AddComponentsTo(Entity& entity, Ts&& ...args)
-    {
-        SCOPED_MEMORY_CATEGORY("ECS");
-        Archetype& oldArchetype = _GetArchetype(entity.GetArchetypeId());
-        TypeCollection newArchetypeType = AddToCollection<Ts...>(oldArchetype.GetArchetype());
-        if (!_HasArchetype(newArchetypeType))
-        {
-            _archetypes.emplace_back(CreateArchetypeFrom_Add<Ts...>(oldArchetype));
-        }
-
-        Archetype& newArchetype = _GetArchetype(newArchetypeType);
-        oldArchetype.TransferEntityTo(entity.GetEntityId(), newArchetype);
-
-        newArchetype.SetComponentFor(entity.GetEntityId(), std::forward<Ts>(args)...);
-    }
-
-    template <typename ...Ts>
-    void RemoveComponentsFrom(Entity& entity)
-    {
-        SCOPED_MEMORY_CATEGORY("ECS");
-        Archetype& oldArchetype = _GetArchetype(entity.GetArchetypeId());
-        TypeCollection newArchetypeType = RemoveFromCollection<Ts...>(oldArchetype.GetArchetype());
-        if (!_HasArchetype(newArchetypeType))
-        {
-            _archetypes.emplace_back(CreateArchetypeFrom_Remove<Ts...>(oldArchetype));
-        }
-        Archetype& newArchetype = _GetArchetype(newArchetypeType);
-        oldArchetype.TransferEntityTo(entity.GetEntityId(), newArchetype);
-    }
-
-    // create entity
-    template <typename ...Ts>
-    EntityId CreateEntity()
-    {
-        SCOPED_MEMORY_CATEGORY("ECS");
-        if (!_HasArchetype<Ts...>())
-        {
-            _archetypes.emplace_back(CreateArchetype<Ts...>());
-            return _GetArchetype<Ts...>().AddEntity();
-        }
-
-        return _GetArchetype<Ts...>().AddEntity();
-    }
-
-    // this should queue the handler (and check that the associated entity and archetype are not set)
-    // they should also return the EntityHandler so more updates can be made this frame? EntityId return is mandatory though
-    EntityId CreateEntity(const EntityHandler& creator);
-
-    /*
-        NOTE: This consumes the calls when using anything (ex: above method)
-        - either need to use different names, or just use the tuple constructor below (since we require constructed values anyways)
-        - or we need to find a way for this to NOT consume other calls
-    */
-    // must provide an argument for each component type provided
-    // template <typename ...Ts>
-    // Entity CreateEntity(Ts&& ...args)
-    // {
-    //     if (!_HasArchetype<Ts...>())
-    //     {
-    //         _archetypes.emplace_back(CreateArchetype<Ts...>());
-    //         return Entity(_GetArchetype<Ts...>().AddEntity(std::forward<Ts>(args)...));
-    //     }
-
-    //     return Entity(_GetArchetype<Ts...>().AddEntity(std::forward<Ts>(args)...));
-    // }
         
-    template <typename ...Ts>
-    EntityId CreateEntity(const std::tuple<Ts...>& components)
-    {
-        SCOPED_MEMORY_CATEGORY("ECS");
-        if (!_HasArchetype<Ts...>())
-        {
-            _archetypes.emplace_back(CreateArchetype<Ts...>());
-        }
-        
-        return _GetArchetype<Ts...>().AddEntity(components);
-    }
-
-    void RemoveEntity(const Entity& entity);
-    void RemoveEntity(const EntityId& entity);
-        
+    // if multiple components are to be accessed for an entity, this is better that calling the above for each component
     EntitySnapshot GetTemporaryEntitySnapshot(const Entity& entity);
     EntitySnapshot GetTemporaryEntitySnapshot(const EntityId& entity);
+
+    // returning handler for easy chaining and efficiency
+    template <typename T, typename ...ARGS>
+    EntityHandler& AddComponent(const EntityId& entity, ARGS&& ...args)
+    {
+        SCOPED_MEMORY_CATEGORY("ECS");
+        EntityHandler& handler = _GetEntityHandler(entity, EntityState::Existing);
+
+        handler.AddComponent<T>(std::forward<ARGS>(args)...);
+
+        return handler;
+    }
+
+    template <typename T>
+    EntityHandler& RemoveComponent(const EntityId& entity)
+    {
+        SCOPED_MEMORY_CATEGORY("ECS");
+        EntityHandler& handler = _GetEntityHandler(entity, EntityState::Existing);
+
+        handler.RemoveComponent<T>();
+
+        return handler;
+    }
+
+    // ArchetypeManager is in charge of creating new entity ids now
+    EntityHandler& CreateEntity()
+    {
+        SCOPED_MEMORY_CATEGORY("ECS");
+        EntityHandler& handler = _GetEntityHandler(Core::GetInstanceId<EntityId>(), EntityState::New);
+
+        return handler;
+    }
+
+    // no reference return to enforce the paradigm where if an entity is removed, nothing else should happen to it
+    // still possible for other changes to be queued, but they should be queued in ignorance of it being deleted
+    void RemoveEntity(const EntityId& entity)
+    {
+        _GetEntityHandler(entity, EntityState::Existing).DeleteEntity();
+    }
 
     void ApplyChanges();
 
@@ -169,6 +110,12 @@ public:
     // potential optimization: ForEachArchetypeContaining(METHOD) to avoid multiple pointer indirections and vector sizing/creation
 
 private:
+    enum class EntityState
+    {
+        New,
+        Existing
+    };
+
     std::vector<Archetype> _archetypes;
     std::unordered_map<EntityId, EntityHandler> _entityChanges;
 
@@ -193,8 +140,11 @@ private:
     Archetype& _GetArchetype(const ArchetypeId& archetypeId);
     Archetype& _GetArchetype(const EntityId& entity);
 
+    void _CreateEntityHandler(const EntityId& entity, EntityState state);
+    EntityHandler& _GetEntityHandler(const EntityId& entity, EntityState state);
+
     // methods for ACTUALLY doing the entity changes
-    // void _RemoveEntity(const Entity& entity);
-    // void _RemoveEntity(const EntityId& entity);
+    void _ApplyHandler(const EntityHandler& handler);
+    void _RemoveEntity(const EntityId& entity);
 };
 }// namespace Application

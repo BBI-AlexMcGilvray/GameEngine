@@ -39,7 +39,8 @@ namespace Rendering {
     
     Data::AssetData<Data::Rendering::SkeletonData> skeletonData = assetManager.getAssetData(assetData->skeleton);
 
-    EntityHandler creator;
+    EntityHandler& creator = ecsSystem.CreateEntity();
+
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
     creator.AddComponent<SkinnedMeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh), skeletonData));
     creator.AddComponent<WorldTransformComponent>(Core::Geometric::Transform());
@@ -77,7 +78,7 @@ namespace Rendering {
       creator.AddComponent<AnimatorComponent>(animatorId);
     }
 
-    EntityId model = ecsSystem.CreateEntity(creator);
+    EntityId model = creator;
 
     InitialSkeletonState skeletonState = InitialSkeletonState(assetData->skeleton, model, ecsSystem.GetComponentFor<AnimatorComponent>(model).animatorId);
     CreateSkeleton(ecsSystem, assetManager, skeletonState, ecsSystem.GetComponentFor<SkeletonComponent>(model));

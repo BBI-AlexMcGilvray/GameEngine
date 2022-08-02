@@ -37,7 +37,7 @@ namespace Rendering {
 
   EntityId CreateBone(ECS& ecsSystem, const Data::Rendering::SkeletonBoneData& boneData, const EntityId& parent, Core::Geometric::Transform& parentTransform, BoneCreationHelper::BoneCreationData& creationData)
   {
-    EntityHandler creator;
+    EntityHandler& creator = ecsSystem.CreateEntity();
 
     Core::Geometric::Transform bindTransform(boneData.position, boneData.rotation, boneData.scale);
     Core::Geometric::Transform localTransform = parentTransform.GetInverseTransformationMatrix() * bindTransform.GetTransformationMatrix();
@@ -63,7 +63,7 @@ namespace Rendering {
       creator.AddComponent<AnimationComponent>(creationData.animatorId, Core::HashValue(boneData.name));
     }
 
-    return ecsSystem.CreateEntity(creator);
+    return creator;
   }
 
   std::vector<std::pair<Core::Hash, Application::EntityId>> AddChildBones(ECS& ecsSystem, const Data::AssetData<Data::Rendering::SkeletonData>& skeletonData, const size_t& boneIndex, const EntityId& parent, Core::Geometric::Transform& parentTransform, BoneCreationHelper::BoneCreationData& creationData)
