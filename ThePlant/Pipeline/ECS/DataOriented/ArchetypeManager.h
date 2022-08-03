@@ -19,6 +19,8 @@ public:
     ArchetypeManager& operator=(const ArchetypeManager&) = delete;
     ArchetypeManager& operator=(ArchetypeManager&&) = delete;
 
+    bool EntityExists(const EntityId& entity);
+
     template <typename T>
     bool HasComponent(const Entity& entity)
     {

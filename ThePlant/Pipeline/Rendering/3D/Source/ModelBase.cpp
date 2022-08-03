@@ -47,7 +47,7 @@ namespace Rendering {
   , parent(parent)
   {}
 
-  EntityId CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialModelState& modelState)
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialModelState& modelState)
   {
     Data::AssetData<Data::Rendering::SimpleModelData> assetData = assetManager.getAssetData(modelState.asset);
     
@@ -81,7 +81,7 @@ namespace Rendering {
     return creator;
   }
 
-  EntityId CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState)
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState)
   {
     Data::AssetData<Data::Rendering::StaticModelData> assetData = assetManager.getAssetData(modelState.asset);
     

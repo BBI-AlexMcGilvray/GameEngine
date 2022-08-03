@@ -54,7 +54,7 @@ struct Archetype
     template <typename T>
     T& GetComponentFor(const EntityId& entity)
     {
-        IComponentList* componentList = _components.at(GetTypeId<T>()).get();
+        IComponentList* componentList = _components.at(Core::GetTypeId<T>()).get();
         return componentList->GetComponentAt<T>(_GetEntityIndex(entity));
     }
 
@@ -62,7 +62,7 @@ struct Archetype
     std::vector<T>& GetComponents()// vector should not be modified, but elements may be
     {
         // for some reason can't do this in one line or compiler is confused
-        IComponentList* componentList = _components.at(GetTypeId<T>()).get();
+        IComponentList* componentList = _components.at(Core::GetTypeId<T>()).get();
         return componentList->GetComponents<T>();
     }
 
@@ -113,7 +113,7 @@ private:
     template <typename T>
     void _AddComponent(T value)
     {
-        _components.at(GetTypeId<T>())->AddComponent(std::move(value));
+        _components.at(Core::GetTypeId<T>())->AddComponent(std::move(value));
     }
 
     template <typename T, typename ...Ts>

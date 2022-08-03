@@ -8,6 +8,7 @@
 
 #include "Pipeline/Animation/Headers/AnimationManager.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
+#include "Pipeline/ECS/DataOriented/EntityHandler.h"
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
 namespace Application {
@@ -29,6 +30,6 @@ namespace Rendering {
   NOTE: The 'Woman' model has fucked up scales that have been manually changed in the generated skeleton asset file - that may be a problem if we regenerate it
   */
 
-  EntityId CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, Animation::AnimationManager& animationManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState);
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, Animation::AnimationManager& animationManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState);
 }// namespace Rendering
 }// namespace Application

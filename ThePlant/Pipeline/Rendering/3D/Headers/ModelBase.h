@@ -8,7 +8,7 @@
 #include "Data/Rendering/Headers/StaticModelData.h"
 
 #include "Pipeline/ECS/DataOriented/ECS.h"
-#include "Pipeline/ECS/DataOriented/IDs.h"
+#include "Pipeline/ECS/DataOriented/EntityHandler.h"
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
 namespace Application {
@@ -39,7 +39,7 @@ namespace Rendering {
     InitialStaticModelState(const Data::AssetName<Data::Rendering::StaticModelData>& asset, const Core::Geometric::Transform& localTransform, const EntityId& parent);
   };
 
-  EntityId CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialModelState& modelState);
-  EntityId CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState);
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialModelState& modelState);
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState);
 }// namespace Rendering
 }// namespace Application

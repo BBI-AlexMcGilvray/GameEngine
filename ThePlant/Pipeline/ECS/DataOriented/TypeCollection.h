@@ -106,14 +106,14 @@ private:
 template <typename ...Ts>
 TypeCollection CollectTypes()
 {
-    return TypeCollection(std::vector<Core::runtimeId_t>{ GetTypeId<Ts>()... });
+    return TypeCollection(std::vector<Core::runtimeId_t>{ Core::GetTypeId<Ts>()... });
 }
 
 template <typename ...Ts>
 TypeCollection AddToCollection(const TypeCollection& collection)
 {
     std::vector<Core::runtimeId_t> existing = collection.Types();
-    std::vector<Core::runtimeId_t> toAdd = std::vector<Core::runtimeId_t>{ GetTypeId<Ts>()... };
+    std::vector<Core::runtimeId_t> toAdd = std::vector<Core::runtimeId_t>{ Core::GetTypeId<Ts>()... };
     
     std::vector<Core::runtimeId_t> all;
     all.insert(all.end(), existing.begin(), existing.end());
@@ -126,7 +126,7 @@ template <typename ...Ts>
 TypeCollection RemoveFromCollection(const TypeCollection& collection)
 {
     std::vector<Core::runtimeId_t> existing = collection.Types();
-    std::vector<Core::runtimeId_t> toRemove = std::vector<Core::runtimeId_t>{ GetTypeId<Ts>()... };
+    std::vector<Core::runtimeId_t> toRemove = std::vector<Core::runtimeId_t>{ Core::GetTypeId<Ts>()... };
     
     existing.erase(std::remove_if(existing.begin(), existing.end(), [toRemove](const auto& x)
     {

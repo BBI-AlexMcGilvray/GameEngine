@@ -20,7 +20,7 @@ struct IComponentList
     virtual std::unique_ptr<IComponentList> CreateEmptyCopy() const = 0;
     virtual void AddComponent() = 0;
     virtual void RemoveComponentAt(const size_t& index) = 0;
-    virtual void MoveEntityTo(const size_t& index, IComponentList& destination) = 0;
+    virtual void MoveEntityTo(const size_t& index, IComponentList& destination, const size_t& destinationIndex) = 0;
 
     template <typename T>
     void AddComponent(T value)
@@ -61,7 +61,7 @@ struct IComponentList
 
 protected:
     template <typename T>
-    bool _IsCorrectType() const { return _IsCorrectType(GetTypeId<T>()); } // could be compiled out when not in debug
+    bool _IsCorrectType() const { return _IsCorrectType(Core::GetTypeId<T>()); } // could be compiled out when not in debug
 
     bool _IsCorrectType(const Core::runtimeId_t& type) const { return (type == ComponentType()); }
 
@@ -92,7 +92,7 @@ struct ComponentList : public IComponentList
         _components.emplace_back(std::move(value));
     }
 
-    void MoveEntityTo(const size_t& index, IComponentList& destination) override
+    void MoveEntityTo(const size_t& index, IComponentList& destination, const size_t& destinationIndex) override
     {
         // should be debug only
         if (!_IsCorrectType(destination.ComponentType()))
@@ -101,7 +101,7 @@ struct ComponentList : public IComponentList
         }
 
         ComponentList<T>& trueDestination = static_cast<ComponentList<T>&>(destination);
-        trueDestination._ComponentAt(index) = std::move(_ComponentAt(index));
+        trueDestination._ComponentAt(destinationIndex) = std::move(_ComponentAt(index));
         RemoveComponentAt(index);
     }
 

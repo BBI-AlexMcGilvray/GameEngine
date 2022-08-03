@@ -18,6 +18,7 @@
 
 #include "Product/Supplies/Assets.h"
 #include "Product/Testing/TestingUtils.h"
+#include "Product/Testing/TestSystem.h"
 // \testing
 
 namespace Product
@@ -50,6 +51,8 @@ void MyState::Initialize()
     activeCollisionHandlers |= Application::CollisionHandler::DebugCollisionDisplay;
 #endif
     Application::SetCollisionHandlers(*this, activeCollisionHandlers);
+    CollisionManager().AddCollisionHandler<Testing::CountedCollision>(ECS());
+    CollisionManager().AddCollisionHandler<Testing::DestructiveCollision>(ECS());
 
     // this will be data driven from the future
     // create camera
@@ -100,7 +103,7 @@ void MyState::Initialize()
     {
         Core::Math::Float3 position = Math::Lerp(_leftPos, _rightPos, float(i) / static_cast<float>(numSpawned));
         Core::Math::Float3 velocity(Core::InRange(rand, -50.0f, 50.0f), Core::InRange(rand, -50.0f, 50.0f), Core::InRange(rand, -50.0f, 50.0f));
-        Testing::SpawnCollider(*this, velocity, Core::Geometric::Sphere(1.0f), position);
+        Testing::SpawnCollider(*this, velocity, Core::Geometric::Sphere(1.0f), position).AddComponent<Testing::CollisionCountComponent>(3);
     }
 
     // surrounding box

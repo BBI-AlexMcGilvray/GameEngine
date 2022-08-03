@@ -31,6 +31,11 @@ namespace Application
             _componentReferences = std::move(components);
         }
 
+        // creates an empty snapshot - to be used if the entity no longer exists
+        EntitySnapshot(const EntityId& entity)
+        : _entity(entity, ArchetypeId())
+        {}
+
         EntitySnapshot() = default;
         EntitySnapshot(EntitySnapshot&&) = default;
         EntitySnapshot& operator=(EntitySnapshot&&) = default;

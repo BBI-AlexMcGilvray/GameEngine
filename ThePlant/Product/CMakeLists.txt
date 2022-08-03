@@ -10,7 +10,8 @@ Source/CameraController.cpp #
 Source/MyProduct.cpp #
 Source/MyState.cpp #
 Source/ProductManager.cpp #
-Testing/TestingUtils.cpp)
+Testing/TestingUtils.cpp #
+Testing/TestSystem.cpp)
 
 set(HEADER_FILES #
 Scripting/LuaManager.h #
@@ -18,7 +19,8 @@ Headers/CameraController.h #
 Headers/MyProduct.h #
 Headers/MyState.h #
 Headers/ProductManager.h #
-Testing/TestingUtils.h)
+Testing/TestingUtils.h #
+Testing/TestSystem.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Product_Lib)
 

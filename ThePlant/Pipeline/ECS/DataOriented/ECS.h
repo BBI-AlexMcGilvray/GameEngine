@@ -18,6 +18,8 @@ namespace Application
         ECS& operator=(const ECS&) = delete;
         ECS& operator=(ECS&&) = delete;
 
+        bool EntityExists(const EntityId& entity) { return _archetypes.EntityExists(entity); }
+
         // we need all calls that ArchetypeManager and SystemManager have and forward to them respectively
         template <typename T>
         bool HasComponent(const Entity& entity) { return _archetypes.HasComponent<T>(entity); }
@@ -37,7 +39,7 @@ namespace Application
         EntityHandler& AddComponent(const EntityId& entity, ARGS&& ...args) { return _archetypes.AddComponent<T>(std::forward<ARGS>(args)...); }
 
         template <typename T>
-        EntityHandler& RemoveComponent(const EntityId& entity) { return _archetypes.RemoveComponent<T>(); }
+        EntityHandler& RemoveComponent(const EntityId& entity) { return _archetypes.RemoveComponent<T>(entity); }
 
         EntityHandler& CreateEntity() { return _archetypes.CreateEntity(); }
 

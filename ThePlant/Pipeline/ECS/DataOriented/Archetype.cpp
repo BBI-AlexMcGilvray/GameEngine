@@ -23,14 +23,19 @@ Archetype& Archetype::operator=(Archetype&& other)
 void Archetype::TransferEntityTo(const EntityId& entity, Archetype& destination)
 {
     destination.AddEntity(entity);
+
+    size_t entityIndex = _GetEntityIndex(entity);
+    size_t destinationIndex = destination._GetEntityIndex(entity);
     for (auto & component : _components)
     {
         if (!destination.HasComponent(component.first))
         {
+            component.second->RemoveComponentAt(entityIndex); // no component in new archetype means just toss component
             continue;
         }
-        component.second->MoveEntityTo(_GetEntityIndex(entity), *(destination._components[component.first])); // this removes the entity from 'component'
+        component.second->MoveEntityTo(entityIndex, *(destination._components[component.first]), destinationIndex); // this removes the entity from 'component'
     }
+    _entities.erase(_entities.begin() + entityIndex);
 }
 
 bool Archetype::HasEntity(const EntityId& entity) const

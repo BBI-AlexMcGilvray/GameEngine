@@ -20,10 +20,10 @@
 namespace Application {
 enum class EntityChange
 {
-    Created,
-    Deleted,
-    ComponentAdded,
-    ComponentRemoved
+    Created = 1 << 0,
+    Deleted = 1 << 1,
+    ComponentAdded = 1 << 2,
+    ComponentRemoved = 1 << 3
 };
 
 // ArchetypeManager (ECS forwards) will, whenever a chage is made to an entity (removal, component add/remove) will
@@ -49,7 +49,7 @@ struct EntityHandler
 
     // get the representation of the desired archetype
     const TypeCollection& GetFinalArchetype() const { return _components; }
-    Archetype CreateArchetype(Core::Ptr<Archetype> oldArchetype) const;
+    Archetype CreateArchetype(Core::Ptr<const Archetype> oldArchetype) const;
     void CreateNewComponents(Archetype& archetype) const;
 
     BitmaskEnum<EntityChange> GetChanges() const { return _changes; }
@@ -81,13 +81,10 @@ struct EntityHandler
         }
 
         _components = RemoveFromCollection<T>(_components);
-        if (auto iter = std::find(_componentCreators.begin(), _componentCreators.end(), [](const auto& creator)
+        _componentCreators.erase(std::remove_if(_componentCreators.begin(), _componentCreators.end(), [](const auto& creator)
         {
             return creator->ComponentType() == Core::GetTypeId<T>();
-        }; iter != _componentCreators.end()))
-        {
-            _componentCreators.erase(iter);
-        }
+        }), _componentCreators.end());
         _changes |= EntityChange::ComponentRemoved;
 
         return *this;

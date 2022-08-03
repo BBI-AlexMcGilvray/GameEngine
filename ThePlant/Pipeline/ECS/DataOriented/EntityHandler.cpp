@@ -14,7 +14,7 @@ namespace Application {
         // fille _componentCreators with those needed to match the current archetype!
     }
 
-    Archetype EntityHandler::CreateArchetype(Core::Ptr<Archetype> oldArchetype) const
+    Archetype EntityHandler::CreateArchetype(Core::Ptr<const Archetype> oldArchetype) const
     {
         SCOPED_MEMORY_CATEGORY("ECS");
         TypeCollection finalArchetype = GetFinalArchetype();

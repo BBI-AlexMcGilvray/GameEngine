@@ -5,6 +5,19 @@
 #include "Pipeline/ECS/DataOriented/EntityHandler.h"
 
 namespace Application {
+bool ArchetypeManager::EntityExists(const EntityId& entity)
+{
+    for (auto& archetype : _archetypes)
+    {
+        if (archetype.HasEntity(entity))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 EntitySnapshot ArchetypeManager::GetTemporaryEntitySnapshot(const Entity& entity)
 {
     if (!_HasArchetype(entity.GetArchetypeId()))
@@ -127,13 +140,21 @@ void ArchetypeManager::_ApplyHandler(const EntityHandler& handler)
     Core::Ptr<Archetype> oldArchetype = nullptr;
     if (!handler.GetChanges().HasAllFlags(EntityChange::Created))
     {
-        oldArchetype = &_GetArchetype(handler.GetArchetype());
+        oldArchetype = &(_GetArchetype(handler.GetArchetype()));
     }
 
     TypeCollection newArchetypeType = handler.GetFinalArchetype();
     if (!_HasArchetype(newArchetypeType))
     {
-        _archetypes.emplace_back(handler.CreateArchetype(oldArchetype));
+        Archetype createdArchetype = handler.CreateArchetype(oldArchetype);
+        _archetypes.emplace_back(std::move(createdArchetype));
+        
+        // need to re-get because the emplace above can adjust the vector giving new memory locations
+        // ideally we find a way around this
+        if (!handler.GetChanges().HasAllFlags(EntityChange::Created))
+        {
+            oldArchetype = &(_GetArchetype(handler.GetArchetype()));
+        }
     }
     Archetype& newArchetype = _GetArchetype(newArchetypeType);
 

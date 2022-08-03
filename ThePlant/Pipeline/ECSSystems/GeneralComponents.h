@@ -6,7 +6,15 @@ namespace Application {
 // refers to parent, entities can only have ONE parent
 struct ParentComponent
 {
+    enum class LossBehaviour
+    {
+        Destroy,
+        Release,
+        Inherit
+    };
+
     EntityId entity;
+    LossBehaviour behaviour;
 
     ParentComponent() = default;
     ParentComponent(const ParentComponent&) = default;
@@ -14,13 +22,14 @@ struct ParentComponent
     ParentComponent& operator=(const ParentComponent&) = default;
     ParentComponent& operator=(ParentComponent&&) = default;
 
-    ParentComponent(const EntityId& entity)
+    ParentComponent(const EntityId& entity, LossBehaviour behaviour)
     : entity(entity)
+    , behaviour(behaviour)
     {}
 
     bool operator==(const ParentComponent& other) const
     {
-        return entity == other.entity;
+        return entity == other.entity && behaviour == other.behaviour;
     }
     bool operator !=(const ParentComponent& other) const { return !(*this == other); }
 };

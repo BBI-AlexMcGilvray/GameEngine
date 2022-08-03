@@ -27,7 +27,7 @@ namespace Product
 {
 namespace Testing
 {
-    Application::EntityId SpawnStaticModel(Application::State& state)
+    Application::EntityHandler& SpawnStaticModel(Application::State& state)
     {
         auto& assetManager = state.AssetManager();
         auto& ecs = state.ECS();
@@ -37,7 +37,7 @@ namespace Testing
         return Application::Rendering::CreateModel(ecs, assetManager, shaderManager, initialMIState);
     }
 
-    Application::EntityId SpawnAnimatedModel(Application::State& state)
+    Application::EntityHandler& SpawnAnimatedModel(Application::State& state)
     {
         auto& animationManager = state.AnimationManager();
         auto& assetManager = state.AssetManager();
@@ -48,7 +48,7 @@ namespace Testing
         return Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
     }
 
-    Application::EntityId SpawnCollider(Application::State& state, const Core::Math::Float3& velocity, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::EntityHandler& SpawnCollider(Application::State& state, const Core::Math::Float3& velocity, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
         auto& ecs = state.ECS();
 
@@ -65,7 +65,7 @@ namespace Testing
         return creator;
     }
 
-    Application::EntityId SpawnStaticCollider(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::EntityHandler& SpawnStaticCollider(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
         auto& ecs = state.ECS();
 
@@ -80,7 +80,7 @@ namespace Testing
         return creator;
     }
 
-    Application::EntityId SpawnTrigger(Application::State& state, const Core::Math::Float3& velocity, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::EntityHandler& SpawnTrigger(Application::State& state, const Core::Math::Float3& velocity, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
         auto& ecs = state.ECS();
 
@@ -95,7 +95,7 @@ namespace Testing
         return creator;
     }
 
-    Application::EntityId SpawnStaticTrigger(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
+    Application::EntityHandler& SpawnStaticTrigger(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)
     {
         auto& ecs = state.ECS();
 

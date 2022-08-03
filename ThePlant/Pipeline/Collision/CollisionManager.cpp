@@ -103,6 +103,14 @@ std::vector<StatefulCollision> CollisionManager::_HandleCollisionStates(std::vec
     snapshots.reserve(_existingCollisions.size());
     for (auto completedCollision = _existingCollisions.begin(); completedCollision != _existingCollisions.end(); ++completedCollision)
     {   // getting snapshots here so we only get it once per entity (should be more efficient)
+
+        // we hold on to old collisions, so entities can be destroyed - provide empty snapshots in these cases
+        if (!_ecs.EntityExists(completedCollision->first))
+        {
+            snapshots[completedCollision->first] = EntitySnapshot(completedCollision->first);
+            continue;
+        }
+
         snapshots[completedCollision->first] = _ecs.GetTemporaryEntitySnapshot(completedCollision->first);
     }
 
