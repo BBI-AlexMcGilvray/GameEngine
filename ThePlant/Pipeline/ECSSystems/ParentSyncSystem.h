@@ -22,16 +22,16 @@ struct ParentSyncSystem : public System<ParentSyncSystem>
     void Execute(ArchetypeManager& archetypeManager) const override
     {
         const std::unordered_map<EntityId, EntityHandler>& pendingChanges = archetypeManager.GetPendingChanges();
-        if (pendingChanges.empty())
+        if (!RelevantPendingChanges(pendingChanges))
         {
             return;
         }
+
         std::vector<Core::Ptr<Archetype>> archetypes = archetypeManager.GetArchetypesContaining<ParentComponent>();
 
         // vector of all entities and their parents
-        // sort to ensure all entity's parents come before they do
-        // go through results and check if parent is being destroyed
         std::vector<SyncStruct> childParentMapping;
+        // calculate size ahead of time for efficiency
         size_t size = 0;
         for (auto& archetype : archetypes)
         {
@@ -39,6 +39,7 @@ struct ParentSyncSystem : public System<ParentSyncSystem>
         }
         childParentMapping.reserve(size);
 
+        // populate the mapping
         for (auto& archetype : archetypes)
         {
             const auto& entities = archetype->GetEntities();
@@ -51,6 +52,7 @@ struct ParentSyncSystem : public System<ParentSyncSystem>
             }
         }
 
+        // sort the mapping (we need to delete possible parents before checking their children)
         std::sort(childParentMapping.begin(), childParentMapping.end(), [](const auto& child1, const auto& child2)
         {
             // if child1 depends on child2, child1 must come after
@@ -68,6 +70,7 @@ struct ParentSyncSystem : public System<ParentSyncSystem>
             return false;
         });
 
+        // process
         for (auto& childParent : childParentMapping)
         {
             auto parentIter = pendingChanges.find(childParent.parentComponent->entity);
@@ -90,6 +93,19 @@ private:
         Core::Ptr<ParentComponent> parentComponent;
     };
     ECS& _ecs;
+
+    static bool RelevantPendingChanges(const std::unordered_map<EntityId, EntityHandler>& pendingChanges)
+    {
+        for (const auto& pendingChange : pendingChanges)
+        {
+            if (pendingChange.second.GetChanges().HasAllFlags(EntityChange::Deleted))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     static void UpdateEntity(ArchetypeManager& archetypeManager, SyncStruct& syncStruct)
     {
