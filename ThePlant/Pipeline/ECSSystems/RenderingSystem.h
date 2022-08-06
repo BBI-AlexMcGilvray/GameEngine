@@ -162,7 +162,7 @@ private:
         std::vector<WorldTransformComponent>& transforms = archetype->GetComponents<WorldTransformComponent>();
         Core::Ptr<std::vector<ColorComponent>> colors = archetype->HasComponent<ColorComponent>() ? &(archetype->GetComponents<ColorComponent>()) : nullptr;
 
-        DEBUG_ASSERT(materials.size() == meshes.size() == transforms.size());
+        DEBUG_ASSERT((materials.size() == meshes.size()) && (meshes.size() == transforms.size()));
         DEBUG_ASSERT(colors == nullptr || colors->size() == materials.size());
 
         for (size_t index = 0; index < materials.size(); ++index)

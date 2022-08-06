@@ -48,7 +48,7 @@ namespace Rendering {
 
     if (modelState.parent.IsValid())
     {
-      creator.AddComponent<ParentComponent>(modelState.parent);
+      creator.AddComponent<ParentComponent>(modelState.parent, ParentComponent::LossBehaviour::Destroy);
       creator.AddComponent<LocalTransformComponent>(Core::Geometric::Transform());
     }
 
@@ -71,15 +71,16 @@ namespace Rendering {
     // but we should still be able to create a skeleton from just an asset name
     // maybe all 'create' calls should have overloads for [AssetManager, AssetName] and [AssetData] (former redirects to the latter)
     bool isAnimated = (skeletonData->animations.size() > 0);
+    Core::instanceId<Animation::Animator> animatorId;
     if (isAnimated)
     {
       // register animations?
-      auto animatorId = animationManager.CreateAnimator(assetManager, skeletonData->animations);
+      animatorId = animationManager.CreateAnimator(assetManager, skeletonData->animations);
       creator.AddComponent<AnimatorComponent>(animatorId);
     }
 
-    InitialSkeletonState skeletonState = InitialSkeletonState(assetData->skeleton, creator, ecsSystem.GetComponentFor<AnimatorComponent>(creator).animatorId);
-    CreateSkeleton(ecsSystem, assetManager, skeletonState, ecsSystem.GetComponentFor<SkeletonComponent>(creator));
+    InitialSkeletonState skeletonState = InitialSkeletonState(assetData->skeleton, creator, animatorId);
+    CreateSkeleton(ecsSystem, assetManager, skeletonState, creator.GetComponent<SkeletonComponent>());
 
     return creator;
   }

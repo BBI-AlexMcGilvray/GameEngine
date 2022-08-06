@@ -59,7 +59,7 @@ namespace Rendering {
 
     if (modelState.parent.IsValid())
     {
-      creator.AddComponent<ParentComponent>(modelState.parent);
+      creator.AddComponent<ParentComponent>(modelState.parent, ParentComponent::LossBehaviour::Destroy);
       creator.AddComponent<LocalTransformComponent>(Transform());
     }
 
@@ -93,7 +93,7 @@ namespace Rendering {
 
     if (modelState.parent.IsValid())
     {
-      creator.AddComponent<ParentComponent>(modelState.parent);
+      creator.AddComponent<ParentComponent>(modelState.parent, ParentComponent::LossBehaviour::Destroy);
       creator.AddComponent<LocalTransformComponent>(Transform());
     }
 

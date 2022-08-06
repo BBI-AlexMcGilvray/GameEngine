@@ -45,7 +45,7 @@ struct EntityHandler
 
     operator EntityId() const { return GetEntity(); }
     const EntityId& GetEntity() const { return _entity.GetEntityId(); }
-    const ArchetypeId& GetArchetype() const { return _entity.GetArchetypeId(); }
+    const ArchetypeId& GetArchetype() const { return _entity._entity.GetArchetypeId(); }
 
     // get the representation of the desired archetype
     const TypeCollection& GetFinalArchetype() const { return _components; }
@@ -56,6 +56,26 @@ struct EntityHandler
 
     // no way to save an entity from being deleted, that should be handled by the systems/components
     void DeleteEntity() { _changes |= EntityChange::Deleted; }
+
+    template <typename T>
+    bool HasComponent()
+    {
+        return _components.HasType(Core::GetTypeId<T>());
+    }
+
+    template <typename T>
+    T& GetComponent()
+    {
+        for (auto& component : _componentCreators)
+        {
+            if (component->ComponentType() == Core::GetTypeId<T>())
+            {
+                return component->ComponentValue<T>();
+            }
+        }
+        // not a new component means it is held by the snapshot (existing component)
+        return _entity.GetComponent<T>();
+    }
 
     template <typename T, typename ...ARGS>
     EntityHandler& AddComponent(ARGS&& ...args)
@@ -91,7 +111,7 @@ struct EntityHandler
     }
 
 private:
-    Entity _entity; // this means _nothing_ except snapshots and this should be using Entity, everything else should use EntityId
+    EntitySnapshot _entity; // this means _nothing_ except snapshots and this should be using Entity, everything else should use EntityId
     BitmaskEnum<EntityChange> _changes;
     TypeCollection _components;
     std::vector<std::unique_ptr<IComponentCreator>> _componentCreators;

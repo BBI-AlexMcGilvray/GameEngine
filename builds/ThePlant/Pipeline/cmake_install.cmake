@@ -73,6 +73,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/CollisionComponents.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/CollisionSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/GeneralComponents.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/ParentSyncSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/RenderingComponents.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/RenderingSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/TransformComponents.h"

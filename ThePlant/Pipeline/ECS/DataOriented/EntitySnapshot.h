@@ -62,7 +62,7 @@ namespace Application
             }
         }
 
-        EntityId GetEntityId() const
+        const EntityId& GetEntityId() const
         {
             return _entity.GetEntityId();
         }

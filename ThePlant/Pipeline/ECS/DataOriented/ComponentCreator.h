@@ -21,7 +21,18 @@ struct IComponentCreator
     virtual void CreateComponent(Archetype& archetype, const EntityId& entity) const = 0;
 
     template <typename T>
-    const T& ComponentValue()
+    T& ComponentValue()
+    {
+        if (!_IsCorrectType<T>())
+        {
+            throw std::invalid_argument("type does not match that held by the component creator");
+        }
+
+        return *(static_cast<T*>(_VoidPtrToComponentValue()));
+    }
+    
+    template <typename T>
+    const T& ComponentValue() const
     {
         if (!_IsCorrectType<T>())
         {
@@ -37,7 +48,7 @@ private:
 
     bool _IsCorrectType(const Core::runtimeId_t& type) const { return (type == ComponentType()); }
 
-    virtual Core::Ptr<const void> _VoidPtrToComponentValue() const = 0;
+    virtual Core::Ptr<void> _VoidPtrToComponentValue() = 0;
 };
 
 template <typename T>
@@ -69,7 +80,7 @@ struct ComponentCreator : public IComponentCreator
 private:
     T _component;
 
-    Core::Ptr<const void> _VoidPtrToComponentValue() const override
+    Core::Ptr<void> _VoidPtrToComponentValue() override
     {
         return &_component;
     }

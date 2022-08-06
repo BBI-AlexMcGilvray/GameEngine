@@ -2,13 +2,13 @@
 
 namespace Application {
     EntityHandler::EntityHandler(const EntityId newEntity)
-    : _entity(newEntity, ArchetypeId())
+    : _entity(newEntity)
     {
         _changes |= EntityChange::Created;
     }
 
     EntityHandler::EntityHandler(const EntitySnapshot& snapshot)
-    : _entity(std::move(snapshot._entity))
+    : _entity(snapshot)
     , _components(snapshot.ComponentTypes())
     {
         // fille _componentCreators with those needed to match the current archetype!

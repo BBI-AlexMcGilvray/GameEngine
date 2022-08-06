@@ -216,7 +216,7 @@ struct LocalToWorldTransformSystem : public System<LocalToWorldTransformSystem>
         // sort based on dependencies
         std::sort(dependencyTree.begin(), dependencyTree.end(), [](const auto& p1, const auto& p2)
         {
-            // if p1 depends on p2, p2 must come after
+            // if p1 depends on p2, p1 must come after
             if (p1.second == p2.first)
             {
                 return false;

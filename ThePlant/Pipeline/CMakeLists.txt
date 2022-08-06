@@ -111,6 +111,7 @@ ECSSystems/CameraComponents.h #
 ECSSystems/CollisionComponents.h #
 ECSSystems/CollisionSystem.h #
 ECSSystems/GeneralComponents.h #
+ECSSystems/ParentSyncSystem.h #
 ECSSystems/RenderingComponents.h #
 ECSSystems/RenderingSystem.h #
 ECSSystems/TransformComponents.h #

@@ -42,7 +42,7 @@ namespace Rendering {
     Core::Geometric::Transform bindTransform(boneData.position, boneData.rotation, boneData.scale);
     Core::Geometric::Transform localTransform = parentTransform.GetInverseTransformationMatrix() * bindTransform.GetTransformationMatrix();
 
-    creator.AddComponent<ParentComponent>(parent);
+    creator.AddComponent<ParentComponent>(parent, ParentComponent::LossBehaviour::Destroy);
     creator.AddComponent<LocalTransformComponent>();
     // we may want to have a flag for if a given bone can/should have a world transform component (only needed if we want to be able to make it a parent to other entities)
     creator.AddComponent<WorldTransformComponent>();

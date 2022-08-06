@@ -11,6 +11,7 @@ namespace Application
     public:
         ECS()
         : _systems(_archetypes)
+        , _changeSyncSystems(_archetypes)
         {}
 
         ECS(const ECS&) = delete;
@@ -48,21 +49,33 @@ namespace Application
         void ApplyChanges() { _archetypes.ApplyChanges(); }
         void Update()
         {
+            // we do the first update to remove the need for safety checking inside systems, everything should be up-to-date once systems are run
+            // maybe profile to verify this is faster, but doing 1 additional set of (rare) changes should be faster than all the safety checks otherwise required
+            _changeSyncSystems.Update();
+            _archetypes.ApplyChanges(); // handle changes made outside of ECS systems
             _systems.Update();
-            _archetypes.ApplyChanges();
+            _changeSyncSystems.Update();
+            _archetypes.ApplyChanges(); // handle changes made by ECS systems
         }
 
         template <typename SYSTEM, typename ...ARGS>
         ISystem& AddSystem(ARGS&& ...args) { return _systems.AddSystem<SYSTEM, ARGS...>(std::forward<ARGS>(args)...); }
         template <typename SYSTEM>
         void RemoveSystem() { _systems.RemoveSystem<SYSTEM>(); }
+
+        template <typename SYSTEM, typename ...ARGS>
+        ISystem& AddChangeSyncSystem(ARGS&& ...args) { return _changeSyncSystems.AddSystem<SYSTEM, ARGS...>(std::forward<ARGS>(args)...); }
+        template <typename SYSTEM>
+        void RemoveChangeSyncSystem() { _changeSyncSystems.RemoveSystem<SYSTEM>(); }
         
     #if DEBUG
         std::vector<Core::Ptr<ISystem>> GetCurrentSystems() { return _systems.GetCurrentSystems(); }
+        std::vector<Core::Ptr<ISystem>> GetCurrentChangeSyncSystems() { return _changeSyncSystems.GetCurrentSystems(); }
     #endif
 
     private:
         ArchetypeManager _archetypes;
         SystemManager _systems;
+        SystemManager _changeSyncSystems;
     };
 } // namespace Application

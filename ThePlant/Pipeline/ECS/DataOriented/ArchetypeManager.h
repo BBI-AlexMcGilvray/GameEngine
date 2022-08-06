@@ -88,6 +88,7 @@ public:
         _GetEntityHandler(entity, EntityState::Existing).DeleteEntity();
     }
 
+    const std::unordered_map<EntityId, EntityHandler>& GetPendingChanges() const { return _entityChanges; }
     void ApplyChanges();
 
     template <typename ...Ts>
