@@ -64,9 +64,8 @@ struct ParentSyncSystem : public System<ParentSyncSystem>
                 return true;
             }
 
-            // WORKS BUT THIS IS WRONG!
-            // otherwise, sort based on their parent's creation order (NOT valid -> could be parented to an entity that was created later)
-            return child1.parentComponent->entity < child2.parentComponent->entity;
+            // if we don't have a definitive mapping, return assume child1 must come after to enforce checking against the rest of the elements
+            return false;
         });
 
         for (auto& childParent : childParentMapping)
