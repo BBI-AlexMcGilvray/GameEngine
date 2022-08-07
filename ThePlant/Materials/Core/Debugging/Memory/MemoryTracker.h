@@ -19,6 +19,7 @@ class MemoryTracker
 {
 private:
     static constexpr inline size_t _ERROR_ID = 0;
+    static inline std::atomic<int> unaccounted_allocations = 0;
 
     static inline std::atomic<uint64_t> allocationIndex = 0; // testing
 
@@ -73,13 +74,28 @@ public:
     ~MemoryTracker()
     {
         // testing
+        /*
+        NOTE: not sure why there are allocations unaccounted for. maybe when the parent object is destroyed the destructors are optimized out and just ignored?
+            overall this issue (exception on game end) seems like it can just be ignored for now...
+        */
         // i think this should be 0 for everything before this is destroyed...
         for (const auto& category : _categories)
         {
             if (category.second.count != 0)
             {
-                std::cout << "MemoryTracker: " << std::to_string(category.first) + " has " + std::to_string(category.second.count) + " allocations totalling " + std::to_string(category.second.size) << '\n';
+                for (const auto& map : _categoryToId)
+                {
+                    if (map.second == category.first)
+                    {
+                        std::cout << "MemoryTracker: " << std::string(map.first) + " has " + std::to_string(category.second.count) + " allocations totalling " + std::to_string(category.second.size) << '\n';
+                        break;
+                    }
+                }
             }
+        }
+        if (unaccounted_allocations != 0)
+        {
+            std::cout << "MemoryTracker: " << std::to_string(unaccounted_allocations) << " unaccounted allocations" << '\n';
         }
         // \testing
     }

@@ -21,6 +21,13 @@ namespace IO {
 
     File(FilePath path, OpenMode permissions, Endian endian = Endian::Big);
 
+    File(const File&) = default;
+    File(File&&) = default;
+    File& operator=(const File&) = default;
+    File& operator=(File&&) = default;
+
+    ~File();
+
     std::string GetFullPath();
 
     void SetPermissions(OpenMode permissions);

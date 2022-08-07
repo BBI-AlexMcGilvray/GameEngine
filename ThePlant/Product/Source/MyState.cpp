@@ -74,8 +74,8 @@ void MyState::Initialize()
     inputManager->addReceiver(&_cameraController);
 
     // testing
-    // _static = Testing::SpawnStaticModel(*this);
-    _animated = Testing::SpawnAnimatedModel(*this);
+    _static = Testing::SpawnStaticModel(*this); // this and the below cause an exception on close
+    // _animated = Testing::SpawnAnimatedModel(*this);
 
     // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
     _leftPos = Core::Math::Float3(-200.0f, 0.0f, 0.0f);
@@ -176,19 +176,19 @@ void MyState::_PreECSUpdate(Second dt) {};
 void MyState::_PostECSUpdate(Second dt)
 {
     // testing (Animated model)
-    ++frames;
-    if (frames > 50 && !played)
-    {
-        auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_animated);
-        // animation issue seems to be an issue with the animation, or an issue with one of the play modes (loop/boomerang/...?)
-        AnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Walk);
-        played = true;
-    }
-    if (frames > 150 && !deleted)
-    {
-        ECS().RemoveEntity(_animated);
-        deleted = true;
-    }
+    // ++frames;
+    // if (frames > 50 && !played)
+    // {
+    //     auto& animationComponent = ECS().GetComponentFor<Application::AnimatorComponent>(_animated);
+    //     // animation issue seems to be an issue with the animation, or an issue with one of the play modes (loop/boomerang/...?)
+    //     AnimationManager().GetAnimator(animationComponent.animatorId).RepeatAnimation(Data::Ast.sanim.Monk_1_CharacterArmature_Walk);
+    //     played = true;
+    // }
+    // if (frames > 150 && !deleted)
+    // {
+    //     ECS().RemoveEntity(_animated);
+    //     deleted = true;
+    // }
     // \testing
 
     // testing (Static model)

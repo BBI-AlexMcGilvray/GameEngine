@@ -9,6 +9,14 @@ namespace IO {
     : Path(path), FilePermissions(permissions), FileEndian(endian)
   {
   }
+  
+  File::~File()
+  {
+    if (FileStream.is_open())
+    {
+      CORE_THROW("File", "Destroying open file!");
+    }
+  }
 
   std::string File::GetFullPath()
   {
@@ -26,8 +34,7 @@ namespace IO {
 
   void File::Open()
   {
-    DEBUG_LOG(TAG, "Opening file <<" + GetFullPath() + ">>");
-
+    CORE_ERROR(TAG, "This line breaks in RelWithDebInfo for some reason... (red herring? - there are unaccounted for allocations...)");
     FileStream.open(GetFullPath(), FilePermissions);
 
     if (!FileStream.is_open()) {
@@ -37,8 +44,6 @@ namespace IO {
 
   void File::Close()
   {
-    DEBUG_LOG(TAG, "Closing file <<" + GetFullPath() + ">>");
-
     FileStream.close();
   }
 

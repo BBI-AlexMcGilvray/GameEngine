@@ -55,6 +55,7 @@ Ptr<void> MemoryTracker::Allocate(size_t size)
         throw std::bad_alloc();
     }
 
+    ++unaccounted_allocations;
     return requested;
 }
 
@@ -73,6 +74,7 @@ void MemoryTracker::Deallocate(Ptr<void> memory)
         DEBUG_THROW("MemoryTracker", "Trying to deallocate memory we did not allocate");
         // deallocating memory that doesn't have a header
         free(memory);
+        --unaccounted_allocations;
         return;
     }
     
@@ -81,9 +83,11 @@ void MemoryTracker::Deallocate(Ptr<void> memory)
         DEBUG_THROW("MemoryTracker", "Trying to deallocate memory it doesn't look like we allocated");
         // deallocating memory that doesn't seem to be made by up
         free(memory);
+        --unaccounted_allocations;
         return;
     }
 
+    --unaccounted_allocations;
     free(header); // deleting the whole block from the header
 }
 

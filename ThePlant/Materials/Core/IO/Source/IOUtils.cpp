@@ -52,8 +52,6 @@ namespace IO {
       free(buffer);
     }
 
-    CORE_WARNING("IOUTILS", "CWD: " + cwd);
-
     return cwd;
   }
 }// namespace IO

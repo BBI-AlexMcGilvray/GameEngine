@@ -81,6 +81,7 @@ private:
         const auto assetPath = _getFilePath(asset);
         File assetFile = OpenFileI(assetPath);
         // debug
+        // do this with used assets to make the first AssetLocationMapping to be used, then change how locations are used
         _AddUsedAssetLocation(asset, assetPath);
         // \debug
 
@@ -94,8 +95,11 @@ private:
 
         DeserializeTo(*loadedData, parsedAssetData);
         
-        // is now implicitly cast to const in storage
+        // // is now implicitly cast to const in storage
         _assets[asset] = loadedData; // need to store asset by AssetName AND AssetType (runtimeId_t)
+
+        assetFile.Close();
+
         // return implicitly-cast const version
         return loadedData;
     }
