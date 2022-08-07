@@ -138,7 +138,5 @@ private:
 #define SET_DEBUG_SERVICE(TYPE, ...) Core::ServiceToken<TYPE>()
 #define GET_DEBUG_SERVICE(TYPE) nullptr
 #define IF_DEBUG_SERVICE(TYPE) if (Core::ServiceReference<TYPE> service = Core::ServiceReference<TYPE>())
-#define WITH_DEBUG_SERVICE(TYPE)    \
-    IF_DEBUG_SERVICE(TYPE)  \
-    SCOPE
+#define WITH_DEBUG_SERVICE(TYPE) EAT // eat the whole statement so nothing happens
 #endif

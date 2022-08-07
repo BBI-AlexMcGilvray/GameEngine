@@ -45,6 +45,12 @@ Notes:
     - We could optimize this class by having a non-one value for stop gapping content
         - ex: must have >8 items before they are no longer stop-gapped (as that now becomes more to check than there are children)
     - We could potentially also optimize by only nulling-out children that did not have content (to avoid consistently allocating new nodes)
+    - If we want to support a collision matrix (what collision tags interact with others) we can
+        1. take in a matrix into the AllCollisions(...) function
+        2. take in a matrix in the contstructor
+        3. return all collisions and allow the CollisionManager to sort out/remove the collisions that don't 'actually' occur
+        4. another system that takes in the collisions and sorts them somehow
+        * in any case, we will probably want those tags to be on the collision component itself! (and maybe the OctTreeContent depending)
 */
 class OctTreeNode
 {

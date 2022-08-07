@@ -6,6 +6,8 @@
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Debugging/Memory/InternalUtils/Utils.h"
 
+#include <iostream>
+
 // testing
 #include "Core/Threading/Thread.h"
 
@@ -18,8 +20,7 @@ class MemoryTracker
 private:
     static constexpr inline size_t _ERROR_ID = 0;
 
-    // testing
-    static inline std::atomic<uint64_t> allocationIndex = 0;
+    static inline std::atomic<uint64_t> allocationIndex = 0; // testing
 
     struct MemoryHeader
     {
@@ -68,6 +69,20 @@ private:
 public:
     // thread local to avoid even MORE lock contention
     thread_local static inline UntrackedString current_category = "unknown";
+
+    ~MemoryTracker()
+    {
+        // testing
+        // i think this should be 0 for everything before this is destroyed...
+        for (const auto& category : _categories)
+        {
+            if (category.second.count != 0)
+            {
+                std::cout << "MemoryTracker: " << std::to_string(category.first) + " has " + std::to_string(category.second.count) + " allocations totalling " + std::to_string(category.second.size) << '\n';
+            }
+        }
+        // \testing
+    }
 
     Ptr<void> Allocate(size_t size);
     void Deallocate(Ptr<void> memory);

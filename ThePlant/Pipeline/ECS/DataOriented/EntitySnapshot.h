@@ -14,7 +14,8 @@ namespace Application
 {
     struct EntityHandler;
 
-    // we should be able to add/remove components and delete entities from here -> needs access to ArchetypeManager!
+    // we should be able to add/remove components and delete entities from here -> needs access to ArchetypeManager! (is this possible?)
+    // hard to do because this means we get an ArchetypeManager->EntitySnapshot->ArchetypeManager loop
     struct EntitySnapshot
     {
         EntitySnapshot(const Entity& entity, std::vector<std::unique_ptr<ITemporaryComponentRef>>&& components)

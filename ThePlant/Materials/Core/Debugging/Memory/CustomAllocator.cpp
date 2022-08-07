@@ -25,19 +25,19 @@
 
 [[nodiscard]] void* operator new(size_t size)
 {
-    IF_DEBUG_SERVICE(Core::Memory::MemoryTracker)
-    {
+    WITH_DEBUG_SERVICE(Core::Memory::MemoryTracker)
+    (
         return service->Allocate(size);
-    }
+    )
     return malloc(size);
 }
 
 [[nodiscard]] void* operator new[](size_t size)
 {
-    IF_DEBUG_SERVICE(Core::Memory::MemoryTracker)
-    {
+    WITH_DEBUG_SERVICE(Core::Memory::MemoryTracker)
+    (
         return service->Allocate(size);
-    }
+    )
     return malloc(size);
 }
 
@@ -48,41 +48,41 @@ void operator delete(void* memory, std::align_val_t alignment)
 
 void operator delete(void* memory)
 {
-    IF_DEBUG_SERVICE(Core::Memory::MemoryTracker)
-    {
+    WITH_DEBUG_SERVICE(Core::Memory::MemoryTracker)
+    (
         service->Deallocate(memory);
         return;
-    }
+    )
     free(memory);
 }
 
 void operator delete[](void* memory)
 {
-    IF_DEBUG_SERVICE(Core::Memory::MemoryTracker)
-    {
+    WITH_DEBUG_SERVICE(Core::Memory::MemoryTracker)
+    (
         service->Deallocate(memory);
         return;
-    }
+    )
     free(memory);
 }
 
 // apparently need the below, though this should not be required as-per the standard...
 void operator delete(void* memory, size_t size)
 {
-    IF_DEBUG_SERVICE(Core::Memory::MemoryTracker)
-    {
+    WITH_DEBUG_SERVICE(Core::Memory::MemoryTracker)
+    (
         service->Deallocate(memory);
         return;
-    }
+    )
     free(memory);
 }
 
 void operator delete[](void* memory, size_t size)
 {
-    IF_DEBUG_SERVICE(Core::Memory::MemoryTracker)
-    {
+    WITH_DEBUG_SERVICE(Core::Memory::MemoryTracker)
+    (
         service->Deallocate(memory);
         return;
-    }
+    )
     free(memory);
 }
