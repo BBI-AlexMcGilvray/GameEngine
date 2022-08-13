@@ -74,6 +74,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/CoreDefs.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/EnumUtils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/Exception.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/Factory.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/Hash.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/Macros.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Core/Headers/PtrDefs.h"

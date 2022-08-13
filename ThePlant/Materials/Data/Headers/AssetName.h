@@ -3,7 +3,6 @@
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/TemplateDefs.h"
 #include "Core/IO/Headers/IODefs.h"
-#include "Core/IdTypes/RuntimeId.h"
 
 #include "Data/Headers/AssetType.h"
 
@@ -104,7 +103,7 @@ struct AssetName<void>
 
   AssetName()
   : _name(Hash::VOID)
-  , _type(runtimeId_t())
+  , _type(Hash::VOID)
   {}
 
   AssetName(const AssetName<void>& other)
@@ -115,10 +114,10 @@ struct AssetName<void>
   template <typename T>
   AssetName(const AssetName<T>& other)
     : _name(other._name)
-    , _type(GetTypeId<T>())
+    , _type(Core::HashType<T>())
   {}
 
-  AssetName(const Hash& name, const runtimeId_t& type)
+  AssetName(const Hash& name, const Hash& type)
   : _name(name)
   , _type(type)
   {}
@@ -175,24 +174,24 @@ struct AssetName<void>
     return !(*this == other);
   }
 
-  const Hash& getName() const
+  Hash getName() const
   {
     return _name;
   }
 
-  const runtimeId_t& getType() const
+  Hash getType() const
   {
     return _type;
   }
 
   private:
     Hash _name;
-    runtimeId_t _type;
+    Hash _type;
 
     template <typename T>
     bool _sameType() const
     {
-      return (_type == GetTypeId<T>());
+      return (_type == Core::HashType<T>());
     }
 };
 inline const AssetName<void> AssetName<void>::VOID = AssetName<void>();

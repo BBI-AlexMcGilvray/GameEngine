@@ -34,6 +34,8 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/Data_Lib" TYPE FILE FILES
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/AssetTypes/EntityData.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/AssetTypes/StateData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetExceptions.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetLocation.h"
@@ -43,6 +45,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetName.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/AssetType.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Headers/SerializationUtils.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/RawAssets/RawAsset.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/RawAssets/ReadUtils.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/RawAssets/Utils.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/RawAssets/WriteUtils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/AnimatedMeshData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/AnimatedModelData.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Materials/Data/Rendering/Headers/MaterialData.h"

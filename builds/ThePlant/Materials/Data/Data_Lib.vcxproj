@@ -277,6 +277,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\RawAssets\ReadUtils.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\RawAssets\Utils.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\RawAssets\WriteUtils.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Rendering\Source\AnimatedMeshData.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Rendering\Source\AnimatedModelData.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Materials\Data\Rendering\Source\MaterialData.cpp" />

@@ -24,9 +24,6 @@ namespace Core::Serialization::Format
     void deserialize(Core::Hash& hash, std::shared_ptr<JSONNode> json);
     std::shared_ptr<JSONNode> serialize(const Core::Hash& hash);
 
-    void deserialize(Core::runtimeId_t& runtimeId, std::shared_ptr<JSONNode> json);
-    std::shared_ptr<JSONNode> serialize(const Core::runtimeId_t& runtimeId);
-
     void deserialize(Core::Math::Color& color, std::shared_ptr<JSONNode> json);
     std::shared_ptr<JSONNode> serialize(const Core::Math::Color& color);
 
@@ -86,7 +83,7 @@ namespace Core::Serialization::Format
       }
 
       Hash name;
-      runtimeId_t type;
+      Hash type;
       deserialize(name, data->GetElement("name"));
       deserialize(type, data->GetElement("type"));
       asset = Data::AssetName<void>(name, type);

@@ -3,6 +3,9 @@
 message("Configuring Data")
 
 set(SOURCE_FILES #
+RawAssets/ReadUtils.cpp #
+RawAssets/Utils.cpp #
+RawAssets/WriteUtils.cpp #
 Rendering/Source/AnimatedMeshData.cpp #
 Rendering/Source/AnimatedModelData.cpp #
 Rendering/Source/MaterialData.cpp #
@@ -18,6 +21,8 @@ Source/AssetManager.cpp #
 Source/SerializationUtils.cpp)
 
 set(HEADER_FILES #
+AssetTypes/EntityData.h #
+AssetTypes/StateData.h #
 Headers/AssetData.h #
 Headers/AssetExceptions.h #
 Headers/AssetLocation.h #
@@ -27,6 +32,10 @@ Headers/AssetManager.h #
 Headers/AssetName.h #
 Headers/AssetType.h #
 Headers/SerializationUtils.h #
+RawAssets/RawAsset.h #
+RawAssets/ReadUtils.h #
+RawAssets/Utils.h #
+RawAssets/WriteUtils.h #
 Rendering/Headers/AnimatedMeshData.h #
 Rendering/Headers/AnimatedModelData.h #
 Rendering/Headers/MaterialData.h #

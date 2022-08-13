@@ -29,6 +29,9 @@ Hash HashValue(const T& type);
 template<typename T>
 void HashValue(const T& type, Hash &existingHash);
 
+template <typename T>
+Hash HashType();
+
 template <>
 struct std::hash<Hash>;
 
@@ -58,6 +61,9 @@ struct Hash
   friend Hash HashValue(const T& type);
   template<typename T>
   friend void HashValue(const T& type, Hash &existingHash);
+
+  template <typename T>
+  friend Hash HashType();
 
   friend struct std::hash<Hash>;
 
@@ -147,6 +153,12 @@ void HashValue(const T& type, Hash &existingHash)
 
     HashValue(byte, existingHash);
   }
+}
+
+template <typename T>
+Hash HashType()
+{
+  return HashValue(TemplateTypeAsString<T>());
 }
 
 /*

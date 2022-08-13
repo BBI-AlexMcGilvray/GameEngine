@@ -10,7 +10,7 @@
 namespace Data {
 void WriteData(const RawBinary& rawAsset, const IndividualFile& individualFile)
 {
-    THROW_EXCEPTION(InvalidAssetOperation, "NOT IMPLEMENTED", "We do not support RawBinary yet");
+    CORE_THROW_EXCEPTION(InvalidAssetOperation, "NOT IMPLEMENTED", "We do not support RawBinary yet");
 }
 
 void WriteData(const RawString& rawAsset, const IndividualFile& individualFile)
@@ -21,12 +21,12 @@ void WriteData(const RawString& rawAsset, const IndividualFile& individualFile)
 
 void WriteData(const RawBinary& rawAsset, const PartOfFile& containingFile)
 {
-    THROW_EXCEPTION(InvalidAssetOperation, "NOT IMPLEMENTED", "We do not support PartOfFile yet");
+    CORE_THROW_EXCEPTION(InvalidAssetOperation, "NOT IMPLEMENTED", "We do not support PartOfFile yet");
 }
 
 void WriteData(const RawString& rawAsset, const PartOfFile& containingFile)
 {
-    THROW_EXCEPTION(InvalidAssetOperation, "NOT IMPLEMENTED", "We do not support PartOfFile yet");
+    CORE_THROW_EXCEPTION(InvalidAssetOperation, "NOT IMPLEMENTED", "We do not support PartOfFile yet");
 }
 
 struct RawAssetWriter

@@ -19,7 +19,7 @@ RawAsset ReadRawAsset(const IndividualFile& individualFile)
 
 RawAsset ReadRawAsset(const PartOfFile& containingFile)
 {
-    THROW_EXCEPTION(InvalidAssetOperation, "NOT IMPLEMENTED", "We do not support PartOfFile yet");
+    CORE_THROW_EXCEPTION(InvalidAssetOperation, "NOT IMPLEMENTED", "We do not support PartOfFile yet");
 }
 
 struct RawAssetReader

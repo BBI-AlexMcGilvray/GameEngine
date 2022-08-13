@@ -42,26 +42,6 @@ namespace Core::Serialization::Format
       return json;
     }
 
-    void deserialize(Core::runtimeId_t& runtimeId, std::shared_ptr<JSONNode> json)
-    {
-      JSONNumber *data = dynamic_cast<JSONNumber *>(json.get());
-      if (data == nullptr) {
-        throw;
-      }
-
-      runtimeId = MakeTypeId(static_cast<uint32_t>(data->GetData()));
-    }
-
-    std::shared_ptr<JSONNode> serialize(const Core::runtimeId_t& runtimeId)
-    {
-      SCOPED_MEMORY_CATEGORY("JSON");
-      std::shared_ptr<JSONNumber> json = std::make_shared<JSONNumber>();
-
-      json->SetData(runtimeId);
-
-      return json;
-    }
-
     void deserialize(Core::Math::Color& color, std::shared_ptr<JSONNode> json)
     {
       JSONObject *data = dynamic_cast<JSONObject*>(json.get());

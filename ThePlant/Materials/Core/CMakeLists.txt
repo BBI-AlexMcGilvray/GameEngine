@@ -81,6 +81,7 @@ Headers/BitmaskEnum.h #
 Headers/CoreDefs.h #
 Headers/EnumUtils.h #
 Headers/Exception.h #
+Headers/Factory.h #
 Headers/Hash.h #
 Headers/Macros.h #
 Headers/PtrDefs.h #
