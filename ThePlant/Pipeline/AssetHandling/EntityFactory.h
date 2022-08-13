@@ -14,6 +14,9 @@
 namespace Application {
 using ComponentFactory = Core::HashFactory<void, EntityHandler&, const Core::Serialization::Format::JSON&>;
 
+// This returns an explicit EntityId because the only things should be possible to directly load/create from code are entities
+// it makes no sense to diretly register things like materials
+// though if we wanted to, you create it, then reference it directly through the manager instead
 class EntityFactory : ComponentFactory
 {
 public:
