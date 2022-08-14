@@ -42,6 +42,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Animation/Headers/ChannelTypes.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Animation/Headers/Keyframe.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Animation/Headers/SkeletonAnimation.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/AssetHandling/AssetLoaderFactory.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/AssetHandling/EntityFactory.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/Collisions.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/CollisionHandler.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/CollisionManager.h"

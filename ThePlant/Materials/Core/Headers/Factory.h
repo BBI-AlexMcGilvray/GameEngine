@@ -12,7 +12,7 @@ template <typename OBJECT, typename KEY, typename ...ARGS>
 struct Factory
 {
     Factory() = default;
-    ~Factory() = default;
+    virtual ~Factory() = default;
 
     Factory(Factory&&) = default;
     Factory& operator=(Factory&&) = default;

@@ -28,6 +28,16 @@ struct json_reader
     }
 };
 
+struct JSON; // hack to specialize for this type
+template <typename Object>
+struct json_reader<Object, std::enable_if_t<std::is_same<Object, JSON>::value>> // deserialize to json
+{
+    void Read(Object& target, std::shared_ptr<JSONNode> node)
+    {
+        target.FromJSON(node->CreateCopy());
+    }
+};
+
 // custom type writer
 // template <typename Object> // WHY IS THIS NOT WORKING?
 // struct json_reader<Object, std::void_t<decltype(&Object::deserialize)>> // class has deserialize method

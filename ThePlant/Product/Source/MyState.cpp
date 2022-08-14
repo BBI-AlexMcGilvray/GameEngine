@@ -162,9 +162,15 @@ void MyState::Initialize()
     // \testing
 }
 
-void MyState::Start() {};
+void MyState::Start()
+{
+    State::Start();
+};
 
-void MyState::End() {};
+void MyState::End()
+{
+    State::End();
+};
 void MyState::CleanUp() {};
 
 // testing

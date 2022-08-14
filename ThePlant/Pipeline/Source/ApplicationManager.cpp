@@ -29,6 +29,11 @@ Data::AssetManager& ApplicationManager::AssetManager()
   return _assetManager;
 }
 
+AssetLoaderFactory& ApplicationManager::AssetLoaderFactory()
+{
+  return _assetLoader;
+}
+
 SDL2Manager& ApplicationManager::SDLManager()
 {
   return _sdl;
@@ -62,6 +67,7 @@ StateManager &ApplicationManager::StateManager()
 ApplicationManager::ApplicationManager()
   : _serviceManager(*this)
   , _timeSystem(Application::Time::FIXED_30FPS)
+  , _assetLoader(*this)
   , _shaderManager(_assetManager)
   , _inputSystem(_sdl)
   , _stateSystem(*this)

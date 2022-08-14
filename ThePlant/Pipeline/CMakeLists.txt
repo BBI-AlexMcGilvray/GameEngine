@@ -11,6 +11,8 @@ Animation/Source/Animator.cpp #
 Animation/Source/Channel.cpp #
 Animation/Source/Keyframe.cpp #
 Animation/Source/SkeletonAnimation.cpp #
+AssetHandling/AssetLoaderFactory.cpp #
+AssetHandling/EntityFactory.cpp #
 Collision/CollisionManager.cpp #
 Collision/OctTree.cpp #
 ECS/DataOriented/Systems/SystemManager.cpp #
@@ -80,6 +82,8 @@ Animation/Headers/Channel.h #
 Animation/Headers/ChannelTypes.h #
 Animation/Headers/Keyframe.h #
 Animation/Headers/SkeletonAnimation.h #
+AssetHandling/AssetLoaderFactory.h #
+AssetHandling/EntityFactory.h #
 Collision/Collisions.h #
 Collision/CollisionHandler.h #
 Collision/CollisionManager.h #

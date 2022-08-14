@@ -26,6 +26,17 @@ std::shared_ptr<JSONNode> Write(const Object &obj)
 }
 };
 
+
+struct JSON; // hack to specialize for this type
+template <typename Object>
+struct json_writer<Object, std::enable_if_t<std::is_same<Object, JSON>::value>> // deserialize to json
+{
+    std::shared_ptr<JSONNode> Write(const std::shared_ptr<JSONNode>& obj)
+    {
+        return obj->CreateCopy(); // can't just take another shared_ptr reference, we need to create a copy
+    }
+};
+
 // custom type writer
 // template <typename Object> // WHY IS THIS NOT WORKING?
 // struct json_writer<Object, std::void_t<decltype(&Object::serialize)>> // class has serialize method

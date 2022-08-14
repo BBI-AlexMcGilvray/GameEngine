@@ -3,6 +3,7 @@
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Functionality/Headers/Event.h"
 
+#include "Pipeline/AssetHandling/EntityFactory.h"
 #include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/Physics/PhysicsSettings.h"
@@ -23,6 +24,7 @@ class AssetManager;
 
 namespace Application {
 struct ApplicationManager;
+class AssetLoaderFactory;
 struct SDL2Manager;
 struct StateManager;
 
@@ -66,9 +68,11 @@ struct State
   Application::Time::TimeSystem& TimeSystem();
 
   Data::AssetManager& AssetManager();
+  AssetLoaderFactory& AssetLoaderFactory();
 
   SDL2Manager& SDLManager();
   Application::ApplicationManager& ApplicationManager();
+  EntityFactory& EntityFactory();
   Animation::AnimationManager& AnimationManager();
   Collision::CollisionManager& CollisionManager();
   ECS& ECS();
@@ -79,13 +83,14 @@ struct State
   StateManager& StateManager();
 
   virtual void Initialize() {};
-  virtual void Start() {};
+  virtual void Start();
   void Update(Core::Second dt);
-  virtual void End() {};
+  virtual void End();
   virtual void CleanUp() {};
 
 protected:
   Application::ApplicationManager& _applicationManager;
+  Application::EntityFactory _entityFactory;
   Application::ECS _ecs;
   Collision::CollisionManager _collisionManager;
   Application::Physics::Settings _physicsSettings;

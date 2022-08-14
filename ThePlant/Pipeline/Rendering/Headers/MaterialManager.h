@@ -14,7 +14,9 @@ namespace Application {
 namespace Rendering {
   struct RenderManager;
 
-  // holds all render objects, handles updating them and passing them in to be rendered
+  // NOTE: we probably want something like this for all meshes, skeletons, anything that is made up of large reusable data
+
+  // should hold all materials for re-use
   struct MaterialManager
   {
     MaterialManager(Core::Ptr<RenderManager> manager);

@@ -40,7 +40,7 @@ public:
             return;
         }
 
-        _lockedAssets[asset] = getAssetData(asset);
+        _lockedAssets[asset] = getAssetData(asset)._data; // hold on to shared_ptr to lock it
     }
 
     // unlocks the asset if it was locked (does not necessarily clean the asset)

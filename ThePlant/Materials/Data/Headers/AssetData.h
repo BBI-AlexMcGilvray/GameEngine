@@ -68,6 +68,8 @@ struct AssetData
   }
 
 private:
+  friend class AssetManager;
+
 // do we need a specific 'DataPtr<T>' type?
 // wouldn't that just be this type?
 //  - means we would just want a 'ControlBlock' type for the ptr?

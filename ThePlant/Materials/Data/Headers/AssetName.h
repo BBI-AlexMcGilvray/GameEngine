@@ -208,6 +208,17 @@ struct AssetNameHasher
   }
 };
 
+template <>
+struct AssetNameHasher<void>
+{
+  AssetNameHasher() = default;
+
+  std::size_t operator()(const AssetName<void>& asset) const
+  {
+    return asset._name + asset._type;
+  }
+};
+
 template <typename T>
 std::string to_string(const AssetName<T>& asset)
 {

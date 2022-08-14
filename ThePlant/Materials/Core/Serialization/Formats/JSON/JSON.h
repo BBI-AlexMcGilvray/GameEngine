@@ -48,6 +48,23 @@ struct JSON
     return _data->ToString(style, 0);
   }
 
+  void FromJSON(const std::shared_ptr<JSONNode>& json)
+  {
+    Core::Ptr<JSONObject> jsonObject = dynamic_cast<Core::Ptr<JSONObject>>(json.get());
+    if (jsonObject)
+    {
+      _data = std::unique_ptr<JSONObject>(static_cast<Core::Ptr<JSONObject>>(jsonObject->CreateCopy().release()));
+      return;
+    }
+
+    throw; // JSON can only be a JSONObject
+  }
+
+  std::unique_ptr<JSONNode> CreateCopy() const
+  {
+    return _data->CreateCopy();
+  }
+
   /* parsing taken from: https://wiki.unity3d.com/index.php/SimpleJSON */
   // could likely be cleaned up
   void Parse(const std::string &json)

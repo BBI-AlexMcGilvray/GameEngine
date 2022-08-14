@@ -82,6 +82,7 @@ struct JSONNode
   virtual ~JSONNode() = default;
 
   virtual std::string ToString(Style style, int depth) const = 0;
+  virtual std::unique_ptr<JSONNode> CreateCopy() const = 0;
 };
 
 // when there is no data
@@ -110,6 +111,11 @@ struct JSONData : public JSONNode
   {
     SCOPED_MEMORY_CATEGORY("JSON");
     return "null";
+  }
+
+  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  {
+    throw; // making a copy of invalid type
   }
 };
 
@@ -186,6 +192,11 @@ struct JSONData<std::string, void> : public JSONNode
     return WrapString(_data);
   }
 
+  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  {
+    return std::make_unique<JSONData<std::string>>(GetData());
+  }
+
 private:
   std::string _data;
 };
@@ -215,6 +226,11 @@ struct JSONData<T, std::void_t<decltype(std::to_string(std::declval<T>()))>> : p
   {
     SCOPED_MEMORY_CATEGORY("JSON");
     return std::to_string(_data);
+  }
+
+  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  {
+    return std::make_unique<JSONData<T>>(GetData());
   }
 
 private:
@@ -299,6 +315,18 @@ struct JSONObject : public JSONNode
     return str;
   }
 
+  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  {
+    auto copy = std::make_unique<JSONObject>();
+    
+    for (const auto& element : _elements)
+    {
+      copy->AddElement(element.first, element.second->CreateCopy());
+    }
+
+    return copy;
+  }
+
 private:
   std::map<std::string, std::shared_ptr<JSONNode>> _elements;
 };
@@ -345,6 +373,18 @@ struct JSONArray : public JSONNode
     str += NodeSpace(style) + ElementSpace(style, depth - 1) + "]";
 
     return str;
+  }
+
+  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  {
+    auto copy = std::make_unique<JSONArray>();
+    
+    for (const auto& element : _elements)
+    {
+      copy->AddElement(element->CreateCopy());
+    }
+
+    return copy;
   }
 
 private:
