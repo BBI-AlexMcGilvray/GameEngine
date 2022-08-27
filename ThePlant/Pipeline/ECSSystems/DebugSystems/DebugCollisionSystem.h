@@ -15,19 +15,20 @@
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
 namespace Application
 {
 struct DebugCollisionSystem : public System<DebugCollisionSystem>
 {
-    DebugCollisionSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
+    DebugCollisionSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
     : System<DebugCollisionSystem>("DebugCollisionSystem")
     , _collisionManager(collisionManager)
     , _renderManager(renderManager)
     , _meshGetter(*this)
     {
-        _debugMaterial = Rendering::CreateDefaultMaterial(shaderManager);
+        _debugMaterial = materialManager.GetDefaultMaterial();
         
         _lineMesh = Rendering::CreateLine(1.0f);
         _pointMesh = Rendering::CreateSphere(0.1f);

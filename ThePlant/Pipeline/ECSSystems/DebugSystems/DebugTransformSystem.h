@@ -8,16 +8,17 @@
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
 namespace Application {
 struct DebugTransformSystem : public System<DebugTransformSystem>
 {
-    DebugTransformSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
+    DebugTransformSystem(Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
     : System<DebugTransformSystem>("DebugTransformSystem")
     , _renderManager(renderManager)
     {
-        _transformMaterial = CreateDefaultMaterial(shaderManager);
+        _transformMaterial = materialManager.GetDefaultMaterial();
         _transformMesh = Rendering::CreateSphere(0.5f); // not 1.0f because then it would be equal-to whatever it would be representing, should always be smalled
     }
 

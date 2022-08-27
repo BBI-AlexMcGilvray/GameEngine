@@ -14,6 +14,7 @@
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/StateSystem/Headers/StateManager.h"
 #include "Pipeline/Input/Headers/InputManager.h"
+#include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 #include "Pipeline/Time/Headers/TimeSystem.h"
@@ -45,6 +46,7 @@ struct ApplicationManager
   Animation::AnimationManager &AnimationManager();
   Rendering::RenderManager &RenderManager();
   Rendering::ShaderManager& ShaderManager(); // this should be the material manager, and material manager should hold a shader manager (as materials need shaders)
+  Rendering::MaterialManager& MaterialManager();
   Input::InputManager &InputManager();
   StateManager &StateManager();
 
@@ -83,8 +85,9 @@ private:
 
   Application::SDL2Manager _sdl;
   Animation::AnimationManager _animationSystem;
-  Rendering::RenderManager _renderSystem;
   Rendering::ShaderManager _shaderManager;
+  Rendering::MaterialManager _materialManager;
+  Rendering::RenderManager _renderSystem;
   Input::InputManager _inputSystem;
   Application::StateManager _stateSystem;
 

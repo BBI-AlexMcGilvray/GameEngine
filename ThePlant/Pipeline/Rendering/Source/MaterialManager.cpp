@@ -6,9 +6,22 @@ using namespace Core;
 
 namespace Application {
 namespace Rendering {
-  MaterialManager::MaterialManager(Ptr<RenderManager> manager)
-    : _manager(manager)
+  MaterialManager::MaterialManager(Data::AssetManager& assetManager, AssetLoaderFactory& assetLoaderFactory, ShaderManager& shaderManager)
+    : _assetManager(assetManager)
+  , _assetLoaderFactory(assetLoaderFactory)
+  , _shaderManager(shaderManager)
   {
+    _assetLoaderFactory.Register(Core::HashType<Data::Rendering::MaterialData>(), [&](Application::ApplicationManager& applicationManager, const Data::AssetName<void>& asset)
+    {
+      CORE_THROW("MaterialManager", "Material data asset parsing not implemented yet!");
+    });
+  }
+
+  MaterialManager::~MaterialManager()
+  {
+    _assetLoaderFactory.Unregister(Core::HashType<Data::Rendering::MaterialData>());
+
+    // if we want to lock the shaders in the asset manager (which we shouldn't need to do - except in debug mode so we can live-edit them) then we should unlock them all here
   }
 
   void MaterialManager::Initialize()
@@ -32,22 +45,21 @@ namespace Rendering {
   {
   }
 
-  Core::instanceId<Material> MaterialManager::AddMaterial(const Material& material)
+  Core::instanceId<Material> MaterialManager::AddMaterial(const Data::AssetName<Data::Rendering::MaterialData>& material)
   {
     SCOPED_MEMORY_CATEGORY("Rendering");
+
+    // should check if it exists and return the existing? this does mean that the same materials will share their parameters
+    // NOTE: can't do this at the moment becaus materials do not know their AssetName to do the comparison -> should they?
+    // if (auto iter = std::find(_materials.begin(), _materials.end(), material); iter != _materials.end())
+    // {
+    //   return iter->second;
+    // }
+
     Core::instanceId<Material> newId = GetInstanceId<Material>();
 
-    _materials.emplace(std::make_pair(newId, material));
-
-    return newId;
-  }
-
-  Core::instanceId<Material> MaterialManager::AddMaterial(Material&& material)
-  {
-    SCOPED_MEMORY_CATEGORY("Rendering");
-    Core::instanceId<Material> newId = GetInstanceId<Material>();
-
-    _materials.emplace(std::make_pair(newId, std::move(material)));
+    const auto materialData = _assetManager.getAssetData(material);
+    _materials.emplace(std::make_pair(newId, CreateMaterial(materialData, _shaderManager)));
 
     return newId;
   }
@@ -55,6 +67,29 @@ namespace Rendering {
   void MaterialManager::RemoveMaterial(const Core::instanceId<Material>& materialId)
   {
     _materials.erase(materialId);
+  }
+
+  Material& MaterialManager::GetDefaultMaterial()
+  {
+    if (_defaultMaterial.shader.glProgram.Object == 0) // this checks if the shader has been set (probably want a nicer way to do this)
+    {
+      CreateDefaultMaterial(_shaderManager);
+    }
+
+    return _defaultMaterial;
+  }
+
+  Material& MaterialManager::GetMaterial(const Core::instanceId<Material>& material)
+  {
+  #if DEBUG
+    if (auto iter = _materials.find(material); iter == _materials.end())
+    {
+      CORE_ERROR("MaterialManager", "Material not found! using default");
+      return GetDefaultMaterial();
+    }
+  #endif
+
+    return _materials[material];
   }
 }// namespace Rendering
 }// namespace Application

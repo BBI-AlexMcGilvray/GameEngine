@@ -62,10 +62,10 @@ void SetECSSystems(State& state, const ECSSystemFlags& systems)
     SetOrRemoveSystem<CollisionSystem, TransformSystem>(stateECS, systems, ECSSystem::CollisionSystem, state.CollisionManager());
     SetOrRemoveSystem<RenderingSystem, TransformSystem, CameraSystem, AnimationSystem>(stateECS, systems, ECSSystem::RenderingSystem, state.RenderManager());
 #if DEBUG
-    SetOrRemoveSystem<DebugBoneSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugBoneSystem, state.RenderManager(), state.ShaderManager());
-    SetOrRemoveSystem<DebugCollisionSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugCollisionSystem, state.CollisionManager(), state.RenderManager(), state.ShaderManager());
-    SetOrRemoveSystem<DebugOctTreeSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugOctTreeSystem, state.CollisionManager(), state.RenderManager(), state.ShaderManager());
-    SetOrRemoveSystem<DebugTransformSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugTransformSystem, state.RenderManager(), state.ShaderManager());
+    SetOrRemoveSystem<DebugBoneSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugBoneSystem, state.RenderManager(), state.MaterialManager());
+    SetOrRemoveSystem<DebugCollisionSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugCollisionSystem, state.CollisionManager(), state.RenderManager(), state.MaterialManager());
+    SetOrRemoveSystem<DebugOctTreeSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugOctTreeSystem, state.CollisionManager(), state.RenderManager(), state.MaterialManager());
+    SetOrRemoveSystem<DebugTransformSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugTransformSystem, state.RenderManager(), state.MaterialManager());
 #endif
 }
 
@@ -105,7 +105,7 @@ void SetCollisionHandlers(State& state, const CollisionHandlerFlags& handlers)
 
     SetOrRemoveCollisionHandler<Collision::RigidBodyCollision>(collisionManager, handlers, CollisionHandler::RigidBodyCollision);
 #if DEBUG
-    SetOrRemoveCollisionHandler<Collision::DebugCollisionDisplay>(collisionManager, handlers, CollisionHandler::DebugCollisionDisplay, state.RenderManager(), state.ShaderManager());
+    SetOrRemoveCollisionHandler<Collision::DebugCollisionDisplay>(collisionManager, handlers, CollisionHandler::DebugCollisionDisplay, state.RenderManager(), state.MaterialManager());
 #endif
 }
 }// namespace Application

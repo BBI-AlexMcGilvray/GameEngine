@@ -5,6 +5,7 @@
 #include "Data/Rendering/Headers/ShaderData.h"
 #include "Data/Headers/AssetManager.h"
 
+#include "Pipeline/AssetHandling/AssetLoaderFactory.h"
 #include "Pipeline/Rendering/Shaders/Shader.h"
 
 namespace Application {
@@ -13,7 +14,7 @@ namespace Rendering {
   class ShaderManager
   {
   public:
-    ShaderManager(Data::AssetManager& assetManager);
+    ShaderManager(Data::AssetManager& assetManager, AssetLoaderFactory& assetLoaderFactory);
     ~ShaderManager();
 
     // games should loop through all shaders and add them at game-creation time (once games get big enough, this would get done on level-switch?)
@@ -23,6 +24,8 @@ namespace Rendering {
 
   private:
     Data::AssetManager& _assetManager;
+    AssetLoaderFactory& _assetLoaderFactory;
+    
     Shader _defaultShader;
     std::unordered_map<Data::AssetName<Data::Rendering::ShaderData>, Shader, Data::AssetNameHasher<Data::Rendering::ShaderData>> _shaders;
   };

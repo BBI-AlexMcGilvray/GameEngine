@@ -8,6 +8,7 @@
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
 namespace Application
@@ -16,12 +17,12 @@ struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
 {
     bool drawOccupiedOnly = true;
 
-    DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
+    DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
     : System<DebugOctTreeSystem>("DebugOctTreeSystem")
     , _collisionManager(collisionManager)
     , _renderManager(renderManager)
     {
-        _debugMaterial = Rendering::CreateDefaultMaterial(shaderManager);
+        _debugMaterial = materialManager.GetDefaultMaterial();
         _debugMesh = Rendering::CreateBox(1.0f);
     }
 

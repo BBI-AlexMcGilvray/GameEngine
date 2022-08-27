@@ -10,16 +10,17 @@
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
 namespace Application {
 struct DebugBoneSystem : public System<DebugBoneSystem>
 {
-    DebugBoneSystem(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)
+    DebugBoneSystem(Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
     : System<DebugBoneSystem>("DebugBoneSystem")
     , _renderManager(renderManager)
     {
-        _transformMaterial = CreateDefaultMaterial(shaderManager);
+        _transformMaterial = materialManager.GetDefaultMaterial();
         _transformMesh = Rendering::CreatePyramid(100.0f, 25.0f);
     }
 

@@ -2,6 +2,8 @@
 
 #include "Core/Headers/Hash.h"
 
+#include "Data/AssetTypes/EntityData.h"
+
 #include "Pipeline/Headers/ApplicationManager.h"
 
 namespace Application {
@@ -34,13 +36,14 @@ ECS& State::ECS() { return _ecs; }
 Application::Physics::Settings& State::PhysicsSettings() { return _physicsSettings; }
 Rendering::RenderManager& State::RenderManager() { return _applicationManager.RenderManager(); }
 Rendering::ShaderManager& State::ShaderManager() { return _applicationManager.ShaderManager(); }
+Rendering::MaterialManager& State::MaterialManager() { return _applicationManager.MaterialManager(); }
 Input::InputManager& State::InputManager() { return _applicationManager.InputManager(); }
 StateManager& State::StateManager() { return _applicationManager.StateManager(); }
 
 void State::Start()
 {
   // this should be added by States in Start and removed in Stop
-  AssetLoaderFactory().Register(Core::HashType<Application::EntityFactory>(), [&](Application::ApplicationManager& applicationManager, const Data::AssetName<void>& asset)
+  AssetLoaderFactory().Register(Core::HashType<Data::EntityData>(), [&](Application::ApplicationManager& applicationManager, const Data::AssetName<void>& asset)
   {
       _entityFactory.CreateEntity(_ecs, asset);
   });
@@ -55,6 +58,6 @@ void State::Update(Core::Second dt)
 
 void State::End()
 {
-  AssetLoaderFactory().Unregister(Core::HashType<Application::EntityFactory>());
+  AssetLoaderFactory().Unregister(Core::HashType<Data::EntityData>());
 };
 }// namespace Application

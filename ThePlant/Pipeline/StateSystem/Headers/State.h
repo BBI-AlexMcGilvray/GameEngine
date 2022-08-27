@@ -47,6 +47,7 @@ namespace Input
 }
 namespace Rendering
 {
+  struct MaterialManager;
   struct RenderManager;
   class ShaderManager;
 }
@@ -79,6 +80,7 @@ struct State
   Application::Physics::Settings& PhysicsSettings();
   Rendering::RenderManager& RenderManager();
   Rendering::ShaderManager& ShaderManager();
+  Rendering::MaterialManager& MaterialManager();
   Input::InputManager& InputManager();
   StateManager& StateManager();
 

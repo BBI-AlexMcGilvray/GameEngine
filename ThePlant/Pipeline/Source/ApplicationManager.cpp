@@ -54,6 +54,11 @@ Rendering::ShaderManager& ApplicationManager::ShaderManager()
   return _shaderManager;
 }
 
+Rendering::MaterialManager& ApplicationManager::MaterialManager()
+{
+  return _materialManager;
+}
+
 Input::InputManager &ApplicationManager::InputManager()
 {
   return _inputSystem;
@@ -68,7 +73,8 @@ ApplicationManager::ApplicationManager()
   : _serviceManager(*this)
   , _timeSystem(Application::Time::FIXED_30FPS)
   , _assetLoader(*this)
-  , _shaderManager(_assetManager)
+  , _shaderManager(_assetManager, _assetLoader)
+  , _materialManager(_assetManager, _assetLoader, _shaderManager)
   , _inputSystem(_sdl)
   , _stateSystem(*this)
   , _onQuit([this]() {

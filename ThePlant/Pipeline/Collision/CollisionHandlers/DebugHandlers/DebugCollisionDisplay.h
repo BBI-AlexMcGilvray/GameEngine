@@ -10,6 +10,7 @@
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
 namespace Application
@@ -18,11 +19,11 @@ namespace Collision
 {
 struct DebugCollisionDisplay : public CollisionHandler<DebugCollisionDisplay>
 {
-    DebugCollisionDisplay(Rendering::RenderManager& renderManager, Rendering::ShaderManager& shaderManager)                                         // if we do complete here, we'll need calculate our own point, otherwise the dot shows at the origin regardless
+    DebugCollisionDisplay(Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)                                         // if we do complete here, we'll need calculate our own point, otherwise the dot shows at the origin regardless
     : CollisionHandler<DebugCollisionDisplay>("DebugCollisionDisplay", BitmaskEnum<CollisionState>(CollisionState::Initial, CollisionState::Persisting/*, CollisionState::Complete*/), CollectTypes<WorldTransformComponent>(), CollectTypes<WorldTransformComponent>(), false)
     , _renderManager(renderManager)
     {
-        _collisionPointMaterial = CreateDefaultMaterial(shaderManager);
+        _collisionPointMaterial = materialManager.GetDefaultMaterial();
         _collisionPointMesh = Rendering::CreateSphere(0.5f);
     }
 

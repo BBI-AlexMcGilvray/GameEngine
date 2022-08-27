@@ -8,7 +8,12 @@
 #include "Core/Math/Headers/Color.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
+#include "Data/Headers/AssetManager.h"
+#include "Data/Rendering/Headers/MaterialData.h"
+
+#include "Pipeline/AssetHandling/AssetLoaderFactory.h"
 #include "Pipeline/Rendering/Material.h"
+#include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
 namespace Application {
 namespace Rendering {
@@ -19,7 +24,8 @@ namespace Rendering {
   // should hold all materials for re-use
   struct MaterialManager
   {
-    MaterialManager(Core::Ptr<RenderManager> manager);
+    MaterialManager(Data::AssetManager& assetManager, AssetLoaderFactory& assetLoaderFactory, ShaderManager& shaderManager);
+    ~MaterialManager();
 
     void Initialize();
     void Start();
@@ -29,23 +35,19 @@ namespace Rendering {
     void End();
     void CleanUp();
 
-    template <typename ...ARGS>
-    Core::instanceId<Material> AddMaterial(ARGS&& ...args)
-    {
-      return AddMaterial(CreateMaterial(std::forward<ARGS>(args)...));
-    }
-
-    Core::instanceId<Material> AddMaterial(const Material& material);
-    Core::instanceId<Material> AddMaterial(Material&& material);
+    // should we be using instanceIds? should we just use asset names?
+    Core::instanceId<Material> AddMaterial(const Data::AssetName<Data::Rendering::MaterialData>& material);
     void RemoveMaterial(const Core::instanceId<Material>& renderObject);
 
-  private:
-    // ideally we find a way to make this not a raw pointer, but it should be fine for now since this object
-    // will only exist within a render manager, so lifetime is not a concern
-    // ~ Could just be an element of this class and not a pointer at all?
-    // ~ reference instead since it must exist?
-    Core::Ptr<RenderManager> _manager;
+    Material& GetDefaultMaterial();
+    Material& GetMaterial(const Core::instanceId<Material>& material);
 
+  private:
+    Data::AssetManager& _assetManager;
+    AssetLoaderFactory& _assetLoaderFactory;
+    ShaderManager& _shaderManager;
+
+    Material _defaultMaterial;
     std::unordered_map<Core::instanceId<Material>, Material, Core::instanceIdHasher<Material>> _materials;
   };
 }// namespace Rendering

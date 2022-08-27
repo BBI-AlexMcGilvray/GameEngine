@@ -6,12 +6,20 @@
 
 namespace Application {
 namespace Rendering {
-  ShaderManager::ShaderManager(Data::AssetManager& assetManager)
+  ShaderManager::ShaderManager(Data::AssetManager& assetManager, AssetLoaderFactory& assetLoaderFactory)
   : _assetManager(assetManager)
-  {}
+  , _assetLoaderFactory(assetLoaderFactory)
+  {
+    _assetLoaderFactory.Register(Core::HashType<Data::Rendering::ShaderData>(), [&](Application::ApplicationManager& applicationManager, const Data::AssetName<void>& asset)
+    {
+      AddShader(asset);
+    });
+  }
 
   ShaderManager::~ShaderManager()
   {
+    _assetLoaderFactory.Unregister(Core::HashType<Data::Rendering::ShaderData>());
+
     // if we want to lock the shaders in the asset manager (which we shouldn't need to do - except in debug mode so we can live-edit them) then we should unlock them all here
   }
   
