@@ -8,6 +8,8 @@
 
 #include "CustomAssets.h"
 
+#include "Data/AssetTypes/EntityData.h"
+
 #include "Data/Rendering/Headers/AnimatedMeshData.h"
 #include "Data/Rendering/Headers/AnimatedModelData.h"
 #include "Data/Rendering/Headers/MaterialData.h"
@@ -104,6 +106,12 @@ namespace Data
 		};
 		const Shaders shd;
 
+		// manually added to test
+		struct Entities
+		{
+			const AssetName<EntityData> Test = AssetName<EntityData>(AsHash(1));
+		};
+		const Entities ent;
 	};
 	const Assets Ast;
 	}

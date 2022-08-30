@@ -19,5 +19,7 @@ namespace Testing
     Application::EntityHandler& SpawnStaticCollider(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation = Core::Math::FQuaternion(Core::Math::II()), const Core::Math::Float3& scale = Core::Math::Float3(Core::Math::II()));
     Application::EntityHandler& SpawnTrigger(Application::State& state, const Core::Math::Float3& velocity, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation = Core::Math::FQuaternion(Core::Math::II()), const Core::Math::Float3& scale = Core::Math::Float3(Core::Math::II()));
     Application::EntityHandler& SpawnStaticTrigger(Application::State& state, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation = Core::Math::FQuaternion(Core::Math::II()), const Core::Math::Float3& scale = Core::Math::Float3(Core::Math::II()));
+
+    Application::EntityHandler& TestEntityAsset(Application::State& state);
 } // namespace Testing
 } // namespace Product

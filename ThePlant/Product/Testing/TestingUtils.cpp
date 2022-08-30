@@ -108,5 +108,19 @@ namespace Testing
 
         return creator;
     }
+
+    Application::EntityHandler& TestEntityAsset(Application::State& state)
+    {
+        auto& ecs = state.ECS();
+
+        auto& creator = ecs.CreateEntity();
+
+        // create asset json (?) <- needs to be through the regular path, so need to make a json file for the test asset in Assets.h
+        
+        // try to parse it and load it in using the EntityFactory
+        state.AssetLoaderFactory().LoadAsset(Data::Ast.ent.Test);
+
+        return creator; // how can we return the creator in this way? do we need to instead load it diretly from the entity creator?
+    }
 } // namespace Testing
 } // namespace Product
