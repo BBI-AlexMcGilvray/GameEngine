@@ -18,11 +18,9 @@ namespace Application {
 struct MeshRenderingSystem : public System<MeshRenderingSystem>
 {
     MeshRenderingSystem(Rendering::RenderManager& renderManager)
-    : System<MeshRenderingSystem>("MeshRenderingSystem")
+    : System<MeshRenderingSystem>()
     , _renderManager(renderManager)
     {}
-
-    Core::runtimeId_t GetSystem() const { return Core::GetTypeId<MeshRenderingSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
@@ -70,10 +68,8 @@ struct SkeletonUpdateSystem : public System<SkeletonUpdateSystem>
     using BoneData = std::unordered_map<EntityId, std::pair<BoneComponent, WorldTransformComponent>>;
 
     SkeletonUpdateSystem(const TAG& tag)
-    : System<SkeletonUpdateSystem>("SkeletonUpdateSystem")
+    : System<SkeletonUpdateSystem>()
     {}
-
-    Core::runtimeId_t GetSystem() const { return Core::GetTypeId<SkeletonUpdateSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
@@ -133,11 +129,9 @@ private:
 struct SkinnedMeshRenderingSystem : public System<SkinnedMeshRenderingSystem>
 {
     SkinnedMeshRenderingSystem(Rendering::RenderManager& renderManager)
-    : System<SkinnedMeshRenderingSystem>("SkinnedMeshRenderingSystem")
+    : System<SkinnedMeshRenderingSystem>()
     , _renderManager(renderManager)
     {}
-
-    Core::runtimeId_t GetSystem() const { return Core::GetTypeId<SkinnedMeshRenderingSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {
@@ -185,7 +179,7 @@ private:
 struct CameraRenderingSystem : public System<CameraRenderingSystem>
 {
     CameraRenderingSystem(Rendering::RenderManager& renderManager)
-    : System<CameraRenderingSystem>("CameraRenderingSystem")
+    : System<CameraRenderingSystem>()
     , _renderManager(renderManager)
     , _cameraManager(renderManager.GetCameraManager())
     {}
@@ -217,7 +211,7 @@ CameraRenderingSystem>
         MeshRenderingSystem,
         SkeletonUpdateSystem,
         SkinnedMeshRenderingSystem,
-        CameraRenderingSystem>("RenderingSystem", rendererManager, SkeletonUpdateSystem::TAG::CREATE, rendererManager, rendererManager)
+        CameraRenderingSystem>(rendererManager, SkeletonUpdateSystem::TAG::CREATE, rendererManager, rendererManager)
     {}
     // maybe want custom logic to handle dependency for parallel execution?
 };

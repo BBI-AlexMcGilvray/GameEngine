@@ -11,7 +11,7 @@ namespace Application
 struct ParentSyncSystem : public System<ParentSyncSystem>
 {
     ParentSyncSystem(ECS& ecs)
-    : System<ParentSyncSystem>("ParentSyncSystem")
+    : System<ParentSyncSystem>()
     , _ecs(ecs)
     {}
 

@@ -20,7 +20,7 @@ namespace Application
 struct CollisionTreeBuildingSystem: public System<CollisionTreeBuildingSystem>
 {
     CollisionTreeBuildingSystem(Collision::OctTree& octTree)
-    : System<CollisionTreeBuildingSystem>("CollisionTreeBuildingSystem")
+    : System<CollisionTreeBuildingSystem>()
     , _octTree(octTree)
     {}
 
@@ -81,7 +81,7 @@ private:
 struct CollisionHandlingSystem : System<CollisionHandlingSystem>
 {
     CollisionHandlingSystem(Collision::CollisionManager& collisionManager)
-    : System<CollisionHandlingSystem>("CollisionHandlingSystem")
+    : System<CollisionHandlingSystem>()
     , _collisionManager(collisionManager)
     {}
 
@@ -118,7 +118,7 @@ CollisionHandlingSystem>
     CollisionSystem(Collision::CollisionManager& collisionManager)
     : CompoundSystem<CollisionSystem,
         CollisionTreeBuildingSystem,
-        CollisionHandlingSystem>("CollisionSystem", collisionManager.GetOctTree(), collisionManager)
+        CollisionHandlingSystem>(collisionManager.GetOctTree(), collisionManager)
     {}
 };
 } // namespace Application

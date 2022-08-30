@@ -3,6 +3,7 @@
 #include <set>
 #include <tuple>
 
+#include "Materials/Core/Headers/TemplateDefs.h"
 #include "Materials/Core/IdTypes/RuntimeId.h"
 
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
@@ -69,8 +70,8 @@ struct System : public ISystem
 {
     using ISystem::ISystem;
 
-    System(const std::string& name)
-    : ISystem(name)
+    System()
+    : ISystem(std::string(Core::TemplateTypeAsString<SYSTEM>()))
     {}
 
     Core::runtimeId_t GetSystem() const override
@@ -102,8 +103,8 @@ struct System<SYSTEM> : public ISystem
 {
     using ISystem::ISystem;
 
-    System(const std::string& name)
-    : ISystem(name)
+    System()
+    : ISystem(std::string(Core::TemplateTypeAsString<SYSTEM>()))
     {}
 
     Core::runtimeId_t GetSystem() const override
@@ -119,13 +120,13 @@ struct CompoundSystem : public ISystem
 {
     using ISystem::ISystem;
 
-    CompoundSystem(const std::string& name)
-    : ISystem(name)
+    CompoundSystem()
+    : ISystem(std::string(Core::TemplateTypeAsString<SYSTEM>()))
     {}
 
     template <typename ...ARGS>
-    CompoundSystem(const std::string& name, ARGS&& ...args)
-    : ISystem(name)
+    CompoundSystem(ARGS&& ...args)
+    : ISystem(std::string(Core::TemplateTypeAsString<SYSTEM>()))
     , _nestedSystems(std::forward<ARGS>(args)...)
     {}
 

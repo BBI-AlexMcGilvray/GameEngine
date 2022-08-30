@@ -17,7 +17,7 @@ namespace Application {
 struct SkeletonAnimationSystem  : public System<SkeletonAnimationSystem>
 {
     SkeletonAnimationSystem(Animation::AnimationManager& animationManager)
-    : System<SkeletonAnimationSystem>("SkeletonAnimationSystem")
+    : System<SkeletonAnimationSystem>()
     , _animationManager(animationManager)
     {}
 
@@ -44,7 +44,7 @@ SkeletonAnimationSystem>
 {
     AnimationSystem(Animation::AnimationManager& animationManager)
     : CompoundSystem<AnimationSystem,
-        SkeletonAnimationSystem>("AnimationSystem", animationManager)
+        SkeletonAnimationSystem>(animationManager)
     {}
     // maybe want custom logic to handle dependency for parallel execution?
 };

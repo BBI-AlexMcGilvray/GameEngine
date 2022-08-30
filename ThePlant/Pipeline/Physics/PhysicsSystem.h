@@ -17,7 +17,7 @@ namespace Application {
 struct PhysicsSystem : public DeltaTimeSystem<PhysicsSystem>
 {
     PhysicsSystem(const Time::TimeSystem& timeSystem, Physics::Settings& physicsSettings)
-    : DeltaTimeSystem<PhysicsSystem>("PhysicsSystem", timeSystem)
+    : DeltaTimeSystem<PhysicsSystem>(timeSystem)
     , _physicsSettings(physicsSettings)
     {}
 

@@ -14,7 +14,7 @@ namespace Application {
 struct VelocitySystem : public DeltaTimeSystem<VelocitySystem, VelocityComponent, PositionComponent>
 {
     VelocitySystem(const Time::TimeSystem& timeSystem)
-    : DeltaTimeSystem<VelocitySystem, VelocityComponent, PositionComponent>("VelocitySystem", timeSystem)
+    : DeltaTimeSystem<VelocitySystem, VelocityComponent, PositionComponent>(timeSystem)
     {}
 
     static void ApplyToArchetype(const Core::Second& deltaTime, const std::vector<VelocityComponent>& velocities, std::vector<PositionComponent>& positions)

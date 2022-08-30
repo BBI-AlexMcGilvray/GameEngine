@@ -14,11 +14,9 @@ namespace Application {
 struct CameraSystem : public System<CameraSystem>
 {
     CameraSystem(Rendering::CameraManager& cameraManager)
-    : System<CameraSystem>("CameraSystem")
+    : System<CameraSystem>()
     , _cameraManager(cameraManager)
     {}
-    
-    Core::runtimeId_t GetSystem() const { return Core::GetTypeId<CameraSystem>(); };
 
     void Execute(ArchetypeManager& archetypeManager) const override
     {

@@ -37,8 +37,8 @@ private:
 template <typename SYSTEM, typename ...Ts>
 struct DeltaTimeSystem : public IDeltaTimeSystem
 {
-    DeltaTimeSystem(const std::string& name, const Time::TimeSystem& timeSystem)
-    : IDeltaTimeSystem(name, timeSystem)
+    DeltaTimeSystem(const Time::TimeSystem& timeSystem)
+    : IDeltaTimeSystem(std::string(Core::TemplateTypeAsString<SYSTEM>()), timeSystem)
     {}
 
     Core::runtimeId_t GetSystem() const override
@@ -68,8 +68,8 @@ struct DeltaTimeSystem<SYSTEM> : public IDeltaTimeSystem
 {
     using IDeltaTimeSystem::IDeltaTimeSystem;
 
-    DeltaTimeSystem(const std::string& name, Time::TimeSystem& timeSystem)
-    : IDeltaTimeSystem(name, timeSystem)
+    DeltaTimeSystem(const Time::TimeSystem& timeSystem)
+    : IDeltaTimeSystem(std::string(Core::TemplateTypeAsString<SYSTEM>()), timeSystem)
     {}
 
     Core::runtimeId_t GetSystem() const override
@@ -85,13 +85,13 @@ struct CompoundDeltaTimeSystem : public IDeltaTimeSystem
 {
     using IDeltaTimeSystem::IDeltaTimeSystem;
 
-    CompoundDeltaTimeSystem(const std::string& name, Time::TimeSystem& timeSystem)
-    : IDeltaTimeSystem(name, timeSystem)
+    CompoundDeltaTimeSystem(const Time::TimeSystem& timeSystem)
+    : IDeltaTimeSystem(std::string(Core::TemplateTypeAsString<SYSTEM>()), timeSystem)
     {}
 
     template <typename ...ARGS>
-    CompoundDeltaTimeSystem(const std::string& name, Time::TimeSystem& timeSystem, ARGS&& ...args)
-    : IDeltaTimeSystem(name, timeSystem)
+    CompoundDeltaTimeSystem(const Time::TimeSystem& timeSystem, ARGS&& ...args)
+    : IDeltaTimeSystem(timeSystem)
     , _nestedSystems({timeSystem, std::forward<ARGS>(args)}, ...) // this may not work if the nested systems have constructors with more than 1 argument (or if not all types are provided an argument)
     {}
 
