@@ -8,17 +8,17 @@ EntityFactory::EntityFactory(AssetLoaderFactory& assetLoader, Data::AssetManager
 , _assetLoader(assetLoader)
 {}
 
-EntityId EntityFactory::CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset)
+EntityHandler& EntityFactory::CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset)
 {
     return _CreateEntity(ecs, asset, false);
 }
 
-EntityId EntityFactory::CreateEntityAndLockAsset(ECS& ecs, const Data::AssetName<Data::EntityData>& asset)
+EntityHandler& EntityFactory::CreateEntityAndLockAsset(ECS& ecs, const Data::AssetName<Data::EntityData>& asset)
 {
     return _CreateEntity(ecs, asset, true);
 }
 
-EntityId EntityFactory::_CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset, bool lock)
+EntityHandler& EntityFactory::_CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset, bool lock)
 {
     Data::AssetData<Data::EntityData> data = _assetManager.getAssetData(asset);
     if (lock)

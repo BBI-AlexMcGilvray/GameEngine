@@ -26,13 +26,13 @@ public:
     EntityFactory(AssetLoaderFactory& assetLoader, Data::AssetManager& assetManager);
     ~EntityFactory() = default;
 
-    EntityId CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset);
-    EntityId CreateEntityAndLockAsset(ECS& ecs, const Data::AssetName<Data::EntityData>& asset);
+    EntityHandler& CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset);
+    EntityHandler& CreateEntityAndLockAsset(ECS& ecs, const Data::AssetName<Data::EntityData>& asset);
 
 private:
     Data::AssetManager& _assetManager;
     AssetLoaderFactory& _assetLoader;
     
-    EntityId _CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset, bool lock);
+    EntityHandler& _CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset, bool lock);
 };
 }// namespace Application
