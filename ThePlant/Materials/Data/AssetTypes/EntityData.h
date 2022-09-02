@@ -10,7 +10,7 @@
 namespace Data {
 // how do we do this? how do we have multiple different component types held in one vector without making each component it's own asset and stuff...
 NESTED_ASSET(ComponentData,
-  (Core::Hash) componentType,
+  (std::string) componentType,
   (Core::Serialization::Format::JSON) componentData // json allows for easier modding/understanding. binary later if size/speed is an issue
 );
 

@@ -5,6 +5,7 @@
 #include "Data/AssetTypes/EntityData.h"
 
 #include "Pipeline/Headers/ApplicationManager.h"
+#include "Pipeline/ECSSystems/ComponentSerializers.h"
 
 namespace Application {
 State::State(Application::ApplicationManager& applicationManager, const Core::Math::Float3& worldSize, const Application::Physics::Settings& physicsSettings)
@@ -39,6 +40,23 @@ Rendering::ShaderManager& State::ShaderManager() { return _applicationManager.Sh
 Rendering::MaterialManager& State::MaterialManager() { return _applicationManager.MaterialManager(); }
 Input::InputManager& State::InputManager() { return _applicationManager.InputManager(); }
 StateManager& State::StateManager() { return _applicationManager.StateManager(); }
+
+void State::Initialize()
+{
+  // registering here means custom states can add additional component handlers
+  _entityFactory.Register(Core::HashType<WorldTransformComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
+  {
+    WorldTransformComponent component;
+    deserialize(component, componentJson.Data()); // these methods need to take in pointers(?) to json
+    handler.AddComponent<WorldTransformComponent>(component);
+  });
+  _entityFactory.Register(Core::HashType<PositionComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
+  {
+    PositionComponent component;
+    deserialize(component, componentJson.Data());
+    handler.AddComponent<PositionComponent>(component);
+  });
+}
 
 void State::Start()
 {

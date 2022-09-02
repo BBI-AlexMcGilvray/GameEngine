@@ -30,6 +30,9 @@ MyState::MyState(Application::ApplicationManager& applicationManager)
 
 void MyState::Initialize()
 {
+    // make sure base state stuff is initialized (shouldn't be necessary, should put mandatory things in a separate function that calls the overridable one)
+    State::Initialize();
+
     Application::ECSSystemFlags activeSystems;
     activeSystems |= Application::ECSSystem::AnimationSystem;
     activeSystems |= Application::ECSSystem::CameraSystem;
@@ -76,6 +79,7 @@ void MyState::Initialize()
     // testing
     // _static = Testing::SpawnStaticModel(*this); // this and the below cause an exception on close
     // _animated = Testing::SpawnAnimatedModel(*this);
+    Testing::TestEntityAsset(*this);
 
     // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
     _leftPos = Core::Math::Float3(-200.0f, 0.0f, 0.0f);

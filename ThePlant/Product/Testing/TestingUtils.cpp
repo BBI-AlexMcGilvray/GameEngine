@@ -116,7 +116,7 @@ namespace Testing
         // we need to make the Ast.ent.Test asset a respective file with the correct json in it
 
         // this should also make the entity (but doesn't return the EntityHandler)
-        state.AssetLoaderFactory().LoadAsset(Data::Ast.ent.Test);
+        // state.AssetLoaderFactory().LoadAsset(Data::Ast.ent.Test); // fails because EntityFactory is not added until Start, and this is being called in Initialize (needs to be fixed)
 
         // this should make the entity and return the EntityHandler
         return state.EntityFactory().CreateEntity(ecs, Data::Ast.ent.Test);

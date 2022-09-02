@@ -9,6 +9,8 @@
 namespace Application {
 // serializer/deserializer for component, call to this need to be registered with the EntityFactory elsewhere
 // but where? in state? it needs to be extensible by products for their custom components
+// and how can we tell Entities to deserialize to the correct name? we need a way for components to get their name (type)
+// that could be gotten from the Archetype/ComponentList? anything that is specialized by template for the component type (like entity snapshot/handler)
 
 void deserialize(PositionComponent& positionComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
 {
@@ -32,7 +34,7 @@ std::shared_ptr<Core::Serialization::Format::JSONNode> serialize(const PositionC
 
 void deserialize(WorldTransformComponent& worldTransformComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
 {
-    return; // no need to do anything, transforms get made later - this data is irrelevant
+    return; // no need to do anything, transforms get made each from by the system - this data is irrelevant
 }
 
 std::shared_ptr<Core::Serialization::Format::JSONNode> serialize(const WorldTransformComponent& worldTransformComponent)

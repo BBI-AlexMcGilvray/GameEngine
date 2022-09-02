@@ -2,9 +2,9 @@
 {
 	"components" : 
 		[
-			"WorldTransform" : 
+			"WorldTransformComponent" : 
 				{},
-			"Position" : 
+			"PositionComponent" : 
 				{
 					"x" : 0.000000,
 					"y" : 0.000000,

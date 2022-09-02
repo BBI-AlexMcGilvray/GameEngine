@@ -60,6 +60,11 @@ struct JSON
     throw; // JSON can only be a JSONObject
   }
 
+  std::shared_ptr<JSONObject> Data() const
+  {
+    return _data;
+  }
+
   std::unique_ptr<JSONNode> CreateCopy() const
   {
     return _data->CreateCopy();

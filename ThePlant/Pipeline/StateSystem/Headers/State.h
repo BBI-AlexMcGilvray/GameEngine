@@ -84,7 +84,7 @@ struct State
   Input::InputManager& InputManager();
   StateManager& StateManager();
 
-  virtual void Initialize() {};
+  virtual void Initialize();
   virtual void Start();
   void Update(Core::Second dt);
   virtual void End();

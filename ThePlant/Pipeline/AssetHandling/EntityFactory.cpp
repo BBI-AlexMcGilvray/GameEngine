@@ -1,5 +1,7 @@
 #include "Pipeline/AssetHandling/EntityFactory.h"
 
+#include "Core/Headers/Hash.h"
+
 #include "Pipeline/Headers/ApplicationManager.h"
 
 namespace Application {

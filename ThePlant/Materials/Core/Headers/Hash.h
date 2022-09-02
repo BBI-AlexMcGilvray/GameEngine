@@ -158,7 +158,7 @@ void HashValue(const T& type, Hash &existingHash)
 template <typename T>
 Hash HashType()
 {
-  return HashValue(TemplateTypeAsString<T>());
+  return HashValue(std::string(TemplateTypeAsString<T>()));
 }
 
 /*
