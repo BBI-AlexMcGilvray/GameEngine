@@ -9,6 +9,7 @@
 
 #include "Pipeline/Animation/Headers/AnimationManager.h"
 #include "Pipeline/AssetHandling/AssetLoaderFactory.h"
+#include "Pipeline/AssetHandling/EntityFactory.h"
 #include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/Headers/ServiceManager.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
@@ -39,6 +40,7 @@ struct ApplicationManager
   // could potentially break this up into longterm and shorterm asset managers for consistent behaviour
   Data::AssetManager& AssetManager();
   AssetLoaderFactory& AssetLoaderFactory();
+  EntityFactory& EntityFactory();
 
   // should this be here? Currently exists for IMGUI, but maybe we want a UI manager or something and go through that for debug vs other ui?
   SDL2Manager& SDLManager();
@@ -82,6 +84,7 @@ private:
 
   Data::AssetManager _assetManager;
   Application::AssetLoaderFactory _assetLoader;
+  Application::EntityFactory _entityFactory;
 
   Application::SDL2Manager _sdl;
   Animation::AnimationManager _animationSystem;

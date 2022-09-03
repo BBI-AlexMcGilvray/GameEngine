@@ -5,12 +5,10 @@
 #include "Data/AssetTypes/EntityData.h"
 
 #include "Pipeline/Headers/ApplicationManager.h"
-#include "Pipeline/ECSSystems/ComponentSerializers.h"
 
 namespace Application {
 State::State(Application::ApplicationManager& applicationManager, const Core::Math::Float3& worldSize, const Application::Physics::Settings& physicsSettings)
 : _applicationManager(applicationManager)
-, _entityFactory(AssetLoaderFactory(), AssetManager())
 , _collisionManager(_ecs, worldSize)
 , _physicsSettings(physicsSettings)
 {}
@@ -28,9 +26,9 @@ Core::Threading::TaskManager& State::TaskManager() { return _applicationManager.
 Application::Time::TimeSystem& State::TimeSystem() { return _applicationManager.TimeSystem(); }
 Data::AssetManager& State::AssetManager() { return _applicationManager.AssetManager(); }
 AssetLoaderFactory& State::AssetLoaderFactory() { return _applicationManager.AssetLoaderFactory(); }
+EntityFactory& State::EntityFactory() { return _applicationManager.EntityFactory(); }
 SDL2Manager& State::SDLManager() { return _applicationManager.SDLManager(); }
 Application::ApplicationManager& State::ApplicationManager() { return _applicationManager; }
-EntityFactory& State::EntityFactory() { return _entityFactory; }
 Animation::AnimationManager& State::AnimationManager() { return _applicationManager.AnimationManager(); }
 Collision::CollisionManager& State::CollisionManager() { return _collisionManager; }
 ECS& State::ECS() { return _ecs; }
@@ -42,30 +40,10 @@ Input::InputManager& State::InputManager() { return _applicationManager.InputMan
 StateManager& State::StateManager() { return _applicationManager.StateManager(); }
 
 void State::Initialize()
-{
-  // registering here means custom states can add additional component handlers
-  _entityFactory.Register(Core::HashType<WorldTransformComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
-  {
-    WorldTransformComponent component;
-    deserialize(component, componentJson.Data()); // these methods need to take in pointers(?) to json
-    handler.AddComponent<WorldTransformComponent>(component);
-  });
-  _entityFactory.Register(Core::HashType<PositionComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
-  {
-    PositionComponent component;
-    deserialize(component, componentJson.Data());
-    handler.AddComponent<PositionComponent>(component);
-  });
-}
+{}
 
 void State::Start()
-{
-  // this should be added by States in Start and removed in Stop
-  AssetLoaderFactory().Register(Core::HashType<Data::EntityData>(), [&](Application::ApplicationManager& applicationManager, const Data::AssetName<void>& asset)
-  {
-      _entityFactory.CreateEntity(_ecs, asset);
-  });
-};
+{};
 
 void State::Update(Core::Second dt)
 {
@@ -75,7 +53,5 @@ void State::Update(Core::Second dt)
 }
 
 void State::End()
-{
-  AssetLoaderFactory().Unregister(Core::HashType<Data::EntityData>());
-};
+{};
 }// namespace Application

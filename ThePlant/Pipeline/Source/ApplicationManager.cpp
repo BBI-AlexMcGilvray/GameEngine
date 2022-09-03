@@ -8,6 +8,9 @@
 #include "Core/Debugging/Profiling/Utils.h"
 #endif
 
+// SHOULD NOT BE HERE
+#include "Pipeline/ECSSystems/ComponentSerializers.h"
+
 namespace Application {
 Core::Threading::ThreadManager& ApplicationManager::ThreadManager()
 {
@@ -32,6 +35,11 @@ Data::AssetManager& ApplicationManager::AssetManager()
 AssetLoaderFactory& ApplicationManager::AssetLoaderFactory()
 {
   return _assetLoader;
+}
+
+EntityFactory& ApplicationManager::EntityFactory()
+{
+  return _entityFactory;
 }
 
 SDL2Manager& ApplicationManager::SDLManager()
@@ -73,6 +81,7 @@ ApplicationManager::ApplicationManager()
   : _serviceManager(*this)
   , _timeSystem(Application::Time::FIXED_30FPS)
   , _assetLoader(*this)
+  , _entityFactory(_assetLoader, _assetManager)
   , _shaderManager(_assetManager, _assetLoader)
   , _materialManager(_assetManager, _assetLoader, _shaderManager)
   , _inputSystem(_sdl)
@@ -127,6 +136,21 @@ bool ApplicationManager::Initialize()
   _animationSystem.Initialize();
   _renderSystem.Initialize(_sdl, _threadManager.GetThread());
   _inputSystem.initialize();
+
+  // this should not be here - should be other methods that get called here and by the specific product?
+  // need to this this for the rest, though it seems like (most of) this could be super standardized (aka templatized)!
+  _entityFactory.Register(Core::HashType<WorldTransformComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
+  {
+    WorldTransformComponent component;
+    deserialize(component, componentJson.Data()); // these methods need to take in pointers(?) to json
+    handler.AddComponent<WorldTransformComponent>(component);
+  });
+  _entityFactory.Register(Core::HashType<PositionComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
+  {
+    PositionComponent component;
+    deserialize(component, componentJson.Data());
+    handler.AddComponent<PositionComponent>(component);
+  });
 
   return true;
 }

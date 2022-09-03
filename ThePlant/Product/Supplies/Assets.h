@@ -106,7 +106,7 @@ namespace Data
 		};
 		const Shaders shd;
 
-		// manually added to test
+		// manually added to test - also need a way to these out!
 		struct Entities
 		{
 			const AssetName<EntityData> Test = AssetName<EntityData>(AsHash(1));

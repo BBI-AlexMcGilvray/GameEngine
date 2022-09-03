@@ -14,6 +14,7 @@
 
 namespace Application {
 struct ApplicationManager;
+struct State;
 
 using ComponentFactory = Core::HashFactory<void, EntityHandler&, const Core::Serialization::Format::JSON&>;
 
@@ -24,15 +25,15 @@ class EntityFactory : public ComponentFactory
 {
 public:
     EntityFactory(AssetLoaderFactory& assetLoader, Data::AssetManager& assetManager);
-    ~EntityFactory() = default;
+    ~EntityFactory();
 
-    EntityHandler& CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset);
-    EntityHandler& CreateEntityAndLockAsset(ECS& ecs, const Data::AssetName<Data::EntityData>& asset);
+    EntityHandler& CreateEntity(State& state, const Data::AssetName<Data::EntityData>& asset);
+    EntityHandler& CreateEntityAndLockAsset(State& state, const Data::AssetName<Data::EntityData>& asset);
 
 private:
     Data::AssetManager& _assetManager;
     AssetLoaderFactory& _assetLoader;
     
-    EntityHandler& _CreateEntity(ECS& ecs, const Data::AssetName<Data::EntityData>& asset, bool lock);
+    EntityHandler& _CreateEntity(State& state, const Data::AssetName<Data::EntityData>& asset, bool lock);
 };
 }// namespace Application
