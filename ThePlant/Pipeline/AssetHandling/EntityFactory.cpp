@@ -12,9 +12,9 @@ EntityFactory::EntityFactory(AssetLoaderFactory& assetLoader, Data::AssetManager
 {
     // by default, we load into the current state.
     // when states need to create their startup state in initialization, they should provide themselves as a direct argument
-  _assetLoader.Register(Core::HashType<Data::EntityData>(), [&](Application::ApplicationManager& applicationManager, const Data::AssetName<void>& asset)
+  _assetLoader.Register(Core::HashType<Data::EntityData>(), [&](State& state, const Data::AssetName<void>& asset)
   {
-      CreateEntity(applicationManager.StateManager().GetActiveState(), asset);
+      CreateEntity(state, asset);
   });
 }
    

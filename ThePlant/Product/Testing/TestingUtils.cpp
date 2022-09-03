@@ -115,11 +115,10 @@ namespace Testing
 
         // we need to make the Ast.ent.Test asset a respective file with the correct json in it
 
-        // this should also make the entity (but doesn't return the EntityHandler)
-        // state.AssetLoaderFactory().LoadAsset(Data::Ast.ent.Test); // fails because when we 'create and go to' for the first state, we initialize before setting it as the currently active state
-        // since the above relies on getting the 'active state' it fails when called in initialize when the active state has not been updated!
+        // this also makes the entity (but doesn't return the EntityHandler)
+        state.AssetLoaderFactory().LoadAsset(state, Data::Ast.ent.Test);
 
-        // this should make the entity and return the EntityHandler
+        // this makes the entity and return the EntityHandler
         return state.EntityFactory().CreateEntity(state, Data::Ast.ent.Test);
     }
 } // namespace Testing

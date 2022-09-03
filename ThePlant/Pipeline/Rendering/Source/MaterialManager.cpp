@@ -2,18 +2,20 @@
 
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 
+#include "Pipeline/StateSystem/Headers/State.h"
+
 using namespace Core;
 
 namespace Application {
 namespace Rendering {
   MaterialManager::MaterialManager(Data::AssetManager& assetManager, AssetLoaderFactory& assetLoaderFactory, ShaderManager& shaderManager)
-    : _assetManager(assetManager)
+  : _assetManager(assetManager)
   , _assetLoaderFactory(assetLoaderFactory)
   , _shaderManager(shaderManager)
   {
-    _assetLoaderFactory.Register(Core::HashType<Data::Rendering::MaterialData>(), [&](Application::ApplicationManager& applicationManager, const Data::AssetName<void>& asset)
+    _assetLoaderFactory.Register(Core::HashType<Data::Rendering::MaterialData>(), [&](State& state, const Data::AssetName<void>& asset)
     {
-      CORE_THROW("MaterialManager", "Material data asset parsing not implemented yet!");
+      AddMaterial(asset);
     });
   }
 

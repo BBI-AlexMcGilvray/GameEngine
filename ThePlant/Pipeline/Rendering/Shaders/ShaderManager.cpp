@@ -3,6 +3,7 @@
 #include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/Rendering/OpenGL/Headers/ShaderUtils.h"
+#include "Pipeline/StateSystem/Headers/State.h"
 
 namespace Application {
 namespace Rendering {
@@ -10,7 +11,7 @@ namespace Rendering {
   : _assetManager(assetManager)
   , _assetLoaderFactory(assetLoaderFactory)
   {
-    _assetLoaderFactory.Register(Core::HashType<Data::Rendering::ShaderData>(), [&](Application::ApplicationManager& applicationManager, const Data::AssetName<void>& asset)
+    _assetLoaderFactory.Register(Core::HashType<Data::Rendering::ShaderData>(), [&](State& state, const Data::AssetName<void>& asset)
     {
       AddShader(asset);
     });

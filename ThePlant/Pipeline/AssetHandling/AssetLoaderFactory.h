@@ -11,7 +11,8 @@
 
 namespace Application {
 struct ApplicationManager;
-using AssetProcessor = Core::HashFactory<void, ApplicationManager&, const Data::AssetName<void>&>;
+struct State;
+using AssetProcessor = Core::HashFactory<void, State&, const Data::AssetName<void>&>;
 
 // this loads assets (ex: puts materials in the material manager)
 // but it doesn't allow for easy connections of those assets (ex: if a given material component references that material)
@@ -41,11 +42,13 @@ public:
     ~AssetLoaderFactory() = default;
 
     void LoadAsset(const Data::AssetName<void>& asset);
+    void LoadAsset(State& state, const Data::AssetName<void>& asset);
     void LoadAndLockAsset(const Data::AssetName<void>& asset);
+    void LoadAndLockAsset(State& state, const Data::AssetName<void>& asset);
 
 private:
     ApplicationManager& _applicationManager;
     
-    void _LoadAsset(const Data::AssetName<void>& asset, bool lock);
+    void _LoadAsset(State& state, const Data::AssetName<void>& asset, bool lock);
 };
 }// namespace Application
