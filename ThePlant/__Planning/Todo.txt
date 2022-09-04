@@ -1,0 +1,24 @@
+- Export/save data
+    - states
+    - entities
+    - components
+
+- Use AssetLocationMapping to load up assets instead of AssetType
+    - keep AssetType anyways?
+
+- Ability to select an entity (i.e. click on things in the state)
+- Ability to display all relevant entity data
+    - should dynamically show everything for all components the entity has
+
+- Make the Factory no longer be a distinct project, should instead be a type of build that includes the Factory library
+    - Existing Factory logic of external asset -> ASSIMP -> internal asset should be used instead when (through the Factory build type) and external asset is referenced
+    - This becomes the proper 'editor' that should have UI and asset inclusion, saving, and the like
+    - Though we may not be able to have the 'editor ui' be fully external in the library (circular references?)
+        - So for now we may have the UI be in the Pipeline library and reference the ASSIMP -> internal asset logic be referenced by internal
+
+- Fix 'Application' namespace to be 'Pipeline'
+
+- Make the existing factories handle ALL existing types instead of just a subset
+
+- Look into load times when referencing assets
+    - Why is it so slow?

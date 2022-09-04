@@ -3,6 +3,9 @@
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Functionality/Headers/Event.h"
 
+#include "Data/Headers/AssetData.h"
+#include "Data/AssetTypes/StateData.h"
+
 #include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/Physics/PhysicsSettings.h"
@@ -57,9 +60,8 @@ struct State
   Core::Functionality::Event<> stateDeleted;
 
   State(Application::ApplicationManager& applicationManager, const Core::Math::Float3& worldSize, const Application::Physics::Settings& physicsSettings);
-  // we will need states to be data-driven, though maybe this is not the proper way to do it (instead, have a CreateState method or something)
-  // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetName<State> state);
-  // State(Rendering::RenderManager& renderSystem, Input::InputManager& inputSystem, AssetData<State> state);
+  // states can be created using an AssetData<StateData>. We don't do this through the AssetLoaderFactory because we can't dictate if we want to go to it or just load it
+  State(Application::ApplicationManager& applicationManager, const Data::AssetData<Data::StateData>& asset);
 
   virtual ~State();
 

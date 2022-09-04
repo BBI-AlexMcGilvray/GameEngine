@@ -28,11 +28,13 @@ MyState::MyState(Application::ApplicationManager& applicationManager)
 : Application::State(applicationManager, 512.0f, Application::Physics::Settings())
 {}
 
+MyState::MyState(Application::ApplicationManager& applicationManager, const Data::AssetData<Data::StateData> assetData)
+: Application::State(applicationManager, assetData)
+{}
+
 void MyState::Initialize()
 {
-    // make sure base state stuff is initialized (shouldn't be necessary, should put mandatory things in a separate function that calls the overridable one)
-    State::Initialize();
-
+    // the below shouldn't be necessary, should be determined based on the StateData asset
     Application::ECSSystemFlags activeSystems;
     activeSystems |= Application::ECSSystem::AnimationSystem;
     activeSystems |= Application::ECSSystem::CameraSystem;
@@ -166,15 +168,10 @@ void MyState::Initialize()
     // \testing
 }
 
-void MyState::Start()
-{
-    State::Start();
-};
+void MyState::Start() {};
 
-void MyState::End()
-{
-    State::End();
-};
+void MyState::End() {};
+
 void MyState::CleanUp() {};
 
 // testing

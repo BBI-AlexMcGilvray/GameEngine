@@ -11,16 +11,6 @@
 - 'Product' is the result of everything
 	- Actual game that can be run
 
-- look into the skeleton data generated from assimp - something seems off
-	- maybe do this after working on skinning and animations as it may just be a broken 'default' pose?
-	- assimp data seems like it is the RELATIVE transform according to docs, maybe just convert to world for export
-		- we will likely be using world coords instead of local
-
-- Transformation changes:
-	- Have transforms set themselves as dirty and give them parents. When set to dirty, it also dirties all children (at least those with 'relative' transformations instead of 'world'  transformations)
-	- When transformation is needed, if dirty, calculate the final transformation by going up the parent-tree until either the parent is clean (in which case we can use it's current transformation), or it has no parent
-	- Also, should be able to set transformations are relative, or world. World transformations do not care about their parent's position - it is purely hierarchical
-
 - https://stackoverflow.com/questions/3695174/visual-studio-2010s-strange-warning-lnk4042
 	- [C/C++ -> Output Files -> Object File Name] is set to $(IntDir)/%(RelativeDir)/ due to the above
 	- I think this is needed because classes with templates will also compile the header, and maybe windows gets confused by [Name].h and [Name].cpp sharing the same name?

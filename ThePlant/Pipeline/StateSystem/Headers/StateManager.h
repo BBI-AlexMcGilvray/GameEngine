@@ -7,8 +7,9 @@
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 #include "Core/IdTypes/InstanceId.h"
-
 #include "Core/Functionality/Headers/Event.h"
+
+#include "Data/AssetTypes/StateData.h"
 
 #include "Pipeline/StateSystem/Headers/State.h"
 
@@ -23,6 +24,7 @@ struct StateManager
   Core::Functionality::Event<> stateChanged;
 
   StateManager(ApplicationManager& applicationManager);
+  ~StateManager();
 
   void Update(Second dt);
 

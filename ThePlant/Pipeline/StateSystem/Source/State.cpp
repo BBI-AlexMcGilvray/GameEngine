@@ -13,6 +13,12 @@ State::State(Application::ApplicationManager& applicationManager, const Core::Ma
 , _physicsSettings(physicsSettings)
 {}
 
+State::State(Application::ApplicationManager& applicationManager, const Data::AssetData<Data::StateData>& assetData)
+: _applicationManager(applicationManager)
+, _collisionManager(_ecs, assetData->worldSize)
+, _physicsSettings{ assetData->physics.gravity }
+{}
+
 State::~State()
 {
   if (stateDeleted)

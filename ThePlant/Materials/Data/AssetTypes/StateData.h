@@ -18,7 +18,6 @@ namespace Data {
         (std::vector<AssetName<EntityData>>) entities,
         (std::vector<Core::Hash>) activeSystems
     );
-}// namespace Rendering
-
+    
 ASSET_TYPE(StateData, "Resources/States/", ".st");
 }// namespace Data

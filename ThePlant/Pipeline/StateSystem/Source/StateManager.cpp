@@ -8,7 +8,20 @@
 namespace Application {
 StateManager::StateManager(ApplicationManager& applicationManager)
 : _applicationManager(applicationManager)
-{}
+{
+  // NOTE: maybe we don't want to do this as we have no was of dictating what type of State to actually add when we do this
+  // We could leave registering this loader to the product? (would allow the specific product to determine what the default State type is)
+  _applicationManager.AssetLoaderFactory().Register(Core::HashType<Data::StateData>(), [&](State& state, const Data::AssetName<void>& asset)
+  {
+    const auto assetData = state.AssetManager().getAssetData(Data::AssetName<Data::StateData>(asset));
+    AddState<State>(assetData);
+  });
+}
+
+StateManager::~StateManager()
+{
+  _applicationManager.AssetLoaderFactory().Unregister(Core::HashType<Data::StateData>());
+}
 
 void StateManager::Update(Second dt)
 {

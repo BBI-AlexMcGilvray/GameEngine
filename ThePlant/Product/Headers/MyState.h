@@ -20,6 +20,7 @@ namespace Product
 struct MyState : public Application::State
 {
     MyState(Application::ApplicationManager& applicationManager);
+    MyState(Application::ApplicationManager& applicationManager, const Data::AssetData<Data::StateData> assetData);
 
     void Initialize() override;
     void Start() override;
