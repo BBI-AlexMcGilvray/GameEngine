@@ -37,6 +37,8 @@ namespace Product
     *   - handle the RESULT of that input
     *       -> this should be called regardless of if new input affected those receivers, they should be updated if they are active
     *           * this is to handle the 'button is held' case
+    * 
+    * NOTE: the above is COMPLETED (just leaving it for potential future cares/info)
     */
     void CameraController::Update(Core::Second deltaTime)
     {
@@ -78,13 +80,13 @@ namespace Product
             positionComponent.position -= UP * _moveSpeed * dt;
         }
 
-        if (_inputManager->GetState<Application::Input::ButtonState>(Application::Input::MouseButton::Left) == Application::Input::ButtonState::Down)
+        if (_inputManager->GetState<Application::Input::ButtonState>(Application::Input::MouseButton::Right) == Application::Input::ButtonState::Down)
         {
             const auto& mouseAxis = _inputManager->GetState<Application::Input::AxisState>(Application::Input::MouseAxis::Position);
 
             float deltaX = mouseAxis.delta.X * _lookSpeed * dt;
 
-            rotationComponent.rotation = rotationComponent.rotation * Core::Math::LerpQuat(Core::Math::FQuaternion(), LOOK_LEFT, deltaX);// * rotationComponent.rotation;
+            _horizontalLook = _horizontalLook * Core::Math::LerpQuat(Core::Math::FQuaternion(), LOOK_LEFT, deltaX);
         }
         if (_inputManager->GetState<Application::Input::ButtonState>(Application::Input::MouseButton::Right) == Application::Input::ButtonState::Down)
         {
@@ -92,8 +94,12 @@ namespace Product
 
             float deltaY = mouseAxis.delta.Y * _lookSpeed * dt;
 
-            rotationComponent.rotation = rotationComponent.rotation * Core::Math::LerpQuat(Core::Math::FQuaternion(), LOOK_UP, -deltaY);// * rotationComponent.rotation;
+            _verticalLook = _verticalLook * Core::Math::LerpQuat(Core::Math::FQuaternion(), LOOK_UP, -deltaY);
         }
+
+        // we need to track the horizontal and vertical rotations here so we can always apply them separately
+        // otherwise we can get undesired 'roll': https://stackoverflow.com/questions/46738139/prevent-rotation-around-certain-axis-with-quaternion
+        rotationComponent.rotation = Core::Math::FQuaternion() * _horizontalLook * _verticalLook;
     }
 
     bool CameraController::handleInput(Ptr<const Application::Input::InputEventBase> event)

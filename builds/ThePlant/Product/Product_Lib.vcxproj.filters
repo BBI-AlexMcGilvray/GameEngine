@@ -7,6 +7,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\CameraController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\WorldInteractor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\MyProduct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

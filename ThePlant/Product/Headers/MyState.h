@@ -5,6 +5,7 @@
 #include "Pipeline/ECS/DataOriented/IDs.h"
 
 #include "Product/Headers/CameraController.h"
+#include "Product/Headers/WorldInteractor.h"
 
 // testing
 #include "Core/Math/Headers/Vector3.h"
@@ -31,6 +32,7 @@ private:
     Application::EntityId _camera;
 
     CameraController _cameraController;
+    WorldInteractor _worldInteractor;
 
     // testing
     Application::EntityId _static;

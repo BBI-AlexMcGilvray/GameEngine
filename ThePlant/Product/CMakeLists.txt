@@ -7,6 +7,7 @@ add_subdirectory(Dependencies)
 set(SOURCE_FILES #
 Scripting/LuaManager.cpp #
 Source/CameraController.cpp #
+Source/WorldInteractor.cpp #
 Source/MyProduct.cpp #
 Source/MyState.cpp #
 Source/ProductManager.cpp #
@@ -16,6 +17,7 @@ Testing/TestSystem.cpp)
 set(HEADER_FILES #
 Scripting/LuaManager.h #
 Headers/CameraController.h #
+Headers/WorldInteractor.h #
 Headers/MyProduct.h #
 Headers/MyState.h #
 Headers/ProductManager.h #

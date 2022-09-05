@@ -78,6 +78,10 @@ void MyState::Initialize()
     inputManager.setInputController<Application::Input::DefaultInputController>();
     inputManager->addReceiver(&_cameraController);
 
+    // create world interactor
+    _worldInteractor = WorldInteractor(inputManager, ECS(), _camera);
+    inputManager->addReceiver(&_worldInteractor);
+
     // testing
     // _static = Testing::SpawnStaticModel(*this); // this and the below cause an exception on close
     // _animated = Testing::SpawnAnimatedModel(*this);

@@ -36,6 +36,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/Product_Lib" TYPE FILE FILES
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Scripting/LuaManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/CameraController.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/WorldInteractor.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/MyProduct.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/MyState.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/ProductManager.h"

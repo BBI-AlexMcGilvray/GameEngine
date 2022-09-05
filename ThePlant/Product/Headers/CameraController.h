@@ -11,7 +11,8 @@
 namespace Product
 {
     /*
-    This entire this is bad, this is just to test input functionality
+    This entire thing is bad, this is just to test input functionality
+        ** maybe not so bad anymore?
     */
     class CameraController : public Application::Input::IInputReceiver
     {
@@ -35,6 +36,8 @@ namespace Product
         Core::Ptr<const Application::Input::InputManager> _inputManager;
         Core::Ptr<Application::ECS> _ecs;
         Application::EntityId _cameraEntity;
+        Core::Math::FQuaternion _horizontalLook;
+        Core::Math::FQuaternion _verticalLook;
 
         float _moveSpeed = 100.0f;
         float _lookSpeed = 0.1f;

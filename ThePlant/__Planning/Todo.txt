@@ -7,8 +7,11 @@
     - keep AssetType anyways?
 
 - Ability to select an entity (i.e. click on things in the state)
+    - start off by verifying by testing clicking on objects (with a specfiic compoennt) remove their velocity component (so they stop moving)
 - Ability to display all relevant entity data
     - should dynamically show everything for all components the entity has
+    - best way to do this is likely to just make the components themselves using the POD macro (or REFLECTABLE)
+        - any non-serialized values should be defined OUTSIDE of the macro
 
 - Make the Factory no longer be a distinct project, should instead be a type of build that includes the Factory library
     - Existing Factory logic of external asset -> ASSIMP -> internal asset should be used instead when (through the Factory build type) and external asset is referenced

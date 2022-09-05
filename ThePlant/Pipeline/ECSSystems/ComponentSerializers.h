@@ -12,6 +12,8 @@ namespace Application {
 // and how can we tell Entities to deserialize to the correct name? we need a way for components to get their name (type)
 // that could be gotten from the Archetype/ComponentList? anything that is specialized by template for the component type (like entity snapshot/handler)
 
+// if components are defined using the reflection macros then all of these functions _should_ come for free
+
 void deserialize(PositionComponent& positionComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
 {
     Core::Serialization::Format::JSONObject* data = dynamic_cast<Core::Serialization::Format::JSONObject*>(json.get());
