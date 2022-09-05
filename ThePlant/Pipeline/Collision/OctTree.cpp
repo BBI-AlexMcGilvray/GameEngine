@@ -32,20 +32,7 @@ std::pair<EntitySnapshot, Core::Geometric::Point3D> OctTreeNode::FindFirstEntity
 {
     Core::Geometric::AABBShapeOrientation3D boundedShape(shape);
     const OctTreeNode& containingNode = _FindContainingNode(shape);
-    for (const auto& content : containingNode._content)
-    {
-        if (const auto intersection = Core::Geometric::Intersect(content.boundCollider, boundedShape); intersection.intersect)
-        {
-            return { _ecs.GetTemporaryEntitySnapshot(content.entity), intersection.point };
-        }
-    }
-
-    // maybe we collide with a parent's content if we have a parent
-    if (_parent == nullptr)
-    {
-        return { EntitySnapshot(), Core::Geometric::Point3D() };
-    }
-    return _parent->FindFirstEntity(shape);
+    return containingNode._FindFirstEntity(boundedShape, BitmaskEnum<CheckDirection>(CheckDirection::Down, CheckDirection::Up));
 }
 
 std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>> OctTreeNode::FindAllEntities(const Core::Geometric::ShapeOrientation3D& shape) const
@@ -274,6 +261,53 @@ void OctTreeNode::_RemoveStopGap()
     _content.pop_back();
     auto& stopGappedContainer = _FindContainingNode(stopGappedContent.boundCollider);
     stopGappedContainer._InsertContent(stopGappedContent); // now that the tree has been expanded, try to move the stop-gapped content down a layer
+}
+
+std::pair<EntitySnapshot, Core::Geometric::Point3D> OctTreeNode::_FindFirstEntity(const Core::Geometric::AABBShapeOrientation3D& boundedShape, const BitmaskEnum<CheckDirection> checkDirection) const
+{
+    // always check this node
+    for (const auto& content : _content)
+    {
+        if (const auto intersection = Core::Geometric::Intersect(content.boundCollider, boundedShape); intersection.intersect)
+        {
+            return { _ecs.GetTemporaryEntitySnapshot(content.entity), intersection.point };
+        }
+    }
+
+    // check children only if we are searching downwards (we check down from the containing node first)
+    if (checkDirection.AtLeastOneFlag(CheckDirection::Down) && _ChildrenExist())
+    {
+        const auto direction = boundedShape.shapeOrientation.orientation.position - _this.orientation.position;
+        const auto& likelyContainingChild = _children[_IndexForDirection(direction)];
+
+        // check the most likely child (child that is in the direction of shape origin)
+        std::pair<EntitySnapshot, Core::Geometric::Point3D> likelyFirst = likelyContainingChild->_FindFirstEntity(boundedShape, BitmaskEnum<CheckDirection>(CheckDirection::Down));
+        if (likelyFirst.first.IsValid())
+        {
+            return likelyFirst;
+        }
+
+        for (const auto& child : _children)
+        {
+            if (child == likelyContainingChild || !child->_Intersects(boundedShape).intersect)
+            {
+                continue;
+            }
+
+            std::pair<EntitySnapshot, Core::Geometric::Point3D> childFirst = child->_FindFirstEntity(boundedShape, BitmaskEnum<CheckDirection>(CheckDirection::Down));
+            if (childFirst.first.IsValid())
+            {
+                return childFirst;
+            }
+        }
+    }
+
+    // check parent only if we are searching up (after we finish checking the containing node and children)
+    if (_parent != nullptr && checkDirection.AtLeastOneFlag(CheckDirection::Up))
+    {
+        return _parent->_FindFirstEntity(boundedShape, BitmaskEnum<CheckDirection>(CheckDirection::Up));
+    }
+    return { EntitySnapshot(), Core::Geometric::Point3D() };
 }
 
 void OctTreeNode::_FindAllEntities(std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const

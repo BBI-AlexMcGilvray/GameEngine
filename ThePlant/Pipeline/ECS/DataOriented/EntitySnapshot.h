@@ -113,6 +113,18 @@ namespace Application
             return *(static_cast<Core::Ptr<T>>(componentPtr));
         }
 
+        template <typename T>
+        const T& GetComponent() const
+        {
+            Core::Ptr<void> componentPtr = _GetComponentFor(Core::GetTypeId<T>());
+            if (componentPtr == nullptr)
+            {
+                DEBUG_THROW("EntitySnapshot", "Requested type does not exist");
+            }
+
+            return *(static_cast<Core::Ptr<T>>(componentPtr));
+        }
+
         bool IsValid() const
         {
             return _entity.IsValid();

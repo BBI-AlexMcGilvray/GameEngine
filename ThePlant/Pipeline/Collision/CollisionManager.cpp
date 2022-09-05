@@ -20,6 +20,11 @@ OctTree& CollisionManager::GetOctTree()
     return _octTree;
 }
 
+const OctTree& CollisionManager::GetOctTree() const
+{
+    return _octTree;
+}
+
 std::vector<StatefulCollision> CollisionManager::GetAllCollisions()
 {
     if (!_frameCached)

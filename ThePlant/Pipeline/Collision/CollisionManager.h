@@ -25,6 +25,7 @@ struct CollisionManager
     // should only be called once per frame
     void ResetCollisionCache();
     OctTree& GetOctTree();
+    const OctTree& GetOctTree() const;
     std::vector<StatefulCollision> GetAllCollisions();
 
     const std::vector<Core::Ptr<ICollisionHandler>> GetAllCollisionHandlers() const;

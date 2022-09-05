@@ -13,6 +13,8 @@ namespace Application {
 // that could be gotten from the Archetype/ComponentList? anything that is specialized by template for the component type (like entity snapshot/handler)
 
 // if components are defined using the reflection macros then all of these functions _should_ come for free
+// can we just wrap the elements of the components that we want serialized in a REFLECTABLE macro?
+//      * the inclusion of additional _static_ variables doesn't increase type size
 
 void deserialize(PositionComponent& positionComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
 {

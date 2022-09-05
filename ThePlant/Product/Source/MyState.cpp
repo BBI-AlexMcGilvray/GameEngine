@@ -79,7 +79,7 @@ void MyState::Initialize()
     inputManager->addReceiver(&_cameraController);
 
     // create world interactor
-    _worldInteractor = WorldInteractor(inputManager, ECS(), _camera);
+    _worldInteractor = WorldInteractor(inputManager, CollisionManager(), ECS(), _camera);
     inputManager->addReceiver(&_worldInteractor);
 
     // testing

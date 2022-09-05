@@ -13,8 +13,9 @@
 
 namespace Product
 {
-    WorldInteractor::WorldInteractor(const Application::Input::InputManager& inputManager, Application::ECS& ecs, const Application::EntityId& cameraEntity)
+    WorldInteractor::WorldInteractor(const Application::Input::InputManager& inputManager, const Application::Collision::CollisionManager& collisionManager, Application::ECS& ecs, const Application::EntityId& cameraEntity)
     : _inputManager(&inputManager)
+    , _collisionManager(&collisionManager)
     , _ecs(&ecs)
     , _cameraEntity(cameraEntity)
     {
@@ -35,6 +36,10 @@ namespace Product
         {
             _doInteraction = false;
             CORE_LOG("WorldInteractor", "Executing Event");
+            
+            Application::EntitySnapshot cameraSnapshot = _ecs->GetTemporaryEntitySnapshot(_cameraEntity);
+
+            SelectObject(cameraSnapshot);
         }
     }
 
@@ -55,5 +60,35 @@ namespace Product
             }
         }
         return false;
+    }
+
+    void WorldInteractor::SelectObject(const Application::EntitySnapshot& cameraSnapshot)
+    {
+        const Application::CameraComponent& cameraComponent = cameraSnapshot.GetComponent<Application::CameraComponent>();
+        const Application::PositionComponent& positionComponent = cameraSnapshot.GetComponent<Application::PositionComponent>();
+        const Application::RotationComponent& rotationComponent = cameraSnapshot.GetComponent<Application::RotationComponent>();
+
+        const auto& mouseAxis = _inputManager->GetState<Application::Input::AxisState>(Application::Input::MouseAxis::Position);
+        const auto& mousePosition = mouseAxis.position;
+
+        const auto& octTree = _collisionManager->GetOctTree();
+
+        Core::Geometric::Orientation orientation(positionComponent.position, rotationComponent.rotation);
+        // 'forward' needs to be calculated then offset by the mouse position
+        Core::Geometric::Line3D ray(FORWARD * 100.0f, true);
+        Core::Geometric::ShapeOrientation3D raycast(orientation, ray);
+        const auto selected = octTree.FindFirstEntity(raycast);
+
+        // create the raycast to help debug (maybe we want a lifetime component and system to make these not exist forever)
+        auto& entityHandler = _ecs->CreateEntity();
+        entityHandler.AddComponent<Application::PositionComponent>(positionComponent.position);
+        entityHandler.AddComponent<Application::RotationComponent>(rotationComponent.rotation);
+        entityHandler.AddComponent<Application::WorldTransformComponent>();
+        entityHandler.AddComponent<Application::ColliderComponent>(ray, false, Application::ColliderState::Dynamic);
+        // entityHandler.AddComponent<Application::ColliderComponent>(ray, true, Application::ColliderState::Dynamic);
+
+        // Why does the FIRST raycast after moving the camera always return 0,0,0?
+        // why does the FIRST raycast intersect, but none of the others? collision system not handling rays properly?
+        CORE_LOG("WorldInteractor", "First interaction at point " + Core::Math::VectorString(selected.second));
     }
 }

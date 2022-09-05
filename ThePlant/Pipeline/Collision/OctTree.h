@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Core/Headers/CoreDefs.h"
+#include "Core/Headers/BitmaskEnum.h"
 #include "Core/Geometric/AABB.h"
 #include "Core/Geometric/AABBFunctions.h"
 
@@ -140,6 +141,13 @@ class OctTreeNode
         void _InsertContent(const OctTreeContent& content);
         void _StopGapContent(const OctTreeContent& content);
         void _RemoveStopGap();
+
+        enum class CheckDirection
+        {
+            Down = 1 << 0,
+            Up = 1 << 1
+        };
+        std::pair<EntitySnapshot, Core::Geometric::Point3D> _FindFirstEntity(const Core::Geometric::AABBShapeOrientation3D& boundedShape, const BitmaskEnum<CheckDirection> checkDirection) const;
 
         void _FindAllEntities(std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const;
         void _InternalEntities(std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>>& entities, const Core::Geometric::AABBShapeOrientation3D& shape) const;
