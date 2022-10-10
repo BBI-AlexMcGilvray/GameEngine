@@ -43,6 +43,7 @@ void MyState::Initialize()
     activeSystems |= Application::ECSSystem::TransformSystem;
     activeSystems |= Application::ECSSystem::PhysicsSystem;
     activeSystems |= Application::ECSSystem::VelocitySystem;
+    activeSystems |= Application::ECSSystem::LifetimeSystem;
 #if DEBUG
     activeSystems |= Application::ECSSystem::DebugBoneSystem;
     activeSystems |= Application::ECSSystem::DebugCollisionSystem;

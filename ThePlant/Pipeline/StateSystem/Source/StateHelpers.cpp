@@ -4,6 +4,7 @@
 #include "Pipeline/ECSSystems/AnimationSystem.h"
 #include "Pipeline/ECSSystems/CameraSystem.h"
 #include "Pipeline/ECSSystems/CollisionSystem.h"
+#include "Pipeline/ECSSystems/LifetimeSystem.h"
 #include "Pipeline/ECSSystems/TransformSystem.h"
 #include "Pipeline/ECSSystems/RenderingSystem.h"
 #include "Pipeline/Physics/PhysicsSystem.h"
@@ -61,6 +62,7 @@ void SetECSSystems(State& state, const ECSSystemFlags& systems)
     SetOrRemoveSystem<CameraSystem, TransformSystem>(stateECS, systems, ECSSystem::CameraSystem, state.RenderManager().GetCameraManager());
     SetOrRemoveSystem<CollisionSystem, TransformSystem>(stateECS, systems, ECSSystem::CollisionSystem, state.CollisionManager());
     SetOrRemoveSystem<RenderingSystem, TransformSystem, CameraSystem, AnimationSystem>(stateECS, systems, ECSSystem::RenderingSystem, state.RenderManager());
+    SetOrRemoveSystem<LifetimeSystem>(stateECS, systems, ECSSystem::LifetimeSystem, state.TimeSystem());
 #if DEBUG
     SetOrRemoveSystem<DebugBoneSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugBoneSystem, state.RenderManager(), state.MaterialManager());
     SetOrRemoveSystem<DebugCollisionSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugCollisionSystem, state.CollisionManager(), state.RenderManager(), state.MaterialManager());

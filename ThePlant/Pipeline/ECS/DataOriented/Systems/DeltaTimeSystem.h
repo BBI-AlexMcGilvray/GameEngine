@@ -102,7 +102,7 @@ struct CompoundDeltaTimeSystem : public IDeltaTimeSystem
 
     // this works for now, but the nested systems won't be parallelized in the future without changes
     // could just change the internal call to execute each as a task (with the same dependencies as the main system)
-    void DeltaTimeExecute(const Core::Second& time,ArchetypeManager& archetypeManager) const override
+    void DeltaTimeExecute(const Core::Second& time, ArchetypeManager& archetypeManager) const override
     {
         DEBUG_PROFILE_SCOPE(GetSystemName());
 

@@ -16,7 +16,7 @@ namespace Application
 struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
 {
     bool drawOccupiedOnly = true;
-    bool drawAABBs = true;
+    bool drawAABBs = false;
 
     DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
     : System<DebugOctTreeSystem>("DebugOctTreeSystem")
@@ -92,7 +92,7 @@ private:
     {
         Core::Geometric::Transform contentTransform = content.boundCollider.boundingBox.orientation;
         contentTransform.AdjustScale(content.boundCollider.boundingBox.shape.dimensions);
-        
+
         Rendering::Context context = {
             _debugMaterial,
             contentTransform.GetTransformationMatrix(),

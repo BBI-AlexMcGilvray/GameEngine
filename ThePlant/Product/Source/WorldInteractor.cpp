@@ -9,6 +9,7 @@
 
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/ECSSystems/CameraComponents.h"
+#include "Pipeline/ECSSystems/LifetimeComponent.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
 
 namespace Product
@@ -79,13 +80,13 @@ namespace Product
         Core::Geometric::ShapeOrientation3D raycast(orientation, ray);
         const auto selected = octTree.FindFirstEntity(raycast);
 
-        // create the raycast to help debug (maybe we want a lifetime component and system to make these not exist forever)
-        auto& entityHandler = _ecs->CreateEntity();
-        entityHandler.AddComponent<Application::PositionComponent>(positionComponent.position);
-        entityHandler.AddComponent<Application::RotationComponent>(rotationComponent.rotation);
-        entityHandler.AddComponent<Application::WorldTransformComponent>();
-        entityHandler.AddComponent<Application::ColliderComponent>(ray, false, Application::ColliderState::Dynamic);
-        // entityHandler.AddComponent<Application::ColliderComponent>(ray, true, Application::ColliderState::Dynamic);
+        // create the raycast to help debug
+        // auto& entityHandler = _ecs->CreateEntity();
+        // entityHandler.AddComponent<Application::PositionComponent>(positionComponent.position);
+        // entityHandler.AddComponent<Application::RotationComponent>(rotationComponent.rotation);
+        // entityHandler.AddComponent<Application::WorldTransformComponent>();
+        // entityHandler.AddComponent<Application::LifetimeComponent>(0.5f); // how long we want the raycast to last
+        // entityHandler.AddComponent<Application::ColliderComponent>(ray, true, Application::ColliderState::Dynamic); // trigger so things don't bounce off of it
 
         // Why does the FIRST raycast after moving the camera always return 0,0,0?
         // why does the FIRST raycast intersect, but none of the others? collision system not handling rays properly?

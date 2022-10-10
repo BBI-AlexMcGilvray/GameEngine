@@ -92,7 +92,7 @@ public:
     void ApplyChanges();
 
     template <typename ...Ts>
-    std::vector<Core::Ptr<Archetype>> GetArchetypesContaining()
+    std::vector<Core::Ptr<Archetype>> GetArchetypesContaining() // can this return references - i don't think so? maybe would need to be a reference_wrapper?
     {
         SCOPED_MEMORY_CATEGORY("ECS");
         TypeCollection types = CollectTypes<Ts...>();

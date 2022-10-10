@@ -13,7 +13,8 @@ enum class ECSSystem
     RenderingSystem = 1 << 3,
     TransformSystem = 1 << 4,
     PhysicsSystem = 1 << 5,
-    VelocitySystem = 1 << 6
+    VelocitySystem = 1 << 6,
+    LifetimeSystem = 1 << 7
 #if DEBUG // Debug system only after this
     , // to continue list above
     DebugBoneSystem = 1 << 30, // count from the other direction so debug systems are always the last
