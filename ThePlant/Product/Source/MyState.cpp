@@ -68,7 +68,7 @@ void MyState::Initialize()
     auto& cameraHandler = ECS().CreateEntity();
     cameraHandler.AddComponent<Application::CameraComponent>(camera);
     cameraHandler.AddComponent<Application::WorldTransformComponent>(Core::Geometric::Transform());
-    cameraHandler.AddComponent<Application::PositionComponent>(Core::Math::Float3(0.0f, 0.0f, 200.0f));
+    cameraHandler.AddComponent<Application::PositionComponent>(Core::Math::Float3(0.0f, 0.0f, 250.0f));
     cameraHandler.AddComponent<Application::RotationComponent>(Core::Math::FQuaternion(Core::Math::II()));
     _camera = cameraHandler;
 

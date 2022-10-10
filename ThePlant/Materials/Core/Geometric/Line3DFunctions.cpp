@@ -139,6 +139,7 @@ Math::Float3 LineEndpoint(const ShapeOrientation<Line3D>& line)
 
 Math::Float3 ClosestPointOnLine(const Line3D& line, const Point3D& point)
 {
+    // projection gets us the closest point on the line to the point... so we should be projecting
     const Math::Float3 projectedOntoLine = Math::Project(point, line.line);
 
     // we know this is on the line since we projected it onto the line

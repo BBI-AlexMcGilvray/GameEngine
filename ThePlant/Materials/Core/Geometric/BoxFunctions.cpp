@@ -167,7 +167,7 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
     // DEBUG_PROFILE_POP("counter rotated line");
 
     // DEBUG_PROFILE_PUSH("line pointing at box");
-    const auto lineOriginToBox = box.orientation.position - counterRotatedLine.orientation.position;
+    const auto lineOriginToBox = counterRotatedLine.orientation.position * -1.0f;
 
     const auto linePointingToBox = Math::Dot(EffectiveDirection(counterRotatedLine), lineOriginToBox);
     // DEBUG_PROFILE_POP("line pointing at box");
@@ -183,29 +183,29 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
     // DEBUG_PROFILE_PUSH("Gather Data");
     const auto boxMax = BoxMax(effectiveBox);
     const auto boxMin = BoxMin(effectiveBox);
-    const auto maxRelativeToLine = boxMax - line.orientation.position;
-    const auto minRelativeToLine = boxMin - line.orientation.position;
+    const auto maxRelativeToLine = boxMax - counterRotatedLine.orientation.position;
+    const auto minRelativeToLine = boxMin - counterRotatedLine.orientation.position;
     // <multiplier, line position>
     std::array<std::pair<float, Math::Float3>, 6> planeIntersections;
 
     const auto xMult_Min = LineMultiplierForPoint_X(effectiveLine, minRelativeToLine);
     const auto xMult_Max = LineMultiplierForPoint_X(effectiveLine, maxRelativeToLine);
-    const auto crossMinXPoint = PointOnLine(effectiveLine, xMult_Min) + line.orientation.position;
-    const auto crossMaxXPoint = PointOnLine(effectiveLine, xMult_Max) + line.orientation.position;
+    const auto crossMinXPoint = PointOnLine(effectiveLine, xMult_Min) + counterRotatedLine.orientation.position;
+    const auto crossMaxXPoint = PointOnLine(effectiveLine, xMult_Max) + counterRotatedLine.orientation.position;
     planeIntersections[0] = {xMult_Min, crossMinXPoint};
     planeIntersections[1] = {xMult_Max, crossMaxXPoint};
     
     const auto yMult_Min = LineMultiplierForPoint_Y(effectiveLine, minRelativeToLine);
     const auto yMult_Max = LineMultiplierForPoint_Y(effectiveLine, maxRelativeToLine);
-    const auto crossMinYPoint = PointOnLine(effectiveLine, yMult_Min) + line.orientation.position;
-    const auto crossMaxYPoint = PointOnLine(effectiveLine, yMult_Max) + line.orientation.position;
+    const auto crossMinYPoint = PointOnLine(effectiveLine, yMult_Min) + counterRotatedLine.orientation.position;
+    const auto crossMaxYPoint = PointOnLine(effectiveLine, yMult_Max) + counterRotatedLine.orientation.position;
     planeIntersections[2] = {yMult_Min, crossMinYPoint};
     planeIntersections[3] = {yMult_Max, crossMaxYPoint};
     
     const auto zMult_Min = LineMultiplierForPoint_Z(effectiveLine, minRelativeToLine);
     const auto zMult_Max = LineMultiplierForPoint_Z(effectiveLine, maxRelativeToLine);
-    const auto crossMinZPoint = PointOnLine(effectiveLine, zMult_Min) + line.orientation.position;
-    const auto crossMaxZPoint = PointOnLine(effectiveLine, zMult_Max) + line.orientation.position;
+    const auto crossMinZPoint = PointOnLine(effectiveLine, zMult_Min) + counterRotatedLine.orientation.position;
+    const auto crossMaxZPoint = PointOnLine(effectiveLine, zMult_Max) + counterRotatedLine.orientation.position;
     planeIntersections[4] = {zMult_Min, crossMinZPoint};
     planeIntersections[5] = {zMult_Max, crossMaxZPoint};
     // DEBUG_PROFILE_POP("Gather Data");
@@ -214,13 +214,13 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
     // <multiplier, distance between box and point>
     std::pair<float, Math::Float3> bestIntersection = planeIntersections[0];
     Math::Float3 closestPointToBestIntersection = ClosestPointToPoint(effectiveBox, bestIntersection.second);
-    bool bestHitsBox = closestPointToBestIntersection == bestIntersection.second;
+    bool bestHitsBox = DistanceSqr(closestPointToBestIntersection, bestIntersection.second) < precision;
     for (const auto intersection : planeIntersections)
     {
         bool newBest = false;
 
         const auto closestPointToCurrentIntersection = ClosestPointToPoint(effectiveBox, intersection.second);
-        bool currentHitsBox = closestPointToCurrentIntersection == intersection.second;
+        bool currentHitsBox = DistanceSqr(closestPointToCurrentIntersection, intersection.second) < precision;
 
         if (bestIntersection.first < 0.0f) // line must go backwards
         {
@@ -235,7 +235,7 @@ Math::Float3 ClosestPointToLine(const ShapeOrientation<Box>& box, const ShapeOri
             // both miss, but this one is closer to the box
             bool closerMiss = (!bestHitsBox && !currentHitsBox && Distance(intersection.second, closestPointToCurrentIntersection) < Distance(bestIntersection.second, closestPointToBestIntersection));
             bool thisOneHits = (!bestHitsBox && currentHitsBox); // the current best misses, this one hits
-            bool hitsSooner = (bestHitsBox && currentHitsBox && intersection.first < bestIntersection.first); // both hit, but one happens sooner on the line
+            bool hitsSooner = (bestHitsBox && currentHitsBox && intersection.first < bestIntersection.first); // both hit, but new one happens sooner on the line
             newBest = closerMiss || thisOneHits || hitsSooner;
         }
 

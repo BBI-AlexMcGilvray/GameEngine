@@ -75,7 +75,7 @@ namespace Product
 
         Core::Geometric::Orientation orientation(positionComponent.position, rotationComponent.rotation);
         // 'forward' needs to be calculated then offset by the mouse position
-        Core::Geometric::Line3D ray(FORWARD * 100.0f, false); //true); // we probably want it to be infinite in reality?
+        Core::Geometric::Line3D ray(FORWARD * 100.0f, true); // we probably want it to be infinite in reality?
         Core::Geometric::ShapeOrientation3D raycast(orientation, ray);
         const auto selected = octTree.FindFirstEntity(raycast);
 
