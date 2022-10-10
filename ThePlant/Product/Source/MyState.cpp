@@ -111,7 +111,7 @@ void MyState::Initialize()
     * Try spawning a bunch of balls randomly with random speeds within the 'box' (maybe need a lid?)
     */
     Core::Random rand;
-    int numSpawned = 5;
+    int numSpawned = 0;//5;
     for (int i = 0; i < numSpawned; ++i)
     {
         Core::Math::Float3 position = Math::Lerp(_leftPos, _rightPos, float(i) / static_cast<float>(numSpawned));
@@ -129,12 +129,12 @@ void MyState::Initialize()
     Core::Math::Float3 boundaryBottom = Core::Math::Float3((_leftPos + _rightPos).XY * 0.5f, _leftPos.Z) - Core::Math::Float3(0.0f, 200.0f, 0.0f);
     Core::Math::Float3 boundaryFront(0.0f, 0.0f, 200.0f);
     Core::Math::Float3 boundaryBack(0.0f, 0.0f, -200.0f);
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryLeft, Core::Math::FQuaternion(), Core::Math::Float3(10.0f, 500.0f, 500.0f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryRight, Core::Math::FQuaternion(), Core::Math::Float3(10.0f, 500.0f, 500.0f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryTop, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 10.0f, 500.0f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBottom, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 10.0f, 500.0f));
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryLeft, Core::Math::FQuaternion(), Core::Math::Float3(10.0f, 500.0f, 500.0f));
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryRight, Core::Math::FQuaternion(), Core::Math::Float3(10.0f, 500.0f, 500.0f));
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryTop, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 10.0f, 500.0f));
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBottom, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 10.0f, 500.0f));
     Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryFront, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 500.0f, 10.0f));
-    Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBack, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 500.0f, 10.0f));
+    // Testing::SpawnStaticCollider(*this, Core::Geometric::Box(), boundaryBack, Core::Math::FQuaternion(), Core::Math::Float3(500.0f, 500.0f, 10.0f));
 
     // need to spawn some stuff to test the collision system
     // also, the physics collision handler is not working

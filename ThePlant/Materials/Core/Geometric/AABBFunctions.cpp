@@ -76,7 +76,8 @@ AABB BoundingFor(const Spot3D& point)
 
 ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Spot3D>& point)
 {
-    return ShapeOrientation<AABB>(point.orientation, BoundingFor(point.shape));
+    Orientation aabbOrientation = point.orientation.position; // AABBs are not rotated OR scaled
+    return ShapeOrientation<AABB>(aabbOrientation, BoundingFor(point.shape));
 }
 
 AABB BoundingFor(const Line3D& line)
@@ -94,8 +95,8 @@ ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Line3D>& line)
     const auto effectiveLine = EffectiveDirection(line);
     const Math::Float3 absoluteLine(std::abs(effectiveLine.X), std::abs(effectiveLine.Y), std::abs(effectiveLine.Z));
 
-    Orientation aabbOrientation = line.orientation;
-    aabbOrientation.position -= effectiveLine * 0.5f; // need to center the AABB
+    Orientation aabbOrientation = line.orientation.position; // AABBs are not rotated OR scaled
+    aabbOrientation.position += effectiveLine * 0.5f; // need to center the AABB, so travel halway along the line
 
     return ShapeOrientation<AABB>(aabbOrientation, BoundingFor(Line3D(absoluteLine, line.shape.infinite)));
 }
@@ -129,7 +130,8 @@ AABB BoundingFor(const Sphere& sphere)
 
 ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Sphere>& sphere)
 {
-    return ShapeOrientation<AABB>(sphere.orientation, BoundingFor(Sphere(EffectiveRadius(sphere))));
+    Orientation aabbOrientation = sphere.orientation.position; // AABBs are not rotated OR scaled
+    return ShapeOrientation<AABB>(aabbOrientation, BoundingFor(Sphere(EffectiveRadius(sphere))));
 }
 
 AABB BoundingFor(const Box& box)
@@ -149,7 +151,8 @@ ShapeOrientation<AABB> BoundingFor(const ShapeOrientation<Box>& box)
     }
     Math::Float3 fullDimensions = fullMax - fullMin;
 
-    return ShapeOrientation<AABB>(box.orientation, BoundingFor(Box(fullDimensions)));
+    Orientation aabbOrientation = box.orientation.position; // AABBs are not rotated OR scaled
+    return ShapeOrientation<AABB>(aabbOrientation, BoundingFor(Box(fullDimensions)));
 }
 
 

@@ -16,6 +16,7 @@ namespace Application
 struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
 {
     bool drawOccupiedOnly = true;
+    bool drawAABBs = true;
 
     DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
     : System<DebugOctTreeSystem>("DebugOctTreeSystem")
@@ -68,6 +69,14 @@ private:
             _renderManager.QueueRender(context);
         }
         
+        if (drawAABBs)
+        {
+            for (const auto& content : node.DEBUG_GetAllContent())
+            {
+                _DrawContentAABB(content);
+            }
+        }
+
         for (const auto& child : node.DEBUG_GetAllChildren())
         {
             if (child == nullptr)
@@ -77,6 +86,21 @@ private:
 
             _DrawOctTreeNode(*child);
         }
+    }
+
+    void _DrawContentAABB(const Collision::OctTreeContent& content) const
+    {
+        Core::Geometric::Transform contentTransform = content.boundCollider.boundingBox.orientation;
+        contentTransform.AdjustScale(content.boundCollider.boundingBox.shape.dimensions);
+        
+        Rendering::Context context = {
+            _debugMaterial,
+            contentTransform.GetTransformationMatrix(),
+            Core::Math::PINK,
+            _debugMesh,
+            Rendering::DrawMode::LINE
+        };
+        _renderManager.QueueRender(context);
     }
 };
 } // namespace Application
