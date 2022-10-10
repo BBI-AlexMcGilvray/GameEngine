@@ -53,7 +53,7 @@ Math::Float3 ClosestPointToPoint(const ShapeOrientation<Sphere>& sphere, const P
     const auto sphereToSpotMagnitudeSqr = Math::MagnitudeSqr(sphereToPoint);
     
     Point3D closestSpotInSphere = sphere.orientation.position + sphereToPoint;
-    if (sphereToSpotMagnitudeSqr > Math::sqr(sphere.shape.radius))
+    if (sphereToSpotMagnitudeSqr > Math::sqr(EffectiveRadius(sphere)))
     {
         // this results in a normalization... would be nice to avoid it
         closestSpotInSphere = CircumferencePointInDirection(sphere, sphereToPoint);

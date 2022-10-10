@@ -240,6 +240,9 @@ std::pair<Point3D, Point3D> ClosestPoints(const ShapeOrientation<Sphere>& sphere
 {
     // DEBUG_PROFILE_SCOPE("DistanceSqr(Sphere, Line3D)");
 
+    // NOTE: this is returning the closest points (even if that point is IN the sphere)
+    // to avoid this (which we may want, for consistency) - check for if closest points are inside the sphere and then calculate the appropriate edge intersection
+    // https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection
     const auto closestPointOnLine = ClosestPointOnLine(line, sphere.orientation.position);
     return ClosestPoints(sphere, ShapeOrientation<Spot3D>(Orientation(closestPointOnLine), Spot3D()));
 }
