@@ -9,6 +9,8 @@
 #endif
 
 // SHOULD NOT BE HERE
+#include "Core/Serialization/Formats/JSON/JSON.h"
+#include "Core/Serialization/Serialization.h"
 #include "Pipeline/ECSSystems/ComponentSerializers.h"
 
 namespace Application {
@@ -142,13 +144,14 @@ bool ApplicationManager::Initialize()
   _entityFactory.Register(Core::HashType<WorldTransformComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
   {
     WorldTransformComponent component;
-    deserialize(component, componentJson.Data()); // these methods need to take in pointers(?) to json
+    // deserialize(component, componentJson.Data()); // these methods need to take in pointers(?) to json
+    Core::DeserializeTo(component, componentJson);
     handler.AddComponent<WorldTransformComponent>(component);
   });
   _entityFactory.Register(Core::HashType<PositionComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
   {
     PositionComponent component;
-    deserialize(component, componentJson.Data());
+    Core::DeserializeTo(component, componentJson);
     handler.AddComponent<PositionComponent>(component);
   });
 

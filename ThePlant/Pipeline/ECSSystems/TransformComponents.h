@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Reflection/Reflectable.h"
+
 #include "Materials/Core/Geometric/Transform.h"
 #include "Materials/Core/Math/Headers/Quaternion.h"
 #include "Materials/Core/Math/Headers/Vector3.h"
@@ -7,7 +9,11 @@
 namespace Application {
 struct PositionComponent
 {
-    Core::Math::Float3 position;
+    // should be enough to get serialization and display data for free
+    //      - a new visitor would be needed to make the display UI dynamically
+    REFLECTABLE(
+        (Core::Math::Float3)position
+    )
 
     PositionComponent() = default;
     PositionComponent(const PositionComponent&) = default;
@@ -28,7 +34,9 @@ struct PositionComponent
 
 struct ScaleComponent
 {
-    Core::Math::Float3 scale;
+    REFLECTABLE(
+        (Core::Math::Float3)scale
+    )
 
     ScaleComponent() = default;
     ScaleComponent(const ScaleComponent&) = default;
@@ -49,7 +57,9 @@ struct ScaleComponent
 
 struct RotationComponent
 {
-    Core::Math::FQuaternion rotation;
+    REFLECTABLE(
+        (Core::Math::FQuaternion)rotation
+    )
 
     RotationComponent() = default;
     RotationComponent(const RotationComponent&) = default;
@@ -70,6 +80,9 @@ struct RotationComponent
 
 struct LocalTransformComponent
 {
+    // NO REFLECTABLE macro works when calling the DeserializeTo method... (only worked because it found the deserialize method for the LocalTransformComponent)
+    // the below doesn't work, do we need some base 'EMPTY' macro that expands to 'struct empty_struct{}' with some custom seialization/deserialization to now write anything out?
+    // REFLECTABLE() // nothing to serialize, does this work?
     Core::Geometric::Transform transform;
 
     LocalTransformComponent() = default;
@@ -91,6 +104,7 @@ struct LocalTransformComponent
 
 struct WorldTransformComponent
 {
+    // REFLECTABLE() // nothing to serialize, does this work?
     Core::Geometric::Transform transform;
 
     WorldTransformComponent() = default;

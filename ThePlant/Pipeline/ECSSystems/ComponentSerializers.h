@@ -16,25 +16,25 @@ namespace Application {
 // can we just wrap the elements of the components that we want serialized in a REFLECTABLE macro?
 //      * the inclusion of additional _static_ variables doesn't increase type size
 
-void deserialize(PositionComponent& positionComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
-{
-    Core::Serialization::Format::JSONObject* data = dynamic_cast<Core::Serialization::Format::JSONObject*>(json.get());
-    if (data == nullptr)
-    {
-        throw;
-    }
+// void deserialize(PositionComponent& positionComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
+// {
+//     Core::Serialization::Format::JSONObject* data = dynamic_cast<Core::Serialization::Format::JSONObject*>(json.get());
+//     if (data == nullptr)
+//     {
+//         throw;
+//     }
 
-    Core::Serialization::Format::deserialize(positionComponent.position, data->GetElement("position"));
-}
+//     Core::Serialization::Format::deserialize(positionComponent.position, data->GetElement("position"));
+// }
 
-std::shared_ptr<Core::Serialization::Format::JSONNode> serialize(const PositionComponent& positionComponent)
-{
-    std::shared_ptr<Core::Serialization::Format::JSONObject> serialized = std::make_shared<Core::Serialization::Format::JSONObject>();
+// std::shared_ptr<Core::Serialization::Format::JSONNode> serialize(const PositionComponent& positionComponent)
+// {
+//     std::shared_ptr<Core::Serialization::Format::JSONObject> serialized = std::make_shared<Core::Serialization::Format::JSONObject>();
 
-    serialized->AddElement("position", Core::Serialization::Format::serialize(positionComponent.position));
+//     serialized->AddElement("position", Core::Serialization::Format::serialize(positionComponent.position));
 
-    return serialized;
-}
+//     return serialized;
+// }
 
 void deserialize(WorldTransformComponent& worldTransformComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
 {
