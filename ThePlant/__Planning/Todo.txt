@@ -8,6 +8,17 @@
 
 - Ability to select an entity (i.e. click on things in the state)
     - start off by verifying by testing clicking on objects (with a specfiic compoennt) remove their velocity component (so they stop moving)
+    - Archetypes should be able to apply a visitor to their component lists
+        ** see below
+    - ComponentLists should be able to apply a visitor to their components
+        ** Do not put this in Archetype/ComponentLists, make it instead a helper function that takes an archetype and a visitor, then goes through the archetype's componentlists and applies the visitor
+            * this is not related to an archetype, so it shouldn't live in it
+        - this is how we can act on their data
+        - ex: 
+            - print out all the information when clicked on ***** START WITH THIS *****
+            - create UI for their information
+                - this would go a similar route to the json stuff where all the UIs are written separately, and each type is provided a UI
+                - then when you are given a type, you can visit it/do whatever logic is needed to create the UI for it
 - Ability to display all relevant entity data
     - should dynamically show everything for all components the entity has
     - best way to do this is likely to just make the components themselves using the POD macro (or REFLECTABLE)

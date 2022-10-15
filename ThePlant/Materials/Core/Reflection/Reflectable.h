@@ -21,7 +21,6 @@
   {                                                         \
   };                                                        \
   FOR_EACH(REFLECT_EACH_INDIRECT, __VA_ARGS__)
-  // IF(VA_NUM_ARGS)(EXPAND, EAT) (FOR_EACH(REFLECT_EACH_INDIRECT, __VA_ARGS__))
 
 #define REFLECT_EACH_INDIRECT(i, ...) \
   OBSTRUCT(REFLECT_EACH)              \
@@ -57,10 +56,18 @@
     }                                                 \
   };
 
-// doing this for now because sizeof(bool) == sizeof(struct{)) // aka, the smallest size any type can be is 1 byte, same as bool (or char)
-// ideally, we have some `struct empty_type{};` that we use for this and specialize the serialization/deserialization to do nothing.
-// but i'm lazy right now
-#define NOTHING_REFLECTABLE() REFLECTABLE((bool) nothing)
+// explicit implementation for this macro so that fields_n is 0, and there is nothing _actually_ reflectable
+#define NOTHING_REFLECTABLE()                         \
+  static constexpr int fields_n = 0;                  \
+  template<typename T>                                \
+  friend struct details::fields_count_internal;       \
+  template<typename T, int N>                         \
+  friend struct visitable;                            \
+  friend struct reflector;                            \
+  template<int N, class Self>                         \
+  struct field_data                                   \
+  {                                                   \
+  };
 
 struct reflector
 {
@@ -100,6 +107,16 @@ struct reflector
     }
   };
 
+  template<class C, class Visitor>
+  struct visit_each<-1, C, Visitor>
+  {
+    static void apply(C& c, Visitor v)
+    {
+      return; // -1 implies the number of fields was 0, so there is nothing to visit
+    }
+  };
+
+  // should Visitor be a reference (and passed along as a reference?)
   template<class C, class Visitor>
   static void visit_all(C &c, Visitor v)
   {
