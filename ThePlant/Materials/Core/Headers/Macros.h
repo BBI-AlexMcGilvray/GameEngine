@@ -3,7 +3,7 @@
 // Reference: https://github.com/pfultz2/Cloak/wiki/C-Preprocessor-tricks,-tips,-and-idioms#deferred-expression
 // Core Elements
 #define VA_NUM_ARGS_HELPER(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, N, ...) N
-#define VA_NUM_ARGS(...) VA_NUM_ARGS_HELPER(__VA_ARGS__, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
+#define VA_NUM_ARGS(...) VA_NUM_ARGS_HELPER(__VA_ARGS__, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0) // minimum value returned is 1 (__VA_ARGS__ is at the very least empty space, which takes up a slot)
 
 // allow for obfuscation of ## operator
 #define CAT(a, ...) PRIMITIVE_CAT(a, __VA_ARGS__)

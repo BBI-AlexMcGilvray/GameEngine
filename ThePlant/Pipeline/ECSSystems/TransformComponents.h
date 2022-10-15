@@ -80,9 +80,7 @@ struct RotationComponent
 
 struct LocalTransformComponent
 {
-    // NO REFLECTABLE macro works when calling the DeserializeTo method... (only worked because it found the deserialize method for the LocalTransformComponent)
-    // the below doesn't work, do we need some base 'EMPTY' macro that expands to 'struct empty_struct{}' with some custom seialization/deserialization to now write anything out?
-    // REFLECTABLE() // nothing to serialize, does this work?
+    NOTHING_REFLECTABLE()
     Core::Geometric::Transform transform;
 
     LocalTransformComponent() = default;
@@ -102,9 +100,10 @@ struct LocalTransformComponent
     bool operator !=(const LocalTransformComponent& other) const { return !(*this == other); }
 };
 
+#define TEST_MACRO(...) #__VA_ARGS__
 struct WorldTransformComponent
 {
-    // REFLECTABLE() // nothing to serialize, does this work?
+    NOTHING_REFLECTABLE()
     Core::Geometric::Transform transform;
 
     WorldTransformComponent() = default;

@@ -21,6 +21,7 @@
   {                                                         \
   };                                                        \
   FOR_EACH(REFLECT_EACH_INDIRECT, __VA_ARGS__)
+  // IF(VA_NUM_ARGS)(EXPAND, EAT) (FOR_EACH(REFLECT_EACH_INDIRECT, __VA_ARGS__))
 
 #define REFLECT_EACH_INDIRECT(i, ...) \
   OBSTRUCT(REFLECT_EACH)              \
@@ -55,6 +56,11 @@
       return i;                                       \
     }                                                 \
   };
+
+// doing this for now because sizeof(bool) == sizeof(struct{)) // aka, the smallest size any type can be is 1 byte, same as bool (or char)
+// ideally, we have some `struct empty_type{};` that we use for this and specialize the serialization/deserialization to do nothing.
+// but i'm lazy right now
+#define NOTHING_REFLECTABLE() REFLECTABLE((bool) nothing)
 
 struct reflector
 {

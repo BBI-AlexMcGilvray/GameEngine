@@ -16,6 +16,8 @@ namespace Application {
 // can we just wrap the elements of the components that we want serialized in a REFLECTABLE macro?
 //      * the inclusion of additional _static_ variables doesn't increase type size
 
+// CAN'T HAVE THE BELOW IF WE WANT TO JUST USE THE REFLACTABLE MACRO WORK INSTEAD
+
 // void deserialize(PositionComponent& positionComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
 // {
 //     Core::Serialization::Format::JSONObject* data = dynamic_cast<Core::Serialization::Format::JSONObject*>(json.get());
@@ -36,17 +38,17 @@ namespace Application {
 //     return serialized;
 // }
 
-void deserialize(WorldTransformComponent& worldTransformComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
-{
-    return; // no need to do anything, transforms get made each from by the system - this data is irrelevant
-}
+// void deserialize(WorldTransformComponent& worldTransformComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
+// {
+//     return; // no need to do anything, transforms get made each from by the system - this data is irrelevant
+// }
 
-std::shared_ptr<Core::Serialization::Format::JSONNode> serialize(const WorldTransformComponent& worldTransformComponent)
-{
-    std::shared_ptr<Core::Serialization::Format::JSONObject> serialized = std::make_shared<Core::Serialization::Format::JSONObject>();
+// std::shared_ptr<Core::Serialization::Format::JSONNode> serialize(const WorldTransformComponent& worldTransformComponent)
+// {
+//     std::shared_ptr<Core::Serialization::Format::JSONObject> serialized = std::make_shared<Core::Serialization::Format::JSONObject>();
 
-    // nothing to deserialize (per above) means nothing to serialize
+//     // nothing to deserialize (per above) means nothing to serialize
 
-    return serialized;
-}
+//     return serialized;
+// }
 }// namespace Application

@@ -144,7 +144,6 @@ bool ApplicationManager::Initialize()
   _entityFactory.Register(Core::HashType<WorldTransformComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
   {
     WorldTransformComponent component;
-    // deserialize(component, componentJson.Data()); // these methods need to take in pointers(?) to json
     Core::DeserializeTo(component, componentJson);
     handler.AddComponent<WorldTransformComponent>(component);
   });
