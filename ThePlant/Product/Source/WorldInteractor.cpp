@@ -83,17 +83,14 @@ namespace Product
 
         // testing visiting entity snapshot
         Application::PrintVisitor visitor;
-        for (auto& component : selected.first.GetComponents())
-        {
-            visitor.Visit(*component);
-        }
+        visitor.Visit(selected.first);
 
-        // create the raycast to help debug
+        // create the raycast to help debug (this should be a function somewhere: 'DrawLine')
         // auto& entityHandler = _ecs->CreateEntity();
         // entityHandler.AddComponent<Application::PositionComponent>(positionComponent.position);
         // entityHandler.AddComponent<Application::RotationComponent>(rotationComponent.rotation);
         // entityHandler.AddComponent<Application::WorldTransformComponent>();
-        // entityHandler.AddComponent<Application::LifetimeComponent>(0.5f); // how long we want the raycast to last
+        // // entityHandler.AddComponent<Application::LifetimeComponent>(0.5f); // how long we want the raycast to last
         // entityHandler.AddComponent<Application::ColliderComponent>(ray, true, Application::ColliderState::Dynamic); // trigger so things don't bounce off of it
 
         // Why does the FIRST raycast after moving the camera always return 0,0,0?

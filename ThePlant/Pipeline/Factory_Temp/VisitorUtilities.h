@@ -8,6 +8,10 @@
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 
 // testing
+// these shouldn't be here because we are just testing stuff
+#include "Core/Math/Headers/VectorFunctions.h"
+#include "Core/Math/Headers/QuaternionFunctions.h"
+
 // these shouldn't be here because they should be registered elsewhere
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/ECSSystems/ColliderComponents.h"
@@ -27,23 +31,33 @@ class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
     {
         // registration needs to happen elsewhere
         // also, this can clearly be heavily templatized AND/OR macro'd
+
+        /*
+        This is printing the names of everything correctly, but we need to fix the visitor
+            - to do that, we will need to handle all the different 'types' held by the components (ex: vector, quaternion, ...)
+            - can definitely heaviliy reference how the json is done
+            - maybe we can make it more generic to be used by both?
+        */
         Register(Core::GetTypeId<PositionComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
         {
             PositionComponent& component = componentRef.GetComponent<PositionComponent>();
             std::cout << std::string(Core::TemplateTypeAsString<PositionComponent>()) << '\n';
             // reflector::visit_all(component, visitor);
+            std::cout << Core::Math::VectorString(component.position) << '\n';
         });
         Register(Core::GetTypeId<RotationComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
         {
             RotationComponent& component = componentRef.GetComponent<RotationComponent>();
             std::cout << std::string(Core::TemplateTypeAsString<RotationComponent>()) << '\n';
             // reflector::visit_all(component, visitor);
+            std::cout << Core::Math::QuaternionString(component.rotation) << '\n';
         });
         Register(Core::GetTypeId<ScaleComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
         {
             ScaleComponent& component = componentRef.GetComponent<ScaleComponent>();
             std::cout << std::string(Core::TemplateTypeAsString<ScaleComponent>()) << '\n';
             // reflector::visit_all(component, visitor);
+            std::cout << Core::Math::VectorString(component.scale) << '\n';
         });
         Register(Core::GetTypeId<WorldTransformComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
         {
@@ -65,6 +79,15 @@ class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
         });
     }
 
+    void Visit(const EntitySnapshot& snapshot)
+    {
+        for (auto& component : snapshot.GetComponents())
+        {
+            Visit(*component);
+        }
+    }
+
+    // should visitors be passed down by ref? should they be perfect-forwarded (&&)? probably, would support everything
     void Visit(ITemporaryComponentRef& componentRef)
     {
         VISITOR visitor;
