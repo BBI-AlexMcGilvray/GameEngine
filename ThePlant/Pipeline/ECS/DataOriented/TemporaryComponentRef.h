@@ -7,10 +7,12 @@
 #include "Core/Debugging/Headers/Macros.h"
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 
+#include "Core/Headers/TemplateDefs.h"
 #include "Core/IdTypes/RuntimeId.h"
 #include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"
+#include "Pipeline/ECS/DataOriented/TypeHandlerUtilities.h"
 
 namespace Application {
 struct IComponentCreator;
@@ -25,6 +27,7 @@ struct ITemporaryComponentRef
     ITemporaryComponentRef& operator=(const ITemporaryComponentRef&) = default;
 
     virtual Core::runtimeId_t GetComponentType() const = 0;
+    virtual std::string GetComponentName() const = 0;
     virtual std::unique_ptr<ITemporaryComponentRef> CreateCopy() const = 0;
 
     // If you are calling this, the type check is up to you
@@ -36,7 +39,7 @@ struct ITemporaryComponentRef
     template <typename T>
     T& GetComponent()
     {
-        if (Core::GetTypeId<T>() == GetComponentType())
+        if (Core::GetTypeId<T>() != GetComponentType())
         {
             DEBUG_THROW("ITemporaryComponentRef", "Requested type does not exist");
         }
@@ -63,6 +66,7 @@ struct TemporaryComponentRef : public ITemporaryComponentRef
     TemporaryComponentRef& operator=(TemporaryComponentRef&&) = default;
 
     Core::runtimeId_t GetComponentType() const override { return Core::GetTypeId<T>(); }
+    std::string GetComponentName() const override { return std::string(Core::TemplateTypeAsString<T>()); }
     std::unique_ptr<ITemporaryComponentRef> CreateCopy() const override
     {
         SCOPED_MEMORY_CATEGORY("ECS");

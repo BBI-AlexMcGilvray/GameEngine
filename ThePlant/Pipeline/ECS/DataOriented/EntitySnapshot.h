@@ -125,6 +125,16 @@ namespace Application
             return *(static_cast<Core::Ptr<T>>(componentPtr));
         }
 
+        std::vector<std::unique_ptr<ITemporaryComponentRef>>& GetComponents()
+        {
+            return _componentReferences;
+        }
+
+        const std::vector<std::unique_ptr<ITemporaryComponentRef>>& GetComponents() const
+        {
+            return _componentReferences;
+        }
+
         bool IsValid() const
         {
             return _entity.IsValid();

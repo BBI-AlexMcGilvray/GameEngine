@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "Core/Reflection/Reflectable.h"
 #include "Core/IdTypes/InstanceId.h"
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/TimeDefs.h"
@@ -14,6 +15,7 @@ namespace Animation
 
 struct AnimationComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Core::instanceId<Animation::Animator> animatorId;
     Core::Hash animationTarget; // ideally we make this not a string, but it is for now to identify what bone is what
 
@@ -37,6 +39,7 @@ struct AnimationComponent
 
 struct AnimatorComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Core::instanceId<Animation::Animator> animatorId;
 
     AnimatorComponent() = default;

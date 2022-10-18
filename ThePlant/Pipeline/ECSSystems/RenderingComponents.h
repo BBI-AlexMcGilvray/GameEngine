@@ -12,6 +12,7 @@
 namespace Application {
 struct ColorComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Core::Math::Color color;
 
     ColorComponent() = default;
@@ -33,6 +34,7 @@ struct ColorComponent
 
 struct MaterialComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Rendering::Material material;
 
     MaterialComponent() = default;
@@ -54,6 +56,7 @@ struct MaterialComponent
 
 struct MeshComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Rendering::Mesh mesh;
 
     MeshComponent() = default;
@@ -75,6 +78,7 @@ struct MeshComponent
 
 struct SkinnedMeshComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Rendering::MappedMesh skinnedMesh;
 
     SkinnedMeshComponent() = default;
@@ -96,6 +100,7 @@ struct SkinnedMeshComponent
 
 struct BoneComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Core::Geometric::Transform defaultState; // t-pose position (taken when not playing an animation) - local transform, relative to parent
     Core::Math::Float4x4 bindMatrix; // inverse of initial bone position
 
@@ -119,6 +124,7 @@ struct BoneComponent
 
 struct SkeletonComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     EntityId rootBone;
     std::array<std::pair<Core::Hash, Application::EntityId>, 50> nameAndEntities;
     std::array<Core::Math::Float4x4, 50> boneArray;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Reflection/Reflectable.h"
+
 #include "Pipeline/ECS/DataOriented/IDs.h"
 
 namespace Application {
@@ -13,6 +15,7 @@ struct ParentComponent
         Inherit
     };
 
+    NOTHING_REFLECTABLE() // should actually contain the components
     EntityId entity;
     LossBehaviour behaviour;
 
@@ -37,6 +40,8 @@ struct ParentComponent
 // refers to child, entities can have many children
 struct ChildComponent
 {
+    // in this case, to have this get serialized properly means we need the ability to specify entity ids when loading?
+    NOTHING_REFLECTABLE() // should actually contain the components
     std::vector<EntityId> children;
 
     ChildComponent() = default;

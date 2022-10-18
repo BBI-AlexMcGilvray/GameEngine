@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Reflection/Reflectable.h"
 #include "Core/Geometric/GeometryDefs.h"
 
 namespace Application
@@ -25,6 +26,7 @@ enum class ColliderState
 
 struct ColliderComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Core::Geometric::Shape3D shape;
     bool trigger;
     ColliderState state;

@@ -1,11 +1,14 @@
 #pragma once
 
+#include "Core/Reflection/Reflectable.h"
+
 #include "Pipeline/ECS/DataOriented/IDs.h"
 
 namespace Application {
 // refers to parent, entities can only have ONE parent
 struct LifetimeComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     // lifetime < 0 implies infinite
     float lifetime;
 

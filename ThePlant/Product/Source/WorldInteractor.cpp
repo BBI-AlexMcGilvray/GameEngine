@@ -5,6 +5,7 @@
 // debug
 #include "Core/Math/Headers/VectorFunctions.h"
 #include "Core/Math/Headers/QuaternionFunctions.h"
+#include "Pipeline/Factory_Temp/VisitorUtilities.h"
 // \debug
 
 #include "Pipeline/ECS/DataOriented/ECS.h"
@@ -79,6 +80,13 @@ namespace Product
         Core::Geometric::Line3D ray(FORWARD * 100.0f, true); // we probably want it to be infinite in reality?
         Core::Geometric::ShapeOrientation3D raycast(orientation, ray);
         const auto selected = octTree.FindFirstEntity(raycast);
+
+        // testing visiting entity snapshot
+        Application::PrintVisitor visitor;
+        for (auto& component : selected.first.GetComponents())
+        {
+            visitor.Visit(*component);
+        }
 
         // create the raycast to help debug
         // auto& entityHandler = _ecs->CreateEntity();

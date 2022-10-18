@@ -2,6 +2,7 @@
 
 #include <variant>
 
+#include "Core/Reflection/Reflectable.h"
 #include "Core/Math/Headers/Quaternion.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"
@@ -10,6 +11,7 @@ namespace Application
 {
 struct VelocityComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Core::Math::Float3 velocity;
 
     VelocityComponent() = default;
@@ -35,6 +37,7 @@ struct VelocityComponent
 // used to denote it respects physics
 struct PhysicsComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     float gravityRatio = 1.0f;
     float maxVelocity = 100.0f;
 
@@ -59,6 +62,7 @@ struct PhysicsComponent
 // used to treat as a 'physical' object
 struct RigidBodyComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     float elasticity = 0.0; // [0, 1]
     float friction = 0.5f; // when on surface
 

@@ -16,7 +16,7 @@ namespace Application {
 // can we just wrap the elements of the components that we want serialized in a REFLECTABLE macro?
 //      * the inclusion of additional _static_ variables doesn't increase type size
 
-// CAN'T HAVE THE BELOW IF WE WANT TO JUST USE THE REFLACTABLE MACRO WORK INSTEAD
+// CAN'T HAVE THE BELOW IF WE WANT TO JUST USE THE REFLACTABLE MACRO WORK INSTEAD - wait a bit to confirm, but all of this should be able to get deleted
 
 // void deserialize(PositionComponent& positionComponent, std::shared_ptr<Core::Serialization::Format::JSONNode> json)
 // {

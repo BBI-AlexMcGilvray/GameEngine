@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Reflection/Reflectable.h"
+
 #include "Pipeline/Collision/Collisions.h"
 #include "Pipeline/Collision/CollisionHandler.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
@@ -13,6 +15,7 @@ namespace Testing
 {
 struct CollisionCountComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     int collisions;
     
     CollisionCountComponent() = default;
@@ -34,6 +37,7 @@ struct CollisionCountComponent
 
 struct DestroyOnCollisionComponent
 {    
+    NOTHING_REFLECTABLE() // should actually contain the components
     DestroyOnCollisionComponent() = default;
     DestroyOnCollisionComponent(const DestroyOnCollisionComponent&) = default;
     DestroyOnCollisionComponent(DestroyOnCollisionComponent&&) = default;

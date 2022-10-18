@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Reflection/Reflectable.h"
 #include "Core/IdTypes/IncrementalId.h"
 
 #include "Pipeline/Rendering/Headers/Camera.h"
@@ -7,6 +8,7 @@
 namespace Application {
 struct CameraComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     Rendering::Camera camera;
 
     CameraComponent() = default;
@@ -28,6 +30,7 @@ struct CameraComponent
 
 struct CameraWeightingComponent
 {
+    NOTHING_REFLECTABLE() // should actually contain the components
     float weight;
     IncrementalId cameraGroup;
 
