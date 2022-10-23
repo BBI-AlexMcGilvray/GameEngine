@@ -82,7 +82,7 @@ namespace Product
         const auto selected = octTree.FindFirstEntity(raycast);
 
         // testing visiting entity snapshot
-        Application::PrintVisitor visitor;
+        ::Factory::PrintVisitor visitor;
         visitor.Visit(selected.first);
 
         // create the raycast to help debug (this should be a function somewhere: 'DrawLine')

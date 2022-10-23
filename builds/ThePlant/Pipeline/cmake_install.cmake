@@ -83,6 +83,8 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/TransformComponents.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/TransformSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Factory_Temp/AssetSaverFactory.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Factory_Temp/UICreator.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Factory_Temp/UIUtils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Factory_Temp/VisitorUtilities.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/GameSystem/Headers/GameObjectBase.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/GameSystem/Headers/GameObjectManager.h"

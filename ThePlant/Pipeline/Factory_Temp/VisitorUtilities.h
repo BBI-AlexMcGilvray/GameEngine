@@ -18,9 +18,9 @@
 #include "Pipeline/Physics/PhysicsComponents.h"
 // \testing
 
-namespace Application {
+namespace Factory {
 template <typename VISITOR>
-using TemporaryComponentRefVisitorFactory = Core::TypeFactory<void, VISITOR, ITemporaryComponentRef&>;
+using TemporaryComponentRefVisitorFactory = Core::TypeFactory<void, VISITOR, Application::ITemporaryComponentRef&>;
 
 // where would these visitors be held? where would the registration be called?
 template <typename VISITOR>
@@ -38,48 +38,48 @@ class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
             - can definitely heaviliy reference how the json is done
             - maybe we can make it more generic to be used by both?
         */
-        Register(Core::GetTypeId<PositionComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
+        Register(Core::GetTypeId<Application::PositionComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
-            PositionComponent& component = componentRef.GetComponent<PositionComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<PositionComponent>()) << '\n';
+            Application::PositionComponent& component = componentRef.GetComponent<Application::PositionComponent>();
+            std::cout << std::string(Core::TemplateTypeAsString<Application::PositionComponent>()) << '\n';
             // reflector::visit_all(component, visitor);
             std::cout << Core::Math::VectorString(component.position) << '\n';
         });
-        Register(Core::GetTypeId<RotationComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
+        Register(Core::GetTypeId<Application::RotationComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
-            RotationComponent& component = componentRef.GetComponent<RotationComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<RotationComponent>()) << '\n';
+            Application::RotationComponent& component = componentRef.GetComponent<Application::RotationComponent>();
+            std::cout << std::string(Core::TemplateTypeAsString<Application::RotationComponent>()) << '\n';
             // reflector::visit_all(component, visitor);
             std::cout << Core::Math::QuaternionString(component.rotation) << '\n';
         });
-        Register(Core::GetTypeId<ScaleComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
+        Register(Core::GetTypeId<Application::ScaleComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
-            ScaleComponent& component = componentRef.GetComponent<ScaleComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<ScaleComponent>()) << '\n';
+            Application::ScaleComponent& component = componentRef.GetComponent<Application::ScaleComponent>();
+            std::cout << std::string(Core::TemplateTypeAsString<Application::ScaleComponent>()) << '\n';
             // reflector::visit_all(component, visitor);
             std::cout << Core::Math::VectorString(component.scale) << '\n';
         });
-        Register(Core::GetTypeId<WorldTransformComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
+        Register(Core::GetTypeId<Application::WorldTransformComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
-            WorldTransformComponent& component = componentRef.GetComponent<WorldTransformComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<WorldTransformComponent>()) << '\n';
+            Application::WorldTransformComponent& component = componentRef.GetComponent<Application::WorldTransformComponent>();
+            std::cout << std::string(Core::TemplateTypeAsString<Application::WorldTransformComponent>()) << '\n';
             // reflector::visit_all(component, visitor);
         });
-        Register(Core::GetTypeId<ColliderComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
+        Register(Core::GetTypeId<Application::ColliderComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
-            ColliderComponent& component = componentRef.GetComponent<ColliderComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<ColliderComponent>()) << '\n';
+            Application::ColliderComponent& component = componentRef.GetComponent<Application::ColliderComponent>();
+            std::cout << std::string(Core::TemplateTypeAsString<Application::ColliderComponent>()) << '\n';
             // reflector::visit_all(component, visitor);
         });
-        Register(Core::GetTypeId<RigidBodyComponent>(), [](VISITOR visitor, ITemporaryComponentRef& componentRef)
+        Register(Core::GetTypeId<Application::RigidBodyComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
-            RigidBodyComponent& component = componentRef.GetComponent<RigidBodyComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<RigidBodyComponent>()) << '\n';
+            Application::RigidBodyComponent& component = componentRef.GetComponent<Application::RigidBodyComponent>();
+            std::cout << std::string(Core::TemplateTypeAsString<Application::RigidBodyComponent>()) << '\n';
             // reflector::visit_all(component, visitor);
         });
     }
 
-    void Visit(const EntitySnapshot& snapshot)
+    void Visit(const Application::EntitySnapshot& snapshot)
     {
         for (auto& component : snapshot.GetComponents())
         {
@@ -88,7 +88,7 @@ class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
     }
 
     // should visitors be passed down by ref? should they be perfect-forwarded (&&)? probably, would support everything
-    void Visit(ITemporaryComponentRef& componentRef)
+    void Visit(Application::ITemporaryComponentRef& componentRef)
     {
         VISITOR visitor;
         Create(componentRef.GetComponentType(), std::move(visitor), componentRef);
@@ -96,4 +96,4 @@ class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
 };
 
 using PrintVisitor = ComponentRefVisitor<print_visitor>;
-}// namespace Application
+}// namespace Factory

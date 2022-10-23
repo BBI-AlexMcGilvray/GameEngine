@@ -1,0 +1,4 @@
+NOTES:
+- nothing should be in here in the future
+- instead, this should be inside the Factory project
+- this is here for the interim until we find out a way to have that work purely based on compilation directives
