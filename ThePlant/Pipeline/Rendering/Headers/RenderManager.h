@@ -30,6 +30,7 @@ namespace Rendering {
     RenderManager();
 
     CameraManager& GetCameraManager();
+    UI::IMGUI::Manager& GetUIManager();
 
     void Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();

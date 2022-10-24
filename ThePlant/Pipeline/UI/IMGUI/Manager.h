@@ -44,6 +44,18 @@ namespace IMGUI {
       return newId;
     }
 
+    template <typename T>
+    T& GetWindow(Core::instanceId<Window> window)
+    {
+      // should we have a DEBUG only dynamic_cast check to catch issues?
+      return static_cast<T&>(GetWindow(window));
+    }
+
+    Window& GetWindow(Core::instanceId<Window> window)
+    {
+      return *(_windows[window]);
+    }
+
     void RemoveWindow(const Core::instanceId<Window>& window)
     {
       _windows.erase(window);

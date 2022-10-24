@@ -2,11 +2,15 @@
 
 #include <iostream>
 
-#include "Pipeline/Time/Headers/TimeSettings.h"
-
 #if DEBUG
 #include "Core/Debugging/Profiling/Utils.h"
 #endif
+
+// #if FACTORY
+// should this be here? if not here, where?
+#include "Pipeline/Factory_Temp/Factory.h"
+// #endif // FACTORY
+#include "Pipeline/Time/Headers/TimeSettings.h"
 
 // SHOULD NOT BE HERE
 #include "Core/Serialization/Formats/JSON/JSON.h"
@@ -154,6 +158,12 @@ bool ApplicationManager::Initialize()
     handler.AddComponent<PositionComponent>(component);
   });
 
+  // should this be here? if not here, where?
+  WITH_DEBUG_SERVICE(Editor::Factory)
+  (
+    service->Initialize();
+  )
+
   return true;
 }
 
@@ -164,6 +174,12 @@ void ApplicationManager::Start()
   _animationSystem.Start();
   _renderSystem.Start();
   _inputSystem.start();
+  
+  // should this be here? if not here, where?
+  WITH_DEBUG_SERVICE(Editor::Factory)
+  (
+    service->Start();
+  )
 }
 
 void ApplicationManager::Update(Core::Second dt)
@@ -172,6 +188,12 @@ void ApplicationManager::Update(Core::Second dt)
   _inputSystem.update(dt); // inputs first to ensure up-to-date state
   _animationSystem.Update(dt);
   _stateSystem.Update(dt); // animations must be updated before the state (ecs)
+  
+  // should this be here? if not here, where?
+  WITH_DEBUG_SERVICE(Editor::Factory)
+  (
+    service->Update(dt);
+  )
 }
 
 void ApplicationManager::Render()
@@ -186,6 +208,12 @@ void ApplicationManager::End()
   _animationSystem.End();
   _renderSystem.End(_threadManager);
   _sdl.End();
+  
+  // should this be here? if not here, where?
+  WITH_DEBUG_SERVICE(Editor::Factory)
+  (
+    service->End();
+  )
 }
 
 void ApplicationManager::CleanUp()
@@ -195,5 +223,11 @@ void ApplicationManager::CleanUp()
   _renderSystem.CleanUp();
   _animationSystem.CleanUp();
   _sdl.CleanUp();
+
+  // should this be here? if not here, where?
+  WITH_DEBUG_SERVICE(Editor::Factory)
+  (
+    service->CleanUp();
+  )
 }
 }// namespace Application

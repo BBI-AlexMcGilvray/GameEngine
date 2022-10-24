@@ -13,7 +13,7 @@
 #include "Pipeline/Dependencies/IMGUI/imgui.h"
 #include "Pipeline/Factory_Temp/UIUtils.h"
 
-namespace Factory::UI {
+namespace Editor::UI {
 // fallback ui creator
 template<typename Object, typename = void>
 struct ui_creator
@@ -25,11 +25,11 @@ struct ui_creator
 };
 
 template <typename Object>
-struct ui_creator<Object, std::void_t<decltype(CreateUI(std::declval<Object&>()))>> // if there is a CreateUI method that takes class reference
+struct ui_creator<Object, std::void_t<decltype(ShowUI(std::declval<Object&>()))>> // if there is a CreateUI method that takes class reference
 {
     void CreateUI(Object& data)
     {
-        CreateUI(target);
+        ShowUI(data);
     }
 };
 
@@ -160,4 +160,4 @@ struct ui_creator<Object, std::void_t<typename std::enable_if<is_iterable<Object
         ImGui::TreePop();
     }
 };
-}// namespace Factory::UI
+}// namespace Editor::UI

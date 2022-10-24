@@ -22,6 +22,9 @@ ECS/DataOriented/EntityHandler.cpp #
 ECS/ObjectOriented/Source/Component.cpp #
 ECS/ObjectOriented/Source/Entity.cpp #
 ECSSystems/AnimationSystem.cpp #
+Factory_Temp/EntitySnapshotUI.cpp #
+Factory_Temp/Factory.cpp #
+Factory_Temp/FactoryUI.cpp #
 GameSystem/Source/GameObjectBase.cpp #
 GameSystem/Source/GameObjectManager.cpp #
 GameSystem/Source/GameSystemManager.cpp #
@@ -123,6 +126,9 @@ ECSSystems/RenderingSystem.h #
 ECSSystems/TransformComponents.h #
 ECSSystems/TransformSystem.h #
 Factory_Temp/AssetSaverFactory.h #
+Factory_Temp/EntitySnapshotUI.h #
+Factory_Temp/Factory.h #
+Factory_Temp/FactoryUI.h #
 Factory_Temp/UICreator.h #
 Factory_Temp/UIUtils.h #
 Factory_Temp/VisitorUtilities.h #

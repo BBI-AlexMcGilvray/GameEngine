@@ -81,7 +81,7 @@ class Service
 
 public:
     template <typename ...ARGS>
-    Service(ConstructionTag tag, ARGS ...args)
+    Service(ConstructionTag tag, ARGS&& ...args)
     : _service(std::forward<ARGS>(args)...)
     {}
 
@@ -97,7 +97,7 @@ public:
     }
 
     template <typename ...ARGS>
-    static ServiceToken<T> Set(ARGS ...args)
+    static ServiceToken<T> Set(ARGS&& ...args)
     {
         SCOPED_MEMORY_CATEGORY("Service");
         VERIFY(_instance.expired(), "Overriding an already-set service!");

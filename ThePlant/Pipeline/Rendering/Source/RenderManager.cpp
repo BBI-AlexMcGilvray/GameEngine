@@ -19,6 +19,11 @@ namespace Rendering {
     return _cameraManager;
   }
 
+  UI::IMGUI::Manager& RenderManager::GetUIManager()
+  {
+    return *_ui;
+  }
+
   void RenderManager::Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Color clearColor)
   {
     SCOPED_MEMORY_CATEGORY("Rendering");

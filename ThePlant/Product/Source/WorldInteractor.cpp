@@ -12,6 +12,7 @@
 #include "Pipeline/ECSSystems/CameraComponents.h"
 #include "Pipeline/ECSSystems/LifetimeComponent.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
+#include "Pipeline/Factory_Temp/Factory.h"
 
 namespace Product
 {
@@ -82,8 +83,12 @@ namespace Product
         const auto selected = octTree.FindFirstEntity(raycast);
 
         // testing visiting entity snapshot
-        ::Factory::PrintVisitor visitor;
-        visitor.Visit(selected.first);
+        // ::Editor::PrintVisitor visitor;
+        // visitor.Visit(selected.first);
+        WITH_DEBUG_SERVICE(Editor::Factory)
+        (
+            service->SelectEntity(selected.first.GetEntityId());
+        )
 
         // create the raycast to help debug (this should be a function somewhere: 'DrawLine')
         // auto& entityHandler = _ecs->CreateEntity();
