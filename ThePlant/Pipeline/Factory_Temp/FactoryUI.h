@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
 
 #include "Pipeline/ECS/DataOriented/IDs.h"

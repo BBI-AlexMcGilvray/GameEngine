@@ -34,7 +34,7 @@ namespace IMGUI {
     void CleanUp();
 
     template <typename T, typename ...ARGS>
-    Core::instanceId<Window> AddWindow(ARGS ...args)
+    Core::instanceId<Window> AddWindow(ARGS&& ...args)
     {
       SCOPED_MEMORY_CATEGORY("IMGUI");
       Core::instanceId<Window> newId = Core::GetInstanceId<Window>();

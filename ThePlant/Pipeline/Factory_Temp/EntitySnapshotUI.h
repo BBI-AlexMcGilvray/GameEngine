@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Headers/PtrDefs.h"
+
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 #include "Pipeline/UI/IMGUI/Window.h"
 

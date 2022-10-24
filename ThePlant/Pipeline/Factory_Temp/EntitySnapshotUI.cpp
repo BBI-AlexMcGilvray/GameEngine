@@ -26,11 +26,7 @@ void EntitySnapshotUI::Draw()
     std::hash<Application::EntityId> hasher;
     ImGui::Text(std::to_string(hasher(_entity)).c_str());
 
-    auto& application = _factory.GetApplication();
-    auto& stateManager = application.StateManager();
-    auto& activeState = stateManager.GetActiveState();
-    auto& ecs = activeState.ECS();
-    Application::EntitySnapshot snapshot = ecs.GetTemporaryEntitySnapshot(_entity);
+    Application::EntitySnapshot snapshot = _factory.GetApplication().StateManager().GetActiveState().ECS().GetTemporaryEntitySnapshot(_entity);
     _uiVisitor.Visit(snapshot);
 }
 
