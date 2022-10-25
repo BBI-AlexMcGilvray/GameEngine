@@ -6,6 +6,9 @@
 
 #include "Pipeline/ECS/DataOriented/TemporaryComponentRef.h"
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
+#include "Pipeline/Factory_Temp/UICreator.h"
+
+#include "Pipeline/Dependencies/IMGUI/imgui.h"
 
 // testing
 // these shouldn't be here because we are just testing stuff
@@ -19,6 +22,8 @@
 // \testing
 
 namespace Editor {
+namespace UI {
+namespace IMGUI {
 template <typename VISITOR>
 using TemporaryComponentRefVisitorFactory = Core::TypeFactory<void, VISITOR, Application::ITemporaryComponentRef&>;
 
@@ -41,41 +46,62 @@ class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
         Register(Core::GetTypeId<Application::PositionComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
             Application::PositionComponent& component = componentRef.GetComponent<Application::PositionComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<Application::PositionComponent>()) << '\n';
-            reflector::visit_all(component, visitor);
-            std::cout << Core::Math::VectorString(component.position) << '\n';
+
+            std::string componentName = std::string(Core::TemplateTypeAsString<Application::PositionComponent>());
+            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
+            {
+                reflector::visit_all(component, visitor);
+            }
         });
         Register(Core::GetTypeId<Application::RotationComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
             Application::RotationComponent& component = componentRef.GetComponent<Application::RotationComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<Application::RotationComponent>()) << '\n';
-            reflector::visit_all(component, visitor);
-            std::cout << Core::Math::QuaternionString(component.rotation) << '\n';
+
+            std::string componentName = std::string(Core::TemplateTypeAsString<Application::RotationComponent>());
+            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
+            {
+                reflector::visit_all(component, visitor);
+            }
         });
         Register(Core::GetTypeId<Application::ScaleComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
             Application::ScaleComponent& component = componentRef.GetComponent<Application::ScaleComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<Application::ScaleComponent>()) << '\n';
-            reflector::visit_all(component, visitor);
-            std::cout << Core::Math::VectorString(component.scale) << '\n';
+            
+            std::string componentName = std::string(Core::TemplateTypeAsString<Application::ScaleComponent>());
+            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
+            {
+                reflector::visit_all(component, visitor);
+            }
         });
         Register(Core::GetTypeId<Application::WorldTransformComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
             Application::WorldTransformComponent& component = componentRef.GetComponent<Application::WorldTransformComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<Application::WorldTransformComponent>()) << '\n';
-            reflector::visit_all(component, visitor);
+            
+            std::string componentName = std::string(Core::TemplateTypeAsString<Application::WorldTransformComponent>());
+            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
+            {
+                reflector::visit_all(component, visitor);
+            }
         });
         Register(Core::GetTypeId<Application::ColliderComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
             Application::ColliderComponent& component = componentRef.GetComponent<Application::ColliderComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<Application::ColliderComponent>()) << '\n';
-            reflector::visit_all(component, visitor);
+            
+            std::string componentName = std::string(Core::TemplateTypeAsString<Application::ColliderComponent>());
+            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
+            {
+                reflector::visit_all(component, visitor);
+            }
         });
         Register(Core::GetTypeId<Application::RigidBodyComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
         {
             Application::RigidBodyComponent& component = componentRef.GetComponent<Application::RigidBodyComponent>();
-            std::cout << std::string(Core::TemplateTypeAsString<Application::RigidBodyComponent>()) << '\n';
-            reflector::visit_all(component, visitor);
+            
+            std::string componentName = std::string(Core::TemplateTypeAsString<Application::RigidBodyComponent>());
+            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
+            {
+                reflector::visit_all(component, visitor);
+            }
         });
     }
 
@@ -95,5 +121,16 @@ class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
     }
 };
 
-using PrintVisitor = ComponentRefVisitor<print_visitor>;
+struct CreateUIVisitor
+{
+    template<class FieldData>
+    void operator()(FieldData f)
+    {
+        ui_creator<raw_type_t<decltype(f.get())>>().CreateUI(f.get());
+    }
+};
+
+using UIVisitor = ComponentRefVisitor<CreateUIVisitor>;
+}// namespace UI
+}// namespace IMGUI
 }// namespace Editor

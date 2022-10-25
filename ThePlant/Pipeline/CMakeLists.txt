@@ -127,11 +127,11 @@ ECSSystems/TransformComponents.h #
 ECSSystems/TransformSystem.h #
 Factory_Temp/AssetSaverFactory.h #
 Factory_Temp/EntitySnapshotUI.h #
+Factory_Temp/EntitySnapshotUIVisitor.h #
 Factory_Temp/Factory.h #
 Factory_Temp/FactoryUI.h #
 Factory_Temp/UICreator.h #
 Factory_Temp/UIUtils.h #
-Factory_Temp/VisitorUtilities.h #
 GameSystem/Headers/GameObjectBase.h #
 GameSystem/Headers/GameObjectManager.h #
 GameSystem/Headers/GameSystemManager.h #

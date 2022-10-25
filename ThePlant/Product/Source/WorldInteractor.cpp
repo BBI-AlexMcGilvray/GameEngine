@@ -5,7 +5,7 @@
 // debug
 #include "Core/Math/Headers/VectorFunctions.h"
 #include "Core/Math/Headers/QuaternionFunctions.h"
-#include "Pipeline/Factory_Temp/VisitorUtilities.h"
+#include "Pipeline/Factory_Temp/EntitySnapshotUIVisitor.h"
 // \debug
 
 #include "Pipeline/ECS/DataOriented/ECS.h"
