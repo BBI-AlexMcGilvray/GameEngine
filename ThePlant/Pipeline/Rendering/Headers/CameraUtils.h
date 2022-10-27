@@ -13,8 +13,8 @@ namespace Rendering {
   Float4x4 CalculateTransformationMatrix(Camera& camera, Core::Geometric::Transform& transform);
 
   // viewRect is the size of the screen in pixels
-  Float3 ScreenToWorld(const Camera &camera, Core::Geometric::Transform& cameraTransform, const Float2 &screenPosition, const Float2 &viewRect);
-  Float2 WorldToScreen(const Camera &camera, Core::Geometric::Transform& cameraTransform, const Float2 &worldPosition, const Float2 &viewRect);
+  Float3 ScreenToWorld(Camera &camera, Core::Geometric::Transform& cameraTransform, const Float2 &screenPosition, const Float2 &viewRect);
+  Float2 WorldToScreen(Camera &camera, Core::Geometric::Transform& cameraTransform, const Float3 &worldPosition, const Float2 &viewRect);
 
   void LookAt(Core::Geometric::Transform& cameraTransform, const Float3& position);
   void LookInDirection(Core::Geometric::Transform& cameraTransform, const Float3& direction);

@@ -40,14 +40,18 @@ namespace Rendering {
     return camera.GetProjectionMatrix() * transform.GetInverseTransformationMatrix();
   }
 
-  Float3 ScreenToWorld(const Camera &camera, Core::Geometric::Transform& cameraTransform, const Float2 &screenPosition, const Float2 &viewRect)
+  // trying to follow https://codersdesiderata.com/2016/09/10/screen-view-to-world-coordinates/
+  // the world->screen will also need to be changed!
+  // NEED to take in a CONST camera/transform -> the 'Get' functions should be const with mutable internal variables
+  Float3 ScreenToWorld(Camera &camera, Core::Geometric::Transform& cameraTransform, const Float2 &screenPosition, const Float2 &viewRect)
   {
-    float worldX = screenPosition.X / viewRect.X * 2.0f - 1.0f;
-    float worldY = 1.0f - screenPosition.Y / viewRect.Y * 2.0f;
+    // converting from screen (top left [0, 0], bottom right [viewRect]) to world (bottom left [-1, -1], top right [1, 1])
+    float worldX = ((screenPosition.X / viewRect.X) * 2.0f) - 1.0f;
+    float worldY = 1.0f - ((screenPosition.Y / viewRect.Y) * 2.0f);
 
-    Float4x4 inverseMVP = cameraTransform.GetTransformationMatrix();
+    Float4x4 inverseMVP = Math::Inverse(CalculateTransformationMatrix(camera, cameraTransform)); // trying to _just_ undo the perspective to get the relative direction from the camera
 
-    Float4 worldPosition = inverseMVP * Float4(worldX, worldY, 0.0f, 1.0f);
+    Float4 worldPosition = inverseMVP * Float4(worldX, worldY, 1.0f, 1.0f);
 
     return Float3(worldPosition.X, worldPosition.Y, worldPosition.Z) / worldPosition.W;
 
@@ -57,7 +61,7 @@ namespace Rendering {
     // Note: Create a ray class that has a direction and origin and can test for intersection & find the values when an axis (typically y) is 0
   }
 
-  Float2 WorldToScreen(const Camera &camera, Core::Geometric::Transform& cameraTransform, const Float2 &worldPosition, const Float2 &viewRect)
+  Float2 WorldToScreen(const Camera &camera, Core::Geometric::Transform& cameraTransform, const Float3 &worldPosition, const Float2 &viewRect)
   {
     Float4x4 MVP = cameraTransform.GetTransformationMatrix();
     Float4 transformedPosition = MVP * Float4(worldPosition, 1.0f);
