@@ -77,6 +77,10 @@ namespace Product
 
         const auto& octTree = _collisionManager->GetOctTree();
 
+    /*
+        NOTE: There is a crash when doing non-debug builds. Not sure why, it happens regardless of clicking. revert until it doesn't happen to narrow down the cause
+    */
+    // THIS SHOULD BE IN A UTILITY FUNCTION
         Application::Rendering::Camera cameraCopy = cameraComponent.camera;
         Core::Geometric::Transform transformCopy = cameraSnapshot.GetComponent<Application::WorldTransformComponent>().transform;
         // definitely can't be hard-coding the view rect size! 
@@ -100,9 +104,6 @@ namespace Product
         entityHandler.AddComponent<Application::WorldTransformComponent>();
         // entityHandler.AddComponent<Application::LifetimeComponent>(0.5f); // how long we want the raycast to last
         entityHandler.AddComponent<Application::ColliderComponent>(ray, true, Application::ColliderState::Dynamic); // trigger so things don't bounce off of it
-
-        // Why does the FIRST raycast after moving the camera always return 0,0,0?
-        // why does the FIRST raycast intersect, but none of the others? collision system not handling rays properly?
-        CORE_LOG("WorldInteractor", "First interaction at point " + Core::Math::VectorString(selected.second));
+    // \THIS SHOULD BE IN A UTILITY FUNCTION
     }
 }
