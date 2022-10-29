@@ -40,37 +40,29 @@ namespace Rendering {
     return camera.GetProjectionMatrix() * transform.GetInverseTransformationMatrix();
   }
 
-  // trying to follow https://codersdesiderata.com/2016/09/10/screen-view-to-world-coordinates/
-  // the world->screen will also need to be changed!
-  // NEED to take in a CONST camera/transform -> the 'Get' functions should be const with mutable internal variables
+  // This method calculated the position that from the screen that would exist within the frustrum (since it is doing the opposite (inverted) projection as used for rendering)
+  // to get the direction, take the result - camera position
+  // NEED(?) to take in a CONST camera/transform -> the 'Get' functions should be const with mutable internal variables
   Float3 ScreenToWorld(Camera &camera, Core::Geometric::Transform& cameraTransform, const Float2 &screenPosition, const Float2 &viewRect)
   {
     // converting from screen (top left [0, 0], bottom right [viewRect]) to world (bottom left [-1, -1], top right [1, 1])
     float worldX = ((screenPosition.X / viewRect.X) * 2.0f) - 1.0f;
     float worldY = 1.0f - ((screenPosition.Y / viewRect.Y) * 2.0f);
 
-    Float4x4 inverseMVP = Math::Inverse(CalculateTransformationMatrix(camera, cameraTransform)); // trying to _just_ undo the perspective to get the relative direction from the camera
+    Float4x4 inverseMVP = Math::Inverse(CalculateTransformationMatrix(camera, cameraTransform));
 
     Float4 worldPosition = inverseMVP * Float4(worldX, worldY, 1.0f, 1.0f);
 
     return Float3(worldPosition.X, worldPosition.Y, worldPosition.Z) / worldPosition.W;
-
-    // This gives the world coordinate of clicked area. Using the vector of camera->this (given by: this - camera) you
-    // can calculate the coordinates that would be found at y = 0.
-
-    // Note: Create a ray class that has a direction and origin and can test for intersection & find the values when an axis (typically y) is 0
   }
 
-  Float2 WorldToScreen(const Camera &camera, Core::Geometric::Transform& cameraTransform, const Float3 &worldPosition, const Float2 &viewRect)
+  Float2 WorldToScreen(Camera &camera, Core::Geometric::Transform& cameraTransform, const Float3 &worldPosition, const Float2 &viewRect)
   {
-    Float4x4 MVP = cameraTransform.GetTransformationMatrix();
+    Float4x4 MVP = CalculateTransformationMatrix(camera, cameraTransform);
     Float4 transformedPosition = MVP * Float4(worldPosition, 1.0f);
 
-    float screenX = transformedPosition.X / transformedPosition.Z;// scaled down based on distance from 0 x
-    float screenY = transformedPosition.Y / transformedPosition.Z;// scaled down based on distance from 0 y
-
-    screenX = (screenX + 1.f) * 0.5f * viewRect.X;
-    screenY = (1.0f - screenY) * 0.5f * viewRect.Y;// y goes from top to bottom in screen space
+    float screenX = (transformedPosition.X + 1.f) * 0.5f * viewRect.X;
+    float screenY = (1.0f - transformedPosition.Y) * 0.5f * viewRect.Y;
 
     return Float2(screenX, screenY);
   }

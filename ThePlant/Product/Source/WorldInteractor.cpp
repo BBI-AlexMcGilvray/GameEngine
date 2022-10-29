@@ -77,27 +77,17 @@ namespace Product
 
         const auto& octTree = _collisionManager->GetOctTree();
 
-        Core::Geometric::Orientation orientation(positionComponent.position, rotationComponent.rotation);
-        // 'forward' needs to be calculated then offset by the mouse position
-        Core::Geometric::Line3D ray(FORWARD * 100.0f, true); // we probably want it to be infinite in reality?
-        Core::Geometric::ShapeOrientation3D raycast(orientation, ray);
-        const auto selected = octTree.FindFirstEntity(raycast);
-
         Application::Rendering::Camera cameraCopy = cameraComponent.camera;
         Core::Geometric::Transform transformCopy = cameraSnapshot.GetComponent<Application::WorldTransformComponent>().transform;
-        // Core::Geometric::Transform cameraTransform = Application::Rendering::CalculateTransformationMatrix(cameraCopy, transformCopy);
         // definitely can't be hard-coding the view rect size! 
-        // ALSO - why is the window 1024x1024 despite passing 1024x800 to constructor? does the constructor then take ratio into account?
-        const auto screenToWorld = Application::Rendering::ScreenToWorld(cameraCopy, transformCopy, Core::Math::Float2(mouseAxis.position.X, mouseAxis.position.Y), Core::Math::Float2(1024, 1024));
-        const auto clickDir = screenToWorld;// - positionComponent.position; // if the ScreenToWorld gives the raw direction, we don't need this?
-        Core::Geometric::Line3D screenToWorldRay(clickDir * 100.0f, true);
-        Core::Geometric::Orientation rotationFreeOrientation(positionComponent.position); // do we need to take rotation into account? or are we doing it twice?
-        Core::Geometric::ShapeOrientation3D screenToWorldRaycast(rotationFreeOrientation, screenToWorldRay);
-        const auto screenToWorldSelected = octTree.FindFirstEntity(screenToWorldRaycast);
+        const auto screenToWorld = Application::Rendering::ScreenToWorld(cameraCopy, transformCopy, Core::Math::Float2(mouseAxis.position.X, mouseAxis.position.Y), Core::Math::Float2(1024, 800));
+        const auto clickDir = screenToWorld - positionComponent.position;
+        Core::Geometric::Line3D ray(clickDir * 100.0f, true);
+        Core::Geometric::Orientation rotationFreeOrientation(positionComponent.position); // no rotation, contained in ray's direction
+        Core::Geometric::ShapeOrientation3D raycast(rotationFreeOrientation, ray);
+        const auto selected = octTree.FindFirstEntity(raycast);
         
         // testing visiting entity snapshot
-        // ::Editor::PrintVisitor visitor;
-        // visitor.Visit(selected.first);
         WITH_DEBUG_SERVICE(Editor::Factory)
         (
             service->SelectEntity(selected.first.GetEntityId());
@@ -106,10 +96,10 @@ namespace Product
         // create the raycast to help debug (this should be a function somewhere: 'DrawLine')
         auto& entityHandler = _ecs->CreateEntity();
         entityHandler.AddComponent<Application::PositionComponent>(positionComponent.position);
-        entityHandler.AddComponent<Application::RotationComponent>(rotationComponent.rotation);
+        // entityHandler.AddComponent<Application::RotationComponent>(rotationComponent.rotation); // no rotation component because the ray contains the direction
         entityHandler.AddComponent<Application::WorldTransformComponent>();
         // entityHandler.AddComponent<Application::LifetimeComponent>(0.5f); // how long we want the raycast to last
-        entityHandler.AddComponent<Application::ColliderComponent>(screenToWorldRay, true, Application::ColliderState::Dynamic); // trigger so things don't bounce off of it
+        entityHandler.AddComponent<Application::ColliderComponent>(ray, true, Application::ColliderState::Dynamic); // trigger so things don't bounce off of it
 
         // Why does the FIRST raycast after moving the camera always return 0,0,0?
         // why does the FIRST raycast intersect, but none of the others? collision system not handling rays properly?
