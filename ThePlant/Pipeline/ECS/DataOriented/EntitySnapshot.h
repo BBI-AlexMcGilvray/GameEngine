@@ -45,7 +45,8 @@ namespace Application
         {
             SCOPED_MEMORY_CATEGORY("ECS");
             _entity = other._entity;
-
+            _componentTypes = other._componentTypes;
+            
             for (const auto& component : other._componentReferences)
             {
                 _componentReferences.emplace_back(component->CreateCopy());
@@ -56,7 +57,8 @@ namespace Application
         {
             SCOPED_MEMORY_CATEGORY("ECS");
             _entity = other._entity;
-            
+            _componentTypes = other._componentTypes;
+
             for (const auto& component : other._componentReferences)
             {
                 _componentReferences.emplace_back(component->CreateCopy());
