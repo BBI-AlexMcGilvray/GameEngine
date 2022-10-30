@@ -26,9 +26,10 @@ struct ITemporaryComponentRef
     ITemporaryComponentRef& operator=(ITemporaryComponentRef&&) = default;
     ITemporaryComponentRef& operator=(const ITemporaryComponentRef&) = default;
 
+    virtual ~ITemporaryComponentRef() = default;
+
     virtual Core::runtimeId_t GetComponentType() const = 0;
-    // the below function, when uncommented, causes a crash in RelWithDebInfo builds (not sure why, maybe due to some optimization settings? doesn't happen in Debug or Release)
-    // virtual std::string GetComponentName() const = 0;
+    virtual std::string GetComponentName() const = 0;
     virtual std::unique_ptr<ITemporaryComponentRef> CreateCopy() const = 0;
 
     // If you are calling this, the type check is up to you
@@ -67,7 +68,7 @@ struct TemporaryComponentRef : public ITemporaryComponentRef
     TemporaryComponentRef& operator=(TemporaryComponentRef&&) = default;
 
     Core::runtimeId_t GetComponentType() const override { return Core::GetTypeId<T>(); }
-    // std::string GetComponentName() const override { return std::string(Core::TemplateTypeAsString<T>()); }
+    std::string GetComponentName() const override { return std::string(Core::TemplateTypeAsString<T>()); }
     std::unique_ptr<ITemporaryComponentRef> CreateCopy() const override
     {
         SCOPED_MEMORY_CATEGORY("ECS");

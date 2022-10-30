@@ -17,6 +17,8 @@ namespace IMGUI {
         , draw(draw)
         {}
 
+        virtual ~Window() = default;
+
         const std::string& GetName() const { return _name; }
 
         virtual void OnDrawChange() {}

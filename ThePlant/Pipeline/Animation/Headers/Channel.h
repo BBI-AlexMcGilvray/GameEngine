@@ -48,6 +48,7 @@ namespace Animation {
     {
     public:
         IObjectChannel() = default;
+        virtual ~IObjectChannel() = default;
 
         virtual Core::runtimeId_t ObjectType() const = 0;
 

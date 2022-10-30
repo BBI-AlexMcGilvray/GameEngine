@@ -29,6 +29,8 @@ struct ISystem
     ISystem& operator=(const ISystem&) = delete;
     ISystem& operator=(ISystem&&) = delete;
 
+    virtual ~ISystem() = default;
+
     const std::string& GetSystemName() const { return _name; }
 
     template <typename T>

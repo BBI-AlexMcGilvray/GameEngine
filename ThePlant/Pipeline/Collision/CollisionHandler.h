@@ -18,6 +18,8 @@ struct ICollisionHandler
     , _handledStates(handledStates)
     {}
 
+    virtual ~ICollisionHandler() = default;
+
     template <typename T>
     bool IsHandler() const { return (Core::GetTypeId<T>() == GetHandler()); }
     virtual Core::runtimeId_t GetHandler() const = 0;

@@ -11,6 +11,8 @@ namespace Core {
 namespace Functionality {
   struct SchedulerBase : LockerBase
   {
+    virtual ~SchedulerBase() = default;
+
     void Update(Second dt);
 
     void Add(VoidFunction<Second> func, Second key = 0_s);

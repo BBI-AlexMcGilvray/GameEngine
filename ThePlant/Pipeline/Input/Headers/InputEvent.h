@@ -82,6 +82,8 @@ namespace Input {
 
   struct InputEventBase
   {
+    virtual ~InputEventBase() = default;
+    
     virtual InputEventType getInputEventType() const
     {
       return InputEventType::Undetermined;

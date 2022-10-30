@@ -14,6 +14,8 @@ namespace Data
 	{
 		struct DataProperty
 		{
+			virtual ~DataProperty() = default;
+
 			bool IsPrimaryKey = false;
 
 			std::string Type;

@@ -89,7 +89,9 @@ namespace Product
         Core::Geometric::Line3D ray(clickDir * 100.0f, true);
         Core::Geometric::Orientation rotationFreeOrientation(positionComponent.position); // no rotation, contained in ray's direction
         Core::Geometric::ShapeOrientation3D raycast(rotationFreeOrientation, ray);
-        const auto selected = octTree.FindFirstEntity(raycast);
+        const auto selected = octTree.FindFirstEntity(raycast); // the first entity is not returning what should be the 'first'
+        // it is returning the first checked, not the first 'hit'
+        // could find all collisions and return the one closest to the ray's start position?
         
         // testing visiting entity snapshot
         WITH_DEBUG_SERVICE(Editor::Factory)

@@ -16,6 +16,8 @@
 namespace Application {
 struct IComponentList
 {
+    virtual ~IComponentList() = default;
+
     virtual Core::runtimeId_t ComponentType() const = 0;
     virtual std::unique_ptr<IComponentList> CreateEmptyCopy() const = 0;
     virtual void AddComponent() = 0;

@@ -16,6 +16,8 @@ namespace Application {
 
 struct IComponentCreator
 {
+    virtual ~IComponentCreator() = default;
+
     virtual Core::runtimeId_t ComponentType() const = 0;
     virtual std::unique_ptr<IComponentList> CreateComponentList() const = 0;
     virtual void CreateComponent(Archetype& archetype, const EntityId& entity) const = 0;

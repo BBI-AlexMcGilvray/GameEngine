@@ -15,6 +15,7 @@ namespace Time {
     TimePoint currentTick;
 
     TimeManager();
+    virtual ~TimeManager() = default;
 
     void Initialize();
     void Start();

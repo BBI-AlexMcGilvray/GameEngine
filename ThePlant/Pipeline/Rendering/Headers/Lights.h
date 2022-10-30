@@ -19,6 +19,7 @@ namespace Rendering {
     float Intensity;
 
     BaseLight(SharedPtr<Transform> position, float intensity = 10.0f, Color lightColor = WHITE);
+    virtual ~BaseLight() = default;
 
     virtual void Update(Second dt);
 

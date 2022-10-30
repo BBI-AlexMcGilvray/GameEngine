@@ -14,6 +14,8 @@ namespace GameSystem {
 
   struct GameObjectManager
   {
+    virtual ~GameObjectManager();
+
     virtual void Initialize();
     virtual void Update(Second dt);
     virtual void CleanUp();
