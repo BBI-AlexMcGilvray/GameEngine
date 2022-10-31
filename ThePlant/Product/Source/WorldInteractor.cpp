@@ -8,19 +8,19 @@
 #include "Pipeline/Factory_Temp/EntitySnapshotUIVisitor.h"
 // \debug
 
+#include "Pipeline/Collision/CollisionManager.h"
+#include "Pipeline/Collision/CollisionUtils.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/ECSSystems/CameraComponents.h"
 #include "Pipeline/ECSSystems/LifetimeComponent.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/Factory_Temp/Factory.h"
-#include "Pipeline/Rendering/Headers/CameraUtils.h"
+#include "Pipeline/Input/Headers/InputManager.h"
 
 namespace Product
 {
-    WorldInteractor::WorldInteractor(const Application::Input::InputManager& inputManager, const Application::Collision::CollisionManager& collisionManager, Application::ECS& ecs, const Application::EntityId& cameraEntity)
-    : _inputManager(&inputManager)
-    , _collisionManager(&collisionManager)
-    , _ecs(&ecs)
+    WorldInteractor::WorldInteractor(Application::State& state, const Application::EntityId& cameraEntity)
+    : _state(&state)
     , _cameraEntity(cameraEntity)
     {
         // make sure entity has position and camera
@@ -41,7 +41,7 @@ namespace Product
             _doInteraction = false;
             CORE_LOG("WorldInteractor", "Executing Event");
             
-            Application::EntitySnapshot cameraSnapshot = _ecs->GetTemporaryEntitySnapshot(_cameraEntity);
+            Application::EntitySnapshot cameraSnapshot = _state->ECS().GetTemporaryEntitySnapshot(_cameraEntity);
 
             SelectObject(cameraSnapshot);
         }
@@ -68,44 +68,15 @@ namespace Product
 
     void WorldInteractor::SelectObject(const Application::EntitySnapshot& cameraSnapshot)
     {
-        const Application::CameraComponent& cameraComponent = cameraSnapshot.GetComponent<Application::CameraComponent>();
-        const Application::PositionComponent& positionComponent = cameraSnapshot.GetComponent<Application::PositionComponent>();
-        const Application::RotationComponent& rotationComponent = cameraSnapshot.GetComponent<Application::RotationComponent>();
+        const auto& mouseAxis = _state->InputManager().GetState<Application::Input::AxisState>(Application::Input::MouseAxis::Position);
 
-        const auto& mouseAxis = _inputManager->GetState<Application::Input::AxisState>(Application::Input::MouseAxis::Position);
-        const auto& mousePosition = mouseAxis.position;
-
-        const auto& octTree = _collisionManager->GetOctTree();
-
-    /*
-        NOTE: There is a crash when doing non-debug builds. Not sure why, it happens regardless of clicking. revert until it doesn't happen to narrow down the cause
-    */
-    // THIS SHOULD BE IN A UTILITY FUNCTION
-        Application::Rendering::Camera cameraCopy = cameraComponent.camera;
-        Core::Geometric::Transform transformCopy = cameraSnapshot.GetComponent<Application::WorldTransformComponent>().transform;
-        // definitely can't be hard-coding the view rect size! 
-        const auto screenToWorld = Application::Rendering::ScreenToWorld(cameraCopy, transformCopy, Core::Math::Float2(mouseAxis.position.X, mouseAxis.position.Y), Core::Math::Float2(1024, 800));
-        const auto clickDir = screenToWorld - positionComponent.position;
-        Core::Geometric::Line3D ray(clickDir * 100.0f, true);
-        Core::Geometric::Orientation rotationFreeOrientation(positionComponent.position); // no rotation, contained in ray's direction
-        Core::Geometric::ShapeOrientation3D raycast(rotationFreeOrientation, ray);
-        const auto selected = octTree.FindFirstEntity(raycast); // the first entity is not returning what should be the 'first'
-        // it is returning the first checked, not the first 'hit'
-        // could find all collisions and return the one closest to the ray's start position?
+        // const auto selected = Application::Collision::GetFirstClickedOnAndCreateRay(*_state, mouseAxis, cameraSnapshot, 10.0f);
+        const auto selected = Application::Collision::GetFirstClickedOn(*_state, mouseAxis, cameraSnapshot);
         
         // testing visiting entity snapshot
         WITH_DEBUG_SERVICE(Editor::Factory)
         (
             service->SelectEntity(selected.first.GetEntityId());
         )
-
-        // create the raycast to help debug (this should be a function somewhere: 'DrawLine')
-        auto& entityHandler = _ecs->CreateEntity();
-        entityHandler.AddComponent<Application::PositionComponent>(positionComponent.position);
-        // entityHandler.AddComponent<Application::RotationComponent>(rotationComponent.rotation); // no rotation component because the ray contains the direction
-        entityHandler.AddComponent<Application::WorldTransformComponent>();
-        // entityHandler.AddComponent<Application::LifetimeComponent>(0.5f); // how long we want the raycast to last
-        entityHandler.AddComponent<Application::ColliderComponent>(ray, true, Application::ColliderState::Dynamic); // trigger so things don't bounce off of it
-    // \THIS SHOULD BE IN A UTILITY FUNCTION
     }
 }

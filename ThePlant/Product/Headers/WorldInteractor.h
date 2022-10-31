@@ -4,10 +4,8 @@
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Math/Headers/Quaternion.h"
 
-#include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
-#include "Pipeline/ECS/DataOriented/ECS.h"
-#include "Pipeline/Input/Headers/InputManager.h"
+#include "Pipeline/StateSystem/Headers/State.h"
 
 namespace Product
 {
@@ -21,15 +19,13 @@ namespace Product
         static inline const Core::Math::Float3 FORWARD = Core::Math::Float3(0.0f, 0.0f, -1.0f);
     public:
         WorldInteractor() = default;
-        WorldInteractor(const Application::Input::InputManager& inputManager,  const Application::Collision::CollisionManager& collisionManager, Application::ECS& ecs, const Application::EntityId& cameraEntity);
+        WorldInteractor(Application::State& state, const Application::EntityId& cameraEntity);
 
         void Update(Core::Second deltaTime) override;
         bool handleInput(Ptr<const Application::Input::InputEventBase> event) override;
 
     private:
-        Core::Ptr<const Application::Input::InputManager> _inputManager;
-        Core::Ptr<const Application::Collision::CollisionManager> _collisionManager;
-        Core::Ptr<Application::ECS> _ecs;
+        Core::Ptr<Application::State> _state = nullptr;
         Application::EntityId _cameraEntity;
 
         bool _doInteraction = false;

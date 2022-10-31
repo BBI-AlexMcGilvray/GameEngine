@@ -15,6 +15,7 @@ AssetHandling/AssetLoaderFactory.cpp #
 AssetHandling/EntityFactory.cpp #
 Collision/CollisionManager.cpp #
 Collision/OctTree.cpp #
+Collision/CollisionUtils.cpp #
 ECS/DataOriented/Systems/SystemManager.cpp #
 ECS/DataOriented/Archetype.cpp #
 ECS/DataOriented/ArchetypeManager.cpp #
@@ -90,6 +91,7 @@ AssetHandling/EntityFactory.h #
 Collision/Collisions.h #
 Collision/CollisionHandler.h #
 Collision/CollisionManager.h #
+Collision/CollisionUtils.h #
 Collision/OctTree.h #
 Collision/CollisionHandlers/DebugHandlers/DebugCollisionDisplay.h #
 ECS/DataOriented/Systems/System.h #

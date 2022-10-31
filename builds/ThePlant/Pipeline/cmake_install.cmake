@@ -47,6 +47,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/Collisions.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/CollisionHandler.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/CollisionManager.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/CollisionUtils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/OctTree.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Collision/CollisionHandlers/DebugHandlers/DebugCollisionDisplay.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECS/DataOriented/Systems/System.h"
