@@ -12,7 +12,8 @@ namespace Rendering {
     GLObject();
     GLObject(GLuint object, GLenum type);
 
-    virtual ~GLObject() = default;
+    // if we treat any sub-objects as a GLObject, then this needs to be virtual!
+    ~GLObject() = default;
 
     virtual void SetObject(GLuint object);
     virtual void SetType(GLenum type);

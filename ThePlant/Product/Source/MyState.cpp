@@ -86,7 +86,7 @@ void MyState::Initialize()
     // testing
     // _static = Testing::SpawnStaticModel(*this); // this and the below cause an exception on close
     // _animated = Testing::SpawnAnimatedModel(*this);
-    // Testing::TestEntityAsset(*this); // memory being gotten by this call (tracked under "Assets" memory tag) is not being released properly
+    Testing::TestEntityAsset(*this); // memory being gotten by this call (tracked under "Assets" memory tag) is not being released properly
 
     // Collision (to test it properly, may need to disable to transform debug systems (or shrink their size))
     _leftPos = Core::Math::Float3(-200.0f, 0.0f, 0.0f);

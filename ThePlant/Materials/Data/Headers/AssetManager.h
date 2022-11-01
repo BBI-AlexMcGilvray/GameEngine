@@ -79,7 +79,8 @@ private:
         // for starters it can be kinda hacky, then we can start working on the Factory and this at the same time
         SCOPED_MEMORY_CATEGORY("Assets");
         const auto assetPath = _getFilePath(asset);
-        File assetFile = OpenFileI(assetPath);
+        File assetFile = File(assetPath, std::ios::in);//OpenFileI(assetPath);
+        assetFile.Open(); // this is what causes the memory error! for some reason we aren't closing it right?
         // debug
         // do this with used assets to make the first AssetLocationMapping to be used, then change how locations are used
         _AddUsedAssetLocation(asset, assetPath);
