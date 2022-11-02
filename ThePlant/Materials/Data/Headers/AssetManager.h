@@ -79,14 +79,14 @@ private:
         // for starters it can be kinda hacky, then we can start working on the Factory and this at the same time
         SCOPED_MEMORY_CATEGORY("Assets");
         const auto assetPath = _getFilePath(asset);
-        File assetFile = File(assetPath, std::ios::in);//OpenFileI(assetPath);
-        assetFile.Open(); // this is what causes the memory error! for some reason we aren't closing it right?
         // debug
         // do this with used assets to make the first AssetLocationMapping to be used, then change how locations are used
         _AddUsedAssetLocation(asset, assetPath);
         // \debug
 
+        File assetFile = OpenFileI(assetPath);
         std::string assetData = assetFile.GetFullText();
+        assetFile.Close(); // tried syncing, did not solve the problem. So likely need a way to turn off memory tracking to avoid this sort of issue.
 
         // non-const to start for deserialization
         SharedPtr<T> loadedData = MakeShared<T>();
@@ -98,8 +98,6 @@ private:
         
         // // is now implicitly cast to const in storage
         _assets[asset] = loadedData; // need to store asset by AssetName AND AssetType (runtimeId_t)
-
-        assetFile.Close();
 
         // return implicitly-cast const version
         return loadedData;

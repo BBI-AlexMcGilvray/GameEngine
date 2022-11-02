@@ -15,6 +15,8 @@ namespace Core
 {
 namespace Memory
 {
+#define UNKNOWN "unknown"
+
 class MemoryTracker
 {
 private:
@@ -69,7 +71,7 @@ private:
 
 public:
     // thread local to avoid even MORE lock contention
-    thread_local static inline UntrackedString current_category = "unknown";
+    thread_local static inline UntrackedString current_category = UNKNOWN;
 
     ~MemoryTracker()
     {
