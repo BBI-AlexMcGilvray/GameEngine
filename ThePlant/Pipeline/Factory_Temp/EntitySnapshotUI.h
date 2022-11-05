@@ -24,8 +24,8 @@ namespace IMGUI {
         void SetEntity(Application::EntityId entity);
 
     private:
-        UIVisitor _uiVisitor;
         Factory& _factory;
+        ComponentRefUI _uiVisitor;
         
         Application::EntityId _entity;
     };

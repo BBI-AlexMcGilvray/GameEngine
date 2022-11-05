@@ -133,13 +133,14 @@ struct ui_creator<Object, std::void_t<std::enable_if_t<is_visitable<Object>::val
         void operator()(FieldData f)
         {
             ImGui::Text(f.name());
+            ImGui::SameLine();
             ui_creator<raw_type_t<decltype(f.get())>>().CreateUI(f.get());
         }
     };
 
     void CreateUI(Object& data)
     {
-        reflector::visit_all(data, field_reader());
+        reflector::visit_all(data, field_ui_creator());
     }
 };
 

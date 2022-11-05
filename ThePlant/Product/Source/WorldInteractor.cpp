@@ -39,7 +39,6 @@ namespace Product
         if (_doInteraction)
         {
             _doInteraction = false;
-            CORE_LOG("WorldInteractor", "Executing Event");
             
             Application::EntitySnapshot cameraSnapshot = _state->ECS().GetTemporaryEntitySnapshot(_cameraEntity);
 
@@ -57,7 +56,6 @@ namespace Product
 
                 if (actualEvent->data.button == Application::Input::MouseButton::Left && actualEvent->data.state == Application::Input::ButtonState::Down)
                 {
-                    CORE_LOG("WorldInteractor", "Clicked Event");
                     _doInteraction = true;
                     return true;
                 }

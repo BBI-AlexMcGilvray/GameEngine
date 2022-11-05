@@ -24,18 +24,15 @@
 namespace Editor {
 namespace UI {
 namespace IMGUI {
-template <typename VISITOR>
-using TemporaryComponentRefVisitorFactory = Core::TypeFactory<void, VISITOR, Application::ITemporaryComponentRef&>;
+using TemporaryComponentRefUIFactory = Core::TypeFactory<void, Application::ITemporaryComponentRef&>;
 
 // where would these visitors be held? where would the registration be called?
-template <typename VISITOR>
-class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
+class ComponentRefUI : TemporaryComponentRefUIFactory
 {
     public:
-    ComponentRefVisitor()
+    ComponentRefUI()
     {
         // registration needs to happen elsewhere
-        // also, this can clearly be heavily templatized AND/OR macro'd
 
         /*
         This is printing the names of everything correctly, but we need to fix the visitor
@@ -43,64 +40,27 @@ class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
             - can definitely heaviliy reference how the json is done
             - maybe we can make it more generic to be used by both?
         */
-        Register(Core::GetTypeId<Application::PositionComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
-        {
-            Application::PositionComponent& component = componentRef.GetComponent<Application::PositionComponent>();
+        Register<Application::PositionComponent>();
+        Register<Application::RotationComponent>();
+        Register<Application::ScaleComponent>();
+        Register<Application::WorldTransformComponent>();
+        Register<Application::ColliderComponent>();
+        Register<Application::RigidBodyComponent>();
+    }
 
-            std::string componentName = std::string(Core::TemplateTypeAsString<Application::PositionComponent>());
-            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
-            {
-                reflector::visit_all(component, visitor);
-            }
-        });
-        Register(Core::GetTypeId<Application::RotationComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
+    // default UI for component - iterates over all reflectable variables
+    template <typename T>
+    void Register()
+    {
+        using base_type = TemporaryComponentRefUIFactory;
+        base_type::Register(Core::GetTypeId<T>(), [](Application::ITemporaryComponentRef& componentRef)
         {
-            Application::RotationComponent& component = componentRef.GetComponent<Application::RotationComponent>();
+            T& component = componentRef.GetComponent<T>();
 
-            std::string componentName = std::string(Core::TemplateTypeAsString<Application::RotationComponent>());
+            std::string componentName = std::string(Core::TemplateTypeAsString<T>());
             if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
             {
-                reflector::visit_all(component, visitor);
-            }
-        });
-        Register(Core::GetTypeId<Application::ScaleComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
-        {
-            Application::ScaleComponent& component = componentRef.GetComponent<Application::ScaleComponent>();
-            
-            std::string componentName = std::string(Core::TemplateTypeAsString<Application::ScaleComponent>());
-            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
-            {
-                reflector::visit_all(component, visitor);
-            }
-        });
-        Register(Core::GetTypeId<Application::WorldTransformComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
-        {
-            Application::WorldTransformComponent& component = componentRef.GetComponent<Application::WorldTransformComponent>();
-            
-            std::string componentName = std::string(Core::TemplateTypeAsString<Application::WorldTransformComponent>());
-            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
-            {
-                reflector::visit_all(component, visitor);
-            }
-        });
-        Register(Core::GetTypeId<Application::ColliderComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
-        {
-            Application::ColliderComponent& component = componentRef.GetComponent<Application::ColliderComponent>();
-            
-            std::string componentName = std::string(Core::TemplateTypeAsString<Application::ColliderComponent>());
-            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
-            {
-                reflector::visit_all(component, visitor);
-            }
-        });
-        Register(Core::GetTypeId<Application::RigidBodyComponent>(), [](VISITOR visitor, Application::ITemporaryComponentRef& componentRef)
-        {
-            Application::RigidBodyComponent& component = componentRef.GetComponent<Application::RigidBodyComponent>();
-            
-            std::string componentName = std::string(Core::TemplateTypeAsString<Application::RigidBodyComponent>());
-            if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
-            {
-                reflector::visit_all(component, visitor);
+                ui_creator<T>().CreateUI(component);
             }
         });
     }
@@ -116,21 +76,9 @@ class ComponentRefVisitor : TemporaryComponentRefVisitorFactory<VISITOR>
     // should visitors be passed down by ref? should they be perfect-forwarded (&&)? probably, would support everything
     void Visit(Application::ITemporaryComponentRef& componentRef)
     {
-        VISITOR visitor;
-        Create(componentRef.GetComponentType(), std::move(visitor), componentRef);
+        Create(componentRef.GetComponentType(), componentRef);
     }
 };
-
-struct CreateUIVisitor
-{
-    template<class FieldData>
-    void operator()(FieldData f)
-    {
-        ui_creator<raw_type_t<decltype(f.get())>>().CreateUI(f.get());
-    }
-};
-
-using UIVisitor = ComponentRefVisitor<CreateUIVisitor>;
 }// namespace UI
 }// namespace IMGUI
 }// namespace Editor

@@ -84,9 +84,9 @@ private:
         _AddUsedAssetLocation(asset, assetPath);
         // \debug
 
-        File assetFile = OpenFileI(assetPath);
+        File assetFile = OpenFileI(assetPath); // opening of the file is what causes the memory issue
         std::string assetData = assetFile.GetFullText();
-        assetFile.Close(); // tried syncing, did not solve the problem. So likely need a way to turn off memory tracking to avoid this sort of issue.
+        assetFile.Close(); // \end of memory issue (it is caused by the file being opened, and apparently closing it does not resolve the problem)
 
         // non-const to start for deserialization
         SharedPtr<T> loadedData = MakeShared<T>();
