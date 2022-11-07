@@ -151,6 +151,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Windows/MemoryTracker.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Windows/Profiler.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/UI/IMGUI/Windows/SystemTracker.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Utils/RegisterUtils.h"
     )
 endif()
 

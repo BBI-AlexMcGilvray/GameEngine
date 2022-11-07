@@ -23,6 +23,7 @@ namespace Editor {
             void CleanUp();
 
             Application::ApplicationManager& GetApplication();
+            FactoryUI& GetFactoryUI();
 
             // should this be here? maybe
             void SelectEntity(Application::EntityId entity);

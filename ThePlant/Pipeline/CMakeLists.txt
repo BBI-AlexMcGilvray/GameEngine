@@ -75,7 +75,8 @@ UI/IMGUI/Manager.cpp #
 UI/IMGUI/Windows/Examples.cpp #
 UI/IMGUI/Windows/MemoryTracker.cpp #
 UI/IMGUI/Windows/Profiler.cpp #
-UI/IMGUI/Windows/SystemTracker.cpp)
+UI/IMGUI/Windows/SystemTracker.cpp #
+Utils/RegisterUtils.cpp)
 
 set(HEADER_FILES #
 Animation/Headers/Animation.h #
@@ -194,7 +195,8 @@ UI/IMGUI/Window.h #
 UI/IMGUI/Windows/Examples.h #
 UI/IMGUI/Windows/MemoryTracker.h #
 UI/IMGUI/Windows/Profiler.h #
-UI/IMGUI/Windows/SystemTracker.h)
+UI/IMGUI/Windows/SystemTracker.h #
+Utils/RegisterUtils.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Pipeline_Lib)
 

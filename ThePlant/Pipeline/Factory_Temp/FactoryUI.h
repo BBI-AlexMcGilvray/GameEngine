@@ -8,6 +8,13 @@
 
 namespace Editor {
     class Factory;
+    namespace UI
+    {
+        namespace IMGUI
+        {
+            class EntitySnapshotUI;
+        }
+    }
 
     class FactoryUI
     {
@@ -22,6 +29,8 @@ namespace Editor {
 
             // should this be here? maybe
             void SelectEntity(Application::EntityId entity);
+
+            UI::IMGUI::EntitySnapshotUI& EntitySnapshotUI();
 
         private:
             Factory& _factory;

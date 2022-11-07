@@ -27,7 +27,12 @@ void EntitySnapshotUI::Draw()
     ImGui::Text(std::to_string(hasher(_entity)).c_str());
 
     Application::EntitySnapshot snapshot = _factory.GetApplication().StateManager().GetActiveState().ECS().GetTemporaryEntitySnapshot(_entity);
-    _uiVisitor.Visit(snapshot);
+    _uiFactory.Visit(snapshot);
+}
+
+ComponentRefUIFactory& EntitySnapshotUI::GetComponentRefUIFactory()
+{
+    return _uiFactory;
 }
 
 void EntitySnapshotUI::SetEntity(Application::EntityId entity)

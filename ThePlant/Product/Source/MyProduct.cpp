@@ -5,6 +5,7 @@
 #endif
 
 #include "Product/Headers/MyState.h"
+#include "Product/Headers/RegisterUtils.h"
 
 namespace Product
 {
@@ -16,6 +17,8 @@ namespace Product
     {
         _luaManager.initialize();
         _application.StateManager().AddAndGoToState<MyState>();
+
+        RegisterComponents(_application);
     }
 
     void MyProduct::start()

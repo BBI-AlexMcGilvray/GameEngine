@@ -19,6 +19,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\ProductManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\RegisterUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Testing\TestingUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

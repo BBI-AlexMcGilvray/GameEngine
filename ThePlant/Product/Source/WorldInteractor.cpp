@@ -1,13 +1,5 @@
 #include "Product/Headers/WorldInteractor.h"
 
-#include "Core/Math/Headers/QuaternionFunctions.h"
-#include "Core/Math/Headers/UtilityFunctions.h"
-// debug
-#include "Core/Math/Headers/VectorFunctions.h"
-#include "Core/Math/Headers/QuaternionFunctions.h"
-#include "Pipeline/Factory_Temp/EntitySnapshotUIVisitor.h"
-// \debug
-
 #include "Pipeline/Collision/CollisionManager.h"
 #include "Pipeline/Collision/CollisionUtils.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"

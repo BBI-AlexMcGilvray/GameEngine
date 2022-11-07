@@ -11,6 +11,7 @@ Source/WorldInteractor.cpp #
 Source/MyProduct.cpp #
 Source/MyState.cpp #
 Source/ProductManager.cpp #
+Source/RegisterUtils.cpp #
 Testing/TestingUtils.cpp #
 Testing/TestSystem.cpp)
 
@@ -21,6 +22,7 @@ Headers/WorldInteractor.h #
 Headers/MyProduct.h #
 Headers/MyState.h #
 Headers/ProductManager.h #
+Headers/RegisterUtils.h #
 Testing/TestingUtils.h #
 Testing/TestSystem.h)
 

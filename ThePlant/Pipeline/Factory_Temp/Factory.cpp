@@ -47,6 +47,11 @@ Application::ApplicationManager& Factory::GetApplication()
     return _application;
 }
 
+FactoryUI& Factory::GetFactoryUI()
+{
+    return _factoryUI;
+}
+
 void Factory::SelectEntity(Application::EntityId entity)
 {
     _factoryUI.SelectEntity(entity);

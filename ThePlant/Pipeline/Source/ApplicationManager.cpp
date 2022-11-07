@@ -11,11 +11,7 @@
 #include "Pipeline/Factory_Temp/Factory.h"
 // #endif // FACTORY
 #include "Pipeline/Time/Headers/TimeSettings.h"
-
-// SHOULD NOT BE HERE
-#include "Core/Serialization/Formats/JSON/JSON.h"
-#include "Core/Serialization/Serialization.h"
-#include "Pipeline/ECSSystems/ComponentSerializers.h"
+#include "Pipeline/Utils/RegisterUtils.h"
 
 namespace Application {
 Core::Threading::ThreadManager& ApplicationManager::ThreadManager()
@@ -143,26 +139,13 @@ bool ApplicationManager::Initialize()
   _renderSystem.Initialize(_sdl, _threadManager.GetThread());
   _inputSystem.initialize();
 
-  // this should not be here - should be other methods that get called here and by the specific product?
-  // need to this this for the rest, though it seems like (most of) this could be super standardized (aka templatized)!
-  _entityFactory.Register(Core::HashType<WorldTransformComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
-  {
-    WorldTransformComponent component;
-    Core::DeserializeTo(component, componentJson);
-    handler.AddComponent<WorldTransformComponent>(component);
-  });
-  _entityFactory.Register(Core::HashType<PositionComponent>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
-  {
-    PositionComponent component;
-    Core::DeserializeTo(component, componentJson);
-    handler.AddComponent<PositionComponent>(component);
-  });
-
   // should this be here? if not here, where?
   WITH_DEBUG_SERVICE(Editor::Factory)
   (
     service->Initialize();
   )
+
+  RegisterComponents(*this);
 
   return true;
 }

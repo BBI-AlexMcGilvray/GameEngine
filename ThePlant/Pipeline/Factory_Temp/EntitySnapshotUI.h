@@ -5,7 +5,7 @@
 #include "Pipeline/ECS/DataOriented/EntitySnapshot.h"
 #include "Pipeline/UI/IMGUI/Window.h"
 
-#include "Pipeline/Factory_Temp/EntitySnapshotUIVisitor.h"
+#include "Pipeline/Factory_Temp/ComponentRefUIFactory.h"
 
 namespace Editor {
     class Factory;
@@ -21,11 +21,13 @@ namespace IMGUI {
 
         void Draw() override;
 
+        ComponentRefUIFactory& GetComponentRefUIFactory();
+
         void SetEntity(Application::EntityId entity);
 
     private:
         Factory& _factory;
-        ComponentRefUI _uiVisitor;
+        ComponentRefUIFactory _uiFactory;
         
         Application::EntityId _entity;
     };

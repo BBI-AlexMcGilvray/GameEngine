@@ -283,6 +283,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\MyProduct.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\MyState.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\ProductManager.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Source\RegisterUtils.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Testing\TestingUtils.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Product\Testing\TestSystem.cpp" />
   </ItemGroup>

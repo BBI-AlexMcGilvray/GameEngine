@@ -214,6 +214,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\UI\IMGUI\Windows\SystemTracker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Utils\RegisterUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\CMakeLists.txt" />

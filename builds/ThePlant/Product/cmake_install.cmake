@@ -40,6 +40,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/MyProduct.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/MyState.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/ProductManager.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Product/Headers/RegisterUtils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Testing/TestingUtils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Product/Testing/TestSystem.h"
     )

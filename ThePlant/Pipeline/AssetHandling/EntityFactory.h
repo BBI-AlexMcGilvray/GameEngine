@@ -30,6 +30,19 @@ public:
     EntityHandler& CreateEntity(State& state, const Data::AssetName<Data::EntityData>& asset);
     EntityHandler& CreateEntityAndLockAsset(State& state, const Data::AssetName<Data::EntityData>& asset);
 
+    // default UI for component - iterates over all reflectable variables
+    template <typename T>
+    void DefaultRegister()
+    {
+        using base_type = ComponentFactory;
+        base_type::Register(Core::HashType<T>(), [](EntityHandler& handler, const Core::Serialization::Format::JSON& componentJson)
+        {
+            T component;
+            Core::DeserializeTo(component, componentJson);
+            handler.AddComponent<T>(component);
+        });
+    }
+
 private:
     Data::AssetManager& _assetManager;
     AssetLoaderFactory& _assetLoader;

@@ -30,9 +30,37 @@ OctTreeNode::OctTreeNode(ECS& ecs, const Core::Math::Float3& origin, const Core:
 
 std::pair<EntitySnapshot, Core::Geometric::Point3D> OctTreeNode::FindFirstEntity(const Core::Geometric::ShapeOrientation3D& shape) const
 {
-    Core::Geometric::AABBShapeOrientation3D boundedShape(shape);
-    const OctTreeNode& containingNode = _FindContainingNode(shape);
-    return containingNode._FindFirstEntity(boundedShape, BitmaskEnum<CheckDirection>(CheckDirection::Down, CheckDirection::Up));
+    /*
+        NOTE: Maybe there is a more efficient algorithm to find the first entity that isn't 'find them all then compare'
+            BUT, we need to consider colliding with objects at higher _and_ lower nodes and we can't know for sure which will be 'closest'
+            ex: barely touches an object in a lower node but is engulfed by one at a higher node
+    */
+    // Core::Geometric::AABBShapeOrientation3D boundedShape(shape);
+    // Core::Geometric::AABBShapeOrientation3D boundedOrigin(); // find node that contains the origin, check there, work way up (need to consider multiple collisions in each node)
+    // const OctTreeNode& containingNode = _FindContainingNode(shape);
+    // return containingNode._FindFirstEntity(boundedShape, BitmaskEnum<CheckDirection>(CheckDirection::Down, CheckDirection::Up));
+
+    std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>> allEntities = FindAllEntities(shape);
+    if (allEntities.empty())
+    {
+        return std::pair<EntitySnapshot, Core::Geometric::Point3D>();
+    }
+
+    size_t index = 0;
+    size_t closestIndex;
+    float smallestDistSqr;
+    for (auto& entity : allEntities)
+    {
+        float distSqr = Core::Math::DistanceSqr(entity.second, shape.orientation.position);
+        if (distSqr < smallestDistSqr || index == 0)
+        {
+            closestIndex = index;
+            smallestDistSqr = distSqr;
+        }
+        ++index;
+    }
+
+    return allEntities[closestIndex];
 }
 
 std::vector<std::pair<EntitySnapshot, Core::Geometric::Point3D>> OctTreeNode::FindAllEntities(const Core::Geometric::ShapeOrientation3D& shape) const

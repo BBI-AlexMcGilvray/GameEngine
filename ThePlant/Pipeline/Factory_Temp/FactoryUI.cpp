@@ -45,7 +45,12 @@ void FactoryUI::CleanUp()
 
 void FactoryUI::SelectEntity(Application::EntityId entity)
 {
-    auto& entitySnapshotUI = _factory.GetApplication().RenderManager().GetUIManager().GetWindow<UI::IMGUI::EntitySnapshotUI>(_entityUI);
+    auto& entitySnapshotUI = EntitySnapshotUI();
     entitySnapshotUI.SetEntity(entity);
+}
+
+UI::IMGUI::EntitySnapshotUI& FactoryUI::EntitySnapshotUI()
+{
+    return _factory.GetApplication().RenderManager().GetUIManager().GetWindow<UI::IMGUI::EntitySnapshotUI>(_entityUI);
 }
 } // namespace Editor
