@@ -113,13 +113,13 @@ void ApplicationManager::Run()
     while (_timeSystem.TakeFixedStep() && !quit()) { // checking quit here as well to enforce responsiveness (otherwise we don't quit until timesteps are caught up)
       Core::Second dt = _timeSystem.GetDeltaTime();
       Update(dt);
-    // #ifdef MULTITHREADED_RENDERING // NOTE: not actually used due to current location of define
+    #ifdef MULTITHREADED_RENDERING
         Render(); // when threaded, this pushes the current buffer to the next thread, if we only did it once we would duplicate render data per frame
-    // #endif
+    #endif
     }
-  // #ifndef MULTITHREADED_RENDERING // NOTE: not actually used due to current location of define - need to fix, bottom should NOT be commented
-      // Render(); // if rendering is not threaded, then we only render once per frame (otherwise waste time)
-  // #endif
+  #ifndef MULTITHREADED_RENDERING
+      Render(); // if rendering is not threaded, then we only render once per frame (otherwise waste time)
+  #endif
   }
 
   End();

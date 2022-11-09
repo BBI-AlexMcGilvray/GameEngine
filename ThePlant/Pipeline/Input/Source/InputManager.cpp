@@ -1,5 +1,10 @@
 #include "Pipeline/Input/Headers/InputManager.h"
 
+// testing
+#include "Pipeline/Dependencies/IMGUI/imgui.h"
+#include "Pipeline/Dependencies/IMGUI/backends/imgui_impl_sdl.h"
+// \testing
+
 namespace Application {
 namespace Input {
   InputManager::InputManager(const SDL2Manager &sdl)
@@ -72,7 +77,20 @@ namespace Input {
       if (createdEvent != nullptr)
       {
         _UpdateState(*createdEvent);
-        _controller->handleInput(std::move(createdEvent)); // we probably still want this for event-driven handlers (like UI?)
+
+        // SEE: https://marcelfischer.eu/blog/2019/imgui-in-sdl-opengl/
+        // do we need to use ImGui_ImplSDL2_ProcessEvent?
+        // other reference: https://github.com/ocornut/imgui/issues/4664
+        // seems like this may be what we want to use (somewhere) to see if we should use input events outside of imgui?
+        auto& io = ImGui::GetIO();
+        if(io.WantCaptureMouse) // this flag should only be for mouse events, there are other flags for keyboardevents (and others)
+        {
+          ImGui_ImplSDL2_ProcessEvent(&event);
+        }
+        else
+        {
+          _controller->handleInput(std::move(createdEvent)); // we probably still want this for event-driven handlers (like UI?)
+        }
       }
     }
     else

@@ -57,13 +57,13 @@ namespace Product
                 Core::Second dt = timeSystem.GetDeltaTime();
                 _pipeline.Update(dt);
                 _myProduct.update(dt);
-            // #ifdef MULTITHREADED_RENDERING // NOTE: not actually used due to current location of define
+            #ifdef MULTITHREADED_RENDERING
                 _pipeline.Render(); // when threaded, this pushes the current buffer to the next thread, if we only did it once we would duplicate render data per frame
-            // #endif
+            #endif
             }
-        // #ifndef MULTITHREADED_RENDERING // NOTE: not actually used due to current location of define - need to fix, bottom should NOT be commented
-            // _pipeline.Render(); // if rendering is not threaded, then we only render once per frame (otherwise waste time)
-        // #endif
+        #ifndef MULTITHREADED_RENDERING
+            _pipeline.Render(); // if rendering is not threaded, then we only render once per frame (otherwise waste time)
+        #endif
         }
     }
 
