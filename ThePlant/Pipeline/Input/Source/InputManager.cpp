@@ -72,30 +72,62 @@ namespace Input {
 
   void InputManager::_HandleEvent(SDL_Event&& event)
   {
-    if (_controller != nullptr) {
-      auto createdEvent = createInputEvent(event); // creating it here so we can do the below check and avoid calling based on null (unhandled) event types
-      if (createdEvent != nullptr)
-      {
-        _UpdateState(*createdEvent);
+    auto createdEvent = createInputEvent(event); // creating it here so we can do the below check and avoid calling based on null (unhandled) event types
+    if (createdEvent != nullptr)
+    {
+      _UpdateState(*createdEvent);
 
-        // SEE: https://marcelfischer.eu/blog/2019/imgui-in-sdl-opengl/
-        // do we need to use ImGui_ImplSDL2_ProcessEvent?
-        // other reference: https://github.com/ocornut/imgui/issues/4664
-        // seems like this may be what we want to use (somewhere) to see if we should use input events outside of imgui?
-        auto& io = ImGui::GetIO();
-        if(io.WantCaptureMouse) // this flag should only be for mouse events, there are other flags for keyboardevents (and others)
+      // SEE: https://marcelfischer.eu/blog/2019/imgui-in-sdl-opengl/
+      // other reference: https://github.com/ocornut/imgui/issues/4664
+      auto& io = ImGui::GetIO();
+      if (_controller != nullptr)
+      {
+        switch(createdEvent->getInputEventType())
         {
-          ImGui_ImplSDL2_ProcessEvent(&event);
+          case InputEventType::KeyboardEvent:
+          {
+            if (io.WantCaptureKeyboard)
+            {
+              ImGui_ImplSDL2_ProcessEvent(&event);
+            }
+            else
+            {
+              _controller->handleInput(std::move(createdEvent)); // we probably still want this for event-driven handlers (like UI?)
+            }
+            return;
+          }
+          case InputEventType::MouseClickedEvent:
+          case InputEventType::MouseMovedEvent:
+          case InputEventType::MouseWheelEvent:
+          {
+            if (io.WantCaptureMouse)
+            {
+              ImGui_ImplSDL2_ProcessEvent(&event);
+            }
+            else
+            {
+              _controller->handleInput(std::move(createdEvent)); // we probably still want this for event-driven handlers (like UI?)
+            }
+            return;
+          }
+          case InputEventType::Undetermined:
+          default:
+          {
+            ImGui_ImplSDL2_ProcessEvent(&event);
+            DEBUG_ERROR("InputManager", "No state for this event type, defaulting to IMGUI");
+          }
         }
-        else
-        {
-          _controller->handleInput(std::move(createdEvent)); // we probably still want this for event-driven handlers (like UI?)
-        }
+      }
+      else
+      {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+        DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered, defaulting to IMGUI");
       }
     }
     else
     {
-      DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered");
+      ImGui_ImplSDL2_ProcessEvent(&event);
+      DEBUG_ERROR("InputManager", "Unable to create an event for the given SDL event, defaulting to IMGUI");
     }
   }
 
