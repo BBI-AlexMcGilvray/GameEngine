@@ -5,12 +5,14 @@
 
 #include "Data/Headers/AssetName.h"
 #include "Data/Headers/AssetManager.h"
+#include "Data/Headers/SerializationUtils.h"
 #include "Data/AssetTypes/EntityData.h"
 
 #include "Pipeline/AssetHandling/AssetLoaderFactory.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/ECS/DataOriented/EntityHandler.h"
 #include "Pipeline/ECS/DataOriented/IDs.h"
+#include "PIpeline/Utils/SerializationUtils.h"
 
 namespace Application {
 struct ApplicationManager;

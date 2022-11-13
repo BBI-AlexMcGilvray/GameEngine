@@ -2,14 +2,18 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
+#include "Core/Reflection/Reflectable.h"
+
 #include "Core/Math/Headers/Vector3.h"
 
 namespace Core {
 namespace Geometric {
   struct Line3D
   {
-    Math::Float3 line;
-    bool infinite;
+    REFLECTABLE(
+      (Math::Float3) line,
+      (bool) infinite
+    )
 
     Line3D()
     : Line3D(Math::Float3(1.0f, 1.0f, 1.0f), false)

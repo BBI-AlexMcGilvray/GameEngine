@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/Reflection/Reflectable.h"
+
 #include "Core/Math/Headers/Vector3.h"
 #include "Core/Geometric/Circle.h"
 #include "Core/Geometric/Line2D.h"
@@ -12,9 +14,11 @@ namespace Geometric {
 
   struct Plane
   {
-    Math::Float3 normal;
-    Shape2D shape;
-    bool infinite;
+    REFLECTABLE(
+      (Math::Float3) normal,
+      (Shape2D) shape,
+      (bool) infinite
+    )
 
     Plane()
     : Plane(Math::Float3(0.0f, 0.0f, 1.0f))

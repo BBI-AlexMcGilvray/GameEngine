@@ -26,6 +26,7 @@ ECSSystems/AnimationSystem.cpp #
 Factory_Temp/EntitySnapshotUI.cpp #
 Factory_Temp/Factory.cpp #
 Factory_Temp/FactoryUI.cpp #
+Factory_Temp/UIUtils.cpp #
 GameSystem/Source/GameObjectBase.cpp #
 GameSystem/Source/GameObjectManager.cpp #
 GameSystem/Source/GameSystemManager.cpp #
@@ -76,7 +77,8 @@ UI/IMGUI/Windows/Examples.cpp #
 UI/IMGUI/Windows/MemoryTracker.cpp #
 UI/IMGUI/Windows/Profiler.cpp #
 UI/IMGUI/Windows/SystemTracker.cpp #
-Utils/RegisterUtils.cpp)
+Utils/RegisterUtils.cpp #
+Utils/SerializationUtils.cpp)
 
 set(HEADER_FILES #
 Animation/Headers/Animation.h #
@@ -196,7 +198,8 @@ UI/IMGUI/Windows/Examples.h #
 UI/IMGUI/Windows/MemoryTracker.h #
 UI/IMGUI/Windows/Profiler.h #
 UI/IMGUI/Windows/SystemTracker.h #
-Utils/RegisterUtils.h)
+Utils/RegisterUtils.h #
+Utils/SerializationUtils.h)
 
 install(FILES ${HEADER_FILES} DESTINATION Pipeline_Lib)
 

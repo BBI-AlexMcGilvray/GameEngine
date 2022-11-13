@@ -2,6 +2,8 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
+#include "Core/Reflection/Reflectable.h"
+
 #include "Core/Math/Headers/Vector2.h"
 
 namespace Core {
@@ -10,7 +12,9 @@ namespace Geometric {
   // maybe only if that ends up being actually useful 
   struct Rectangle
   {
-    Math::Float2 dimensions;
+    REFLECTABLE(
+      (Math::Float2) dimensions
+    )
 
     Rectangle()
     : Rectangle(Math::Float2(1.0f))

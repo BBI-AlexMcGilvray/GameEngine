@@ -28,14 +28,24 @@ namespace Rendering {
 
     Float4x4 GetProjectionMatrix();
 
+    FRad& GetFOVY();
+    FRad GetFOVY() const;
     void SetFOVY(const FRad& fovy);
 
+    float& GetAspectRatio();
+    float GetAspectRatio() const;
     void SetAspectRatio(const float& width, const float& height);
     void SetAspectRatio(const Float2& viewRect);
     void SetAspectRatio(const float& aspectRatio);
 
+    float& GetNearPlane();
+    float GetNearPlane() const;
     void SetNearPlane(const float &nearPlane);
+    float& GetFarPlane();
+    float GetFarPlane() const;
     void SetFarPlane(const float &farPlane);
+    // near = x, far = y
+    Float2 GetPlanes() const;
     void SetPlanes(const float &nearPlane, const float &farPlane);
     void SetPlanes(const Float2 &planes);
 

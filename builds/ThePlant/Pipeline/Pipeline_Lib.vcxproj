@@ -298,6 +298,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Factory_Temp\EntitySnapshotUI.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Factory_Temp\Factory.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Factory_Temp\FactoryUI.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Factory_Temp\UIUtils.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\GameSystem\Source\GameObjectBase.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\GameSystem\Source\GameObjectManager.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\GameSystem\Source\GameSystemManager.cpp" />
@@ -353,6 +354,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\UI\IMGUI\Windows\Profiler.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\UI\IMGUI\Windows\SystemTracker.cpp" />
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Utils\RegisterUtils.cpp" />
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Utils\SerializationUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\Coding\VisualStudios\Application\builds\ZERO_CHECK.vcxproj">

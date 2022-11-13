@@ -2,6 +2,17 @@
 
 namespace Editor::UI
 {
+    /*
+    NOTE: Imgui uses IDs to identify displays.
+    See: https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-how-can-i-have-widgets-with-an-empty-label
+
+    summary: we probably need to pass in a label to act as an id here and distinguish between the displays
+    */
+    void ShowUI(bool& b)
+    {
+        ImGui::Checkbox("", &b);
+    }
+
     void ShowUI(int& i)
     {
         ImGui::DragInt("", &i, DRAG_SPEED, DRAG_SPEED_MIN, DRAG_SPEED_MAX);
@@ -29,14 +40,15 @@ namespace Editor::UI
 
     void ShowUI(Core::Second& time)
     {
-        float time = Core::Duration(time);
-        ShowUI(time);        
+        float asFloat = Core::Duration(time);
+        ShowUI(asFloat);        
     }
 
     void ShowUI(Core::Hash& hash)
     {
         // here, we probably want hashes to 'know' what type they are from (or string only?) and display that here instead
-        ShowUI(static_cast<Core::uint&>(hash));
+        Core::uint asUint = static_cast<Core::uint>(hash);
+        ShowUI(asUint);
     }
 
     void ShowUI(Core::Math::Color& color)

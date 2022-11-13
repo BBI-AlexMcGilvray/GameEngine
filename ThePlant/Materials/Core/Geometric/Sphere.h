@@ -2,11 +2,15 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
+#include "Core/Reflection/Reflectable.h"
+
 namespace Core {
 namespace Geometric {
   struct Sphere
   {
-    float radius;
+    REFLECTABLE(
+      (float) radius
+    )
 
     Sphere()
     : Sphere(0.5f)

@@ -2,6 +2,8 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
+#include "Core/Reflection/Reflectable.h"
+
 #include "Core/Math/Headers/Vector3.h"
 
 namespace Core {
@@ -9,7 +11,9 @@ namespace Geometric {
 
   struct Box
   {
-    Math::Float3 dimensions;
+    REFLECTABLE(
+      (Math::Float3) dimensions
+    )
 
     Box()
     : Box(Math::Float3(1.0f))

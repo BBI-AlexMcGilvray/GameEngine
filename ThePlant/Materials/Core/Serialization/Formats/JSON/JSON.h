@@ -53,7 +53,7 @@ struct JSON
     Core::Ptr<JSONObject> jsonObject = dynamic_cast<Core::Ptr<JSONObject>>(json.get());
     if (jsonObject)
     {
-      _data = std::unique_ptr<JSONObject>(static_cast<Core::Ptr<JSONObject>>(jsonObject->CreateCopy().release()));
+      _data = std::static_pointer_cast<JSONObject>(jsonObject->CreateCopy());
       return;
     }
 
@@ -65,7 +65,7 @@ struct JSON
     return _data;
   }
 
-  std::unique_ptr<JSONNode> CreateCopy() const
+  std::shared_ptr<JSONNode> CreateCopy() const
   {
     return _data->CreateCopy();
   }

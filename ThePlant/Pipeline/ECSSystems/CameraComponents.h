@@ -8,8 +8,9 @@
 namespace Application {
 struct CameraComponent
 {
-    NOTHING_REFLECTABLE() // should actually contain the components
-    Rendering::Camera camera;
+    REFLECTABLE(
+        (Rendering::Camera) camera
+    )
 
     CameraComponent() = default;
     CameraComponent(const CameraComponent&) = default;
@@ -30,9 +31,10 @@ struct CameraComponent
 
 struct CameraWeightingComponent
 {
-    NOTHING_REFLECTABLE() // should actually contain the components
-    float weight;
-    IncrementalId cameraGroup;
+    REFLECTABLE(
+        (float) weight
+    )
+    IncrementalId cameraGroup; // this should be recalculated every time, so we should save a name or tag for the camera group instead?
 
     CameraWeightingComponent() = default;
     CameraWeightingComponent(const CameraWeightingComponent&) = default;

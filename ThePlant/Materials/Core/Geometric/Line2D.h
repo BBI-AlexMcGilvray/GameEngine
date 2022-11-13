@@ -2,6 +2,8 @@
 
 #include "Core/Debugging/Headers/Macros.h"
 
+#include "Core/Reflection/Reflectable.h"
+
 #include "Core/Math/Headers/Quaternion.h"
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/VectorFunctions.h"
@@ -10,8 +12,10 @@ namespace Core {
 namespace Geometric {
   struct Line2D
   {
-    Math::Float2 line;
-    bool infinite;
+    REFLECTABLE(
+      (Math::Float2) line,
+      (bool) infinite
+    )
 
     Line2D()
     : Line2D(Math::Float2(1.0f, 1.0f), true)

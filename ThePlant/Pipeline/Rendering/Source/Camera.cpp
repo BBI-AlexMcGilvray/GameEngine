@@ -26,11 +26,31 @@ namespace Rendering {
     return _projectionMatrix;
   }
 
+  FRad& Camera::GetFOVY()
+  {
+    return _fovy;
+  }
+
+  FRad Camera::GetFOVY() const
+  {
+    return _fovy;
+  }
+
   void Camera::SetFOVY(const FRad& fovy)
   {
     _fovy = fovy;
 
     _Dirty();
+  }
+
+  float& Camera::GetAspectRatio()
+  {
+    return _aspectRatio;
+  }
+  
+  float Camera::GetAspectRatio() const
+  {
+    return _aspectRatio;
   }
 
   void Camera::SetAspectRatio(const float& width, const float& height)
@@ -50,14 +70,39 @@ namespace Rendering {
     _Dirty();
   }
 
+  float& Camera::GetNearPlane()
+  {
+    return _nearPlane;
+  }
+
+  float Camera::GetNearPlane() const
+  {
+    return _nearPlane;
+  }
+
   void Camera::SetNearPlane(const float &nearPlane)
   {
     SetPlanes(nearPlane, _farPlane);
   }
 
+  float& Camera::GetFarPlane()
+  {
+    return _farPlane;
+  }
+
+  float Camera::GetFarPlane() const
+  {
+    return _farPlane;
+  }
+
   void Camera::SetFarPlane(const float &farPlane)
   {
     SetPlanes(_nearPlane, farPlane);
+  }
+
+  Float2 Camera::GetPlanes() const
+  {
+    return { _nearPlane, _farPlane };
   }
 
   void Camera::SetPlanes(const float &nearPlane, const float &farPlane)

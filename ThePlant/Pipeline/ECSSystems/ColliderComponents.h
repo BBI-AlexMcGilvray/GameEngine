@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Reflection/Reflectable.h"
+#include "Core/Reflection/Enums.h"
 #include "Core/Geometric/GeometryDefs.h"
 
 namespace Application
@@ -17,19 +18,19 @@ namespace Application
     - or when inserting the Static_Dirty component we search and remove the existing one, since it would not be the case most of the time?
         - but then any case where multiple items are dirtied would result in a significantly heavier frame
 */
-enum class ColliderState
-{
-    Dynamic,
-    Static_Dirty,
-    Static_Placed
-};
+STRING_CAST_ENUM(ColliderState, int,
+    (Dynamic)(= 0),
+    (Static_Dirty)(= 1),
+    (Static_Placed)(= 2)
+);
 
 struct ColliderComponent
 {
-    NOTHING_REFLECTABLE() // should actually contain the components
-    Core::Geometric::Shape3D shape;
-    bool trigger;
-    ColliderState state;
+    REFLECTABLE(
+        (Core::Geometric::Shape3D) shape,
+        (bool) trigger,
+        (ColliderState) state
+    )
 
     ColliderComponent() = default;
     ColliderComponent(const ColliderComponent&) = default;

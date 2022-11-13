@@ -7,44 +7,44 @@
 namespace Core {
 namespace Serialization {
   template<typename Format, typename Object, typename... Args>
-  void InternalSerialize(Format &target, const Object &obj, Args... args)
+  void InternalSerialize(Format &target, const Object &obj, Args&&... args)
   {
-    target.template Write<Object>(obj, args...);
+    target.template Write<Object>(obj, std::forward<Args>(args)...);
   }
 
   template<typename Format, typename Object, typename... Args>
-  void InternalDeserialize(Object &target, Format &data, Args... args)
+  void InternalDeserialize(Object &target, Format &data, Args&&... args)
   {
-    data.template Read<Object>(target, args...);
+    data.template Read<Object>(target, std::forward<Args>(args)...);
   }
 }// namespace Serialization
 
 template<typename Format, typename Object, typename... Args>
-void SerializeTo(Format &target, const Object &obj, Args... args)
+void SerializeTo(Format &target, const Object &obj, Args&&... args)
 {
-  return Serialization::InternalSerialize<Format, Object, Args...>(target, obj, args...);
+  return Serialization::InternalSerialize<Format, Object, Args...>(target, obj, std::forward<Args>(args)...);
 }
 
 template<typename Format, typename Object, typename... Args>
-Format Serialize(const Object &obj, Args... args)
+Format Serialize(const Object &obj, Args&&... args)
 {
   Format target;
   // issue with determining what is being returned bue to templates - don't know which is being called
-  SerializeTo<Format, Object, Args...>(target, obj, args...);
+  SerializeTo<Format, Object, Args...>(target, obj, std::forward<Args>(args)...);
   return target;
 }
 
 template<typename Object, typename Format, typename... Args>
-void DeserializeTo(Object &target, Format &data, Args... args)
+void DeserializeTo(Object &target, Format &data, Args&&... args)
 {
-  return Serialization::InternalDeserialize<Format, Object, Args...>(target, data, args...);
+  return Serialization::InternalDeserialize<Format, Object, Args...>(target, data, std::forward<Args>(args)...);
 }
 
 template<typename Object, typename Format, typename... Args>
-Object Deserialize(Format &data, Args... args)
+Object Deserialize(Format &data, Args&&... args)
 {
   Object target;
-  DeserializeTo<Object, Format, Args...>(target, data, args...);
+  DeserializeTo<Object, Format, Args...>(target, data, std::forward<Args>(args)...);
   return target;
 }
 }// namespace Core

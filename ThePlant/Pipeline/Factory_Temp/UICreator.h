@@ -50,7 +50,7 @@ struct ui_creator<Object, typename std::enable_if<is_specialization_of<Object, s
                 return;
             }
             
-            return variant_ui_creator_by_index<VARIANT, INDEX - 1>::CreateUI(variant, index);
+            return variant_ui_creator_by_index<VARIANT, INDEX - 1>::CreateForIndex(variant, index);
         }
     };
 
@@ -76,7 +76,7 @@ struct ui_creator<Object, typename std::enable_if<is_specialization_of<Object, s
     {
         // we should loop over all the tuple elements and get the name of each type in an array, then use a select box to allow changing
         ImGui::Text("This is a variant, should we display the other options?");
-        variant_reader_by_index<Object, std::variant_size_v<Object> - 1>::ReadIndex(data, data.index());
+        variant_ui_creator_by_index<Object, std::variant_size_v<Object> - 1>::CreateForIndex(data, data.index());
     }
 };
 

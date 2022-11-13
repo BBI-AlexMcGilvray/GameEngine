@@ -82,7 +82,7 @@ struct JSONNode
   virtual ~JSONNode() = default;
 
   virtual std::string ToString(Style style, int depth) const = 0;
-  virtual std::unique_ptr<JSONNode> CreateCopy() const = 0;
+  virtual std::shared_ptr<JSONNode> CreateCopy() const = 0;
 };
 
 // when there is no data
@@ -113,7 +113,7 @@ struct JSONData : public JSONNode
     return "null";
   }
 
-  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  virtual std::shared_ptr<JSONNode> CreateCopy() const override
   {
     throw; // making a copy of invalid type
   }
@@ -192,9 +192,9 @@ struct JSONData<std::string, void> : public JSONNode
     return WrapString(_data);
   }
 
-  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  virtual std::shared_ptr<JSONNode> CreateCopy() const override
   {
-    return std::make_unique<JSONData<std::string>>(GetData());
+    return std::make_shared<JSONData<std::string>>(GetData());
   }
 
 private:
@@ -228,9 +228,9 @@ struct JSONData<T, std::void_t<decltype(std::to_string(std::declval<T>()))>> : p
     return std::to_string(_data);
   }
 
-  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  virtual std::shared_ptr<JSONNode> CreateCopy() const override
   {
-    return std::make_unique<JSONData<T>>(GetData());
+    return std::make_shared<JSONData<T>>(GetData());
   }
 
 private:
@@ -315,9 +315,9 @@ struct JSONObject : public JSONNode
     return str;
   }
 
-  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  virtual std::shared_ptr<JSONNode> CreateCopy() const override
   {
-    auto copy = std::make_unique<JSONObject>();
+    auto copy = std::make_shared<JSONObject>();
     
     for (const auto& element : _elements)
     {
@@ -375,9 +375,9 @@ struct JSONArray : public JSONNode
     return str;
   }
 
-  virtual std::unique_ptr<JSONNode> CreateCopy() const override
+  virtual std::shared_ptr<JSONNode> CreateCopy() const override
   {
-    auto copy = std::make_unique<JSONArray>();
+    auto copy = std::make_shared<JSONArray>();
     
     for (const auto& element : _elements)
     {

@@ -64,6 +64,9 @@
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Factory_Temp\FactoryUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Factory_Temp\UIUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\GameSystem\Source\GameObjectBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -215,6 +218,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Utils\RegisterUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Coding\VisualStudios\Application\ThePlant\Pipeline\Utils\SerializationUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

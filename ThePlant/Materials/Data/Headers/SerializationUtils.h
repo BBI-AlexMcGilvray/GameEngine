@@ -30,27 +30,77 @@ namespace Core::Serialization::Format
     void deserialize(Core::IO::FilePath& filePath, std::shared_ptr<JSONNode> json);
     std::shared_ptr<JSONNode> serialize(const Core::IO::FilePath& filePath);
 
-    // Ideally we find a way to make this generic for all enums that could be handled by it
-    inline void deserialize(::Data::Rendering::AnimationBehaviour& animationBehaviour, std::shared_ptr<JSONNode> json)
+    template <typename T>
+    auto deserialize(T& outputEnum, std::shared_ptr<JSONNode> json)
+    -> typename std::enable_if<std::is_enum<T>::value, void>::type
     {
       JSONString* data = dynamic_cast<JSONString*>(json.get());
       if (data == nullptr) {
         throw;
       }
 
-      ::Data::Rendering::from_string(data->GetData(), animationBehaviour);
+      // namespace may be an issue here. if it is, we may need the macro that creates this function to use the uppermost namespace
+      // prefix with :: (<- may be an issue if enum exists within a class)
+      from_string(data->GetData(), outputEnum);
     }
 
-    inline std::shared_ptr<JSONNode> serialize(const ::Data::Rendering::AnimationBehaviour& animationBehaviour)
+    template <typename T>
+    auto serialize(const T& inputEnum)
+    -> typename std::enable_if<std::is_enum<T>::value, std::shared_ptr<JSONNode>>::type
     {
       SCOPED_MEMORY_CATEGORY("JSON");
       std::shared_ptr<JSONString> json = std::make_shared<JSONString>();
 
-      json->SetData(::Data::Rendering::to_string(animationBehaviour));
+      // namespace may be an issue here. if it is, we may need the macro that creates this function to use the uppermost namespace
+      // prefix with :: (<- may be an issue if enum exists within a class)
+      json->SetData(to_string(inputEnum));
 
       return json;
     }
-    // \Ideally we find a way to make this generic for all enums that could be handled by it
+
+    template <typename T>
+    void deserialize(Core::Math::Rad<T>& radians, std::shared_ptr<JSONNode> json)
+    {
+      JSONNumber* data = dynamic_cast<JSONNumber*>(json.get());
+      if (data == nullptr) {
+        throw;
+      }
+
+      radians.Radians = static_cast<T>(data->GetData());
+    }
+
+    template <typename T>
+    std::shared_ptr<JSONNode> serialize(const Core::Math::Rad<T>& radians)
+    {
+      SCOPED_MEMORY_CATEGORY("JSON");
+      std::shared_ptr<JSONNumber> json = std::make_shared<JSONNumber>();
+
+      json->SetData(radians.Radians);
+
+      return json;
+    }
+    
+    template <typename T>
+    void deserialize(Core::Math::Deg<T>& degrees, std::shared_ptr<JSONNode> json)
+    {
+      JSONNumber* data = dynamic_cast<JSONNumber*>(json.get());
+      if (data == nullptr) {
+        throw;
+      }
+
+      degrees.Degrees = static_cast<T>(data->GetData());
+    }
+
+    template <typename T>
+    std::shared_ptr<JSONNode> serialize(const Core::Math::Deg<T>& degrees)
+    {
+      SCOPED_MEMORY_CATEGORY("JSON");
+      std::shared_ptr<JSONNumber> json = std::make_shared<JSONNumber>();
+
+      json->SetData(degrees.Degrees);
+
+      return json;
+    }
 
     template <typename T>
     inline void deserialize(Data::AssetName<T>& asset, std::shared_ptr<JSONNode> json)
