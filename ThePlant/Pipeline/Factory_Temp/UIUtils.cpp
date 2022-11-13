@@ -7,6 +7,7 @@ namespace Editor::UI
     See: https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-how-can-i-have-widgets-with-an-empty-label
 
     summary: we probably need to pass in a label to act as an id here and distinguish between the displays
+                - we may want to pass in a label and an option ID tag (could be the entity number?) to try and avoid issues
     */
     void ShowUI(bool& b)
     {
@@ -35,7 +36,12 @@ namespace Editor::UI
 
     void ShowUI(std::string& str)
     {
-        ImGui::InputText(str.c_str(), str.data(), str.max_size());
+        ImGui::InputText("", str.data(), str.max_size());
+    }
+
+    void ShowUI(const std::string& str)
+    {
+        ImGui::LabelText("", str.c_str());
     }
 
     void ShowUI(Core::Second& time)

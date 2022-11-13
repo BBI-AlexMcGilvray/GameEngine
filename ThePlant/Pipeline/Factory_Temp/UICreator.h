@@ -36,6 +36,84 @@ struct ui_creator<Object, std::void_t<decltype(ShowUI(std::declval<Object&>()))>
 template <typename Object>
 struct ui_creator<Object, typename std::enable_if<is_specialization_of<Object, std::variant>::value>::type> // if the object is a variant
 {
+    template <typename VARIANT>
+    struct variant_options
+    {
+        static constexpr size_t variant_size = std::variant_size_v<VARIANT>;
+
+        template <int INDEX>
+        struct variant_option
+        {
+            static void set(std::array<std::string, variant_size>& array)
+            {
+                using index_type = std::variant_alternative<INDEX, VARIANT>::type;
+                array[INDEX] = std::string(Core::TemplateTypeAsString<index_type>());
+
+                variant_option<INDEX - 1>::set(array);
+            }
+        };
+        
+        template <>
+        struct variant_option<0>
+        {
+            static void set(std::array<std::string, variant_size>& array)
+            {
+                using index_type = std::variant_alternative<0, VARIANT>::type;
+                array[0] = std::string(Core::TemplateTypeAsString<index_type>());
+            }
+        };
+
+        std::array<std::string, variant_size> array;
+
+        variant_options()
+        {
+            variant_option<variant_size - 1>::set(array);
+        }
+    };
+
+    template <typename VARIANT>
+    struct variant_swapper
+    {
+        static constexpr size_t variant_size = std::variant_size_v<VARIANT>;
+
+        template <int INDEX>
+        struct varaint_creator
+        {
+            static void create(VARIANT& variant, size_t index)
+            {
+                using index_type = std::variant_alternative<INDEX, VARIANT>::type;
+                if (INDEX == index)
+                {
+                    variant = index_type();
+                    return;
+                }
+
+                varaint_creator<INDEX - 1>::create(variant, index);
+            }
+        };
+        
+        template <>
+        struct varaint_creator<0>
+        {
+            static void create(VARIANT& variant, size_t index)
+            {
+                using index_type = std::variant_alternative<0, VARIANT>::type;
+                if (0 == index)
+                {
+                    variant = index_type();
+                    return;
+                }
+
+                throw; // invalid index provided
+            }
+        };
+
+        void create_variant_for_index(VARIANT& variant, size_t index)
+        {
+            varaint_creator<variant_size - 1>::create(variant, index);
+        }
+    };
+
     template <typename VARIANT, int INDEX>
     struct variant_ui_creator_by_index
     {
@@ -74,8 +152,34 @@ struct ui_creator<Object, typename std::enable_if<is_specialization_of<Object, s
 
     void CreateUI(Object& data)
     {
-        // we should loop over all the tuple elements and get the name of each type in an array, then use a select box to allow changing
-        ImGui::Text("This is a variant, should we display the other options?");
+        // these two could be static, but has issues with the memory tracker (they are freed last)
+        variant_options<Object> options;
+        variant_swapper<Object> swapper;
+
+        ImGuiComboFlags flags = ImGuiComboFlags_PopupAlignLeft;
+        const std::string& currentType = options.array[data.index()];
+
+        if (ImGui::BeginCombo("select", currentType.c_str(), flags))
+        {
+            size_t index = 0;
+            for (const auto& type : options.array)
+            {
+                const bool is_selected = (type == currentType);
+                if (ImGui::Selectable(type.c_str(), is_selected) && !is_selected)
+                {
+                    swapper.create_variant_for_index(data, index);
+                }
+
+                // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                if (is_selected)
+                {
+                    ImGui::SetItemDefaultFocus();
+                }
+                ++index;
+            }
+            ImGui::EndCombo();
+        }
+
         variant_ui_creator_by_index<Object, std::variant_size_v<Object> - 1>::CreateForIndex(data, data.index());
     }
 };

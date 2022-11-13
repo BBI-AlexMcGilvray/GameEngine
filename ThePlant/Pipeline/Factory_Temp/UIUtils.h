@@ -29,6 +29,7 @@ namespace Editor::UI
     void ShowUI(float& f);
     void ShowUI(double& d);
     void ShowUI(std::string& str);
+    void ShowUI(const std::string& str);
 
     void ShowUI(Core::Second& time);
     void ShowUI(Core::Hash& hash);
@@ -40,15 +41,9 @@ namespace Editor::UI
     -> typename std::enable_if<std::is_enum<T>::value>::type
     {
       // namespace may be an issue here. if it is, we may need the macro that creates this function to use the uppermost namespace (prefix with ::)
-      ShowUI(to_string(enumValue)); // shouldn't be a string display, but a text display
+      const std::string enumString = to_string(enumValue);
+      ShowUI(enumString); // shouldn't be a text display, but a selector - will need to use the meta_enum type stuff potentially to get the count and whatnot of given enums
     }
-
-    // Ideally we find a way to make this generic for all enums that could be handled by it
-    inline void ShowUI(::Data::Rendering::AnimationBehaviour& animationBehaviour)
-    {
-    //   ::Data::Rendering::from_string(data->GetData(), animationBehaviour);
-    }
-    // \Ideally we find a way to make this generic for all enums that could be handled by it
 
     template <typename T>
     inline void ShowUI(Data::AssetName<T>& asset)
