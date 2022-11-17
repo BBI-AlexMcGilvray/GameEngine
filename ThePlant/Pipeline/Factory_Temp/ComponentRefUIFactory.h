@@ -33,7 +33,7 @@ class ComponentRefUIFactory : TemporaryComponentRefUIFactory
             std::string componentName = std::string(Core::TemplateTypeAsString<T>());
             if (ImGui::CollapsingHeader(componentName.c_str(), ImGuiTreeNodeFlags_None))
             {
-                ui_creator<T>().CreateUI(component);
+                ui_creator<T>().CreateUI(component, "", componentName);
             }
         });
     }

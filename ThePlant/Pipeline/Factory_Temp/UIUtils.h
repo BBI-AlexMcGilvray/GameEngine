@@ -23,36 +23,41 @@ namespace Editor::UI
     static const float DRAG_SPEED_MIN = 0.00f;
     static const float DRAG_SPEED_MAX = 1.0f;
 
-    void ShowUI(bool& b);
-    void ShowUI(int& i);
-    void ShowUI(Core::uint& u);
-    void ShowUI(float& f);
-    void ShowUI(double& d);
-    void ShowUI(std::string& str);
-    void ShowUI(const std::string& str);
+    inline std::string IMGUITag(const std::string& text, const std::string& id)
+    {
+        return text + "##" + id;
+    }
 
-    void ShowUI(Core::Second& time);
-    void ShowUI(Core::Hash& hash);
-    void ShowUI(Core::Math::Color& color);
-    void ShowUI(Core::IO::FilePath& filePath);
+    void ShowUI(bool& b, const std::string& text, const std::string& id = "");
+    void ShowUI(int& i, const std::string& text, const std::string& id = "");
+    void ShowUI(Core::uint& u, const std::string& text, const std::string& id = "");
+    void ShowUI(float& f, const std::string& text, const std::string& id = "");
+    void ShowUI(double& d, const std::string& text, const std::string& id = "");
+    void ShowUI(std::string& str, const std::string& text, const std::string& id = "");
+    void ShowUI(const std::string& str, const std::string& text, const std::string& id = "");
+
+    void ShowUI(Core::Second& time, const std::string& text, const std::string& id = "");
+    void ShowUI(Core::Hash& hash, const std::string& text, const std::string& id = "");
+    void ShowUI(Core::Math::Color& color, const std::string& text, const std::string& id = "");
+    void ShowUI(Core::IO::FilePath& filePath, const std::string& text, const std::string& id = "");
 
     template <typename T>
-    auto ShowUI(T& enumValue)
+    auto ShowUI(T& enumValue, const std::string& text, const std::string& id = "")
     -> typename std::enable_if<std::is_enum<T>::value>::type
     {
       // namespace may be an issue here. if it is, we may need the macro that creates this function to use the uppermost namespace (prefix with ::)
       const std::string enumString = to_string(enumValue);
-      ShowUI(enumString); // shouldn't be a text display, but a selector - will need to use the meta_enum type stuff potentially to get the count and whatnot of given enums
+      ShowUI(enumString, text, id); // shouldn't be a text display, but a selector - will need to use the meta_enum type stuff potentially to get the count and whatnot of given enums
     }
 
     template <typename T>
-    inline void ShowUI(Data::AssetName<T>& asset)
+    inline void ShowUI(Data::AssetName<T>& asset, const std::string& text, const std::string& id = "")
     {
     //   asset = AsHash(static_cast<uint>(data->GetData()));
     }
 
     template <>
-    inline void ShowUI<void>(Data::AssetName<void>& asset)
+    inline void ShowUI<void>(Data::AssetName<void>& asset, const std::string& text, const std::string& id)
     {
     //   Hash name;
     //   Hash type;
@@ -64,27 +69,31 @@ namespace Editor::UI
     // We should probably differentiate between JSONDecimal and JSONNumber based on the type of 'T'
     // that would make it less likely to lose data due to conversions, but we can leave as-is for now
     template <typename T>
-    void ShowUI(Core::Math::Vector2<T>& vector)
+    void ShowUI(Core::Math::Vector2<T>& vector, const std::string& text, const std::string& id = "")
     {      
-        ImGui::DragScalarN("", ImGuiDataType_Float, &(vector.XY[0]), 2, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
+        std::string imguiString = IMGUITag(text, id);
+        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(vector.XY[0]), 2, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
     }
 
     template <typename T>
-    void ShowUI(Core::Math::Vector3<T>& vector)
+    void ShowUI(Core::Math::Vector3<T>& vector, const std::string& text, const std::string& id = "")
     {      
-        ImGui::DragScalarN("", ImGuiDataType_Float, &(vector.XYZ[0]), 3, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
+        std::string imguiString = IMGUITag(text, id);
+        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(vector.XYZ[0]), 3, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
     }
 
     template <typename T>
-    void ShowUI(Core::Math::Vector4<T>& vector)
+    void ShowUI(Core::Math::Vector4<T>& vector, const std::string& text, const std::string& id = "")
     {      
-        ImGui::DragScalarN("", ImGuiDataType_Float, &(vector.XYZW[0]), 4, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
+        std::string imguiString = IMGUITag(text, id);
+        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(vector.XYZW[0]), 4, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
     }
 
     template <typename T>
-    void ShowUI(Core::Math::Quaternion<T>& quaternion)
+    void ShowUI(Core::Math::Quaternion<T>& quaternion, const std::string& text, const std::string& id = "")
     {
-        ImGui::DragScalarN("", ImGuiDataType_Float, &(quaternion.XYZW[0]), 4, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
+        std::string imguiString = IMGUITag(text, id);
+        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(quaternion.XYZW[0]), 4, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
     }
 
     // need matrix, and quaternion methods
