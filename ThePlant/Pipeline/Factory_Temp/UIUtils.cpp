@@ -18,25 +18,25 @@ namespace Editor::UI
     void ShowUI(int& i, const std::string& text, const std::string& id)
     {
         std::string imguiString = IMGUITag(text, id);
-        ImGui::DragInt(imguiString.c_str(), &i, DRAG_SPEED, DRAG_SPEED_MIN, DRAG_SPEED_MAX);
+        ImGui::DragInt(imguiString.c_str(), &i, DRAG_SPEED, DRAG_MIN, DRAG_MAX);
     }
 
     void ShowUI(Core::uint& u, const std::string& text, const std::string& id)
     {
         std::string imguiString = IMGUITag(text, id);
-        ImGui::DragScalar(imguiString.c_str(), ImGuiDataType_U32, &u, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX, "%l");
+        ImGui::DragScalar(imguiString.c_str(), ImGuiDataType_U32, &u, DRAG_SPEED, &DRAG_MIN, &DRAG_MAX, "%l");
     }
 
     void ShowUI(float& f, const std::string& text, const std::string& id)
     {
         std::string imguiString = IMGUITag(text, id);
-        ImGui::DragScalar(imguiString.c_str(), ImGuiDataType_Float, &f, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX, "%f");
+        ImGui::DragScalar(imguiString.c_str(), ImGuiDataType_Float, &f, DRAG_SPEED, &DRAG_MIN, &DRAG_MAX, "%f");
     }
 
     void ShowUI(double& d, const std::string& text, const std::string& id)
     {
         std::string imguiString = IMGUITag(text, id);
-        ImGui::DragScalar(imguiString.c_str(), ImGuiDataType_Double, &d, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX, "%d");
+        ImGui::DragScalar(imguiString.c_str(), ImGuiDataType_Double, &d, DRAG_SPEED, &DRAG_MIN, &DRAG_MAX, "%d");
     }
 
     void ShowUI(std::string& str, const std::string& text, const std::string& id)

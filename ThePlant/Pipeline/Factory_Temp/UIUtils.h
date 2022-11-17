@@ -1,5 +1,7 @@
 #pragma once
 
+#include <limits>
+
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/TimeDefs.h"
@@ -20,8 +22,8 @@
 namespace Editor::UI
 {
     static const float DRAG_SPEED = 0.005f;
-    static const float DRAG_SPEED_MIN = 0.00f;
-    static const float DRAG_SPEED_MAX = 1.0f;
+    static const float DRAG_MIN = std::numeric_limits<float>::min();
+    static const float DRAG_MAX = std::numeric_limits<float>::max();
 
     inline std::string IMGUITag(const std::string& text, const std::string& id)
     {
@@ -72,28 +74,28 @@ namespace Editor::UI
     void ShowUI(Core::Math::Vector2<T>& vector, const std::string& text, const std::string& id = "")
     {      
         std::string imguiString = IMGUITag(text, id);
-        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(vector.XY[0]), 2, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
+        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(vector.XY[0]), 2, DRAG_SPEED, &DRAG_MIN, &DRAG_MAX);
     }
 
     template <typename T>
     void ShowUI(Core::Math::Vector3<T>& vector, const std::string& text, const std::string& id = "")
     {      
         std::string imguiString = IMGUITag(text, id);
-        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(vector.XYZ[0]), 3, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
+        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(vector.XYZ[0]), 3, DRAG_SPEED, &DRAG_MIN, &DRAG_MAX);
     }
 
     template <typename T>
     void ShowUI(Core::Math::Vector4<T>& vector, const std::string& text, const std::string& id = "")
     {      
         std::string imguiString = IMGUITag(text, id);
-        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(vector.XYZW[0]), 4, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
+        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(vector.XYZW[0]), 4, DRAG_SPEED, &DRAG_MIN, &DRAG_MAX);
     }
 
     template <typename T>
     void ShowUI(Core::Math::Quaternion<T>& quaternion, const std::string& text, const std::string& id = "")
     {
         std::string imguiString = IMGUITag(text, id);
-        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(quaternion.XYZW[0]), 4, DRAG_SPEED, &DRAG_SPEED_MIN, &DRAG_SPEED_MAX);
+        ImGui::DragScalarN(imguiString.c_str(), ImGuiDataType_Float, &(quaternion.XYZW[0]), 4, DRAG_SPEED, &DRAG_MIN, &DRAG_MAX);
     }
 
     // need matrix, and quaternion methods
