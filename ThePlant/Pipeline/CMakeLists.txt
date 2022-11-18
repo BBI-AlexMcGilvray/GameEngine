@@ -23,6 +23,7 @@ ECS/DataOriented/EntityHandler.cpp #
 ECS/ObjectOriented/Source/Component.cpp #
 ECS/ObjectOriented/Source/Entity.cpp #
 ECSSystems/AnimationSystem.cpp #
+Factory_Temp/ArchetypesUI.cpp #
 Factory_Temp/EntitySnapshotUI.cpp #
 Factory_Temp/Factory.cpp #
 Factory_Temp/FactoryUI.cpp #
@@ -130,6 +131,7 @@ ECSSystems/RenderingComponents.h #
 ECSSystems/RenderingSystem.h #
 ECSSystems/TransformComponents.h #
 ECSSystems/TransformSystem.h #
+Factory_Temp/ArchetypesUI.h #
 Factory_Temp/AssetSaverFactory.h #
 Factory_Temp/EntitySnapshotUI.h #
 Factory_Temp/EntitySnapshotUIVisitor.h #

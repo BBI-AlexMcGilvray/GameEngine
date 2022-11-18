@@ -12,6 +12,7 @@ namespace Editor {
     {
         namespace IMGUI
         {
+            class ArchetypesUI;
             class EntitySnapshotUI;
         }
     }
@@ -30,10 +31,12 @@ namespace Editor {
             // should this be here? maybe
             void SelectEntity(Application::EntityId entity);
 
+            UI::IMGUI::ArchetypesUI& ArchetypesUI();
             UI::IMGUI::EntitySnapshotUI& EntitySnapshotUI();
 
         private:
             Factory& _factory;
             Core::instanceId<Application::UI::IMGUI::Window> _entityUI; // in the future, this should probably be a general UI holder that the Factory knows instead of each UI piece
+            Core::instanceId<Application::UI::IMGUI::Window> _archetypesUI;
     };
 } // namespace Editor

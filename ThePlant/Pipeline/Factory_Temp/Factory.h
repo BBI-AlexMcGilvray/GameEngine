@@ -10,6 +10,15 @@ namespace Application
     struct ApplicationManager;
 } // namespace Application
 
+/*
+Notes:
+- We should have a registration process for 'editor systems'
+    - only these systems are run in 'edit' mode (ex: rendering)
+- Factory should have a state that it holds/loads/save
+    - there can be a default state when working on smaller assets (meshes, entity prefabs)
+    - play mode kicks off the application in that state
+*/
+
 namespace Editor {
     class Factory
     {

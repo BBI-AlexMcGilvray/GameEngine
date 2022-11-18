@@ -83,6 +83,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/RenderingSystem.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/TransformComponents.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/ECSSystems/TransformSystem.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Factory_Temp/ArchetypesUI.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Factory_Temp/AssetSaverFactory.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Factory_Temp/EntitySnapshotUI.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Factory_Temp/EntitySnapshotUIVisitor.h"

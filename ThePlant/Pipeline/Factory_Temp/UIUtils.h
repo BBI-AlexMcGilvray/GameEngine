@@ -3,6 +3,7 @@
 #include <limits>
 
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+#include "Core/Headers/BitmaskEnum.h"
 #include "Core/Headers/Hash.h"
 #include "Core/Headers/TimeDefs.h"
 #include "Core/Headers/CoreDefs.h"
@@ -50,6 +51,13 @@ namespace Editor::UI
       // namespace may be an issue here. if it is, we may need the macro that creates this function to use the uppermost namespace (prefix with ::)
       const std::string enumString = to_string(enumValue);
       ShowUI(enumString, text, id); // shouldn't be a text display, but a selector - will need to use the meta_enum type stuff potentially to get the count and whatnot of given enums
+    }
+
+    template <typename T>
+    void ShowUI(BitmaskEnum<T>& bitmaskValue, const std::string& text, const std::string& id = "")
+    {
+        // this should be a selectable where you turn on/off each option
+        // the above should be a selectable drop down
     }
 
     template <typename T>
