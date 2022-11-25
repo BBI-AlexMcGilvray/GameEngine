@@ -3,6 +3,7 @@
 #include "Core/Headers/CoreDefs.h"
 
 #include "Pipeline/Dependencies/IMGUI/imgui.h"
+#include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/Headers/ApplicationManager.h"
 #include "Pipeline/Factory_Temp/Factory.h"
 
@@ -15,9 +16,12 @@ ArchetypesUI::ArchetypesUI(Factory& factory)
 , _factory(factory)
 {}
 
+// should this be done through a system?
+// the hierarchy one should be, we should have a system that builds the hierarchy every frame
+//      - should that system then be re-used by the transform system? possible optimization for later
 void ArchetypesUI::Draw()
 {
-    ImGui::Text("ArchetypeUI");
+    Application::ECS& ecs = _factory.GetApplication().StateManager().GetActiveState().ECS();
 
     // std::hash<Application::EntityId> hasher;
     // ImGui::Text(std::to_string(hasher(_entity)).c_str());

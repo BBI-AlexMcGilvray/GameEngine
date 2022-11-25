@@ -8,12 +8,15 @@ set(CMAKE_GENERATOR "Visual Studio 16 2019")
 #   RELWITHDEBINFO: /MD /Zi /O2 /Ob1 /DNDEBUG
 #   DEBUG: /MDd /Zi /Ob0 /Od /RTC1
 add_compile_definitions(GLOBAL_EXPLICIT
-    MULTITHREADED_RENDERING
+    # MULTITHREADED_RENDERING
     $<$<CONFIG:RELEASE>:RELEASE>
     $<$<OR:$<CONFIG:RELWITHDEBINFO>,$<CONFIG:DEBUG>>:DEBUG>
     $<$<CONFIG:DEBUG>:GLOBAL_EXPLICIT>
 )
-#   - make sure all have the ability to set breakpoints and can be launched from visual studio!
+# the above MULTITHREADED_RENDERING define does not work with multiple viewports
+#   * we may want to have an 'editor' build that is optimized and has editor + multithreaded rendering off (and opposite for other builds)
+
+# ** make sure all have the ability to set breakpoints and can be launched from visual studio!
 
 # Set the project name to the_plant
 project(the_plant VERSION 1.0.0 LANGUAGES CXX)

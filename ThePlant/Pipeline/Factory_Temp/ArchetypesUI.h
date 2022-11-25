@@ -22,8 +22,6 @@ namespace IMGUI {
 
         // ComponentRefUIFactory& GetComponentRefUIFactory();
 
-        void SetEntity(Application::EntityId entity);
-
     private:
         Factory& _factory;
         // ComponentRefUIFactory _uiFactory;

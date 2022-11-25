@@ -1,0 +1,31 @@
+This is where we should handle importing of external assets.
+The actual triggering of an import can be triggered externally, but it should be handled here.
+
+ex:
+// elsewhere
+- drag image from PC into image ui
+- release -> triggers image import
+// here
+- show the ui to name + select options for the import 
+- import the actual asset
+
+Generally this will go through the existing (but should be modified) asset importing from ASSIMP
+We should be using the proper (new but untested) asset mapping stuff with some meta data
+
+ex: Model
+- trigger 
+- [select name/type/location]
+- Load model in ASSIMP
+- import based on the above settings to custom handling
+
+ex: Texture
+- trigger
+- [select name/type/location]
+- does not/can't go through ASSIMP, so directly import based on above settings
+
+Resources for handling the drag and drop of external files functionality: 
+- https://github.com/ocornut/imgui/issues/2602
+- https://www.youtube.com/watch?v=yjVSs1HtAng
+
+Resources for displaying files in IMGUI:
+- https://github.com/ocornut/imgui/wiki/Image-Loading-and-Displaying-Examples

@@ -26,6 +26,7 @@ namespace Editor::UI
     static const float DRAG_MIN = std::numeric_limits<float>::min();
     static const float DRAG_MAX = std::numeric_limits<float>::max();
 
+    // we need this to help with IMGUI's ID system: https://github.com/ocornut/imgui/blob/master/docs/FAQ.md#q-how-can-i-have-widgets-with-an-empty-label
     inline std::string IMGUITag(const std::string& text, const std::string& id)
     {
         return text + "##" + id;

@@ -1,0 +1,10 @@
+This is where we should handling the 'editing' state of a given state.
+We should be able to load up a state, edit it, then save it out.
+
+Editing entails:
+- Adding entities
+- Removing entities
+- Editing entities
+    - add component
+    - remove component
+    - edit component

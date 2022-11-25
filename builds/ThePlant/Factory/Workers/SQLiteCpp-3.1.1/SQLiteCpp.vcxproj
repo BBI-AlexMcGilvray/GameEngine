@@ -93,11 +93,11 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;DEBUG;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;DEBUG;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -127,13 +127,13 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;RELEASE;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;RELEASE;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -163,13 +163,13 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -200,11 +200,11 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;DEBUG;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;SQLITE_ENABLE_COLUMN_METADATA;GLOBAL_EXPLICIT;DEBUG;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;SQLITE_ENABLE_JSON1;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\sqlite3;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\SQLiteCpp-3.1.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>

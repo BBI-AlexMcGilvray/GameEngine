@@ -1,0 +1,5 @@
+This folder should hold different one-off tools.
+
+This could be where we hold things like the currently active systems and such.
+If we re-touch the profiler, we probably want to put it into a different folder as it will likely grow to a much more significant size
+    - it'll end up having graphs and such

@@ -76,9 +76,14 @@ namespace Rendering {
     _mainThreadRenderFrame.Clear();
 
   #ifndef MULTITHREADED_RENDERING
+    SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), _sdlManager->GetContextManager().GetContext());
     _RenderStart();
+
+    // this should probably use the concept of 'layers' instead
+    // so we would have a (or several?) game layers, then debug layers, then ui layers, then ...
     _RenderMiddle();
     _ui->Render();
+
     _RenderEnd();
   #endif
   }
@@ -106,6 +111,7 @@ namespace Rendering {
 
     // we are going to use double buffering (this only sets a 23bit Z buffer)
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
 
     // SDL_GL_CONTEXT_PROFILE_CORE uses only the newer version, deprecated functions are disabled
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -164,6 +170,8 @@ namespace Rendering {
   {
     DEBUG_PROFILE_SCOPE("_RenderStart");
 
+    auto& window = _sdlManager->GetWindowManager();
+    glViewport(0, 0, window.Width, window.Height);
     glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }

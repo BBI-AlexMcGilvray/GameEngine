@@ -51,6 +51,9 @@ namespace Input {
   {
     SDL_Event event;
     while (_SDL.Poll(event)) {
+      // SEE: https://marcelfischer.eu/blog/2019/imgui-in-sdl-opengl/
+      // other reference: https://github.com/ocornut/imgui/issues/4664
+      ImGui_ImplSDL2_ProcessEvent(&event); // pass all events to IMGUI, then handle ourselves (based on IMGUI flags)
       switch (event.type) {
         case SDL_QUIT: {
           // send a quit event
@@ -77,8 +80,6 @@ namespace Input {
     {
       _UpdateState(*createdEvent);
 
-      // SEE: https://marcelfischer.eu/blog/2019/imgui-in-sdl-opengl/
-      // other reference: https://github.com/ocornut/imgui/issues/4664
       auto& io = ImGui::GetIO();
       if (_controller != nullptr)
       {
@@ -86,11 +87,7 @@ namespace Input {
         {
           case InputEventType::KeyboardEvent:
           {
-            if (io.WantCaptureKeyboard)
-            {
-              ImGui_ImplSDL2_ProcessEvent(&event);
-            }
-            else
+            if (!io.WantCaptureKeyboard)
             {
               _controller->handleInput(std::move(createdEvent)); // we probably still want this for event-driven handlers (like UI?)
             }
@@ -100,11 +97,7 @@ namespace Input {
           case InputEventType::MouseMovedEvent:
           case InputEventType::MouseWheelEvent:
           {
-            if (io.WantCaptureMouse)
-            {
-              ImGui_ImplSDL2_ProcessEvent(&event);
-            }
-            else
+            if (!io.WantCaptureMouse)
             {
               _controller->handleInput(std::move(createdEvent)); // we probably still want this for event-driven handlers (like UI?)
             }
@@ -113,21 +106,18 @@ namespace Input {
           case InputEventType::Undetermined:
           default:
           {
-            ImGui_ImplSDL2_ProcessEvent(&event);
-            DEBUG_ERROR("InputManager", "No state for this event type, defaulting to IMGUI");
+            DEBUG_ERROR("InputManager", "No state for this event type");
           }
         }
       }
       else
       {
-        ImGui_ImplSDL2_ProcessEvent(&event);
-        DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered, defaulting to IMGUI");
+        DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered");
       }
     }
     else
     {
-      ImGui_ImplSDL2_ProcessEvent(&event);
-      DEBUG_ERROR("InputManager", "Unable to create an event for the given SDL event, defaulting to IMGUI");
+      DEBUG_ERROR("InputManager", "Unable to create an event for the given SDL event");
     }
   }
 

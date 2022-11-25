@@ -476,6 +476,13 @@ void OctTreeNode::_CollisionsWithChildren(std::vector<IntermediaryCollision>& co
     // worth trying anyways, but i wonder why that would be faster - maybe just jumping around in memory less?
     for (size_t i = 0; i < _content.size(); ++i)
     {
+        /*
+        Since statics never change and are likely to be the largest objects, i wonder if there is a way to not traverse the tree for them. instead have dynamic objects search up and down?
+        Doesn't seem ideal, but there must be a way to remove unnecessary searches (why is this so slow)
+        
+        ** Have main thread kick off all the tasks to do the checks and then wait while helper threads to the checks?
+            - then we probably want to do this for insertion too, if possible
+        */
         for (const auto& child : _children)
         {
             if (!child->_LeadsToContent())
