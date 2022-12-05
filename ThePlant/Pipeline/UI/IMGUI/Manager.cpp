@@ -23,8 +23,9 @@ namespace IMGUI
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO();
         // (void)io; // to suppress 'unused variable' errors (not needed if used like in the below)
-        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // see: https://github.com/ocornut/imgui/wiki/Docking
     #ifndef MULTITHREADED_RENDERING
+        // NOTE: If we had the rendering logic and the input logic on the same thread (instead of separate like now), then this issue may not exist
         io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // does not work with multithreaded rendering (maybe we only enable that in non-editor builds?)
     #endif // MULTITHREADED_RENDERING
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -90,6 +91,15 @@ namespace IMGUI
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         
         std::unique_lock<std::mutex> lock(_mutex);
+
+        // this stuff shouldn't be here, it should be in the specific UIs
+        ImGui::BeginMainMenuBar();
+        ImGui::Text("Test");
+        ImGui::EndMainMenuBar();
+        // For the below: we should follow more closely what the imgui_demo does in it's example for more contol
+        // we should also split the logic for building the menu bar and the dock frame into different functions (though both can get called from here)
+        //  ** is there also a footer? -> no
+        // ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
         for (auto& window : _windows)
         {            
             auto& actualWindow = *(window.second);

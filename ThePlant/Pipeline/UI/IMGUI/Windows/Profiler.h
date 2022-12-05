@@ -10,6 +10,10 @@
 namespace Application {
 namespace UI {
 namespace IMGUI {
+  /*
+    We should keep X frames (make it a parameter) and provide a graph/the ability to scrub back/forward in time (like Unity/other profilers)
+    We can also use IMGUI's graph functionality to display it nicely
+  */
   class Profiler : public Window
   {
       public:

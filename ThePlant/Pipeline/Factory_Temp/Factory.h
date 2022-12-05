@@ -43,6 +43,40 @@ namespace Editor {
 
         private:
             Application::ApplicationManager& _application;
+            // NOTE: we shouldn't have a 'FactoryUI' thing here.
+            // Each editor utility should be a state (or at least the main ones, states can still have additional 'tools' that are just UI windows)
+            // We should have:
+            //      - FactoryState
+            //          - in charge of creating the first UI windows that have: the main header toolbar and the primary dockspace
+            //              - the editor should have the ability to open up different tools (profiler, system/memory tracker...)
+            //      - Content browser (could be a tool?)
+            //      - SceneEditor
+            //          - opens up a state and allows for editing/saving a scene asset
+            //      - PlayState
+            //          - opens an asset up and begins a standard 'play' mode
+            //  ** both of SceneEditor and PlayState should probably render within an Imgui window to allow for better docking/control and such
+            //      see: https://uysalaltas.github.io/2022/01/09/OpenGL_Imgui.html
+            //      and: https://learnopengl.com/Advanced-OpenGL/Framebuffers
+            /*
+            UPDATE TO THE ABOVE: We do NOT want the different factory/editor UIs to be ties to application States, instead they should manipulate them/work with them
+                - ex: we should have an 'Edit' State that works with a subset of systems (i.e. non-gameplay ones) so things are visible/updated but remain as they should
+                - we should render these different states to FrameBuffers (see links above) so we can render them to IMGUI windows properly (and facilitate moving/ordering them)
+
+            ** Things that should get done to support this:
+                * Make the rendering pipeline use a FrameBuffer
+                    * in non-edit mode, this should still be used for post-process effects
+                    * not directly related, but we may want to more concretely lock down how to toggle render 'modes' (wireframe, ...)
+                * Implement a Layer system into the rendering pipeline
+                    * Layers provide an order in which they are rendered/applied
+                    * there should be a default framebuffer used for the full screen, layers can use their own if necessary for additional work
+                    * Layers should be able to provide a dependency so they can be ordered properly/automatically
+                    * We should display what layers are being used at a given time and have the ability to toggle them on/off
+                    * ex: solid, transparent, debug, post processing...
+                    * NOTE: need to make sure this works properly with multithreaded rendering (more important as this will make rendering take longer)
+                * We should make the render thread handle processing input as well
+                    * we already have our own input events, so we can just queue those in a double buffer (once gameplay thread takes the inputs, the other buffer is used)
+                * We should probably get a proper 'Factory' build config in place so we can more easily test changes with and without the editor UI 
+            */
             FactoryUI _factoryUI;
 
             // std::unique_ptr<Application::State> _editingState;
