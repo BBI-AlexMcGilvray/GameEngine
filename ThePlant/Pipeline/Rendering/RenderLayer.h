@@ -7,7 +7,7 @@
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/Renderer.h"
 
-#include <string>
+#include <set>
 
 namespace Application {
 namespace Rendering {
@@ -23,8 +23,10 @@ public:
     virtual bool IsLayer(const Core::runtimeId_t& id) const = 0;
 
     template <typename LAYER>
-    void AddDependency()
+    IRenderLayer& AddDependency()
     {
+        SCOPED_MEMORY_CATEGORY("Rendering");
+
     #if DEBUG
         if (std::find(_dependencies.begin(), _dependencies.end(), Core::GetTypeId<LAYER>()) != _dependencies.end())
         {
@@ -32,6 +34,7 @@ public:
         }
     #endif
         _dependencies.push_back(Core::GetTypeId<LAYER>());
+        return *this;
     }
 
     template <typename LAYER>
@@ -39,7 +42,7 @@ public:
     {
         if (auto iter = std::find(_dependencies.begin(), _dependencies.end(), Core::GetTypeId<LAYER>()) != _dependencies.end())
         {
-            _dependencies.remove(iter);
+            _dependencies.erase(iter);
         }
     #if DEBUG
         else
@@ -53,6 +56,8 @@ public:
 
     void QueueRender(const Context& context);
     void QueueRender(const SkinnedContext& context);
+
+    virtual std::unique_ptr<IRenderLayer> CopyAndMoveTo() const = 0;
 
     virtual void Render(Renderer& renderer, const Core::Math::Float4x4& camera) const = 0;
 
@@ -80,6 +85,30 @@ public:
     virtual bool IsLayer(const Core::runtimeId_t& id) const override
     {
         return (id == Core::GetTypeId<LAYER>());
+    }
+
+    // if 'LAYER' wants custom behaviour, they must implement their own, but the basics are covered here
+    virtual std::unique_ptr<IRenderLayer> CopyAndMoveTo() const override
+    {
+        SCOPED_MEMORY_CATEGORY("Rendering");
+        
+        std::unique_ptr<LAYER> copy = std::make_unique<LAYER>();
+
+        // this and skinned contexts need to be moves (self-imposed, maybe not needed?)
+        for (auto& context : _contexts)
+        {
+            copy->_contexts.push_back(std::move(context));
+        }
+
+        for (auto& skinnedContext : _skinnedContexts)
+        {
+            copy->_skinnedContexts.push_back(std::move(skinnedContext));
+        }
+
+        // we may not even need to copy over the dependencies
+        copy->_dependencies = _dependencies;
+
+        return copy;
     }
 
     // inside this method is where different layers can apply some custom rendering logic (like different frame buffers or special shader stuff)

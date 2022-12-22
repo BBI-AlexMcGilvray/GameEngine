@@ -73,15 +73,16 @@ namespace Rendering {
   void RenderManager::Render()
   {
     _mainThreadRenderFrame.OrderLayers();
-    _renderFrames.WriteBuffer(std::move(_mainThreadRenderFrame));
-    _mainThreadRenderFrame.Clear();
+
+    RenderFrame movingFrame; // this is just immediately moved below, is temp variable only
+    _mainThreadRenderFrame.MoveTo(movingFrame);
+    _renderFrames.WriteBuffer(std::move(movingFrame));
+    _mainThreadRenderFrame.Clear(); // tidy-up whatever wasn't cleaned by the MoveTo
 
   #ifndef MULTITHREADED_RENDERING
     SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), _sdlManager->GetContextManager().GetContext());
     _RenderStart();
 
-    // this should probably use the concept of 'layers' instead
-    // so we would have a (or several?) game layers, then debug layers, then ui layers, then ...
     _RenderMiddle();
     _ui->Render();
 

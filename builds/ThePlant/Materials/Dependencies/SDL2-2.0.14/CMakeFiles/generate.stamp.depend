@@ -10,6 +10,7 @@ C:/Program Files/CMake/share/cmake-3.20/Modules/CheckCCompilerFlag.cmake
 C:/Program Files/CMake/share/cmake-3.20/Modules/CheckCSourceCompiles.cmake
 C:/Program Files/CMake/share/cmake-3.20/Modules/CheckCSourceRuns.cmake
 C:/Program Files/CMake/share/cmake-3.20/Modules/CheckCXXSourceCompiles.cmake
+C:/Program Files/CMake/share/cmake-3.20/Modules/CheckIncludeFile.c.in
 C:/Program Files/CMake/share/cmake-3.20/Modules/CheckIncludeFile.cmake
 C:/Program Files/CMake/share/cmake-3.20/Modules/CheckIncludeFileCXX.cmake
 C:/Program Files/CMake/share/cmake-3.20/Modules/CheckIncludeFiles.cmake

@@ -135,7 +135,7 @@ void SetRenderLayers(State& state, const RenderLayerFlags& layers)
 
     renderManager.AddLayer<Rendering::DefaultRenderLayer>();
 #if DEBUG
-    renderManager.AddLayer<Rendering::DebugRenderLayer>();
+    renderManager.AddLayer<Rendering::DebugRenderLayer>().AddDependency<Rendering::DefaultRenderLayer>();
 #endif
 }
 }// namespace Application

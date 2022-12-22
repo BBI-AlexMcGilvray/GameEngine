@@ -38,9 +38,9 @@ namespace Rendering {
 
     // for this and the RemoveLayer function, will this support dynamically adding/removing more during runtime? (i.e. not just initialization)
     template <typename LAYER>
-    void AddLayer()
+    LAYER& AddLayer()
     {
-      _mainThreadRenderFrame.AddLayer<LAYER>();
+      return _mainThreadRenderFrame.AddLayer<LAYER>();
     }
 
     template <typename LAYER>

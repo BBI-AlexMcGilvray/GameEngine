@@ -60,8 +60,15 @@ void MyState::Initialize()
     activeCollisionHandlers |= Application::CollisionHandler::DebugCollisionDisplay;
 #endif
     Application::SetCollisionHandlers(*this, activeCollisionHandlers);
-    CollisionManager().AddCollisionHandler<Testing::CountedCollision>(ECS());
+    CollisionManager().AddCollisionHandler<Testing::CountedCollision>(ECS()); // this is why we shouldn't use the above enum method - it means there is a different way for custom vs standard types
     CollisionManager().AddCollisionHandler<Testing::DestructiveCollision>(ECS());
+
+    Application::RenderLayerFlags activeRenderLayers;
+    activeRenderLayers |= Application::RenderLayer::DefaultRenderLayer;
+#if DEBUG
+    activeRenderLayers |= Application::RenderLayer::DebugRenderLayer;
+#endif
+    Application::SetRenderLayers(*this, activeRenderLayers);
 
     // this will be data driven from the future
     // create camera

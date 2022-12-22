@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "Core/Logging/LogFunctions.h"
+
 #include "Pipeline/Rendering/RenderLayer.h"
 
 namespace Application {
@@ -18,32 +20,41 @@ namespace Rendering {
         RenderFrame& operator=(const RenderFrame&) = delete;
 
         template <typename LAYER>
-        void AddLayer()
+        LAYER& AddLayer()
         {
-        #if DEBUG
-            if (std::find(_layers.begin(), _layers.end(), Core::GetTypeId<LAYER>()) != _layers.end())
+            SCOPED_MEMORY_CATEGORY("Rendering");
+
+            if (auto iter = std::find_if(_layers.begin(), _layers.end(), [](const std::unique_ptr<IRenderLayer>& layer)
             {
-                CORE_THROW("RenderLayer", "Adding layer twice!");
+                return layer->IsLayer(Core::GetTypeId<LAYER>());
+            }); iter != _layers.end())
+            {
+                DEBUG_THROW("RenderLayer", "Adding layer twice!");
+                return static_cast<LAYER&>(*(*iter));
             }
-        #endif
-            _layers.push_back(std::make_unique<LAYER>());
-            _dirtyLayers = true;
+            else
+            {
+                _layers.push_back(std::make_unique<LAYER>());
+                _Dirty();
+                return static_cast<LAYER&>(*_layers[_layers.size() - 1]);
+            }
         }
 
         template <typename LAYER>
         void RemoveLayer()
         {
-            if (auto iter = std::find(_layers.begin(), _layers.end(), Core::GetTypeId<LAYER>()))
+            if (auto iter = std::find(_layers.begin(), _layers.end(), [](const std::unique_ptr<IRenderLayer>& layer)
             {
-                _layers.remove(iter);
-                _dirtyLayers = true;
+                return layer->IsLayer(Core::GetTypeId<LAYER>());
+            }); iter != _layers.end())
+            {
+                _layers.erase(iter);
+                _Dirty();
             }
-        #if DEBUG
             else
             {
-                CORE_THROW("RenderFrame", "Removing a non-existent layer");
-            }
-        #endif            
+                DEBUG_THROW("RenderFrame", "Removing a non-existent layer");
+            }            
         }
 
         void QueueCamera(const Core::Math::Float4x4& camera);
@@ -61,6 +72,9 @@ namespace Rendering {
         }
 
         void OrderLayers(); // can this be moved elsewhere so it is implicitly called? could be done if made const and the layers/bool made mutable
+        // we assume moveTo in a fresh state
+        void MoveTo(RenderFrame& moveTo) const;
+
         void Render(Renderer& renderer) const;
 
         void Clear();
@@ -71,6 +85,10 @@ namespace Rendering {
         std::vector<Core::Math::Float4x4> _cameras;
         bool _dirtyLayers = false;
         std::vector<std::unique_ptr<IRenderLayer>> _layers;
+
+        void _Dirty() { _dirtyLayers = true; }
+        void _Clean() { _dirtyLayers = false; }
+        bool _IsDirty() const { return _dirtyLayers; }
         
         void _QueueRender(const Context& context, const Core::runtimeId_t& targetLayer);
         void _QueueRender(const SkinnedContext& context, const Core::runtimeId_t& targetLayer);
