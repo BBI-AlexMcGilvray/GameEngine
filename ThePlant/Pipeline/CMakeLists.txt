@@ -63,6 +63,9 @@ Rendering/Source/RenderManager.cpp #
 Rendering/Material.cpp #
 Rendering/Mesh.cpp #
 Rendering/Renderer.cpp #
+Rendering/RenderFrame.cpp #
+Rendering/RenderLayer.cpp #
+Rendering/DefaultRenderLayers.cpp #
 Source/ApplicationManager.cpp #
 Source/GLContextManager.cpp #
 Source/SDL2Manager.cpp #
@@ -187,6 +190,9 @@ Rendering/Material.h #
 Rendering/Mesh.h #
 Rendering/RenderContext.h #
 Rendering/Renderer.h #
+Rendering/RenderFrame.h #
+Rendering/RenderLayer.h #
+Rendering/DefaultRenderLayers.h #
 StateSystem/Headers/State.h #
 StateSystem/Headers/StateHelpers.h #
 StateSystem/Headers/StateManager.h #

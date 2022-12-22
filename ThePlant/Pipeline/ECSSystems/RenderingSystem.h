@@ -8,6 +8,7 @@
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/DefaultRenderLayers.h"
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
@@ -55,7 +56,7 @@ private:
                 colors == nullptr ? Core::Math::WHITE : (*colors)[index].color,
                 meshes[index].mesh
             };
-            _renderManager.QueueRender(context);
+            _renderManager.QueueRender<Rendering::DefaultRenderLayer>(context);
         }
     }
 };
@@ -171,7 +172,7 @@ private:
                 context,
                 skeletons[index].boneArray
             };
-            _renderManager.QueueRender(skinnedContext);
+            _renderManager.QueueRender<Rendering::DefaultRenderLayer>(skinnedContext);
         }
     }
 };

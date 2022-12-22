@@ -19,6 +19,7 @@
 #endif
 
 #include "Pipeline/Rendering/Headers/RenderManager.h"
+#include "Pipeline/Rendering/DefaultRenderLayers.h"
 
 namespace Application {
 void SetSystemState(ECSSystemFlags& systems, const ECSSystem& system, const bool& active)
@@ -108,6 +109,33 @@ void SetCollisionHandlers(State& state, const CollisionHandlerFlags& handlers)
     SetOrRemoveCollisionHandler<Collision::RigidBodyCollision>(collisionManager, handlers, CollisionHandler::RigidBodyCollision);
 #if DEBUG
     SetOrRemoveCollisionHandler<Collision::DebugCollisionDisplay>(collisionManager, handlers, CollisionHandler::DebugCollisionDisplay, state.RenderManager(), state.MaterialManager());
+#endif
+}
+
+void SetRenderLayerState(RenderLayerFlags& layers, const RenderLayer& layer, const bool& active)
+{
+    if (active)
+    {
+        layers |= layer;
+    }
+    else
+    {
+        layers ^= layer;
+    }
+}
+
+bool GetRenderLayerState(const RenderLayerFlags& layers, const RenderLayer& layer)
+{
+    return layers.AtLeastOneFlag(layer);
+}
+
+void SetRenderLayers(State& state, const RenderLayerFlags& layers)
+{
+    Rendering::RenderManager& renderManager = state.RenderManager();
+
+    renderManager.AddLayer<Rendering::DefaultRenderLayer>();
+#if DEBUG
+    renderManager.AddLayer<Rendering::DebugRenderLayer>();
 #endif
 }
 }// namespace Application

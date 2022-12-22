@@ -72,6 +72,7 @@ namespace Rendering {
 
   void RenderManager::Render()
   {
+    _mainThreadRenderFrame.OrderLayers();
     _renderFrames.WriteBuffer(std::move(_mainThreadRenderFrame));
     _mainThreadRenderFrame.Clear();
 
@@ -151,19 +152,7 @@ namespace Rendering {
   void RenderManager::QueueCamera(const Core::Math::Float4x4& camera)
   {
     SCOPED_MEMORY_CATEGORY("Rendering");
-    _mainThreadRenderFrame.cameras.emplace_back(camera);
-  }
-
-  void RenderManager::QueueRender(const Context& context)
-  {
-    SCOPED_MEMORY_CATEGORY("Rendering");
-    _mainThreadRenderFrame.contexts.emplace_back(context);
-  }
-
-  void RenderManager::QueueRender(const SkinnedContext& context)
-  {
-    SCOPED_MEMORY_CATEGORY("Rendering");
-    _mainThreadRenderFrame.skinnedContexts.emplace_back(context);
+    _mainThreadRenderFrame.QueueCamera(camera);
   }
 
   void RenderManager::_RenderStart()
@@ -176,32 +165,6 @@ namespace Rendering {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   }
 
-  void _RenderFrameForCamera(Renderer& renderer, const Float4x4& camera, const RenderFrame& renderFrame)
-  {
-    // NOTES:
-    /*
-      - if we want shaders to get a delta time, we can provide that here by adding a field to the contexts (and providing a delta time)
-      - by not using 'const auto&' we are making a copy, we need to do this at the moment to include the camera matrix
-        - maybe the 'DrawMesh' call should just take in a camera matrix as well
-    */
-    DEBUG_PROFILE_SCOPE("_RenderFrameForCamera");
-
-    for (auto context : renderFrame.contexts)
-    {
-      context.mvp = camera * context.mvp;
-      renderer.SetShader(context.material.shader);
-      renderer.DrawMesh(context);
-    }
-
-    for (auto context : renderFrame.skinnedContexts)
-    {
-      context.context.mvp = camera * context.context.mvp;
-      renderer.SetShader(context.context.material.shader);
-      renderer.DrawMesh(context);
-    }
-    renderer.SetShader(Shader()); // this should be done in the EndFrame call?
-  }
-
   void RenderManager::_RenderMiddle()
   {
     DEBUG_PROFILE_SCOPE("_RenderMiddle");
@@ -209,10 +172,8 @@ namespace Rendering {
     const auto& frameData = _renderFrames.ReadBuffer();
 
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
-    for (auto& camera : frameData.cameras)
-    {
-      _RenderFrameForCamera(_Renderer, camera, frameData);
-    }
+    frameData.Render(_Renderer);
+    _Renderer.SetShader(Shader()); // this should be done in the EndFrame call?
 
     _renderFrames.ReturnBuffer(frameData);
   }

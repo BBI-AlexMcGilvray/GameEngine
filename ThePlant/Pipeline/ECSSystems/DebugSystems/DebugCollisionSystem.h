@@ -155,7 +155,7 @@ private:
                 Rendering::DrawMode::LINE,
                 drawType
             };
-            _renderManager.QueueRender(context);
+            _renderManager.QueueRender<Rendering::DebugRenderLayer>(context);
         }
     }
 };

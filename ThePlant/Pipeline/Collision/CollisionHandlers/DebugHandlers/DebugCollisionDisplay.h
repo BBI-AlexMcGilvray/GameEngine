@@ -10,6 +10,7 @@
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/DefaultRenderLayers.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
@@ -46,7 +47,7 @@ private:
             collisionState == CollisionState::Complete ? Core::Math::RED : Core::Math::YELLOW, // let's change the color based on the state of the collision (green/yellow/red?) -> do we need the collision sates in handlers?
             _collisionPointMesh
         };
-        _renderManager.QueueRender(context);
+        _renderManager.QueueRender<Rendering::DebugRenderLayer>(context);
     }
 };
 } // namespace Collision

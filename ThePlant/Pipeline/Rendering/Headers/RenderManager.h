@@ -21,6 +21,7 @@
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/Camera.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/RenderFrame.h"
 #include "Pipeline/Rendering/Renderer.h"
 
 namespace Application {
@@ -35,9 +36,34 @@ namespace Rendering {
     void Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();
 
+    // for this and the RemoveLayer function, will this support dynamically adding/removing more during runtime? (i.e. not just initialization)
+    template <typename LAYER>
+    void AddLayer()
+    {
+      _mainThreadRenderFrame.AddLayer<LAYER>();
+    }
+
+    template <typename LAYER>
+    void RemoveLayer()
+    {
+      _mainThreadRenderFrame.RemoveLayer<LAYER>();        
+    }
+
     void QueueCamera(const Core::Math::Float4x4& camera);
-    void QueueRender(const Context& context);
-    void QueueRender(const SkinnedContext& context);
+
+    template <typename LAYER>
+    void QueueRender(const Context& context)
+    {
+      SCOPED_MEMORY_CATEGORY("Rendering");
+      _mainThreadRenderFrame.QueueRender<LAYER>(context);
+    }
+
+    template <typename LAYER>
+    void QueueRender(const SkinnedContext& context)
+    {
+      SCOPED_MEMORY_CATEGORY("Rendering");
+      _mainThreadRenderFrame.QueueRender<LAYER>(context);
+    }
 
     void Render();
 
@@ -65,7 +91,7 @@ namespace Rendering {
     void _RenderMiddle();
     void _RenderEnd();
   
-    RenderFrame _mainThreadRenderFrame; // in the future, this can be a tripple buffer guarded by a mutex and be what is used for threading purposes
+    RenderFrame _mainThreadRenderFrame; // this is the frame we update before we pass it in to the triple buffer
 
     Core::Threading::TripleBuffer<RenderFrame> _renderFrames;
     std::atomic<bool> _rendering;

@@ -10,6 +10,7 @@
 #include "Pipeline/Rendering/Material.h"
 #include "Pipeline/Rendering/Mesh.h"
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/DefaultRenderLayers.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 
@@ -54,7 +55,7 @@ private:
                 Core::Math::GREEN,
                 _transformMesh
             };
-            _renderManager.QueueRender(context);
+            _renderManager.QueueRender<Rendering::DebugRenderLayer>(context);
         }
     }
 };

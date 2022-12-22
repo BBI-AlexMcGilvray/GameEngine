@@ -44,36 +44,13 @@ namespace Rendering {
 
     struct SkinnedContext
     {
-        Context context;
+        Context context; // could be better to just inherit?
         const std::array<Core::Math::Float4x4, 50> bones; // currently cap the number of bones at 50, could make it a vector if we care about the space, but alignment/cache misses make array probably better
 
         bool operator==(const SkinnedContext& other) const
         {
             return (context == other.context
                 && bones == other.bones);
-        }
-    };
-
-    // maybe have this include the camera(s?) to use
-    struct RenderFrame
-    {
-        std::vector<Core::Math::Float4x4> cameras;
-        std::vector<Context> contexts;
-        std::vector<SkinnedContext> skinnedContexts;
-
-        RenderFrame() = default;
-        RenderFrame(RenderFrame&&) = default;
-        RenderFrame& operator=(RenderFrame&&) = default;
-        ~RenderFrame() = default;
-
-        RenderFrame(const RenderFrame&) = delete;
-        RenderFrame& operator=(const RenderFrame&) = delete;
-
-        void Clear()
-        {
-            cameras.clear();
-            contexts.clear();
-            skinnedContexts.clear();
         }
     };
 }// namespace Rendering
