@@ -47,10 +47,13 @@ Rendering/3D/Source/Skeleton.cpp #
 Rendering/3D/Source/VertexData.cpp #
 Rendering/OpenGL/Source/GLArrayBuffer.cpp #
 Rendering/OpenGL/Source/GLBuffer.cpp #
+Rendering/OpenGL/Source/GLFrameBuffer.cpp #
 Rendering/OpenGL/Source/GLMappedBuffer.cpp #
 Rendering/OpenGL/Source/GLObject.cpp #
+Rendering/OpenGL/Source/GLRenderBuffer.cpp #
 Rendering/OpenGL/Source/GLShader.cpp #
 Rendering/OpenGL/Source/GLShaderProgram.cpp #
+Rendering/OpenGL/Source/GLTexture.cpp #
 Rendering/OpenGL/Source/ShaderUtils.cpp #
 Rendering/Shaders/Shader.cpp #
 Rendering/Shaders/ShaderManager.cpp #
@@ -179,10 +182,13 @@ Rendering/Headers/MaterialManager.h #
 Rendering/Headers/RenderManager.h #
 Rendering/OpenGL/Headers/GLArrayBuffer.h #
 Rendering/OpenGL/Headers/GLBuffer.h #
+Rendering/OpenGL/Headers/GLFrameBuffer.h #
 Rendering/OpenGL/Headers/GLMappedBuffer.h #
 Rendering/OpenGL/Headers/GLObject.h #
+Rendering/OpenGL/Headers/GLRenderBuffer.h #
 Rendering/OpenGL/Headers/GLShader.h #
 Rendering/OpenGL/Headers/GLShaderProgram.h #
+Rendering/OpenGL/Headers/GLTexture.h #
 Rendering/OpenGL/Headers/ShaderUtils.h #
 Rendering/Shaders/Shader.h #
 Rendering/Shaders/ShaderManager.h #

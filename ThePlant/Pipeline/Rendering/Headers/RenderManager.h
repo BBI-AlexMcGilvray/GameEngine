@@ -24,6 +24,13 @@
 #include "Pipeline/Rendering/RenderFrame.h"
 #include "Pipeline/Rendering/Renderer.h"
 
+// testing
+#include "Pipeline/Rendering/Shaders/Shader.h"
+#include "Pipeline/Rendering/OpenGL/Headers/GLFrameBuffer.h"
+#include "Pipeline/Rendering/OpenGL/Headers/GLTexture.h"
+#include "Pipeline/Rendering/OpenGL/Headers/GLRenderBuffer.h"
+// \testing
+
 namespace Application {
 namespace Rendering {
   struct RenderManager
@@ -98,6 +105,19 @@ namespace Rendering {
     Core::Threading::Thread _renderThread;
 
     Renderer _Renderer;
+
+    // testing
+    GLFrameBuffer _frameBuffer;
+    GLTexture _frameBufferTexture;
+    GLRenderBuffer _frameBufferStencilAndDepth;
+    Shader _frameBufferShader;
+    Mesh _frameBufferMesh;
+
+    void _InitialiseFrameBufferTest();
+    void _FrameBufferTestBegin();
+    void _FrameBufferTestEnd();
+    void _CleanUpFrameBufferTest();
+    // \testing
   };
 }// namespace Rendering
 }// namespace Application

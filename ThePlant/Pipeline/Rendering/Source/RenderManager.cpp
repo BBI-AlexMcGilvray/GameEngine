@@ -5,6 +5,11 @@
 
 #include "Pipeline/Headers/ApplicationManager.h"
 
+// testing
+#include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
+#include "Pipeline/Rendering/OpenGL/Headers/ShaderUtils.h"
+// \testing
+
 using namespace Core;
 using namespace Core::Math;
 using namespace Core::Functionality;
@@ -37,6 +42,10 @@ namespace Rendering {
     // don't render everything, but set up the default state
     _RenderStart();
     _RenderEnd();
+
+    // testing
+    _InitialiseFrameBufferTest();
+    // \testing
 
     _renderThread = std::move(renderThread);
   }
@@ -103,6 +112,10 @@ namespace Rendering {
   void RenderManager::CleanUp()
   {
     _ui->CleanUp();
+
+    // testing
+    _CleanUpFrameBufferTest();
+    // \testing
   }
 
   void RenderManager::SetOpenGLAttributes()
@@ -164,6 +177,10 @@ namespace Rendering {
     glViewport(0, 0, window.Width, window.Height);
     glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    // testing
+    _FrameBufferTestBegin();
+    // \testing
   }
 
   void RenderManager::_RenderMiddle()
@@ -182,8 +199,96 @@ namespace Rendering {
   void RenderManager::_RenderEnd()
   {        
     DEBUG_PROFILE_SCOPE("_RenderEnd");
+
+    // testing
+    _FrameBufferTestEnd();
+    // \testing
     
     SDL_GL_SwapWindow(_sdlManager->GetWindowManager().GetWindow());
+  }
+
+  void RenderManager::_InitialiseFrameBufferTest()
+  {
+    auto& window = _sdlManager->GetWindowManager();
+
+    _frameBuffer.Generate();
+    _frameBuffer.Bind();
+
+    _frameBufferTexture.Generate();
+    _frameBufferTexture.Bind();
+    _frameBufferTexture.CreateTextureStorage(Core::Math::Int2(window.Width, window.Height), GL_RGB);
+    _frameBufferTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
+    _frameBufferTexture.Unbind();
+
+    _frameBufferStencilAndDepth.Generate();
+    _frameBufferStencilAndDepth.Bind();
+    _frameBufferStencilAndDepth.CreateBufferStorage(Core::Math::Int2(window.Width, window.Height), GL_DEPTH24_STENCIL8);
+    _frameBufferStencilAndDepth.AttachToFrameBuffer(GL_DEPTH_STENCIL_ATTACHMENT);
+    _frameBufferStencilAndDepth.Unbind();
+
+    _frameBufferMesh = CreateBox(Core::Math::Float3(-1.0f, -1.0f, 0.0f), Core::Math::Float3(1.0f, 1.0f, 0.0f));
+    
+    const std::string vShaderCode = R"(
+        #version 450 core
+			
+        layout (location = 0) in vec2 aPos;
+        layout (location = 1) in vec2 aTexCoords;
+
+        out vec2 TexCoords;
+
+        void main()
+        {
+            gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0); 
+            TexCoords = aPos; // should be aTexCoords, but being lazy doing it this way
+        }  
+      )";
+    VertexShader vShader = CreateVertexShader(vShaderCode);
+    const std::string fShaderCode = R"(
+        #version 450 core
+			
+        out vec4 FragColor;
+  
+        in vec2 TexCoords;
+
+        uniform sampler2D screenTexture;
+
+        void main()
+        { 
+            FragColor = texture(screenTexture, TexCoords);
+        }
+      )";
+    FragmentShader fShader = CreateFragmentShader(fShaderCode);
+    _frameBufferShader = CreateShader(vShader, fShader);
+  }
+
+  void RenderManager::_FrameBufferTestBegin()
+  {
+    _frameBuffer.Bind();
+    glClearColor(_clearColor.R * 0.5f, _clearColor.G * 0.5f, _clearColor.B * 0.5f, _clearColor.A);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+  }
+
+  void RenderManager::_FrameBufferTestEnd()
+  {
+    _frameBuffer.Unbind();
+    glClearColor(_clearColor.R * 0.5f, _clearColor.G * 0.5f, _clearColor.B * 0.5f, _clearColor.A);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    _Renderer.SetShader(_frameBufferShader);
+    _frameBufferMesh.buffer.Bind();
+    glDisable(GL_DEPTH_TEST);
+    _frameBufferTexture.Bind();
+    glDrawArrays(GL_TRIANGLES, 0, GLsizei(_frameBufferMesh.vertices));
+  }
+  
+  void RenderManager::_CleanUpFrameBufferTest()
+  {
+    _frameBuffer.Delete();
+    _frameBufferTexture.Delete();
+    _frameBufferStencilAndDepth.Delete();
+
+    DeleteShader(_frameBufferShader);
   }
 }// namespace Rendering
 }// namespace Application

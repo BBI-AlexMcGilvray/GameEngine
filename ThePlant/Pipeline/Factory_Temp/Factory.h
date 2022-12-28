@@ -78,6 +78,8 @@ namespace Editor {
                 * We should make the render thread handle processing input as well
                     * we already have our own input events, so we can just queue those in a double buffer (once gameplay thread takes the inputs, the other buffer is used)
                 * We should probably get a proper 'Factory' build config in place so we can more easily test changes with and without the editor UI 
+                    * The Factory can be extracted once we have the ability to specify frame buffers
+                    * Maybe we just delete it all and start from scratch, since what we have in there is messy and can just be fixed anyways
             
             ** Other notes:
                 * We will likely need a 'Serialization' component (just a UUID?) so we can reference components between save/load and also the network

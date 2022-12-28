@@ -133,7 +133,7 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>Product\Debug\Product_Libd.lib;Pipeline\Debug\Pipeline_Lib.lib;Pipeline\Dependencies\IMGUI\Debug\IMGUI_Lib.lib;Materials\Data\Debug\Data_Lib.lib;Materials\Core\Debug\Core_Lib.lib;Materials\Dependencies\SDL2-2.0.14\Debug\SDL2maind.lib;Materials\Dependencies\SDL2-2.0.14\Debug\SDL2d.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;shell32.lib;dinput8.lib;Materials\Dependencies\GLEW-2.2.0\lib\Debug\glewd.lib;opengl32.lib;Product\Dependencies\lua\Debug\luad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>Product\Debug\Product_Libd.lib;Pipeline\Debug\Pipeline_Libd.lib;Pipeline\Dependencies\IMGUI\Debug\IMGUI_Libd.lib;Materials\Data\Debug\Data_Libd.lib;Materials\Core\Debug\Core_Libd.lib;Materials\Dependencies\SDL2-2.0.14\Debug\SDL2maind.lib;Materials\Dependencies\SDL2-2.0.14\Debug\SDL2d.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;shell32.lib;dinput8.lib;Materials\Dependencies\GLEW-2.2.0\lib\Debug\glewd.lib;opengl32.lib;Product\Dependencies\lua\Debug\luad.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
