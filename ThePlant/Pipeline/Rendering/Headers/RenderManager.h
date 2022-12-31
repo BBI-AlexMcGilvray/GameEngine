@@ -20,6 +20,7 @@
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/Camera.h"
+#include "Pipeline/Rendering/Headers/RenderCamera.h"
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/RenderFrame.h"
 #include "Pipeline/Rendering/Renderer.h"
@@ -56,7 +57,7 @@ namespace Rendering {
       _mainThreadRenderFrame.RemoveLayer<LAYER>();        
     }
 
-    void QueueCamera(const Core::Math::Float4x4& camera);
+    void QueueCamera(const RenderCamera& camera);
 
     template <typename LAYER>
     void QueueRender(const Context& context)

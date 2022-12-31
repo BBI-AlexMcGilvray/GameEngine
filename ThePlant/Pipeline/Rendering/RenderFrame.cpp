@@ -8,7 +8,7 @@
 
 namespace Application {
 namespace Rendering {
-void RenderFrame::QueueCamera(const Core::Math::Float4x4& camera)
+void RenderFrame::QueueCamera(const RenderCamera& camera)
 {
     _cameras.push_back(camera);
 }
@@ -38,11 +38,15 @@ void RenderFrame::Render(Renderer& renderer) const
 
     // need to make sure the layers are ordered before the below code
 
+    // rendering to cameras should happen as a separate stage to using the camera's texture (after everything is rendered, the results are then handled by 'display'(?) logic)
+
     for (auto& camera : _cameras)
     {
+        // activate the camera's own 'layer' (frame buffer)
         for (auto& layer : _layers)
         {
-            layer->Render(renderer, camera);
+            // if layer applies to camera
+            layer->Render(renderer, camera.renderMatrix);
         }
     }
 }

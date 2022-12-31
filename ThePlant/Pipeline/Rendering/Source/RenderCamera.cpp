@@ -7,6 +7,7 @@ RenderCamera::RenderCamera(const Camera& camera, const Core::Math::Float4x4& mat
 {
     cameraId = camera.GetCameraId();
     _InitializeBuffers();
+    // _layers = camera.GetLayers();
 }
 
 RenderCamera::~RenderCamera()

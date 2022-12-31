@@ -163,7 +163,7 @@ namespace Rendering {
   }
 #endif
 
-  void RenderManager::QueueCamera(const Core::Math::Float4x4& camera)
+  void RenderManager::QueueCamera(const RenderCamera& camera)
   {
     SCOPED_MEMORY_CATEGORY("Rendering");
     _mainThreadRenderFrame.QueueCamera(camera);

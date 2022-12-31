@@ -4,6 +4,7 @@
 
 #include "Core/Logging/LogFunctions.h"
 
+#include "Pipeline/Rendering/Headers/RenderCamera.h"
 #include "Pipeline/Rendering/RenderLayer.h"
 
 namespace Application {
@@ -57,7 +58,7 @@ namespace Rendering {
             }            
         }
 
-        void QueueCamera(const Core::Math::Float4x4& camera);
+        void QueueCamera(const RenderCamera& camera);
 
         template <typename LAYER>
         void QueueRender(const Context& context)
@@ -82,7 +83,7 @@ namespace Rendering {
     private:
         // as mentioned in RenderLayer, the cameras here should have a collection of what layers they render
         // that information should be held in the CameraComponent
-        std::vector<Core::Math::Float4x4> _cameras;
+        std::vector<RenderCamera> _cameras;
         bool _dirtyLayers = false;
         std::vector<std::unique_ptr<IRenderLayer>> _layers;
 
