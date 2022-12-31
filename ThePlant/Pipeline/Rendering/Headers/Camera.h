@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Core/IdTypes/InstanceId.h"
+
 #include "Core/Math/Headers/Vector2.h"
 #include "Core/Math/Headers/Vector3.h"
-
 #include "Core/Math/Headers/Quaternion.h"
-
 #include "Core/Math/Headers/Matrix3x3.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 
@@ -20,11 +20,13 @@ namespace Rendering {
 
     Camera(const float &aspectRatio = 0.5f);
 
-    Camera(const Camera&) = default;
+    Camera(const Camera&) = delete; // delete? or we need to set a new cameraId
     Camera(Camera&&) = default;
 
-    Camera& operator=(const Camera&) = default;
+    Camera& operator=(const Camera&) = delete; // delete? or we need to set a new cameraId
     Camera& operator=(Camera&&) = default;
+
+    Core::instanceId<Camera> GetCameraId() const;
 
     Float4x4 GetProjectionMatrix();
 
@@ -55,6 +57,7 @@ namespace Rendering {
     bool operator!=(const Camera& other) const { return !(*this == other); }
 
   protected:
+    Core::instanceId<Camera> _cameraId;
     bool _dirty = true;
 
     Float4x4 _projectionMatrix;

@@ -22,28 +22,20 @@ namespace Rendering {
     Core::Math::Float3 normal;
   };
 
-  struct VertexData
+  struct VertexData : public SimpleVertexData
   {
-    Core::Math::Float3 position;
-    Core::Math::Float3 normal;
     Core::Math::Float2 uvs;
   };
 
-  struct AnimatedVertexData
+  struct AnimatedVertexData : public VertexData
   {
-    Core::Math::Float3 position;
-    Core::Math::Float3 normal;
-    Core::Math::Float2 uvs;
     std::array<std::string, 4> boneName;
     Core::Math::Float4 boneWeight;
   };
 
   // use this once the AnimatedVertexData can map the boneName values to indices of a given skeleton
-  struct SkinnedVertexData
+  struct SkinnedVertexData : public VertexData
   {
-    Core::Math::Float3 position;
-    Core::Math::Float3 normal;
-    Core::Math::Float2 uvs;
     Core::Math::Float4 boneIndices; // float because shader had issues reading as ints
     Core::Math::Float4 boneWeight;
 

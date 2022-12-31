@@ -13,7 +13,13 @@ namespace Application {
 namespace Rendering {
   Camera::Camera(const float &aspectRatio /* = 0.5f */)
   {
+    _cameraId = Core::GetInstanceId<Camera>();
     SetProjectionVariables(_fovy, aspectRatio, _nearPlane, _farPlane);
+  }
+
+  Core::instanceId<Camera> Camera::GetCameraId() const
+  {
+    return _cameraId;
   }
 
   Float4x4 Camera::GetProjectionMatrix()

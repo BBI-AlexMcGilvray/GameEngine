@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Pipeline/Rendering/Headers/Camera.h"
+#include "Pipeline/Rendering/Headers/RenderCamera.h"
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
@@ -16,14 +17,15 @@ namespace Rendering {
   {
     CameraManager() = default;
 
-    void AddCamera(const Core::Math::Float4x4& camera);
+    void ResetActive();
+    void UpdateCamera(const Camera& camera, const Core::Math::Float4x4& cameraMatrix);
+    void RemoveInactive();
 
-    const std::vector<Core::Math::Float4x4>& GetCameras() const;
-
-    void ClearCameras();
+    const std::vector<RenderCamera>& GetCameras() const;
 
   protected:
-    std::vector<Core::Math::Float4x4> _cameras; // the camera matrices
+    std::vector<bool> _active; // index-matched with the below, false -> camera not updated this frame, remove it
+    std::vector<RenderCamera> _renderCameras;
   };
 }// namespace Rendering
 }// namespace Application

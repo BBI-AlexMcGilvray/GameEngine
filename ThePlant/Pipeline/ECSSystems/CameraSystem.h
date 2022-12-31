@@ -22,7 +22,7 @@ struct CameraSystem : public System<CameraSystem>
     {
         DEBUG_PROFILE_SCOPE(GetSystemName());
 
-        _cameraManager.ClearCameras();
+        _cameraManager.ResetActive();
         
         std::vector<Core::Ptr<Archetype>> affectedArchetypes = archetypeManager.GetArchetypesContaining<CameraComponent, WorldTransformComponent>();
 
@@ -30,6 +30,8 @@ struct CameraSystem : public System<CameraSystem>
         {
             _ApplyToArchetype(_cameraManager, archetype->GetComponents<CameraComponent>(), archetype->GetComponents<WorldTransformComponent>());
         }
+
+        _cameraManager.RemoveInactive();
     }
 
 private:
@@ -41,7 +43,7 @@ private:
         DEBUG_ASSERT(cameras.size() == transforms.size());
         for (size_t index = 0; index < cameras.size(); ++index)
         {
-            cameraManager.AddCamera(CalculateTransformationMatrix(cameras[index].camera, transforms[index].transform));
+            cameraManager.UpdateCamera(cameras[index].camera, CalculateTransformationMatrix(cameras[index].camera, transforms[index].transform));
         }
     }
 };

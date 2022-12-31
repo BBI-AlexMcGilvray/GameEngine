@@ -8,20 +8,51 @@ using namespace Core;
 
 namespace Application {
 namespace Rendering {
-    void CameraManager::AddCamera(const Core::Math::Float4x4& camera)
+    void CameraManager::ResetActive()
+    {
+      VERIFY(_renderCameras.size() == _active.size());
+      for (auto& active : _active)
+      {
+        active = false;
+      }
+    }
+
+    void CameraManager::UpdateCamera(const Camera& camera, const Core::Math::Float4x4& cameraMatrix)
     {
       SCOPED_MEMORY_CATEGORY("Rendering");
-      _cameras.emplace_back(camera);
+      
+      size_t index = 0;
+      for (auto& renderCamera : _renderCameras)
+      {
+        if (renderCamera.cameraId == camera.GetCameraId())
+        {
+          renderCamera.renderMatrix = cameraMatrix;
+          _active[index] = true;
+          return;
+        }
+        ++index;
+      }
+
+      _renderCameras.emplace_back(RenderCamera(camera, cameraMatrix));
+      _active.emplace_back(true);
     }
 
-    const std::vector<Core::Math::Float4x4>& CameraManager::GetCameras() const
+    void CameraManager::RemoveInactive()
     {
-      return _cameras;
+      for (size_t index = 0; index < _active.size(); ++index)
+      {
+        if (!_active[index])
+        {
+          _renderCameras.erase(_renderCameras.begin() + index);
+        }
+      }
+
+      _active.resize(_renderCameras.size());
     }
 
-    void CameraManager::ClearCameras()
+    const std::vector<RenderCamera>& CameraManager::GetCameras() const
     {
-      _cameras.clear();
+      return _renderCameras;
     }
 }// namespace Rendering
 }// namespace Application
