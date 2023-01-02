@@ -2,8 +2,9 @@
 
 namespace Application {
 namespace Rendering {
-RenderCamera::RenderCamera(const Camera& camera, const Core::Math::Float4x4& matrix)
+RenderCamera::RenderCamera(const Camera& camera, const Core::Math::Int2& renderDimensions, const Core::Math::Float4x4& matrix)
 : renderMatrix(matrix)
+, renderDimensions(renderDimensions)
 {
     cameraId = camera.GetCameraId();
     _InitializeBuffers();
@@ -21,12 +22,12 @@ void RenderCamera::_InitializeBuffers()
     frameBuffer.Bind();
 
     // need some way to get the camera buffer size/dimensions
-    texture = CreateTexture(Core::Math::Int2(window.Width, window.Height), Core::Math::Float2(2.0f, 2.0f));
+    texture = CreateTexture(renderDimensions, Core::Math::Float2(2.0f, 2.0f));
     texture.actualTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
 
     _frameBufferStencilAndDepth.Generate();
     _frameBufferStencilAndDepth.Bind();
-    _frameBufferStencilAndDepth.CreateBufferStorage(Core::Math::Int2(window.Width, window.Height), GL_DEPTH24_STENCIL8);
+    _frameBufferStencilAndDepth.CreateBufferStorage(renderDimensions, GL_DEPTH24_STENCIL8);
     _frameBufferStencilAndDepth.AttachToFrameBuffer(GL_DEPTH_STENCIL_ATTACHMENT);
     _frameBufferStencilAndDepth.Unbind();
     

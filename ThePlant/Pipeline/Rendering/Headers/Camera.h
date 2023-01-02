@@ -20,10 +20,10 @@ namespace Rendering {
 
     Camera(const float &aspectRatio = 0.5f);
 
-    Camera(const Camera&) = delete; // delete? or we need to set a new cameraId
+    Camera(const Camera&) = default; // delete? or we need to set a new cameraId
     Camera(Camera&&) = default;
 
-    Camera& operator=(const Camera&) = delete; // delete? or we need to set a new cameraId
+    Camera& operator=(const Camera&) = default; // delete? or we need to set a new cameraId
     Camera& operator=(Camera&&) = default;
 
     Core::instanceId<Camera> GetCameraId() const;

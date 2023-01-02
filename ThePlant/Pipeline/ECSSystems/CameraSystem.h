@@ -43,7 +43,7 @@ private:
         DEBUG_ASSERT(cameras.size() == transforms.size());
         for (size_t index = 0; index < cameras.size(); ++index)
         {
-            cameraManager.UpdateCamera(cameras[index].camera, CalculateTransformationMatrix(cameras[index].camera, transforms[index].transform));
+            cameraManager.UpdateCamera(cameras[index].camera, cameras[index].renderDimensions, CalculateTransformationMatrix(cameras[index].camera, transforms[index].transform));
         }
     }
 };

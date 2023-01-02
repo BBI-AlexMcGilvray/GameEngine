@@ -17,15 +17,16 @@ namespace Rendering {
       }
     }
 
-    void CameraManager::UpdateCamera(const Camera& camera, const Core::Math::Float4x4& cameraMatrix)
+    void CameraManager::UpdateCamera(const Camera& camera, const Core::Math::Int2& renderDimensions, const Core::Math::Float4x4& cameraMatrix)
     {
       SCOPED_MEMORY_CATEGORY("Rendering");
-      
+
       size_t index = 0;
       for (auto& renderCamera : _renderCameras)
       {
         if (renderCamera.cameraId == camera.GetCameraId())
         {
+          renderCamera.renderDimensions = renderDimensions;
           renderCamera.renderMatrix = cameraMatrix;
           _active[index] = true;
           return;
@@ -33,7 +34,7 @@ namespace Rendering {
         ++index;
       }
 
-      _renderCameras.emplace_back(RenderCamera(camera, cameraMatrix));
+      _renderCameras.emplace_back(RenderCamera(camera, renderDimensions, cameraMatrix));
       _active.emplace_back(true);
     }
 
@@ -53,6 +54,19 @@ namespace Rendering {
     const std::vector<RenderCamera>& CameraManager::GetCameras() const
     {
       return _renderCameras;
+    }
+
+    const RenderCamera& CameraManager::GetCamera(const Core::instanceId<Camera>& cameraId)
+    {
+      for (const auto& camera : _renderCameras)
+      {
+        if (camera.cameraId == cameraId)
+        {
+          return camera;
+        }
+      }
+
+      CORE_THROW("CameraManager", "Requested camera does not exist!");
     }
 }// namespace Rendering
 }// namespace Application

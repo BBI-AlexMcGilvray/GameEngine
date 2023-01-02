@@ -2,14 +2,17 @@
 
 #include "Core/Reflection/Reflectable.h"
 #include "Core/IdTypes/IncrementalId.h"
+#include "Core/Math/Headers/Vector2.h"
 
 #include "Pipeline/Rendering/Headers/Camera.h"
 
 namespace Application {
 struct CameraComponent
 {
+    // should this have the camera id used by the render camera?
     REFLECTABLE(
-        (Rendering::Camera) camera
+        (Rendering::Camera) camera,
+        (Core::Math::Int2) renderDimensions
     )
 
     CameraComponent() = default;
@@ -18,13 +21,14 @@ struct CameraComponent
     CameraComponent& operator=(const CameraComponent&) = default;
     CameraComponent& operator=(CameraComponent&&) = default;
 
-    CameraComponent(const Rendering::Camera& camera)
-    : camera(camera)
+    CameraComponent(Rendering::Camera&& camera, const Core::Math::Int2& renderDimensions)
+    : camera(std::move(camera))
+    , renderDimensions(renderDimensions)
     {}
 
     bool operator==(const CameraComponent& other) const
     {
-        return camera == other.camera;
+        return camera == other.camera && renderDimensions == other.renderDimensions;
     }
     bool operator !=(const CameraComponent& other) const { return !(*this == other); }
 };

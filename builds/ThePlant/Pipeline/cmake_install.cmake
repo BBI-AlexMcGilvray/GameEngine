@@ -125,6 +125,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/Headers/CameraUtils.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/Headers/Lights.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/Headers/MaterialManager.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/Headers/RenderCamera.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/Headers/RenderManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/OpenGL/Headers/GLArrayBuffer.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/OpenGL/Headers/GLBuffer.h"

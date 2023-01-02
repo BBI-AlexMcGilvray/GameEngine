@@ -7,6 +7,7 @@
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
+#include "Core/IdTypes/InstanceId.h"
 
 namespace Application {
 namespace Rendering {
@@ -18,10 +19,11 @@ namespace Rendering {
     CameraManager() = default;
 
     void ResetActive();
-    void UpdateCamera(const Camera& camera, const Core::Math::Float4x4& cameraMatrix);
+    void UpdateCamera(const Camera& camera, const Core::Math::Int2& renderDimensions, const Core::Math::Float4x4& cameraMatrix);
     void RemoveInactive();
 
     const std::vector<RenderCamera>& GetCameras() const;
+    const RenderCamera& GetCamera(const Core::instanceId<Camera>& cameraId);
 
   protected:
     std::vector<bool> _active; // index-matched with the below, false -> camera not updated this frame, remove it

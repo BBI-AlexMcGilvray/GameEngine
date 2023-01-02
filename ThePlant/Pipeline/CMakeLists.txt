@@ -62,6 +62,7 @@ Rendering/Source/CameraManager.cpp #
 Rendering/Source/CameraUtils.cpp #
 Rendering/Source/Lights.cpp #
 Rendering/Source/MaterialManager.cpp #
+Rendering/Source/RenderCamera.cpp #
 Rendering/Source/RenderManager.cpp #
 Rendering/Material.cpp #
 Rendering/Mesh.cpp #
@@ -179,6 +180,7 @@ Rendering/Headers/CameraManager.h #
 Rendering/Headers/CameraUtils.h #
 Rendering/Headers/Lights.h #
 Rendering/Headers/MaterialManager.h #
+Rendering/Headers/RenderCamera.h #
 Rendering/Headers/RenderManager.h #
 Rendering/OpenGL/Headers/GLArrayBuffer.h #
 Rendering/OpenGL/Headers/GLBuffer.h #
