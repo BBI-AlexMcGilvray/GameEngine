@@ -44,6 +44,7 @@ namespace Rendering {
       {
         if (!_active[index])
         {
+          // this would be the other place we clean up the camera (if not in the destructor)
           _renderCameras.erase(_renderCameras.begin() + index);
         }
       }

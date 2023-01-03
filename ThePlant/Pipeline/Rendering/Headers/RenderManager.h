@@ -118,6 +118,7 @@ namespace Rendering {
     void _FrameBufferTestBegin();
     void _FrameBufferTestEnd();
     void _CleanUpFrameBufferTest();
+    void _RenderMainCamera(const RenderCamera& mainCamera);
     // \testing
   };
 }// namespace Rendering

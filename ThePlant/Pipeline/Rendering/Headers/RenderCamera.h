@@ -6,6 +6,7 @@
 #include "Core/IdTypes/InstanceId.h"
 #include "Core/Math/Headers/Matrix4x4.h"
 #include "Core/Math/Headers/Vector2.h"
+#include "Core/Math/Headers/Color.h"
 
 #include "Pipeline/Rendering/Headers/Camera.h"
 #include "Pipeline/Rendering/2D/Headers/Texture.h"
@@ -34,6 +35,9 @@ namespace Rendering {
 
     RenderCamera& operator=(const RenderCamera&) = default;
     RenderCamera& operator=(RenderCamera&&) = default;
+
+    void BeginCameraRender(const Core::Math::Color& clearColour) const;
+    void EndCameraRender() const;
 
 private:
     GLRenderBuffer _frameBufferStencilAndDepth;

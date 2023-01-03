@@ -16,6 +16,20 @@ RenderCamera::~RenderCamera()
     _CleanUpBuffers();// should this be here?
 }
 
+// in the future, this clear colour should be camera/render camera specific
+void RenderCamera::BeginCameraRender(const Core::Math::Color& clearColour) const
+{
+    frameBuffer.Bind();
+    glClearColor(clearColour.R * 0.5f, clearColour.G * 0.5f, clearColour.B * 0.5f, clearColour.A);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+}
+
+void RenderCamera::EndCameraRender() const
+{
+    frameBuffer.Unbind();
+}
+
 void RenderCamera::_InitializeBuffers()
 {
     frameBuffer.Generate();

@@ -179,7 +179,7 @@ namespace Rendering {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // testing
-    _FrameBufferTestBegin();
+    // _FrameBufferTestBegin();
     // \testing
   }
 
@@ -194,6 +194,8 @@ namespace Rendering {
     _Renderer.SetShader(Shader()); // this should be done in the EndFrame call?
 
     _renderFrames.ReturnBuffer(frameData);
+
+    _RenderMainCamera(frameData.GetMainCamera());
   }
 
   void RenderManager::_RenderEnd()
@@ -201,7 +203,7 @@ namespace Rendering {
     DEBUG_PROFILE_SCOPE("_RenderEnd");
 
     // testing
-    _FrameBufferTestEnd();
+    // _FrameBufferTestEnd();
     // \testing
     
     SDL_GL_SwapWindow(_sdlManager->GetWindowManager().GetWindow());
@@ -289,6 +291,15 @@ namespace Rendering {
     _frameBufferStencilAndDepth.Delete();
 
     DeleteShader(_frameBufferShader);
+  }
+
+  void RenderManager::_RenderMainCamera(const RenderCamera& mainCamera)
+  {
+    _Renderer.SetShader(_frameBufferShader);
+    mainCamera.texture.mesh.buffer.Bind();
+    glDisable(GL_DEPTH_TEST);
+    mainCamera.texture.actualTexture.Bind();
+    glDrawArrays(GL_TRIANGLES, 0, GLsizei(_frameBufferMesh.vertices));
   }
 }// namespace Rendering
 }// namespace Application
