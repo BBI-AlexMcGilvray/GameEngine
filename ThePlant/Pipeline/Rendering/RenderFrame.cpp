@@ -49,7 +49,8 @@ void RenderFrame::Render(Renderer& renderer) const
 
     for (auto& camera : _cameras)
     {
-        camera.BeginCameraRender(Core::Math::PINK * 0.25f);
+        // this colour should get passed in to be the same 'clear colour' set in the render manager
+        camera.BeginCameraRender(Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f)); // should be the same as it used to be, but looks darker - from imgui?
         // activate the camera's own 'layer' (frame buffer)
         for (auto& layer : _layers)
         {

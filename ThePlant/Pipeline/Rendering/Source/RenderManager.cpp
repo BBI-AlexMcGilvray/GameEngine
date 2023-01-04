@@ -241,7 +241,7 @@ namespace Rendering {
         void main()
         {
             gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0); 
-            TexCoords = aPos; // should be aTexCoords, but being lazy doing it this way
+            TexCoords = aTexCoords; // should be aTexCoords, but being lazy doing it this way
         }  
       )";
     VertexShader vShader = CreateVertexShader(vShaderCode);
