@@ -22,7 +22,7 @@ namespace Rendering {
     Core::Math::Int2 renderDimensions;
     Core::Math::Float4x4 renderMatrix;
     GLFrameBuffer frameBuffer;
-    Texture texture; // this should probably be an actual 'Texture'
+    Texture texture;
     // we will have this when it is able to be supported (i.e. set properly)
     std::set<Core::Hash> layers;
 

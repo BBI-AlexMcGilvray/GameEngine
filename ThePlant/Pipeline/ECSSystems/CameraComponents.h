@@ -12,8 +12,10 @@ struct CameraComponent
     // should this have the camera id used by the render camera?
     REFLECTABLE(
         (Rendering::Camera) camera,
-        (Core::Math::Int2) renderDimensions
+        (Core::Math::Int2) renderDimensions,
+        (bool) active
     )
+    // only rendered-to if it is active (camera system won't update the camera otherwise)
 
     CameraComponent() = default;
     CameraComponent(const CameraComponent&) = default;
@@ -21,14 +23,15 @@ struct CameraComponent
     CameraComponent& operator=(const CameraComponent&) = default;
     CameraComponent& operator=(CameraComponent&&) = default;
 
-    CameraComponent(Rendering::Camera&& camera, const Core::Math::Int2& renderDimensions)
+    CameraComponent(Rendering::Camera&& camera, const Core::Math::Int2& renderDimensions, bool startActive = true)
     : camera(std::move(camera))
     , renderDimensions(renderDimensions)
+    , active(startActive)
     {}
 
     bool operator==(const CameraComponent& other) const
     {
-        return camera == other.camera && renderDimensions == other.renderDimensions;
+        return camera == other.camera && renderDimensions == other.renderDimensions && active == other.active;
     }
     bool operator !=(const CameraComponent& other) const { return !(*this == other); }
 };

@@ -32,7 +32,7 @@ void RenderFrame::SetMainCamera(const Core::instanceId<Camera>& camera)
     _mainCamera = camera;
 }
 
-void RenderFrame::Render(Renderer& renderer) const
+void RenderFrame::Render(Renderer& renderer, const Core::Math::Color& clearColour) const
 {
     DEBUG_PROFILE_SCOPE("RenderFrame::Render");
     
@@ -43,19 +43,32 @@ void RenderFrame::Render(Renderer& renderer) const
         - maybe the 'DrawMesh' call should just take in a camera matrix as well
     */
 
+    /*
+    i think my current plan is to:
+    - for each (active) camera... // active => there is a display that uses it
+        - set up each layer
+        - clear all textures, reset whatever values...
+        - go through layers to render everything we want
+            - dependency system guarantees required layers are done before others run
+        - render the final result to the camera's buffer
+    - for each 'display' (not sure what to call this)
+        - find the camera that is used, render that result to the display
+        
+    **step 5 would let me do things like have UI in game or the editor IMGUI windows use whatever camera we want and display the result of that
+    */
+
     // need to make sure the layers are ordered before the below code
 
     // rendering to cameras should happen as a separate stage to using the camera's texture (after everything is rendered, the results are then handled by 'display'(?) logic)
 
     for (auto& camera : _cameras)
     {
-        // this colour should get passed in to be the same 'clear colour' set in the render manager
-        camera.BeginCameraRender(Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f)); // should be the same as it used to be, but looks darker - from imgui?
-        // activate the camera's own 'layer' (frame buffer)
+        camera.BeginCameraRender(clearColour); // should be the same as it used to be, but looks darker - from imgui?
         for (auto& layer : _layers)
         {
             // if layer applies to camera
-            layer->Render(renderer, camera.renderMatrix);
+            layer->Reset(clearColour);
+            layer->Render(renderer, camera);
         }
         camera.EndCameraRender();
     }

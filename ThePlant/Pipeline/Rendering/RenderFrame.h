@@ -77,7 +77,7 @@ namespace Rendering {
         void MoveTo(RenderFrame& moveTo) const;
 
         void SetMainCamera(const Core::instanceId<Camera>& camera);
-        void Render(Renderer& renderer) const;
+        void Render(Renderer& renderer, const Core::Math::Color& clearColour) const;
         const RenderCamera& GetMainCamera() const;
 
         void Clear();

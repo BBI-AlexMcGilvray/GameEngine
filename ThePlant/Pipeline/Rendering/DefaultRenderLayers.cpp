@@ -3,41 +3,51 @@
 namespace Application {
 namespace Rendering {
 
-void DebugRenderLayer::RenderContexts(Renderer& renderer, const Core::Math::Float4x4& camera) const
+void DebugRenderLayer::Reset(const Core::Math::Color& clearColor) const
+{
+  // nothing?
+}
+
+void DebugRenderLayer::RenderContexts(Renderer& renderer, const RenderCamera& camera) const
 {
     for (auto context : _contexts)
     {
-      context.mvp = camera * context.mvp;
+      context.mvp = camera.renderMatrix * context.mvp;
       renderer.SetShader(context.material.shader);
       renderer.DrawMesh(context);
     }
 }
 
-void DebugRenderLayer::RenderSkinnedContexts(Renderer& renderer, const Core::Math::Float4x4& camera) const
+void DebugRenderLayer::RenderSkinnedContexts(Renderer& renderer, const RenderCamera& camera) const
 {
     for (auto context : _skinnedContexts)
     {
-      context.context.mvp = camera * context.context.mvp;
+      context.context.mvp = camera.renderMatrix * context.context.mvp;
       renderer.SetShader(context.context.material.shader);
       renderer.DrawMesh(context);
     }
 }
 
-void DefaultRenderLayer::RenderContexts(Renderer& renderer, const Core::Math::Float4x4& camera) const
+void DefaultRenderLayer::Reset(const Core::Math::Color& clearColor) const
+{
+  // nothing?
+}
+
+void DefaultRenderLayer::RenderContexts(Renderer& renderer, const RenderCamera& camera) const
 {
     for (auto context : _contexts)
     {
-      context.mvp = camera * context.mvp;
+      context.mvp = camera.renderMatrix * context.mvp;
       renderer.SetShader(context.material.shader);
       renderer.DrawMesh(context);
     }
 }
 
-void DefaultRenderLayer::RenderSkinnedContexts(Renderer& renderer, const Core::Math::Float4x4& camera) const
+void DefaultRenderLayer::RenderSkinnedContexts(Renderer& renderer, const RenderCamera& camera) const
 {
     for (auto context : _skinnedContexts)
     {
-      context.context.mvp = camera * context.context.mvp;
+      context.context.mvp = camera.renderMatrix * context.context.mvp;
       renderer.SetShader(context.context.material.shader);
       renderer.DrawMesh(context);
     }

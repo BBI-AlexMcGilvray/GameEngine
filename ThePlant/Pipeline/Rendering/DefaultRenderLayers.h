@@ -8,15 +8,17 @@ namespace Rendering {
 class DebugRenderLayer : public RenderLayer<DebugRenderLayer>
 {
 public:
-    void RenderContexts(Renderer& renderer, const Core::Math::Float4x4& camera) const;
-    void RenderSkinnedContexts(Renderer& renderer, const Core::Math::Float4x4& camera) const;
+    void Reset(const Core::Math::Color& clearColor) const;
+    void RenderContexts(Renderer& renderer, const RenderCamera& camera) const;
+    void RenderSkinnedContexts(Renderer& renderer, const RenderCamera& camera) const;
 };
 
 class DefaultRenderLayer : public RenderLayer<DefaultRenderLayer>
 {
 public:
-    void RenderContexts(Renderer& renderer, const Core::Math::Float4x4& camera) const;
-    void RenderSkinnedContexts(Renderer& renderer, const Core::Math::Float4x4& camera) const;
+    void Reset(const Core::Math::Color& clearColor) const;
+    void RenderContexts(Renderer& renderer, const RenderCamera& camera) const;
+    void RenderSkinnedContexts(Renderer& renderer, const RenderCamera& camera) const;
 };
 
 } // namespace Rendering

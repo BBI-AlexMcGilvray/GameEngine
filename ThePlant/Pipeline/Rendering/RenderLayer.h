@@ -5,6 +5,7 @@
 #include "Core/Math/Headers/Matrix4x4.h"
 
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/Headers/RenderCamera.h"
 #include "Pipeline/Rendering/Renderer.h"
 
 #include <set>
@@ -59,7 +60,8 @@ public:
 
     virtual std::unique_ptr<IRenderLayer> CopyAndMoveTo() const = 0;
 
-    virtual void Render(Renderer& renderer, const Core::Math::Float4x4& camera) const = 0;
+    virtual void Reset(const Core::Math::Color& clearColor) const = 0;
+    virtual void Render(Renderer& renderer, const RenderCamera& camera) const = 0;
 
     void Clear();
 
@@ -111,8 +113,14 @@ public:
         return copy;
     }
 
+    // inside this method is where layer variables and such should be reset
+    virtual void Reset(const Core::Math::Color& clearColor) const override
+    {
+        static_cast<const LAYER&>(*this).Reset(clearColor);
+    }
+
     // inside this method is where different layers can apply some custom rendering logic (like different frame buffers or special shader stuff)
-    virtual void Render(Renderer& renderer, const Core::Math::Float4x4& camera) const override
+    virtual void Render(Renderer& renderer, const RenderCamera& camera) const override
     {
         static_cast<const LAYER&>(*this).RenderContexts(renderer, camera);
         static_cast<const LAYER&>(*this).RenderSkinnedContexts(renderer, camera);

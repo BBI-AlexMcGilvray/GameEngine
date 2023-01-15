@@ -107,7 +107,7 @@ namespace Rendering {
 
     Renderer _Renderer;
 
-    // testing
+    // --------------- TESTING: this should all be cleaned up/removed/moded...
     GLFrameBuffer _frameBuffer;
     GLTexture _frameBufferTexture;
     GLRenderBuffer _frameBufferStencilAndDepth;
@@ -115,8 +115,6 @@ namespace Rendering {
     Mesh _frameBufferMesh;
 
     void _InitialiseFrameBufferTest();
-    void _FrameBufferTestBegin();
-    void _FrameBufferTestEnd();
     void _CleanUpFrameBufferTest();
     void _RenderMainCamera(const RenderCamera& mainCamera);
     // \testing

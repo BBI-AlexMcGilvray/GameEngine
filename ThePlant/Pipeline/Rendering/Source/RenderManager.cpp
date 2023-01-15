@@ -177,10 +177,6 @@ namespace Rendering {
     glViewport(0, 0, window.Width, window.Height);
     glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    // testing
-    // _FrameBufferTestBegin();
-    // \testing
   }
 
   void RenderManager::_RenderMiddle()
@@ -190,25 +186,24 @@ namespace Rendering {
     const auto& frameData = _renderFrames.ReadBuffer();
 
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
-    frameData.Render(_Renderer);
+    frameData.Render(_Renderer, _clearColor);
     _Renderer.SetShader(Shader()); // this should be done in the EndFrame call?
 
     _renderFrames.ReturnBuffer(frameData);
 
+    // should this be here? i feel like we should have 'displays' that are rendered and handle getting their camera...
     _RenderMainCamera(frameData.GetMainCamera());
   }
 
   void RenderManager::_RenderEnd()
   {        
     DEBUG_PROFILE_SCOPE("_RenderEnd");
-
-    // testing
-    // _FrameBufferTestEnd();
-    // \testing
     
     SDL_GL_SwapWindow(_sdlManager->GetWindowManager().GetWindow());
   }
 
+
+// --------------- TESTING: this should all be cleaned up/removed/moded...
   void RenderManager::_InitialiseFrameBufferTest()
   {
     auto& window = _sdlManager->GetWindowManager();
@@ -218,7 +213,7 @@ namespace Rendering {
 
     _frameBufferTexture.Generate();
     _frameBufferTexture.Bind();
-    _frameBufferTexture.CreateTextureStorage(Core::Math::Int2(window.Width, window.Height), GL_RGB);
+    _frameBufferTexture.CreateTextureStorage(Core::Math::Int2(window.Width, window.Height), GL_RGBA);
     _frameBufferTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
     _frameBufferTexture.Unbind();
 
@@ -227,6 +222,8 @@ namespace Rendering {
     _frameBufferStencilAndDepth.CreateBufferStorage(Core::Math::Int2(window.Width, window.Height), GL_DEPTH24_STENCIL8);
     _frameBufferStencilAndDepth.AttachToFrameBuffer(GL_DEPTH_STENCIL_ATTACHMENT);
     _frameBufferStencilAndDepth.Unbind();
+
+    _frameBuffer.Unbind();
 
     _frameBufferMesh = CreateBox(Core::Math::Float3(-1.0f, -1.0f, 0.0f), Core::Math::Float3(1.0f, 1.0f, 0.0f));
     
@@ -241,7 +238,7 @@ namespace Rendering {
         void main()
         {
             gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0); 
-            TexCoords = aTexCoords; // should be aTexCoords, but being lazy doing it this way
+            TexCoords = aTexCoords;
         }  
       )";
     VertexShader vShader = CreateVertexShader(vShaderCode);
@@ -262,27 +259,6 @@ namespace Rendering {
     FragmentShader fShader = CreateFragmentShader(fShaderCode);
     _frameBufferShader = CreateShader(vShader, fShader);
   }
-
-  void RenderManager::_FrameBufferTestBegin()
-  {
-    _frameBuffer.Bind();
-    glClearColor(_clearColor.R * 0.5f, _clearColor.G * 0.5f, _clearColor.B * 0.5f, _clearColor.A);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_DEPTH_TEST);
-  }
-
-  void RenderManager::_FrameBufferTestEnd()
-  {
-    _frameBuffer.Unbind();
-    glClearColor(_clearColor.R * 0.5f, _clearColor.G * 0.5f, _clearColor.B * 0.5f, _clearColor.A);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    _Renderer.SetShader(_frameBufferShader);
-    _frameBufferMesh.buffer.Bind();
-    glDisable(GL_DEPTH_TEST);
-    _frameBufferTexture.Bind();
-    glDrawArrays(GL_TRIANGLES, 0, GLsizei(_frameBufferMesh.vertices));
-  }
   
   void RenderManager::_CleanUpFrameBufferTest()
   {
@@ -295,11 +271,17 @@ namespace Rendering {
 
   void RenderManager::_RenderMainCamera(const RenderCamera& mainCamera)
   {
+    glDisable(GL_DEPTH_TEST);
+
     _Renderer.SetShader(_frameBufferShader);
     mainCamera.texture.mesh.buffer.Bind();
-    glDisable(GL_DEPTH_TEST);
     mainCamera.texture.actualTexture.Bind();
+
     glDrawArrays(GL_TRIANGLES, 0, GLsizei(_frameBufferMesh.vertices));
+
+    mainCamera.texture.mesh.buffer.Unbind();
+    mainCamera.texture.actualTexture.Unbind();
+    _Renderer.SetShader(Shader());
   }
 }// namespace Rendering
 }// namespace Application
