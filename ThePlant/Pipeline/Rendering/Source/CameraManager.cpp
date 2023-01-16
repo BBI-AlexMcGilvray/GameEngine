@@ -26,7 +26,7 @@ namespace Rendering {
       {
         if (renderCamera.cameraId == camera.GetCameraId())
         {
-          renderCamera.renderDimensions = renderDimensions;
+          renderCamera.renderDimensions = renderDimensions; // needs to be a Resize call for the camera dimensions? (if they do not match)
           renderCamera.renderMatrix = cameraMatrix;
           _active[index] = true;
           return;

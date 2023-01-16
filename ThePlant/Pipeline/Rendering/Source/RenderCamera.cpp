@@ -8,7 +8,7 @@ RenderCamera::RenderCamera(const Camera& camera, const Core::Math::Int2& renderD
 {
     cameraId = camera.GetCameraId();
     _InitializeBuffers();
-    // _layers = camera.GetLayers();
+    // _layers = camera.GetLayers(); // should come from the component, not the camera itself
 }
 
 RenderCamera::~RenderCamera()
@@ -36,7 +36,7 @@ void RenderCamera::_InitializeBuffers()
     frameBuffer.Bind();
 
     // need some way to get the camera buffer size/dimensions
-    texture = CreateTexture(renderDimensions, Core::Math::Float2(2.0f, 2.0f));
+    texture = CreateTexture(renderDimensions, Core::Math::Float2(2.0f, 2.0f)); // PROBLEM: the 'generate' in here breaks imgui. why?
     texture.actualTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
 
     _frameBufferStencilAndDepth.Generate();

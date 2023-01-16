@@ -93,7 +93,7 @@ namespace Rendering {
     _RenderStart();
 
     _RenderMiddle();
-    _ui->Render();
+    _ui->Render(); // even not rendering any of the camera makes the UI fully black...
 
     _RenderEnd();
   #endif
@@ -186,13 +186,13 @@ namespace Rendering {
     const auto& frameData = _renderFrames.ReadBuffer();
 
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
-    frameData.Render(_Renderer, _clearColor);
-    _Renderer.SetShader(Shader()); // this should be done in the EndFrame call?
+    // frameData.Render(_Renderer, _clearColor);
+    // _Renderer.SetShader(Shader()); // this should be done in the EndFrame call?
 
     _renderFrames.ReturnBuffer(frameData);
 
     // should this be here? i feel like we should have 'displays' that are rendered and handle getting their camera...
-    _RenderMainCamera(frameData.GetMainCamera()); // currently, if we don't do this we still see the output... why?
+    // _RenderMainCamera(frameData.GetMainCamera()); // currently, if we don't do this we still see the output... why?
   }
 
   void RenderManager::_RenderEnd()
