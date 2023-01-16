@@ -46,7 +46,7 @@ void DeleteTexture(Texture& texture)
 void ResizeTexture(Texture& texture, const Core::Math::Int2& newDimensions)
 {
     texture.actualTexture.Bind();
-    texture.actualTexture.CreateTextureStorage(newDimensions, GL_RGBA);
+    texture.actualTexture.CreateTextureStorage(newDimensions, GL_RGB);
     texture.actualTexture.Unbind();
 }
 

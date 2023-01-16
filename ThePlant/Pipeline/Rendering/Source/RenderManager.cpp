@@ -192,7 +192,7 @@ namespace Rendering {
     _renderFrames.ReturnBuffer(frameData);
 
     // should this be here? i feel like we should have 'displays' that are rendered and handle getting their camera...
-    _RenderMainCamera(frameData.GetMainCamera());
+    _RenderMainCamera(frameData.GetMainCamera()); // currently, if we don't do this we still see the output... why?
   }
 
   void RenderManager::_RenderEnd()
@@ -213,7 +213,7 @@ namespace Rendering {
 
     _frameBufferTexture.Generate();
     _frameBufferTexture.Bind();
-    _frameBufferTexture.CreateTextureStorage(Core::Math::Int2(window.Width, window.Height), GL_RGBA);
+    _frameBufferTexture.CreateTextureStorage(Core::Math::Int2(window.Width, window.Height), GL_RGB);
     _frameBufferTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
     _frameBufferTexture.Unbind();
 

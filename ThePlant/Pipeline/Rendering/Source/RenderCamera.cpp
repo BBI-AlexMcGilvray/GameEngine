@@ -20,7 +20,7 @@ RenderCamera::~RenderCamera()
 void RenderCamera::BeginCameraRender(const Core::Math::Color& clearColour) const
 {
     frameBuffer.Bind();
-    glClearColor(clearColour.R * 0.5f, clearColour.G * 0.5f, clearColour.B * 0.5f, clearColour.A);
+    glClearColor(clearColour.R, clearColour.G, clearColour.B, clearColour.A);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 }
