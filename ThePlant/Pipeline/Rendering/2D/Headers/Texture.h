@@ -12,7 +12,7 @@ namespace Rendering {
   {
     Core::Math::Int2 textureDimensions;
     GLTexture actualTexture; // this texture should be a GLTexture with 'our' data (i.e. size)
-    Mesh mesh; // shouldn't be here - this should be a spite or an image (do we need both?)
+    Mesh mesh; // shouldn't be here - this should be a sprite or an image (do we need both?)
   };
 
   Texture CreateTexture(const Core::Math::Int2& textureDimensions, const Core::Math::Float2& meshDimensions);

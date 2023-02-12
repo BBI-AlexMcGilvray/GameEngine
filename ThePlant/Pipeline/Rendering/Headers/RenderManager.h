@@ -27,6 +27,7 @@
 
 // testing
 #include "Pipeline/Rendering/Shaders/Shader.h"
+#include "Pipeline/Rendering/2D/Headers/Texture.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLFrameBuffer.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLTexture.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLRenderBuffer.h"
@@ -109,13 +110,14 @@ namespace Rendering {
 
     // --------------- TESTING: this should all be cleaned up/removed/moded...
     GLFrameBuffer _frameBuffer;
-    GLTexture _frameBufferTexture;
+    Texture _frameBufferTexture;
     GLRenderBuffer _frameBufferStencilAndDepth;
     Shader _frameBufferShader;
-    Mesh _frameBufferMesh;
 
     void _InitialiseFrameBufferTest();
     void _CleanUpFrameBufferTest();
+    void _FrameBufferTestBegin();
+    void _FrameBufferTestEnd();
     void _RenderMainCamera(const RenderCamera& mainCamera);
     // \testing
   };

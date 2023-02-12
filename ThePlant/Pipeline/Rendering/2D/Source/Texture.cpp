@@ -1,5 +1,9 @@
 #include "Pipeline/Rendering/2D/Headers/Texture.h"
 
+#include "Core/Logging/LogFunctions.h"
+#include "Dependencies/Includes/sdl.h"
+#include "Dependencies/Includes/sdl_opengl.h"
+
 namespace Application {
 namespace Rendering {
 void _CreateNewMesh(Texture& texture, const Core::Math::Float2& dimensions)
@@ -13,15 +17,16 @@ void _CreateNewMesh(Texture& texture, const Core::Math::Float2& dimensions)
     VertexData bottomLeft = { Core::Math::Float3(min.X, min.Y, 0.0f), Core::Math::Float3(0.0f), Core::Math::Float2(0.0f, 0.0f) };
     VertexData topLeft = { Core::Math::Float3(min.X, max.Y, 0.0f), Core::Math::Float3(0.0f), Core::Math::Float2(0.0f, 1.0f) };
     VertexData topRight = { Core::Math::Float3(max.X, max.Y, 0.0f), Core::Math::Float3(0.0), Core::Math::Float2(1.0f, 1.0f) };
-    VertexData bottomRight = { Core::Math::Float3(max.X, min.Y), Core::Math::Float3(0.0f), Core::Math::Float2(1.0f, 0.0f) };
+    VertexData bottomRight = { Core::Math::Float3(max.X, min.Y, 0.0f), Core::Math::Float3(0.0f), Core::Math::Float2(1.0f, 0.0f) };
 
+    // these go counter clockwise because we are using GL_CCW as the glFrontFace value!
     meshVertices.push_back(bottomLeft);
+    meshVertices.push_back(topRight);
     meshVertices.push_back(topLeft);
-    meshVertices.push_back(topRight);
 
     meshVertices.push_back(topRight);
-    meshVertices.push_back(bottomRight);
     meshVertices.push_back(bottomLeft);
+    meshVertices.push_back(bottomRight);
 
     texture.mesh = CreateMesh(meshVertices);
 }

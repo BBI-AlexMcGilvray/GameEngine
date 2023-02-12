@@ -63,14 +63,14 @@ void RenderFrame::Render(Renderer& renderer, const Core::Math::Color& clearColou
 
     for (auto& camera : _cameras)
     {
-        camera.BeginCameraRender(clearColour); // should be the same as it used to be, but looks darker - from imgui?
+        // camera.BeginCameraRender(clearColour); // testing (1)
         for (auto& layer : _layers)
         {
             // if layer applies to camera
             layer->Reset(clearColour);
             layer->Render(renderer, camera);
         }
-        camera.EndCameraRender();
+        // camera.EndCameraRender(); // testing (1)
     }
 }
 

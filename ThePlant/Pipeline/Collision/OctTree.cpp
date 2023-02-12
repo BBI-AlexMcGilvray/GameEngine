@@ -52,7 +52,7 @@ std::pair<EntitySnapshot, Core::Geometric::Point3D> OctTreeNode::FindFirstEntity
     for (auto& entity : allEntities)
     {
         float distSqr = Core::Math::DistanceSqr(entity.second, shape.orientation.position);
-        if (distSqr < smallestDistSqr || index == 0)
+        if (index == 0 || distSqr < smallestDistSqr)
         {
             closestIndex = index;
             smallestDistSqr = distSqr;

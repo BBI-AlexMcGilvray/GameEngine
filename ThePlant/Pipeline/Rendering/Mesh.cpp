@@ -63,8 +63,8 @@ namespace Rendering {
         glEnableVertexAttribArray(1);// this matches with object shader construction
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::VertexData), (void *)(offsetof(Application::Rendering::VertexData, Application::Rendering::VertexData::normal)));
         // uvs
-        // glEnableVertexAttribArray(2);// this matches with object shader construction
-        // glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::VertexData), (void *)(offsetof(Application::Rendering::VertexData, Application::Rendering::VertexData::uvs)));
+        glEnableVertexAttribArray(2);// this matches with object shader construction
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::VertexData), (void *)(offsetof(Application::Rendering::VertexData, Application::Rendering::VertexData::uvs)));
 
         mesh.buffer.Unbind();// must be done first, as it stores the states of the binded vbos
         newBuffer.Unbind();

@@ -34,7 +34,7 @@ namespace IO {
 
   void File::Open()
   {
-    CORE_ERROR(TAG, "This line breaks in RelWithDebInfo for some reason... (red herring? - there are unaccounted for allocations...)");
+    CORE_ERROR(TAG, "This line breaks in RelWithDebInfo for some reason... (there are unaccounted for allocations, but they seem to be due to some static initialization made in the 'open' call)");
     FileStream.open(GetFullPath(), FilePermissions);
 
     if (!FileStream.is_open()) {

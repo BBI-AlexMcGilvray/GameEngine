@@ -40,8 +40,8 @@ namespace Rendering {
     _clearColor = clearColor;
 
     // don't render everything, but set up the default state
-    _RenderStart();
-    _RenderEnd();
+    // _RenderStart();
+    // _RenderEnd();
 
     // testing
     _InitialiseFrameBufferTest();
@@ -92,7 +92,20 @@ namespace Rendering {
     SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), _sdlManager->GetContextManager().GetContext());
     _RenderStart();
 
+    // instead of this, UI and world rendering should be different displays
+    // we should have a list of displays, and each display should have a way to check what cameras it needs
+    // therefore, _RenderMiddle would become:
+    /*
+    *   get all cameras needed by each display
+    *   loop over all cameras that are used by a display
+    *     - render to the cameras as we have it set up now
+    *   loop over all displays and tell them to render
+    *     ** game layer (default if no layers are specified) renders to the default opengl frame buffer
+    *     ** ui layer renders all the ui
+    *     ** the 'factory' (editor) would add it's own layer and only add the above 2 when we enter 'play' mode
+    */
     _RenderMiddle();
+    
     _ui->Render(); // even not rendering any of the camera makes the UI fully black...
 
     _RenderEnd();
@@ -175,29 +188,42 @@ namespace Rendering {
 
     auto& window = _sdlManager->GetWindowManager();
     glViewport(0, 0, window.Width, window.Height);
-    glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A); // probably don't need this anymore since it would be done when we render the main camera
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // same as above
   }
 
   void RenderManager::_RenderMiddle()
   {
     DEBUG_PROFILE_SCOPE("_RenderMiddle");
 
+    // testing (1)
+    // with this (and not rendering main camera or binding the cameras' buffers), the goal is to simplify the process and determine what isn't working
+    // the order of this impacts how IMGUI is drawing, and the 'CreateTexture' call FROM THE CAMERA breaks imgui's visuals - but not the one here! so not the call specifically?
+    // use renderdoc to see when the texture is actually rendered to - right now things still seem to be rendering directly to the back buffer...
+    _FrameBufferTestBegin();
+    // \testing
+
     const auto& frameData = _renderFrames.ReadBuffer();
 
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
-    // frameData.Render(_Renderer, _clearColor);
-    // _Renderer.SetShader(Shader()); // this should be done in the EndFrame call?
+    frameData.Render(_Renderer, _clearColor);
+    _Renderer.SetShader(Shader()); // this should be done in the EndFrame call?
 
     _renderFrames.ReturnBuffer(frameData);
 
     // should this be here? i feel like we should have 'displays' that are rendered and handle getting their camera...
-    // _RenderMainCamera(frameData.GetMainCamera()); // currently, if we don't do this we still see the output... why?
+    // _RenderMainCamera(frameData.GetMainCamera()); // testing (1)
+    
+    // testing (1)
+    _FrameBufferTestEnd();
+    // \testing
   }
 
   void RenderManager::_RenderEnd()
   {        
     DEBUG_PROFILE_SCOPE("_RenderEnd");
+
+    // here is where we probably go through each 'display' and update them? (how would that work with UI)
     
     SDL_GL_SwapWindow(_sdlManager->GetWindowManager().GetWindow());
   }
@@ -211,11 +237,16 @@ namespace Rendering {
     _frameBuffer.Generate();
     _frameBuffer.Bind();
 
-    _frameBufferTexture.Generate();
-    _frameBufferTexture.Bind();
-    _frameBufferTexture.CreateTextureStorage(Core::Math::Int2(window.Width, window.Height), GL_RGB);
-    _frameBufferTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
-    _frameBufferTexture.Unbind();
+    _frameBufferTexture = CreateTexture(Core::Math::Int2(window.Width, window.Height), Core::Math::Float2(2.0f, 2.0f));
+    _frameBufferTexture.actualTexture.Bind(); // may not be needed
+    _frameBufferTexture.actualTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
+    _frameBufferTexture.actualTexture.Unbind(); // may not be needed
+    // _frameBufferTexture.Generate();
+    // _frameBufferTexture.Bind();
+    // _frameBufferTexture.CreateTextureStorage(Core::Math::Int2(window.Width, window.Height), GL_RGB);
+    // _frameBufferTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
+    // _frameBufferTexture.Unbind();
+    // _frameBufferMesh = CreateBox(Core::Math::Float3(-1.0f, -1.0f, 0.0f), Core::Math::Float3(1.0f, 1.0f, 0.0f));
 
     _frameBufferStencilAndDepth.Generate();
     _frameBufferStencilAndDepth.Bind();
@@ -224,36 +255,36 @@ namespace Rendering {
     _frameBufferStencilAndDepth.Unbind();
 
     _frameBuffer.Unbind();
-
-    _frameBufferMesh = CreateBox(Core::Math::Float3(-1.0f, -1.0f, 0.0f), Core::Math::Float3(1.0f, 1.0f, 0.0f));
     
     const std::string vShaderCode = R"(
         #version 450 core
 			
-        layout (location = 0) in vec2 aPos;
-        layout (location = 1) in vec2 aTexCoords;
+        layout (location = 0) in vec3 vPos;
+        layout (location = 1) in vec3 vNormals;
+        layout (location = 2) in vec2 vTexCoords;
 
-        out vec2 TexCoords;
+        out vec2 fTexCoords;
 
         void main()
         {
-            gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0); 
-            TexCoords = aTexCoords;
+            gl_Position = vec4(vPos.x, vPos.y, 0.0, 1.0); 
+            fTexCoords = vTexCoords;
         }  
       )";
     VertexShader vShader = CreateVertexShader(vShaderCode);
     const std::string fShaderCode = R"(
         #version 450 core
 			
-        out vec4 FragColor;
+        layout(location = 0) out vec4 fColor;
   
-        in vec2 TexCoords;
+        in vec2 fTexCoords;
 
         uniform sampler2D screenTexture;
 
         void main()
         { 
-            FragColor = texture(screenTexture, TexCoords);
+            vec3 texColour = texture(screenTexture, fTexCoords).xyz;
+            fColor = vec4(texColour, 1.0f);
         }
       )";
     FragmentShader fShader = CreateFragmentShader(fShaderCode);
@@ -263,21 +294,55 @@ namespace Rendering {
   void RenderManager::_CleanUpFrameBufferTest()
   {
     _frameBuffer.Delete();
-    _frameBufferTexture.Delete();
+    DeleteTexture(_frameBufferTexture);
     _frameBufferStencilAndDepth.Delete();
 
     DeleteShader(_frameBufferShader);
   }
 
-  void RenderManager::_RenderMainCamera(const RenderCamera& mainCamera)
+  void RenderManager::_FrameBufferTestBegin()
   {
+    _frameBuffer.Bind();
+    glClearColor(_clearColor.R * 0.5f, _clearColor.G * 0.5f, _clearColor.B * 0.5f, _clearColor.A);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+  }
+
+  void RenderManager::_FrameBufferTestEnd()
+  {
+    _frameBuffer.Unbind();
+    glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
 
     _Renderer.SetShader(_frameBufferShader);
+    _frameBufferTexture.actualTexture.Bind();
+    _frameBufferTexture.mesh.buffer.Bind();
+
+    // NOTES: Problem is likely due to the shader needing to have the proper layout structure so that the 'indices' of the different fields (see construction of mesh and default shader) match
+    // may also require name changes? this process will definitely require the additional 'context' values to be set at some point (particularly for post process stuff)
+    // CURRENTLY: Render doc shows the texture being rendered to properly, but the texture is not then being rendered to the back buffer. Try modifying the shaders to force colours and see what happens
+
+    glDrawArrays(GL_TRIANGLES, 0, GLsizei(_frameBufferTexture.mesh.vertices));
+
+    _frameBufferTexture.actualTexture.Unbind();
+    _frameBufferTexture.mesh.buffer.Unbind();
+    _Renderer.SetShader(Shader());
+  }
+
+  void RenderManager::_RenderMainCamera(const RenderCamera& mainCamera)
+  {
+    _Renderer.SetShader(_frameBufferShader);
     mainCamera.texture.mesh.buffer.Bind();
+    glActiveTexture(GL_TEXTURE0); // shouldn't be needed (should default to this case)
     mainCamera.texture.actualTexture.Bind();
 
-    glDrawArrays(GL_TRIANGLES, 0, GLsizei(_frameBufferMesh.vertices));
+    // clearing here breaks, that probably means the texture we're trying to render from isn't working?
+    glDisable(GL_DEPTH_TEST);
+    glClearColor(_clearColor.R, _clearColor.G, _clearColor.B, _clearColor.A);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glDrawArrays(GL_TRIANGLES, 0, GLsizei(mainCamera.texture.mesh.vertices));
 
     mainCamera.texture.mesh.buffer.Unbind();
     mainCamera.texture.actualTexture.Unbind();

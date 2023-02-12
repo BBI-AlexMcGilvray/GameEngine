@@ -44,7 +44,7 @@ namespace IMGUI
 
     void Manager::Start()
     {
-
+        
     }
 
     void Manager::Render()
