@@ -7,7 +7,8 @@
 
 namespace Application {
 namespace Rendering {
-  // holds an image that gets used, and a type of material
+  // holds an image that gets used, and a type of material (material should be indexed into the material manager)
+  // these should probably be held by a general texture manager (indexed by an instance id) so that they can be shared and loaded at one time
   struct Texture
   {
     Core::Math::Int2 textureDimensions;
@@ -15,6 +16,7 @@ namespace Rendering {
     Mesh mesh; // shouldn't be here - this should be a sprite or an image (do we need both?)
   };
 
+  // not sure how creating a texture in a space where opengl is being run on a separate thread will work...
   Texture CreateTexture(const Core::Math::Int2& textureDimensions, const Core::Math::Float2& meshDimensions);
   void DeleteTexture(Texture& texture);
 
