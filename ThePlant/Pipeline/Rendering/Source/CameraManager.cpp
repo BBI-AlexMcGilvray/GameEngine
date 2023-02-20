@@ -34,18 +34,22 @@ namespace Rendering {
         ++index;
       }
 
-      _renderCameras.emplace_back(RenderCamera(camera, renderDimensions, cameraMatrix));
+      auto& newCamera = _renderCameras.emplace_back(RenderCamera(camera, renderDimensions, cameraMatrix));
+      newCamera.InitializeCamera();
+      
       _active.emplace_back(true);
     }
 
     void CameraManager::RemoveInactive()
     {
-      for (size_t index = 0; index < _active.size(); ++index)
+      for (size_t index = _active.size(); index > 0; --index)
       {
-        if (!_active[index])
+        size_t actualIndex = index - 1;
+        if (!_active[actualIndex])
         {
           // this would be the other place we clean up the camera (if not in the destructor)
-          _renderCameras.erase(_renderCameras.begin() + index);
+          (_renderCameras.begin() + actualIndex)->CleanUpCamera();
+          _renderCameras.erase(_renderCameras.begin() + actualIndex);
         }
       }
 

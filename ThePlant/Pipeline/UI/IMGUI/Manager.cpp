@@ -37,7 +37,7 @@ namespace IMGUI
 
         // Setup Platform/Renderer backends
         ImGui_ImplSDL2_InitForOpenGL(_window.GetWindow(), _glContext.GetContext());
-        ImGui_ImplOpenGL3_Init(NULL); // see documentation for notes
+        ImGui_ImplOpenGL3_Init(nullptr); // see documentation for notes
 
         RegisterDefaultWindows(*this);
     }

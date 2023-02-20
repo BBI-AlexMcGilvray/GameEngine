@@ -27,7 +27,7 @@ namespace Rendering {
     std::set<Core::Hash> layers;
 
     RenderCamera(const Camera& camera, const Core::Math::Int2& renderDimensions, const Core::Math::Float4x4& matrix);
-    ~RenderCamera();
+    ~RenderCamera() = default;
 
     // coping should be fine, just need to be aware of where the frame buffers will get deleted from (could be race condition in multithreaded rendering)
     RenderCamera(const RenderCamera&) = default;
@@ -36,8 +36,10 @@ namespace Rendering {
     RenderCamera& operator=(const RenderCamera&) = default;
     RenderCamera& operator=(RenderCamera&&) = default;
 
+    void InitializeCamera();
     void BeginCameraRender(const Core::Math::Color& clearColour) const;
     void EndCameraRender() const;
+    void CleanUpCamera();
 
 private:
     GLRenderBuffer _frameBufferStencilAndDepth;

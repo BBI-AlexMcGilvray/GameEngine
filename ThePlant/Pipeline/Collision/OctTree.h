@@ -36,6 +36,13 @@ struct OctTreeContent
     OctTreeContent(OctTreeContent&&) = default;
     OctTreeContent& operator=(const OctTreeContent&) = default;
     OctTreeContent& operator=(OctTreeContent&&) = default;
+
+    private:
+    // these may need to be in the CollisionComponent, not here
+    // friend struct OctTreeNode;
+    // std::weak_ptr<OctTreeNode> _lastNode; // if this is not null, we start here and work our way up/down respectively
+    // teleporting the collider may need to reset this, to not waste going up->down
+    // this node should be provided to the 'AddContent' function as a 'hint' parameter
 };
 
 class OctTreeNode;

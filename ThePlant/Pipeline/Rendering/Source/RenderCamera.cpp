@@ -9,13 +9,12 @@ RenderCamera::RenderCamera(const Camera& camera, const Core::Math::Int2& renderD
 , renderDimensions(renderDimensions)
 {
     cameraId = camera.GetCameraId();
-    // _InitializeBuffers();
     // _layers = camera.GetLayers(); // should come from the component, not the camera itself
 }
 
-RenderCamera::~RenderCamera()
+void RenderCamera::InitializeCamera()
 {
-    _CleanUpBuffers();// should this be here?
+    _InitializeBuffers();
 }
 
 // in the future, this clear colour should be camera/render camera specific
@@ -32,6 +31,11 @@ void RenderCamera::EndCameraRender() const
     frameBuffer.Unbind();
 }
 
+void RenderCamera::CleanUpCamera()
+{
+    _CleanUpBuffers();
+}
+
 // currently commented out from constructor
 void RenderCamera::_InitializeBuffers()
 {
@@ -39,7 +43,8 @@ void RenderCamera::_InitializeBuffers()
     frameBuffer.Bind();
 
     // need some way to get the camera buffer size/dimensions
-    texture = CreateTexture(renderDimensions, Core::Math::Float2(2.0f, 2.0f)); // PROBLEM: the 'generate' in here breaks imgui. why?
+    texture = CreateTexture(renderDimensions, Core::Math::Float2(2.0f, 2.0f));
+
     texture.actualTexture.Bind(); // may not be needed
     texture.actualTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
     texture.actualTexture.Unbind(); // may not be needed
@@ -49,11 +54,7 @@ void RenderCamera::_InitializeBuffers()
     _frameBufferStencilAndDepth.CreateBufferStorage(renderDimensions, GL_DEPTH24_STENCIL8);
     _frameBufferStencilAndDepth.AttachToFrameBuffer(GL_DEPTH_STENCIL_ATTACHMENT);
     _frameBufferStencilAndDepth.Unbind();
-
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-    {
-        CORE_LOG("RenderCamera", "issues!");
-    }
+    
     frameBuffer.Unbind();
 
     // the shader will need to be set up elsewhere

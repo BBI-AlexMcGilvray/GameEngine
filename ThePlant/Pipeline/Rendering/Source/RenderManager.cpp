@@ -241,12 +241,6 @@ namespace Rendering {
     _frameBufferTexture.actualTexture.Bind(); // may not be needed
     _frameBufferTexture.actualTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
     _frameBufferTexture.actualTexture.Unbind(); // may not be needed
-    // _frameBufferTexture.Generate();
-    // _frameBufferTexture.Bind();
-    // _frameBufferTexture.CreateTextureStorage(Core::Math::Int2(window.Width, window.Height), GL_RGB);
-    // _frameBufferTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);
-    // _frameBufferTexture.Unbind();
-    // _frameBufferMesh = CreateBox(Core::Math::Float3(-1.0f, -1.0f, 0.0f), Core::Math::Float3(1.0f, 1.0f, 0.0f));
 
     _frameBufferStencilAndDepth.Generate();
     _frameBufferStencilAndDepth.Bind();

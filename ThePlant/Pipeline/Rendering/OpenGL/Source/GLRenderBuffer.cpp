@@ -37,7 +37,7 @@ namespace Rendering {
 
     void GLRenderBuffer::AttachToFrameBuffer(GLenum attachmentType)
     {
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachmentType, GL_FRAMEBUFFER, Object);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachmentType, GL_RENDERBUFFER, Object);
     }
 
     void GLRenderBuffer::Unbind() const
