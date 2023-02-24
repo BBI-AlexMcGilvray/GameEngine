@@ -63,14 +63,14 @@ void RenderFrame::Render(Renderer& renderer, const Core::Math::Color& clearColou
 
     for (auto& camera : _cameras)
     {
-        // camera.BeginCameraRender(clearColour); // testing (1)
+        camera.BeginCameraRender(clearColour); // testing (1)
         for (auto& layer : _layers)
         {
             // if layer applies to camera
             layer->Reset(clearColour);
             layer->Render(renderer, camera);
         }
-        // camera.EndCameraRender(); // testing (1)
+        camera.EndCameraRender(); // testing (1)
     }
 }
 

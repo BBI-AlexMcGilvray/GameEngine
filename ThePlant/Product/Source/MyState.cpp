@@ -72,7 +72,8 @@ void MyState::Initialize()
 
     // this will be data driven from the future
     // create camera
-    Application::CameraComponent camera(1280.0f / 1080.0f, Core::Math::Int2(512, 512));
+    Application::WindowManager& windowManager = SDLManager().GetWindowManager();
+    Application::CameraComponent camera(1280.0f / 1080.0f, Core::Math::Int2(windowManager.Width, windowManager.Height));
     auto& cameraHandler = ECS().CreateEntity();
     cameraHandler.AddComponent<Application::CameraComponent>(camera);
     cameraHandler.AddComponent<Application::WorldTransformComponent>(Core::Geometric::Transform());

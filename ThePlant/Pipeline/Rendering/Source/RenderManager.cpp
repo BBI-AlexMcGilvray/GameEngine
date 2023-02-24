@@ -200,7 +200,7 @@ namespace Rendering {
     // with this (and not rendering main camera or binding the cameras' buffers), the goal is to simplify the process and determine what isn't working
     // the order of this impacts how IMGUI is drawing, and the 'CreateTexture' call FROM THE CAMERA breaks imgui's visuals - but not the one here! so not the call specifically?
     // use renderdoc to see when the texture is actually rendered to - right now things still seem to be rendering directly to the back buffer...
-    _FrameBufferTestBegin();
+    // _FrameBufferTestBegin();
     // \testing
 
     const auto& frameData = _renderFrames.ReadBuffer();
@@ -212,10 +212,10 @@ namespace Rendering {
     _renderFrames.ReturnBuffer(frameData);
 
     // should this be here? i feel like we should have 'displays' that are rendered and handle getting their camera...
-    // _RenderMainCamera(frameData.GetMainCamera()); // testing (1)
+    _RenderMainCamera(frameData.GetMainCamera()); // testing (1)
     
     // testing (1)
-    _FrameBufferTestEnd();
+    // _FrameBufferTestEnd();
     // \testing
   }
 
@@ -328,7 +328,6 @@ namespace Rendering {
   {
     _Renderer.SetShader(_frameBufferShader);
     mainCamera.texture.mesh.buffer.Bind();
-    glActiveTexture(GL_TEXTURE0); // shouldn't be needed (should default to this case)
     mainCamera.texture.actualTexture.Bind();
 
     // clearing here breaks, that probably means the texture we're trying to render from isn't working?
