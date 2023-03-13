@@ -54,6 +54,11 @@ namespace Rendering
   struct RenderManager;
   class ShaderManager;
 }
+namespace UI {
+  namespace IMGUI {
+    class Manager;
+  }
+}
 
 struct State
 {
@@ -75,6 +80,9 @@ struct State
   EntityFactory& EntityFactory();
 
   SDL2Manager& SDLManager();
+
+  UI::IMGUI::Manager& IMGUI();
+  
   Application::ApplicationManager& ApplicationManager();
   Animation::AnimationManager& AnimationManager();
   Collision::CollisionManager& CollisionManager();

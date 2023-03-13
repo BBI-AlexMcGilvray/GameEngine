@@ -37,6 +37,7 @@ namespace Rendering {
 
     // should we be using instanceIds? should we just use asset names?
     Core::instanceId<Material> AddMaterial(const Data::AssetName<Data::Rendering::MaterialData>& material);
+    // NOTE: We shouldn't need to worry about this being thread safe if shaders are thread safe, as materials really just rely on shaders existing
     void RemoveMaterial(const Core::instanceId<Material>& renderObject);
 
     Material& GetDefaultMaterial();

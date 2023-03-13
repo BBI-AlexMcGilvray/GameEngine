@@ -29,8 +29,6 @@ namespace IMGUI {
     void Initialize();
     void Start();
 
-    void Render();
-
     void End();
     void CleanUp();
 
@@ -40,7 +38,7 @@ namespace IMGUI {
       SCOPED_MEMORY_CATEGORY("IMGUI");
       Core::instanceId<Window> newId = Core::GetInstanceId<Window>();
 
-      std::unique_lock<std::mutex> lock(_mutex);
+      std::unique_lock<std::recursive_mutex> lock(_mutex);
       _windows.emplace(std::make_pair(newId, std::make_unique<T>(std::forward<ARGS>(args)...)));
 
       return newId;
@@ -55,15 +53,21 @@ namespace IMGUI {
 
     Window& GetWindow(Core::instanceId<Window> window)
     {
-      std::unique_lock<std::mutex> lock(_mutex); // this may not need to be locked as it is a get only, not a modification of _windows
+      std::unique_lock<std::recursive_mutex> lock(_mutex); // this may not need to be locked as it is a get only, not a modification of _windows
       return *(_windows[window]);
     }
 
+    // will lock while gathering references, but outside of that scope be sure to call LockWindows and UnlockWindows
+    std::vector<std::reference_wrapper<Window>> GetAllWindows();
+
     void RemoveWindow(const Core::instanceId<Window>& window)
     {
-      std::unique_lock<std::mutex> lock(_mutex);
+      std::unique_lock<std::recursive_mutex> lock(_mutex);
       _windows.erase(window);
     }
+
+    std::unique_lock<std::recursive_mutex> LockWindows();
+    void UnlockWindows(std::unique_lock<std::recursive_mutex>&& lock);
 
     private:
       const WindowManager& _window;
@@ -71,10 +75,7 @@ namespace IMGUI {
 
       std::unordered_map<Core::instanceId<Window>, std::unique_ptr<Window>, Core::instanceIdHasher<Window>> _windows;
       // since the rendering thread is separate, we may gets hitches when trying to add/remove due to it being locked up more frequently (something to watch out for)
-      mutable std::mutex _mutex; // for some reason _mutex being placed above _windows causes issued (race conditions or something...)
-
-      void _RenderManager();
-      void _RenderWindows();
+      mutable std::recursive_mutex _mutex; // for some reason _mutex being placed above _windows causes issued (race conditions or something...)
   };
 }// namespace IMGUI
 }// namespace UI

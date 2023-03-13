@@ -18,8 +18,8 @@ void FactoryUI::Initialize()
 {
     DEBUG_PROFILE_SCOPE("FactoryUI::Initialize");
     
-    _archetypesUI = _factory.GetApplication().RenderManager().GetUIManager().AddWindow<UI::IMGUI::ArchetypesUI>(_factory);
-    _entityUI = _factory.GetApplication().RenderManager().GetUIManager().AddWindow<UI::IMGUI::EntitySnapshotUI>(_factory);
+    _archetypesUI = _factory.GetApplication().IMGUI().AddWindow<UI::IMGUI::ArchetypesUI>(_factory);
+    _entityUI = _factory.GetApplication().IMGUI().AddWindow<UI::IMGUI::EntitySnapshotUI>(_factory);
 }
 
 void FactoryUI::Start()
@@ -41,8 +41,8 @@ void FactoryUI::CleanUp()
 {
     DEBUG_PROFILE_SCOPE("FactoryUI::CleanUp");
 
-    _factory.GetApplication().RenderManager().GetUIManager().RemoveWindow(_archetypesUI);
-    _factory.GetApplication().RenderManager().GetUIManager().RemoveWindow(_entityUI);
+    _factory.GetApplication().IMGUI().RemoveWindow(_archetypesUI);
+    _factory.GetApplication().IMGUI().RemoveWindow(_entityUI);
 
     _archetypesUI = Core::instanceId<Application::UI::IMGUI::Window>();
     _entityUI = Core::instanceId<Application::UI::IMGUI::Window>();
@@ -56,11 +56,11 @@ void FactoryUI::SelectEntity(Application::EntityId entity)
 
 UI::IMGUI::ArchetypesUI& FactoryUI::ArchetypesUI()
 {
-    return _factory.GetApplication().RenderManager().GetUIManager().GetWindow<UI::IMGUI::ArchetypesUI>(_archetypesUI);
+    return _factory.GetApplication().IMGUI().GetWindow<UI::IMGUI::ArchetypesUI>(_archetypesUI);
 }
 
 UI::IMGUI::EntitySnapshotUI& FactoryUI::EntitySnapshotUI()
 {
-    return _factory.GetApplication().RenderManager().GetUIManager().GetWindow<UI::IMGUI::EntitySnapshotUI>(_entityUI);
+    return _factory.GetApplication().IMGUI().GetWindow<UI::IMGUI::EntitySnapshotUI>(_entityUI);
 }
 } // namespace Editor

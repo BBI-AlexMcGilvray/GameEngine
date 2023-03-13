@@ -82,6 +82,7 @@ StateSystem/Source/StateHelpers.cpp #
 StateSystem/Source/StateManager.cpp #
 Time/Source/TimeManager.cpp #
 Time/Source/TimeSystem.cpp #
+UI/IMGUI/IMGUIDisplayLayer.cpp #
 UI/IMGUI/Manager.cpp #
 UI/IMGUI/Windows/Examples.cpp #
 UI/IMGUI/Windows/MemoryTracker.cpp #
@@ -212,6 +213,7 @@ StateSystem/Headers/ECSSystemUtils.h #
 Time/Headers/TimeManager.h #
 Time/Headers/TimeSettings.h #
 Time/Headers/TimeSystem.h #
+UI/IMGUI/IMGUIDisplayLayer.h #
 UI/IMGUI/Manager.h #
 UI/IMGUI/Window.h #
 UI/IMGUI/Windows/Examples.h #

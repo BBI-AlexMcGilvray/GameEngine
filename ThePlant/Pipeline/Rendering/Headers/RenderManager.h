@@ -15,8 +15,6 @@
 #include "Pipeline/Headers/SDL2Manager.h"
 #include "Pipeline\Headers\WindowManager.h"
 
-#include "Pipeline/UI/IMGUI/Manager.h"
-
 #include "Pipeline/Rendering/DisplayManager.h"
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
@@ -26,14 +24,6 @@
 #include "Pipeline/Rendering/RenderFrame.h"
 #include "Pipeline/Rendering/Renderer.h"
 
-// testing
-#include "Pipeline/Rendering/Shaders/Shader.h"
-#include "Pipeline/Rendering/2D/Headers/Texture.h"
-#include "Pipeline/Rendering/OpenGL/Headers/GLFrameBuffer.h"
-#include "Pipeline/Rendering/OpenGL/Headers/GLTexture.h"
-#include "Pipeline/Rendering/OpenGL/Headers/GLRenderBuffer.h"
-// \testing
-
 namespace Application {
 namespace Rendering {
   struct RenderManager
@@ -41,7 +31,6 @@ namespace Rendering {
     RenderManager();
 
     CameraManager& GetCameraManager();
-    UI::IMGUI::Manager& GetUIManager();
 
     void Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();
@@ -106,7 +95,6 @@ namespace Rendering {
     Core::Ptr<SDL2Manager> _sdlManager;
 
     CameraManager _cameraManager;
-    std::unique_ptr<UI::IMGUI::Manager> _ui;
 
     void _RenderStart();
     void _RenderMiddle();
@@ -121,20 +109,14 @@ namespace Rendering {
     DisplayManager _displayManager;
 
     Renderer _Renderer;
-    // the material and shader managers should be held here so the removal and addition of their respective types is guaranteed to be valid when we are in the rendering thread
 
-    // --------------- TESTING: this should all be cleaned up/removed/moded...
-    GLFrameBuffer _frameBuffer;
-    Texture _frameBufferTexture;
-    GLRenderBuffer _frameBufferStencilAndDepth;
-    Shader _frameBufferShader;
-
-    void _InitialiseFrameBufferTest();
-    void _CleanUpFrameBufferTest();
-    void _FrameBufferTestBegin();
-    void _FrameBufferTestEnd();
-    void _RenderMainCamera(const RenderCamera& mainCamera);
-    // \testing
+    /*
+    NOTES:
+      * If we allow for the removal of shaders, we will need to make sure it is thread-safe (since rendering is on a different thread)
+      * If that is the case, we either want them to be held here with a way to forward removal (like the displays)
+      * OR, we want to have the rendering thread have some way to lock the shaders 
+          * it would need to also verify that none of the contexts use any removed shaders
+    */
   };
 }// namespace Rendering
 }// namespace Application

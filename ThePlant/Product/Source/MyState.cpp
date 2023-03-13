@@ -17,6 +17,7 @@
 #include "Pipeline/ECSSystems/ColliderComponents.h"
 #include "Pipeline/ECSSystems/ParentSyncSystem.h"
 #include "Pipeline/Rendering/Display.h"
+#include "Pipeline/UI/IMGUI/IMGUIDisplayLayer.h"
 
 #include "Product/Supplies/Assets.h"
 #include "Product/Testing/TestingUtils.h"
@@ -83,6 +84,7 @@ void MyState::Initialize()
     _camera = cameraHandler;
 
     RenderManager().AddDisplay<Application::Rendering::MainDisplayLayer>(RenderManager(), ShaderManager(), camera.camera.GetCameraId());
+    RenderManager().AddDisplay<Application::UI::IMGUI::IMGUIDisplayLayer>(IMGUI());
 
     // create camera controller
     Application::Input::InputManager& inputManager = InputManager();

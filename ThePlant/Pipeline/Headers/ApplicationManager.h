@@ -19,6 +19,7 @@
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 #include "Pipeline/Time/Headers/TimeSystem.h"
+#include "Pipeline/UI/IMGUI/Manager.h"
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Functionality/Headers/Event.h"
@@ -44,6 +45,8 @@ struct ApplicationManager
 
   // should this be here? Currently exists for IMGUI, but maybe we want a UI manager or something and go through that for debug vs other ui?
   SDL2Manager& SDLManager();
+
+  UI::IMGUI::Manager& IMGUI();
 
   Animation::AnimationManager &AnimationManager();
   Rendering::RenderManager &RenderManager();
@@ -87,6 +90,7 @@ private:
   Application::EntityFactory _entityFactory;
 
   Application::SDL2Manager _sdl;
+  UI::IMGUI::Manager _imguiUI;
   Animation::AnimationManager _animationSystem;
   Rendering::ShaderManager _shaderManager; // this should probably be held by the render system (since rendering would be on a separate thread)
   Rendering::MaterialManager _materialManager; // this should probably be held the render system (since rendering would be on a separate thread)

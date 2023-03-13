@@ -9,17 +9,15 @@ namespace Rendering {
         _clearColor = color;
     }
 
-    RenderManager& IDisplayLayer::_GetRenderManager() { return *_renderManager; }
-
     MainDisplayLayer::MainDisplayLayer(RenderManager& renderManager, ShaderManager& shaderManager, Core::instanceId<Camera> cameraToRender)
-    : IDisplayLayer(renderManager)
+    : _renderManager(renderManager)
     , _shaderManager(shaderManager)
     , _cameraToRender(cameraToRender)
     {}
 
     void MainDisplayLayer::Render(Renderer& renderer)
     {
-        const RenderCamera& renderCamera = _GetRenderManager().GetCameraManager().GetCamera(_cameraToRender);
+        const RenderCamera& renderCamera = _renderManager.GetCameraManager().GetCamera(_cameraToRender);
 
         renderer.SetShader(_shaderManager.GetDefaultTextureShader());
         renderCamera.texture.mesh.buffer.Bind();

@@ -14,9 +14,7 @@ namespace Rendering {
   class IDisplayLayer
   {
     public:
-        IDisplayLayer(RenderManager& renderManager)
-        : _renderManager(&renderManager)
-        {}
+        IDisplayLayer() = default;
 
         void SetClearColor(const Core::Math::Color& color);
 
@@ -24,11 +22,6 @@ namespace Rendering {
 
     protected:
         Core::Math::Color _clearColor;
-
-        RenderManager& _GetRenderManager();
-
-    private:
-        Core::Ptr<RenderManager> _renderManager = nullptr;
   };
 
   class MainDisplayLayer : public IDisplayLayer
@@ -40,6 +33,7 @@ namespace Rendering {
         virtual void Render(Renderer& renderer) override;
 
     private:
+        RenderManager& _renderManager;
         ShaderManager& _shaderManager;
         Core::instanceId<Camera> _cameraToRender;
   };

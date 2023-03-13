@@ -34,6 +34,7 @@ Data::AssetManager& State::AssetManager() { return _applicationManager.AssetMana
 AssetLoaderFactory& State::AssetLoaderFactory() { return _applicationManager.AssetLoaderFactory(); }
 EntityFactory& State::EntityFactory() { return _applicationManager.EntityFactory(); }
 SDL2Manager& State::SDLManager() { return _applicationManager.SDLManager(); }
+UI::IMGUI::Manager& State::IMGUI() { return _applicationManager.IMGUI(); }
 Application::ApplicationManager& State::ApplicationManager() { return _applicationManager; }
 Animation::AnimationManager& State::AnimationManager() { return _applicationManager.AnimationManager(); }
 Collision::CollisionManager& State::CollisionManager() { return _collisionManager; }

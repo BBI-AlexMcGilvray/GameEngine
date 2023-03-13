@@ -49,6 +49,11 @@ SDL2Manager& ApplicationManager::SDLManager()
   return _sdl;
 }
 
+UI::IMGUI::Manager& ApplicationManager::IMGUI()
+{
+  return _imguiUI;
+}
+
 Animation::AnimationManager &ApplicationManager::AnimationManager()
 {
   return _animationSystem;
@@ -84,6 +89,7 @@ ApplicationManager::ApplicationManager()
   , _timeSystem(Application::Time::FIXED_30FPS)
   , _assetLoader(*this)
   , _entityFactory(_assetLoader, _assetManager)
+  , _imguiUI(_sdl.GetWindowManager(), _sdl.GetContextManager())
   , _shaderManager(_assetManager, _assetLoader)
   , _materialManager(_assetManager, _assetLoader, _shaderManager)
   , _inputSystem(_sdl)
@@ -135,6 +141,7 @@ bool ApplicationManager::Initialize()
   }
 
   _timeSystem.Initialize();
+  _imguiUI.Initialize();
   _animationSystem.Initialize();
   _renderSystem.Initialize(_sdl, _threadManager.GetThread());
   _inputSystem.initialize();
@@ -154,6 +161,7 @@ void ApplicationManager::Start()
 {
   _timeSystem.Start();
   _sdl.Start();
+  _imguiUI.Start();
   _animationSystem.Start();
   _renderSystem.Start();
   _inputSystem.start();
@@ -190,6 +198,7 @@ void ApplicationManager::End()
   _inputSystem.end();
   _animationSystem.End();
   _renderSystem.End(_threadManager);
+  _imguiUI.End();
   _sdl.End();
   
   // should this be here? if not here, where?
@@ -205,6 +214,7 @@ void ApplicationManager::CleanUp()
   _inputSystem.cleanUp();
   _renderSystem.CleanUp();
   _animationSystem.CleanUp();
+  _imguiUI.CleanUp();
   _sdl.CleanUp();
 
   // should this be here? if not here, where?

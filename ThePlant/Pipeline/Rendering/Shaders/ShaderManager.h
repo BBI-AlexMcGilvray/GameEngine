@@ -22,6 +22,10 @@ namespace Rendering {
     // games should loop through all shaders and add them at game-creation time (once games get big enough, this would get done on level-switch?)
     const Shader AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader);
     const Shader GetShader(const Data::AssetName<Data::Rendering::ShaderData>& shader); // we probably want to return a straight shader, but need to be ensure lifetime is ensured
+    // NOTE:
+    /*
+      we have nothing that removes a shader, if we add one we will need to look at how we will handle using shaders in a threaded context!
+    */
 
   private:
     Data::AssetManager& _assetManager;
