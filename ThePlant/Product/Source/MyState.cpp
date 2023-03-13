@@ -83,6 +83,8 @@ void MyState::Initialize()
     cameraHandler.AddComponent<Application::RotationComponent>(Core::Math::FQuaternion(Core::Math::II()));
     _camera = cameraHandler;
 
+    // what displays to show
+    // NOTE: We need some way to specify order/dependency so we control what appears on top of the other (currently it follows the order they are added in)
     RenderManager().AddDisplay<Application::Rendering::MainDisplayLayer>(RenderManager(), ShaderManager(), camera.camera.GetCameraId());
     RenderManager().AddDisplay<Application::UI::IMGUI::IMGUIDisplayLayer>(IMGUI());
 
