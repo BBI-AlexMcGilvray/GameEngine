@@ -34,6 +34,17 @@ namespace Rendering {
 
     return _defaultShader;
   }
+  
+  const Shader ShaderManager::GetDefaultTextureShader()
+  {
+    // this is here because we can't make it immediately since opengl is not in a good state, but we should have an nicer way to check for validity
+    if (_textureShader.glProgram.Object == 0)
+    {
+      _textureShader = CreateDefaultTextureShader();
+    }
+
+    return _textureShader;
+  }
 
   const Shader ShaderManager::AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
   {

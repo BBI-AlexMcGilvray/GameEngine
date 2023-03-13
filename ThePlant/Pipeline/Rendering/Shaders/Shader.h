@@ -78,5 +78,6 @@ namespace Rendering {
 
   Shader CreateShader(Data::AssetManager& assetManager, const Data::AssetData<Data::Rendering::ShaderData>& data);
   Shader CreateDefaultShader();
+  Shader CreateDefaultTextureShader();
 }// namespace Rendering
 }// namespace Application

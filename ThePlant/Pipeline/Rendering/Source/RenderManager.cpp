@@ -211,12 +211,14 @@ namespace Rendering {
 
     _renderFrames.ReturnBuffer(frameData);
 
-    // should this be here? i feel like we should have 'displays' that are rendered and handle getting their camera...
-    _RenderMainCamera(frameData.GetMainCamera()); // testing (1)
+    // should not be needed anymore, this is now handled by displays (current display is being added by MyState.cpp)
+    // _RenderMainCamera(frameData.GetMainCamera()); // testing (1)
     
     // testing (1)
     // _FrameBufferTestEnd();
     // \testing
+
+    _displayManager.Render(_Renderer);
   }
 
   void RenderManager::_RenderEnd()

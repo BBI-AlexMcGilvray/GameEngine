@@ -17,6 +17,7 @@
 
 #include "Pipeline/UI/IMGUI/Manager.h"
 
+#include "Pipeline/Rendering/DisplayManager.h"
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/Camera.h"
@@ -44,6 +45,17 @@ namespace Rendering {
 
     void Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();
+
+    template <typename DISPLAY_LAYER, typename ...ARGS>
+    Core::instanceId<IDisplayLayer> AddDisplay(ARGS&& ...args)
+    {
+      return _displayManager.AddDisplay<DISPLAY_LAYER>(std::forward<ARGS>(args)...);
+    }
+
+    void RemoveDisplay(Core::instanceId<IDisplayLayer> displayId)
+    {
+      return _displayManager.RemoveDisplay(displayId);
+    }
 
     // for this and the RemoveLayer function, will this support dynamically adding/removing more during runtime? (i.e. not just initialization)
     template <typename LAYER>
@@ -106,7 +118,10 @@ namespace Rendering {
     std::atomic<bool> _rendering;
     Core::Threading::Thread _renderThread;
 
+    DisplayManager _displayManager;
+
     Renderer _Renderer;
+    // the material and shader managers should be held here so the removal and addition of their respective types is guaranteed to be valid when we are in the rendering thread
 
     // --------------- TESTING: this should all be cleaned up/removed/moded...
     GLFrameBuffer _frameBuffer;

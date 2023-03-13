@@ -88,7 +88,7 @@ namespace Rendering {
         std::vector<RenderCamera> _cameras; // can't be references because we move to other render frames (and references could break)
         Core::instanceId<Camera> _mainCamera; // this is the camera that renders to the main window
         bool _dirtyLayers = false;
-        std::vector<std::unique_ptr<IRenderLayer>> _layers;
+        std::vector<std::unique_ptr<IRenderLayer>> _layers; // should these layers be here?
 
         void _Dirty() { _dirtyLayers = true; }
         void _Clean() { _dirtyLayers = false; }

@@ -16,6 +16,7 @@
 #include "Pipeline/ECSSystems/CameraComponents.h"
 #include "Pipeline/ECSSystems/ColliderComponents.h"
 #include "Pipeline/ECSSystems/ParentSyncSystem.h"
+#include "Pipeline/Rendering/Display.h"
 
 #include "Product/Supplies/Assets.h"
 #include "Product/Testing/TestingUtils.h"
@@ -80,6 +81,8 @@ void MyState::Initialize()
     cameraHandler.AddComponent<Application::PositionComponent>(Core::Math::Float3(0.0f, 0.0f, 250.0f));
     cameraHandler.AddComponent<Application::RotationComponent>(Core::Math::FQuaternion(Core::Math::II()));
     _camera = cameraHandler;
+
+    RenderManager().AddDisplay<Application::Rendering::MainDisplayLayer>(RenderManager(), ShaderManager(), camera.camera.GetCameraId());
 
     // create camera controller
     Application::Input::InputManager& inputManager = InputManager();

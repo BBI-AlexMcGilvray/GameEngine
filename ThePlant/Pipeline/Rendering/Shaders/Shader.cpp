@@ -30,6 +30,26 @@ namespace Rendering {
     return CreateVertexShader(std::move(defaultShaderCode));
   }
 
+  VertexShader CreateDefaultTextureVertexShader()
+  {
+    const std::string defaultShaderCode = R"(
+        #version 450 core
+			
+        layout (location = 0) in vec3 vPos;
+        layout (location = 1) in vec3 vNormals;
+        layout (location = 2) in vec2 vTexCoords;
+
+        out vec2 fTexCoords;
+
+        void main()
+        {
+            gl_Position = vec4(vPos.x, vPos.y, 0.0, 1.0); 
+            fTexCoords = vTexCoords;
+        }  
+      )";
+    return CreateVertexShader(std::move(defaultShaderCode));
+  }
+
   VertexShader CreateVertexShader(const Data::AssetData<Data::Rendering::VertexShaderData>& data)
   {
       return CreateVertexShader(data->shaderCode);
@@ -40,7 +60,7 @@ namespace Rendering {
   // either need to not have the string be static (create a local FragmentShader instead), or have it be untracked
   FragmentShader CreateDefaultFragmentShader()
   {
-    const std::string defaultShaderCode = R"(
+    const std::string textureShaderCode = R"(
         #version 450 core
 			
         layout(location = 0) out vec4 fColor;
@@ -55,7 +75,27 @@ namespace Rendering {
             fColor = Color;
         }
       )";
-    return CreateFragmentShader(std::move(defaultShaderCode));
+    return CreateFragmentShader(std::move(textureShaderCode));
+  }
+
+  FragmentShader CreateDefaultTextureFragmentShader()
+  {
+    const std::string textureShaderCode = R"(
+        #version 450 core
+			
+        layout(location = 0) out vec4 fColor;
+  
+        in vec2 fTexCoords;
+
+        uniform sampler2D screenTexture;
+
+        void main()
+        { 
+            vec3 texColour = texture(screenTexture, fTexCoords).xyz;
+            fColor = vec4(texColour, 1.0f);
+        }
+      )";
+    return CreateFragmentShader(std::move(textureShaderCode));
   }
 
   FragmentShader CreateFragmentShader(const Data::AssetData<Data::Rendering::FragmentShaderData>& data)
@@ -78,6 +118,14 @@ namespace Rendering {
       FragmentShader defaultFragment = CreateDefaultFragmentShader();
 
       return CreateShader(defaultVertex, defaultFragment);
+  }
+
+  Shader CreateDefaultTextureShader()
+  {
+      VertexShader textureVertex = CreateDefaultTextureVertexShader();
+      FragmentShader textureFragment = CreateDefaultTextureFragmentShader();
+
+      return CreateShader(textureVertex, textureFragment);
   }
 } // namespace Application
 } // namespace Rendering

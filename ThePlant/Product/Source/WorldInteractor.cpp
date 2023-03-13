@@ -63,7 +63,6 @@ namespace Product
         // const auto selected = Application::Collision::GetFirstClickedOnAndCreateRay(*_state, mouseAxis, cameraSnapshot, 10.0f);
         const auto selected = Application::Collision::GetFirstClickedOn(*_state, mouseAxis, cameraSnapshot);
         
-        // testing visiting entity snapshot
         WITH_DEBUG_SERVICE(Editor::Factory)
         (
             service->SelectEntity(selected.first.GetEntityId());

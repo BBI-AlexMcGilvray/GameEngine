@@ -88,8 +88,8 @@ private:
 
   Application::SDL2Manager _sdl;
   Animation::AnimationManager _animationSystem;
-  Rendering::ShaderManager _shaderManager;
-  Rendering::MaterialManager _materialManager;
+  Rendering::ShaderManager _shaderManager; // this should probably be held by the render system (since rendering would be on a separate thread)
+  Rendering::MaterialManager _materialManager; // this should probably be held the render system (since rendering would be on a separate thread)
   Rendering::RenderManager _renderSystem;
   Input::InputManager _inputSystem;
   Application::StateManager _stateSystem;
