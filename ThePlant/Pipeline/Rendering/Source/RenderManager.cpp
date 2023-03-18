@@ -19,10 +19,11 @@ namespace Rendering {
     return _cameraManager;
   }
 
-  void RenderManager::Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Color clearColor)
+  void RenderManager::Initialize(SDL2Manager& sdlManager, Input::InputManager& inputManager, Core::Threading::Thread&& renderThread, Color clearColor)
   {
     SCOPED_MEMORY_CATEGORY("Rendering");
     _sdlManager = &sdlManager;
+    _inputManager = &inputManager;
 
     _initialColor = WHITE;
     _clearColor = clearColor;
@@ -39,6 +40,7 @@ namespace Rendering {
     SCOPED_MEMORY_CATEGORY("Rendering");
 
     _rendering = true;
+    // when multithreaded, we need input to be polled on the same thread as the displays (mostly due to IMGUI, but it makes sense regardless)
   #ifdef MULTITHREADED_RENDERING
     // NOTE: Apparently opengl context is thread-specific. If we are using threaded rendering, then we need to create the opengl context on that thread
     // https://stackoverflow.com/questions/21048927/initializing-opengl-context-in-another-thread-than-the-rendering
@@ -53,6 +55,7 @@ namespace Rendering {
       while (_rendering)
       {
         DEBUG_PROFILE_SCOPE("Render Thread"); // this thread is currently locked at 13ms, apparently by sdl's vsync (see above)
+        _inputManager->ThreadedUpdate();
         _RenderStart();
         _RenderMiddle();
         _RenderEnd();

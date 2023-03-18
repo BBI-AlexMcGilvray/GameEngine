@@ -11,9 +11,10 @@
 #include "Core/Threading/SafeTypes/TripleBuffer.h"
 #include "Core/Threading/Thread.h"
 
-#include "Pipeline\Headers\GLContextManager.h"
+#include "Pipeline/Headers/GLContextManager.h"
 #include "Pipeline/Headers/SDL2Manager.h"
-#include "Pipeline\Headers\WindowManager.h"
+#include "Pipeline/Headers/WindowManager.h"
+#include "Pipeline/Input/Headers/InputManager.h"
 
 #include "Pipeline/Rendering/DisplayManager.h"
 #include "Pipeline/Rendering/Headers/CameraManager.h"
@@ -32,7 +33,7 @@ namespace Rendering {
 
     CameraManager& GetCameraManager();
 
-    void Initialize(SDL2Manager& sdlManager, Core::Threading::Thread&& renderThread, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
+    void Initialize(SDL2Manager& sdlManager, Input::InputManager& inputManager, Core::Threading::Thread&& renderThread, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();
 
     template <typename DISPLAY_LAYER, typename ...ARGS>
@@ -93,6 +94,7 @@ namespace Rendering {
 
     Core::Math::Color _clearColor;
     Core::Ptr<SDL2Manager> _sdlManager;
+    Core::Ptr<Input::InputManager> _inputManager;
 
     CameraManager _cameraManager;
 
@@ -116,6 +118,9 @@ namespace Rendering {
       * If that is the case, we either want them to be held here with a way to forward removal (like the displays)
       * OR, we want to have the rendering thread have some way to lock the shaders 
           * it would need to also verify that none of the contexts use any removed shaders
+      
+      ** The above also applies to meshes! (really anything that is used by render logic)
+          ** Meshes aren't ever deleted at the moment! definitely would need a manager
     */
   };
 }// namespace Rendering

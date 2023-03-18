@@ -22,7 +22,7 @@ namespace Product
         WorldInteractor(Application::State& state, const Application::EntityId& cameraEntity);
 
         void Update(Core::Second deltaTime) override;
-        bool handleInput(Ptr<const Application::Input::InputEventBase> event) override;
+        bool handleInput(Application::Input::InputEvent& event) override;
 
     private:
         Core::Ptr<Application::State> _state = nullptr;

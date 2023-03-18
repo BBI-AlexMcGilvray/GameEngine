@@ -1,9 +1,10 @@
 #include "Pipeline/Input/Headers/InputManager.h"
 
-// testing
+#include "Core/Debugging/Memory/MemoryTrackerUtils.h"
+#include "Core/Debugging/Profiling/Utils.h"
+
 #include "Pipeline/Dependencies/IMGUI/imgui.h"
 #include "Pipeline/Dependencies/IMGUI/backends/imgui_impl_sdl.h"
-// \testing
 
 namespace Application {
 namespace Input {
@@ -33,9 +34,30 @@ namespace Input {
     _controller = std::move(controller);
   }
 
+#ifdef MULTITHREADED_RENDERING
+  void InputManager::ThreadedUpdate()
+  {
+    DEBUG_PROFILE_SCOPE("InputManager::ThreadedUpdate");
+    _PollSDL();
+  }
+#endif
+
   void InputManager::update(Core::Second dt)
   {
-    _PollSDL(dt);
+    DEBUG_PROFILE_SCOPE("InputManager::update");
+  #ifndef MULTITHREADED_RENDERING
+    /*
+    if we do this with a rendering thread:
+      * polls sdl for all relevant events
+      * that thread is in charge of converting sdl event -> internal events
+      * queueing those events internally to be queuried by the game logic thread
+    the game logic thread:
+      * polls the internal events
+      * updates the states then handles the events
+    */
+    _PollSDL();
+  #endif
+    _PollInternal(dt);
   }
 
   void InputManager::end()
@@ -47,8 +69,12 @@ namespace Input {
     // have controller mapping save any changes made during gameplay (?)
   }
 
-  void InputManager::_PollSDL(Core::Second deltaTime)
+  std::unique_lock<std::mutex> InputManager::_GetLock() { return std::unique_lock<std::mutex>(_internalEventsMutex); }
+
+  void InputManager::_PollSDL()
   {
+    SCOPED_MEMORY_CATEGORY("Input");
+
     SDL_Event event;
     while (_SDL.Poll(event)) {
       // SEE: https://marcelfischer.eu/blog/2019/imgui-in-sdl-opengl/
@@ -65,94 +91,118 @@ namespace Input {
           break;
         }
         default: {
-          _HandleEvent(std::move(event));
+          _QueueNewEvent(std::move(event));
           break;
         }
       }
     }
-    _controller->Update(deltaTime);
+
+    _InternalizeNewEvents();
   }
 
-  void InputManager::_HandleEvent(SDL_Event&& event)
+  void InputManager::_QueueNewEvent(SDL_Event&& sdlEvent)
   {
-    auto createdEvent = createInputEvent(event); // creating it here so we can do the below check and avoid calling based on null (unhandled) event types
-    if (createdEvent != nullptr)
-    {
-      _UpdateState(*createdEvent);
-
-      auto& io = ImGui::GetIO();
-      if (_controller != nullptr)
-      {
-        switch(createdEvent->getInputEventType())
-        {
-          case InputEventType::KeyboardEvent:
-          {
-            if (!io.WantCaptureKeyboard)
-            {
-              _controller->handleInput(std::move(createdEvent)); // we probably still want this for event-driven handlers (like UI?)
-            }
-            return;
-          }
-          case InputEventType::MouseClickedEvent:
-          case InputEventType::MouseMovedEvent:
-          case InputEventType::MouseWheelEvent:
-          {
-            if (!io.WantCaptureMouse)
-            {
-              _controller->handleInput(std::move(createdEvent)); // we probably still want this for event-driven handlers (like UI?)
-            }
-            return;
-          }
-          case InputEventType::Undetermined:
-          default:
-          {
-            DEBUG_ERROR("InputManager", "No state for this event type");
-          }
-        }
-      }
-      else
-      {
-        DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered");
-      }
-    }
-    else
-    {
-      DEBUG_ERROR("InputManager", "Unable to create an event for the given SDL event");
-    }
-  }
-
-  void InputManager::_UpdateState(const InputEventBase& event)
-  {
-    switch(event.getInputEventType())
+    auto internalEvent = CreateInputEvent(sdlEvent);
+    const auto& io = ImGui::GetIO();
+    
+    switch(internalEvent.inputEventType)
     {
       case InputEventType::KeyboardEvent:
       {
-        const InputEvent<KeyboardButtonData>& actualEvent = static_cast<const InputEvent<KeyboardButtonData>&>(event);
+        if (!io.WantCaptureKeyboard)
+        {
+          _eventsToBeInternalized.emplace_back(internalEvent);
+        }
+        return;
+      }
+      case InputEventType::MouseClickedEvent:
+      case InputEventType::MouseMovedEvent:
+      case InputEventType::MouseWheelEvent:
+      {
+        if (!io.WantCaptureMouse)
+        {
+          _eventsToBeInternalized.emplace_back(internalEvent);
+        }
+        return;
+      }
+      case InputEventType::Undetermined:
+      default:
+      {
+        DEBUG_ERROR("InputManager", "No state for this event type");
+      }
+    }
+  }
 
-        _state.SetState(actualEvent.data.button, actualEvent.data.state);
+  void InputManager::_InternalizeNewEvents()
+  {
+    auto lock = _GetLock();
+    _internalEvents.insert(_internalEvents.end(), _eventsToBeInternalized.begin(), _eventsToBeInternalized.end());
+    lock.unlock();
+    
+    _eventsToBeInternalized.clear();
+  }
+  
+  void InputManager::_PollInternal(Core::Second deltaTime)
+  {
+    SCOPED_MEMORY_CATEGORY("InputManager");
+    auto lock = _GetLock();
+
+    for (auto& internalEvent : _internalEvents)
+    {
+      _HandleEvent(std::move(internalEvent));
+      _controller->Update(deltaTime);
+    }
+
+    _internalEvents.clear();
+  }
+
+  void InputManager::_HandleEvent(InputEvent&& internalEvent)
+  {
+    _UpdateState(internalEvent);
+
+    auto& io = ImGui::GetIO();
+    if (_controller != nullptr)
+    {
+      _controller->handleInput(std::move(internalEvent));
+    }
+    else
+    {
+      DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered");
+    }
+  }
+
+  void InputManager::_UpdateState(const InputEvent& internalEvent)
+  {
+    switch(internalEvent.inputEventType)
+    {
+      case InputEventType::KeyboardEvent:
+      {
+        const KeyboardButtonData keyboardData = std::get<KeyboardButtonData>(internalEvent.inputEventData);
+
+        _state.SetState(keyboardData.button, keyboardData.state);
         return;
       }
       case InputEventType::MouseClickedEvent:
       {
-        const InputEvent<MouseClickedData>& actualEvent = static_cast<const InputEvent<MouseClickedData>&>(event);
+        const MouseClickedData mouseClickData = std::get<MouseClickedData>(internalEvent.inputEventData);
 
         // should we be handling the other data?
-        _state.SetState(actualEvent.data.button, actualEvent.data.state);
+        _state.SetState(mouseClickData.button, mouseClickData.state);
         return;
       }
       case InputEventType::MouseMovedEvent:
       {
-        const InputEvent<MouseMovedData>& actualEvent = static_cast<const InputEvent<MouseMovedData>&>(event);
+        const MouseMovedData mouseMovedData = std::get<MouseMovedData>(internalEvent.inputEventData);
 
-        AxisState mouseState { { actualEvent.data.mouseX, actualEvent.data.mouseY }, { actualEvent.data.deltaX, actualEvent.data.deltaY } };
+        AxisState mouseState { { mouseMovedData.mouseX, mouseMovedData.mouseY }, { mouseMovedData.deltaX, mouseMovedData.deltaY } };
         _state.SetState(MouseAxis::Position, mouseState);
         return;
       }
       case InputEventType::MouseWheelEvent:
       {
-        const InputEvent<MouseWheelData>& actualEvent = static_cast<const InputEvent<MouseWheelData>&>(event);
+        const MouseWheelData mouseWheelData = std::get<MouseWheelData>(internalEvent.inputEventData);
 
-        const Core::Math::Int2 current = { actualEvent.data.mouseX, actualEvent.data.mouseY };
+        const Core::Math::Int2 current = { mouseWheelData.mouseX, mouseWheelData.mouseY };
         const Core::Math::Int2 delta = _state.GetState<AxisState>(MouseAxis::Wheel).position - current;
         AxisState wheelState = { current, delta };
         _state.SetState(MouseAxis::Wheel, wheelState);

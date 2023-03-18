@@ -82,7 +82,8 @@ struct State
   SDL2Manager& SDLManager();
 
   UI::IMGUI::Manager& IMGUI();
-  
+
+  Input::InputManager& InputManager();  
   Application::ApplicationManager& ApplicationManager();
   Animation::AnimationManager& AnimationManager();
   Collision::CollisionManager& CollisionManager();
@@ -91,7 +92,6 @@ struct State
   Rendering::RenderManager& RenderManager();
   Rendering::ShaderManager& ShaderManager();
   Rendering::MaterialManager& MaterialManager();
-  Input::InputManager& InputManager();
   StateManager& StateManager();
 
   virtual void Initialize();

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <variant>
+
 #include "InputDefs.h"
 
 #include "Core/Headers/PtrDefs.h"
@@ -80,39 +82,13 @@ namespace Input {
     {}
   };
 
-  struct InputEventBase
+  using InputEventVariant = std::variant<EventMetaData, MouseClickedData, MouseMovedData, MouseWheelData, KeyboardButtonData>;
+  struct InputEvent
   {
-    virtual ~InputEventBase() = default;
-    
-    virtual InputEventType getInputEventType() const
-    {
-      return InputEventType::Undetermined;
-    }
+    InputEventType inputEventType;
+    InputEventVariant inputEventData;
   };
 
-  template<class D>
-  struct InputEvent : public InputEventBase
-  {
-    InputEventType type;
-    D data;
-
-    InputEvent(InputEventType type, D &&data)
-      : type(type)
-      , data(move(data))
-    {}
-
-    template<class... Ts>
-    InputEvent(InputEventType type, Ts &&...args)
-      : type(type)
-      , data(std::forward<Ts>(args)...)
-    {}
-
-    inline InputEventType getInputEventType() const
-    {
-      return type;
-    }
-  };
-
-  UniquePtr<const InputEventBase> createInputEvent(const SDL_Event &sdlEvent);
+  InputEvent CreateInputEvent(const SDL_Event& sdlEvent);
 }// namespace Input
 }// namespace Application

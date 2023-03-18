@@ -31,7 +31,7 @@ namespace Input {
     }
   }
 
-  bool ParentInputReceiver::handleInput(Ptr<InputEventBase const> event)
+  bool ParentInputReceiver::handleInput(InputEvent& event)
   {
     for (auto& child : _children)
     {

@@ -54,6 +54,11 @@ UI::IMGUI::Manager& ApplicationManager::IMGUI()
   return _imguiUI;
 }
 
+Input::InputManager &ApplicationManager::InputManager()
+{
+  return _inputSystem;
+}
+
 Animation::AnimationManager &ApplicationManager::AnimationManager()
 {
   return _animationSystem;
@@ -74,11 +79,6 @@ Rendering::MaterialManager& ApplicationManager::MaterialManager()
   return _materialManager;
 }
 
-Input::InputManager &ApplicationManager::InputManager()
-{
-  return _inputSystem;
-}
-
 StateManager &ApplicationManager::StateManager()
 {
   return _stateSystem;
@@ -90,9 +90,9 @@ ApplicationManager::ApplicationManager()
   , _assetLoader(*this)
   , _entityFactory(_assetLoader, _assetManager)
   , _imguiUI(_sdl.GetWindowManager(), _sdl.GetContextManager())
+  , _inputSystem(_sdl)
   , _shaderManager(_assetManager, _assetLoader)
   , _materialManager(_assetManager, _assetLoader, _shaderManager)
-  , _inputSystem(_sdl)
   , _stateSystem(*this)
   , _onQuit([this]() {
       _quit = true;
@@ -142,9 +142,9 @@ bool ApplicationManager::Initialize()
 
   _timeSystem.Initialize();
   _imguiUI.Initialize();
-  _animationSystem.Initialize();
-  _renderSystem.Initialize(_sdl, _threadManager.GetThread());
   _inputSystem.initialize();
+  _animationSystem.Initialize();
+  _renderSystem.Initialize(_sdl, _inputSystem, _threadManager.GetThread());
 
   // should this be here? if not here, where?
   WITH_DEBUG_SERVICE(Editor::Factory)
@@ -162,9 +162,9 @@ void ApplicationManager::Start()
   _timeSystem.Start();
   _sdl.Start();
   _imguiUI.Start();
+  _inputSystem.start();
   _animationSystem.Start();
   _renderSystem.Start();
-  _inputSystem.start();
   
   // should this be here? if not here, where?
   WITH_DEBUG_SERVICE(Editor::Factory)
@@ -195,9 +195,9 @@ void ApplicationManager::Render()
 
 void ApplicationManager::End()
 {
-  _inputSystem.end();
   _animationSystem.End();
   _renderSystem.End(_threadManager);
+  _inputSystem.end();
   _imguiUI.End();
   _sdl.End();
   
@@ -211,9 +211,9 @@ void ApplicationManager::End()
 void ApplicationManager::CleanUp()
 {
   // possible we want to thread this to make it faster (since saving could be done)
-  _inputSystem.cleanUp();
   _renderSystem.CleanUp();
   _animationSystem.CleanUp();
+  _inputSystem.cleanUp();
   _imguiUI.CleanUp();
   _sdl.CleanUp();
 

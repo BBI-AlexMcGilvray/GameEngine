@@ -1,5 +1,8 @@
 #pragma once
 
+#include <mutex>
+#include <vector>
+
 #include "InputEvent.h"
 
 #include "Pipeline/Headers/SDL2Manager.h"
@@ -44,6 +47,10 @@ namespace Input {
       setInputController(MakeUnique<T>(std::forward<Args>(args)...));
     }
     void setInputController(UniquePtr<IInputController> controller);
+
+#ifdef MULTITHREADED_RENDERING
+    void ThreadedUpdate();
+#endif
     void update(Core::Second deltaTime);
 
     void end();
@@ -60,9 +67,20 @@ namespace Input {
     UniquePtr<IInputController> _controller;
     MouseAndKeyboardState _state;
 
-    void _PollSDL(Core::Second dt);
-    void _HandleEvent(SDL_Event&&);
-    void _UpdateState(const InputEventBase& event);
+    std::vector<InputEvent> _eventsToBeInternalized;
+    std::mutex _internalEventsMutex; // there could be some thread contention here - how could that be minimized?
+    std::vector<InputEvent> _internalEvents;
+
+    std::unique_lock<std::mutex> _GetLock();
+
+    void _PollSDL();
+    void _QueueNewEvent(SDL_Event&&);
+    void _InternalizeNewEvents();
+
+    void _PollInternal(Core::Second dt);
+    void _HandleEvent(InputEvent&&);
+
+    void _UpdateState(const InputEvent& event);
   };
 
   // the above should be an InputControllerManager

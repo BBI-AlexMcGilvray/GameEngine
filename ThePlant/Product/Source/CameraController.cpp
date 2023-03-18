@@ -102,7 +102,7 @@ namespace Product
         rotationComponent.rotation = Core::Math::FQuaternion() * _horizontalLook * _verticalLook;
     }
 
-    bool CameraController::handleInput(Ptr<const Application::Input::InputEventBase> event)
+    bool CameraController::handleInput(Application::Input::InputEvent& event)
     {
         // not sure if we need to have the event-specific handling if we are just checking state?
         return false;

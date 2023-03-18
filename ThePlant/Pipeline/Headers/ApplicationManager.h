@@ -48,11 +48,11 @@ struct ApplicationManager
 
   UI::IMGUI::Manager& IMGUI();
 
+  Input::InputManager &InputManager();
   Animation::AnimationManager &AnimationManager();
   Rendering::RenderManager &RenderManager();
   Rendering::ShaderManager& ShaderManager(); // this should be the material manager, and material manager should hold a shader manager (as materials need shaders)
   Rendering::MaterialManager& MaterialManager();
-  Input::InputManager &InputManager();
   StateManager &StateManager();
 
   ApplicationManager();
@@ -91,11 +91,11 @@ private:
 
   Application::SDL2Manager _sdl;
   UI::IMGUI::Manager _imguiUI;
+  Input::InputManager _inputSystem;
   Animation::AnimationManager _animationSystem;
   Rendering::ShaderManager _shaderManager; // this should probably be held by the render system (since rendering would be on a separate thread)
   Rendering::MaterialManager _materialManager; // this should probably be held the render system (since rendering would be on a separate thread)
   Rendering::RenderManager _renderSystem;
-  Input::InputManager _inputSystem;
   Application::StateManager _stateSystem;
 
   Delegate<> _onQuit;

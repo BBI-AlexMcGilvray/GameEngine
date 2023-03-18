@@ -35,6 +35,7 @@ AssetLoaderFactory& State::AssetLoaderFactory() { return _applicationManager.Ass
 EntityFactory& State::EntityFactory() { return _applicationManager.EntityFactory(); }
 SDL2Manager& State::SDLManager() { return _applicationManager.SDLManager(); }
 UI::IMGUI::Manager& State::IMGUI() { return _applicationManager.IMGUI(); }
+Input::InputManager& State::InputManager() { return _applicationManager.InputManager(); }
 Application::ApplicationManager& State::ApplicationManager() { return _applicationManager; }
 Animation::AnimationManager& State::AnimationManager() { return _applicationManager.AnimationManager(); }
 Collision::CollisionManager& State::CollisionManager() { return _collisionManager; }
@@ -43,7 +44,6 @@ Application::Physics::Settings& State::PhysicsSettings() { return _physicsSettin
 Rendering::RenderManager& State::RenderManager() { return _applicationManager.RenderManager(); }
 Rendering::ShaderManager& State::ShaderManager() { return _applicationManager.ShaderManager(); }
 Rendering::MaterialManager& State::MaterialManager() { return _applicationManager.MaterialManager(); }
-Input::InputManager& State::InputManager() { return _applicationManager.InputManager(); }
 StateManager& State::StateManager() { return _applicationManager.StateManager(); }
 
 void State::Initialize()

@@ -19,7 +19,7 @@ namespace Input {
     virtual void cleanUp() {}
 
     virtual void Update(Core::Second deltaTime) = 0;
-    virtual bool handleInput(Ptr<const InputEventBase> event) = 0;
+    virtual bool handleInput(InputEvent& event) = 0;
   };
 
   /*
@@ -41,7 +41,7 @@ namespace Input {
     void removeChild(Ptr<IInputReceiver> receiver);
 
     void Update(Core::Second deltaTime) override;
-    bool handleInput(Ptr<const InputEventBase> event) override;
+    bool handleInput(InputEvent& event) override;
 
   private:
     std::vector<Ptr<IInputReceiver>> _children;

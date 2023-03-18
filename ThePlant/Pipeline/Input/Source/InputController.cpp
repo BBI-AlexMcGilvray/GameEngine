@@ -14,9 +14,9 @@ namespace Input {
       _receiver.Update(deltaTime);
     }
 
-    void DefaultInputController::handleInput(UniquePtr<const InputEventBase> inputEvent)
+    void DefaultInputController::handleInput(InputEvent&& inputEvent)
     {
-      _receiver.handleInput(inputEvent.get());
+      _receiver.handleInput(inputEvent);
     }
 
     void DefaultInputController::addReceiver(Ptr<IInputReceiver> receiver)

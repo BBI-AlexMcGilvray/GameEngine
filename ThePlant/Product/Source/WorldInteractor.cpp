@@ -38,15 +38,15 @@ namespace Product
         }
     }
 
-    bool WorldInteractor::handleInput(Ptr<const Application::Input::InputEventBase> event)
+    bool WorldInteractor::handleInput(Application::Input::InputEvent& event)
     {
-        switch (event->getInputEventType())
+        switch (event.inputEventType)
         {
             case Application::Input::InputEventType::MouseClickedEvent:
             {                
-                auto actualEvent = static_cast<Core::Ptr<const Application::Input::InputEvent<Application::Input::MouseClickedData>>>(event);
+                const Application::Input::MouseClickedData mouseClickedData = std::get<Application::Input::MouseClickedData>(event.inputEventData);
 
-                if (actualEvent->data.button == Application::Input::MouseButton::Left && actualEvent->data.state == Application::Input::ButtonState::Down)
+                if (mouseClickedData.button == Application::Input::MouseButton::Left && mouseClickedData.state == Application::Input::ButtonState::Down)
                 {
                     _doInteraction = true;
                     return true;
