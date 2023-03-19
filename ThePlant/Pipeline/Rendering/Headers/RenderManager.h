@@ -120,6 +120,12 @@ namespace Rendering {
       
       ** The above also applies to meshes! (really anything that is used by render logic)
           ** Meshes aren't ever deleted at the moment! definitely would need a manager
+
+      ** We need a way to tell opengl that is needs to run certain logic to create GLObjects
+          * ex: shaders, meshes, ...
+          * ideally we can also have a 'load' method to do this stuff in (or just use the Start function in states)
+            * should probably be a different method that is called by the State base class to make overriding easier?
+          * RenderStart could then call these functions so they are generated as part of the render thread
     */
   };
 }// namespace Rendering

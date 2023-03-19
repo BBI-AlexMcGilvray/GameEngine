@@ -6,6 +6,7 @@
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 #include "Pipeline/UI/IMGUI/Manager.h"
 
+#ifdef MULTITHREADED_RENDERING
 namespace Application
 {
     struct ApplicationManager;
@@ -53,3 +54,4 @@ namespace Rendering
     void CreateAndRunRenderThread(ApplicationManager& applicationManager, RenderThread& renderThread, Core::Threading::Thread&& thread);
 } // namespace Rendering
 } // namespace Application
+#endif

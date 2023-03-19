@@ -87,6 +87,7 @@ namespace Input {
   {
     InputEventType inputEventType;
     InputEventVariant inputEventData;
+    bool eventConsumed;
   };
 
   InputEvent CreateInputEvent(const SDL_Event& sdlEvent);

@@ -114,9 +114,8 @@ namespace Input {
       {
         if (!io.WantCaptureKeyboard)
         {
-          _eventsToBeInternalized.emplace_back(internalEvent);
+          internalEvent.eventConsumed = true;
         }
-        return;
       }
       case InputEventType::MouseClickedEvent:
       case InputEventType::MouseMovedEvent:
@@ -124,9 +123,8 @@ namespace Input {
       {
         if (!io.WantCaptureMouse)
         {
-          _eventsToBeInternalized.emplace_back(internalEvent);
+          internalEvent.eventConsumed = true;
         }
-        return;
       }
       case InputEventType::Undetermined:
       default:
@@ -134,6 +132,7 @@ namespace Input {
         // DEBUG_ERROR("InputManager", "No state for this event type");
       }
     }
+    _eventsToBeInternalized.emplace_back(internalEvent);
   }
 
   void InputManager::_InternalizeNewEvents()
@@ -167,11 +166,11 @@ namespace Input {
     _UpdateState(internalEvent);
 
     auto& io = ImGui::GetIO();
-    if (_controller != nullptr)
+    if (_controller != nullptr && !internalEvent.eventConsumed)
     {
       _controller->handleInput(std::move(internalEvent));
     }
-    else
+    else if (_controller == nullptr)
     {
       DEBUG_ERROR("InputManager", "Trying to handle input event without a controller registered");
     }

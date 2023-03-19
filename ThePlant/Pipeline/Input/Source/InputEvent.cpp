@@ -20,7 +20,8 @@ namespace Input {
             KeyboardButtonData(Core::TimePoint(Core::SteadyClock::now()),
               sdlEvent.key.windowID,
               getKeyboardButton(sdlEvent.key.keysym.sym),
-              getButtonState(sdlEvent.key.state))
+              getButtonState(sdlEvent.key.state)),
+            false
           };
     }
     case SDL_MOUSEMOTION: {
@@ -32,7 +33,8 @@ namespace Input {
             sdlEvent.motion.x,
             sdlEvent.motion.y,
             sdlEvent.motion.xrel,
-            sdlEvent.motion.yrel)
+            sdlEvent.motion.yrel),
+          false
         };
     }
     case SDL_MOUSEBUTTONDOWN:
@@ -46,7 +48,8 @@ namespace Input {
             sdlEvent.motion.y,
             getMouseButton(sdlEvent.button.button),
             getButtonState(sdlEvent.button.state),
-            sdlEvent.button.clicks)
+            sdlEvent.button.clicks),
+          false
         };
     }
     case SDL_MOUSEWHEEL: {
@@ -56,7 +59,8 @@ namespace Input {
           MouseWheelData(Core::TimePoint(Core::SteadyClock::now()),
             sdlEvent.key.windowID,
             sdlEvent.motion.x,
-            sdlEvent.motion.y)
+            sdlEvent.motion.y),
+          false
         };
     }
     default: {
@@ -66,7 +70,8 @@ namespace Input {
         {
           InputEventType::Undetermined,
           EventMetaData(Core::TimePoint(Core::SteadyClock::now()),
-            sdlEvent.key.windowID)
+            sdlEvent.key.windowID),
+          false
         };
     }
     }

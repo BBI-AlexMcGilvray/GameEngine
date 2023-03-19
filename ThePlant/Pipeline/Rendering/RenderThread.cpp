@@ -5,6 +5,7 @@
 #include "Pipeline/Headers/ApplicationManager.h"
 #include "Pipeline/Dependencies/IMGUI/backends/imgui_impl_sdl.h"
 
+#ifdef MULTITHREADED_RENDERING
 namespace Application
 {
 namespace Rendering
@@ -104,3 +105,4 @@ namespace Rendering
     }
 } // namespace Rendering
 } // namespace Application
+#endif
