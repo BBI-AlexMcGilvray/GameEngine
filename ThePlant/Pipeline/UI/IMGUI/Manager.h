@@ -60,11 +60,12 @@ namespace IMGUI {
     // will lock while gathering references, but outside of that scope be sure to call LockWindows and UnlockWindows
     std::vector<std::reference_wrapper<Window>> GetAllWindows();
 
-    void RemoveWindow(const Core::instanceId<Window>& window)
-    {
-      std::unique_lock<std::recursive_mutex> lock(_mutex);
-      _windows.erase(window);
-    }
+    // can't do this currently, removing windows will cause the references returned by GetAllWindows() to break
+    // void RemoveWindow(const Core::instanceId<Window>& window)
+    // {
+    //   std::unique_lock<std::recursive_mutex> lock(_mutex);
+    //   _windows.erase(window);
+    // }
 
     std::unique_lock<std::recursive_mutex> LockWindows();
     void UnlockWindows(std::unique_lock<std::recursive_mutex>&& lock);

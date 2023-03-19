@@ -76,9 +76,7 @@ namespace Rendering {
         // we assume moveTo in a fresh state
         void MoveTo(RenderFrame& moveTo) const;
 
-        void SetMainCamera(const Core::instanceId<Camera>& camera);
         void Render(Renderer& renderer, const Core::Math::Color& clearColour) const;
-        const RenderCamera& GetMainCamera() const;
 
         void Clear();
 
@@ -86,7 +84,6 @@ namespace Rendering {
         // as mentioned in RenderLayer, the cameras here should have a collection of what layers they render
         // that information should be held in the CameraComponent
         std::vector<RenderCamera> _cameras; // can't be references because we move to other render frames (and references could break)
-        Core::instanceId<Camera> _mainCamera; // this is the camera that renders to the main window
         bool _dirtyLayers = false;
         std::vector<std::unique_ptr<IRenderLayer>> _layers; // should these layers be here?
 

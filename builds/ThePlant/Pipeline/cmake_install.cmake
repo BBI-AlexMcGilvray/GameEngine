@@ -148,6 +148,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/Renderer.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/RenderFrame.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/RenderLayer.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/RenderThread.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/StateSystem/Headers/State.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/StateSystem/Headers/StateHelpers.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/StateSystem/Headers/StateManager.h"

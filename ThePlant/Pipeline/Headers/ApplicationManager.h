@@ -18,6 +18,7 @@
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
+#include "Pipeline/Rendering/RenderThread.h"
 #include "Pipeline/Time/Headers/TimeSystem.h"
 #include "Pipeline/UI/IMGUI/Manager.h"
 
@@ -51,6 +52,7 @@ struct ApplicationManager
   Input::InputManager &InputManager();
   Animation::AnimationManager &AnimationManager();
   Rendering::RenderManager &RenderManager();
+
   Rendering::ShaderManager& ShaderManager(); // this should be the material manager, and material manager should hold a shader manager (as materials need shaders)
   Rendering::MaterialManager& MaterialManager();
   StateManager &StateManager();
@@ -96,6 +98,10 @@ private:
   Rendering::ShaderManager _shaderManager; // this should probably be held by the render system (since rendering would be on a separate thread)
   Rendering::MaterialManager _materialManager; // this should probably be held the render system (since rendering would be on a separate thread)
   Rendering::RenderManager _renderSystem;
+#if MULTITHREADED_RENDERING
+  Rendering::RenderThread _renderThread;
+#endif
+
   Application::StateManager _stateSystem;
 
   Delegate<> _onQuit;

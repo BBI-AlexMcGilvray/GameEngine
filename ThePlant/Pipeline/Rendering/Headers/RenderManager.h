@@ -9,7 +9,6 @@
 #include "Core/Math/Headers/Vector4.h"
 #include "Core/Math/Headers/Color.h"
 #include "Core/Threading/SafeTypes/TripleBuffer.h"
-#include "Core/Threading/Thread.h"
 
 #include "Pipeline/Headers/GLContextManager.h"
 #include "Pipeline/Headers/SDL2Manager.h"
@@ -33,7 +32,7 @@ namespace Rendering {
 
     CameraManager& GetCameraManager();
 
-    void Initialize(SDL2Manager& sdlManager, Input::InputManager& inputManager, Core::Threading::Thread&& renderThread, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
+    void Initialize(SDL2Manager& sdlManager, Input::InputManager& inputManager, Core::Math::Color clearColor = Core::Math::Color(1.0f, 0.5f, 0.5f, 1.0f));
     void Start();
 
     template <typename DISPLAY_LAYER, typename ...ARGS>
@@ -76,9 +75,12 @@ namespace Rendering {
       _mainThreadRenderFrame.QueueRender<LAYER>(context);
     }
 
+#ifdef MULTITHREADED_RENDERING
+    void ThreadedRender();
+#endif
     void Render();
 
-    void End(Core::Threading::ThreadManager& threadManager);
+    void End();
     void CleanUp();
 
     // must be called BEFORE openGL context is created
@@ -103,10 +105,7 @@ namespace Rendering {
     void _RenderEnd();
   
     RenderFrame _mainThreadRenderFrame; // this is the frame we update before we pass it in to the triple buffer
-
     Core::Threading::TripleBuffer<RenderFrame> _renderFrames;
-    std::atomic<bool> _rendering;
-    Core::Threading::Thread _renderThread;
 
     DisplayManager _displayManager;
 

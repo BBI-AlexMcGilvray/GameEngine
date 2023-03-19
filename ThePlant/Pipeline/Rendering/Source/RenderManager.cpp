@@ -19,7 +19,7 @@ namespace Rendering {
     return _cameraManager;
   }
 
-  void RenderManager::Initialize(SDL2Manager& sdlManager, Input::InputManager& inputManager, Core::Threading::Thread&& renderThread, Color clearColor)
+  void RenderManager::Initialize(SDL2Manager& sdlManager, Input::InputManager& inputManager, Color clearColor)
   {
     SCOPED_MEMORY_CATEGORY("Rendering");
     _sdlManager = &sdlManager;
@@ -31,38 +31,19 @@ namespace Rendering {
     // don't render everything, but set up the default state
     // _RenderStart();
     // _RenderEnd();
-
-    _renderThread = std::move(renderThread);
   }
 
   void RenderManager::Start()
-  {
-    SCOPED_MEMORY_CATEGORY("Rendering");
+  {}
 
-    _rendering = true;
-    // when multithreaded, we need input to be polled on the same thread as the displays (mostly due to IMGUI, but it makes sense regardless)
-  #ifdef MULTITHREADED_RENDERING
-    // NOTE: Apparently opengl context is thread-specific. If we are using threaded rendering, then we need to create the opengl context on that thread
-    // https://stackoverflow.com/questions/21048927/initializing-opengl-context-in-another-thread-than-the-rendering
-    // https://gmane.comp.lib.sdl.narkive.com/WK0DM9bJ/sdl-opengl-context-and-threads
-    // Additional note:
-    //    - seems sdl uses vsync automatically. either way it seems that the true frame rate is not being displayed by IMGUI due to using GPU calls
-    //        - may want our own timers to know 'render thread' frame rate and 'game logic' frame rate
-    SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), nullptr);
-    _renderThread.SetTaskAndRun(std::packaged_task<void()>([this]
-    {
-      SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), _sdlManager->GetContextManager().GetContext());
-      while (_rendering)
-      {
-        DEBUG_PROFILE_SCOPE("Render Thread"); // this thread is currently locked at 13ms, apparently by sdl's vsync (see above)
-        _inputManager->ThreadedUpdate();
-        _RenderStart();
-        _RenderMiddle();
-        _RenderEnd();
-      }
-    }));
-  #endif
+#ifdef MULTITHREADED_RENDERING
+  void RenderManager::ThreadedRender()
+  {
+    _RenderStart();
+    _RenderMiddle();
+    _RenderEnd(); 
   }
+#endif
 
   void RenderManager::Render()
   {
@@ -74,23 +55,14 @@ namespace Rendering {
     _mainThreadRenderFrame.Clear(); // tidy-up whatever wasn't cleaned by the MoveTo
 
   #ifndef MULTITHREADED_RENDERING
-    SDL_GL_MakeCurrent(_sdlManager->GetWindowManager().GetWindow(), _sdlManager->GetContextManager().GetContext());
     _RenderStart();
-
     _RenderMiddle();
-
     _RenderEnd();
   #endif
   }
 
-  void RenderManager::End(Core::Threading::ThreadManager& threadManager)
-  {
-    _rendering = false;
-  #ifdef MULTITHREADED_RENDERING
-    _renderThread.Complete();
-  #endif
-    threadManager.ReturnThread(std::move(_renderThread));
-  }
+  void RenderManager::End()
+  {}
 
   void RenderManager::CleanUp()
   {

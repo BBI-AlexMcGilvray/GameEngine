@@ -73,6 +73,7 @@ namespace Input {
 
   void InputManager::_PollSDL()
   {
+    DEBUG_PROFILE_SCOPE("InputManager::_PollSDL");
     SCOPED_MEMORY_CATEGORY("Input");
 
     SDL_Event event;
@@ -82,7 +83,7 @@ namespace Input {
       ImGui_ImplSDL2_ProcessEvent(&event); // pass all events to IMGUI, then handle ourselves (based on IMGUI flags)
       switch (event.type) {
         case SDL_QUIT: {
-          // send a quit event
+          // send a quit event - this is breaking in a cross-thread context!
           Quit();
           break;
         }
@@ -102,6 +103,8 @@ namespace Input {
 
   void InputManager::_QueueNewEvent(SDL_Event&& sdlEvent)
   {
+    DEBUG_PROFILE_SCOPE("InputManager::_QueueNewEvent");
+
     auto internalEvent = CreateInputEvent(sdlEvent);
     const auto& io = ImGui::GetIO();
     
@@ -128,13 +131,15 @@ namespace Input {
       case InputEventType::Undetermined:
       default:
       {
-        DEBUG_ERROR("InputManager", "No state for this event type");
+        // DEBUG_ERROR("InputManager", "No state for this event type");
       }
     }
   }
 
   void InputManager::_InternalizeNewEvents()
   {
+    DEBUG_PROFILE_SCOPE("InputManager::_InternalizeNewEvents");
+
     auto lock = _GetLock();
     _internalEvents.insert(_internalEvents.end(), _eventsToBeInternalized.begin(), _eventsToBeInternalized.end());
     lock.unlock();
@@ -144,6 +149,7 @@ namespace Input {
   
   void InputManager::_PollInternal(Core::Second deltaTime)
   {
+    DEBUG_PROFILE_SCOPE("InputManager::_PollInternal");
     SCOPED_MEMORY_CATEGORY("InputManager");
     auto lock = _GetLock();
 
@@ -211,7 +217,7 @@ namespace Input {
       case InputEventType::Undetermined:
       default:
       {
-        DEBUG_ERROR("InputManager", "No state for this event type");
+        // DEBUG_ERROR("InputManager", "No state for this event type");
       }
     }
   }

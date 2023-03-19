@@ -17,7 +17,11 @@ namespace Rendering {
 
     void MainDisplayLayer::Render(Renderer& renderer)
     {
-        const RenderCamera& renderCamera = _renderManager.GetCameraManager().GetCamera(_cameraToRender);
+        /*const */RenderCamera& renderCamera = const_cast<RenderCamera&>(_renderManager.GetCameraManager().GetCamera(_cameraToRender));
+        if (renderCamera.texture.actualTexture.Object == 0)
+        { // obviously don't want to do this, this is a hack in the meantime
+            renderCamera.InitializeCamera();
+        }
 
         renderer.SetShader(_shaderManager.GetDefaultTextureShader());
         renderCamera.texture.mesh.buffer.Bind();

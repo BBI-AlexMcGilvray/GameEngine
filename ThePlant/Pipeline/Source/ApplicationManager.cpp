@@ -93,6 +93,9 @@ ApplicationManager::ApplicationManager()
   , _inputSystem(_sdl)
   , _shaderManager(_assetManager, _assetLoader)
   , _materialManager(_assetManager, _assetLoader, _shaderManager)
+#if MULTITHREADED_RENDERING
+  , _renderThread(_inputSystem, _renderSystem)
+#endif
   , _stateSystem(*this)
   , _onQuit([this]() {
       _quit = true;
@@ -141,10 +144,18 @@ bool ApplicationManager::Initialize()
   }
 
   _timeSystem.Initialize();
+#ifndef MULTITHREADED_RENDERING
   _imguiUI.Initialize();
+#endif
   _inputSystem.initialize();
   _animationSystem.Initialize();
-  _renderSystem.Initialize(_sdl, _inputSystem, _threadManager.GetThread());
+  _renderSystem.Initialize(_sdl, _inputSystem);
+#ifdef MULTITHREADED_RENDERING
+  CreateAndRunRenderThread(*this, _renderThread, _threadManager.GetThread());
+#else
+  // if not threaded, the context is active on this thread
+  SDL_GL_MakeCurrent(_sdl.GetWindowManager().GetWindow(), _sdl.GetContextManager().GetContext());
+#endif
 
   // should this be here? if not here, where?
   WITH_DEBUG_SERVICE(Editor::Factory)
@@ -196,7 +207,7 @@ void ApplicationManager::Render()
 void ApplicationManager::End()
 {
   _animationSystem.End();
-  _renderSystem.End(_threadManager);
+  _renderSystem.End();
   _inputSystem.end();
   _imguiUI.End();
   _sdl.End();
@@ -211,10 +222,17 @@ void ApplicationManager::End()
 void ApplicationManager::CleanUp()
 {
   // possible we want to thread this to make it faster (since saving could be done)
+#if MULTITHREADED_RENDERING
+  _renderThread.StopThread();
+  _threadManager.ReturnThread(std::move(_renderThread.GetThread()));
+#endif
+
   _renderSystem.CleanUp();
   _animationSystem.CleanUp();
   _inputSystem.cleanUp();
+#ifndef MULTITHREADED_RENDERING
   _imguiUI.CleanUp();
+#endif
   _sdl.CleanUp();
 
   // should this be here? if not here, where?

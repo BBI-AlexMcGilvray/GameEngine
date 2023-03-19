@@ -41,8 +41,8 @@ void FactoryUI::CleanUp()
 {
     DEBUG_PROFILE_SCOPE("FactoryUI::CleanUp");
 
-    _factory.GetApplication().IMGUI().RemoveWindow(_archetypesUI);
-    _factory.GetApplication().IMGUI().RemoveWindow(_entityUI);
+    // _factory.GetApplication().IMGUI().RemoveWindow(_archetypesUI);
+    // _factory.GetApplication().IMGUI().RemoveWindow(_entityUI);
 
     _archetypesUI = Core::instanceId<Application::UI::IMGUI::Window>();
     _entityUI = Core::instanceId<Application::UI::IMGUI::Window>();

@@ -44,6 +44,10 @@ void RenderCamera::_InitializeBuffers()
 
     // need some way to get the camera buffer size/dimensions
     texture = CreateTexture(renderDimensions, Core::Math::Float2(2.0f, 2.0f));
+    if (texture.actualTexture.Object == 0)
+    {
+        DEBUG_LOG("GLMappedBuffer", "Failed to create texture, glError: " + glGetError());
+    }
 
     texture.actualTexture.Bind(); // may not be needed
     texture.actualTexture.AttachToFrameBuffer(GL_COLOR_ATTACHMENT0);

@@ -11,25 +11,18 @@ namespace Rendering {
 void RenderFrame::QueueCamera(const RenderCamera& camera)
 {
     _cameras.push_back(camera);
-    SetMainCamera(camera.cameraId); // this should be explicitly called elsewhere
 }
 
 void RenderFrame::MoveTo(RenderFrame& moveTo) const
 {
     SCOPED_MEMORY_CATEGORY("Rendering");
     moveTo._cameras = std::move(_cameras);
-    moveTo._mainCamera = _mainCamera;
     moveTo._dirtyLayers = _dirtyLayers;
     for (const auto& layer : _layers)
     {
         // don't move the layers list as we want to keep the layers we added previously
         moveTo._layers.push_back(layer->CopyAndMoveTo());
     }
-}
-
-void RenderFrame::SetMainCamera(const Core::instanceId<Camera>& camera)
-{
-    _mainCamera = camera;
 }
 
 void RenderFrame::Render(Renderer& renderer, const Core::Math::Color& clearColour) const
@@ -72,19 +65,6 @@ void RenderFrame::Render(Renderer& renderer, const Core::Math::Color& clearColou
         }
         camera.EndCameraRender();
     }
-}
-
-const RenderCamera& RenderFrame::GetMainCamera() const
-{
-    for (auto& camera : _cameras)
-    {
-        if (camera.cameraId == _mainCamera)
-        {
-            return camera;
-        }
-    }
-
-    CORE_THROW("RenderFrame", "Main camera does not exist");
 }
 
 void RenderFrame::Clear()
