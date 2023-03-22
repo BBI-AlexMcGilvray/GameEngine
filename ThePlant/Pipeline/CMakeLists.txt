@@ -185,6 +185,8 @@ Rendering/Headers/CameraUtils.h #
 Rendering/Headers/Lights.h #
 Rendering/Headers/MaterialManager.h #
 Rendering/Headers/RenderCamera.h #
+Rendering/Headers/RenderData.h #
+Rendering/Headers/RenderDataCreator.h #
 Rendering/Headers/RenderManager.h #
 Rendering/OpenGL/Headers/GLArrayBuffer.h #
 Rendering/OpenGL/Headers/GLBuffer.h #

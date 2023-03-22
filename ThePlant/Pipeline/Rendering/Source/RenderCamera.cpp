@@ -39,6 +39,7 @@ void RenderCamera::CleanUpCamera()
 // currently commented out from constructor
 void RenderCamera::_InitializeBuffers()
 {
+    // We should have 'CreateRenderBuffer' and 'CreateTexture' calls (like we do for 'CreateMesh')
     frameBuffer.Generate();
     frameBuffer.Bind();
 

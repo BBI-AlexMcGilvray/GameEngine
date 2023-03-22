@@ -15,6 +15,20 @@
 
 namespace Application {
 namespace Rendering {
+  struct RenderCameraData
+  {
+    GLFrameBuffer frameBuffer;
+    Texture texture;
+
+    // should only be written to when created
+    std::atomic<bool> initialized;
+
+    bool Valid() const
+    {
+      return initialized;
+    }
+  };
+
   // anything needed for camera. should create specifications for perspective and orthographic
   struct RenderCamera
   {
