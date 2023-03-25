@@ -128,7 +128,7 @@ SUMMARY:
     private:
     // maybe we don't need a class to friend, and we just friend the templated functions? although a class may make it syntactically nicer
         friend struct RenderDataCreator;
-        bool _initialized; // this should only ever be modified by render thread, so shouldn't need to be atomic (need it to not be cause msvc compilation not really supporting move only types in vectors)
+        bool _initialized = false; // this should only ever be modified by render thread, so shouldn't need to be atomic (need it to not be cause msvc compilation not really supporting move only types in vectors)
         // we _should_ have some way to enforce what thread funcions are called from
 
         Core::instanceId<RenderData> _id;
