@@ -3,6 +3,7 @@
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
 
 #include "Pipeline/Rendering/Headers/RenderManager.h"
+#include "Pipeline/Rendering/Headers/RenderDataCreator.h"
 
 using namespace Core;
 
@@ -26,7 +27,7 @@ namespace Rendering {
       {
         if (renderCamera.cameraId == camera.GetCameraId())
         {
-          renderCamera.renderDimensions = renderDimensions; // needs to be a Resize call for the camera dimensions? (if they do not match)
+          // renderCamera.renderDimensions = renderDimensions; // if render dimensions don't match, we'd need to resize the render texture, not the camera
           renderCamera.renderMatrix = cameraMatrix;
           _active[index] = true;
           return;
@@ -34,8 +35,8 @@ namespace Rendering {
         ++index;
       }
 
-      auto& newCamera = _renderCameras.emplace_back(RenderCamera(camera, renderDimensions, cameraMatrix));
-      newCamera.InitializeCamera();
+      auto& newRenderTarget = _renderCameraTargets.emplace_back(RenderTarget(renderDimensions));
+      auto& newCamera = _renderCameras.emplace_back(RenderCamera(camera.GetCameraId(), cameraMatrix, newRenderTarget.GetHandle()));
       
       _active.emplace_back(true);
     }
@@ -47,18 +48,35 @@ namespace Rendering {
         size_t actualIndex = index - 1;
         if (!_active[actualIndex])
         {
-          // this would be the other place we clean up the camera (if not in the destructor)
-          (_renderCameras.begin() + actualIndex)->CleanUpCamera();
           _renderCameras.erase(_renderCameras.begin() + actualIndex);
+        }
+      }
+
+      // this and the above should be split into private functions
+      for (size_t index = _renderCameraTargets.size(); index > 0; --index)
+      {
+        size_t actualIndex = index - 1;
+        if (!_renderCameraTargets[actualIndex].IsReferenced())
+        {
+          RenderDataCreator::DestroyRenderData(_renderCameraTargets[actualIndex], &DeleteRenderTarget);
+          _renderCameraTargets.erase(_renderCameraTargets.begin() + actualIndex);
         }
       }
 
       _active.resize(_renderCameras.size());
     }
 
-    const std::vector<RenderCamera>& CameraManager::GetCameras() const
+    std::vector<RenderCamera> CameraManager::GetCameraCopies()
     {
-      return _renderCameras;
+      std::vector<RenderCamera> copies;
+      copies.reserve(_renderCameras.size());
+
+      for (const auto& camera : _renderCameras)
+      {
+        copies.emplace_back(std::move(_GetCameraCopy(camera)));
+      }
+
+      return copies;
     }
 
     const RenderCamera& CameraManager::GetCamera(const Core::instanceId<Camera>& cameraId)
@@ -72,6 +90,42 @@ namespace Rendering {
       }
 
       CORE_THROW("CameraManager", "Requested camera does not exist!");
+    }
+
+    const RenderTarget& CameraManager::GetValidRenderTarget(const RenderDataHandle& handle)
+    {
+      for (auto& target : _renderCameraTargets)
+      {
+        if (target.IsHeldBy(handle))
+        {
+          if (!target.IsValid())
+          {
+            RenderDataCreator::InitializeRenderData(target, &InitializeRenderTarget);
+          }
+          return target;
+        }
+      }
+
+      CORE_THROW("CameraManager", "Requested render target does not exist!");
+    }
+
+    RenderCamera CameraManager::_GetCameraCopy(const RenderCamera& camera)
+    {
+      RenderTarget& cameraTarget = _GetRenderTarget(camera.renderTargetHandle);
+      return RenderCamera(camera.cameraId, camera.renderMatrix, cameraTarget.GetHandle());
+    }
+
+    RenderTarget& CameraManager::_GetRenderTarget(const RenderDataHandle& handle)
+    {
+      for (auto& target : _renderCameraTargets)
+      {
+        if (target.IsHeldBy(handle))
+        {
+          return target;
+        }
+      }
+
+      CORE_THROW("CameraManager", "Requested render target does not exist!");
     }
 }// namespace Rendering
 }// namespace Application

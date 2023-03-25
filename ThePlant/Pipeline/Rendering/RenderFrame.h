@@ -58,7 +58,7 @@ namespace Rendering {
             }            
         }
 
-        void QueueCamera(const RenderCamera& camera);
+        void QueueCamera(RenderCamera&& camera);
 
         template <typename LAYER>
         void QueueRender(const Context& context)

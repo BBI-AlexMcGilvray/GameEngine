@@ -73,7 +73,7 @@ namespace Rendering {
 
   Material& MaterialManager::GetDefaultMaterial()
   {
-    if (_defaultMaterial.shader.glProgram.Object == 0) // this checks if the shader has been set (probably want a nicer way to do this)
+    if (!_defaultMaterial.shader.IsValid()) // this checks if the shader has been set (probably want a nicer way to do this)
     {
       _defaultMaterial = CreateDefaultMaterial(_shaderManager);
     }

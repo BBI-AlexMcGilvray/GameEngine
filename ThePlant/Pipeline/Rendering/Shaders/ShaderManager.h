@@ -17,11 +17,11 @@ namespace Rendering {
     ShaderManager(Data::AssetManager& assetManager, AssetLoaderFactory& assetLoaderFactory);
     ~ShaderManager();
 
-    const Shader GetDefaultShader(); // feels like this should not be a method, should reference by name or something
-    const Shader GetDefaultTextureShader(); // feels like this should not be a method, should reference by name or something
+    RenderDataHandle GetDefaultShaderHandle(); // feels like this should not be a method, should reference by name or something
+    RenderDataHandle GetDefaultTextureShaderHandle(); // feels like this should not be a method, should reference by name or something
     // games should loop through all shaders and add them at game-creation time (once games get big enough, this would get done on level-switch?)
-    const Shader AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader);
-    const Shader GetShader(const Data::AssetName<Data::Rendering::ShaderData>& shader); // we probably want to return a straight shader, but need to be ensure lifetime is ensured
+    RenderDataHandle AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader);
+    const ShaderData& GetShader(const RenderDataHandle& handle); // we probably want to return a straight shader, but need to be ensure lifetime is ensured
     // NOTE:
     /*
       we have nothing that removes a shader, if we add one we will need to look at how we will handle using shaders in a threaded context!
@@ -31,9 +31,13 @@ namespace Rendering {
     Data::AssetManager& _assetManager;
     AssetLoaderFactory& _assetLoaderFactory;
     
-    Shader _defaultShader; // should be referenced by name?
-    Shader _textureShader; // should be referenced by name?
-    std::unordered_map<Data::AssetName<Data::Rendering::ShaderData>, Shader, Data::AssetNameHasher<Data::Rendering::ShaderData>> _shaders;
+    ShaderData _defaultShader; // should be referenced by name?
+    ShaderData _textureShader; // should be referenced by name?
+    std::unordered_map<Data::AssetName<Data::Rendering::ShaderData>, ShaderData, Data::AssetNameHasher<Data::Rendering::ShaderData>> _shaders;
+
+    const ShaderData& _EnsureDefaultIsValid();
+    const ShaderData& _EnsureDefaultTextureIsValid();
+    const ShaderData& _EnsureShaderIsValid(Data::AssetName<Data::Rendering::ShaderData> shaderAssetName, ShaderData& shader);
   };
 }// namespace Rendering
 }// namespace Application

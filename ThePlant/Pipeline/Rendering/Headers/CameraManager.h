@@ -4,6 +4,7 @@
 
 #include "Pipeline/Rendering/Headers/Camera.h"
 #include "Pipeline/Rendering/Headers/RenderCamera.h"
+#include "Pipeline/Rendering/Headers/RenderTarget.h"
 
 #include "Core/Headers/PtrDefs.h"
 #include "Core/Headers/TimeDefs.h"
@@ -22,12 +23,18 @@ namespace Rendering {
     void UpdateCamera(const Camera& camera, const Core::Math::Int2& renderDimensions, const Core::Math::Float4x4& cameraMatrix);
     void RemoveInactive();
 
-    const std::vector<RenderCamera>& GetCameras() const;
+    std::vector<RenderCamera> GetCameraCopies();
     const RenderCamera& GetCamera(const Core::instanceId<Camera>& cameraId);
+
+    const RenderTarget& GetValidRenderTarget(const RenderDataHandle& handle);
 
   protected:
     std::vector<bool> _active; // index-matched with the below, false -> camera not updated this frame, remove it
     std::vector<RenderCamera> _renderCameras;
+    std::vector<RenderTarget> _renderCameraTargets;
+
+    RenderCamera _GetCameraCopy(const RenderCamera& camera);
+    RenderTarget& _GetRenderTarget(const RenderDataHandle& handle);
   };
 }// namespace Rendering
 }// namespace Application

@@ -11,7 +11,8 @@ using namespace Core::Functionality;
 
 namespace Application {
 namespace Rendering {
-  RenderManager::RenderManager()
+  RenderManager::RenderManager(ShaderManager& shaderManager)
+  : _Renderer(shaderManager, _cameraManager)
   {}
 
   CameraManager& RenderManager::GetCameraManager()
@@ -113,10 +114,10 @@ namespace Rendering {
   }
 #endif
 
-  void RenderManager::QueueCamera(const RenderCamera& camera)
+  void RenderManager::QueueCamera(RenderCamera&& camera)
   {
     SCOPED_MEMORY_CATEGORY("Rendering");
-    _mainThreadRenderFrame.QueueCamera(camera);
+    _mainThreadRenderFrame.QueueCamera(std::move(camera));
   }
 
   void RenderManager::_RenderStart()
@@ -137,7 +138,7 @@ namespace Rendering {
 
     // NOTE: If rendering shadows and the like, we need to DISABLE culling of faces so that they are taken into account for shadows! (I think)
     frameData.Render(_Renderer, _clearColor);
-    _Renderer.SetShader(Shader()); // this should be done in the EndFrame call?
+    _Renderer.ClearShader(); // this should be done in the EndFrame call?
 
     _renderFrames.ReturnBuffer(frameData);
 

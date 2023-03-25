@@ -18,11 +18,11 @@ set(CMAKE_C_COMPILER_ARCHITECTURE_ID x64)
 
 set(MSVC_C_ARCHITECTURE_ID x64)
 
-set(CMAKE_AR "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30037/bin/Hostx64/x64/lib.exe")
+set(CMAKE_AR "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/lib.exe")
 set(CMAKE_C_COMPILER_AR "")
 set(CMAKE_RANLIB ":")
 set(CMAKE_C_COMPILER_RANLIB "")
-set(CMAKE_LINKER "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30037/bin/Hostx64/x64/link.exe")
+set(CMAKE_LINKER "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/link.exe")
 set(CMAKE_MT "CMAKE_MT-NOTFOUND")
 set(CMAKE_COMPILER_IS_GNUCC )
 set(CMAKE_C_COMPILER_LOADED 1)

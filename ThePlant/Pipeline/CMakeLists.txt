@@ -64,6 +64,7 @@ Rendering/Source/Lights.cpp #
 Rendering/Source/MaterialManager.cpp #
 Rendering/Source/RenderCamera.cpp #
 Rendering/Source/RenderManager.cpp #
+Rendering/Source/RenderTarget.cpp #
 Rendering/DefaultRenderLayers.cpp #
 Rendering/Display.cpp #
 Rendering/DisplayManager.cpp #
@@ -188,6 +189,7 @@ Rendering/Headers/RenderCamera.h #
 Rendering/Headers/RenderData.h #
 Rendering/Headers/RenderDataCreator.h #
 Rendering/Headers/RenderManager.h #
+Rendering/Headers/RenderTarget.h #
 Rendering/OpenGL/Headers/GLArrayBuffer.h #
 Rendering/OpenGL/Headers/GLBuffer.h #
 Rendering/OpenGL/Headers/GLFrameBuffer.h #

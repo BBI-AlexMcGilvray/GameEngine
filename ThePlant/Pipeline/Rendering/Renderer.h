@@ -7,7 +7,10 @@
 #include "Core/Math/Headers/Matrix4x4.h"
 
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/Headers/CameraManager.h"
+#include "Pipeline/Rendering/Headers/RenderTarget.h"
 #include "Pipeline/Rendering/Shaders/Shader.h"
+#include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
 namespace Application {
 namespace Rendering {
@@ -16,11 +19,18 @@ namespace Rendering {
   // this should also hold (a point perhaps) to the camera that is being used by the system
   struct Renderer
   {
+    Renderer(ShaderManager& shaderManager, CameraManager& cameraManager);
+
     void StartFrame();
     void EndFrame();
 
     // must be called before any meshes that need that shader (or once per set)
-    void SetShader(const Shader& shader);
+    void SetShader(const RenderDataHandle& shader);
+    void ClearShader();
+
+    void SetRenderTarget(const RenderDataHandle& renderTarget, const Core::Math::Color& clearColour);
+    void ClearRenderTarget();
+
     // should contain the logic that is currently in the shader and the render object
     void DrawMesh(const Context& context) const;
     void DrawMesh(const SkinnedContext& context) const;
@@ -29,6 +39,7 @@ namespace Rendering {
   #ifdef DEBUG
     struct TrackingInfo
     {
+      uint renderTargetsUsed = 0;
       uint shadersUsed = 0;
       uint drawCalls = 0;
       uint modelsDrawn = 0;
@@ -40,7 +51,10 @@ namespace Rendering {
     void _PrintTrackingInfo() const;
   #endif
 
-    Shader _currentShader; // used for tracking shader changes and ordering information
+    CameraManager& _cameraManager;
+    ShaderManager& _shaderManager;
+    RenderTarget _currentTarget;
+    ShaderData _currentShader; // used for tracking shader changes and ordering information
     // Renderer<OpenGL> _impl; // when we support multiple renderers, we would want to swap the impl at compile type (or launch time based on GPU?) and have the 'final' calls as part of that renderer
 
     // is this needed?

@@ -145,7 +145,7 @@ CACHE_OPTION:STRING=ccache
 CLOCK_GETTIME:BOOL=OFF
 
 //Path to a program.
-CMAKE_AR:FILEPATH=C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30037/bin/Hostx64/x64/lib.exe
+CMAKE_AR:FILEPATH=C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/lib.exe
 
 //For backwards compatibility, what version of CMake commands and
 // syntax should this version of CMake try to support.
@@ -270,7 +270,7 @@ CMAKE_INSTALL_SHAREDSTATEDIR:PATH=com
 CMAKE_INSTALL_SYSCONFDIR:PATH=etc
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30037/bin/Hostx64/x64/link.exe
+CMAKE_LINKER:FILEPATH=C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/link.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -621,7 +621,7 @@ PTHREADS:BOOL=OFF
 PULSEAUDIO:BOOL=OFF
 
 //Path to a program.
-PYTHON_EXECUTABLE:FILEPATH=C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python37_64/python.exe
+PYTHON_EXECUTABLE:FILEPATH=C:/Users/jnast/AppData/Local/Programs/Python/Python310/python.exe
 
 //Path to a file.
 READLINE_INCLUDE_DIR:PATH=READLINE_INCLUDE_DIR-NOTFOUND
@@ -1124,7 +1124,7 @@ DirectX_PREFIX_PATH_INT_CHECK:INTERNAL=C:/apps_x86/Microsoft DirectX SDK*;C:/Pro
 //Details about finding OpenGL
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[opengl32][c ][v()]
 //Details about finding PythonInterp
-FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[C:/Program Files (x86)/Microsoft Visual Studio/Shared/Python37_64/python.exe][v3.7.8()]
+FIND_PACKAGE_MESSAGE_DETAILS_PythonInterp:INTERNAL=[C:/Users/jnast/AppData/Local/Programs/Python/Python310/python.exe][v3.10()]
 //Have include audioclient.h
 HAVE_AUDIOCLIENT_H:INTERNAL=1
 //Have include d3d11_1.h

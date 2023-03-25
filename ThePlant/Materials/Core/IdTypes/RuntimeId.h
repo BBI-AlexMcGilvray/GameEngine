@@ -24,9 +24,21 @@ struct runtimeId_t
     : _id(TypeId_Helper::INVALID_ID)
   {}
 
+  ~runtimeId_t() noexcept = default;
+
+  constexpr runtimeId_t(runtimeId_t &&rhs) noexcept
+    : _id(rhs._id)
+  {}
+
   constexpr runtimeId_t(const runtimeId_t &rhs)
     : _id(rhs._id)
   {}
+
+  constexpr runtimeId_t &operator=(runtimeId_t &&other) noexcept
+  {
+    _id = other._id;
+    return *this;
+  }
 
   constexpr runtimeId_t &operator=(const runtimeId_t &other)
   {

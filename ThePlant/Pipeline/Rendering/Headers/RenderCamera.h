@@ -10,56 +10,31 @@
 
 #include "Pipeline/Rendering/Headers/Camera.h"
 #include "Pipeline/Rendering/2D/Headers/Texture.h"
+#include "Pipeline/Rendering/Headers/RenderTarget.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLFrameBuffer.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLRenderBuffer.h"
 
 namespace Application {
 namespace Rendering {
-  struct RenderCameraData
-  {
-    GLFrameBuffer frameBuffer;
-    Texture texture;
-
-    // should only be written to when created
-    std::atomic<bool> initialized;
-
-    bool Valid() const
-    {
-      return initialized;
-    }
-  };
-
   // anything needed for camera. should create specifications for perspective and orthographic
   struct RenderCamera
   {
     Core::instanceId<Camera> cameraId;
-    Core::Math::Int2 renderDimensions;
     Core::Math::Float4x4 renderMatrix;
-    GLFrameBuffer frameBuffer;
-    Texture texture;
     // we will have this when it is able to be supported (i.e. set properly)
     std::set<Core::Hash> layers;
 
-    RenderCamera(const Camera& camera, const Core::Math::Int2& renderDimensions, const Core::Math::Float4x4& matrix);
-    ~RenderCamera() = default;
+    RenderDataHandle renderTargetHandle;
 
-    // coping should be fine, just need to be aware of where the frame buffers will get deleted from (could be race condition in multithreaded rendering)
-    RenderCamera(const RenderCamera&) = default;
+    RenderCamera(const Core::instanceId<Camera>& cameraId, const Core::Math::Float4x4& matrix, RenderDataHandle&& renderTargetHandle);
+    ~RenderCamera() noexcept = default;
+
+    // copying should be fine, just need to be aware of where the frame buffers will get deleted from (could be race condition in multithreaded rendering)
     RenderCamera(RenderCamera&&) = default;
-
-    RenderCamera& operator=(const RenderCamera&) = default;
     RenderCamera& operator=(RenderCamera&&) = default;
 
-    void InitializeCamera();
-    void BeginCameraRender(const Core::Math::Color& clearColour) const;
-    void EndCameraRender() const;
-    void CleanUpCamera();
-
-private:
-    GLRenderBuffer _frameBufferStencilAndDepth;
-
-    void _InitializeBuffers();
-    void _CleanUpBuffers();
+    RenderCamera(const RenderCamera&) = default;
+    RenderCamera& operator=(const RenderCamera&) = default;
   };
 }// namespace Rendering
 }// namespace Application

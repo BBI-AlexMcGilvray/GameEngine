@@ -93,6 +93,7 @@ ApplicationManager::ApplicationManager()
   , _inputSystem(_sdl)
   , _shaderManager(_assetManager, _assetLoader)
   , _materialManager(_assetManager, _assetLoader, _shaderManager)
+  , _renderSystem(_shaderManager)
 #if MULTITHREADED_RENDERING
   , _renderThread(_inputSystem, _renderSystem)
 #endif

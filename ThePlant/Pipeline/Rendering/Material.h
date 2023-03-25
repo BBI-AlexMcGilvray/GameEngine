@@ -38,7 +38,7 @@ namespace Rendering {
   struct Material
   {
     ShaderContext shaderContext;
-    Shader shader;
+    RenderDataHandle shader;
 
     // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
     // AssetData<MaterialData> in debug?

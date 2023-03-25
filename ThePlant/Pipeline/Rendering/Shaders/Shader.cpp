@@ -103,29 +103,34 @@ namespace Rendering {
       return CreateFragmentShader(data->shaderCode);
   }
 
-  Shader CreateShader(Data::AssetManager& assetManager, const Data::AssetData<Data::Rendering::ShaderData>& data)
+  void CreateShader(ShaderData& shader, Data::AssetManager& assetManager, const Data::AssetData<Data::Rendering::ShaderData>& data)
   {
       // to get rid of ApplicationManager dependency, this should probably take in a VertexShader and a FragmentShader as well as the data?
       VertexShader vertex = CreateVertexShader(assetManager.getAssetData(data->vertexShader));
       FragmentShader fragment = CreateFragmentShader(assetManager.getAssetData(data->fragmentShader));
 
-      return CreateShader(vertex, fragment);
+      CreateShader(shader, vertex, fragment);
   }
   
-  Shader CreateDefaultShader()
+  void CreateDefaultShader(ShaderData& shader)
   {
       VertexShader defaultVertex = CreateDefaultVertexShader();
       FragmentShader defaultFragment = CreateDefaultFragmentShader();
 
-      return CreateShader(defaultVertex, defaultFragment);
+      CreateShader(shader, defaultVertex, defaultFragment);
   }
 
-  Shader CreateDefaultTextureShader()
+  void CreateDefaultTextureShader(ShaderData& shader)
   {
       VertexShader textureVertex = CreateDefaultTextureVertexShader();
       FragmentShader textureFragment = CreateDefaultTextureFragmentShader();
 
-      return CreateShader(textureVertex, textureFragment);
+      CreateShader(shader, textureVertex, textureFragment);
+  }
+
+  void DestroyShader(ShaderData& shader)
+  {
+    DeleteShader(shader);
   }
 } // namespace Application
 } // namespace Rendering

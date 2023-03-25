@@ -67,9 +67,8 @@ namespace Rendering {
     glDeleteShader(shader.glShader.Object);
   }
 
-  Shader CreateShader(const VertexShader& vertexShader, const FragmentShader& fragmentShader)
+  void CreateShader(ShaderData& shader, const VertexShader& vertexShader, const FragmentShader& fragmentShader)
   {
-    Shader shader;
     shader.vertexShader = vertexShader;
     shader.fragmentShader = fragmentShader;
 
@@ -94,11 +93,9 @@ namespace Rendering {
     }
 
     shader.glProgram.Object = program;
-
-    return shader;
   }
 
-  void DeleteShader(const Shader& shader)
+  void DeleteShader(ShaderData& shader)
   {
     glDeleteProgram(shader.glProgram.Object);
     DeleteVertexShader(shader.vertexShader);

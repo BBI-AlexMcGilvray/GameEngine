@@ -3,6 +3,7 @@
 #include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/Rendering/OpenGL/Headers/ShaderUtils.h"
+#include "Pipeline/Rendering/Headers/RenderDataCreator.h"
 #include "Pipeline/StateSystem/Headers/State.h"
 
 namespace Application {
@@ -22,55 +23,85 @@ namespace Rendering {
     _assetLoaderFactory.Unregister(Core::HashType<Data::Rendering::ShaderData>());
 
     // if we want to lock the shaders in the asset manager (which we shouldn't need to do - except in debug mode so we can live-edit them) then we should unlock them all here
+    for (auto& shader : _shaders)
+    {
+      RenderDataCreator::DestroyRenderData(shader.second, &DestroyShader);
+    }
   }
   
-  const Shader ShaderManager::GetDefaultShader()
+  RenderDataHandle ShaderManager::GetDefaultShaderHandle()
   {
-    // this is here because we can't make it immediately since opengl is not in a good state, but we should have an nicer way to check for validity
-    if (_defaultShader.glProgram.Object == 0)
-    {
-      _defaultShader = CreateDefaultShader();
-    }
-
-    return _defaultShader;
+    return _defaultShader.GetHandle();
   }
   
-  const Shader ShaderManager::GetDefaultTextureShader()
+  RenderDataHandle ShaderManager::GetDefaultTextureShaderHandle()
   {
-    // this is here because we can't make it immediately since opengl is not in a good state, but we should have an nicer way to check for validity
-    if (_textureShader.glProgram.Object == 0)
-    {
-      _textureShader = CreateDefaultTextureShader();
-    }
-
-    return _textureShader;
+    return _textureShader.GetHandle();
   }
 
-  const Shader ShaderManager::AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
+  RenderDataHandle ShaderManager::AddShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
   {
     auto existingShader = _shaders.find(shader);
     if (existingShader != _shaders.end())
     {
       DEBUG_WARNING("Shader Manager", "Trying to add the same shader twice");
-      return existingShader->second;
+      return existingShader->second.GetHandle();
     }
 
     // doing it this way could give us problems because we don't hold on to shared_ptrs that keep the data alive for shaders/fragmentshaders/vertexshaders
     // i think we want this to have a loop that goes over all shaders (to add them), locks all data when reached, and then releases them all when done
-    auto shaderData = _assetManager.getAssetData(shader);
-    _shaders[shader] = CreateShader(_assetManager, shaderData);
-    return _shaders[shader];
+    _shaders[shader] = ShaderData();
+    return _shaders[shader].GetHandle();
   }
 
-  const Shader ShaderManager::GetShader(const Data::AssetName<Data::Rendering::ShaderData>& shader)
+  const ShaderData& ShaderManager::GetShader(const RenderDataHandle& handle)
   {
-    auto existing = _shaders.find(shader);
-    if (existing == _shaders.end())
+    if (_defaultShader.IsHeldBy(handle))
     {
-      return AddShader(shader);
+      return _EnsureDefaultIsValid();
     }
 
-    return existing->second;
+    if (_textureShader.IsHeldBy(handle))
+    {
+      return _EnsureDefaultTextureIsValid();
+    }
+
+    auto& existing = std::find_if(_shaders.begin(), _shaders.end(), [this, handle](const std::pair<Data::AssetName<Data::Rendering::ShaderData>, ShaderData>& data)
+    {
+      return data.second.IsHeldBy(handle);
+    });
+    if (existing != _shaders.end())
+    {
+      return _EnsureShaderIsValid(existing->first, existing->second);
+    }
+
+    DEBUG_THROW("ShaderManager", "No shader exists for handle!");
+    return _EnsureDefaultIsValid();
+  }
+
+  const ShaderData& ShaderManager::_EnsureDefaultIsValid()
+  {
+    if (!_defaultShader.IsValid())
+    {
+      RenderDataCreator::InitializeRenderData(_defaultShader, &CreateDefaultShader);
+    }
+    return _defaultShader;
+  }
+
+  const ShaderData& ShaderManager::_EnsureDefaultTextureIsValid()
+  {
+    if (!_textureShader.IsValid())
+    {
+      RenderDataCreator::InitializeRenderData(_textureShader, &CreateDefaultTextureShader);
+    }
+    return _textureShader;
+  }
+
+  const ShaderData& ShaderManager::_EnsureShaderIsValid(Data::AssetName<Data::Rendering::ShaderData> shaderAssetName, ShaderData& shader)
+  {
+    auto shaderData = _assetManager.getAssetData(shaderAssetName);
+    CreateShader(shader, _assetManager, shaderData);
+    return shader;
   }
 
 }// namespace Rendering

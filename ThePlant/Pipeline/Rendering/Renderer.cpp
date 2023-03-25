@@ -33,6 +33,11 @@ namespace Rendering {
       const GLint location;
   };
 
+  Renderer::Renderer(ShaderManager& shaderManager, CameraManager& cameraManager)
+  : _cameraManager(cameraManager)
+  , _shaderManager(shaderManager)
+  {}
+
   void Renderer::StartFrame()
   {
   #ifdef DEBUG
@@ -47,9 +52,9 @@ namespace Rendering {
   #endif
   }
 
-  void Renderer::SetShader(const Shader& shader)
+  void Renderer::SetShader(const RenderDataHandle& shader)
   {
-    if (_currentShader == shader)
+    if (_currentShader.IsHeldBy(shader))
     {
       return;
     }
@@ -57,8 +62,38 @@ namespace Rendering {
   #ifdef DEBUG
     _trackingInfo.shadersUsed += 1;
   #endif
-    _currentShader = shader;
+    _currentShader = _shaderManager.GetShader(shader);
     glUseProgram(_currentShader.glProgram.Object);
+  }
+
+  void Renderer::ClearShader()
+  {
+    _currentShader = ShaderData();
+    glUseProgram(0);
+  }
+
+  void Renderer::SetRenderTarget(const RenderDataHandle& renderTarget, const Core::Math::Color& clearColour)
+  {
+    if (_currentTarget.IsHeldBy(renderTarget))
+    {
+      return;
+    }
+
+  #ifdef DEBUG
+    _trackingInfo.renderTargetsUsed += 1;
+  #endif
+    _currentTarget = _cameraManager.GetValidRenderTarget(renderTarget);
+
+    _currentTarget.frameBuffer.Bind();
+    glEnable(GL_DEPTH_TEST);
+    glClearColor(clearColour.R, clearColour.G, clearColour.B, clearColour.A);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  }
+
+  void Renderer::ClearRenderTarget()
+  {
+    _currentTarget.frameBuffer.Unbind();
+    _currentTarget = RenderTarget();
   }
 
   void Renderer::DrawMesh(const Context& context) const
@@ -83,7 +118,7 @@ namespace Rendering {
 
   void Renderer::_Draw(const Context& context) const
   {
-    DEBUG_ASSERT(context.material.shader == _currentShader);
+    DEBUG_ASSERT(_currentShader.IsHeldBy(context.material.shader));
     context.mesh.buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
   #ifdef DEBUG
     switch (context.type)
@@ -171,11 +206,11 @@ namespace Rendering {
 
   void Renderer::_SetMaterialContext(const Material& material) const
   {
+    VERIFY(_currentShader.IsHeldBy(material.shader));
     for (const auto& context : material.shaderContext)
     {
       const auto& name = context.first;
-      const auto& shader = material.shader;
-      GLint glLocation = glGetUniformLocation(shader.glProgram.Object, name.c_str());
+      GLint glLocation = glGetUniformLocation(_currentShader.glProgram.Object, name.c_str());
 
       GLVisitor visitor(glLocation);
       std::visit(visitor, context.second);
@@ -190,6 +225,7 @@ namespace Rendering {
 
   void Renderer::_PrintTrackingInfo() const
   {
+    CORE_LOG(TAG, "renderTargetsUsed = " + std::to_string(_trackingInfo.renderTargetsUsed));
     CORE_LOG(TAG, "shadersUsed = " + std::to_string(_trackingInfo.shadersUsed));
     CORE_LOG(TAG, "drawCalls = " + std::to_string(_trackingInfo.drawCalls));
     CORE_LOG(TAG, "modelsDrawn = " + std::to_string(_trackingInfo.modelsDrawn));

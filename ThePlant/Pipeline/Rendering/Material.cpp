@@ -28,7 +28,7 @@ namespace Rendering {
   Material CreateDefaultMaterial(ShaderManager& shaderManager)
   {
     Material defaultMaterial;
-    defaultMaterial.shader = shaderManager.GetDefaultShader();
+    defaultMaterial.shader = shaderManager.GetDefaultShaderHandle();
     
     Data::Rendering::MaterialContext defaultContext = { Core::Math::WHITE, Core::Math::WHITE, Core::Math::WHITE, 0.0 };
     reflector::visit_all(defaultContext, context_creator(defaultMaterial.shaderContext));
@@ -39,7 +39,7 @@ namespace Rendering {
   Material CreateMaterial(const Data::AssetData<Data::Rendering::MaterialData>& data, ShaderManager& shaderManager)
   {
     Material material;
-    material.shader = shaderManager.GetShader(data->shader);
+    material.shader = shaderManager.AddShader(data->shader);
 
     reflector::visit_all(data->context, context_creator(material.shaderContext));
 

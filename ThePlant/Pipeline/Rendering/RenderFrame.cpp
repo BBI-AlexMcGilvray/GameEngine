@@ -8,9 +8,9 @@
 
 namespace Application {
 namespace Rendering {
-void RenderFrame::QueueCamera(const RenderCamera& camera)
+void RenderFrame::QueueCamera(RenderCamera&& camera)
 {
-    _cameras.push_back(camera);
+    _cameras.emplace_back(std::move(camera));
 }
 
 void RenderFrame::MoveTo(RenderFrame& moveTo) const
@@ -56,14 +56,14 @@ void RenderFrame::Render(Renderer& renderer, const Core::Math::Color& clearColou
 
     for (auto& camera : _cameras)
     {
-        camera.BeginCameraRender(clearColour);
+        renderer.SetRenderTarget(camera.renderTargetHandle, clearColour);
         for (auto& layer : _layers)
         {
             // if layer applies to camera
             layer->Reset(clearColour);
             layer->Render(renderer, camera);
         }
-        camera.EndCameraRender();
+        renderer.ClearRenderTarget();
     }
 }
 

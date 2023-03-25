@@ -4,6 +4,7 @@
 #include "Data/Headers/AssetManager.h"
 #include "Data/Rendering/Headers/ShaderData.h"
 
+#include "Pipeline/Rendering/Headers/RenderData.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLShader.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLShaderProgram.h"
 
@@ -57,7 +58,7 @@ namespace Rendering {
   
   FragmentShader CreateFragmentShader(const Data::AssetData<Data::Rendering::FragmentShaderData>& data);
 
-  struct Shader
+  struct ShaderData : TRenderData<ShaderData>
   {
     VertexShader vertexShader;
     FragmentShader fragmentShader;
@@ -66,18 +67,19 @@ namespace Rendering {
     // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
     // AssetData<ShaderData> in debug?
 
-    Shader() = default;
-    Shader(const Shader&) = default;
-    Shader& operator=(const Shader&) = default;
+    ShaderData() = default;
+    ShaderData(const ShaderData&) = default;
+    ShaderData& operator=(const ShaderData&) = default;
 
-    bool operator==(const Shader& other) const
+    bool operator==(const ShaderData& other) const
     {
       return (vertexShader == other.vertexShader && fragmentShader == other.fragmentShader && glProgram == other.glProgram);
     }
   };
 
-  Shader CreateShader(Data::AssetManager& assetManager, const Data::AssetData<Data::Rendering::ShaderData>& data);
-  Shader CreateDefaultShader();
-  Shader CreateDefaultTextureShader();
+  void CreateShader(ShaderData& shader, Data::AssetManager& assetManager, const Data::AssetData<Data::Rendering::ShaderData>& data);
+  void CreateDefaultShader(ShaderData& shader);
+  void CreateDefaultTextureShader(ShaderData& shader);
+  void DestroyShader(ShaderData& shader);
 }// namespace Rendering
 }// namespace Application

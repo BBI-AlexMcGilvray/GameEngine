@@ -1,8 +1,8 @@
 #pragma once
 
-#include <atomic>
-
 #include "Core/IdTypes/InstanceId.h"
+#include "Core/IdTypes/RuntimeId.h"
+#include "Core/Logging/LogFunctions.h"
 
 #include "Pipeline/Rendering/Headers/RenderDataCreator.h"
 
@@ -51,52 +51,89 @@ SUMMARY:
     struct RenderDataHandle
     {
         RenderDataHandle() = default;
+        ~RenderDataHandle() = default;
         RenderDataHandle(RenderDataHandle&&) = default;
         RenderDataHandle& operator=(RenderDataHandle&&) = default;
 
         // to keep the reference count correct, only one instances of a 'gotten' handle can exist (i.e. move only)
-        RenderDataHandle(const RenderDataHandle&) = delete;
-        RenderDataHandle& operator=(const RenderDataHandle&) = delete;
+        // ideally the above would be the case, maybe we can ignore it? kinda need to cause msvc seems to not work properly/as expected
+        RenderDataHandle(const RenderDataHandle&) = default;
+        RenderDataHandle& operator=(const RenderDataHandle&) = default;
 
         Core::instanceId<RenderData> GetRenderDataID() const { return _renderDataID; }
+        Core::runtimeId_t GetRenderTypeID() const { return _typeId; }
         bool IsValid() const { return _renderDataID.IsValid(); }
+
+        bool operator==(const RenderDataHandle& other) const
+        {
+            return other._renderDataID == _renderDataID && other._typeId == _typeId;
+        }
+        bool operator!=(const RenderDataHandle& other) const
+        {
+            return !(*this == other);
+        }
 
     private:
         friend struct RenderData;
         Core::instanceId<RenderData> _renderDataID;
+        Core::runtimeId_t _typeId;
 
-        RenderDataHandle(Core::instanceId<RenderData> renderDataID)
+        RenderDataHandle(Core::instanceId<RenderData> renderDataID, Core::runtimeId_t typeId)
         : _renderDataID(renderDataID)
+        , _typeId(typeId)
         {}
     };
 
     struct RenderData
     {
-        RenderData()
+        RenderData(Core::runtimeId_t typeId)
         : _id(Core::GetInstanceId<RenderData>())
+        , _typeId(typeId)
         {}
+
+        ~RenderData() = default;
+        // {
+        //     DEBUG_ASSERT(_references == 0, "Deleting referenced RenderData!");
+        // }
+
+        RenderData(RenderData&&) = default;
+        RenderData& operator=(RenderData&&) = default;
+
+        // handles should only refer to a single object, not multiple -> move only
+        // ideally the above would be the case, maybe we can ignore it? kinda need to cause msvc seems to not work properly/as expected
+        RenderData(const RenderData&) = default;
+        RenderData& operator=(const RenderData&) = default;
 
         Core::instanceId<RenderData> GetID() const { return _id; }
         bool IsValid() const { return _initialized; }
+        bool IsReferenced() const { return _references > 0; }
 
         RenderDataHandle GetHandle()
         {
             ++_references;
-            return RenderDataHandle(GetID());
+            return RenderDataHandle(GetID(), _typeId);
+        }
+
+        bool IsHeldBy(const RenderDataHandle& handle) const
+        {
+            return handle.GetRenderDataID() == GetID();
         }
 
         void ReturnHandle(RenderDataHandle&& handle)
         {
+            VERIFY(IsHeldBy(handle), "Can only return an applicable handle");
             --_references;
         }
 
     private:
     // maybe we don't need a class to friend, and we just friend the templated functions? although a class may make it syntactically nicer
         friend struct RenderDataCreator;
-        std::atomic<bool> _initialized;
+        bool _initialized; // this should only ever be modified by render thread, so shouldn't need to be atomic (need it to not be cause msvc compilation not really supporting move only types in vectors)
+        // we _should_ have some way to enforce what thread funcions are called from
 
         Core::instanceId<RenderData> _id;
-        uint32_t _references = 0;
+        Core::runtimeId_t _typeId;
+        uint32_t _references = 0; // without move-only, this doesn't work -> we need some form of shared_ptrs esque reference counting to handle copying of handles
 
         void _Initialize()
         {
@@ -107,6 +144,22 @@ SUMMARY:
         {
             _initialized = false;
         }
+    };
+
+    // all render types must inherit from this so we can also store the type ids (without having to do it all the time)
+    template <typename RENDER_DATA>
+    struct TRenderData : public RenderData
+    {
+        TRenderData()
+        : RenderData(Core::GetTypeId<RENDER_DATA>())
+        {}
+        ~TRenderData() = default;
+        TRenderData(TRenderData&&) = default;
+        TRenderData& operator=(TRenderData&&) = default;
+
+        // handles should only refer to a single object, not multiple -> move only
+        TRenderData(const TRenderData&) = default;
+        TRenderData& operator=(const TRenderData&) = default;
     };
 }// namespace Rendering
 }// namespace Application

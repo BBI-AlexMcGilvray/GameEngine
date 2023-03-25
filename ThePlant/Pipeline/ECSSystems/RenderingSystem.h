@@ -190,9 +190,10 @@ struct CameraRenderingSystem : public System<CameraRenderingSystem>
         DEBUG_PROFILE_SCOPE(GetSystemName());
         
         // cameras are updated in the camera system, but the resultant render cameras are added to the render frame here
-        for (const auto& camera : _cameraManager.GetCameras())
+        auto cameraCopies = _cameraManager.GetCameraCopies();
+        for (size_t index = 0; index < cameraCopies.size(); ++index)
         {
-            _renderManager.QueueCamera(camera);
+            _renderManager.QueueCamera(std::move(cameraCopies[index]));
         }
     }
 

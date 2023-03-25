@@ -18,7 +18,7 @@ namespace Rendering {
   VertexShader CreateVertexShader(const std::string& shaderCode);
   void DeleteVertexShader(const VertexShader& shader);
 
-  Shader CreateShader(const VertexShader& vertexShader, const FragmentShader& fragmentShader);
-  void DeleteShader(const Shader& shader);
+  void CreateShader(ShaderData& shader, const VertexShader& vertexShader, const FragmentShader& fragmentShader);
+  void DeleteShader(ShaderData& shader);
 }// namespace Rendering
 }// namespace Application

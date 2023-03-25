@@ -42,9 +42,21 @@ struct instanceId
     : _id(rhs._id)
   {}
 
+  ~instanceId() noexcept = default;
+
+  constexpr instanceId(instanceId&& rhs) noexcept
+  : _id(std::move(rhs._id))
+  {}
+
   constexpr instanceId &operator=(const instanceId &rhs)
   {
     _id = rhs._id;
+    return *this;
+  }
+
+  constexpr instanceId &operator=(instanceId&& rhs) noexcept
+  {
+    _id = std::move(rhs._id);
     return *this;
   }
 
