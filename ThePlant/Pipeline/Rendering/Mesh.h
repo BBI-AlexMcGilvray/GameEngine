@@ -24,6 +24,15 @@ namespace Rendering {
     void CreateMesh(MeshData& mesh, const std::vector<VertexData>& data);
     void CreateMesh(MappedMeshData& mesh, const std::vector<SkinnedVertexData>& data);
 
+    /*
+    NOTES:
+        * we may want the MeshData to have a private vector of the vertex data (used above) so that it has all the information it needs to create the mesh at a later point
+        * or, we can set up these 'Add[ RenderData ]' functions to take in an AssetData ptr _and lock it_ until it is loaded -> this would mean no file loading happens on render thread
+            * this definitely seems like a good idea!
+        * also take a look at how we brought in the asset data for the shader manager (may need to improve that)
+        * does all of this help us set up the MappedMeshData to use a handle for it's actual mesh?
+    */
+
     struct MeshData : TRenderData<MeshData>
     {
         size_t vertices; // number of vertices
