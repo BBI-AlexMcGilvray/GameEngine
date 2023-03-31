@@ -23,7 +23,6 @@ namespace Data
 
     void AssetManager::unlockAsset(const AssetName<void>& asset)
     {
-        auto lock = GetLockedAssetsLock();
         if (_lockedAssets.find(asset) == _lockedAssets.end())
         {
             DEBUG_THROW_EXCEPTION(InvalidAssetOperation, TAG, "Unlocking asset that is not locked - verify logic");
@@ -33,7 +32,6 @@ namespace Data
 
     void AssetManager::unlockAllAssets()
     {
-        auto lock = GetLockedAssetsLock();
         for (const std::pair<AssetName<void>, SharedPtr<const void>>& pair : _lockedAssets)
         {
             unlockAsset(pair.first);
@@ -42,7 +40,6 @@ namespace Data
 
     void AssetManager::cleanAssets()
     {
-        auto lock = GetAssetsLock();
         // not having the iterator incrementor higher up seems weird, look into cleaning up this code
         for (auto iter = _assets.begin(); iter != _assets.end();/* incrementation handled implicity if erased, or explicitly otherwise */) {
             if (iter->second.expired())
@@ -58,7 +55,6 @@ namespace Data
 
     bool AssetManager::_hasAsset(const AssetName<void>& asset)
     {
-        auto lock = GetAssetsLock();
         auto stored = _assets.find(asset);
         if (stored == _assets.end())
         {
@@ -70,7 +66,6 @@ namespace Data
 
     bool AssetManager::_hasAssetLocked(const AssetName<void>& asset)
     {
-        auto lock = GetLockedAssetsLock();
         return _lockedAssets.find(asset) != _lockedAssets.end();
     }
 

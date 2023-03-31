@@ -6,8 +6,9 @@
 
 namespace Application {
 namespace Rendering {
-    void CreateMesh(MeshData& mesh, const std::vector<SimpleVertexData>& data)
+    Mesh CreateMesh(const std::vector<SimpleVertexData>& data)
     {
+        Mesh mesh;
         mesh.vertices = data.size();
 
         mesh.buffer.Generate();
@@ -34,10 +35,13 @@ namespace Rendering {
         glDisableVertexAttribArray(0);
 
         mesh._vbo = newBuffer;
+
+        return mesh;
     }
 
-    void CreateMesh(MeshData& mesh, const std::vector<VertexData>& data)
+    Mesh CreateMesh(const std::vector<VertexData>& data)
     {
+        Mesh mesh;
         mesh.vertices = data.size();
 
         mesh.buffer.Generate();
@@ -67,9 +71,11 @@ namespace Rendering {
         glDisableVertexAttribArray(0);
 
         mesh._vbo = newBuffer;
+
+        return mesh;
     }
 
-    void CreateMesh(MappedMeshData& mesh, const std::vector<SkinnedVertexData>& data)
+    MappedMesh CreateMesh(const std::vector<SkinnedVertexData>& data)
     {
         MappedMesh skinnedMesh;
         Mesh mesh;
@@ -112,25 +118,27 @@ namespace Rendering {
         skinnedMesh.skeletonBuffer = GLMappedBuffer(mesh._vbo.Object, mesh._vbo.Type);
         // keep track of mesh data to write to
         skinnedMesh.mesh = mesh;
+
+        return skinnedMesh;
     }
 
-    void CreateMesh(MeshData& mesh, const Data::AssetData<Data::Rendering::SimpleMeshData>& data)
+    Mesh CreateMesh(const Data::AssetData<Data::Rendering::SimpleMeshData>& data)
     {
         std::vector<SimpleVertexData> vertexData = createRuntimeData(*data);
-        CreateMesh(mesh, vertexData);
+        return CreateMesh(vertexData);
     }
 
-    void CreateMesh(MeshData& mesh, const Data::AssetData<Data::Rendering::StaticMeshData>& data)
+    Mesh CreateMesh(const Data::AssetData<Data::Rendering::StaticMeshData>& data)
     {
         std::vector<VertexData> vertexData = createRuntimeData(*data);
-        return CreateMesh(mesh, vertexData);
+        return CreateMesh(vertexData);
     }
 
-    void CreateMesh(MappedMeshData& mesh, const Data::AssetData<Data::Rendering::AnimatedMeshData>& data, const Data::AssetData<Data::Rendering::SkeletonData>& skeleton)
+    MappedMesh CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data, const Data::AssetData<Data::Rendering::SkeletonData>& skeleton)
     {
         std::vector<SkinnedVertexData> vertexData = createRuntimeData(*data, *skeleton);
 
-        return CreateMesh(mesh, vertexData);
+        return CreateMesh(vertexData);
     }
 } // namespace Rendering
 } // namespace Application

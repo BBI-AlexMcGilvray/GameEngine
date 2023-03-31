@@ -9,31 +9,22 @@
 #include "Data/Rendering/Headers/StaticMeshData.h"
 
 #include "Pipeline/Rendering/3D/Headers/VertexData.h"
-#include "Pipeline/Rendering/Headers/RenderData.h"
+
 #include "Pipeline/Rendering/OpenGL/Headers/GLArrayBuffer.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLBuffer.h"
 #include "Pipeline/Rendering/OpenGL/Headers/GLMappedBuffer.h"
 
 namespace Application {
 namespace Rendering {
-    struct MeshData;
-    struct MappedMeshData;
+    struct Mesh;
+    struct MappedMesh;
 
     // should only be called for code-created meshes
-    void CreateMesh(MeshData& mesh, const std::vector<SimpleVertexData>& data);
-    void CreateMesh(MeshData& mesh, const std::vector<VertexData>& data);
-    void CreateMesh(MappedMeshData& mesh, const std::vector<SkinnedVertexData>& data);
+    Mesh CreateMesh(const std::vector<SimpleVertexData>& data);
+    Mesh CreateMesh(const std::vector<VertexData>& data);
+    MappedMesh CreateMesh(const std::vector<SkinnedVertexData>& data);
 
-    /*
-    NOTES:
-        * we may want the MeshData to have a private vector of the vertex data (used above) so that it has all the information it needs to create the mesh at a later point
-        * or, we can set up these 'Add[ RenderData ]' functions to take in an AssetData ptr _and lock it_ until it is loaded -> this would mean no file loading happens on render thread
-            * this definitely seems like a good idea!
-        * also take a look at how we brought in the asset data for the shader manager (may need to improve that)
-        * does all of this help us set up the MappedMeshData to use a handle for it's actual mesh?
-    */
-
-    struct MeshData : TRenderData<MeshData>
+    struct Mesh
     {
         size_t vertices; // number of vertices
         GLArrayBuffer buffer; // vao
@@ -41,15 +32,15 @@ namespace Rendering {
         // maybe not the AssetData<...>, but AssetName<...>? Because AssetData will hold onto a shared_ptr and could affect lifetime
         // AssetData<MeshData> in debug?
 
-        bool operator==(const MeshData& other) const
+        bool operator==(const Mesh& other) const
         {
             return (vertices == other.vertices && buffer == other.buffer);
         }
 
     private:
-        friend void CreateMesh(MeshData& mesh, const std::vector<SimpleVertexData>& data);
-        friend void CreateMesh(MeshData& mesh, const std::vector<VertexData>& data);
-        friend void CreateMesh(MappedMeshData& mesh, const std::vector<SkinnedVertexData>& data);
+        friend Mesh CreateMesh(const std::vector<SimpleVertexData>&);
+        friend Mesh CreateMesh(const std::vector<VertexData>& data);
+        friend MappedMesh CreateMesh(const std::vector<SkinnedVertexData>&);
 
         GLBuffer _vbo; // should be useful to update only certain data when (if) required. NOTE: We are currently NOT using these correctly
         // ex: have one VBO for each piece of data (position, normal, color, ...), then update the specific VBO when it's held data is changed (ex: change color without changing position)
@@ -59,25 +50,25 @@ namespace Rendering {
         // needs investigation when relevant - maybe we just use the mapped mesh, as below, with a different flag to read right from the GPU?
     };
 
-    struct MappedMeshData : TRenderData<MappedMeshData>
+    struct MappedMesh
     {
-        RenderDataHandle mesh;
+        Mesh mesh;
         GLMappedBuffer skeletonBuffer;
 
-        bool operator==(const MappedMeshData& other) const
+        bool operator==(const MappedMesh& other) const
         {
             return (skeletonBuffer == other.skeletonBuffer && mesh == other.mesh);
         }
 
     private:
-        friend void CreateMesh(MappedMeshData& mesh, const std::vector<SkinnedVertexData>& data);
+        friend MappedMesh CreateMesh(const std::vector<SkinnedVertexData>&);
     };
 
     // these need to be adjusted in the future to not create the same mesh multiple times for the same asset (would need something like we have for shaders)
-    void CreateMesh(MeshData& mesh, const Data::AssetData<Data::Rendering::SimpleMeshData>& data);
-    void CreateMesh(MeshData& mesh, const Data::AssetData<Data::Rendering::StaticMeshData>& data);
+    Mesh CreateMesh(const Data::AssetData<Data::Rendering::SimpleMeshData>& data);
+    Mesh CreateMesh(const Data::AssetData<Data::Rendering::StaticMeshData>& data);
     // is this one needed?
     // MappedMesh CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data);
-    void CreateMesh(MappedMeshData& mesh, const Data::AssetData<Data::Rendering::AnimatedMeshData>& data, const Data::AssetData<Data::Rendering::SkeletonData>& skeleton);
+    MappedMesh CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data, const Data::AssetData<Data::Rendering::SkeletonData>& skeleton);
 }// namespace Rendering
 }// namespace Application

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <mutex>
 #include <unordered_map>
 
 #include "Core/Debugging/Memory/MemoryTrackerUtils.h"
@@ -55,9 +54,7 @@ public:
 
         // static_cast type safety guaranteed by the type check in AssetName
         // it SHOULD be, but it isn't yet due to the fact that names can be shared across asset types
-        auto lock = GetAssetsLock();
         SharedPtr<const T> data = _hasAsset(asset) ? std::static_pointer_cast<const T>(_assets[asset].lock()) : _loadAsset(asset); // can't do std::dynamic_pointer_cast since we are storing as SharedPtr<void>
-        lock.unlock();
 
         if (data == nullptr)
         {
@@ -69,15 +66,8 @@ public:
 
 private:
     AssetLocationMapping _assetLocations; // debug for now
-    
-    std::recursive_mutex _assetsMutex;
     std::unordered_map<AssetName<void>, WeakPtr<const void>, AssetNameHasher<void>> _assets;
-
-    std::recursive_mutex _lockedAssetsMutex;
     std::unordered_map<AssetName<void>, SharedPtr<const void>, AssetNameHasher<void>> _lockedAssets;
-
-    std::unique_lock<std::recursive_mutex> GetAssetsLock() { return std::unique_lock(_assetsMutex); }
-    std::unique_lock<std::recursive_mutex> GetLockedAssetsLock() { return std::unique_lock(_lockedAssetsMutex); }
 
     bool _hasAsset(const AssetName<void>& asset);
     bool _hasAssetLocked(const AssetName<void>& asset);
@@ -107,9 +97,7 @@ private:
         DeserializeTo(*loadedData, parsedAssetData);
         
         // // is now implicitly cast to const in storage
-        auto lock = GetAssetsLock();
         _assets[asset] = loadedData; // need to store asset by AssetName AND AssetType (runtimeId_t)
-        lock.unlock();
 
         // return implicitly-cast const version
         return loadedData;
