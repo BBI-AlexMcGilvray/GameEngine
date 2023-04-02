@@ -76,6 +76,8 @@ SUMMARY:
         struct ControlBlock{};
 
         friend struct RenderData;
+        // we definitely want a way to turn these references into soft ones, so render contexts do not determine if the data is maintained
+        // due to triple buffer, it's possible we have a buffer that keeps a reference from long ago -> they should only have weak references
         std::shared_ptr<ControlBlock> _controlBlock; // we could have a weak_ptr variable too to support weak and strong handles (right now they'd all be strong)
         Core::instanceId<RenderData> _renderDataID;
         Core::runtimeId_t _typeId;
