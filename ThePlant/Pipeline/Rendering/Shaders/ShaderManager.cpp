@@ -50,7 +50,7 @@ namespace Rendering {
 
     // doing it this way could give us problems because we don't hold on to shared_ptrs that keep the data alive for shaders/fragmentshaders/vertexshaders
     // i think we want this to have a loop that goes over all shaders (to add them), locks all data when reached, and then releases them all when done
-    _shaders[shader] = ShaderData();
+    _shaders.emplace(std::make_pair(shader, ShaderData()));
     return _shaders[shader].GetHandle();
   }
 
@@ -66,7 +66,7 @@ namespace Rendering {
       return _EnsureDefaultTextureIsValid();
     }
 
-    auto& existing = std::find_if(_shaders.begin(), _shaders.end(), [this, handle](const std::pair<Data::AssetName<Data::Rendering::ShaderData>, ShaderData>& data)
+    auto& existing = std::find_if(_shaders.begin(), _shaders.end(), [this, &handle](const auto& data)
     {
       return data.second.IsHeldBy(handle);
     });

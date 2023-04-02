@@ -68,8 +68,11 @@ namespace Rendering {
     // AssetData<ShaderData> in debug?
 
     ShaderData() = default;
-    ShaderData(const ShaderData&) = default;
-    ShaderData& operator=(const ShaderData&) = default;
+    ShaderData(ShaderData&&) = default;
+    ShaderData& operator=(ShaderData&&) = default;
+    
+    ShaderData(const ShaderData&) = delete;
+    ShaderData& operator=(const ShaderData&) = delete;
 
     bool operator==(const ShaderData& other) const
     {

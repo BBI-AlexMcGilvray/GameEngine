@@ -53,8 +53,9 @@ namespace Rendering {
 
     CameraManager& _cameraManager;
     ShaderManager& _shaderManager;
-    RenderTarget _currentTarget;
-    ShaderData _currentShader; // used for tracking shader changes and ordering information
+    // ideally these aren't pointers... but we can't copy render data so they can't be references
+    Core::Ptr<const RenderTarget> _currentTarget = nullptr;
+    Core::Ptr<const ShaderData> _currentShader = nullptr; // used for tracking shader changes and ordering information
     // Renderer<OpenGL> _impl; // when we support multiple renderers, we would want to swap the impl at compile type (or launch time based on GPU?) and have the 'final' calls as part of that renderer
 
     // is this needed?

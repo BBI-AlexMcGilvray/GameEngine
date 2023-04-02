@@ -54,7 +54,7 @@ namespace Rendering {
 
   void Renderer::SetShader(const RenderDataHandle& shader)
   {
-    if (_currentShader.IsHeldBy(shader))
+    if (_currentShader != nullptr && _currentShader->IsHeldBy(shader))
     {
       return;
     }
@@ -62,19 +62,19 @@ namespace Rendering {
   #ifdef DEBUG
     _trackingInfo.shadersUsed += 1;
   #endif
-    _currentShader = _shaderManager.GetShader(shader);
-    glUseProgram(_currentShader.glProgram.Object);
+    _currentShader = &(_shaderManager.GetShader(shader));
+    glUseProgram(_currentShader->glProgram.Object);
   }
 
   void Renderer::ClearShader()
   {
-    _currentShader = ShaderData();
+    _currentShader = nullptr;
     glUseProgram(0);
   }
 
   void Renderer::SetRenderTarget(const RenderDataHandle& renderTarget, const Core::Math::Color& clearColour)
   {
-    if (_currentTarget.IsHeldBy(renderTarget))
+    if (_currentTarget != nullptr && _currentTarget->IsHeldBy(renderTarget))
     {
       return;
     }
@@ -82,9 +82,9 @@ namespace Rendering {
   #ifdef DEBUG
     _trackingInfo.renderTargetsUsed += 1;
   #endif
-    _currentTarget = _cameraManager.GetValidRenderTarget(renderTarget);
+    _currentTarget = &(_cameraManager.GetValidRenderTarget(renderTarget));
 
-    _currentTarget.frameBuffer.Bind();
+    _currentTarget->frameBuffer.Bind();
     glEnable(GL_DEPTH_TEST);
     glClearColor(clearColour.R, clearColour.G, clearColour.B, clearColour.A);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -92,8 +92,8 @@ namespace Rendering {
 
   void Renderer::ClearRenderTarget()
   {
-    _currentTarget.frameBuffer.Unbind();
-    _currentTarget = RenderTarget();
+    _currentTarget->frameBuffer.Unbind();
+    _currentTarget = nullptr;
   }
 
   void Renderer::DrawMesh(const Context& context) const
@@ -118,7 +118,7 @@ namespace Rendering {
 
   void Renderer::_Draw(const Context& context) const
   {
-    DEBUG_ASSERT(_currentShader.IsHeldBy(context.material.shader));
+    DEBUG_ASSERT(_currentShader->IsHeldBy(context.material.shader));
     context.mesh.buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
   #ifdef DEBUG
     switch (context.type)
@@ -180,7 +180,8 @@ namespace Rendering {
 
   void Renderer::_SetShaderVariables(const Context& context) const
   {
-    GLuint program = _currentShader.glProgram.Object;
+    VERIFY(_currentShader != nullptr);
+    GLuint program = _currentShader->glProgram.Object;
 
     // set the required information that needs to be used in the shader
     GLint MVP = glGetUniformLocation(program, "MVP");
@@ -195,7 +196,8 @@ namespace Rendering {
 
   void Renderer::_SetShaderVariables(const SkinnedContext& context) const
   {
-    GLuint program = _currentShader.glProgram.Object;
+    VERIFY(_currentShader != nullptr);
+    GLuint program = _currentShader->glProgram.Object;
 
     DEBUG_ASSERT(context.bones.size() <= 50);
     GLint boneMatrices = glGetUniformLocation(program, "boneMatrices");
@@ -206,11 +208,11 @@ namespace Rendering {
 
   void Renderer::_SetMaterialContext(const Material& material) const
   {
-    VERIFY(_currentShader.IsHeldBy(material.shader));
+    VERIFY(_currentShader->IsHeldBy(material.shader));
     for (const auto& context : material.shaderContext)
     {
       const auto& name = context.first;
-      GLint glLocation = glGetUniformLocation(_currentShader.glProgram.Object, name.c_str());
+      GLint glLocation = glGetUniformLocation(_currentShader->glProgram.Object, name.c_str());
 
       GLVisitor visitor(glLocation);
       std::visit(visitor, context.second);

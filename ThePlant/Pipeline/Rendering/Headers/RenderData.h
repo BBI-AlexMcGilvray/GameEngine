@@ -55,8 +55,7 @@ SUMMARY:
         RenderDataHandle(RenderDataHandle&&) = default;
         RenderDataHandle& operator=(RenderDataHandle&&) = default;
 
-        // to keep the reference count correct, only one instances of a 'gotten' handle can exist (i.e. move only)
-        // ideally the above would be the case, maybe we can ignore it? kinda need to cause msvc seems to not work properly/as expected
+        // With the ControlBlock concept, handles can be copied as each copy will be a 'reference' that keeps the render data referenced
         RenderDataHandle(const RenderDataHandle&) = default;
         RenderDataHandle& operator=(const RenderDataHandle&) = default;
 
@@ -74,12 +73,16 @@ SUMMARY:
         }
 
     private:
+        struct ControlBlock{};
+
         friend struct RenderData;
+        std::shared_ptr<ControlBlock> _controlBlock; // we could have a weak_ptr variable too to support weak and strong handles (right now they'd all be strong)
         Core::instanceId<RenderData> _renderDataID;
         Core::runtimeId_t _typeId;
 
-        RenderDataHandle(Core::instanceId<RenderData> renderDataID, Core::runtimeId_t typeId)
-        : _renderDataID(renderDataID)
+        RenderDataHandle(std::shared_ptr<ControlBlock> controlBlock, Core::instanceId<RenderData> renderDataID, Core::runtimeId_t typeId)
+        : _controlBlock(controlBlock)
+        , _renderDataID(renderDataID)
         , _typeId(typeId)
         {}
     };
@@ -101,28 +104,27 @@ SUMMARY:
 
         // handles should only refer to a single object, not multiple -> move only
         // ideally the above would be the case, maybe we can ignore it? kinda need to cause msvc seems to not work properly/as expected
-        RenderData(const RenderData&) = default;
-        RenderData& operator=(const RenderData&) = default;
+        RenderData(const RenderData&) = delete;
+        RenderData& operator=(const RenderData&) = delete;
 
         Core::instanceId<RenderData> GetID() const { return _id; }
         bool IsValid() const { return _initialized; }
-        bool IsReferenced() const { return _references > 0; }
+        bool IsReferenced() const { return !_controlBlock.expired(); }
 
         RenderDataHandle GetHandle()
         {
-            ++_references;
-            return RenderDataHandle(GetID(), _typeId);
+            std::shared_ptr<RenderDataHandle::ControlBlock> controlBlock;
+            if (controlBlock = _controlBlock.lock(); controlBlock == nullptr)
+            {
+                controlBlock = std::make_shared<RenderDataHandle::ControlBlock>();
+                _controlBlock = controlBlock;
+            }
+            return RenderDataHandle(controlBlock, GetID(), _typeId);
         }
 
         bool IsHeldBy(const RenderDataHandle& handle) const
         {
             return handle.GetRenderDataID() == GetID();
-        }
-
-        void ReturnHandle(RenderDataHandle&& handle)
-        {
-            VERIFY(IsHeldBy(handle), "Can only return an applicable handle");
-            --_references;
         }
 
     private:
@@ -133,7 +135,7 @@ SUMMARY:
 
         Core::instanceId<RenderData> _id;
         Core::runtimeId_t _typeId;
-        uint32_t _references = 0; // without move-only, this doesn't work -> we need some form of shared_ptrs esque reference counting to handle copying of handles
+        std::weak_ptr<RenderDataHandle::ControlBlock> _controlBlock;
 
         void _Initialize()
         {
@@ -158,8 +160,8 @@ SUMMARY:
         TRenderData& operator=(TRenderData&&) = default;
 
         // handles should only refer to a single object, not multiple -> move only
-        TRenderData(const TRenderData&) = default;
-        TRenderData& operator=(const TRenderData&) = default;
+        TRenderData(const TRenderData&) = delete;
+        TRenderData& operator=(const TRenderData&) = delete;
     };
 }// namespace Rendering
 }// namespace Application
