@@ -55,6 +55,7 @@ namespace Rendering
 
     void RenderThread::RunThread()
     {
+        _runThread = true;
         while (IsRunning())
         {
             DEBUG_PROFILE_SCOPE("Render Thread"); // this thread is currently locked at 13ms, apparently by sdl's vsync (see above)
