@@ -246,7 +246,7 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
 
     ++_totalContentCount;
 
-    if (_content.empty() && !_ChildrenExist())
+    if (_stopGapCount >= _content.size() + 1 && !_ChildrenExist())
     {
         _StopGapContent(content);
         return;
@@ -256,7 +256,7 @@ void OctTreeNode::_InsertContent(const OctTreeContent& content)
     _CreateChildren();
     DEBUG_PROFILE_POP("_CreateChildren");
 
-    if (_stopGapped)
+    if (_stopGapped && _stopGapCount <= _content.size())
     {
         _RemoveStopGap();
     }
@@ -285,10 +285,17 @@ void OctTreeNode::_RemoveStopGap()
     // DEBUG_PROFILE_SCOPE("OctTreeNode::_RemoveStopGap");
 
     _stopGapped = false;
-    OctTreeContent stopGappedContent = _content.back();
-    _content.pop_back();
-    auto& stopGappedContainer = _FindContainingNode(stopGappedContent.boundCollider);
-    stopGappedContainer._InsertContent(stopGappedContent); // now that the tree has been expanded, try to move the stop-gapped content down a layer
+    if (_moveContentOnStopGapRemoval)
+    {
+        std::vector<OctTreeContent> stopGappedContent = _content;
+        _content.clear();
+        
+        for (auto content : stopGappedContent)
+        {
+            auto& stopGappedContainer = _FindContainingNode(content.boundCollider);
+            stopGappedContainer._InsertContent(content); // now that the tree has been expanded, try to move the stop-gapped content down a layer
+        }
+    }
 }
 
 std::pair<EntitySnapshot, Core::Geometric::Point3D> OctTreeNode::_FindFirstEntity(const Core::Geometric::AABBShapeOrientation3D& boundedShape, const BitmaskEnum<CheckDirection> checkDirection) const

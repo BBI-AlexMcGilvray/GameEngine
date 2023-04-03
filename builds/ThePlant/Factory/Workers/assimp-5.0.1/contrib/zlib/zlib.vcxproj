@@ -102,11 +102,11 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR="Debug";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;GLOBAL_EXPLICIT;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR="Debug";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"Debug\";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;GLOBAL_EXPLICIT;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"Debug\";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -147,13 +147,13 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR="Release";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;RELEASE;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR="Release";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;RELEASE;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"Release\";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;RELEASE;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"Release\";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -194,13 +194,13 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR="MinSizeRel";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR="MinSizeRel";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"MinSizeRel\";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"MinSizeRel\";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -242,11 +242,11 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR="RelWithDebInfo";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR="RelWithDebInfo";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;MULTITHREADED_RENDERING;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"RelWithDebInfo\";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;GLOBAL_EXPLICIT;DEBUG;GLEW_STATIC;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;NO_FSEEKO;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;CMAKE_INTDIR=\"RelWithDebInfo\";ZLIB_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\include;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\code;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\.;D:\Coding\VisualStudios\Application\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application\builds\ThePlant\Factory\Workers\assimp-5.0.1\contrib\zlib;D:\Coding\VisualStudios\Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>

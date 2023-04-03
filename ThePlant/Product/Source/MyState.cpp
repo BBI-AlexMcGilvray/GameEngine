@@ -63,7 +63,7 @@ void MyState::Initialize()
 #endif
     Application::SetCollisionHandlers(*this, activeCollisionHandlers);
     CollisionManager().AddCollisionHandler<Testing::CountedCollision>(ECS()); // this is why we shouldn't use the above enum method - it means there is a different way for custom vs standard types
-    CollisionManager().AddCollisionHandler<Testing::DestructiveCollision>(ECS());
+    // CollisionManager().AddCollisionHandler<Testing::DestructiveCollision>(ECS()); // disabled to test performance
 
     Application::RenderLayerFlags activeRenderLayers;
     activeRenderLayers |= Application::RenderLayer::DefaultRenderLayer;
