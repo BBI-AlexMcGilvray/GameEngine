@@ -80,7 +80,7 @@ namespace Rendering {
     }
   };
 
-  void CreateShader(ShaderData& shader, Data::AssetManager& assetManager, const Data::AssetData<Data::Rendering::ShaderData>& data);
+  void CreateShaderFromAsset(ShaderData& shader, Data::AssetManager& assetManager, const Data::AssetData<Data::Rendering::ShaderData>& data);
   void CreateDefaultShader(ShaderData& shader);
   void CreateDefaultTextureShader(ShaderData& shader);
   void DestroyShader(ShaderData& shader);

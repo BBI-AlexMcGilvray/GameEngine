@@ -147,6 +147,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/DisplayManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/Material.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/Mesh.h"
+    "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/MeshManager.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/RenderContext.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/Renderer.h"
     "D:/Coding/VisualStudios/Application/ThePlant/Pipeline/Rendering/RenderFrame.h"

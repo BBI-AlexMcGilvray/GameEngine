@@ -24,12 +24,13 @@
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/RenderFrame.h"
 #include "Pipeline/Rendering/Renderer.h"
+#include "Pipeline/Rendering/MeshManager.h"
 
 namespace Application {
 namespace Rendering {
   struct RenderManager
   {
-    RenderManager(ShaderManager& shaderManager);
+    RenderManager(ShaderManager& shaderManager, MeshManager& meshManager);
 
     CameraManager& GetCameraManager();
 

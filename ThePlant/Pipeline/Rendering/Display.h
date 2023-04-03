@@ -4,6 +4,7 @@
 #include "Core/Math/Headers/Color.h"
 
 #include "Pipeline/Rendering/Headers/Camera.h"
+#include "Pipeline/Rendering/MeshManager.h"
 #include "Pipeline/Rendering/Renderer.h"
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
 
@@ -28,12 +29,13 @@ namespace Rendering {
   {
     public:
         // if the render manager holds the shader manager, this class doesn't need to hold the shader manager
-        MainDisplayLayer(RenderManager& renderManager, ShaderManager& shaderManager, Core::instanceId<Camera> cameraToRender);
+        MainDisplayLayer(RenderManager& renderManager, MeshManager& meshManager, ShaderManager& shaderManager, Core::instanceId<Camera> cameraToRender);
 
         virtual void Render(Renderer& renderer) override;
 
     private:
         RenderManager& _renderManager;
+        MeshManager& _meshManager;
         ShaderManager& _shaderManager;
         Core::instanceId<Camera> _cameraToRender;
   };

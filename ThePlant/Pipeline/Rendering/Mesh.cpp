@@ -6,9 +6,8 @@
 
 namespace Application {
 namespace Rendering {
-    Mesh CreateMesh(const std::vector<SimpleVertexData>& data)
+    void CreateMesh(MeshData& mesh, const std::vector<SimpleVertexData>& data)
     {
-        Mesh mesh;
         mesh.vertices = data.size();
 
         mesh.buffer.Generate();
@@ -35,13 +34,10 @@ namespace Rendering {
         glDisableVertexAttribArray(0);
 
         mesh._vbo = newBuffer;
-
-        return mesh;
     }
 
-    Mesh CreateMesh(const std::vector<VertexData>& data)
+    void CreateMesh(MeshData& mesh, const std::vector<VertexData>& data)
     {
-        Mesh mesh;
         mesh.vertices = data.size();
 
         mesh.buffer.Generate();
@@ -71,14 +67,10 @@ namespace Rendering {
         glDisableVertexAttribArray(0);
 
         mesh._vbo = newBuffer;
-
-        return mesh;
     }
 
-    MappedMesh CreateMesh(const std::vector<SkinnedVertexData>& data)
+    void CreateMesh(MeshData& mesh, const std::vector<SkinnedVertexData>& data)
     {
-        MappedMesh skinnedMesh;
-        Mesh mesh;
         mesh.vertices = data.size();
 
         mesh.buffer.Generate();
@@ -99,13 +91,15 @@ namespace Rendering {
         glEnableVertexAttribArray(1);// this matches with object shader construction
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::normal)));
         // uvs
-        // UVS not used YET: glEnableVertexAttribArray(2);// this matches with object shader construction
-        // glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::uvs)));
-        // bone weight
         glEnableVertexAttribArray(2);// this matches with object shader construction
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::uvs)));
+        // bone weight
+        DEBUG_THROW("SkinnedMesh", "This used to be attribute 2 - changed due to uvs, shader or something may need to be updated");
+        glEnableVertexAttribArray(3);// this matches with object shader construction
         glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::boneWeight)));
         // bone indices
-        glEnableVertexAttribArray(3);// this matches with object shader construction
+        DEBUG_THROW("SkinnedMesh", "This used to be attribute 3 - changed due to uvs, shader or something may need to be updated");
+        glEnableVertexAttribArray(4);// this matches with object shader construction
         glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Application::Rendering::SkinnedVertexData), (void *)(offsetof(Application::Rendering::SkinnedVertexData, Application::Rendering::SkinnedVertexData::boneIndices)));
 
         mesh.buffer.Unbind();// must be done first, as it stores the states of the binded vbos
@@ -115,30 +109,26 @@ namespace Rendering {
         mesh._vbo = newBuffer;
 
         // mapped buffer just 'mimics' the buffer it is mapping, but this should probably be cleaned up later
-        skinnedMesh.skeletonBuffer = GLMappedBuffer(mesh._vbo.Object, mesh._vbo.Type);
-        // keep track of mesh data to write to
-        skinnedMesh.mesh = mesh;
-
-        return skinnedMesh;
+        // skinnedMesh.skeletonBuffer = GLMappedBuffer(skinnedMesh.mesh._vbo.Object, skinnedMesh.mesh._vbo.Type);
     }
 
-    Mesh CreateMesh(const Data::AssetData<Data::Rendering::SimpleMeshData>& data)
+    void CreateSimpleMesh(MeshData& mesh, const Data::AssetData<Data::Rendering::SimpleMeshData>& data)
     {
         std::vector<SimpleVertexData> vertexData = createRuntimeData(*data);
-        return CreateMesh(vertexData);
+        CreateMesh(mesh, vertexData);
     }
 
-    Mesh CreateMesh(const Data::AssetData<Data::Rendering::StaticMeshData>& data)
+    void CreateStaticMesh(MeshData& mesh, const Data::AssetData<Data::Rendering::StaticMeshData>& data)
     {
         std::vector<VertexData> vertexData = createRuntimeData(*data);
-        return CreateMesh(vertexData);
+        return CreateMesh(mesh, vertexData);
     }
 
-    MappedMesh CreateMesh(const Data::AssetData<Data::Rendering::AnimatedMeshData>& data, const Data::AssetData<Data::Rendering::SkeletonData>& skeleton)
+    void CreateAnimatedMesh(MeshData& mesh, const Data::AssetData<Data::Rendering::AnimatedMeshData>& data, const Data::AssetData<Data::Rendering::SkeletonData>& skeleton)
     {
         std::vector<SkinnedVertexData> vertexData = createRuntimeData(*data, *skeleton);
 
-        return CreateMesh(vertexData);
+        return CreateMesh(mesh, vertexData);
     }
 } // namespace Rendering
 } // namespace Application

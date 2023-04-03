@@ -4,6 +4,7 @@
 
 #include "Pipeline/Rendering/OpenGL/Headers/GLTexture.h"
 #include "Pipeline/Rendering/2D/Headers/SimpleShapes.h"
+#include "Pipeline/Rendering/MeshManager.h"
 
 namespace Application {
 namespace Rendering {
@@ -13,14 +14,14 @@ namespace Rendering {
   {
     Core::Math::Int2 textureDimensions;
     GLTexture actualTexture; // this texture should be a GLTexture with 'our' data (i.e. size)
-    Mesh mesh; // shouldn't be here - this should be a sprite or an image (do we need both?)
+    RenderDataHandle mesh; // shouldn't be here - this should be a sprite or an image (do we need both?)
   };
 
   // not sure how creating a texture in a space where opengl is being run on a separate thread will work...
-  Texture CreateTexture(const Core::Math::Int2& textureDimensions, const Core::Math::Float2& meshDimensions);
+  Texture CreateTexture(MeshManager& meshManager, const Core::Math::Int2& textureDimensions, const Core::Math::Float2& meshDimensions);
   void DeleteTexture(Texture& texture);
 
   void ResizeTexture(Texture& texture, const Core::Math::Int2& newDimensions);
-  void ResizeMesh(Texture& texture, const Core::Math::Float2& newDimensions);
+  void ResizeMesh(MeshManager& meshManager, Texture& texture, const Core::Math::Float2& newDimensions);
 }// namespace Rendering
 }// namespace Application

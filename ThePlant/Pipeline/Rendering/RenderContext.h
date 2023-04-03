@@ -22,7 +22,7 @@ namespace Rendering {
         const Material material;
         Core::Math::Float4x4 mvp; // may be modified by other things (ex: including the camera matrix)
         Core::Math::Color color; // may be modified by other things (ex: general render setting changing the color)
-        const Mesh mesh;
+        const RenderDataHandle mesh;
 #if DEBUG
         const DrawMode mode = DrawMode::FILL;
         const DrawType type = DrawType::TRIANGLE;

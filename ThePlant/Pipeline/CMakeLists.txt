@@ -70,6 +70,7 @@ Rendering/Display.cpp #
 Rendering/DisplayManager.cpp #
 Rendering/Material.cpp #
 Rendering/Mesh.cpp #
+Rendering/MeshManager.cpp #
 Rendering/Renderer.cpp #
 Rendering/RenderFrame.cpp #
 Rendering/RenderLayer.cpp #
@@ -207,6 +208,7 @@ Rendering/Display.h #
 Rendering/DisplayManager.h #
 Rendering/Material.h #
 Rendering/Mesh.h #
+Rendering/MeshManager.h #
 Rendering/RenderContext.h #
 Rendering/Renderer.h #
 Rendering/RenderFrame.h #

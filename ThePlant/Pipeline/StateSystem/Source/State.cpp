@@ -44,6 +44,7 @@ Application::Physics::Settings& State::PhysicsSettings() { return _physicsSettin
 Rendering::RenderManager& State::RenderManager() { return _applicationManager.RenderManager(); }
 Rendering::ShaderManager& State::ShaderManager() { return _applicationManager.ShaderManager(); }
 Rendering::MaterialManager& State::MaterialManager() { return _applicationManager.MaterialManager(); }
+Rendering::MeshManager& State::MeshManager() { return _applicationManager.MeshManager(); }
 StateManager& State::StateManager() { return _applicationManager.StateManager(); }
 
 void State::Initialize()

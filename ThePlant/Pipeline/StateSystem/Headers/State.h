@@ -53,6 +53,7 @@ namespace Rendering
   struct MaterialManager;
   struct RenderManager;
   class ShaderManager;
+  class MeshManager;
 }
 namespace UI {
   namespace IMGUI {
@@ -92,6 +93,7 @@ struct State
   Rendering::RenderManager& RenderManager();
   Rendering::ShaderManager& ShaderManager();
   Rendering::MaterialManager& MaterialManager();
+  Rendering::MeshManager& MeshManager();
   StateManager& StateManager();
 
   virtual void Initialize();

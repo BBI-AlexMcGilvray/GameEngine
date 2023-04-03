@@ -79,6 +79,11 @@ Rendering::MaterialManager& ApplicationManager::MaterialManager()
   return _materialManager;
 }
 
+Rendering::MeshManager& ApplicationManager::MeshManager()
+{
+  return _meshManager;
+}
+
 StateManager &ApplicationManager::StateManager()
 {
   return _stateSystem;
@@ -93,7 +98,8 @@ ApplicationManager::ApplicationManager()
   , _inputSystem(_sdl)
   , _shaderManager(_assetManager, _assetLoader)
   , _materialManager(_assetManager, _assetLoader, _shaderManager)
-  , _renderSystem(_shaderManager)
+  , _meshManager(_assetManager, _assetLoader)
+  , _renderSystem(_shaderManager, _meshManager)
 #if MULTITHREADED_RENDERING
   , _renderThread(_inputSystem, _renderSystem)
 #endif

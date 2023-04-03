@@ -10,6 +10,7 @@
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/ECS/DataOriented/EntityHandler.h"
 #include "Pipeline/Rendering/Shaders/ShaderManager.h"
+#include "Pipeline/Rendering/MeshManager.h"
 
 namespace Application {
 namespace Rendering {
@@ -39,7 +40,7 @@ namespace Rendering {
     InitialStaticModelState(const Data::AssetName<Data::Rendering::StaticModelData>& asset, const Core::Geometric::Transform& localTransform, const EntityId& parent);
   };
 
-  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialModelState& modelState);
-  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState);
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, MeshManager& meshManager, ShaderManager& shaderManager, const InitialModelState& modelState);
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, MeshManager& meshManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState);
 }// namespace Rendering
 }// namespace Application

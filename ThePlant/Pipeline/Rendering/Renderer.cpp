@@ -33,9 +33,10 @@ namespace Rendering {
       const GLint location;
   };
 
-  Renderer::Renderer(ShaderManager& shaderManager, CameraManager& cameraManager)
+  Renderer::Renderer(ShaderManager& shaderManager, CameraManager& cameraManager, MeshManager& meshManager)
   : _cameraManager(cameraManager)
   , _shaderManager(shaderManager)
+  , _meshManager(meshManager)
   {}
 
   void Renderer::StartFrame()
@@ -96,7 +97,7 @@ namespace Rendering {
     _currentTarget = nullptr;
   }
 
-  void Renderer::DrawMesh(const Context& context) const
+  void Renderer::DrawMesh(const Context& context)
   {
   #ifdef DEBUG
     _trackingInfo.modelsDrawn += 1;
@@ -106,7 +107,7 @@ namespace Rendering {
     _Draw(context);
   }
 
-  void Renderer::DrawMesh(const SkinnedContext& context) const
+  void Renderer::DrawMesh(const SkinnedContext& context)
   {
   #ifdef DEBUG
     _trackingInfo.skinnedModelsDrawn += 1;
@@ -116,28 +117,33 @@ namespace Rendering {
     _Draw(context.context);
   }
 
-  void Renderer::_Draw(const Context& context) const
+  void Renderer::_Draw(const Context& context)
   {
     DEBUG_ASSERT(_currentShader->IsHeldBy(context.material.shader));
-    context.mesh.buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
+    if (_currentMesh == nullptr || !_currentMesh->IsHeldBy(context.mesh))
+    {
+      _currentMesh = &(_meshManager.GetMesh(context.mesh));
+    }
+    _currentMesh->buffer.Bind(); // mesh should have GLBuffer, when would need to get bound
   #ifdef DEBUG
     switch (context.type)
     {
       case DrawType::LINE:
       {
-        _DrawLines(context.mesh.vertices);
+        _DrawLines(_currentMesh->vertices);
         break;
       }
       case DrawType::TRIANGLE:
       {
   #endif
-        _DrawTriangles(context.mesh.vertices);
+        _DrawTriangles(_currentMesh->vertices);
   #ifdef DEBUG
         break;
       }
     }
   #endif
-    context.mesh.buffer.Unbind();
+    // don't unbind so mesh re-use is more efficient
+    // context.mesh.buffer.Unbind();
   }
 
   void Renderer::_DrawLines(Core::size vertexCount) const

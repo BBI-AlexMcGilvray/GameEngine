@@ -65,10 +65,10 @@ void SetECSSystems(State& state, const ECSSystemFlags& systems)
     SetOrRemoveSystem<RenderingSystem, TransformSystem, CameraSystem, AnimationSystem>(stateECS, systems, ECSSystem::RenderingSystem, state.RenderManager());
     SetOrRemoveSystem<LifetimeSystem>(stateECS, systems, ECSSystem::LifetimeSystem, state.TimeSystem());
 #if DEBUG
-    SetOrRemoveSystem<DebugBoneSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugBoneSystem, state.RenderManager(), state.MaterialManager());
-    SetOrRemoveSystem<DebugCollisionSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugCollisionSystem, state.CollisionManager(), state.RenderManager(), state.MaterialManager());
-    SetOrRemoveSystem<DebugOctTreeSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugOctTreeSystem, state.CollisionManager(), state.RenderManager(), state.MaterialManager());
-    SetOrRemoveSystem<DebugTransformSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugTransformSystem, state.RenderManager(), state.MaterialManager());
+    SetOrRemoveSystem<DebugBoneSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugBoneSystem, state.RenderManager(), state.MaterialManager(), state.MeshManager());
+    SetOrRemoveSystem<DebugCollisionSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugCollisionSystem, state.CollisionManager(), state.RenderManager(), state.MaterialManager(), state.MeshManager());
+    SetOrRemoveSystem<DebugOctTreeSystem, CollisionSystem>(stateECS, systems, ECSSystem::DebugOctTreeSystem, state.CollisionManager(), state.RenderManager(), state.MaterialManager(), state.MeshManager());
+    SetOrRemoveSystem<DebugTransformSystem, TransformSystem>(stateECS, systems, ECSSystem::DebugTransformSystem, state.RenderManager(), state.MaterialManager(), state.MeshManager());
 #endif
 }
 
@@ -108,7 +108,7 @@ void SetCollisionHandlers(State& state, const CollisionHandlerFlags& handlers)
 
     SetOrRemoveCollisionHandler<Collision::RigidBodyCollision>(collisionManager, handlers, CollisionHandler::RigidBodyCollision);
 #if DEBUG
-    SetOrRemoveCollisionHandler<Collision::DebugCollisionDisplay>(collisionManager, handlers, CollisionHandler::DebugCollisionDisplay, state.RenderManager(), state.MaterialManager());
+    SetOrRemoveCollisionHandler<Collision::DebugCollisionDisplay>(collisionManager, handlers, CollisionHandler::DebugCollisionDisplay, state.RenderManager(), state.MaterialManager(), state.MeshManager());
 #endif
 }
 

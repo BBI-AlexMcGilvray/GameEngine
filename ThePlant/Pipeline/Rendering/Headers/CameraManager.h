@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include "Pipeline/Rendering/MeshManager.h"
 #include "Pipeline/Rendering/Headers/Camera.h"
 #include "Pipeline/Rendering/Headers/RenderCamera.h"
 #include "Pipeline/Rendering/Headers/RenderTarget.h"
@@ -17,7 +18,7 @@ namespace Rendering {
   // this is how we should manage having different camera behavious (ex: simple camera manager that just maintains a single camera, or more complex behaviour like cinemachine)
   struct CameraManager
   {
-    CameraManager() = default;
+    CameraManager(MeshManager& meshManager);
 
     void ResetActive();
     void UpdateCamera(const Camera& camera, const Core::Math::Int2& renderDimensions, const Core::Math::Float4x4& cameraMatrix);
@@ -29,6 +30,8 @@ namespace Rendering {
     const RenderTarget& GetValidRenderTarget(const RenderDataHandle& handle);
 
   protected:
+    MeshManager& _meshManager;
+
     std::vector<bool> _active; // index-matched with the below, false -> camera not updated this frame, remove it
     std::vector<RenderCamera> _renderCameras;
     std::vector<RenderTarget> _renderCameraTargets;

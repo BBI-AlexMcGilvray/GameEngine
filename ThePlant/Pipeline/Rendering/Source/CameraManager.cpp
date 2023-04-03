@@ -9,6 +9,10 @@ using namespace Core;
 
 namespace Application {
 namespace Rendering {
+    CameraManager::CameraManager(MeshManager& meshManager)
+    : _meshManager(meshManager)
+    {}
+
     void CameraManager::ResetActive()
     {
       VERIFY(_renderCameras.size() == _active.size());
@@ -100,7 +104,7 @@ namespace Rendering {
         {
           if (!target.IsValid())
           {
-            RenderDataCreator::InitializeRenderData(target, &InitializeRenderTarget);
+            RenderDataCreator::InitializeRenderData(target, &InitializeRenderTarget, _meshManager);
           }
           return target;
         }

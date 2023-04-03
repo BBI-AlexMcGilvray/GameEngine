@@ -31,10 +31,11 @@ namespace Testing
     {
         auto& assetManager = state.AssetManager();
         auto& ecs = state.ECS();
+        auto& meshManager = state.MeshManager();
         auto& shaderManager = state.ShaderManager();
 
         Application::Rendering::InitialStaticModelState initialMIState(Data::Ast.smdl.MI_0, Core::Geometric::Transform());
-        return Application::Rendering::CreateModel(ecs, assetManager, shaderManager, initialMIState);
+        return Application::Rendering::CreateModel(ecs, assetManager, meshManager, shaderManager, initialMIState);
     }
 
     Application::EntityHandler& SpawnAnimatedModel(Application::State& state)
@@ -42,10 +43,11 @@ namespace Testing
         auto& animationManager = state.AnimationManager();
         auto& assetManager = state.AssetManager();
         auto& ecs = state.ECS();
+        auto& meshManager = state.MeshManager();
         auto& shaderManager = state.ShaderManager();
 
         Application::Rendering::InitialAnimatedModelState initialWomanState(Data::Ast.amdl.Monk_1, Core::Geometric::Transform());
-        return Application::Rendering::CreateModel(ecs, assetManager, animationManager, shaderManager, initialWomanState);
+        return Application::Rendering::CreateModel(ecs, assetManager, animationManager, meshManager, shaderManager, initialWomanState);
     }
 
     Application::EntityHandler& SpawnCollider(Application::State& state, const Core::Math::Float3& velocity, const Core::Geometric::Shape3D& shape, const Core::Math::Float3& position, const Core::Math::FQuaternion& rotation, const Core::Math::Float3& scale)

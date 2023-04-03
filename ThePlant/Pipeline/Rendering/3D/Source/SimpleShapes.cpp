@@ -4,7 +4,7 @@
 
 namespace Application {
 namespace Rendering {
-    Mesh CreateLine(const float& length)
+    void CreateLine(MeshData& mesh, const float& length)
     {
         SCOPED_MEMORY_CATEGORY("Rendering");
 
@@ -14,19 +14,19 @@ namespace Rendering {
             { Core::Math::Float3(length, length, length), normal }
         };
 
-        return CreateMesh(vertices);
+        CreateMesh(mesh, vertices);
     }
 
-    Mesh CreateBox(const Core::Math::Float3& dimensions)
+    void CreateBox(MeshData& mesh, const Core::Math::Float3& dimensions)
     {
         auto halfX = dimensions.X * 0.5f;
         auto halfY = dimensions.Y * 0.5f;
         auto halfZ = dimensions.Z * 0.5f;
 
-        return CreateBox(Core::Math::Float3(-halfX, -halfY, -halfZ), Core::Math::Float3(halfX, halfY, halfZ));
+        CreateBox(mesh, Core::Math::Float3(-halfX, -halfY, -halfZ), Core::Math::Float3(halfX, halfY, halfZ));
     }
 
-    Mesh CreateBox(const Core::Math::Float3& min, const Core::Math::Float3& max)
+    void CreateBox(MeshData& mesh, const Core::Math::Float3& min, const Core::Math::Float3& max)
     {
         SCOPED_MEMORY_CATEGORY("Rendering");
 
@@ -83,10 +83,10 @@ namespace Rendering {
         vertices.push_back({ corners[6], normal });
         vertices.push_back({ corners[7], normal });
 
-        return CreateMesh(vertices);
+        CreateMesh(mesh, vertices);
     }
 
-    Mesh CreatePyramid(const float& height, const float& sideLength)
+    void CreatePyramid(MeshData& mesh, const float& height, const float& sideLength)
     {
         SCOPED_MEMORY_CATEGORY("Rendering");
 
@@ -125,10 +125,10 @@ namespace Rendering {
         vertices.push_back({ corners[3], normal });
         vertices.push_back({ corners[2], normal });
 
-        return CreateMesh(vertices);
+        CreateMesh(mesh, vertices);
     }
 
-    Mesh CreateSphere(const float& radius)
+    void CreateSphere(MeshData& mesh, const float& radius)
     {
         SCOPED_MEMORY_CATEGORY("Rendering");
         
@@ -234,7 +234,7 @@ namespace Rendering {
         vertices.push_back({ edges[5], normal });
         vertices.push_back({ edges[7], normal });
 
-        return CreateMesh(vertices);
+        CreateMesh(mesh, vertices);
     }
 } // namespace Rendering
 } // namespace Application

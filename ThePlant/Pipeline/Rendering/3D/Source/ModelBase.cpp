@@ -47,14 +47,14 @@ namespace Rendering {
   , parent(parent)
   {}
 
-  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialModelState& modelState)
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, MeshManager& meshManager, ShaderManager& shaderManager, const InitialModelState& modelState)
   {
     Data::AssetData<Data::Rendering::SimpleModelData> assetData = assetManager.getAssetData(modelState.asset);
     
     EntityHandler& creator = ecsSystem.CreateEntity();
 
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
-    creator.AddComponent<MeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
+    creator.AddComponent<MeshComponent>(meshManager.AddMesh(assetData->mesh));
     creator.AddComponent<WorldTransformComponent>(Transform());
 
     if (modelState.parent.IsValid())
@@ -81,14 +81,14 @@ namespace Rendering {
     return creator;
   }
 
-  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState)
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, MeshManager& meshManager, ShaderManager& shaderManager, const InitialStaticModelState& modelState)
   {
     Data::AssetData<Data::Rendering::StaticModelData> assetData = assetManager.getAssetData(modelState.asset);
     
     EntityHandler& creator = ecsSystem.CreateEntity();
 
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
-    creator.AddComponent<MeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh)));
+    creator.AddComponent<MeshComponent>(meshManager.AddMesh(assetData->mesh));
     creator.AddComponent<WorldTransformComponent>(Transform());
 
     if (modelState.parent.IsValid())

@@ -7,7 +7,7 @@
 
 #include "Pipeline/ECS/DataOriented/IDs.h"
 #include "Pipeline/Rendering/Material.h"
-#include "Pipeline/Rendering/Mesh.h"
+#include "Pipeline/Rendering/Headers/RenderData.h"
 
 namespace Application {
 struct ColorComponent
@@ -57,7 +57,7 @@ struct MaterialComponent
 struct MeshComponent
 {
     NOTHING_REFLECTABLE() // should actually contain the components
-    Rendering::Mesh mesh;
+    Rendering::RenderDataHandle mesh;
 
     MeshComponent() = default;
     MeshComponent(const MeshComponent&) = default;
@@ -65,7 +65,7 @@ struct MeshComponent
     MeshComponent& operator=(const MeshComponent&) = default;
     MeshComponent& operator=(MeshComponent&&) = default;
 
-    MeshComponent(const Rendering::Mesh& mesh)
+    MeshComponent(const Rendering::RenderDataHandle& mesh)
     : mesh(mesh)
     {}
 
@@ -79,7 +79,7 @@ struct MeshComponent
 struct SkinnedMeshComponent
 {
     NOTHING_REFLECTABLE() // should actually contain the components
-    Rendering::MappedMesh skinnedMesh;
+    Rendering::RenderDataHandle skinnedMesh;
 
     SkinnedMeshComponent() = default;
     SkinnedMeshComponent(const SkinnedMeshComponent&) = default;
@@ -87,7 +87,7 @@ struct SkinnedMeshComponent
     SkinnedMeshComponent& operator=(const SkinnedMeshComponent&) = default;
     SkinnedMeshComponent& operator=(SkinnedMeshComponent&&) = default;
 
-    SkinnedMeshComponent(const Rendering::MappedMesh& skinnedMesh)
+    SkinnedMeshComponent(const Rendering::RenderDataHandle& skinnedMesh)
     : skinnedMesh(skinnedMesh)
     {}
 

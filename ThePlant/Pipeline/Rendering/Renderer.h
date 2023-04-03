@@ -7,6 +7,7 @@
 #include "Core/Math/Headers/Matrix4x4.h"
 
 #include "Pipeline/Rendering/RenderContext.h"
+#include "Pipeline/Rendering/MeshManager.h"
 #include "Pipeline/Rendering/Headers/CameraManager.h"
 #include "Pipeline/Rendering/Headers/RenderTarget.h"
 #include "Pipeline/Rendering/Shaders/Shader.h"
@@ -19,7 +20,7 @@ namespace Rendering {
   // this should also hold (a point perhaps) to the camera that is being used by the system
   struct Renderer
   {
-    Renderer(ShaderManager& shaderManager, CameraManager& cameraManager);
+    Renderer(ShaderManager& shaderManager, CameraManager& cameraManager, MeshManager& meshManager);
 
     void StartFrame();
     void EndFrame();
@@ -32,8 +33,8 @@ namespace Rendering {
     void ClearRenderTarget();
 
     // should contain the logic that is currently in the shader and the render object
-    void DrawMesh(const Context& context) const;
-    void DrawMesh(const SkinnedContext& context) const;
+    void DrawMesh(const Context& context);
+    void DrawMesh(const SkinnedContext& context);
 
   private:
   #ifdef DEBUG
@@ -53,13 +54,15 @@ namespace Rendering {
 
     CameraManager& _cameraManager;
     ShaderManager& _shaderManager;
+    MeshManager& _meshManager;
     // ideally these aren't pointers... but we can't copy render data so they can't be references
     Core::Ptr<const RenderTarget> _currentTarget = nullptr;
     Core::Ptr<const ShaderData> _currentShader = nullptr; // used for tracking shader changes and ordering information
+    Core::Ptr<const MeshData> _currentMesh = nullptr;
     // Renderer<OpenGL> _impl; // when we support multiple renderers, we would want to swap the impl at compile type (or launch time based on GPU?) and have the 'final' calls as part of that renderer
 
     // is this needed?
-    void _Draw(const Context& context) const;
+    void _Draw(const Context& context);
 
     void _DrawLines(Core::size vertexCount) const;
     void _DrawTriangles(Core::size vertexCount) const;

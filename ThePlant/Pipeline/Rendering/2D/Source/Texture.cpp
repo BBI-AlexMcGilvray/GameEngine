@@ -6,7 +6,7 @@
 
 namespace Application {
 namespace Rendering {
-void _CreateNewMesh(Texture& texture, const Core::Math::Float2& dimensions)
+void _CreateNewMesh(MeshManager& meshManager, Texture& texture, const Core::Math::Float2& dimensions)
 {
     std::vector<VertexData> meshVertices;
     meshVertices.reserve(6);
@@ -28,16 +28,19 @@ void _CreateNewMesh(Texture& texture, const Core::Math::Float2& dimensions)
     meshVertices.push_back(bottomLeft);
     meshVertices.push_back(bottomRight);
 
-    texture.mesh = CreateMesh(meshVertices);
+    texture.mesh = meshManager.AddMesh([meshVertices](MeshData& mesh)
+    {
+        CreateMesh(mesh, meshVertices);
+    });
 }
 
-Texture CreateTexture(const Core::Math::Int2& textureDimensions, const Core::Math::Float2& meshDimensions)
+Texture CreateTexture(MeshManager& meshManager, const Core::Math::Int2& textureDimensions, const Core::Math::Float2& meshDimensions)
 {
     Texture texture;
 
     texture.actualTexture.Generate();
     ResizeTexture(texture, textureDimensions);
-    _CreateNewMesh(texture, meshDimensions);
+    _CreateNewMesh(meshManager, texture, meshDimensions);
 
     return texture;
 }
@@ -45,7 +48,6 @@ Texture CreateTexture(const Core::Math::Int2& textureDimensions, const Core::Mat
 void DeleteTexture(Texture& texture)
 {
     texture.actualTexture.Delete();
-    texture.mesh.buffer.Delete();
 }
 
 void ResizeTexture(Texture& texture, const Core::Math::Int2& newDimensions)
@@ -55,10 +57,9 @@ void ResizeTexture(Texture& texture, const Core::Math::Int2& newDimensions)
     texture.actualTexture.Unbind();
 }
 
-void ResizeMesh(Texture& texture, const Core::Math::Float2& newDimensions)
+void ResizeMesh(MeshManager& meshManager, Texture& texture, const Core::Math::Float2& newDimensions)
 {
-    texture.mesh.buffer.Delete();
-    _CreateNewMesh(texture, newDimensions);
+    _CreateNewMesh(meshManager, texture, newDimensions);
 }
 }
 }// namespace Application

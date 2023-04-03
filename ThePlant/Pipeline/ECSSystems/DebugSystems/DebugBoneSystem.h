@@ -7,8 +7,9 @@
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/ECSSystems/RenderingComponents.h"
 #include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
+#include "Pipeline/Rendering/Headers/RenderData.h"
 #include "Pipeline/Rendering/Material.h"
-#include "Pipeline/Rendering/Mesh.h"
+#include "Pipeline/Rendering/MeshManager.h"
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/DefaultRenderLayers.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
@@ -17,12 +18,15 @@
 namespace Application {
 struct DebugBoneSystem : public System<DebugBoneSystem>
 {
-    DebugBoneSystem(Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
+    DebugBoneSystem(Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager, Rendering::MeshManager& meshManager)
     : System<DebugBoneSystem>("DebugBoneSystem")
     , _renderManager(renderManager)
     {
         _transformMaterial = materialManager.GetDefaultMaterial();
-        _transformMesh = Rendering::CreatePyramid(100.0f, 25.0f);
+        _transformMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreatePyramid(mesh, 100.0f, 25.0f);
+        });
     }
 
     void Execute(ArchetypeManager& archetypeManager) const override
@@ -39,7 +43,7 @@ struct DebugBoneSystem : public System<DebugBoneSystem>
 
 private:
     Rendering::Material _transformMaterial;
-    Rendering::Mesh _transformMesh;
+    Rendering::RenderDataHandle _transformMesh;
     Rendering::RenderManager& _renderManager;
 
     void _ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms) const

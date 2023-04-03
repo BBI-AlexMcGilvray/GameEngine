@@ -12,8 +12,9 @@
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/Rendering/2D/Headers/SimpleShapes.h"
 #include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
+#include "Pipeline/Rendering/Headers/RenderData.h"
 #include "Pipeline/Rendering/Material.h"
-#include "Pipeline/Rendering/Mesh.h"
+#include "Pipeline/Rendering/MeshManager.h"
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
@@ -22,7 +23,7 @@ namespace Application
 {
 struct DebugCollisionSystem : public System<DebugCollisionSystem>
 {
-    DebugCollisionSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
+    DebugCollisionSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager, Rendering::MeshManager& meshManager)
     : System<DebugCollisionSystem>("DebugCollisionSystem")
     , _collisionManager(collisionManager)
     , _renderManager(renderManager)
@@ -30,14 +31,32 @@ struct DebugCollisionSystem : public System<DebugCollisionSystem>
     {
         _debugMaterial = materialManager.GetDefaultMaterial();
         
-        _lineMesh = Rendering::CreateLine(1.0f);
-        _pointMesh = Rendering::CreateSphere(0.1f);
+        _lineMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreateLine(mesh, 1.0f);
+        });
+        _pointMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreateSphere(mesh, 0.1f);
+        });
 
-        _circleMesh = Rendering::CreateCircle(0.5f);
-        _rectangleMesh = Rendering::CreateRectangle(1.0f);
+        _circleMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreateCircle(mesh, 0.5f);
+        });
+        _rectangleMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreateRectangle(mesh, 1.0f);
+        });
 
-        _boxMesh = Rendering::CreateBox(1.0f);
-        _sphereMesh = Rendering::CreateSphere(0.5f);
+        _boxMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreateBox(mesh, 1.0f);
+        });
+        _sphereMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreateSphere(mesh, 0.5f);
+        });
     }
 
     void Execute(ArchetypeManager& archetypeManager) const override
@@ -68,15 +87,15 @@ private:
         : _debugSystem(debugSystem)
         {}
 
-        Rendering::Mesh operator()(const Core::Geometric::Box& box) const { return _debugSystem._boxMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Circle& circle) const { return _debugSystem._circleMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Line2D& line) const { return _debugSystem._lineMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Line3D& line) const { return _debugSystem._lineMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Plane& plane) const { return (plane.infinite ? _debugSystem._rectangleMesh : std::visit(*this, plane.shape)); }
-        Rendering::Mesh operator()(const Core::Geometric::Spot2D& point) const { return _debugSystem._pointMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Spot3D& point) const { return _debugSystem._pointMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Rectangle& rectangle) const { return _debugSystem._rectangleMesh; }
-        Rendering::Mesh operator()(const Core::Geometric::Sphere& sphere) const { return _debugSystem._sphereMesh; }
+        Rendering::RenderDataHandle operator()(const Core::Geometric::Box& box) const { return _debugSystem._boxMesh; }
+        Rendering::RenderDataHandle operator()(const Core::Geometric::Circle& circle) const { return _debugSystem._circleMesh; }
+        Rendering::RenderDataHandle operator()(const Core::Geometric::Line2D& line) const { return _debugSystem._lineMesh; }
+        Rendering::RenderDataHandle operator()(const Core::Geometric::Line3D& line) const { return _debugSystem._lineMesh; }
+        Rendering::RenderDataHandle operator()(const Core::Geometric::Plane& plane) const { return (plane.infinite ? _debugSystem._rectangleMesh : std::visit(*this, plane.shape)); }
+        Rendering::RenderDataHandle operator()(const Core::Geometric::Spot2D& point) const { return _debugSystem._pointMesh; }
+        Rendering::RenderDataHandle operator()(const Core::Geometric::Spot3D& point) const { return _debugSystem._pointMesh; }
+        Rendering::RenderDataHandle operator()(const Core::Geometric::Rectangle& rectangle) const { return _debugSystem._rectangleMesh; }
+        Rendering::RenderDataHandle operator()(const Core::Geometric::Sphere& sphere) const { return _debugSystem._sphereMesh; }
 
     private:
         const DebugCollisionSystem& _debugSystem;
@@ -113,16 +132,16 @@ private:
     ScaleGetter _scaleGetter;
 
     // Both
-    Rendering::Mesh _lineMesh;
-    Rendering::Mesh _pointMesh;
+    Rendering::RenderDataHandle _lineMesh;
+    Rendering::RenderDataHandle _pointMesh;
 
     // 2D
-    Rendering::Mesh _circleMesh;
-    Rendering::Mesh _rectangleMesh;
+    Rendering::RenderDataHandle _circleMesh;
+    Rendering::RenderDataHandle _rectangleMesh;
 
     // 3D
-    Rendering::Mesh _boxMesh;
-    Rendering::Mesh _sphereMesh;
+    Rendering::RenderDataHandle _boxMesh;
+    Rendering::RenderDataHandle _sphereMesh;
     // what do we do for planes? just use the relevant 2D mesh?
 
     void _ApplyToArchetype(const std::vector<Collision::StatefulCollision>& allCollisions, const std::vector<EntityId>& entities, std::vector<WorldTransformComponent>& worldTransforms, std::vector<ColliderComponent>& colliderComponents) const
@@ -144,7 +163,7 @@ private:
             {
                 colliderColor = colliderComponents[index].trigger ? Core::Math::GREEN : Core::Math::RED;
             }
-            Rendering::Mesh colliderMesh = std::visit(_meshGetter, colliderComponents[index].shape);
+            Rendering::RenderDataHandle colliderMesh = std::visit(_meshGetter, colliderComponents[index].shape);
             Rendering::DrawType drawType = std::visit(_typeGetter, colliderComponents[index].shape);
 
             Rendering::Context context = {

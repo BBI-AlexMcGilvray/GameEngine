@@ -5,8 +5,9 @@
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
+#include "Pipeline/Rendering/Headers/RenderData.h"
 #include "Pipeline/Rendering/Material.h"
-#include "Pipeline/Rendering/Mesh.h"
+#include "Pipeline/Rendering/MeshManager.h"
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/DefaultRenderLayers.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
@@ -15,12 +16,15 @@
 namespace Application {
 struct DebugTransformSystem : public System<DebugTransformSystem>
 {
-    DebugTransformSystem(Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
+    DebugTransformSystem(Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager, Rendering::MeshManager& meshManager)
     : System<DebugTransformSystem>("DebugTransformSystem")
     , _renderManager(renderManager)
     {
         _transformMaterial = materialManager.GetDefaultMaterial();
-        _transformMesh = Rendering::CreateSphere(0.5f); // not 1.0f because then it would be equal-to whatever it would be representing, should always be smalled
+        _transformMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreateSphere(mesh, 0.5f);
+        });
     }
 
     void Execute(ArchetypeManager& archetypeManager) const override
@@ -42,7 +46,7 @@ struct DebugTransformSystem : public System<DebugTransformSystem>
 
 private:
     Rendering::Material _transformMaterial;
-    Rendering::Mesh _transformMesh;
+    Rendering::RenderDataHandle _transformMesh;
     Rendering::RenderManager& _renderManager;
 
     void _ApplyToArchetype(std::vector<WorldTransformComponent>& worldTransforms) const

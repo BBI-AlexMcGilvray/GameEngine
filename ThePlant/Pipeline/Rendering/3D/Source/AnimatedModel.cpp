@@ -33,7 +33,7 @@ namespace Rendering {
   , parent(parent)
   {}
 
-  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, Animation::AnimationManager& animationManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState)
+  EntityHandler& CreateModel(ECS& ecsSystem, Data::AssetManager& assetManager, Animation::AnimationManager& animationManager, MeshManager& meshManager, ShaderManager& shaderManager, const InitialAnimatedModelState& modelState)
   {
     Data::AssetData<Data::Rendering::AnimatedModelData> assetData = assetManager.getAssetData(modelState.asset);
     
@@ -42,7 +42,7 @@ namespace Rendering {
     EntityHandler& creator = ecsSystem.CreateEntity();
 
     creator.AddComponent<MaterialComponent>(CreateMaterial(assetManager.getAssetData(assetData->material), shaderManager));
-    creator.AddComponent<SkinnedMeshComponent>(CreateMesh(assetManager.getAssetData(assetData->mesh), skeletonData));
+    creator.AddComponent<SkinnedMeshComponent>(meshManager.AddMesh(assetData->mesh, skeletonData));
     creator.AddComponent<WorldTransformComponent>(Core::Geometric::Transform());
     creator.AddComponent<SkeletonComponent>();
 

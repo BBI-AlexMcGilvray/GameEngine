@@ -100,7 +100,7 @@ namespace Rendering {
   const ShaderData& ShaderManager::_EnsureShaderIsValid(Data::AssetName<Data::Rendering::ShaderData> shaderAssetName, ShaderData& shader)
   {
     auto shaderData = _assetManager.getAssetData(shaderAssetName);
-    CreateShader(shader, _assetManager, shaderData);
+    RenderDataCreator::InitializeRenderData(shader, &CreateShaderFromAsset, _assetManager, shaderData);
     return shader;
   }
 

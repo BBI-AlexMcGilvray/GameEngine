@@ -166,7 +166,7 @@ private:
                 materials[index].material,
                 transforms[index].transform.GetTransformationMatrix(),
                 colors == nullptr ? Core::Math::WHITE : (*colors)[index].color,
-                meshes[index].skinnedMesh.mesh
+                meshes[index].skinnedMesh
             };
             Rendering::SkinnedContext skinnedContext = {
                 context,

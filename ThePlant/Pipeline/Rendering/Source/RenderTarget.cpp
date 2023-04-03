@@ -4,14 +4,14 @@
 
 namespace Application {
 namespace Rendering {
-void InitializeRenderTarget(RenderTarget& renderTarget)
+void InitializeRenderTarget(RenderTarget& renderTarget, MeshManager& meshManager)
 {
     // We should have 'CreateRenderBuffer' and 'CreateTexture' calls (like we do for 'CreateMesh')
     renderTarget.frameBuffer.Generate();
     renderTarget.frameBuffer.Bind();
 
     // need some way to get the camera buffer size/dimensions
-    renderTarget.texture = CreateTexture(renderTarget.renderDimensions, Core::Math::Float2(2.0f, 2.0f));
+    renderTarget.texture = CreateTexture(meshManager, renderTarget.renderDimensions, Core::Math::Float2(2.0f, 2.0f));
     if (renderTarget.texture.actualTexture.Object == 0)
     {
         DEBUG_LOG("GLMappedBuffer", "Failed to create texture, glError: " + glGetError());

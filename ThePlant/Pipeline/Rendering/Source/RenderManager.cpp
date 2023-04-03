@@ -11,8 +11,9 @@ using namespace Core::Functionality;
 
 namespace Application {
 namespace Rendering {
-  RenderManager::RenderManager(ShaderManager& shaderManager)
-  : _Renderer(shaderManager, _cameraManager)
+  RenderManager::RenderManager(ShaderManager& shaderManager, MeshManager& meshManager)
+  : _cameraManager(meshManager)
+  , _Renderer(shaderManager, _cameraManager, meshManager)
   {}
 
   CameraManager& RenderManager::GetCameraManager()

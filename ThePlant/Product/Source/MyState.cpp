@@ -85,7 +85,7 @@ void MyState::Initialize()
 
     // what displays to show
     // NOTE: We need some way to specify order/dependency so we control what appears on top of the other (currently it follows the order they are added in)
-    RenderManager().AddDisplay<Application::Rendering::MainDisplayLayer>(RenderManager(), ShaderManager(), camera.camera.GetCameraId());
+    RenderManager().AddDisplay<Application::Rendering::MainDisplayLayer>(RenderManager(), MeshManager(), ShaderManager(), camera.camera.GetCameraId());
     RenderManager().AddDisplay<Application::UI::IMGUI::IMGUIDisplayLayer>(IMGUI());
 
     // create camera controller

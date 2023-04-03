@@ -7,8 +7,9 @@
 #include "Pipeline/ECSSystems/GeneralComponents.h"
 #include "Pipeline/ECSSystems/TransformComponents.h"
 #include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
+#include "Pipeline/Rendering/Headers/RenderData.h"
 #include "Pipeline/Rendering/Material.h"
-#include "Pipeline/Rendering/Mesh.h"
+#include "Pipeline/Rendering/MeshManager.h"
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/DefaultRenderLayers.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
@@ -20,17 +21,20 @@ namespace Collision
 {
 struct DebugCollisionDisplay : public CollisionHandler<DebugCollisionDisplay>
 {
-    DebugCollisionDisplay(Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)                                         // if we do complete here, we'll need calculate our own point, otherwise the dot shows at the origin regardless
+    DebugCollisionDisplay(Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager, Rendering::MeshManager& meshManager)                                         // if we do complete here, we'll need calculate our own point, otherwise the dot shows at the origin regardless
     : CollisionHandler<DebugCollisionDisplay>("DebugCollisionDisplay", BitmaskEnum<CollisionState>(CollisionState::Initial, CollisionState::Persisting/*, CollisionState::Complete*/), CollectTypes<WorldTransformComponent>(), CollectTypes<WorldTransformComponent>(), false)
     , _renderManager(renderManager)
     {
         _collisionPointMaterial = materialManager.GetDefaultMaterial();
-        _collisionPointMesh = Rendering::CreateSphere(0.5f);
+        _collisionPointMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreateSphere(mesh, 0.5f);
+        });
     }
 
 private:
     Rendering::Material _collisionPointMaterial;
-    Rendering::Mesh _collisionPointMesh;
+    Rendering::RenderDataHandle _collisionPointMesh;
     Rendering::RenderManager& _renderManager;
 
     void _Apply(const CollisionState collisionState, const Core::Geometric::Point3D& collisionPoint, EntitySnapshot& from, EntitySnapshot& to) const override

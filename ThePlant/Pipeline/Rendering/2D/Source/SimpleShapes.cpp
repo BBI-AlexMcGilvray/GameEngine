@@ -5,15 +5,15 @@
 
 namespace Application {
 namespace Rendering {
-    Mesh CreateRectangle(const Core::Math::Float2& dimensions)
+    void CreateRectangle(MeshData& mesh, const Core::Math::Float2& dimensions)
     {
         auto halfX = dimensions.X * 0.5f;
         auto halfY = dimensions.Y * 0.5f;
 
-        return CreateRectangle(Core::Math::Float2(-halfX, -halfY), Core::Math::Float2(halfX, halfY));
+        CreateRectangle(mesh, Core::Math::Float2(-halfX, -halfY), Core::Math::Float2(halfX, halfY));
     }
 
-    Mesh CreateRectangle(const Core::Math::Float2& min, const Core::Math::Float2& max)
+    void CreateRectangle(MeshData& mesh, const Core::Math::Float2& min, const Core::Math::Float2& max)
     {
         SCOPED_MEMORY_CATEGORY("Rendering");
         std::vector<SimpleVertexData> vertices;
@@ -26,10 +26,10 @@ namespace Rendering {
         vertices.push_back({ Core::Math::Float3{ max.X, min.Y, 0.0f }, Core::Math::Float3{ 0.0f } });
         vertices.push_back({ Core::Math::Float3{ min.X, min.Y, 0.0f }, Core::Math::Float3{ 0.0f } });
 
-        return CreateMesh(vertices);
+        CreateMesh(mesh, vertices);
     }
 
-    Mesh CreateCircle(const float& radius)
+    void CreateCircle(MeshData& mesh, const float& radius)
     {
         SCOPED_MEMORY_CATEGORY("Rendering");
         std::vector<SimpleVertexData> vertices;
@@ -57,7 +57,7 @@ namespace Rendering {
         createVertices(true);
         createVertices(false);
 
-        return CreateMesh(vertices);
+        CreateMesh(mesh, vertices);
     }
 } // namespace Rendering
 } // namespace Application

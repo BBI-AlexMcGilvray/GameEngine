@@ -5,8 +5,9 @@
 #include "Pipeline/ECS/DataOriented/Systems/System.h"
 #include "Pipeline/ECS/DataOriented/ECS.h"
 #include "Pipeline/Rendering/3D/Headers/SimpleShapes.h"
+#include "Pipeline/Rendering/Headers/RenderData.h"
 #include "Pipeline/Rendering/Material.h"
-#include "Pipeline/Rendering/Mesh.h"
+#include "Pipeline/Rendering/MeshManager.h"
 #include "Pipeline/Rendering/RenderContext.h"
 #include "Pipeline/Rendering/DefaultRenderLayers.h"
 #include "Pipeline/Rendering/Headers/MaterialManager.h"
@@ -19,13 +20,16 @@ struct DebugOctTreeSystem : public System<DebugOctTreeSystem>
     bool drawOccupiedOnly = true;
     bool drawAABBs = false;
 
-    DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager)
+    DebugOctTreeSystem(Collision::CollisionManager& collisionManager, Rendering::RenderManager& renderManager, Rendering::MaterialManager& materialManager, Rendering::MeshManager& meshManager)
     : System<DebugOctTreeSystem>("DebugOctTreeSystem")
     , _collisionManager(collisionManager)
     , _renderManager(renderManager)
     {
         _debugMaterial = materialManager.GetDefaultMaterial();
-        _debugMesh = Rendering::CreateBox(1.0f);
+        _debugMesh = meshManager.AddMesh([](Rendering::MeshData& mesh)
+        {
+            Rendering::CreateBox(mesh, 1.0f);
+        });
     }
 
     void Execute(ArchetypeManager& archetypeManager) const override
@@ -42,7 +46,7 @@ private:
 
     // when using these meshes, modify the scale of the transform passed in to be multiplied by the scale of the collider (relative to the default 1.0) being used
     Rendering::Material _debugMaterial;
-    Rendering::Mesh _debugMesh;
+    Rendering::RenderDataHandle _debugMesh;
 
     void _DrawOctTreeNode(const Collision::OctTreeNode& node) const
     {

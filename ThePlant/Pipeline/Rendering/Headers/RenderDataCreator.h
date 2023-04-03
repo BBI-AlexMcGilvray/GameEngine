@@ -23,6 +23,7 @@ namespace Rendering {
     template <typename RENDER_DATA, typename DESTRUCTOR, typename ...ARGS>
     static void DestroyRenderData(RENDER_DATA& renderData, DESTRUCTOR&& destructor, ARGS&& ...args)
     {
+        VERIFY(!renderData.IsReferenced(), "Destroying referenced data!");
         renderData._Uninitialize();
         destructor(std::forward<RENDER_DATA>(renderData), std::forward<ARGS>(args)...);
     }
