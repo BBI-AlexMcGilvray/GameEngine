@@ -65,9 +65,13 @@ struct ApplicationManager
   // Otherwise, the lifetime methods should be called explicitly
   void Run();
 
-  bool quit()
+  bool ShouldQuit() const
   {
     return _quit;
+  }
+  void Quit()
+  {
+    _quit = true;
   }
 
   bool Initialize();
@@ -93,15 +97,18 @@ private:
   Application::AssetLoaderFactory _assetLoader;
   Application::EntityFactory _entityFactory;
 
-  Application::SDL2Manager _sdl;
-  UI::IMGUI::Manager _imguiUI;
-  Input::InputManager _inputSystem;
+  Application::SDL2Manager _sdl; // handled by render thread
+  UI::IMGUI::Manager _imguiUI; // handled by render thread
+  Input::InputManager _inputSystem; // handled by render thread
   Animation::AnimationManager _animationSystem;
-  Rendering::ShaderManager _shaderManager; // this should probably be held by the render system (since rendering would be on a separate thread)
-  Rendering::MaterialManager _materialManager; // this should probably be held the render system (since rendering would be on a separate thread)
+  Rendering::ShaderManager _shaderManager; // this should probably be held by the render system (since rendering would be on a separate thread) <- maybe NOT now!
+  Rendering::MaterialManager _materialManager; // this should probably be held the render system (since rendering would be on a separate thread) <- maybe NOT now!
   Rendering::MeshManager _meshManager;
-  Rendering::RenderManager _renderSystem;
+  Rendering::RenderManager _renderSystem; // handled by render thread
 #if MULTITHREADED_RENDERING
+// ** probably want some way to check if we are on the logic thread, render thread, or a 'job' thread (via a service?)
+// may be better to have gameplay logic on the non-main thread, but if we do that creating that thread becomes much more complex
+// render logic is much more consistent product-to-product and can be altered by just registering different layers and such
   Rendering::RenderThread _renderThread;
 #endif
 

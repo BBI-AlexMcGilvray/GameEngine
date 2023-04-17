@@ -24,10 +24,7 @@ namespace IMGUI
         ImGuiIO& io = ImGui::GetIO();
         // (void)io; // to suppress 'unused variable' errors (not needed if used like in the below)
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // see: https://github.com/ocornut/imgui/wiki/Docking
-    #ifndef MULTITHREADED_RENDERING
-        // NOTE: If we had the rendering logic and the input logic on the same thread (instead of separate like now), then this issue may not exist
-        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // does not work with multithreaded rendering (maybe we only enable that in non-editor builds?)
-    #endif // MULTITHREADED_RENDERING
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 

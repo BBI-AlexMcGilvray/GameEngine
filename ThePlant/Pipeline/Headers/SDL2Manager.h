@@ -4,13 +4,16 @@
 #include "GLContextManager.h"
 
 namespace Application {
-struct ApplicationManager;
+namespace Rendering
+{
+  struct RenderManager;
+}
 
 struct SDL2Manager
 {
   SDL2Manager() = default;
 
-  bool Initialize(ApplicationManager& applicationManager);
+  bool Initialize(Rendering::RenderManager& renderManager);
   void Start();
 
   int Poll(SDL_Event &event) const;

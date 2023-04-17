@@ -1,13 +1,13 @@
 #include "Pipeline/Headers/SDL2Manager.h"
 
-#include "Pipeline/Headers/ApplicationManager.h"
+#include "Pipeline/Rendering/Headers/RenderManager.h"
 
 #include <iostream>
 #include <stdlib.h>
 #include <string>
 
 namespace Application {
-bool SDL2Manager::Initialize(ApplicationManager& applicationManager)
+bool SDL2Manager::Initialize(Rendering::RenderManager& renderManager)
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
     return false;
@@ -19,17 +19,17 @@ bool SDL2Manager::Initialize(ApplicationManager& applicationManager)
   }
 
   // NOTE!! https://stackoverflow.com/questions/47188856/cant-make-opengl-glew-and-sdl2-work-together
-  applicationManager.RenderManager().SetOpenGLAttributes();
+  renderManager.SetOpenGLAttributes();
 
   if (!MainContext.Initialize(MainWindow.GetWindow())) {
     std::cout << "Failed to initialize GLContent!" << std::endl;
     return false;
   }
-  applicationManager.RenderManager().SetOpenGLState();
+  renderManager.SetOpenGLState();
 
 #if DEBUG
   // This is just to verify that our attributes are being set to what we want them to be
-  applicationManager.RenderManager().VerifyOpenGLAttributes();
+  renderManager.VerifyOpenGLAttributes();
 #endif
 
   glewExperimental = true;

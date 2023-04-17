@@ -2,6 +2,7 @@
 
 #include "Core/Threading/Thread.h"
 
+#include "Pipeline/Headers/SDL2Manager.h"
 #include "Pipeline/Input/Headers/InputManager.h"
 #include "Pipeline/Rendering/Headers/RenderManager.h"
 #include "Pipeline/UI/IMGUI/Manager.h"
@@ -16,7 +17,18 @@ namespace Rendering
     class RenderThread
     {
     public:
-        RenderThread(Input::InputManager& inputManager, Rendering::RenderManager& renderManager);
+        enum class ExecutionState
+        {
+            Fresh,
+            Set,
+            Initialize,
+            Start,
+            Update,
+            End,
+            CleanUp
+        };
+
+        RenderThread(ApplicationManager& applicationManager);
         ~RenderThread() = default;
 
         RenderThread(RenderThread&&) = default;
@@ -25,24 +37,41 @@ namespace Rendering
         RenderThread(const RenderThread&) = delete;
         RenderThread& operator=(const RenderThread&) = delete;
 
-        bool IsRunning() const;
         void SetThread(Core::Threading::Thread&& thread);
         Core::Threading::Thread& GetThread();
-        void StopThread();
+        Core::Threading::Thread ReleaseThread();
         
+        void SetExecutionState(ExecutionState executionState);
+        ExecutionState GetExecutionState() const;
+        ExecutionState GetCompletedState() const;
+
         void RunThread();
 
     private:
         Core::Threading::Thread _thread;
-        std::atomic<bool> _runThread;
+        std::atomic<ExecutionState> _executionState;
+        std::atomic<ExecutionState> _completedState;
+
+        void _CompleteState(ExecutionState executionState);
     #if DEBUG
-        bool _validThread = false;
-        void _SetValidity(bool validity);
-        void _VerifyValidity(bool validityShouldBe) const;
+        void _VerifyState(ExecutionState executionState) const;
     #endif
 
+        Application::SDL2Manager& _sdl;
+        UI::IMGUI::Manager& _imguiUI;
         Input::InputManager& _inputManager;
         Rendering::RenderManager& _renderManager;
+
+        Delegate<> _onQuit;
+
+        void _WaitForDifferentStateThan(ExecutionState state);
+        void _WaitForState(ExecutionState state);
+
+        void _Initialize();
+        void _Start();
+        void _Update();
+        void _End();
+        void _CleanUp();
     };
 
     // helper function to kick off the render thread so it doesn't live in RenderManager
@@ -51,7 +80,7 @@ namespace Rendering
     //      - Draw -> actually draw
     // this would be in charge of calling the proper initialization methods and such so that everything is initialized to the proper thread
     //      - opengl, imgui, ...
-    void CreateAndRunRenderThread(ApplicationManager& applicationManager, RenderThread& renderThread, Core::Threading::Thread&& thread);
+    void CreateAndRunRenderThread(RenderThread& renderThread, Core::Threading::Thread&& thread);
 } // namespace Rendering
 } // namespace Application
 #endif

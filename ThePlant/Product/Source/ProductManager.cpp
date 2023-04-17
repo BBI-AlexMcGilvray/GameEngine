@@ -44,7 +44,7 @@ namespace Product
         
         // take a look at Unity's order of execution and work on cleaning up execution order
         //      - https://docs.unity3d.com/Manual/ExecutionOrder.html
-        while (!_pipeline.quit())
+        while (!_pipeline.ShouldQuit())
         {
             DEBUG_PROFILE_SCOPE("ProductManager::Update");
             timeSystem.Update();
@@ -53,7 +53,7 @@ namespace Product
             // or we need to differentiate between capped and uncapped systems (though that won't help at the moment due to the main cost being a fixed step...)
             // threading the different systems may help? unsure
             // ** the above also applied to ApplicationManager::Run
-            while (timeSystem.TakeFixedStep() && !_pipeline.quit()) { // checking quit here as well to enforce responsiveness (otherwise we don't quit until timesteps are caught up)
+            while (timeSystem.TakeFixedStep() && !_pipeline.ShouldQuit()) { // checking quit here as well to enforce responsiveness (otherwise we don't quit until timesteps are caught up)
                 Core::Second dt = timeSystem.GetDeltaTime();
                 _pipeline.Update(dt);
                 _myProduct.update(dt);
